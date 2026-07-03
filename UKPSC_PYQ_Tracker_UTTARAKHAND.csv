@@ -1,0 +1,86 @@
+CLUSTER,TOPIC / SUB-TOPIC,2016,2021,2024,2025,TOTAL HITS,REPEAT CONFIRMED,PRIORITY,NOTES / TRAP ALERTS
+Cluster 1: Wildlife & Protected Areas,National Parks — establishment years,✓,✓,✓,✓,8,YES — every year,⚡ CRITICAL,TRAP: Govind Wildlife Sanctuary (1955) vs Govind National Park (1989) — two different entities
+Cluster 1: Wildlife & Protected Areas,Wildlife Sanctuaries — location/district,✓,✓,✓,✓,,,,"Format: 'In which district is X sanctuary located?' — memorize district mapping"
+Cluster 1: Wildlife & Protected Areas,Key species & biodiversity,✗,✓,✓,✓,,,,Musk deer / Snow leopard / Himalayan Monal frequently tested
+Cluster 1: Wildlife & Protected Areas,Biosphere Reserves (Nanda Devi etc.),✓,✗,✓,✓,,,,"UNESCO status + year of declaration both tested"
+Cluster 1: Wildlife & Protected Areas,Ramsar Sites in Uttarakhand,✗,✗,✓,✓,,,,Newer additions (post-2020) being tested now — keep updated
+,,,,,,,,,
+Cluster 2: District-wise Comparisons,Sex ratio — highest/lowest district,✓,✓,✓,✓,11,YES — FORMAT repeats,⚡ CRITICAL,"FORMAT TRAP: Stat changes but structure stays same — 'Which district has highest/lowest X?'"
+Cluster 2: District-wise Comparisons,Literacy rate — highest/lowest district,✓,✓,✓,✗,,,,"Census 2011 data still being used as of 2025 paper"
+Cluster 2: District-wise Comparisons,Population — highest/lowest district,✓,✓,✗,✓,,,,Haridwar (highest) vs Chamoli (lowest density)
+Cluster 2: District-wise Comparisons,Forest cover percentage by district,✗,✓,✓,✓,,,,"Forest Survey of India reports — latest year always tested"
+Cluster 2: District-wise Comparisons,Area — largest/smallest district,✓,✗,✓,✓,,,,"Chamoli (largest) vs Champawat (smallest)"
+Cluster 2: District-wise Comparisons,SC/ST population by district,✗,✓,✓,✓,,,,Newer angle — post-2021 papers started asking this
+Cluster 2: District-wise Comparisons,River/drainage system by district,✓,✓,✗,✓,,,,Which river passes through which district
+,,,,,,,,,
+Cluster 3: Uttarakhand Geography,Glaciers — location & rivers originating,✓,✓,✓,✓,7,YES,🔴 HIGH,"Gangotri / Pindari / Milam / Satopanth — river origin most common angle"
+Cluster 3: Uttarakhand Geography,Mountain Passes (Darr/La),✓,✓,✓,✗,,,,"Lipulekh / Mana / Niti — border passes with China most tested"
+Cluster 3: Uttarakhand Geography,Lakes — location and type,✓,✓,✓,✓,,,,"Glacial vs tectonic vs man-made classification tested"
+Cluster 3: Uttarakhand Geography,Rivers — origin points & tributaries,✓,✓,✓,✓,,,,Alaknanda system (5 Prayags) is UKPSC favourite
+Cluster 3: Uttarakhand Geography,Valleys & Bugyals,✗,✓,✓,✓,,,,Newer trend — Valley of Flowers + alpine meadows
+Cluster 3: Uttarakhand Geography,Doons and Bhabhar/Tarai belt,✓,✓,✗,✓,,,,"Physiographic division: Shiwalik / Doon / Bhabhar / Tarai"
+,,,,,,,,,
+Cluster 4: Tribes & Culture,Major tribes (Bhotiya/Jaunsari/Tharu/Buksa/Raji),✓,✓,✓,✓,9,YES,🔴 HIGH,"TRAP: Raji is smallest tribe (frequently asked) — don't confuse with Van Raji"
+Cluster 4: Tribes & Culture,Traditional fairs & festivals,✓,✓,✓,✓,,,,"Nanda Devi Raj Jat Yatra (12-yearly) — year of last occurrence tested"
+Cluster 4: Tribes & Culture,Folk dances — region mapping,✓,✓,✓,✗,,,,"Which dance belongs to Kumaon vs Garhwal"
+Cluster 4: Tribes & Culture,Traditional art forms (Aipan/Pahari painting),✗,✓,✓,✓,,,,Newer trend — art/craft-based questions increasing
+Cluster 4: Tribes & Culture,Scheduled Tribe list & PVTG status,✗,✗,✓,✓,,,,Post-2023 — PVTG concept being tested
+Cluster 4: Tribes & Culture,Religious sites & temples,✓,✓,✓,✓,,,,Char Dham + Panch Prayag + Panch Kedar
+,,,,,,,,,
+Cluster 5: Dynasties & Inscriptions,Katyuri Dynasty — rulers/period/capital,✓,✓,✓,✓,8,YES — every year,⚡ CRITICAL,"Most tested dynasty — Kartikeyapura capital / Brahmadev temple"
+Cluster 5: Dynasties & Inscriptions,Parmar Dynasty — Garhwal,✓,✓,✓,✓,,,,"Ajay Pal (unifier of Garhwal) — most asked ruler"
+Cluster 5: Dynasties & Inscriptions,Chand Dynasty — Kumaon,✓,✓,✓,✓,,,,"Baz Bahadur Chand / Udyot Chand — Almora connection"
+Cluster 5: Dynasties & Inscriptions,Inscriptions — Ashoka Kalsi/Gopeshwar,✓,✓,✓,✗,,,,"Kalsi inscription (only Ashoka rock edict in UK) always tested"
+Cluster 5: Dynasties & Inscriptions,Panwar Dynasty (later Garhwal),✓,✗,✓,✓,,,,Connection to Srinagar (Garhwal) as capital
+Cluster 5: Dynasties & Inscriptions,British period — Gorkha/Treaty of Sugauli,✓,✓,✓,✓,,,,"1815 Treaty + Commissioner system — always appears"
+,,,,,,,,,
+Cluster 6: State Formation & Governance,Statehood movement — key dates/events,✓,✓,✓,✓,6,YES,🔴 HIGH,"Muzaffarnagar (1994) / Rampur Tiraha (1994) / 9 Nov 2000"
+Cluster 6: State Formation & Governance,Governors & Chief Ministers list,✓,✓,✓,✓,,,,"First CM: Nityanand Swami / First Governor: Surjit Singh Barnala"
+Cluster 6: State Formation & Governance,State symbols (bird/animal/flower/tree),✓,✓,✓,✓,,,,"Monal / Musk Deer / Brahma Kamal / Burans"
+Cluster 6: State Formation & Governance,Legislative Assembly facts,✗,✓,✓,✓,,,,"Seats / first Speaker / reservation seats"
+Cluster 6: State Formation & Governance,Administrative divisions — 13 districts,✓,✓,✓,✓,,,,"2 divisions (Kumaon/Garhwal) — district creation years tested"
+Cluster 6: State Formation & Governance,Important Commissions & Committees,✗,✗,✓,✓,,,,Newer angle — state-level commissions
+,,,,,,,,,
+Cluster 7: Economy & Development,Major dams & hydro projects,✓,✓,✓,✓,7,YES,🔴 HIGH,"Tehri Dam (tallest in India) / Vishnuprayag / Tapovan-Vishnugad"
+Cluster 7: Economy & Development,State GDP & sector contribution,✗,✓,✓,✓,,,,Service sector dominant — percentage distribution asked
+Cluster 7: Economy & Development,Tourism circuits & pilgrimages,✓,✓,✓,✓,,,,"Char Dham Yatra — road project / annual visitor data"
+Cluster 7: Economy & Development,Major crops & agricultural zones,✓,✓,✓,✗,,,,"Basmati rice (Dehradun) / Mandua / Jhangora (hill crops)"
+Cluster 7: Economy & Development,Industrial areas & SEZs,✗,✓,✓,✓,,,,SIDCUL — Haridwar / Pantnagar / Sitarganj
+Cluster 7: Economy & Development,State budget highlights,✗,✗,✓,✓,,,,Current affairs — latest budget allocations
+Cluster 7: Economy & Development,Mineral resources & mining,✓,✓,✗,✓,,,,Limestone / Magnesite / Soapstone locations
+,,,,,,,,,
+Cluster 8: Socio-Political Movements,Chipko Movement (1973),✓,✓,✓,✓,12,YES — exact repeats,⚡ CRITICAL,"CONFIRMED REPEAT: Maiti Movement (P24-Q24 = P21-Q99). Chipko tests Gaura Devi & Bahuguna separately"
+Cluster 8: Socio-Political Movements,Maiti Movement,✗,✓,✓,✗,,,,Kalyan Singh Rawat — founder. Environmental movement.
+Cluster 8: Socio-Political Movements,Tehri Anti-Dam Movement,✓,✓,✓,✓,,,,"Sundarlal Bahuguna — same person / different movement context"
+Cluster 8: Socio-Political Movements,Coolie-Begar Movement (1921),✓,✓,✓,✗,,,,Anti-forced labour. Badri Dutt Pandey connection.
+Cluster 8: Socio-Political Movements,Uttarakhand Statehood Movement,✓,✓,✓,✓,,,,"Dates + places + martyrs — all angles tested"
+Cluster 8: Socio-Political Movements,Anti-Alcohol/Women's movements,✓,✓,✗,✓,,,,Women-led — Nasha Nahi Rozgar Do
+Cluster 8: Socio-Political Movements,Doodhatoli Movement,✗,✓,✓,✓,,,,Sachidanand Bharti — newer entrant in papers
+Cluster 8: Socio-Political Movements,Role in 1857 rebellion,✓,✓,✗,✓,,,,Kalu Mahara / Kalwa / Bishen Singh
+,,,,,,,,,
+Cluster 9: Current Affairs & Schemes,State government schemes (recent),✗,✗,✓,✓,5,YES (growing),🔴 HIGH,"Vatsalya Yojana / Mukhyamantri schemes — last 2-3 years"
+Cluster 9: Current Affairs & Schemes,Awards — state-level,✗,✓,✓,✓,,,,"Uttarakhand Gaurav + recent recipients"
+Cluster 9: Current Affairs & Schemes,Disaster management (Kedarnath 2013),✓,✓,✓,✓,,,,"SDRF / NDRF / Kedarnath reconstruction"
+Cluster 9: Current Affairs & Schemes,Smart City / AMRUT / Urban schemes,✗,✗,✓,✓,,,,Central schemes implemented in UK cities
+Cluster 9: Current Affairs & Schemes,Census data & demographic facts,✓,✓,✓,✓,,,,"Census 2011 still primary source"
+,,,,,,,,,
+Cluster 10: Literature & Personalities,Literary figures (Pant/Nirala/Guha),✓,✓,✓,✓,6,YES,🟡 MEDIUM,"Birthplace + works + awards all tested"
+Cluster 10: Literature & Personalities,Freedom fighters from UK,✓,✓,✓,✓,,,,"GB Pant — his pre-independence UK role"
+Cluster 10: Literature & Personalities,Social reformers,✓,✓,✓,✗,,,,Ganga Ram / Swami Purnanand
+Cluster 10: Literature & Personalities,Sports personalities from UK,✗,✗,✓,✓,,,,Newer trend — state sportspersons
+Cluster 10: Literature & Personalities,Languages & dialects,✓,✓,✗,✓,,,,Kumaoni / Garhwali literary works
+,,,,,,,,,
+— HOW TO USE —,,,,,,,,,
+Step 1,"Mark GREEN = already studied / confident",,,,,,,,
+Step 2,"Mark YELLOW = needs revision",,,,,,,,
+Step 3,"Mark RED = haven't started yet",,,,,,,,
+Step 4,"Start with ⚡ CRITICAL clusters — they appear EVERY year",,,,,,,,
+Step 5,"Then 🔴 HIGH priority — consistent presence",,,,,,,,
+Step 6,"Then 🟡 MEDIUM — present but less dense",,,,,,,,
+,,,,,,,,,
+— KEY INSIGHTS —,,,,,,,,,
+,"This tracker covers ~35% of your total UKPSC Prelims paper",,,,,,,,
+,"Questions marked 'REPEAT CONFIRMED' appeared with near-identical framing across papers",,,,,,,,
+,"'FORMAT TRAP' = question structure repeats even when data changes",,,,,,,,
+,"Always verify with latest data (Forest Survey / Census / Budget speeches)",,,,,,,,
+,"The remaining ~65% is in the NATIONAL TOPICS tracker",,,,,,,,
