@@ -1,0 +1,83 @@
+VIDEO 1 — COMPLETE PUBLISHING CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BEFORE UPLOAD:
+☐ Video exported in 1080p or higher
+☐ Last 20 seconds = clean frame (for end screen overlay)
+☐ Thumbnail ready (your face + question screenshots + "SAME QUESTION?" text)
+☐ Telegram group is live: https://t.me/UKPSCDECODED
+☐ PYQ Tracker PDF uploaded to Telegram group (pinned message)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DURING UPLOAD (YouTube Studio App on iPad):
+☐ Title: UKPSC Prelims PYQ Pattern Analysis 2016-2025 | 450+ Questions | Real Patterns
+☐ Description: Paste from VIDEO_1_YOUTUBE_DESCRIPTION.txt
+☐ Thumbnail: Upload custom thumbnail
+☐ Playlist: Create "PYQ Analysis Series" → Add this video
+☐ Category: Education
+☐ Language: Hindi
+☐ Tags: Paste from VIDEO_1_TAGS.txt (Show More → Tags field)
+☐ Visibility: Public (or schedule for optimal time: 7-8 AM or 6-7 PM IST)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IMMEDIATELY AFTER PUBLISH:
+☐ Post pinned comment: Paste from VIDEO_1_PINNED_COMMENT.txt
+☐ Pin the comment (tap 3 dots → Pin)
+☐ Share to Telegram group with message: "Pehli video LIVE hai! Dekho aur batao kaisa laga 👇"
+☐ Reply to first 5-10 comments within 1 hour (algorithm signal)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WITHIN 24 HOURS (Safari Browser → studio.youtube.com):
+☐ Add END SCREEN (last 20 sec):
+   → Open Safari on iPad
+   → Go to studio.youtube.com
+   → Request Desktop Site (tap aA → Request Desktop Website)
+   → Your video → Editor tab → End Screen
+   → Add: 1 Video (best for viewer) + 1 Subscribe button
+   → Save
+
+☐ Add INFO CARD at 13:30 (optional — link to Telegram or next video):
+   → Same browser process → Cards tab
+   → Add card at 13:30 pointing to your channel/playlist
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+YOUTUBE STUDIO SETTINGS (one-time setup):
+☐ Channel → Customization → Basic Info → Channel Description (paste from earlier)
+☐ Channel → Customization → Branding → Video Watermark (upload your logo → set "Entire video")
+☐ Default Upload Settings → Description: Paste your "About This Channel" section so every new video auto-includes it
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+END SCREEN HOW-TO (iPad Safari — step by step):
+
+1. Open Safari → studio.youtube.com
+2. If it redirects to app, tap address bar → tap "aA" → "Request Desktop Website"
+3. Click your video from the list
+4. Click "Editor" in left sidebar
+5. Click "+ End Screen" button
+6. Choose template: "1 video + 1 subscribe"
+7. YouTube will auto-place them in the last 20 seconds
+8. Drag to position if needed
+9. For the video element: Choose "Best for viewer" (YouTube picks automatically)
+10. Click Save
+11. Done — viewers now see clickable next-video + subscribe in last 20 sec
+
+NOTE: End screens only work if your video is at least 25 seconds long (yours is 14+ min, so no issue).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPTIMAL POSTING TIMES FOR UKPSC AUDIENCE:
+• Best: 7:00-8:00 AM IST (students checking phone before study)
+• Good: 6:00-7:00 PM IST (evening break)
+• Avoid: Late night (audience is studying), Early afternoon (low engagement)
+
+FIRST WEEK ENGAGEMENT PLAN:
+Day 1: Post video + pin comment + share on Telegram + reply to comments
+Day 2: Post Community Tab poll: "Kaun sa pattern sabse zyaada shocking laga?"
+Day 3: Instagram Reel (30-sec clip of Govind Trap reveal)
+Day 4: Reply to all remaining comments
+Day 5: Start recording Video 2
