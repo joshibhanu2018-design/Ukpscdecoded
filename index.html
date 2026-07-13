@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>UKPSC DECODED — Crack UKPSC Without Scattered Notes</title>
     <meta name="description" content="Premium, structured UKPSC preparation. No scattered notes. High-production study content for Upper PCS & Lower PCS aspirants.">
     
@@ -46,9 +46,21 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; }
         
-        /* Gradient background animation */
+        /* ═══ FIX: iPad Safari viewport jump ═══ */
+        html {
+            height: -webkit-fill-available;
+            overflow-x: hidden;
+        }
+        body { 
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            overscroll-behavior: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Gradient background - NO animation on mobile (fixes Safari repaint jump) */
         .hero-gradient {
             background: linear-gradient(135deg, #0a0f1a 0%, #111827 40%, #1a2332 70%, #0a0f1a 100%);
             position: relative;
@@ -63,7 +75,13 @@
             height: 200%;
             background: radial-gradient(ellipse at 30% 50%, rgba(224, 164, 88, 0.03) 0%, transparent 50%),
                         radial-gradient(ellipse at 70% 80%, rgba(16, 185, 129, 0.02) 0%, transparent 50%);
-            animation: shimmer 15s ease-in-out infinite;
+            /* Animation ONLY on desktop — disabled on touch devices to prevent Safari jump */
+            animation: none;
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .hero-gradient::before {
+                animation: shimmer 15s ease-in-out infinite;
+            }
         }
         @keyframes shimmer {
             0%, 100% { transform: translateX(0) translateY(0); }
@@ -118,7 +136,7 @@
         }
     </style>
 </head>
-<body class="bg-navy-900 text-white min-h-screen">
+<body class="bg-navy-900 text-white min-h-screen min-h-[100dvh]">
 
     <!-- ═══════════════ HEADER ═══════════════ -->
     <header class="relative z-50 border-b border-white/5">
@@ -146,7 +164,7 @@
     </header>
 
     <!-- ═══════════════ HERO + FORM ═══════════════ -->
-    <main class="hero-gradient grid-pattern min-h-[calc(100vh-65px)] flex items-center relative">
+    <main class="hero-gradient grid-pattern min-h-[calc(100dvh-65px)] flex items-center relative">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 w-full">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 
