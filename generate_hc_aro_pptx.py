@@ -8,6 +8,7 @@ Usage: python3 generate_hc_aro_pptx.py
 Output: UKPSC_HC_ARO_2026_Analysis.pptx
 """
 import zipfile
+from xml.sax.saxutils import escape as xml_escape
 
 # ============================================================
 # CONSTANTS
@@ -60,6 +61,8 @@ def make_multiline_textbox(x, y, w, h, lines, align="l"):
             col = line[1] if len(line) > 1 else WHITE
             bld = line[2] if len(line) > 2 else False
             sz = line[3] if len(line) > 3 else 1400
+        # Escape XML special characters in text content
+        txt = xml_escape(txt)
         b_attr = ' b="1"' if bld else ''
         paras += (f'<a:p><a:pPr algn="{algn}"/><a:r>'
                   f'<a:rPr lang="en-US" sz="{sz}"{b_attr} dirty="0">'
