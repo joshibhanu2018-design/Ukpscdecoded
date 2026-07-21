@@ -385,18 +385,63 @@ VILLAGES (headed by SAYANA or BOODHA)
 
 ---
 
-## 3.14 COMPARATIVE ANALYSIS: CHAND vs GORKHA ADMINISTRATION
+## 3.14 MASTER COMPARATIVE TABLE: ALL FOUR RULERS OF UTTARAKHAND
 
-| Parameter | Chand Dynasty | Gorkha Rule |
-|---|---|---|
-| **Nature** | Local monarchy with structured bureaucracy | Foreign military occupation |
-| **Duration** | ~1100 years | 25 years (Kumaon) / 10.5 years (Garhwal) |
-| **Tax System** | Chhatisi (36 taxes) — codified | Arbitrary taxes linked to life events |
-| **Land Revenue Rate** | 1/6th of produce | Pungdi Kar (unspecified, heavier) |
-| **Justice** | Two formal courts (Nyovaali + Bishtaali) | No codified law; brutal ordeals (Dip) |
-| **Forced Labour** | Begar existed but limited (Baj Bahadur banned >1 day) | Intensified begar without limits |
-| **Cultural Policy** | Patronized temples, art, literature | Taxed festivals; created slave class |
-| **Legacy** | Built Uttarakhand's medieval identity | Left psychological trauma; eased British acceptance |
+> **HIGH YIELD TABLE — Learn this for both Prelims & Mains. Frequently asked as: "Compare the administrative/economic systems of major dynasties of Uttarakhand."**
+
+| Parameter | Katyuri Dynasty | Parmar Dynasty (Garhwal) | Chand Dynasty (Kumaon) | Gorkha Rule |
+|---|---|---|---|---|
+| **Nature** | First unified monarchy | Regional monarchy (Garhwal) | Regional monarchy (Kumaon) | Foreign military occupation |
+| **Region** | Unified Uttarakhand | Garhwal | Kumaon | Both Kumaon & Garhwal |
+| **Period** | 700–11th C. CE | 688–1804 CE | ~700–1790 CE | 1790–1815 (25 yrs Kumaon; 10.5 yrs Garhwal) |
+| **Founder** | Basant Dev | Kanakpal | Somchand | — (Nepal's King as overlord) |
+| **Greatest Ruler** | Lalitsur Dev | Fateh Shah / Ajaypal | Jagat Chand / Rudra Chand | — |
+| **First Capital** | Joshimath | Chandpur Garhi | Champawat | Almora (Subedar's seat) |
+| **Final Capital** | Baijnath | Srinagar | Almora | — |
+| **Golden Age** | Architecture (entire period) | Fateh Shah's reign | Jagat Chand's reign | — (Dark Age) |
+| **Admin Units** | Bhukti → Vish → Pallika | Mandal/Pargana → Patti → Village | Mandal → Pargana → Garkh/Patti → Village | Military governors (Subedars) |
+| **Village Head** | Mahattam / Sayan | Pradhan / Patwari | Sayana / Boodha | — |
+| **Primary Tax** | Through Bhogpati | Tihar (1/3 of produce) | Galla-Chhahada (1/6 of produce) | Pungdi Kar (arbitrary, heavier) |
+| **Tax System** | Limited, land-based | 5 main taxes (Tihar, Sirti, Paud Tuti, Dand, Bhent) | Chhatisi (36 codified taxes) | Arbitrary taxes on life events (marriage, death, festivals) |
+| **Forced Labour** | Begar (by Bhatt & Char officials) | Begar existed | Kheni Kapilni (limited by Baj Bahadur to 1 day) | Intensified begar without limits |
+| **Land Grant Types** | Goonth / Vishnupriti / Agrahar | Vishnupriti / Raut / Jagir | Raut / Goonth | None (exploitative extraction only) |
+| **Land Measurement** | Dronavapam, Nali Vapam | Dhuli Patha (Ajaypal), Jyula, Nali, Mutthi | — | — |
+| **Justice System** | King supreme | King supreme; Village Panchayat → Diwan's court | Two courts: Nyovaali (civil) + Bishtaali (military) | No codified law; Divya Pariksha (brutal ordeals) |
+| **Court Language** | Sanskrit | — | — | — |
+| **Military** | 4 divisions (Infantry, Cavalry, Elephant, Camel) | Faujdars + Patti-level militia | Faujdars + Sikdars | Jagcha (permanent) + Dhakariya (temporary) |
+| **Art & Culture** | Temple architecture (Nagara style) | Garhwal School of Painting (Mola Ram) | Stone carving & Naulas (water conservation) | Destruction of local culture |
+| **Social Policy** | Shankaracharya's Hindu revival | Sarola Brahmin (anti-caste in army) | Traivarnik Dharmanirnay (caste codification) | Reinforced caste; created slave class (Kathua) |
+| **Key Social Reform** | — | Eliminated caste discrimination in army meals | Oli Brahmin caste for hailstorm warning | None (oppression only) |
+| **Religious Patronage** | Baijnath, Jageshwar, Kedarnath | Guru Ram Rai's Gurudwara; Badrinath patronage | Bagnath Temple; Hathiya Dewal | Ganga Mata Temple, Gangotri (Amar Singh Thapa) |
+| **Downfall Cause** | Nepalese invasions + weak successors | Natural disasters + internal conspiracy + Gorkha invasion | Weak rulers + Harshdev Joshi's betrayal + Gorkha invasion | British military superiority (Anglo-Gorkha War) |
+| **Legacy** | Founded the administrative & architectural template of Uttarakhand | Created unified Garhwali identity; painting tradition | Built Kumaon's medieval identity; taxation codification | Psychological trauma; inadvertently eased British acceptance |
+
+---
+
+### COMPARATIVE ANALYSIS — KEY INSIGHTS FOR MAINS ANSWERS
+
+**1. Political Consolidation:**
+- Katyuris: First to unify the region under one banner
+- Parmars: Ajaypal unified 52 Garhs → created 'Garhwal' identity
+- Chands: Freed Kumaon from Nepal → centralized at Almora
+- Gorkhas: Destroyed both identities; imposed foreign military rule
+
+**2. Economic Systems — Progressive to Regressive:**
+```
+KATYURI (basic agrarian) → PARMAR (1/3 tax + land grants) → CHAND (1/6 tax + 36 taxes) → GORKHA (arbitrary extortion)
+```
+
+**3. Justice Evolution:**
+```
+KATYURI (King supreme) → PARMAR (Panchayat + Diwan) → CHAND (Two formal courts) → GORKHA (Ordeals/torture)
+```
+*The Chand system was the most advanced; the Gorkha system was a complete regression.*
+
+**4. Cultural Contribution:**
+- Katyuri = Temples (Jageshwar, Dwarahat)
+- Parmar = Painting (Garhwal School)
+- Chand = Stone carving + Water architecture (Naulas)
+- Gorkha = Nil (cultural destruction)
 
 ---
 

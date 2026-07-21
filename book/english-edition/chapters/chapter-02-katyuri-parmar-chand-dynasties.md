@@ -1,10 +1,10 @@
 # CHAPTER 2
 
-# The Katyuri Dynasty, Parmar Dynasty of Garhwal & Chand Dynasty of Kumaon
+# The Katyuri Dynasty & Parmar Dynasty of Garhwal
 
 ---
 
-> **Syllabus Coverage:** Kartikeypur (Katyuri) Dynasty | Parmar Dynasty in Garhwal — Rule, Administration, Society, Economy | Chand Dynasty of Kumaon — Rule, Administration, Society, Economy | Gorkha Invasion
+> **Syllabus Coverage:** Kartikeypur (Katyuri) Dynasty | Parmar Dynasty in Garhwal — Rule, Administration, Society, Economy
 
 > **Exam Relevance:** UKPSC PCS (Prelims + Mains Paper V) | Lower PCS | RO/ARO | UKSSSC | Patwari
 
@@ -165,7 +165,6 @@ The Katyuri period represents the **architectural Golden Age** of Uttarakhand, h
 | **Champawat** | Dynasty's presence in Kumaon |
 
 ---
-
 
 ## PART B: THE PARMAR (PANWAR) DYNASTY OF GARHWAL (688 CE – 1804 CE)
 
@@ -333,7 +332,6 @@ VILLAGES (managed by PRADHAN and PATWARI)
 
 ---
 
-
 ## 2.15 GARHWAL SCHOOL OF PAINTING & CULTURE
 
 ### The Garhwal School of Painting
@@ -386,158 +384,6 @@ VILLAGES (managed by PRADHAN and PATWARI)
 
 ---
 
-## PART C: THE CHAND DYNASTY OF KUMAON (700 CE – 1790 CE)
-
----
-
-## 2.18 FOUNDATION & EARLY RULERS
-
-| Parameter | Details |
-|---|---|
-| **Founder** | Som Chand (700 CE) |
-| **Original Capital** | Champawat |
-| **Later Capital** | Almora (shifted by Balo Kalyan Chand, 1560s) |
-| **Dynasty Duration** | ~1100 years |
-| **Initial Subordination** | Under Doti (Nepal) kingdom |
-
----
-
-## 2.19 KEY CHAND RULERS — CHRONOLOGICAL TABLE
-
-| Ruler | Period | Key Achievement / Title |
-|---|---|---|
-| **Garud Gyan Chand** | ~14th C. | First Chand ruler to visit Delhi; presented tribute to **Firoz Shah Tughlaq**; received title 'Garud'; granted control over Terai |
-| **Bharti Chand** | 1451–52 | Fought **12-year war** against Doti kingdom; permanently ended Kumaon's subordination to Nepal; genesis of **Nayak (Katwal) Caste** |
-| **Balo Kalyan Chand** | 1560s | Shifted capital to **Almora**; built **Lalmundi Fort** (Fort Moira) |
-| **Rudra Chand** | 1565–1597 | **Scholar King** — detailed below |
-| **Baj Bahadur Chand** | ~17th C. | Rose from shepherd to king; expanded boundaries; imposed Sirti tax on Bhotiyas; banned exploitative begar (>1 day/month); titled 'Bahadur' by Shah Jahan |
-| **Jagat Chand** | ~18th C. | **Golden Age of Kumaon** — revenue peaked at 9 lakh rupees; defeated Garhwal's Fateh Shah; temporarily captured Srinagar |
-
----
-
-## 2.20 KING RUDRA CHAND (1565–1597 CE) — THE SCHOLAR KING
-
-| Achievement | Details |
-|---|---|
-| **Mughal Alliance** | Contemporary of Akbar; personally met him in **Lahore (1588)**; accepted suzerainty |
-| **Administrative Record** | Kumaon listed under Delhi Suba in **Ain-i-Akbari** |
-| **Founded** | Town of **Rudrapur** |
-| **Social Engineering** | Composed **Traivarnik Dharmanirnay** — restructured Brahmin hierarchy |
-
-### Brahmin Classification by Rudra Chand
-
-| Class | Status |
-|---|---|
-| **Chauthani** | High-caste (highest) |
-| **Tithani / Panchbirriye** | Middle tier |
-| **Pitaliye / Haliye** | Lower tier |
-| **Oli Brahmin** (unique creation) | Sole duty: warn public by beating plates during hailstorms |
-
-### Literary Works by Rudra Chand
-
-| Text | Subject |
-|---|---|
-| **Yatha Usharagodaya** | Political administration |
-| **Shyenik Shastra** | Art of hunting/chase |
-| **Yayati Charitram** | Sanskrit drama |
-
-### Military
-
-- Fought **Badhanagarh (Gwaldam) War** against Garhwal
-- Commander **Purush Pant** killed in this battle
-
----
-
-## 2.21 CHAND ADMINISTRATION
-
-### Central Structure
-
-| Position | Role |
-|---|---|
-| **King** | Supreme authority |
-| **Diwan** | Chief administrator (most powerful post — e.g., Harshdev Joshi) |
-| **Faujdar** | Military commander of Pargana |
-
-### Territorial Division
-
-```
-STATE (King)
-    ↓
-PARGANAS (headed by FAUJDAR)
-    ↓
-PATTIS
-    ↓
-VILLAGES (managed by PADHAN / PATWARI)
-```
-
----
-
-## 2.22 CHAND ART, CULTURE & ARCHITECTURE
-
-### Stone Carving & Naulas
-
-| Feature | Example |
-|---|---|
-| **Master Stone Carving** | Baleshwar Temple Group, Champawat |
-| **Naula** (covered spring) | Integrated water conservation system — unique Kumaoni architectural element |
-
-### Fort Architecture
-
-| Fort | Builder | Location |
-|---|---|---|
-| **Rajbunga Fort** | Early Chands | Champawat |
-| **Lalmundi Fort** (Fort Moira) | Balo Kalyan Chand | Almora |
-| **Malla Mahal** | Rudra Chand | Almora |
-
-### Temple Architecture
-
-| Temple | Builder | Significance |
-|---|---|---|
-| **Hathiya Dewal Temple** | Baj Bahadur Chand | Located at Thal (Pithoragarh); architecture resembles **Ellora temples** |
-
----
-
-
-## 2.23 GORKHA INVASION OF KUMAON
-
-### The Role of Harshdev Joshi — "Chanakya of Kumaon"
-
-- Kumaon's most powerful Diwan
-- Invited the Gorkhas to invade Garhwal to serve his political interests
-- His manipulation ultimately destroyed both kingdoms
-
-### Timeline of Gorkha Conquest
-
-| Year | Event |
-|---|---|
-| 1790 | Gorkhas conquer Kumaon (Chand dynasty ends) |
-| 1803 | Gorkhas attack earthquake-devastated Garhwal |
-| 1804 | Pradyumna Shah martyred at Khurbura; Garhwal falls |
-| 1815 | British defeat Gorkhas in Anglo-Gorkha War; Gorkha rule ends |
-
-> *Detailed coverage of Gorkha Administration in Chapter 3.*
-
----
-
-## COMPARATIVE ANALYSIS: KATYURI vs PARMAR vs CHAND
-
-| Parameter | Katyuri Dynasty | Parmar Dynasty | Chand Dynasty |
-|---|---|---|---|
-| **Region** | Unified Uttarakhand | Garhwal | Kumaon |
-| **Period** | 700–11th C. | 688–1804 CE | ~700–1790 CE |
-| **Founder** | Basant Dev | Kanakpal | Som Chand |
-| **Greatest Ruler** | Lalitsur Dev | Fateh Shah / Ajaypal | Jagat Chand / Rudra Chand |
-| **First Capital** | Joshimath | Chandpur Garhi | Champawat |
-| **Final Capital** | Baijnath | Srinagar | Almora |
-| **Golden Age** | Architecture (entire period) | Fateh Shah's reign | Jagat Chand's reign |
-| **Primary Tax** | Through Bhogpati | Tihar (1/3 produce) | Sirti (cash) |
-| **Land Grant** | Goonth/Vishnupriti | Vishnupriti/Raut/Jagir | Similar system |
-| **Admin Unit** | Bhukti → Vish → Pallika | Mandal → Patti → Village | Pargana → Patti → Village |
-| **Downfall** | Nepalese invasions + weak successors | Gorkha invasion (1804) | Gorkha invasion (1790) |
-| **Art Legacy** | Temple architecture (Nagara) | Garhwal School of Painting | Stone carving & Naulas |
-
----
-
 ## CHAPTER 2 — QUICK REVISION: ONE-LINERS
 
 1. **Katyuri Dynasty founder** → Basant Dev (700 CE)
@@ -557,14 +403,9 @@ VILLAGES (managed by PADHAN / PATWARI)
 15. **Greatest Garhwali painter** → Mola Ram Tomar (1743–1833)
 16. **Parmar primary land tax** → Tihar (1/3 of production)
 17. **Last Parmar king martyred** → Pradyumna Shah at Battle of Khurbura (May 14, 1804)
-18. **Chanakya of Kumaon** → Diwan Harshdev Joshi
-19. **Scholar King of Kumaon** → Rudra Chand (1565–1597)
-20. **Golden Age of Kumaon** → Jagat Chand (revenue: 9 lakh rupees)
-21. **Chand capital shift** → Champawat to Almora (by Balo Kalyan Chand)
-22. **Hathiya Dewal Temple** → Built by Baj Bahadur Chand; resembles Ellora
-23. **First Chand ruler to visit Delhi** → Garud Gyan Chand (met Firoz Shah Tughlaq)
-24. **Tehri State founded** → December 28, 1815 by Sudarshan Shah
-25. **Narendra Hindu Law** → Compiled 1918 by Harikrishna Raturi
+18. **Tehri State founded** → December 28, 1815 by Sudarshan Shah
+19. **Narendra Hindu Law** → Compiled 1918 by Harikrishna Raturi
+20. **Dharashila Inscription (1335 AD)** → Belongs to Anantpal II
 
 ---
 
@@ -590,12 +431,6 @@ VILLAGES (managed by PADHAN / PATWARI)
 **Q6. (Predictive — 10 Marks / 150 Words):**
 *Describe the contributions of King Ajay Pal in the unification of Garhwal.*
 
-**Q7. (Predictive — 10 Marks / 150 Words):**
-*Discuss the administrative structure of the Chand dynasty of Kumaon.*
-
-**Q8. (Predictive — 8 Marks / 100 Words):**
-*Write a short note on: King Rudra Chand and his literary contributions.*
-
 ### Prelims One-Liner Questions
 
 1. Who founded the Parmar dynasty? → **Kanakpal at Chandpur Garhi (688 CE)**
@@ -606,8 +441,8 @@ VILLAGES (managed by PADHAN / PATWARI)
 6. Katyuri court language was? → **Sanskrit**
 7. Who established Jyotirmath? → **Adi Guru Shankaracharya**
 8. Fateh Shah invited which Sikh Guru to Dehradun? → **Guru Ram Rai (1676)**
-9. Which Chand ruler composed Traivarnik Dharmanirnay? → **Rudra Chand**
-10. The Tehri State was merged on which date? → **August 1, 1949**
+9. First evidence of Parmar land grant? → **Raghunath Temple Copper Plate (1455 AD, Jagat Pal)**
+10. Katyuri Dynasty's last ruler? → **Brahmadev (Veerdev)**
 
 ---
 
@@ -615,4 +450,4 @@ VILLAGES (managed by PADHAN / PATWARI)
 
 ---
 
-> **NEXT: Chapter 3 — Gorkha Invasion & Administration, British Rule in Uttarakhand**
+> **NEXT: Chapter 3 — Chand Dynasty of Kumaon & Gorkha Rule in Uttarakhand**
