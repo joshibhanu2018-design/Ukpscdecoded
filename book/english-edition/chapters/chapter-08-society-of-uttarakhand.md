@@ -314,6 +314,43 @@ Historically, land was the ultimate source of wealth and power in hill villages.
 ---
 
 
+## 8.6A UTTARAKHAND DEMOGRAPHIC PROFILE (CENSUS 2011 — MASTER DATA)
+
+> **PLUG-AND-PLAY DATA SHEET — Use these numbers to enrich ANY Mains answer on Society, Economy, or Development.**
+
+### State-Level Demographics
+
+| Parameter | Data |
+|---|---|
+| **Total Population** | **1.01 Crore (1,00,86,292)** — 0.83% of India's population |
+| **Male** | 50.94% |
+| **Female** | 49.06% |
+| **Rural** | 69.77% |
+| **Urban** | 30.23% |
+| **Decadal Growth Rate** | 18.81% (higher than national avg of 17.7%) |
+| **Sex Ratio** | 963 (National avg: 943) |
+| **Child Sex Ratio (0-6 yrs)** | 890 (Declined from 908 in 2001; National avg: 919) |
+| **Population Density** | 189 persons/sq km (National avg: 382/sq km) |
+| **Literacy Rate** | 78.82% (Male: 87.40%, Female: 70.01%) |
+| **Workforce Participation** | 38.4% (Main workers: 74.1%, Marginal: 25.9%) |
+
+### DISTRICT SUPERLATIVES — LARGEST & SMALLEST
+
+| Parameter | Highest / Largest District | Lowest / Smallest District |
+|---|---|---|
+| **Area** | Chamoli (8,030 sq km) | Champawat (1,766 sq km) |
+| **Population** | Haridwar (18.9 Lakh) | Rudraprayag (2.42 Lakh) |
+| **Decadal Growth** | Udham Singh Nagar (33.45%) | Pauri Garhwal (-1.41%) |
+| **Sex Ratio** | Almora (1139) | Haridwar (880) |
+| **Child Sex Ratio** | Almora (922) | Pithoragarh (816) |
+| **Literacy Rate** | Dehradun (84.25%) | Udham Singh Nagar (73.10%) |
+| **Population Density** | Haridwar (801/sq km) | Uttarkashi (41/sq km) |
+| **Urbanization %** | Dehradun (55.52%) | Bageshwar (3.44%) |
+
+> **EXAM TIP:** Notice the pattern — Haridwar dominates "largest/highest" in population metrics, while Almora dominates in sex ratio. Hill districts (Pauri, Almora) show negative growth due to migration.
+
+---
+
 ## 8.7 URBANIZATION & INDUSTRIALIZATION IN UTTARAKHAND
 
 ### Urbanization Trends & Data
