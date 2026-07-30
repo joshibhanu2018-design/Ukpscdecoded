@@ -2,302 +2,157 @@
 
 # People's Movements: Chipko, Anti-Liquor, Forest & Statehood Movement
 
----
-
-> **Syllabus Coverage:** Coolie Begar Movement | Dola Palki Movement | Chipko Movement | Anti-Liquor Movement | Social Reformers | Anti-princely Tehri State Movement | Movement of Separate Uttarakhand State — Immediate and Long-term Consequences
-
-> **Exam Relevance:** UKPSC PCS (Prelims + Mains Paper V) | Lower PCS | RO/ARO | UKSSSC | Patwari
-
-> **Exam Priority:** EXTREMELY HIGH YIELD — Chipko, Anti-Liquor, and Statehood Movement (especially 1994 incidents and state formation dates) are asked in every exam
-
----
-
-## PART A: FOREST & ECOLOGICAL MOVEMENTS
-
----
+## PART A: FOREST AND ECOLOGICAL MOVEMENTS
 
 ## 7.1 PRE-INDEPENDENCE: RAWAIN / TILARI MOVEMENT (1930)
 
-
-| Parameter | Details |
-|---|---|
-| **Cause** | Oppressive new forest laws by Tehri monarchy — severely restricted traditional grazing and timber rights |
-| **Climax** | May 30, 1930 — unarmed villagers gathered at Tiladi ground to protest |
-| **Tragedy** | Tehri king's forces (Diwan Chakradhar Juyal) opened fire on the crowd |
-| **Result** | Massacre of unarmed farmers |
-| **Legacy** | May 30 observed as **Martyr's Day** to this day |
-| **Literary Legacy** | Immortalized in **Vidyasagar Nautiyal's** novel *"Yamuna Ke Baagi Bete"* |
-
-> *Detailed coverage of Tilari in Chapter 5 (Section 5.7)*
-
----
+The Rawain / Tilari Movement was triggered by oppressive new forest laws introduced by the Tehri monarchy that severely restricted traditional grazing and timber rights. The movement reached its climax on May 30, 1930, when unarmed villagers gathered at the Tiladi ground to protest. Tehri's Diwan **Chakradhar Juyal** ordered indiscriminate firing on the crowd, resulting in a massacre of unarmed farmers. May 30 has been observed as **Martyr's Day** ever since. The tragedy was immortalized in **Vidyasagar Nautiyal's** novel *"Yamuna Ke Baagi Bete"* (Rebel Sons of the Yamuna).
 
 ## 7.2 THE CHIPKO MOVEMENT (1972–1973) — A GLOBAL ENVIRONMENTAL MODEL
 
-> *What began as a localized struggle for forest rights transformed into the world's most iconic non-violent environmental movement.*
+What began as a localized struggle for forest rights transformed into the world's most iconic non-violent environmental movement.
 
 ### The Trigger
 
-| Parameter | Details |
-|---|---|
-| **Year** | 1972 |
-| **Event** | Government permitted **Symonds Company** to fell ash trees in **Gopeshwar region** for commercial use |
+In 1972, the government permitted **Symonds Company** to fell ash trees in the **Gopeshwar region** for commercial use, provoking outrage among local communities who depended on these forests for their livelihood.
 
 ### The Historic Action — Reni Village (1973)
 
-| Parameter | Details |
-|---|---|
-| **Village** | Reni, Chamoli district |
-| **Leader** | **Gaura Devi** |
-| **Participants** | 27 local women |
-| **Action** | Physically hugged the trees to prevent contractors from cutting them |
-| **War Cry** | *"Him Putriyon Ki Lalkaar, Van Niti Badle Sarkar, Van Jaage Vanvasi Jaage"* (The call of daughters of snow: government must change forest policy; awaken the forests, awaken the forest dwellers) |
+The movement's most dramatic moment occurred in Reni village, Chamoli district, when **Gaura Devi** led 27 local women in physically hugging the trees to prevent contractors from cutting them. Their war cry — *"Him Putriyon Ki Lalkaar, Van Niti Badle Sarkar, Van Jaage Vanvasi Jaage"* (The call of daughters of snow: government must change forest policy; awaken the forests, awaken the forest dwellers) — became a rallying call for ecological movements worldwide.
 
 ### Ideological Expansion
 
-| Leader | Contribution |
-|---|---|
-| **Sunderlal Bahuguna** | Coined legendary slogan **"Ecology is Permanent Economy"**; undertook **5,000 km foot march** (Kashmir to Kohima); slogan **"Himalaya Bachao, Desh Bachao"** (Save Himalayas, Save the Country) |
-| **Chandi Prasad Bhatt** | Expanded the movement's organizational reach; grassroots mobilization |
+**Sunderlal Bahuguna** coined the legendary slogan **"Ecology is Permanent Economy"** and undertook a 5,000 km foot march from Kashmir to Kohima, spreading the message **"Himalaya Bachao, Desh Bachao"** (Save Himalayas, Save the Country). **Chandi Prasad Bhatt** expanded the movement's organizational reach through grassroots mobilization.
 
-### Awards & Recognition
+### Awards and Recognition
 
 | Award | Year | Recipient |
 |---|---|---|
-| **Ramon Magsaysay Award** | 1982 | **Chandi Prasad Bhatt** |
-| **Vriksha Mitra Award** | 1986 | **Gaura Devi** |
+| **Ramon Magsaysay Award** | 1982 | Chandi Prasad Bhatt |
+| **Vriksha Mitra Award** | 1986 | Gaura Devi |
 | **Samyak Jeevika Award (Right Livelihood Award)** | 1989 | The Chipko Movement as a whole |
-
----
 
 ## 7.3 POST-CHIPKO GRASSROOTS ECOLOGICAL MOVEMENTS
 
 | Movement | Year | Leader | Location | Focus |
 |---|---|---|---|---|
-| **Dungi-Pantoli Movement** | 1980s | Local villagers | Chamoli | Protected native **oak (baanj) forests** from transfer to Horticulture Dept; oak vital for soil moisture & groundwater |
-| **Pani Rakho Movement** | 1989 | **Sachida Nand Bharti** | Ufrain Khal, Pauri Garhwal | Water conservation; planted trees; built traditional water-harvesting trenches (**chaal-khaal**) |
-| **Nadi Bachao Movement** | 1991 | **Suresh Bhai** | Tehri | Saving rivers from destructive mining and mega-dam projects |
-| **Rakshasutra Movement** | 1994 | **Suresh Bhai** | Tehri | Villagers tied **Raksha Sutra (sacred protection threads)** around trees; vowed to protect from timber contractors |
-| **Maiti Movement** | 1996 | **Kalyan Singh Rawat** | Chamoli | During weddings, bride & groom plant a sapling (Maiti = mother's home); groom's family gives money to women's committee for tree care; grassroots afforestation |
-| **Chhino Jhapto Movement** | 1998 | **Govind Singh Rawat** | Chamoli | Aggressive push demanding restoration of indigenous forest rights |
-
----
+| **Dungi-Pantoli Movement** | 1980s | Local villagers | Chamoli | Protected native oak (baanj) forests from transfer to Horticulture Dept |
+| **Pani Rakho Movement** | 1989 | Sachida Nand Bharti | Ufrain Khal, Pauri Garhwal | Water conservation; planted trees; built traditional chaal-khaal trenches |
+| **Nadi Bachao Movement** | 1991 | Suresh Bhai | Tehri | Saving rivers from destructive mining and mega-dam projects |
+| **Rakshasutra Movement** | 1994 | Suresh Bhai | Tehri | Villagers tied sacred protection threads around trees to prevent felling |
+| **Maiti Movement** | 1996 | Kalyan Singh Rawat | Chamoli | During weddings, bride and groom plant a sapling; grassroots afforestation |
+| **Chhino Jhapto Movement** | 1998 | Govind Singh Rawat | Chamoli | Demanding restoration of indigenous forest rights |
 
 ## PART B: SOCIAL MASS MOVEMENTS
-
----
 
 ## 7.4 THE COOLIE BEGAR MOVEMENT (1921) — THE BLOODLESS REVOLUTION
 
 ### The Exploitative System
 
-| Type | Description |
-|---|---|
-| **Coolie Begar** | Working without pay (carrying luggage of British officials) |
-| **Coolie Utaar** | Providing free coolies for officers |
-| **Coolie Barda Yash** | Providing free rations to officials |
+Three types of forced labour oppressed the hill people under British rule. **Coolie Begar** meant working without pay, primarily carrying the luggage of British officials. **Coolie Utaar** required providing free coolies for officers. **Coolie Barda Yash** demanded providing free rations to officials.
 
 ### The Climax — January 13-14, 1921
 
-| Parameter | Details |
-|---|---|
-| **Location** | **Uttarayani Fair, Bageshwar** |
-| **Leaders** | **Badridatt Pandey**, Hargovind Pant, Chiranjilal |
-| **Agitators** | ~40,000 |
-| **Sacred Pledge At** | Bagnath Temple |
-| **The Action** | Threw Begar registers into **Saryu River** |
-| **Gandhi's Praise** | **"Bloodless Revolution"** |
-| **Title Earned** | Badridatt Pandey → **"Kumaon Kesari"** |
-| **Official End** | British ended practice by 1923 |
-
----
+On January 13-14, 1921, approximately 40,000 agitators gathered at the **Uttarayani Fair in Bageshwar** under the leadership of **Badridatt Pandey**, Hargovind Pant, and Chiranjilal. After taking a sacred pledge at the **Bagnath Temple**, the people threw the Begar registers into the **Saryu River** and vowed never to provide forced labour again. Mahatma Gandhi praised this as a **"Bloodless Revolution,"** and Badridatt Pandey earned the title **"Kumaon Kesari."** The British officially ended the practice by 1923.
 
 ## 7.5 THE DOLA PALKI MOVEMENT (1930s) — FIGHT FOR DALIT DIGNITY
 
-| Parameter | Details |
-|---|---|
-| **Issue** | Lower-caste artisans (Shilpkars/Dalits) prohibited from sitting in Dola/Palki during weddings; forced to walk; privilege reserved for upper castes only |
-| **Leader** | **Jayanand Bharti** (Arya Samaj follower, follower of Swami Dayanand Saraswati) |
-| **Period** | Around 1930 |
-| **Outcome** | Successfully secured palanquin rights for Dalit grooms; massive blow for social equality |
-
----
+Under the prevailing social order, lower-caste artisans (Shilpkars/Dalits) were strictly prohibited from sitting in a Dola or Palki (palanquin) during weddings and were forced to walk — this privilege was reserved exclusively for upper castes. Around 1930, **Jayanand Bharti**, an Arya Samaj follower and disciple of Swami Dayanand Saraswati, led a sustained campaign that successfully secured palanquin rights for Dalit grooms. This represented a massive blow for social equality in Uttarakhand.
 
 ## 7.6 THE ANTI-LIQUOR MOVEMENT (1984) — WOMEN'S CRUSADE
 
-| Parameter | Details |
-|---|---|
-| **Primary Driver** | Women's organizations |
-| **Cause** | Rampant alcoholism among men causing severe economic ruin and domestic violence in hills |
-| **Lead Organization** | **Uttarakhand Sangarsh Vahini** (1984) |
-| **Slogan** | **"Nasha Nahi, Rojgaar Do"** (No Drugs, Give Employment) |
-| **Action** | Massive protests; organized anti-liquor campaigns across hill districts |
-| **Outcome** | UP government imposed temporary liquor bans in several districts (Almora, Nainital); sales later resumed |
-
----
+The Anti-Liquor Movement of 1984 was primarily driven by women's organizations responding to the devastating effects of rampant alcoholism among men — severe economic ruin and domestic violence had become endemic in the hills. The lead organization, **Uttarakhand Sangarsh Vahini** (founded 1984), mobilized massive protests under the slogan **"Nasha Nahi, Rojgaar Do"** (No Drugs, Give Employment). Organized anti-liquor campaigns spread across hill districts, eventually forcing the UP government to impose temporary liquor bans in several districts including Almora and Nainital, though sales later resumed.
 
 ## 7.7 ANTI-PRINCELY TEHRI STATE MOVEMENT (Summary)
 
-| Parameter | Details |
-|---|---|
-| **Grievances** | Heavy taxes (Tihar 1/3); Punituti (import-export); oppressive forest laws restricting cattle grazing |
-| **Tilari Massacre** | May 30, 1930 — Diwan Chakradhar Juyal fired on unarmed farmers; "Jallianwala Bagh of Garhwal" |
-| **Praja Mandal** | Founded Jan 23, 1939 by Sridev Suman in Dehradun |
-| **Sridev Suman** | 84-day fast-unto-death; martyred July 25, 1944 |
-| **Saklana Revolt** | 1947; Nagendra Saklani martyred (Jan 11, 1948) |
-| **Kirtinagar Revolt** | Jan 1948; Moluram martyred |
-| **Merger** | August 1, 1949 — Tehri merged with India |
-
-> *Full details in Chapter 5*
-
----
+The movement against the Tehri monarchy was fuelled by heavy taxes (Tihar claiming one-third of production), the Punituti import-export tax, and oppressive forest laws restricting cattle grazing. The **Tilari Massacre** of May 30, 1930 — when Diwan Chakradhar Juyal ordered firing on unarmed farmers — earned the epithet "Jallianwala Bagh of Garhwal." The **Praja Mandal**, founded on January 23, 1939 by Sridev Suman in Dehradun, demanded responsible democratic governance. Sridev Suman's 84-day fast-unto-death and martyrdom on July 25, 1944, catalyzed the **Saklana Revolt** (1947, in which Nagendra Saklani was martyred on January 11, 1948) and the **Kirtinagar Revolt** (January 1948, in which Moluram was martyred). The sustained pressure culminated in Tehri's merger with India on **August 1, 1949**.
 
 ## PART C: THE UTTARAKHAND SEPARATE STATEHOOD MOVEMENT
 
----
+## 7.8 CORE DEMANDS AND CAUSES
 
-## 7.8 CORE DEMANDS & CAUSES
-
-| Factor | Details |
-|---|---|
-| **Economic Exploitation** | British-era commercial exploitation continued post-independence; "money order economy"; lack of local employment; severe migration |
-| **Geographical Neglect** | Policies from Lucknow (UP) unsuitable for harsh mountainous terrain |
-| **Immediate Trigger (1994)** | Mulayam Singh Yadav's UP govt implemented 27% OBC reservation; hill region had minuscule OBC population; seen as highly unjust; anti-reservation protest rapidly transformed into statehood demand |
-
----
+The demand for a separate hill state arose from a confluence of factors. **Economic exploitation** — originating in British-era commercial policies — continued post-independence, creating a "money order economy" characterized by lack of local employment and severe migration. **Geographical neglect** meant that policies from Lucknow (UP capital) were unsuitable for the harsh mountainous terrain. The **immediate trigger** came in 1994 when Mulayam Singh Yadav's UP government implemented 27% OBC reservation — since the hill region had a minuscule OBC population, this was seen as highly unjust. The anti-reservation protest rapidly transformed into a full-fledged statehood demand.
 
 ## 7.9 KEY ORGANIZATIONS FORMED
 
 | Organization | Year | Founded By / Location | Purpose |
 |---|---|---|---|
-| **Garhdesh Seva Sangh** | 1938 | **Shri Dev Suman**, Delhi | First to raise demand for separate state |
+| **Garhdesh Seva Sangh** | 1938 | Shri Dev Suman, Delhi | First to raise demand for separate state |
 | **Parvatiya Vikas Jan Samiti** | 1950 | — | Proposed combined Uttarakhand + Himachal Pradesh Himalayan state |
-| **Mountain State Council / Parvatiya Rajya Parishad** | 1967 | **Daya Krishna Pandey**, Ramnagar | — |
-| **Uttarakhand Kranti Dal (UKD)** | **July 25, 1979** | Mussoorie; president: **Dr. D.D. Pant** | **Most pivotal political organization** of the movement |
-| **Uttaranchal Utthan Parishad** | 1988 | Chair: **Soban Singh Jeena** | — |
+| **Mountain State Council / Parvatiya Rajya Parishad** | 1967 | Daya Krishna Pandey, Ramnagar | — |
+| **Uttarakhand Kranti Dal (UKD)** | July 25, 1979 | Mussoorie; president: Dr. D.D. Pant | Most pivotal political organization of the movement |
+| **Uttaranchal Utthan Parishad** | 1988 | Chair: Soban Singh Jeena | — |
 | **Uttarakhand Mukti Morcha** | 1991 | Leftist parties | — |
-
----
 
 ## 7.10 PROMINENT LEADERS OF THE STATEHOOD MOVEMENT
 
 | Leader | Contribution |
 |---|---|
-| **Indramani Badoni** | **'Gandhi of Uttarakhand'**; foundational role in UKD; 105-day padayatra; multiple fasts-unto-death |
-| **Kashi Singh Airi** | Took command of UKD (1987); laid foundation stone for capital at **Gairsain** (named it **'Chandranagar'**) |
-| **Trivendra Singh Pawar** | Led UKD action of throwing **letter bomb in Parliament** (1987) for national attention |
-| **Jaswant Singh Bisht** | First UKD MLA to move proposal for Uttarakhand state in **UP Legislative Assembly** (1990) |
+| **Indramani Badoni** | 'Gandhi of Uttarakhand'; foundational role in UKD; 105-day padayatra; multiple fasts-unto-death |
+| **Kashi Singh Airi** | Took command of UKD (1987); laid foundation stone for capital at Gairsain (named it 'Chandranagar') |
+| **Trivendra Singh Pawar** | Led UKD action of throwing letter bomb in Parliament (1987) for national attention |
+| **Jaswant Singh Bisht** | First UKD MLA to move proposal for Uttarakhand state in UP Legislative Assembly (1990) |
 
----
-
-## 7.11 MAJOR EVENTS & MARTYRS — THE BLOODSHED OF 1994-1995
+## 7.11 MAJOR EVENTS AND MARTYRS — THE BLOODSHED OF 1994-1995
 
 ### August Kranti (August 1994)
 
-| Details |
-|---|
-| UKD leaders including Indramani Badoni started fast unto death in Pauri |
-| UKD General Secretary **P.C. Bhatt** died |
-| **Jeet Bahadur Gurung** martyred |
+UKD leaders including Indramani Badoni started a fast unto death in Pauri. UKD General Secretary **P.C. Bhatt** died during the agitation, and **Jeet Bahadur Gurung** was martyred.
 
 ### Khatima Incident — September 1, 1994 ("Black Day")
 
-| Parameter | Details |
-|---|---|
-| **Event** | Police opened fire on peaceful rally of students and ex-servicemen |
-| **Martyrs (25 people)** | Including **Bhagwan Singh Sirola, Dharmanand Bhatt, Paramjit Singh, Salim Ahmed** |
-| **Significance** | Known as a "Black Day" in Uttarakhand history |
+On September 1, 1994, police opened fire on a peaceful rally of students and ex-servicemen in Khatima. Twenty-five people were martyred, including **Bhagwan Singh Sirola, Dharmanand Bhatt, Paramjit Singh**, and **Salim Ahmed**. This date is remembered as a "Black Day" in Uttarakhand history.
 
 ### Mussoorie Incident — September 2, 1994
 
-| Parameter | Details |
-|---|---|
-| **Cause** | Protesting Khatima killings; silent rally held |
-| **Police Action** | Fired again on protesters |
-| **Martyrs (6 people)** | **Hansa Dhanai, Belmati Chauhan, Balveer Singh Negi, Madan Mohan Mamgai** |
-| **Also Killed** | DSP **Umakant Tripathi** in the clash |
+The following day, a silent rally was held in Mussoorie to protest the Khatima killings. Police fired again on protesters, killing six people including **Hansa Dhanai, Belmati Chauhan, Balveer Singh Negi**, and **Madan Mohan Mamgai**. DSP **Umakant Tripathi** was also killed in the clash.
 
 ### Rampur Tiraha / Muzaffarnagar Incident — October 2, 1994
 
-| Parameter | Details |
-|---|---|
-| **Termed** | **"Cruel conspiracy of a cruel ruler"** |
-| **Event** | Agitators marching to Delhi stopped at Rampur Tiraha by UP police |
-| **Police Action** | Unprovoked firing |
-| **Martyrs** | **Ravindra Rawat, Surya Prakash Thapliyal, Girish Kumar Bhadri** |
-| **Atrocity** | Women activists subjected to **horrific violence and assault** |
-| **Impact** | Most emotionally devastating event of the entire movement |
+Termed the **"cruel conspiracy of a cruel ruler,"** this incident occurred when agitators marching to Delhi were stopped at Rampur Tiraha by UP police, who opened unprovoked fire. Martyrs included **Ravindra Rawat, Surya Prakash Thapliyal**, and **Girish Kumar Bhadri**. Women activists were subjected to horrific violence and assault, making this the most emotionally devastating event of the entire movement.
 
-### Dehradun & Kotdwar Shootings — October 3, 1994
+### Dehradun and Kotdwar Shootings — October 3, 1994
 
-| Location | Martyrs |
-|---|---|
-| **Dehradun** | Balwant Singh Sajwan, Deepak Walia, Rajesh Rawat |
-| **Kotdwar** | Rakesh Devrani, Prithvi Singh Bisht |
+In Dehradun, **Balwant Singh Sajwan, Deepak Walia**, and **Rajesh Rawat** were martyred. In Kotdwar, **Rakesh Devrani** and **Prithvi Singh Bisht** lost their lives.
 
 ### Sri Yantra Tapu Incident — November 10, 1995
 
-| Parameter | Details |
-|---|---|
-| **Event** | Police lathi-charged protesters on hunger strike in Srinagar |
-| **Martyrs** | **Yashodhar Benzwal** and **Rajesh Rawat** |
-
----
+Police lathi-charged protesters on hunger strike in Srinagar, resulting in the martyrdom of **Yashodhar Benzwal** and **Rajesh Rawat**.
 
 ## 7.12 THE PROCESS OF STATE FORMATION (LEGISLATIVE JOURNEY)
 
 | Step | Date/Year | Details |
 |---|---|---|
-| **Kaushik Committee** | 1994 | Formed by Mulayam Singh Yadav; recommended separate state of 8 hill districts; capital: **Gairsain** |
-| **Red Fort Announcement** | August 15, 1996 | PM **H.D. Deve Gowda** announced creation of state |
-| **UP Reorganisation Bill** introduced | 2000 | During NDA govt (PM Atal Bihari Vajpayee) |
-| **Passed by Lok Sabha** | **August 1, 2000** | — |
-| **Passed by Rajya Sabha** | **August 10, 2000** | — |
-| **Presidential Signature** | **August 28, 2000** | President **K.R. Narayanan** signed into law |
-| **STATE BORN** | **November 9, 2000** | India's **27th state** — named **'Uttaranchal'** |
-| **Renamed** | **January 1, 2007** | 'Uttaranchal' renamed to **'Uttarakhand'** |
-
----
+| **Kaushik Committee** | 1994 | Formed by Mulayam Singh Yadav; recommended separate state of 8 hill districts; capital: Gairsain |
+| **Red Fort Announcement** | August 15, 1996 | PM H.D. Deve Gowda announced creation of state |
+| **UP Reorganisation Bill introduced** | 2000 | During NDA govt (PM Atal Bihari Vajpayee) |
+| **Passed by Lok Sabha** | August 1, 2000 | — |
+| **Passed by Rajya Sabha** | August 10, 2000 | — |
+| **Presidential Signature** | August 28, 2000 | President K.R. Narayanan signed into law |
+| **STATE BORN** | November 9, 2000 | India's 27th state — named 'Uttaranchal' |
+| **Renamed** | January 1, 2007 | 'Uttaranchal' renamed to 'Uttarakhand' |
 
 ## 7.13 THE CAPITAL ISSUE — ONGOING DEBATE
 
-| Event | Year | Details |
-|---|---|---|
-| **Kaushik Committee recommendation** | 1994 | **Gairsain** as capital |
-| **UKD's vision** | 1987 | Kashi Singh Airi laid foundation at Gairsain ('Chandranagar') |
-| **Temporary Capital** | 2000 | **Dehradun** (in plains) made temporary capital |
-| **Dixit Commission** | 2001 | Rejected Gairsain due to geographical and seismic concerns |
-| **Summer Capital declared** | **June 20, 2020** | **Gairsain (Bhararisain)** declared merely the summer capital |
+The question of Uttarakhand's capital has remained contentious since the state's formation. The **Kaushik Committee** in 1994 recommended **Gairsain** as the capital. In 1987, UKD leader Kashi Singh Airi had laid the foundation stone at Gairsain, naming the proposed capital **'Chandranagar.'** However, when the state was formed in 2000, **Dehradun** (located in the plains) was designated as the temporary capital. The **Dixit Commission** (2001) rejected Gairsain due to geographical and seismic concerns. The matter was partially resolved on **June 20, 2020**, when **Gairsain (Bhararisain)** was declared the summer capital — though the demand for it to serve as the full capital remains unfulfilled.
 
----
-
-## 7.14 OVERALL ANALYSIS: SUCCESSES & UNFULFILLED DEMANDS
+## 7.14 OVERALL ANALYSIS: SUCCESSES AND UNFULFILLED DEMANDS
 
 ### Successes
 
-- Politically achieved ultimate goal: carved out **27th state** of India
-- Liberated hill region from administrative dominance of Lucknow
-- Brought governance closer to the people
-- Allowed policies tailored to fragile Himalayan ecology and border security
+The statehood movement achieved its ultimate political goal: carving out the **27th state** of India. It liberated the hill region from the administrative dominance of Lucknow, brought governance closer to the people, and allowed the development of policies tailored to the fragile Himalayan ecology and border security needs.
 
 ### Ongoing Struggles (Unfulfilled Demands)
 
-| Issue | Status |
-|---|---|
-| **Capital Issue** | Gairsain only summer capital (June 2020); not full capital |
-| **Youth Migration (Palaayan)** | Continues as major challenge |
-| **"Money Order Economy"** | Lack of robust local employment persists |
-| **Hill Healthcare** | Inadequate infrastructure remains |
+Despite statehood, several core concerns remain unresolved. The **capital issue** has only been partially addressed with Gairsain receiving summer capital status. **Youth migration (Palaayan)** continues as a major challenge. The **"money order economy"** persists due to the lack of robust local employment. **Hill healthcare** infrastructure remains inadequate.
 
----
-
-## 7.15 KEY SOCIAL REFORMERS (COMPLETE TABLE)
+## 7.15 KEY SOCIAL REFORMERS
 
 | Reformer | Key Contribution |
 |---|---|
 | **Jayanand Bharti** | Dola-Palki Movement (1930); secured palanquin rights for Dalits |
 | **Hari Prasad Tamta** | Tamta Sudhar Sabha (1905); 'Shilpkar' term recognized (1911); newspaper *Samta* (1934) |
-| **Khusiram Arya** | Shilpkar Sudharini Sabha (1913); fought untouchability & child marriage |
+| **Khusiram Arya** | Shilpkar Sudharini Sabha (1913); fought untouchability and child marriage |
 | **Tinchri Mai (Deepa Notiyal)** | Movements against fake babas; pioneer of anti-alcohol crusade |
 | **Sarla Behn (Katherine Heilman)** | Lakshmi Ashram, Kausani (1941); empowered hill women |
 | **Gaura Devi** | Led 27 women to hug trees (Chipko, 1973, Reni village) |
@@ -306,91 +161,3 @@
 | **Sachida Nand Bharti** | Pani Rakho Movement (1989); water conservation |
 | **Kalyan Singh Rawat** | Maiti Movement (1996); wedding tree plantation tradition |
 | **Indramani Badoni** | 'Gandhi of Uttarakhand'; UKD; 105-day padayatra |
-
----
-
-
-## CHAPTER 7 — QUICK REVISION: ONE-LINERS
-
-1. **Chipko Movement triggered** → 1972; Symonds Company; ash trees; Gopeshwar
-2. **Chipko leader (Reni)** → Gaura Devi + 27 women (1973)
-3. **"Ecology is Permanent Economy"** → Sunderlal Bahuguna
-4. **Ramon Magsaysay Award (1982)** → Chandi Prasad Bhatt
-5. **Vriksha Mitra Award (1986)** → Gaura Devi
-6. **Samyak Jeevika Award (1989)** → Chipko Movement
-7. **Bahuguna's march** → 5,000 km (Kashmir to Kohima)
-8. **Dungi-Pantoli** → Protected oak (baanj) forests; Chamoli
-9. **Pani Rakho (1989)** → Sachida Nand Bharti; chaal-khaal; Pauri
-10. **Maiti Movement (1996)** → Kalyan Singh Rawat; wedding tree planting
-11. **Rakshasutra (1994)** → Suresh Bhai; Tehri; sacred threads on trees
-12. **Anti-Liquor slogan** → "Nasha Nahi, Rojgaar Do" (1984)
-13. **UKD formed** → July 25, 1979; Mussoorie; Dr. D.D. Pant
-14. **'Gandhi of Uttarakhand'** → Indramani Badoni
-15. **Gairsain named 'Chandranagar'** → By Kashi Singh Airi (1987)
-16. **Letter bomb in Parliament** → Trivendra Singh Pawar (1987)
-17. **First UKD MLA proposal** → Jaswant Singh Bisht (1990)
-18. **Khatima firing** → Sept 1, 1994 (Black Day; 25 martyred)
-19. **Mussoorie firing** → Sept 2, 1994 (6 martyred; Hansa Dhanai)
-20. **Rampur Tiraha** → Oct 2, 1994 ("cruel conspiracy"; women assaulted)
-21. **Kaushik Committee** → 1994; recommended Gairsain as capital
-22. **Red Fort announcement** → Aug 15, 1996; PM Deve Gowda
-23. **Lok Sabha passed** → Aug 1, 2000
-24. **Rajya Sabha passed** → Aug 10, 2000
-25. **President signed** → Aug 28, 2000 (K.R. Narayanan)
-26. **State formed** → **November 9, 2000** (27th state; 'Uttaranchal')
-27. **Renamed Uttarakhand** → January 1, 2007
-28. **Gairsain = summer capital** → June 20, 2020
-29. **Dixit Commission (2001)** → Rejected Gairsain (seismic concerns)
-30. **Garhdesh Seva Sangh** → 1938; Sridev Suman; Delhi (first statehood demand)
-31. **"Yamuna Ke Baagi Bete"** → Vidyasagar Nautiyal (novel on Tilari)
-32. **Chhino Jhapto (1998)** → Govind Singh Rawat; Chamoli; indigenous forest rights
-
----
-
-## CHAPTER 7 — PREVIOUS YEAR QUESTIONS (PYQs)
-
-### Mains Questions
-
-**Q1. (Predictive — 15 Marks / 200 Words):**
-*Discuss the Chipko Movement and its significance as a global model of environmental resistance. What were its immediate and long-term consequences?*
-
-**Q2. (Predictive — 15 Marks / 200 Words):**
-*Trace the history of the separate Uttarakhand state movement. Discuss its causes, major events (1994), and both immediate and long-term consequences.*
-
-**Q3. (Predictive — 10 Marks / 150 Words):**
-*"The people's movements of Uttarakhand seamlessly intertwined the national freedom struggle with local battles against exploitation." Discuss with examples.*
-
-**Q4. (Predictive — 10 Marks / 150 Words):**
-*Discuss the post-Chipko grassroots ecological movements in Uttarakhand (Pani Rakho, Maiti, Rakshasutra, etc.).*
-
-**Q5. (Predictive — 15 Marks / 200 Words):**
-*Critically examine the Uttarakhand Statehood Movement. Was it fully successful? Discuss with reference to both achievements and unfulfilled demands.*
-
-**Q6. (Predictive — 8 Marks / 100 Words):**
-*Write a short note on: The Anti-Liquor Movement (1984) and its impact on Uttarakhand.*
-
-**Q7. (Predictive — 8 Marks / 100 Words):**
-*Write a short note on: The Rampur Tiraha Incident (October 2, 1994) and its significance.*
-
-### Prelims Questions
-
-1. Chipko Movement started in which year? → **1972 (trigger); 1973 (Reni action)**
-2. Who led 27 women in Reni village? → **Gaura Devi**
-3. "Ecology is Permanent Economy" — who coined it? → **Sunderlal Bahuguna**
-4. Uttarakhand became India's which numbered state? → **27th**
-5. Uttarakhand was formed on? → **November 9, 2000**
-6. 'Uttaranchal' renamed to 'Uttarakhand' on? → **January 1, 2007**
-7. Khatima firing incident date? → **September 1, 1994**
-8. Who recommended Gairsain as capital? → **Kaushik Committee (1994)**
-9. UKD was formed in which year? → **July 25, 1979**
-10. Maiti Movement was started by? → **Kalyan Singh Rawat (1996, Chamoli)**
-11. Who is called 'Gandhi of Uttarakhand'? → **Indramani Badoni**
-12. Anti-Liquor Movement slogan? → **"Nasha Nahi, Rojgaar Do"**
-
----
-
-*End of Chapter 7*
-
----
-
-> **NEXT: Chapter 8 — Society: Family, Marriage, Kinship, Caste System, SC/ST/OBC, Rural Power Structure, Urbanization**
