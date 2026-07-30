@@ -2,191 +2,89 @@
 
 # Public Policy & Good Governance in Uttarakhand
 
----
-
-> **Syllabus Coverage:** Good Governance — Citizen's Charter and e-Governance | Prevention of Corruption and Lokpal/Lokayukta | Right to Information | Right to Education | Right to Service | Women Empowerment | MNREGA | Soldier's Welfare and Rehabilitation | Important Ayog
-
-> **Exam Relevance:** UKPSC PCS (Prelims + Mains Paper V) | All State Exams
-
-> **Exam Priority:** EXTREMELY HIGH — RTS 2023 Amendment, UCC, e-Governance, VB-G RAM G, Women schemes, and soldier welfare are the hottest current topics
-
----
-
 ## 14.1 GOOD GOVERNANCE FRAMEWORK
 
-| Framework | Full Form / Meaning |
-|---|---|
-| **SANTULAN** | Balanced Development (economy + ecology; plains + hills) |
-| **GYAN** | Garib, Yuva, Annadata, Nari |
-| **VIGYAN** | Value-based, Innovation-driven, Good Governance, Youth-powered, Accountability |
-| **"Saturation-style"** | Every scheme must reach 100% of eligible beneficiaries |
-
----
+Uttarakhand's governance philosophy is organized around several interconnected frameworks. SANTULAN represents Balanced Development — balancing economy with ecology and plains with hills. GYAN stands for Garib, Yuva, Annadata, Nari — targeting the poor, youth, farmers, and women. VIGYAN represents Value-based, Innovation-driven, Good Governance, Youth-powered, Accountability. The overarching principle is "Saturation-style" governance, meaning every scheme must reach 100% of eligible beneficiaries.
 
 ## 14.2 CITIZEN'S CHARTER & RIGHT TO SERVICE
 
 ### Citizen's Charter
-- Outlines services, delivery standards, grievance redressal for each department
-- Now digitized and linked to CM Dashboard for monitoring
+
+The Citizen's Charter outlines services, delivery standards, and grievance redressal mechanisms for each department. It has now been digitized and linked to the CM Dashboard for real-time monitoring.
 
 ### Right to Service Act, 2011
 
-| Parameter | Details |
-|---|---|
-| **Passed** | 2011 |
-| **Commission Established** | March 13, 2013 |
-| **First Chief Commissioner** | Alok Kumar Jain |
-| **Services Covered** | 886 (via Apni Sarkar Portal) |
-| **Certificates Issued Digitally** | Over **1.17 crore** |
+The Right to Service Act was passed in 2011, with the Right to Service Commission established on March 13, 2013. Alok Kumar Jain served as the first Chief Commissioner. The Act covers 886 services delivered through the Apni Sarkar Portal, with over 1.17 crore certificates issued digitally.
 
 ### 2023 Amendment (Landmark)
 
-| Provision | Details |
-|---|---|
-| **Salary-Linked Penalty** | ₹250/day fine on defaulting officers — deducted from salary |
-| **Deemed Approval** | If officer fails to act within deadline → service **automatically approved** via portal |
-| **Appellate Structure** | First Appellate Authority → Second Appellate (RTS Commission) with Civil Court powers |
-
----
+The 2023 Amendment to the Right to Service Act introduced transformative provisions. A salary-linked penalty of ₹250 per day is now imposed on defaulting officers, deducted directly from their salary. A "Deemed Approval" mechanism ensures that if an officer fails to act within the prescribed deadline, the service is automatically approved via the portal. An appellate structure has been established with a First Appellate Authority and a Second Appellate Authority (the RTS Commission itself), which wields Civil Court powers.
 
 ## 14.3 E-GOVERNANCE (VIGYAN FRAMEWORK)
 
 ### Core Portals
 
-| Portal/System | Function |
-|---|---|
-| **Apni Sarkar Portal** | 886 services; 1.17 crore certificates; bypasses Patwari bottlenecks |
-| **Devbhoomi Parivar ID** | Family-based identification (like Haryana model); eliminates ghost beneficiaries |
-| **e-Office** | Paperless secretariat workflow |
-| **CM Helpline 1905** | 452,599 complaints received; 303,000+ resolved |
-| **Anti-Corruption App 1064** | Report graft directly |
+The state's e-governance architecture is built around several core platforms. The Apni Sarkar Portal delivers 886 services and has issued 1.17 crore certificates, effectively bypassing traditional Patwari bottlenecks. The Devbhoomi Parivar ID provides family-based identification (similar to Haryana's model), eliminating ghost beneficiaries. The e-Office system enables paperless secretariat workflow. The CM Helpline 1905 has received 452,599 complaints, of which over 303,000 have been resolved. The Anti-Corruption App 1064 allows citizens to report graft directly.
 
 ### Sector-Specific Digital Stacks
 
-| Sector | Tools |
-|---|---|
-| **Revenue** | e-Lekh, e-Bhoonaksha, RCMS (50,000+ mutations resolved) |
-| **Mining** | MDTSS: Drones + CCTV + digital gates (₹24.50 crore) |
-| **Agriculture** | First state: 100% computerization of all 670 PACS |
-| **Land** | Naksha Project (drone surveys); Swabhoomi App (geo-tagging) |
-| **Health** | E-Sanjeevani (telemedicine for remote areas) |
-| **Criminal Justice** | ICJS 2.0 — **Uttarakhand ranked 1st in India** (FIR to conviction tracking) |
+In the revenue sector, e-Lekh, e-Bhoonaksha, and the RCMS have resolved over 50,000 mutations. Mining surveillance operates through the MDTSS system with drones, CCTV, and digital gates at a cost of ₹24.50 crore. In agriculture, Uttarakhand became the first state to achieve 100% computerization of all 670 Primary Agricultural Cooperative Societies (PACS). The Naksha Project (drone surveys) and Swabhoomi App (geo-tagging) support land administration. E-Sanjeevani provides telemedicine services for remote areas. In criminal justice, Uttarakhand achieved a rank of 1st in India under ICJS 2.0, tracking cases from FIR to conviction.
 
 ### AI Mission 2025
 
-| Feature | Details |
-|---|---|
-| **Launched** | At Raj Bhavan |
-| **Adaptation** | National AI standards tailored to hilly terrain |
-| **Applications** | Landslide prediction, disaster management, urban planning |
-| **Next Gen Data Centre** | ₹65 crore; disaster recovery mechanism |
-| **Ethics** | Focus on Ethical and Responsible AI |
-| **Bhashini/Sarvam AI** | Government services in Garhwali, Kumaoni, Jaunsari dialects |
+The AI Mission was launched at Raj Bhavan, adapting national AI standards to hilly terrain conditions. Applications include landslide prediction, disaster management, and urban planning. A Next Generation Data Centre costing ₹65 crore incorporates disaster recovery mechanisms. The mission emphasizes Ethical and Responsible AI, and the Bhashini/Sarvam AI initiative delivers government services in Garhwali, Kumaoni, and Jaunsari dialects.
 
-### Other Tech Firsts
+### Other Technology Firsts
 
-| Achievement | Details |
-|---|---|
-| **VLT Software** | First state to develop indigenous Vehicle Location Tracking backend |
-| **Drone Library** | Research Centre for high-altitude studies |
-| **CERT-UTK** | Cyber security cell; ₹15 crore IT security budget |
-| **Cyber Crisis Mgmt Plan (CCMP)** | Approved after data centre attacks |
-
----
+Uttarakhand was the first state to develop indigenous Vehicle Location Tracking (VLT) software. A Drone Library serves as a research centre for high-altitude studies. CERT-UTK provides cyber security with a ₹15 crore IT security budget. A Cyber Crisis Management Plan (CCMP) was approved following data centre attacks.
 
 ## 14.4 PREVENTION OF CORRUPTION
 
 ### Institutional Framework
 
-| Body | Role |
-|---|---|
-| **Lokayukta** | Apex ombudsman (Act 2014); jurisdiction over CM, Ministers, Group A/B |
-| **State Vigilance Agency** | Specialized police (2002); stations in Dehradun + Haldwani |
-| **Anti-Corruption Helpline 1064** | Citizens report bribery directly |
-| **CM Helpline 1905** | Grievance and accountability channel |
+The anti-corruption institutional framework operates through multiple bodies. The Lokayukta, established under the Uttarakhand Lokayukta Act, 2014, serves as the apex ombudsman with jurisdiction over the Chief Minister, Ministers, and Group A/B officers. The State Vigilance Agency, a specialized police unit established in 2002, maintains stations in Dehradun and Haldwani. The Anti-Corruption Helpline 1064 enables citizens to report bribery directly, while the CM Helpline 1905 provides an additional grievance and accountability channel.
 
 ### Legislative Deterrents (2025-26)
 
-| Law | Details |
-|---|---|
-| **Anti-Copying Law** | Strictest in India; **life imprisonment** + ₹10 crore fine for organized paper leak syndicates; property confiscation |
-| **RTS 2023 Amendment** | Deemed Approval + ₹250/day penalty |
-| **Public Property Damage Recovery Act** | "Rioters to Pay" — financial deterrence against violence |
+Recent legislation has strengthened anti-corruption measures. The Anti-Copying Law is the strictest in India, imposing life imprisonment and a ₹10 crore fine for organized paper leak syndicates, with provision for property confiscation. The RTS 2023 Amendment introduced Deemed Approval and ₹250/day penalty mechanisms. The Public Property Damage Recovery Act imposes a "Rioters to Pay" principle as a financial deterrent against violence.
 
 ### Systemic Corruption Challenges (CAG/PEVD)
 
-| Issue | Details |
-|---|---|
-| **Execution-Verification Collusion** | Same officer executes + verifies → fake claims (₹3.79 crore detected in skill schemes) |
-| **Ghost Beneficiaries** | 50,000 ration cards cancelled via e-KYC; MGNREGA leakage in ghost villages |
-| **Wasteful Expenditure** | ₹2,366 crore returned unspent (DPRs without ground reality) |
-
----
+CAG findings reveal persistent systemic challenges. Execution-Verification Collusion — where the same officer executes and verifies work — enables fake claims, with ₹3.79 crore detected in skill development schemes. Ghost beneficiaries remain a problem, with 50,000 ration cards cancelled via e-KYC and MGNREGA leakage identified in abandoned ghost villages. Wasteful expenditure saw ₹2,366 crore returned unspent due to DPRs prepared without ground reality assessments.
 
 ## 14.5 RIGHT TO INFORMATION (RTI)
 
 ### Uttarakhand Information Commission (UIC)
 
-| Parameter | Details |
-|---|---|
-| **Current CIC** | **Radha Raturi** (first woman CIC) |
-| **Composition** | 1 CIC + max 10 State Information Commissioners |
-| **Appointment** | By Governor |
-| **Tenure** | 3 years or age 65 (whichever first) |
-| **Application Fee** | ₹10 (BPL exempt) |
-| **Response Time** | 30 days (standard); **48 hours** (life/liberty) |
-| **UIC Website** | Shifted to uic.uk.in (April 2026) |
-| **Integration** | RTI services on Apni Sarkar ecosystem |
+The current Chief Information Commissioner is Radha Raturi, who holds the distinction of being the first woman CIC of the state. The Commission comprises 1 CIC and a maximum of 10 State Information Commissioners, all appointed by the Governor. The tenure is 3 years or until age 65, whichever comes first.
 
-### Recent RTI Impact (Jan 2026)
-- Uncovered that state MPs diverted ~₹1.28 crore of constituency funds to neighbouring states
+The RTI application fee is ₹10, with BPL applicants exempt. The standard response time is 30 days, reduced to 48 hours for matters involving life or liberty. The UIC website was shifted to uic.uk.in in April 2026, and RTI services are now integrated into the Apni Sarkar ecosystem.
 
----
+### Recent RTI Impact
+
+In January 2026, RTI disclosures uncovered that state MPs had diverted approximately ₹1.28 crore of constituency funds to neighbouring states, demonstrating the continued importance of transparency mechanisms.
 
 ## 14.6 RIGHT TO EDUCATION (RTE)
 
-| Parameter | Details |
-|---|---|
-| **Act** | RTE Act, 2009 — free & compulsory education for ages 6-14 |
-| **25% Reservation** | Section 12(1)(c) — in private unaided schools for weaker/disadvantaged sections |
-| **Weaker Section** | Annual income ≤₹55,000 or BPL |
-| **Disadvantaged Groups** | SC/ST/OBC (non-creamy, income ≤₹4.5 lakh); orphans; disabled |
-| **Budget (2025-26)** | ~₹988.13 crore under Samagra Shiksha |
-| **Minority Education Bill 2025** | First state to abolish Madrasa Board (July 1, 2026); replaced by State Minority Education Authority; mandates STEM + NEP 2020 alignment |
-| **"Bal Vatika"** | Pre-primary (ages 3-6) integrated into government schools |
-| **PM SHRI Cluster** | Schools of Excellence at Nyaya Panchayat level with smart transport |
-| **Challenge** | Ghost Teachers; single-digit enrolments due to Palaayan; forced school mergers |
-| **Solution** | Geo-fenced biometric attendance via Apni Sarkar; free tablets for Board students |
+The Right to Education Act, 2009, provides free and compulsory education for children aged 6 to 14. Section 12(1)(c) mandates 25% reservation in private unaided schools for children from weaker and disadvantaged sections. Weaker sections are defined as families with annual income of ₹55,000 or less, or those below the poverty line. Disadvantaged groups include SC/ST/OBC (non-creamy layer, income up to ₹4.5 lakh), orphans, and children with disabilities.
 
----
+The budget allocation for 2025-26 under Samagra Shiksha is approximately ₹988.13 crore. The Minority Education Bill 2025 makes Uttarakhand the first state to abolish the Madrasa Board (effective July 1, 2026), replacing it with a State Minority Education Authority that mandates STEM education and alignment with the National Education Policy 2020.
+
+"Bal Vatika" integrates pre-primary education (ages 3-6) into government schools. The PM SHRI Cluster initiative establishes Schools of Excellence at the Nyaya Panchayat level with smart transport facilities. Challenges include Ghost Teachers, single-digit enrolments due to Palaayan, and forced school mergers. Solutions being implemented include geo-fenced biometric attendance via Apni Sarkar and free tablets for Board examination students.
 
 ## 14.7 WOMEN EMPOWERMENT
 
 ### Legal & Political Framework
 
-| Achievement | Details |
-|---|---|
-| **50% PRI Reservation** | Since 2008 in Panchayats + Van Panchayats |
-| **30% Horizontal Reservation** | In state government jobs (Uttarakhand Women Act) |
-| **UCC (Jan 27, 2025)** | Equal property rights for sons and daughters; abolished discriminatory inheritance |
-| **Pioneering Leadership** | First woman Chief Secretary (Radha Raturi), first female Speaker (Ritu Khanduri Bhushan), first female CJ (Ritu Bahri) |
+Uttarakhand has established a comprehensive framework for women's empowerment. The state implements 50% reservation in Panchayats and Van Panchayats (since 2008) and 30% horizontal reservation in state government jobs under the Uttarakhand Women Act. The Uniform Civil Code, implemented on January 27, 2025, ensures equal property rights for sons and daughters and abolished discriminatory inheritance practices.
+
+The state has produced pioneering women leaders including Radha Raturi (first woman Chief Secretary), Ritu Khanduri Bhushan (first female Speaker), and Ritu Bahri (first female Chief Justice).
 
 ### Key Schemes
 
-| Scheme | Details |
-|---|---|
-| **Lakhpati Didi 2.0** | 68,000 SHGs (~5 lakh women); target: 1.25 lakh women earning ₹1 lakh+ annually; achieved 2.6 lakh so far |
-| **House of Himalayas** | Global brand for SHG products |
-| **Nanda Gaura Yojana** | ₹157 crore; financial assistance birth to graduation |
-| **Mahalakshmi Kit** | ₹22 crore; post-natal maternal care |
-| **Aanchal Amrit** | Milk distribution at Anganwadis |
-| **CM Ekal Mahila Swarojgar** | 75% subsidy (max ₹1.50 lakh) for widows/abandoned/acid attack survivors |
-| **Namo Drone Didi** | Women trained to operate agricultural drones |
-| **Solar Sakhi** | Women in CM Solar Self-Employment Scheme |
-| **Jal Sakhi** | Women managing village water supply + revenue collection |
-| **Mahila Sarathi** | Free driving training + vehicles for economically weaker women |
-| **Gaura Shakti App** | E-FIR, harassment reporting, emergency response |
-| **Gender Budget** | ~₹19,692 crore (increase of ~₹3,000 crore) |
+The Lakhpati Didi 2.0 programme mobilizes 68,000 Self-Help Groups (approximately 5 lakh women) with a target of 1.25 lakh women earning ₹1 lakh or more annually — it has already achieved 2.6 lakh beneficiaries. The House of Himalayas initiative creates a global brand for SHG products. The Nanda Gaura Yojana, with an allocation of ₹157 crore, provides financial assistance from birth to graduation. The Mahalakshmi Kit programme (₹22 crore) provides post-natal maternal care. Aanchal Amrit distributes milk at Anganwadis.
+
+The CM Ekal Mahila Swarojgar scheme provides a 75% subsidy (maximum ₹1.50 lakh) for widows, abandoned women, and acid attack survivors. The Namo Drone Didi initiative trains women to operate agricultural drones. Solar Sakhi engages women in the CM Solar Self-Employment Scheme. Jal Sakhi employs women to manage village water supply and revenue collection. Mahila Sarathi provides free driving training and vehicles for economically weaker women. The Gaura Shakti App enables E-FIR filing, harassment reporting, and emergency response. The Gender Budget has been increased to approximately ₹19,692 crore, a rise of about ₹3,000 crore.
 
 ### Historical Women Icons
 
@@ -199,225 +97,93 @@
 | Tinchari Mai | Anti-liquor activism |
 | Sarla Behn | Lakshmi Ashram, Kausani (1941) |
 
----
-
-## 14.8 MGNREGA → VB-G RAM G TRANSITION
+## 14.8 MGNREGA TO VB-G RAM G TRANSITION
 
 ### MGNREGA Status in Uttarakhand
 
-| Parameter | Details |
-|---|---|
-| **Guarantee** | 100 days employment |
-| **Female Participation** | 51.94% |
-| **Achievement** | Nearly 100% timely payments |
-| **Hill Challenge** | Earthwork impractical on rocky terrain; 60:40 material ratio hindered durable assets |
-| **Palayan Impact** | Ghost beneficiaries; weak social audits in abandoned villages |
+The Mahatma Gandhi National Rural Employment Guarantee Act guarantees 100 days of employment. Female participation in the state stands at 51.94%, and the state has achieved nearly 100% timely payments. However, hill-specific challenges persist: earthwork is impractical on rocky terrain, and the 60:40 material ratio has hindered the creation of durable assets. The impact of Palaayan manifests through ghost beneficiaries and weak social audits in abandoned villages.
 
-### VB-G RAM G Scheme (2025-26) — REPLACES MGNREGA
+### VB-G RAM G Scheme (2025-26)
 
-| Feature | Details |
-|---|---|
-| **Full Name** | Viksit Bharat - Gramin Rozgar & Ajeevika Mission Gramin |
-| **Days Guaranteed** | Raised to **125 days** |
-| **Funding Ratio** | **90:10** (Centre:State) — highly favourable for Himalayan states |
-| **Agricultural Pause** | Mandatory 60-day pause during sowing/harvesting (prevents labour shortages on private farms) |
-| **Disaster Integration** | Funds converge with disaster management — climate-resilient retaining walls, spring rejuvenation |
-| **Tech Accountability** | Mandatory **Aadhaar-based Face Authentication** for attendance |
-| **Cards** | Gramin Rozgar Guarantee Cards issued |
-| **Asset Focus** | Individual assets: goat sheds, poultry farms for Women SHGs |
-| **Border Integration** | Converged with Vibrant Villages for eco-homestays in Mana, Gunji |
+The Viksit Bharat - Gramin Rozgar & Ajeevika Mission Gramin (VB-G RAM G) effectively replaces MGNREGA with significant improvements. The employment guarantee is raised to 125 days, with a funding ratio of 90:10 (Centre:State) that is highly favourable for Himalayan states. A mandatory 60-day agricultural pause during sowing and harvesting seasons prevents labour shortages on private farms.
 
----
+The scheme integrates disaster management by converging funds for climate-resilient retaining walls and spring rejuvenation. Technical accountability is ensured through mandatory Aadhaar-based Face Authentication for attendance, with Gramin Rozgar Guarantee Cards issued to workers. The asset focus includes individual assets such as goat sheds and poultry farms for Women SHGs. Border integration links the scheme with the Vibrant Villages programme for eco-homestays in settlements like Mana and Gunji.
 
 ## 14.9 SOLDIER'S WELFARE & REHABILITATION
 
-### Why Important
-- Uttarakhand = "Military State" — almost every hill family has defense connection
-- **1,38,372 ex-servicemen** + **48,361 widows** (March 2023)
+### Why This Matters
+
+Uttarakhand functions as a "Military State" — almost every hill family has a connection to the defence services. The state is home to approximately 1,38,372 ex-servicemen and 48,361 widows (as of March 2023).
 
 ### Institutional Framework
 
-| Body | Role |
-|---|---|
-| **UPNL** (2004) | Premier agency; outsourced employment in govt depts, medical colleges |
-| **Ex-Servicemen Welfare Directorate** | Policy advocacy, pension increases, healthcare |
-| **Soldiers' Welfare Board** | Direct assistance, vocational training, financial aid |
+UPNL (established 2004) serves as the premier agency, providing outsourced employment in government departments and medical colleges. The Ex-Servicemen Welfare Directorate handles policy advocacy, pension increases, and healthcare. The Soldiers' Welfare Board provides direct assistance, vocational training, and financial aid.
 
 ### Key Schemes
 
-| Scheme | Details |
-|---|---|
-| **Him Prahari Yojana (2022)** | Financial + logistics assistance for veterans to settle in border districts |
-| **Eco-Task Forces (2008)** | Ex-servicemen employed for afforestation + forest fire management |
-| **Border Supply Chain** | 355 farmers (incl. veterans) → 1.46 lakh kg meat/fish to ITBP → ₹6.58 crore via DBT |
-| **Training (2022-23)** | 352 ex-servicemen/dependents received refresher-cum-job training |
+The Him Prahari Yojana (2022) provides financial and logistics assistance for veterans to settle in border districts. Eco-Task Forces (established 2008) employ ex-servicemen for afforestation and forest fire management. The Border Supply Chain initiative saw 355 farmers (including veterans) supply 1.46 lakh kg of meat and fish to ITBP, generating ₹6.58 crore via DBT. During 2022-23, 352 ex-servicemen and their dependents received refresher-cum-job training.
 
 ### Challenges
 
-| Issue | Details |
-|---|---|
-| "Equal Pay for Equal Work" | UPNL workers get fraction of permanent employee salary → strikes, litigation |
-| Job Insecurity | Contractual nature → perpetual financial insecurity |
-| Skill Mismatch | Radar operators deployed as guards/clerks — loss of human capital |
+Several challenges face veteran welfare. The "Equal Pay for Equal Work" issue means UPNL workers receive a fraction of permanent employee salaries, leading to strikes and litigation. The contractual nature of employment creates perpetual financial insecurity. Skill mismatch is evident when radar operators are deployed as guards or clerks, resulting in loss of human capital.
 
 ### Way Forward
 
-| Solution | Details |
-|---|---|
-| Eco-Task Force expansion | Veterans for disaster logistics during Char Dham + afforestation |
-| Corporate MoUs | UPNL with private industries in SIDCUL (Pantnagar, Haridwar) |
-| Regularization Policy | Phased for workers with 10+ years |
-| Silver Economy Link | Veterans as certified geriatric caregivers in Ghost Village assisted-living |
-
----
+The path forward includes expanding Eco-Task Forces for disaster logistics during Char Dham seasons and afforestation. Corporate MoUs between UPNL and private industries in SIDCUL (Pantnagar, Haridwar) can create new opportunities. A phased regularization policy for workers with 10+ years of service would address job security. Linking veterans to the Silver Economy as certified geriatric caregivers in Ghost Village assisted-living facilities represents an innovative approach.
 
 ## 14.10 UNIFORM CIVIL CODE (UCC) — FIRST IN INDIA
 
-| Parameter | Details |
-|---|---|
-| **Implemented** | **January 27, 2025** |
-| **Distinction** | First state in India to implement UCC |
-| **Key Focus** | Equal property rights (sons = daughters); registration of live-in relationships; identity concealment in marriage = illegal |
-| **Rules amended** | Conversion through force, fraud, inducement, false identity, marriage deception, digital propaganda = illegal (Religious Freedom Amendment Bill 2025) |
-
----
+Uttarakhand implemented the Uniform Civil Code on January 27, 2025, becoming the first state in India to do so. The key focus areas include equal property rights (ensuring sons and daughters inherit equally), mandatory registration of live-in relationships, and making identity concealment in marriage illegal. The accompanying Religious Freedom Amendment Bill 2025 makes conversion through force, fraud, inducement, false identity, marriage deception, or digital propaganda illegal.
 
 ## 14.11 UTTARAKHAND BHU-KANOON (LAND REFORMS AMENDMENT 2025)
 
 ### Key Sections
 
-| Section | Function |
-|---|---|
-| **Section 154** | Controls WHO can buy land, HOW MUCH, for WHAT purpose |
-| **Section 143** | Controls land-use conversion (agri → non-agri); CANNOT legalize a prohibited Section 154 purchase |
+Section 154 controls who can buy land, how much they can buy, and for what purpose. Section 143 controls land-use conversion (agricultural to non-agricultural) and cannot be used to legalize a purchase prohibited under Section 154.
 
 ### Major Provisions
 
-| Provision | Details |
-|---|---|
-| **Agricultural Land** | Outsiders PROHIBITED from buying in 11 hill districts |
-| **Residential Cap** | Non-residents limited to **250 sq metres** |
-| **Permitted Purposes** | Hotels, resorts, health, education, tourism, MSMEs — only through State Government sanction |
-| **Background Checks** | Mandatory for outside buyers |
-| **Rationale** | Protect "Jal, Jungle, Jameen"; prevent "Ghost Village to Party Village" transition |
-| **SDM's Role** | Central to enforcement — verifies affidavits, audits purpose, manages registry-mutation integration |
+Under the amendment, outsiders are prohibited from buying agricultural land in 11 hill districts. Non-residents are limited to a maximum of 250 square metres for residential purposes. Permitted purposes for outside buyers include hotels, resorts, health facilities, educational institutions, tourism projects, and MSMEs — but only through State Government sanction with mandatory background checks.
 
-### Three Routes
+The rationale is to protect "Jal, Jungle, Jameen" (water, forests, land) and prevent the "Ghost Village to Party Village" transition. The Sub-Divisional Magistrate (SDM) plays a central role in enforcement — verifying affidavits, auditing purposes, and managing registry-mutation integration.
 
-| Route | Access |
-|---|---|
-| **A (Agri/Horticulture)** | Extremely limited for non-residents |
-| **B (Residential)** | Narrow window: max 250 sq m |
-| **C (Project-Based)** | Government sanction + rigorous verification |
+### Three Routes for Land Access
 
----
+Three routes exist for non-residents seeking land. Route A (Agriculture/Horticulture) is extremely limited for non-residents. Route B (Residential) offers a narrow window with a maximum of 250 sq m. Route C (Project-Based) requires government sanction with rigorous verification.
 
 ## 14.12 OTHER KEY SCHEMES & POLICIES
 
 | Scheme | Category | Details |
 |---|---|---|
-| **Pirul Lao-Paise Pao** | Ecology | Launched May 8, 2024; pine needle collection → biofuel; turns hazard into revenue |
-| **Operation Kalanemi** | Security | July 2025; removes fake sadhus from pilgrimage hubs |
-| **Vibrant Villages** | Border | 51 villages; "First Villages" not "Last"; ₹40 crore allocation |
-| **Pravasi Panchayat** | Migration | Started Tehri (April 2026); invites successful migrants to showcase self-employment |
-| **Mission Apple** | Agriculture | High-density Italian apple varieties for hill farmers |
-| **Aroma Mission (Mehak Kranti)** | Agriculture | Damask Rose, Lavender in "Cinnamon Valley" |
-| **PM-JANMAN** | Tribal | Saturation coverage for PVTGs (Raji, Buksa) |
-| **Mukhyamantri Vatsalya** | Child welfare | Support for COVID-19 orphans |
-| **Clean Mobility Policy** | Transport | Subsidies for clean-fuel commercial vehicles |
-| **Geothermal Energy Policy 2025** | Energy | Eco-friendly geothermal research and power generation |
-| **Foreign Employment Cell** | Employment | Sahaspur; helps youth find overseas jobs |
-| **Akshaya Patra Partnership** | Nutrition | Centralized mid-day meals (PM Poshan) in Srinagar schools |
-| **River Rafting Rules 2026** | Tourism Safety | Strict safety standards, certified guides, heavier penalties |
-| **Kailash Mansarovar Yatra Revival** | Pilgrimage | Lipulekh Pass route reopened |
-
----
+| Pirul Lao-Paise Pao | Ecology | Launched May 8, 2024; pine needle collection for biofuel; turns hazard into revenue |
+| Operation Kalanemi | Security | July 2025; removes fake sadhus from pilgrimage hubs |
+| Vibrant Villages | Border | 51 villages designated as "First Villages"; ₹40 crore allocation |
+| Pravasi Panchayat | Migration | Started in Tehri (April 2026); invites successful migrants to showcase self-employment |
+| Mission Apple | Agriculture | High-density Italian apple varieties for hill farmers |
+| Aroma Mission (Mehak Kranti) | Agriculture | Damask Rose, Lavender in "Cinnamon Valley" |
+| PM-JANMAN | Tribal | Saturation coverage for PVTGs (Raji, Buksa) |
+| Mukhyamantri Vatsalya | Child welfare | Support for COVID-19 orphans |
+| Clean Mobility Policy | Transport | Subsidies for clean-fuel commercial vehicles |
+| Geothermal Energy Policy 2025 | Energy | Eco-friendly geothermal research and power generation |
+| Foreign Employment Cell | Employment | Based in Sahaspur; helps youth find overseas jobs |
+| Akshaya Patra Partnership | Nutrition | Centralized mid-day meals (PM Poshan) in Srinagar schools |
+| River Rafting Rules 2026 | Tourism Safety | Strict safety standards, certified guides, heavier penalties |
+| Kailash Mansarovar Yatra Revival | Pilgrimage | Lipulekh Pass route reopened |
 
 ## 14.13 CURRENT AFFAIRS INTEGRATION (2025-26)
 
-| Category | Events |
-|---|---|
-| **Political** | UCC (Jan 2025); Budget in Gairsain; Swabhiman Maharallys; Mool Niwas committees |
-| **Administrative** | 6th SFC (N. Ravishankar); Good Governance Awards (Nainital 1st); Madrasa Board → Minority Education Authority (July 2026) |
-| **Digital** | AI Mission; Next Gen Data Centre (₹65 Cr); ICJS 2.0 (1st in India); VLT software; CERT-UTK |
-| **Legal** | Bhu-Kanoon 2025; Anti-Copying Law; Religious Freedom Amendment Bill; Public Property Damage Act |
-| **Women** | Lakhpati Didi 2.0; Ekal Mahila Swarojgar; Gaura Shakti; Gender Budget ₹19,692 Cr |
-| **Ecology** | Pirul Lao-Paise Pao; GEP first state; SARA springs; Geothermal Policy |
-| **Security** | Operation Kalanemi; Him Prahari; Vibrant Villages |
-| **Renaming** | Joshimath → Jyotirmath; Koshya Kutoli → Baba Neem Karoli Dham; Lord Curzon Road → Nanda Sunanda Paripath |
+The 2025-26 period has been marked by significant developments across multiple domains. In the political sphere, the UCC was implemented in January 2025, budget sessions were held in Gairsain, Swabhiman Maharallys were organized, and Mool Niwas committees were constituted.
 
----
+Administrative developments include the appointment of N. Ravishankar as 6th SFC Chairman, Good Governance Awards (Nainital ranked 1st), and the transition from the Madrasa Board to the Minority Education Authority (July 2026).
 
-## CHAPTER 14 — QUICK REVISION: ONE-LINERS
+On the digital front, the AI Mission was launched, a Next Generation Data Centre (₹65 crore) was established, Uttarakhand ranked 1st in India under ICJS 2.0, indigenous VLT software was developed, and CERT-UTK was strengthened.
 
-1. **RTS Act** → 2011; Commission: March 13, 2013
-2. **RTS 2023 Amendment** → ₹250/day penalty + Deemed Approval
-3. **Apni Sarkar** → 886 services; 1.17 crore certificates
-4. **CM Helpline** → 1905 (452,599 complaints; 303,000+ resolved)
-5. **Anti-Corruption** → 1064
-6. **ICJS 2.0** → Uttarakhand ranked 1st in India
-7. **UCC** → January 27, 2025 (first state)
-8. **Anti-Copying Law** → Life imprisonment + ₹10 crore fine
-9. **Bhu-Kanoon** → Prohibits outsider agri land purchase in 11 hill districts; residential cap 250 sq m
-10. **VB-G RAM G** → Replaces MGNREGA; 125 days; 90:10 ratio
-11. **UPNL** → 2004; 1.38 lakh veterans
-12. **Him Prahari** → 2022; veterans in border districts
-13. **Eco-Task Forces** → 2008; afforestation by ex-servicemen
-14. **Lakhpati Didi** → Target 1.25 lakh; achieved 2.6 lakh
-15. **Gender Budget** → ~₹19,692 crore
-16. **Pirul Lao-Paises Pao** → May 8, 2024; pine needles → biofuel
-17. **Operation Kalanemi** → July 2025; fake sadhus removal
-18. **RTI fee** → ₹10; BPL exempt; 30 days response; 48 hrs for life/liberty
-19. **First woman CIC** → Radha Raturi
-20. **6th SFC** → N. Ravishankar (April 2026)
-21. **Devbhoomi Parivar ID** → Family-based; 15+ years residence
-22. **Mining surveillance** → MDTSS; ₹24.50 crore; drones + CCTV
-23. **PACS computerization** → 100% (670 societies) — first state
-24. **AI Mission** → Next Gen Data Centre ₹65 crore
-25. **Ekal Mahila Swarojgar** → 75% subsidy (max ₹1.50 lakh)
+Legal reforms include the Bhu-Kanoon 2025, the Anti-Copying Law, the Religious Freedom Amendment Bill, and the Public Property Damage Act.
 
----
+Women-focused initiatives include Lakhpati Didi 2.0, Ekal Mahila Swarojgar, Gaura Shakti, and a Gender Budget of ₹19,692 crore.
 
-## CHAPTER 14 — PREVIOUS YEAR QUESTIONS (PYQs)
+Ecological initiatives encompass Pirul Lao-Paise Pao, GEP measurement (first state), SARA spring revival, and the Geothermal Policy.
 
-### Questions Actually Asked (2024 Paper)
+Security measures include Operation Kalanemi, Him Prahari, and Vibrant Villages.
 
-**Q1.** *Explain features of the Next Generation Data Centre and AI Mission. How will it strengthen e-governance?*
-**Q2.** *What is 'Operation Kalnemi'? Examine its significance.*
-**Q3.** *Evaluate the major provisions of UPZALR Amendment Act, 2025.*
-**Q4.** *Discuss objectives of 'Mukhyamantri Ekal Mahila Swarojgar Yogna'.*
-**Q5.** *What is 'Gaura Shakti'? How is it helpful in women empowerment and safety?*
-**Q6.** *Evaluate the role of UPNL in Ex-serviceman welfare and rehabilitation.*
-**Q7.** *Rationale behind 'Pirul Lao - Paise Pao' campaign?*
-**Q8.** *Discuss objectives and functions of CPPGG.*
-
-### Predictive Questions
-
-**Q9.** *Discuss the e-governance initiatives in Uttarakhand and their impact on administrative transparency.*
-**Q10.** *"The VB-G RAM G scheme represents a paradigm shift from MGNREGA for Himalayan states." Discuss.*
-**Q11.** *Examine the implementation challenges and impact of the Uniform Civil Code in Uttarakhand.*
-
-### Prelims Questions
-
-1. RTS Commission established? → **March 13, 2013**
-2. Deemed Approval introduced by? → **RTS 2023 Amendment**
-3. UCC implementation date? → **January 27, 2025**
-4. VB-G RAM G guarantees how many days? → **125**
-5. Pirul Lao launched? → **May 8, 2024**
-6. UPNL established? → **2004**
-7. Apni Sarkar services? → **886**
-8. Anti-Copying Law penalty? → **Life imprisonment**
-9. Bhu-Kanoon residential cap? → **250 sq m**
-10. ICJS 2.0 rank? → **1st in India**
-
----
-
-*End of Chapter 14*
-
----
-
-> **PART B (Polity & Governance) of Paper V — COMPLETE**
->
-> **Chapters 1-14 cover the ENTIRE Paper V syllabus (History + Culture + Polity)**
->
-> **NEXT: Chapter 15 onwards — Paper VI (Geography, Economy, Disaster, HRD)**
+Notable renamings during this period include Joshimath to Jyotirmath, Koshya Kutoli to Baba Neem Karoli Dham, and Lord Curzon Road to Nanda Sunanda Paripath.
