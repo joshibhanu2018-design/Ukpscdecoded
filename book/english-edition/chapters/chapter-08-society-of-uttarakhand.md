@@ -2,341 +2,138 @@
 
 # Society of Uttarakhand: Family, Marriage, Caste, Rural Structure & Urbanization
 
----
-
-> **Syllabus Coverage:** Family, Marriage and Kinship System Uttarakhand | Caste System and Caste Mobility: SC, ST, OBC | Rural Power Structure | Urbanization and Industrialization in Uttarakhand
-
-> **Exam Relevance:** UKPSC PCS (Prelims + Mains Paper V) | Lower PCS | RO/ARO | UKSSSC | Patwari
-
-> **Exam Priority:** EXTREMELY HIGH — The 2024 paper asked tribal demographics (50 words) and urbanization (150 words). Family/Marriage/Kinship and Caste Mobility are UNTOUCHED and highly expected in upcoming exams.
-
----
-
 ## 8.1 FAMILY, MARRIAGE & KINSHIP SYSTEMS — OVERVIEW
 
 In Uttarakhand, the family forms the fundamental social unit and cornerstone of social life. The society represents a vibrant amalgamation of historical migrations and indigenous tribal traditions, creating unique familial and kinship networks.
 
 ### A. Family Structure
 
-| Feature | Details |
-|---|---|
-| **Dominant Type** | Extended and Joint Families — several generations living together to manage agricultural land and resources |
-| **Authority (Majority)** | Patriarchal and Patrilocal — Jaunsari, Bhotiya, Boksa, and Raji tribes |
-| **Exception** | **Tharu tribe** — Matriarchal/Matrilineal system; women hold higher status and authority |
-| **Unique Practice** | Jaunsar-Bawar region historically practiced **Fraternal Polyandry** (brothers sharing one or more wives) and **Polygynandry** (complex family networks) |
-| **Reason for Polyandry** | Adaptive response to harsh environment; prevented fragmentation of scarce agricultural land and family property |
+The dominant family type in Uttarakhand is the extended and joint family, where several generations live together to manage agricultural land and resources. Authority in most communities is patriarchal and patrilocal, including among the Jaunsari, Bhotiya, Boksa, and Raji tribes. A notable exception is the Tharu tribe, which follows a matriarchal and matrilineal system where women hold higher status and authority. The Jaunsar-Bawar region historically practised fraternal polyandry (brothers sharing one or more wives) and polygynandry (complex family networks), an adaptive response to the harsh environment that prevented fragmentation of scarce agricultural land and family property.
 
 ### B. Marriage Practices — General
 
-| Feature | Details |
-|---|---|
-| **Sacred Bond** | Called "Saath Janmo Ka Rishta" (relationship of seven lifetimes) |
-| **Type** | Arranged marriages based on social and astrological compatibility |
-| **Key Rituals** | Jai Mala, Saat Phere (standard Hindu ceremonies) |
-| **Social Rule** | Marriages avoided within the same village or among close relatives |
+Marriage in Uttarakhand is considered a sacred bond, called "Saath Janmo Ka Rishta" (relationship of seven lifetimes). Arranged marriages based on social and astrological compatibility are the norm, with key rituals including Jai Mala and Saat Phere following standard Hindu ceremonies. As a social rule, marriages are avoided within the same village or among close relatives.
 
 ### C. Kinship System
 
-| Feature | Details |
-|---|---|
-| **Function** | Dictates interactions; ensures mutual assistance, shared resources, collective decision-making |
-| **Network** | Obligations-based; critical for social harmony in remote hill villages |
+The kinship system dictates interactions among community members, ensuring mutual assistance, shared resources, and collective decision-making. These obligation-based networks are critical for social harmony in remote hill villages.
 
----
 
 ## 8.2 TRIBE-WISE FAMILY & MARRIAGE SYSTEMS (DETAILED)
 
 ### A. Tharu Tribe (Largest Tribal Community)
 
-| Feature | Details |
-|---|---|
-| **Location** | Terai region (Udham Singh Nagar: Khatima, Nanakmatta) |
-| **Family System** | **Matriarchal and Matrilineal** — women hold higher status than men; central role in decision-making, household management, marriage arrangements |
-| **Family Types** | Both joint and nuclear setups |
-| **Clan Division** | Divided into clans; **Badwaik clan** = highest |
-| **Historical Marriage** | **Badla-Vivah (Exchange Marriage / Teen Tikkti)** — families exchanged sisters as brides to avoid dowry |
-| **Current Marriage** | **Three Kathi system** (replaced exchange system) — three formalized stages of rituals |
+The Tharu tribe, the largest tribal community in Uttarakhand, is concentrated in the Terai region, particularly in Udham Singh Nagar district (Khatima and Nanakmatta). They follow a matriarchal and matrilineal family system in which women hold higher status than men and play a central role in decision-making, household management, and marriage arrangements. Both joint and nuclear family setups exist. The tribe is divided into clans, with the Badwaik clan holding the highest status.
 
-#### Tharu Marriage Rituals Explained
+Historically, the Tharu practised Badla-Vivah (Exchange Marriage or Teen Tikkti), in which families exchanged sisters as brides to avoid dowry. This has been replaced by the Three Kathi system, which consists of three formalized stages of rituals. The marriage process involves several ceremonies: Pakka-Podi (Pakki Paudhi), the formal agreement of marriage between families; Apna-Paraya, the engagement ceremony where the bride's family formally accepts the groom's family; Baat-Katti, the finalizing of the exact wedding date; and Gauna Chala, the bride's permanent move to the husband's house, often months after the wedding if the bride is young.
 
-| Ritual | Meaning |
-|---|---|
-| **Pakka-Podi / Pakki Paudhi** | Formal agreement of marriage between families |
-| **Apna-Paraya** | Engagement ceremony — bride's family formally accepts groom's family |
-| **Baat-Katti** | Finalizing the exact wedding date |
-| **Gauna Chala** | Bride permanently moves to husband's house (often months after wedding if bride is young) |
-
-#### Tharu Widow & Divorce Rights
-
-| Feature | Details |
-|---|---|
-| **Widow Remarriage** | Allowed and respected |
-| **Lathbharua Bhoj** | Community feast organized to support the widow and share mourning |
-| **Divorce** | Women possess right to divorce, locally called **Urari** |
-
----
+Widow remarriage is allowed and respected among the Tharu. The Lathbharua Bhoj is a community feast organized to support the widow and share mourning. Women also possess the right to divorce, locally called Urari.
 
 ### B. Jaunsari Tribe (Second Largest)
 
-| Feature | Details |
-|---|---|
-| **Location** | Jaunsar-Bawar region, Dehradun |
-| **Lineage** | Trace descent from the Pandavas |
-| **Family System** | Strictly **Patriarchal**; large extended households |
-| **Historic Practice** | **Fraternal Polyandry (Bahupati System)** — woman marries multiple brothers |
-| **Why Polyandry Existed** | Prevented fragmentation of scarce agricultural land; adaptive to harsh environment |
-| **Polygynandry** | Complex networks of multiple brothers sharing multiple wives — managed family labor |
-| **Modern Status** | Rapidly declining — over 40% of respondents (2018 study) moved away from polyandry due to rising education |
-| **Girl before marriage** | Called **'Dhyanti'** |
-| **Girl after marriage** | Called **'Ryanti'** |
-| **Grandest marriage form** | **Bajidya marriage** |
+The Jaunsari tribe, the second largest in the state, inhabits the Jaunsar-Bawar region of Dehradun district and traces its descent from the Pandavas. The family system is strictly patriarchal with large extended households. Historically, the Jaunsaris practised fraternal polyandry (Bahupati System), in which a woman marries multiple brothers, as well as polygynandry where complex networks of multiple brothers share multiple wives to manage family labour. These practices prevented fragmentation of scarce agricultural land and were adaptive to the harsh environment. However, polyandry is rapidly declining — over 40% of respondents in a 2018 study reported moving away from polyandry due to rising education levels.
 
----
+In Jaunsari terminology, a girl before marriage is called a "Dhyanti" and after marriage a "Ryanti." The grandest marriage form is known as Bajidya marriage.
+
 
 ### C. Bhotiya Tribe (High-Altitude Traders)
 
-| Feature | Details |
-|---|---|
-| **Location** | Higher Himalayas — Pithoragarh, Chamoli, Uttarkashi |
-| **Family System** | **Patriarchal but Egalitarian** — property often divided while father still alive; equal rights to men and women |
-| **Unique Custom** | **Rang-Bang (Youth House / Yuvagrah)** — separate house outside village where unmarried boys and girls sing, dance, and choose life partners through mutual agreement |
+The Bhotiya tribe inhabits the higher Himalayas in Pithoragarh, Chamoli, and Uttarkashi districts. Their family system is patriarchal but egalitarian — property is often divided while the father is still alive, and equal rights are extended to men and women. A unique custom is the Rang-Bang (Youth House or Yuvagrah), a separate house outside the village where unmarried boys and girls sing, dance, and choose life partners through mutual agreement.
 
-#### Bhotiya Marriage Types
-
-| Type | Description |
-|---|---|
-| **Tatst Marriage** | Groom's family travels to visit bride's house |
-| **Damola Marriage** | Groom's family brings bride to their home |
-| **Bhaavaj-Devar Vivah** | Levirate marriage — widow marries brother-in-law |
-| **Gandharva Vivah** | Love marriage |
-| **Jaad Bhotiya sub-tribe** | Specifically practices **Polygyny** (one man, multiple wives) |
-
-#### Bhotiya Kinship
-
-| Term | Meaning |
-|---|---|
-| **"Swara"** | Refers to immediate close relatives |
-
----
+Several marriage types are practised among the Bhotiyas. Tatst Marriage involves the groom's family travelling to visit the bride's house. Damola Marriage involves the groom's family bringing the bride to their home. Bhaavaj-Devar Vivah is a levirate marriage where a widow marries her brother-in-law. Gandharva Vivah refers to love marriage. The Jaad Bhotiya sub-tribe specifically practises polygyny (one man, multiple wives). In Bhotiya kinship terminology, "Swara" refers to immediate close relatives.
 
 ### D. Boksa (Buksa) Tribe
 
-| Feature | Details |
-|---|---|
-| **Location** | Terai regions — Udham Singh Nagar, Nainital (area known as 'Buksaad') |
-| **Origin** | Claim descent from Panwar Rajputs |
-| **Family System** | Strict **Patrilineal and Patriarchal** |
-| **Women's Status** | Surprisingly high — actively participate in community decision-making |
-| **Marriage** | Historically both monogamy and polygamy; polygamy was status symbol for wealthy; now mostly monogamous |
-
----
+The Boksa tribe inhabits the Terai regions of Udham Singh Nagar and Nainital, in an area known as "Buksaad." They claim descent from Panwar Rajputs. The family system is strictly patrilineal and patriarchal, though women's status is surprisingly high — they actively participate in community decision-making. Historically, both monogamy and polygamy were practised, with polygamy serving as a status symbol for the wealthy. Today, the community is mostly monogamous.
 
 ### E. Raji (Vanrawat) Tribe (Smallest — Primitive)
 
-| Feature | Details |
-|---|---|
-| **Location** | Remote forests of Pithoragarh and Champawat |
-| **Historical Name** | "Kings of the Jungle" |
-| **Family System** | **Patriarchal and Clan-Exogamous** (avoid marrying within same clan/gotra) |
-| **Dwelling** | Live in huts called **Rautuda** |
-| **Bride Price** | Prevalent — payment from groom's family |
-| **Elopement** | Commonly accepted form of marriage |
-| **Child Marriage** | Historically highly prevalent to secure alliances within small population |
+The Raji tribe, historically called "Kings of the Jungle," is the smallest tribal community in Uttarakhand and is classified as a Particularly Vulnerable Tribal Group (PVTG). They inhabit the remote forests of Pithoragarh and Champawat districts, living in huts called Rautuda. Their family system is patriarchal and clan-exogamous (marriages are avoided within the same clan or gotra). Bride price is prevalent, where payment flows from the groom's family to the bride's. Elopement is a commonly accepted form of marriage, and child marriage was historically prevalent to secure alliances within the small population.
 
-#### Raji Pre-Marriage Rituals
-
-| Ritual | Description |
-|---|---|
-| **Sangjangi (Mongjangi)** | Ceremonial meeting of two families to discuss and agree upon union |
-| **Pintha (Pinda Sanskar)** | Distinct ritual performed before wedding to formally bless the couple |
-
----
+Pre-marriage rituals include Sangjangi (Mongjangi), a ceremonial meeting of two families to discuss and agree upon the union, and Pintha (Pinda Sanskar), a distinct ritual performed before the wedding to formally bless the couple.
 
 
 ## 8.3 COMPREHENSIVE TRIBAL COMPARISON TABLE
 
-> **HIGH YIELD — Learn this table for both Prelims & Mains. Directly answers: "Write about the demographic status of scheduled tribal communities."**
-
 | Feature | Tharu | Jaunsari | Bhotiya | Boksa (Buksa) | Raji (Vanrawat) |
 |---|---|---|---|---|---|
-| **Population Rank** | Largest | 2nd Largest | Largest in High Himalayas | Terai region | Smallest (Primitive/PVTG) |
-| **Habitat** | Terai/Bhabar (US Nagar: Khatima, Nanakmatta) | Jaunsar-Bawar (Dehradun) | Pithoragarh, Chamoli, Uttarkashi | US Nagar, Nainital (Buksaad) | 66% in remote Pithoragarh forests |
-| **Origin/Lineage** | Thar Desert (Rajputs) or Kirat lineage | Indo-Aryan (Pandava descent) | Mongolian race (Kirat-descendant Khas Rajputs) | Panwar Rajput descent | Agneyavanshi Kol-Kirat |
-| **Family System** | **Matriarchal/Matrilineal** | Patriarchal (3 classes: Khasas, Karigars, Harijan/Kolta) | Patriarchal but Egalitarian | Patrilineal; women hold high status | Patriarchal; Clan-exogamous; huts called Rautuda |
-| **Marriage Customs** | Badla-Vivah → now Three Kathi; Widow remarriage (Lathbharua) allowed; divorce (Urari) | Fraternal Polyandry (Bahupati); Girl = Dhyanti/Ryanti | Rang-Bang (Youth House); Tatst & Damola marriages | Monogamy & Polygamy (now mostly monogamy) | Bride price; elopement; child marriage |
-| **Religion & Deities** | Hindu; Goddess: **Jagmathiya Devi** (crop protection) | Hindu; Supreme deity: **Mahasu Devta** (Hanol shrine) | Hindu (Jad = Buddhist); Deities: **Bhumyal, Nanda Devi** | Hindu; Biggest goddess: **Chaumunda Devi** (Kashipur) | Hindu; Main deity: **Baghnath** |
-| **Fairs & Festivals** | Diwali as **mourning festival (Shokpuja)**; Bajhar | Bissu, Jagara, Bhiroli, Magh Tyohar; **Cholithat fair** (martyr Kesari Chand) | **Kandali/Kirji Festival** (every 12 years by Shauka Bhotiyas) | **Chaiti Mela** (most important) | Kark & Makar Sankranti; **Gora Atthawali** |
-| **Folk Dance** | **Lahchaari** (main); **Khichdi** (Holi, 8 days) | **Harul** (Ramtula compulsory); **Budiyaat** | **Dhurang & Dhuring**; Pauna (war dance) | Traditional folk songs | **Ringadans** (circular, like Thadiya) |
-| **Music/Songs** | — | Chhopti (question-answer) | Tuvera, Bajyu, Timli | Rachbhainsi & Bhavari dialects | — |
-| **Economy** | Agriculture; local rice wine **Jaad**; exorcists called **Bharda** | Agriculture; political committee **Khumri** (head: Gram Sayana) | **Transhumance**; historic Tibet trade; use **Hudka** instrument | Agriculture; Panchayat head = **Takhat**; witchcraft prevalent | Skilled in **Woodcraft**; famous for **Silent/Invisible Barter Exchange** |
-| **Costume (Men)** | Dhoti, anga, kurta, cap/safa; long braid | Winter: woolen coats, Diguba pajamas, Jhagoli cap | Ranga (knee-length coat), Chungthi pajamas, Baankhe shoes | Dhoti, kurta, sadri, turban | Dhoti, angarkha, turban |
-| **Costume (Women)** | Lehenga, choli, embroidered kurta, black odhni; tattooing | Winter: woolen ghagra, kurta, Dhaant headscarf | Chyumala (full-sleeve robe), Chyun, Chyukala cap, Jyukhya belt | Lehenga, choli, odhni | Lehenga, choli, odhni |
-| **Dialect** | Blend of Pahari, Awadhi, Nepali | Jaunsari (Indo-Aryan) | Romba (Tibeto-Burman) — Jad sub-tribe | Rachbhainsi, Bhavari, Kumaiya | Munda (Munda + Tibetan-Sanskrit influence) |
+| **Population Rank** | Largest | 2nd Largest | Largest in High Himalayas | Terai region | Smallest (PVTG) |
+| **Habitat** | Terai/Bhabar (US Nagar) | Jaunsar-Bawar (Dehradun) | Pithoragarh, Chamoli, Uttarkashi | US Nagar, Nainital | Remote Pithoragarh forests |
+| **Origin/Lineage** | Thar Desert (Rajputs) or Kirat | Indo-Aryan (Pandava descent) | Mongolian race (Kirat-descendant Khas Rajputs) | Panwar Rajput descent | Agneyavanshi Kol-Kirat |
+| **Family System** | Matriarchal/Matrilineal | Patriarchal | Patriarchal but Egalitarian | Patrilineal; women hold high status | Patriarchal; Clan-exogamous |
+| **Marriage Customs** | Badla-Vivah → Three Kathi; divorce (Urari) | Fraternal Polyandry (Bahupati) | Rang-Bang (Youth House); Tatst & Damola marriages | Monogamy & Polygamy (now mostly monogamy) | Bride price; elopement; child marriage |
+| **Religion & Deities** | Hindu; Jagmathiya Devi | Hindu; Mahasu Devta (Hanol) | Hindu (Jad = Buddhist); Bhumyal, Nanda Devi | Hindu; Chaumunda Devi (Kashipur) | Hindu; Baghnath |
+| **Folk Dance** | Lahchaari; Khichdi (Holi) | Harul (Ramtula compulsory); Budiyaat | Dhurang & Dhuring; Pauna (war dance) | Traditional folk songs | Ringadans (circular) |
+| **Economy** | Agriculture; rice wine Jaad | Agriculture; political committee Khumri | Transhumance; historic Tibet trade | Agriculture; Panchayat head = Takhat | Woodcraft; Silent Barter Exchange |
+| **Dialect** | Blend of Pahari, Awadhi, Nepali | Jaunsari (Indo-Aryan) | Romba (Tibeto-Burman) | Rachbhainsi, Bhavari, Kumaiya | Munda |
 
----
 
 ## 8.4 DEMOGRAPHIC DATA: SCHEDULED TRIBES
 
-| Parameter | Data |
-|---|---|
-| **ST Population** | 2.89% of state population (approx. 2.91 Lakh) |
-| **National Average** | 8.6% (Uttarakhand significantly lower) |
-| **ST Status Granted** | 1967 (based on Lokur Committee recommendations) |
-| **Number of Recognized Tribes** | 5 (Tharu, Jaunsari, Bhotiya, Boksa, Raji) |
-| **Tribal Literacy** | 73.88% (Male: 83.56%, Female: 63.89%) |
-| **Highest ST Population (District)** | Udham Singh Nagar (7.46%) |
-| **Second Highest** | Dehradun (6.64%) |
-| **Lowest ST Population** | Rudraprayag |
-| **Reserved Assembly Seats** | 2 — **Chakrata** (Dehradun, Jaunsaris) and **Nanakmatta** (US Nagar, Tharus/Boksas) |
-| **Reservation in State Services** | 4% |
+Uttarakhand's Scheduled Tribe population constitutes 2.89% of the state population (approximately 2.91 lakh), significantly lower than the national average of 8.6%. ST status was granted to the state's tribes in 1967 based on Lokur Committee recommendations. Five tribes are officially recognized: Tharu, Jaunsari, Bhotiya, Boksa, and Raji. Tribal literacy stands at 73.88% (Male: 83.56%, Female: 63.89%). Udham Singh Nagar has the highest ST population at 7.46%, followed by Dehradun at 6.64%, while Rudraprayag has the lowest. Two assembly seats are reserved for STs — Chakrata (Dehradun, for Jaunsaris) and Nanakmatta (US Nagar, for Tharus/Boksas) — and reservation in state services stands at 4%.
 
 ### Tribal Issues
 
-| Issue | Details |
-|---|---|
-| Cultural Erosion | Traditional practices declining due to modern education, urban migration, mainstream interaction |
-| Linguistic Endangerment | Dialects like Romba (Jad Bhotiyas), Munda (Raji), Rachbhainsi (Boksa) threatened by Hindi dominance |
-| PVTG Marginalization | Raji tribe — declining population, struggles adapting to settled lifestyle |
-| Superstition | Witchcraft prevalent in Boksa; child marriage in Raji |
-
----
+The primary challenges facing tribal communities include cultural erosion, as traditional practices decline due to modern education, urban migration, and mainstream interaction. Linguistic endangerment threatens dialects like Romba (Jad Bhotiyas), Munda (Raji), and Rachbhainsi (Boksa) due to Hindi dominance. The Raji tribe faces particular marginalization as a PVTG with a declining population struggling to adapt to settled life. Superstition remains prevalent, with witchcraft among the Boksa and historical child marriage among the Raji.
 
 ## 8.5 CASTE SYSTEM & CASTE MOBILITY IN UTTARAKHAND
 
 ### Historical Context
 
-The caste system in Uttarakhand spans over 3,000 years, traditionally divided into four main varnas plus a fifth marginalized group (Dalits). The system is heavily nuanced by local jatis (sub-castes).
+The caste system in Uttarakhand spans over 3,000 years, traditionally divided into four main varnas plus a fifth marginalized group (Dalits). The system is heavily nuanced by local jatis (sub-castes). The regional social hierarchy comprises three broad groups: the Thuljats (elite Brahmins and Rajputs holding highest ritual and political status), the Khasas or Khasiya (the dominant agriculture-engaged ethnic and agrarian group in Kumaon and Garhwal), and the Doms or Shilpkars (marginalized artisan and labour classes who faced severe discrimination).
 
-### Regional Social Hierarchy (Three Groups)
-
-| Group | Status | Role |
-|---|---|---|
-| **Thuljats** | Elite | Brahmins and Rajputs — highest ritual and political status |
-| **Khasas (Khasiya)** | Dominant | Agriculture-engaged; dominant ethnic and agrarian group in Kumaon & Garhwal |
-| **Doms / Shilpkars** | Marginalized | Artisan and labour classes; faced severe discrimination |
-
----
 
 ### A. Scheduled Castes (SCs)
 
-| Parameter | Data |
-|---|---|
-| **SC Population** | 18.76% of state population (18.92 Lakh) — **higher than national average of 16.6%** |
-| **Highest SC % (District)** | Bageshwar (27.73%) |
-| **Highest SC Absolute Population** | Haridwar |
-| **Lowest SC Population** | Champawat |
-| **Lowest SC %** | Dehradun (13.57%) |
-| **SC Literacy** | 74.41% (Male: 84.34%, Female: 64.05%) |
-| **Reservation (State Services)** | 19% |
-| **Reserved Assembly Seats** | 13 (out of 70) |
+The SC population constitutes 18.76% of the state population (18.92 lakh), which is higher than the national average of 16.6%. Bageshwar district has the highest SC percentage at 27.73%, while Haridwar has the highest absolute SC population. Champawat has the lowest SC population, and Dehradun has the lowest SC percentage at 13.57%. SC literacy stands at 74.41% (Male: 84.34%, Female: 64.05%). Reservation in state services is 19%, with 13 assembly seats reserved (out of 70).
 
-#### Historical Oppression
+Historically, Dalits (Doms) were assigned "polluting" tasks such as cleaning and waste management, with extreme social restrictions including the denial of the use of Dola (palanquin) for lower-caste grooms during weddings. This oppression led to the revolutionary Dola Palki Movement of the 1930s led by Jayanand Bharti.
 
-- Dalits (Doms) assigned "polluting" tasks — cleaning, waste management
-- Extreme social restrictions — lower-caste grooms denied use of Dola (palanquin) during weddings
-- Led to revolutionary **Dola Palki Movement** (1930s) by Jayanand Bharti
-
-#### Government Interventions for SCs
-
-| Intervention | Details |
-|---|---|
-| Housing Assistance | ₹38,500 (hills); ₹35,000 (plains) for house construction |
-| Residential Facilities | 15 hostels for SC boys and girls |
-| English-Medium Schools | Modern residential schools for SC children (starting Haridwar) |
-| Political Representation | 13 reserved assembly seats |
-
----
+Government interventions for SCs include housing assistance of Rs 38,500 (hills) and Rs 35,000 (plains) for house construction, 15 residential hostels for SC boys and girls, modern English-medium residential schools for SC children (starting in Haridwar), and 13 reserved assembly seats for political representation.
 
 ### B. Other Backward Classes (OBCs)
 
-| Parameter | Details |
-|---|---|
-| **Communities** | Notably Shilpakars (artisans) — historically faced socio-economic disadvantages |
-| **Discrimination** | Limited access to education and economic opportunities |
-| **Reservation (State Services)** | **14%** |
-| **Trigger for Statehood** | 1994: Mulayam Singh Yadav's 27% OBC reservation seen as unjust for hill region (minuscule OBC population) — sparked statehood movement |
-
----
+OBC communities in Uttarakhand notably include the Shilpakars (artisans) who historically faced socio-economic disadvantages with limited access to education and economic opportunities. Reservation in state services stands at 14%. A significant historical trigger for the statehood movement occurred in 1994 when Mulayam Singh Yadav's implementation of 27% OBC reservation was seen as unjust for the hill region, which had a minuscule OBC population, sparking the movement for a separate state.
 
 ### Caste Mobility & Contemporary Challenges
 
-| Challenge | Details |
-|---|---|
-| **Resistance to Reform** | In 1913, when Lala Lajpat Rai (Arya Samaj) attempted to elevate 600 Dom families through Shuddhikaran ceremony (sacred thread), met with **violent opposition** from upper castes |
-| **Persistent Discrimination** | Despite legal protections, caste-based exclusion persists in rural areas — Dalits excluded from community activities |
-| **Urban-Rural Divide** | Urban areas show more mobility; rural areas more conservative |
-| **Economic Inequality** | Systemic barriers restrict economic mobility; SC/ST often in lower-paying jobs |
+Resistance to reform has deep historical roots. In 1913, when Lala Lajpat Rai of the Arya Samaj attempted to elevate 600 Dom families through a Shuddhikaran ceremony (sacred thread investiture), the effort was met with violent opposition from upper castes. Despite legal protections, caste-based exclusion persists in rural areas, with Dalits excluded from community activities. An urban-rural divide is apparent, with urban areas showing more mobility while rural areas remain more conservative. Systemic barriers continue to restrict economic mobility, with SC/ST communities often concentrated in lower-paying occupations.
 
----
 
 ## 8.6 RURAL POWER STRUCTURE (SOCIETAL PERSPECTIVE)
 
-> **NOTE: This section covers the SOCIOLOGICAL aspects of power. Modern Panchayati Raj (constitutional framework) will be covered separately in the Polity chapter.**
+This section covers the sociological aspects of power in rural Uttarakhand. The modern Panchayati Raj constitutional framework is covered separately in the Polity chapter.
 
 ### A. The Agrarian Power Structure (Land as Power)
 
-Historically, land was the ultimate source of wealth and power in hill villages. The social hierarchy was directly tied to agrarian roles:
-
-| Class | Role in Power Structure |
-|---|---|
-| **Thokdars / Sayanas / Kamins** | Top of rural power chain; revenue collectors for multiple villages; immense local authority |
-| **Muafidars** | Granted tax-free land (Jagir) by kings; acted as local lords; their exploitation triggered revolts (e.g., Athoor Rebellion, 1851) |
-| **Thaatwan** | Actual landowners — significant socio-economic dominance |
-| **Khaikars** | Cultivating farmers under landowners |
-| **Sirtan** | Tenant farmers paying annual rent |
-| **Haliya** | Absolute bottom — land serfs doing manual field labour |
+Historically, land was the ultimate source of wealth and power in hill villages. The social hierarchy was directly tied to agrarian roles. At the top of the rural power chain were the Thokdars, Sayanas, and Kamins — revenue collectors for multiple villages who wielded immense local authority. Below them were the Muafidars, who were granted tax-free land (Jagir) by kings and acted as local lords; their exploitation triggered revolts such as the Athoor Rebellion of 1851. The Thaatwan were actual landowners with significant socio-economic dominance. Below them, the Khaikars were cultivating farmers under landowners, while the Sirtan were tenant farmers paying annual rent. At the absolute bottom were the Haliya — land serfs performing manual field labour.
 
 ### B. Caste-Based Power Dynamics
 
-| Group | Power Status |
-|---|---|
-| **Thuljats** (Brahmins & Rajputs) | Held highest ritual status + controlled political & agrarian power |
-| **Khasas / Khasiyas** | Dominant demographic; agriculture-based |
-| **Doms / Shilpkars** | Completely excluded from power structure; denied land ownership; subjected to oppressive practices |
+The Thuljats (Brahmins and Rajputs) held the highest ritual status and controlled both political and agrarian power. The Khasas or Khasiyas formed the dominant demographic based on agriculture. The Doms and Shilpkars were completely excluded from the power structure, denied land ownership, and subjected to oppressive practices.
 
 ### C. Indigenous Tribal Power Councils
 
-| Tribe | Council Name | Structure |
-|---|---|---|
-| **Jaunsari** | **Khumri** | Every family has representative; head = **'Gram Sayana'**; regional level = **'Khat Samiti'**; Power skewed: Khasa subcaste (Brahmins/Rajputs) held power; Kolta subcaste faced extreme hardship |
-| **Tharu** | **Madyapanchgan** | Hierarchy: **Chaudhary/Mahto** (head) → Baddher → Bhalemanas → Chaukidar |
-| **Boksa** | **Takhat** | Multiple families form village ('Manjhra'); Panchayat = 5 members; highest authority = **'Takhat'**; assisted by Munshif, Daroga, Sipahis |
+Each major tribe maintained its own system of governance. The Jaunsari council is called the Khumri, where every family has a representative. The head is known as the "Gram Sayana," and at the regional level the body is called the "Khat Samiti." Power was historically skewed, with the Khasa subcaste (Brahmins/Rajputs) holding authority while the Kolta subcaste faced extreme hardship.
+
+The Tharu governance body is the Madyapanchgan, with a hierarchy flowing from the Chaudhary or Mahto (head) through the Baddher and Bhalemanas down to the Chaukidar.
+
+The Boksa system is organized around the Takhat. Multiple families form a village called a "Manjhra," with a Panchayat of five members. The highest authority is the "Takhat," assisted by a Munshif, Daroga, and Sipahis.
+
 
 ### D. Societal Shifts in Power Dynamics
 
-| Shift | Details |
-|---|---|
-| Social Reform Movements | Hari Prasad Tamta, Jayanand Bharti challenged upper-caste monopoly |
-| Feminization of Rural Power | Mass male migration (Palaayan) shifted day-to-day rural power and agricultural management into women's hands |
-| Formal Democracy | 73rd Amendment + Uttarakhand Panchayati Raj Act democratized power structure |
-| 50% Women Reservation | In Panchayats since 2008 (CM B.C. Khanduri) |
+Several forces have reshaped the rural power structure. Social reform movements led by figures such as Hari Prasad Tamta and Jayanand Bharti challenged upper-caste monopoly. Mass male migration (Palaayan) led to the feminization of rural power, shifting day-to-day authority and agricultural management into women's hands. Formal democracy arrived through the 73rd Amendment and the Uttarakhand Panchayati Raj Act, which democratized the power structure. Since 2008, under CM B.C. Khanduri, 50% reservation for women in Panchayats has further transformed local governance.
 
----
-
-
-## 8.6A UTTARAKHAND DEMOGRAPHIC PROFILE (CENSUS 2011 — MASTER DATA)
-
-> **PLUG-AND-PLAY DATA SHEET — Use these numbers to enrich ANY Mains answer on Society, Economy, or Development.**
+## 8.6A UTTARAKHAND DEMOGRAPHIC PROFILE (CENSUS 2011)
 
 ### State-Level Demographics
 
-| Parameter | Data |
-|---|---|
-| **Total Population** | **1.01 Crore (1,00,86,292)** — 0.83% of India's population |
-| **Male** | 50.94% |
-| **Female** | 49.06% |
-| **Rural** | 69.77% |
-| **Urban** | 30.23% |
-| **Decadal Growth Rate** | 18.81% (higher than national avg of 17.7%) |
-| **Sex Ratio** | 963 (National avg: 943) |
-| **Child Sex Ratio (0-6 yrs)** | 890 (Declined from 908 in 2001; National avg: 919) |
-| **Population Density** | 189 persons/sq km (National avg: 382/sq km) |
-| **Literacy Rate** | 78.82% (Male: 87.40%, Female: 70.01%) |
-| **Workforce Participation** | 38.4% (Main workers: 74.1%, Marginal: 25.9%) |
+Uttarakhand's total population stands at 1.01 crore (1,00,86,292), constituting 0.83% of India's population. Males comprise 50.94% and females 49.06%. The rural population stands at 69.77% and urban at 30.23%. The decadal growth rate is 18.81%, higher than the national average of 17.7%. The sex ratio is 963 (national average: 943), while the child sex ratio (0-6 years) has declined from 908 in 2001 to 890 (national average: 919). Population density is 189 persons per square kilometre (national average: 382). The literacy rate is 78.82% (Male: 87.40%, Female: 70.01%), and workforce participation stands at 38.4% (main workers: 74.1%, marginal: 25.9%).
 
-### DISTRICT SUPERLATIVES — LARGEST & SMALLEST
+### District Superlatives
 
-| Parameter | Highest / Largest District | Lowest / Smallest District |
+| Parameter | Highest/Largest | Lowest/Smallest |
 |---|---|---|
 | **Area** | Chamoli (8,030 sq km) | Champawat (1,766 sq km) |
 | **Population** | Haridwar (18.9 Lakh) | Rudraprayag (2.42 Lakh) |
@@ -347,343 +144,115 @@ Historically, land was the ultimate source of wealth and power in hill villages.
 | **Population Density** | Haridwar (801/sq km) | Uttarkashi (41/sq km) |
 | **Urbanization %** | Dehradun (55.52%) | Bageshwar (3.44%) |
 
-> **EXAM TIP:** Notice the pattern — Haridwar dominates "largest/highest" in population metrics, while Almora dominates in sex ratio. Hill districts (Pauri, Almora) show negative growth due to migration.
+A notable pattern emerges: Haridwar dominates population metrics, while Almora leads in sex ratio. Hill districts such as Pauri and Almora show negative growth due to outward migration.
 
----
 
 ## 8.7 URBANIZATION & INDUSTRIALIZATION IN UTTARAKHAND
 
 ### Urbanization Trends & Data
 
-| Parameter | Data |
-|---|---|
-| **Urban Population (2011)** | 30.5 Lakh (30.23% of total) |
-| **Urban Growth Rate** | 4.0% annually (2001-2011) — significantly higher than national avg of 2.8% |
-| **Most Urbanized District** | Dehradun (55.52%) |
-| **Least Urbanized District** | Bageshwar (3.44%) |
-| **Highest Population Density** | Haridwar (801/sq km) |
-| **Lowest Population Density** | Uttarkashi (41/sq km) |
-| **Floating Population (Kumbh)** | Haridwar normally ~2.3 lakh; spikes to 30+ lakh during festivals |
+The urban population of Uttarakhand (Census 2011) stands at 30.5 lakh, representing 30.23% of the total. The urban growth rate between 2001 and 2011 was 4.0% annually, significantly higher than the national average of 2.8%. Dehradun is the most urbanized district at 55.52%, while Bageshwar is the least urbanized at 3.44%. Haridwar has the highest population density at 801 persons per square kilometre, and Uttarkashi the lowest at 41. Haridwar's floating population, normally around 2.3 lakh, spikes to over 30 lakh during festivals such as the Kumbh.
 
 ### The Demographic Divide
 
-| Plains (Booming) | Hills (Declining) |
-|---|---|
-| Haridwar: highest density (801/sq km) | Pauri Garhwal: **-1.41% decadal growth** (negative) |
-| US Nagar: 33.45% decadal growth (highest) | Almora: **-1.28% decadal growth** (negative) |
-| Dehradun: most urbanized (55.52%) | Bageshwar: least urbanized (3.44%) |
+A stark demographic divide separates the plains from the hills. On the plains, Haridwar has the highest density (801/sq km), Udham Singh Nagar records the highest decadal growth at 33.45%, and Dehradun is the most urbanized (55.52%). In contrast, Pauri Garhwal shows negative decadal growth of -1.41%, Almora has similarly declined at -1.28%, and Bageshwar remains the least urbanized at 3.44%.
 
 ### Industrialization Dynamics
 
-| Parameter | Data |
-|---|---|
-| **SIDCUL** (est. 2002) | State Industrial Development Corporation; 7 major Integrated Industrial Estates (IIEs) |
-| **Maximum Industries** | IIE Haridwar (BHEL, Hero, ITC) |
-| **Auto/Manufacturing Hub** | Rudrapur and Pantnagar (US Nagar) |
-| **MSME Units** | Jumped from 59,798 (2021-22) to **79,394 (2024-25)**; employing **4,56,605 people** |
-| **MSME Contribution to GSDP** | ~13% |
-| **Startups** | 0 (2017) → **1,750 (2024-25)**; ₹200 crore Venture Capital Fund launched |
-| **Global Investors Summit** | MoUs worth ₹3.56 lakh crore signed; 4.6 lakh employment opportunities |
+The State Industrial Development Corporation of Uttarakhand (SIDCUL), established in 2002, manages seven major Integrated Industrial Estates (IIEs). IIE Haridwar hosts the maximum number of industries, including BHEL, Hero, and ITC. Rudrapur and Pantnagar in Udham Singh Nagar serve as the auto and manufacturing hub. MSME units jumped from 59,798 in 2021-22 to 79,394 in 2024-25, employing 4,56,605 people and contributing approximately 13% to GSDP. The startup ecosystem has grown from zero in 2017 to 1,750 in 2024-25, supported by a Rs 200 crore Venture Capital Fund. The Global Investors Summit yielded MoUs worth Rs 3.56 lakh crore and 4.6 lakh employment opportunities.
 
 ### Societal Issues from Urbanization & Industrialization
 
-| Issue | Details |
-|---|---|
-| **Palaayan (Migration)** | Youth migrating to plains/outside state; "Money Order Economy" |
-| **Ghost Villages** | 1,048 villages with zero population (Census 2011); rose to **1,768 by 2018** (RDMC); 734 new ghost villages (2011-2018) |
-| **Migration Rate** | Average 138 per day (2008-2018) → increased to **193 per day** (2018-2022) |
-| **Total Migration (2018-22)** | 3.3 lakh people migrated from villages |
-| **Feminization of Agriculture** | Women left behind to manage household + unviable farming; dual burden; ~68% women still in agriculture with 45% less earnings than plains |
-| **Urban Infrastructure Collapse** | Traffic congestion, drainage failures, urban flooding, legacy waste mountains |
-| **Ecological Degradation** | Unregulated construction, deforestation, inadequate sewage polluting rivers |
-| **Geographical Concentration** | Hilly terrain forces population/industry into narrow Terai/Bhabar belt |
+Urbanization and industrialization have generated several societal challenges. Youth migration (Palaayan) to the plains and outside the state has created a "Money Order Economy." Ghost villages — settlements with zero population — numbered 1,048 in Census 2011 and rose to 1,768 by 2018 (RDMC data), with 734 new ghost villages appearing between 2011 and 2018. The migration rate averaged 138 per day from 2008 to 2018, increasing to 193 per day between 2018 and 2022, with 3.3 lakh people leaving villages during that period.
+
+The feminization of agriculture has left women managing both households and unviable farming, with approximately 68% of women still engaged in agriculture earning 45% less than their plains counterparts. Urban areas face infrastructure collapse including traffic congestion, drainage failures, urban flooding, and legacy waste accumulation. Ecological degradation from unregulated construction, deforestation, and inadequate sewage polluting rivers remains a concern, compounded by the geographical concentration of population and industry in the narrow Terai/Bhabar belt.
+
 
 ### Government Steps for Urbanization Issues
 
-| Step | Details |
-|---|---|
-| **Smart Cities Mission** | Dehradun and Haridwar being developed |
-| **AMRUT 2.0** | Expanding water and sewerage networks |
-| **Doon Metro** | Proposed for Dehradun traffic management |
-| **Tunnel/Cavity Parking** | Starting in Tehri for space-constrained hill towns |
-| **Land Pooling Regulations 2025** | Enforcing planned urban expansion |
-| **Mega Industrial Policy** | Special tax exemptions for industries in hilly regions |
-| **Parvatmala Pariyojana (Ropeways)** | Distributing tourist/economic load to new circuits |
-
----
+Government initiatives include the Smart Cities Mission (developing Dehradun and Haridwar), AMRUT 2.0 for expanding water and sewerage networks, the proposed Doon Metro for Dehradun traffic management, tunnel and cavity parking starting in Tehri for space-constrained hill towns, Land Pooling Regulations 2025 for planned urban expansion, a Mega Industrial Policy with special tax exemptions for industries in hilly regions, and the Parvatmala Pariyojana (Ropeways) to distribute tourist and economic load to new circuits.
 
 ## 8.8 MIGRATION (PALAAYAN) — THE DEFINING SOCIAL CRISIS
 
-### Migration Data (Rural Development & Migration Commission)
+### Migration Data
 
-| Parameter | Data |
-|---|---|
-| **Ghost Villages (Census 2011)** | 1,034 with zero population |
-| **Ghost Villages (RDMC 2018)** | Rose to **1,768** (734 new between 2011-2018) |
-| **Average Daily Migration (2008-2018)** | 138 people per day |
-| **Average Daily Migration (2018-2022)** | **193 people per day** |
-| **Total Migration (2008-2018)** | 5.02 lakh from state's villages |
-| **Of which permanent** | 1.1 lakh permanently shifted out |
-| **Of which periodic** | 3.8 lakh from 6,338 villages kept visiting periodically |
-| **Total Migration (2018-2022)** | 3.3 lakh people |
-| **Primary Reason** | Unemployment (>50% migrated for employment) |
+According to the Rural Development and Migration Commission (RDMC), ghost villages with zero population numbered 1,034 in Census 2011 and rose to 1,768 by 2018, with 734 new ghost villages appearing between those years. The average daily migration from 2008 to 2018 was 138 people per day, increasing to 193 people per day from 2018 to 2022. Total migration from 2008 to 2018 was 5.02 lakh from the state's villages, of which 1.1 lakh permanently shifted out while 3.8 lakh from 6,338 villages kept visiting periodically. Between 2018 and 2022, another 3.3 lakh people migrated. The primary reason is unemployment, with over 50% migrating for employment opportunities.
 
 ### District-Wise Ghost Villages (RDMC 2018)
 
 | District | New Ghost Villages |
 |---|---|
-| **Pauri Garhwal** | 186 (highest) |
-| Almora | 57 |
-| Pithoragarh | 75 |
+| Pauri Garhwal | 186 (highest) |
 | Bageshwar | 77 |
+| Pithoragarh | 75 |
 | Uttarkashi | 70 |
-| Tehri | 58 |
 | Champawat | 64 |
+| Tehri | 58 |
+| Almora | 57 |
 | Chamoli | 41 |
-| Nainital | 22 |
 | Haridwar | 38 |
+| Nainital | 22 |
 | Rudraprayag | 20 |
 | US Nagar | 19 |
 | Dehradun | 7 |
 
+
 ### Causes of Migration
 
-| Cause | Details |
-|---|---|
-| Lack of employment | Hill agriculture fragile; only ~10% land irrigated |
-| Poor infrastructure | Roads, health, education inadequate in remote hills |
-| "Money Order Economy" | Heavy reliance on remittances from migrated family members |
-| Climate change | Erratic rainfall; reduced crop productivity |
-| Human-wildlife conflict | Crop destruction; danger to children |
-| Aspirational shift | Youth seeking better education and lifestyle |
+The primary causes of migration include lack of employment (hill agriculture is fragile with only about 10% of land irrigated), poor infrastructure (inadequate roads, health, and education in remote hills), the "Money Order Economy" (heavy reliance on remittances from migrated family members), climate change (erratic rainfall and reduced crop productivity), human-wildlife conflict (crop destruction and danger to children), and aspirational shifts among youth seeking better education and lifestyle opportunities.
 
 ### Government Counter-Migration Initiatives
 
-| Initiative | Details |
-|---|---|
-| **CM Migration Prevention Scheme** | Financial incentives for staying in hills |
-| **Vibrant Villages Programme** | Developing border villages (Jadung, Gunji, Garbyang) |
-| **Homestay Promotion** | Alternative livelihood for hill families |
-| **CM Adarsh Gram** | Model village: Sarkot (Gairsain, Chamoli); 2 model villages per district target |
-| **KEDAR Framework** | Reverse migration through skill development |
-| **First Village Development** | Strategic habitation continuity in border areas |
-| **800 hamlets showing reverse migration** | RDMC data — some success in select areas |
-
----
+The government has launched several counter-migration initiatives. The CM Migration Prevention Scheme provides financial incentives for staying in the hills. The Vibrant Villages Programme develops border villages such as Jadung, Gunji, and Garbyang. Homestay promotion offers alternative livelihoods for hill families. The CM Adarsh Gram scheme designates model villages, with Sarkot (Gairsain, Chamoli) as the first and a target of two model villages per district. The KEDAR Framework focuses on reverse migration through skill development. The First Village Development programme ensures strategic habitation continuity in border areas. According to RDMC data, some 800 hamlets are now showing signs of reverse migration, indicating selective success.
 
 ## 8.9 SOCIAL WELFARE, WOMEN & CONTEMPORARY ISSUES
 
-### Women-Led Development (Key Data Points)
+### Women-Led Development
 
-| Parameter | Data |
-|---|---|
-| **SHGs under DAY-NRLM** | ~68,000 SHGs covering ~5 lakh women |
-| **Lakhpati Didis** | ~2.6 lakh women (target: 1.25 lakh by 2025; achieved 68,569 earlier, now expanded) |
-| **Gender Budget (2025-26)** | ~₹19,692 crore (increase of ~₹3,000 crore) |
-| **FLFP (Female Labour Force Participation)** | PLFS data shows nearly 68% women still in agriculture & allied activities |
-| **Wage Gap** | Women earn 45% less in hills compared to plains counterparts |
+Approximately 68,000 Self-Help Groups (SHGs) under DAY-NRLM cover around 5 lakh women. The Lakhpati Didi programme has benefited approximately 2.6 lakh women. The Gender Budget for 2025-26 stands at approximately Rs 19,692 crore (an increase of Rs 3,000 crore). PLFS data shows that nearly 68% of women remain in agriculture and allied activities, with women earning 45% less in the hills compared to plains counterparts.
 
 ### Key Women Welfare Schemes
 
-| Scheme | Details |
-|---|---|
-| **Nanda Gaura Yojana** | ₹157 crore allocation |
-| **Mahalakshmi Kit** | ₹22 crore; maternal support |
-| **Aanchal Amrit Yojana** | Nutrition for mothers and children |
-| **Matru Vandana** | Maternity benefit |
-| **Vatsalya** | Child welfare |
-| **Jal Sakhi, Solar Sakhi, Mahila Sarathi** | Women as delivery partners (not just beneficiaries) |
-| **AI-based Chatbot** | For women — legal, financial, health, counselling support |
-| **Eja-Bai Shagun** | Women-centric social support |
-| **CM Women SHG Empowerment Scheme** | SHG strengthening |
+Major women welfare schemes include: Nanda Gaura Yojana (Rs 157 crore allocation), Mahalakshmi Kit (Rs 22 crore for maternal support), Aanchal Amrit Yojana (nutrition for mothers and children), Matru Vandana (maternity benefit), Vatsalya (child welfare), Jal Sakhi, Solar Sakhi, and Mahila Sarathi (women as delivery partners rather than just beneficiaries), an AI-based chatbot for women providing legal, financial, health, and counselling support, Eja-Bai Shagun (women-centric social support), and the CM Women SHG Empowerment Scheme for SHG strengthening.
 
-### Health Indicators (NFHS-5 & Current)
 
-| Indicator | Data |
-|---|---|
-| **Stunting (children)** | ~27% |
-| **Anaemia (women)** | ~50% |
-| **MMR** | Improved from 103 (2021-22) → **91 (2024-25)** |
-| **IMR** | Improved from 22 → **20** |
-| **Ayushman Cards** | ~60 lakh issued; shift from trust to insurance model |
-| **HPV Vaccine** | For adolescent girls as preventive intervention |
-| **Spring Water Contamination** | TERI flagged coliform/bacterial load concerns; post-monsoon mineral deficiency |
-| **Milk for Anganwadi Children** | 100 ml twice a week under nutrition intervention |
-| **Swasth Garbh App** | Digital maternal-health tool |
+### Health Indicators
+
+Health outcomes have been improving. Stunting among children is approximately 27%, and anaemia among women affects about 50%. The Maternal Mortality Rate (MMR) improved from 103 (2021-22) to 91 (2024-25), and the Infant Mortality Rate (IMR) improved from 22 to 20. Approximately 60 lakh Ayushman cards have been issued, with a shift from trust to insurance model. The HPV vaccine is being administered to adolescent girls as a preventive intervention. TERI has flagged concerns about spring water contamination, specifically coliform/bacterial load and post-monsoon mineral deficiency. Additional interventions include 100 ml of milk twice a week for Anganwadi children under a nutrition programme and the Swasth Garbh App as a digital maternal-health tool.
 
 ### Social Welfare & Poverty Reduction
 
-| Parameter | Data |
-|---|---|
-| **MPI (Multidimensional Poverty)** | Dropped from 9.7% (2021-22) to **6.92% (2024-25)** |
-| **NITI Aayog SDG Index** | Uttarakhand ranked **1st** (2023-24) |
-| **Budget Framework** | GYAN (Garib, Yuva, Annadata, Nari) |
-| **PDS Reform** | e-KYC mandatory; ~50,000 ration cards cancelled |
-| **PDS Strengthening** | Lentil + subsidised iodised salt added |
+The Multidimensional Poverty Index (MPI) has dropped from 9.7% (2021-22) to 6.92% (2024-25). Uttarakhand was ranked 1st on the NITI Aayog SDG Index for 2023-24. The budget framework follows the GYAN paradigm (Garib, Yuva, Annadata, Nari). PDS reforms include mandatory e-KYC (approximately 50,000 ration cards cancelled) and strengthening through the addition of lentils and subsidised iodised salt.
 
 ### Emerging Social Concerns
 
-| Issue | Details |
-|---|---|
-| Drugs & alcohol among youth | Despite positive social image, flagged as growing concern |
-| Social media (under-16) | Emerging regulatory issue |
-| Human-animal conflict | Compensation raised from ₹6 lakh to **₹10 lakh** |
-| Contractualisation | Concerns over contractual teachers and Class IV workers |
-| Ghost Teachers | Remedies: no-work-no-pay, biometrics, CCTV attendance |
+Contemporary social concerns include drugs and alcohol among youth (flagged as a growing concern despite the state's positive social image), social media regulation for those under 16, human-animal conflict (with compensation raised from Rs 6 lakh to Rs 10 lakh), contractualisation concerns regarding contractual teachers and Class IV workers, and the ghost teachers phenomenon being addressed through no-work-no-pay policies, biometrics, and CCTV attendance monitoring.
 
----
-
-## 8.10 KEY ECONOMIC CONTEXT (PLUG-AND-PLAY DATA)
+## 8.10 KEY ECONOMIC CONTEXT
 
 ### Gross State Domestic Product & Sectoral Share
 
-| Parameter | Data |
-|---|---|
-| **GSDP (2025-26)** | ₹4.29 Lakh Crore (13% growth over 2024-25) |
-| **Growth Rate** | 8.65% (FY 24-25); projected 8.2% (2026-27) |
-| **Per Capita Income** | ₹2,73,921 (2024-25) |
-| **Budget Size (2025-26)** | ₹1,01,175.33 Crore (crossed historic 1 Lakh Crore) |
-| **Fiscal Deficit** | 2.9% of GSDP (within 3% FRBM limit) |
-| **Primary (Agriculture)** | 8.99% |
-| **Secondary (Manufacturing)** | 44.65% |
-| **Tertiary (Services)** | 46.02% |
-| **LFPR** | Rose from 60.1% (2021-22) to **64.4% (2024-25)** |
-| **Unemployment Rate** | Dropped to **4.9%** (2022-23) from 8.4% (2021-22) |
+The GSDP for 2025-26 stands at Rs 4.29 lakh crore (13% growth over 2024-25), with a growth rate of 8.65% in FY 2024-25 and a projected 8.2% for 2026-27. Per capita income is Rs 2,73,921 (2024-25). The budget size for 2025-26 is Rs 1,01,175.33 crore, crossing the historic one lakh crore mark. The fiscal deficit is 2.9% of GSDP, within the 3% FRBM limit. Sectorally, the primary (agriculture) sector contributes 8.99%, secondary (manufacturing) 44.65%, and tertiary (services) 46.02%. The Labour Force Participation Rate (LFPR) rose from 60.1% (2021-22) to 64.4% (2024-25), while unemployment dropped to 4.9% (2022-23) from 8.4% (2021-22).
+
 
 ### Forest & Ecology Data
 
-| Parameter | Data |
-|---|---|
-| **Recorded Forest Area** | 37,999.60 sq km (**71.05%** of state) |
-| **Extremely Vulnerable (Fire)** | ~25 sq km |
-| **Very Vulnerable (Fire)** | ~3,000 sq km |
-| **Human-Wildlife Conflict Mitigation** | Solar Fencing (₹20 crore); compensation ₹10 lakh |
-| **Earthquake Zone** | Zones 4 & 5 (Main Central Thrust) |
-| **Early Warning** | Doppler Radars: Mukteshwar, Surkanda, Lansdowne |
-
----
+Uttarakhand's recorded forest area is 37,999.60 sq km, covering 71.05% of the state. Approximately 25 sq km is classified as extremely vulnerable to fire, and about 3,000 sq km as very vulnerable. Human-wildlife conflict mitigation measures include solar fencing (Rs 20 crore) and enhanced compensation of Rs 10 lakh. The state falls in seismic zones 4 and 5 (Main Central Thrust), with early warning infrastructure including Doppler Radars at Mukteshwar, Surkanda, and Lansdowne.
 
 ## 8.11 WAY FORWARD: THE SANTULAN & KEDAR APPROACH
 
-> **Use these frameworks to conclude ANY governance/development question in Mains:**
-
 ### SANTULAN (Balance)
 
-- Balance economic growth with ecological preservation
-- Balance plains urbanization with hill rural development
-- Balance modern infrastructure with spiritual tourism
+The Santulan framework advocates balancing economic growth with ecological preservation, plains urbanization with hill rural development, and modern infrastructure with spiritual tourism.
 
 ### KEDAR Framework
 
-- Reverse Migration through skill development
-- Economic anchoring through homestays, agri-tourism
-- Heritage conservation linked to livelihood
+The KEDAR framework focuses on reverse migration through skill development, economic anchoring through homestays and agri-tourism, and heritage conservation linked to livelihood generation.
 
 ### Local to Global (Vocal for Local)
 
-- **House of Himalaya** umbrella brand
-- ODOP products: millets/mandua, red rice, Aipan craft, copperware, Munsiyari rajma
-- GI Tags: Badri Cow Ghee, Bedu (Himalayan fig)
-- SHG income linked to international markets
+The "House of Himalaya" umbrella brand promotes ODOP products including millets/mandua, red rice, Aipan craft, copperware, and Munsiyari rajma. GI Tags have been secured for Badri Cow Ghee and Bedu (Himalayan fig). SHG income is increasingly linked to international markets.
 
 ### Eco-Monetization
 
-- **Gross Environment Product (GEP)** accounting (first state)
-- Carbon Credits
-- **Pirul Lao-Paise Pao** campaign (pine needles → biofuel income + reduced fire risk)
-- Tourist Carrying Capacity Survey (Nainital, Mussoorie)
-
----
-
-## CHAPTER 8 — QUICK REVISION: ONE-LINERS
-
-1. **Tharu family system** → Matriarchal/Matrilineal (exception in patriarchal Uttarakhand)
-2. **Jaunsari polyandry** → Fraternal/Bahupati (declining — 40% moved away per 2018 study)
-3. **Bhotiya youth house** → Rang-Bang (Yuvagrah)
-4. **Raji dwelling** → Huts called Rautuda
-5. **Tharu divorce** → Called 'Urari'; widow feast = Lathbharua Bhoj
-6. **Jaunsari girl before marriage** → Dhyanti; after = Ryanti
-7. **Bhotiya kinship term** → 'Swara' (close relatives)
-8. **Total Uttarakhand population** → 1.01 Crore (Census 2011)
-9. **Sex Ratio** → 963 (higher than national 943)
-10. **Child Sex Ratio** → 890 (declined from 908)
-11. **Literacy** → 78.82% (M: 87.40%; F: 70.01%)
-12. **Most populous district** → Haridwar (18.9 lakh)
-13. **Least populous** → Rudraprayag (2.42 lakh)
-14. **Highest sex ratio** → Almora (1139)
-15. **Lowest sex ratio** → Haridwar (880)
-16. **SC population** → 18.76% (higher than national 16.6%)
-17. **ST population** → 2.89% (5 tribes; Lokur Committee 1967)
-18. **Ghost villages (2018)** → 1,768 total; 734 new (2011-2018)
-19. **Daily migration (2018-22)** → 193 people per day
-20. **Pauri Garhwal** → Highest ghost villages (186) + negative growth (-1.41%)
-21. **MPI dropped** → 9.7% to 6.92%
-22. **SDG Index rank** → 1st (NITI Aayog 2023-24)
-23. **GSDP 2025-26** → ₹4.29 Lakh Crore
-24. **Budget crossed** → ₹1 Lakh Crore mark (2025-26)
-25. **Forest Cover** → 71.05% of state
-26. **MSME units** → 79,394 (2024-25); 4.56 lakh employed
-27. **Startups** → 1,750 (2024-25)
-28. **Lakhpati Didis** → ~2.6 lakh women
-29. **SHGs** → ~68,000 covering ~5 lakh women
-30. **Feminization of agriculture** → 68% women in agriculture; earn 45% less than plains
-31. **Human-wildlife compensation** → Raised to ₹10 lakh
-32. **Reserved seats (SC)** → 13 out of 70; **(ST)** → 2 (Chakrata, Nanakmatta)
-33. **OBC reservation** → 14% in state services
-34. **Women in Panchayats** → 50% since 2008 (CM B.C. Khanduri)
-35. **Pirul Lao-Paise Pao** → Pine needles to biofuel; reduces fire + creates income
-
----
-
-## CHAPTER 8 — PREVIOUS YEAR QUESTIONS (PYQs)
-
-### Questions Actually Asked in 2024 Paper
-
-**Q1. (2024 — 50 Words):**
-*Write about the demographic status of the scheduled tribal communities of Uttarakhand.*
-
-**Q2. (2024 — 150 Words):**
-*Critically examine the process of urbanization and industrialization taking place in the state.*
-
-### Predicted Questions (Highly Expected — Untouched Topics)
-
-**Q3. (Predictive — 15 Marks / 200 Words):**
-*Discuss the family, marriage, and kinship systems of Uttarakhand with special reference to tribal communities.*
-
-**Q4. (Predictive — 15 Marks / 200 Words):**
-*Analyse the caste system and caste mobility in Uttarakhand. What are the challenges facing SC/ST/OBC communities?*
-
-**Q5. (Predictive — 10 Marks / 150 Words):**
-*Discuss the rural power structure of Uttarakhand from a sociological perspective. How has it changed over time?*
-
-**Q6. (Predictive — 15 Marks / 200 Words):**
-*"Migration (Palaayan) is the defining social crisis of Uttarakhand." Discuss with data and suggest remedies.*
-
-**Q7. (Predictive — 10 Marks / 150 Words):**
-*Discuss the impact of migration on gender roles and the feminization of agriculture in Uttarakhand.*
-
-**Q8. (Predictive — 8 Marks / 100 Words):**
-*Write a short note on: The unique marriage customs of the Tharu and Jaunsari tribes.*
-
-### Prelims Questions
-
-1. Which tribe follows matriarchal system? → **Tharu**
-2. 'Rang-Bang' custom belongs to? → **Bhotiya tribe**
-3. How many STs in Uttarakhand? → **5 (Tharu, Jaunsari, Bhotiya, Boksa, Raji)**
-4. ST status granted in which year? → **1967 (Lokur Committee)**
-5. Highest SC% district? → **Bageshwar (27.73%)**
-6. Ghost villages (RDMC 2018)? → **1,768**
-7. SIDCUL established in? → **2002**
-8. OBC reservation in UK? → **14%**
-9. 'Lathbharua Bhoj' is related to? → **Tharu tribe (widow feast)**
-10. Most urbanized district? → **Dehradun (55.52%)**
-11. Fraternal Polyandry practiced by? → **Jaunsari tribe**
-12. 'Madyapanchgan' is the justice system of? → **Tharu tribe**
-
----
-
-*End of Chapter 8*
-
----
-
-> **NEXT: Chapter 9 — Folk Culture: Dances, Songs, Instruments, Singers, Costumes, Food, Dialects, Paintings & Crafts**
+Uttarakhand is the first state to adopt Gross Environment Product (GEP) accounting. Additional eco-monetization efforts include carbon credits, the "Pirul Lao-Paise Pao" campaign (converting pine needles to biofuel income while reducing fire risk), and the Tourist Carrying Capacity Survey for Nainital and Mussoorie.
