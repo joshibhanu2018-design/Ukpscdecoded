@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+@import "tailwindcss";
+
+@config "../../tailwind.config.ts";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ivory-50 text-graphite-900 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-saffron-500 hover:bg-saffron-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+  .btn-secondary {
+    @apply bg-jade-600 hover:bg-jade-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+  .btn-outline {
+    @apply border-2 border-graphite-800 text-graphite-800 hover:bg-graphite-800 hover:text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200;
+  }
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-16 lg:py-24;
+  }
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden;
+  }
+  .heading-xl {
+    @apply text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight;
+  }
+  .heading-lg {
+    @apply text-3xl md:text-4xl font-display font-bold tracking-tight;
+  }
+  .heading-md {
+    @apply text-2xl md:text-3xl font-display font-semibold;
+  }
+}
