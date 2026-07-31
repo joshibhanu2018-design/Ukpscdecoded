@@ -22,53 +22,59 @@
     { "text": "28 chapters, 500+ pages" }
   ],
   "chaptersHeading": "28 Chapters Across 5 Parts",
+  "chaptersNote": "Video lectures for each chapter are being produced. When a chapter's video is ready, its link is added below — until then it shows 'Video coming soon'.",
   "chapters": [
     {
-      "part": "Part A — History",
+      "part": "Part A — History & Culture (Paper V)",
       "items": [
-        { "title": "Ancient History of Uttarakhand" },
-        { "title": "Medieval Dynasties (Katyuri, Panwar, Chand)" },
-        { "title": "British Rule & Freedom Struggle" },
-        { "title": "Statehood Movement" },
-        { "title": "Post-Independence Development" }
+        { "number": 1, "title": "Prehistoric & Proto-historic Period, Ancient Tribes & Early Political Powers", "videoUrl": "" },
+        { "number": 2, "title": "Ancient Dynasties — Kartikeyapur, Katyuri & Parmar", "videoUrl": "" },
+        { "number": 3, "title": "Chand Dynasty & Gorkha Invasion", "videoUrl": "" },
+        { "number": 4, "title": "British Rule in Uttarakhand", "videoUrl": "" },
+        { "number": 5, "title": "Tehri Princely State", "videoUrl": "" },
+        { "number": 6, "title": "National Movement & Freedom Fighters", "videoUrl": "" },
+        { "number": 7, "title": "People's Movements, Social Reformers & Statehood", "videoUrl": "" },
+        { "number": 8, "title": "Society of Uttarakhand — Family, Marriage, Caste System", "videoUrl": "" },
+        { "number": 9, "title": "Folk Culture — Songs, Dance, Art, Instruments", "videoUrl": "" },
+        { "number": 10, "title": "Religious Places, Temples, Fairs & Festivals", "videoUrl": "" }
       ]
     },
     {
-      "part": "Part B — Geography",
+      "part": "Part B — Polity & Governance (Paper V)",
       "items": [
-        { "title": "Physical Geography & Topography" },
-        { "title": "Rivers, Lakes & Glaciers" },
-        { "title": "Climate & Biodiversity" },
-        { "title": "National Parks & Wildlife Sanctuaries" },
-        { "title": "Minerals & Natural Resources" }
+        { "number": 11, "title": "Political System — Governor, CM, Legislature, Parties", "videoUrl": "" },
+        { "number": 12, "title": "Administrative System — Govt Structure, UKPSC, High Court", "videoUrl": "" },
+        { "number": 13, "title": "Local Self-Government — Panchayati Raj & Urban Bodies", "videoUrl": "" },
+        { "number": 14, "title": "Good Governance & Public Policy", "videoUrl": "" }
       ]
     },
     {
-      "part": "Part C — Polity & Economy",
+      "part": "Part C — Geography (Paper VI)",
       "items": [
-        { "title": "State Administration & Governance" },
-        { "title": "Panchayati Raj & Local Bodies" },
-        { "title": "Economy & Planning" },
-        { "title": "Agriculture & Industry" },
-        { "title": "Government Schemes & Programs" }
+        { "number": 15, "title": "Physical Geography — Part 1 (Structure, Climate, Rivers)", "videoUrl": "" },
+        { "number": 16, "title": "Physical Geography — Part 2 (Soils, Vegetation, Glaciers)", "videoUrl": "" },
+        { "number": 17, "title": "Resources & Agriculture", "videoUrl": "" },
+        { "number": 18, "title": "Industry, Transport & Energy", "videoUrl": "" },
+        { "number": 19, "title": "Tourism, National Parks & Wildlife", "videoUrl": "" },
+        { "number": 20, "title": "Population, Migration & Urbanization", "videoUrl": "" }
       ]
     },
     {
-      "part": "Part D — Society & Culture",
+      "part": "Part D — Economy (Paper VI)",
       "items": [
-        { "title": "Tribes & Social Structure" },
-        { "title": "Fairs, Festivals & Traditions" },
-        { "title": "Art, Music & Dance Forms" },
-        { "title": "Literature & Languages" },
-        { "title": "Famous Personalities" }
+        { "number": 21, "title": "Economy — Features, GSDP, Income Sources", "videoUrl": "" },
+        { "number": 22, "title": "Industrial Development & MSME", "videoUrl": "" },
+        { "number": 23, "title": "Infrastructure", "videoUrl": "" },
+        { "number": 24, "title": "Economic Planning, Budget & Public Finance", "videoUrl": "" },
+        { "number": 25, "title": "Major Economic Problems & Welfare Programs", "videoUrl": "" }
       ]
     },
     {
-      "part": "Part E — General Studies",
+      "part": "Part E — Disaster Management & HRD (Paper VI)",
       "items": [
-        { "title": "Indian Polity (Comparative)" },
-        { "title": "Indian Economy (with State Focus)" },
-        { "title": "Current Affairs Capsule" }
+        { "number": 26, "title": "Disaster Management", "videoUrl": "" },
+        { "number": 27, "title": "Education & Human Resource Development", "videoUrl": "" },
+        { "number": 28, "title": "Health", "videoUrl": "" }
       ]
     }
   ],
