@@ -11,7 +11,10 @@ interface Resource {
   title: string;
   description: string;
   type: string;
-  url: string;
+  /** External link (Google Drive / Docs) or an internal path. */
+  url?: string;
+  /** A PDF uploaded through the CMS, e.g. "/uploads/guide.pdf". Wins over url. */
+  file?: string;
   icon?: string;
 }
 interface Playlist {
@@ -64,12 +67,14 @@ export default function FreeContentTabs({ videos }: { videos: YouTubeVideo[] }) 
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {resources.map((res) => {
+            {resources.filter((res) => res.file || res.url).map((res) => {
               const Icon = getIcon(res.icon);
+              // An uploaded PDF takes priority over a pasted link.
+              const href = res.file || res.url || "#";
               return (
                 <a
                   key={res.title}
-                  href={res.url}
+                  href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="card group flex items-start gap-4 p-6 hover:border-saffron-300 transition-all"
