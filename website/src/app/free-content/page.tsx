@@ -1,107 +1,101 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
 import {
   Video,
   Send,
-  Clock,
   PlayCircle,
-  Filter,
 } from "lucide-react";
+import { fetchChannelVideos, type YouTubeVideo } from "@/lib/youtube";
+import VideoGrid from "./VideoGrid";
 
-const categories = [
-  "All",
-  "History & Culture",
-  "Polity",
-  "Geography",
-  "Economy",
-  "Disaster & HRD",
-  "Current Affairs",
-];
-
-const videos = [
+// Fallback data in case YouTube API fails or returns empty
+const fallbackVideos: YouTubeVideo[] = [
   {
+    id: "dQw4w9WgXcQ",
     title: "Complete History of Uttarakhand — Ancient Period",
-    category: "History & Culture",
-    youtubeId: "dQw4w9WgXcQ",
-    duration: "45:12",
+    description: "Detailed lecture covering the ancient history of Uttarakhand from prehistoric times to early kingdoms.",
+    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    publishedAt: "2025-01-15T10:00:00Z",
+    category: "Uttarakhand GK",
   },
   {
+    id: "jNQXAC9IVRw",
     title: "Katyuri & Chand Dynasty — Detailed Analysis",
-    category: "History & Culture",
-    youtubeId: "jNQXAC9IVRw",
-    duration: "38:20",
+    description: "In-depth analysis of the Katyuri and Chand dynasties, their contributions and important facts for exams.",
+    thumbnail: "https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg",
+    publishedAt: "2025-01-12T10:00:00Z",
+    category: "Uttarakhand GK",
   },
   {
-    title: "Uttarakhand Legislative Assembly — Structure & Functions",
-    category: "Polity",
-    youtubeId: "9bZkp7q19f0",
-    duration: "32:45",
+    id: "9bZkp7q19f0",
+    title: "Weekly Current Affairs — July 2026 Week 1",
+    description: "Complete coverage of Uttarakhand and national current affairs for the first week of July 2026.",
+    thumbnail: "https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg",
+    publishedAt: "2026-07-07T10:00:00Z",
+    category: "Current Affairs",
   },
   {
-    title: "Panchayati Raj System in Uttarakhand",
-    category: "Polity",
-    youtubeId: "kJQP7kiw5Fk",
-    duration: "28:30",
+    id: "kJQP7kiw5Fk",
+    title: "UKPSC PYQ Analysis — Polity & Governance 2023",
+    description: "Complete analysis of Previous Year Questions from UKPSC PCS Prelims 2023 on Polity & Governance.",
+    thumbnail: "https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg",
+    publishedAt: "2025-02-10T10:00:00Z",
+    category: "PYQ Analysis",
   },
   {
+    id: "RgKAFK5djSk",
     title: "Rivers & Glaciers of Uttarakhand — Complete Mapping",
-    category: "Geography",
-    youtubeId: "RgKAFK5djSk",
-    duration: "52:18",
+    description: "Detailed mapping and explanation of all major rivers, tributaries, and glaciers of Uttarakhand.",
+    thumbnail: "https://img.youtube.com/vi/RgKAFK5djSk/hqdefault.jpg",
+    publishedAt: "2025-01-20T10:00:00Z",
+    category: "Uttarakhand GK",
   },
   {
+    id: "JGwWNGJdvx8",
     title: "Climate Zones & Biodiversity of Uttarakhand",
-    category: "Geography",
-    youtubeId: "JGwWNGJdvx8",
-    duration: "41:05",
+    description: "Explore the diverse climate zones and rich biodiversity of Uttarakhand for UKPSC exams.",
+    thumbnail: "https://img.youtube.com/vi/JGwWNGJdvx8/hqdefault.jpg",
+    publishedAt: "2025-02-01T10:00:00Z",
+    category: "Uttarakhand GK",
   },
   {
+    id: "OPf0YbXqDm0",
     title: "Uttarakhand Economy — Key Sectors & GDP Analysis",
-    category: "Economy",
-    youtubeId: "OPf0YbXqDm0",
-    duration: "35:40",
+    description: "Comprehensive analysis of Uttarakhand's economic sectors, GDP trends, and key statistics.",
+    thumbnail: "https://img.youtube.com/vi/OPf0YbXqDm0/hqdefault.jpg",
+    publishedAt: "2025-02-15T10:00:00Z",
+    category: "Uttarakhand GK",
   },
   {
-    title: "Tourism & Char Dham Economy Impact",
-    category: "Economy",
-    youtubeId: "fRh_vgS2dFE",
-    duration: "29:15",
+    id: "60ItHLz5WEA",
+    title: "PYQ Analysis — Geography & Environment 2022-23",
+    description: "Previous year question analysis covering Geography and Environment from recent UKPSC papers.",
+    thumbnail: "https://img.youtube.com/vi/60ItHLz5WEA/hqdefault.jpg",
+    publishedAt: "2025-03-01T10:00:00Z",
+    category: "PYQ Analysis",
   },
   {
-    title: "Disaster Management Framework — SDMA Uttarakhand",
-    category: "Disaster & HRD",
-    youtubeId: "60ItHLz5WEA",
-    duration: "44:30",
-  },
-  {
-    title: "2013 Kedarnath Disaster — Case Study & Lessons",
-    category: "Disaster & HRD",
-    youtubeId: "hT_nvWreIhg",
-    duration: "37:22",
-  },
-  {
-    title: "Weekly Current Affairs — January 2025 Week 3",
+    id: "lp-EO5I60KA",
+    title: "Weekly Current Affairs — June 2026 Week 4",
+    description: "Latest current affairs roundup for the last week of June 2026 with exam-relevant highlights.",
+    thumbnail: "https://img.youtube.com/vi/lp-EO5I60KA/hqdefault.jpg",
+    publishedAt: "2026-06-28T10:00:00Z",
     category: "Current Affairs",
-    youtubeId: "lp-EO5I60KA",
-    duration: "25:10",
-  },
-  {
-    title: "Uttarakhand Budget 2025 — Key Highlights for Exams",
-    category: "Current Affairs",
-    youtubeId: "pRpeEdMmmQ0",
-    duration: "33:48",
   },
 ];
 
-export default function FreeContentPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+export default async function FreeContentPage() {
+  // Fetch real videos from YouTube API
+  let videos: YouTubeVideo[] = [];
 
-  const filteredVideos =
-    activeCategory === "All"
-      ? videos
-      : videos.filter((video) => video.category === activeCategory);
+  try {
+    videos = await fetchChannelVideos();
+  } catch (error) {
+    console.error("Failed to fetch YouTube videos:", error);
+  }
+
+  // Use fallback data if API returns empty
+  if (videos.length === 0) {
+    videos = fallbackVideos;
+  }
 
   return (
     <div>
@@ -131,73 +125,7 @@ export default function FreeContentPage() {
       {/* Category Filter + Video Grid */}
       <section className="section-padding bg-ivory-50">
         <div className="container-custom">
-          {/* Filter Tabs */}
-          <div className="flex items-center gap-2 mb-10 overflow-x-auto pb-2">
-            <Filter className="w-5 h-5 text-graphite-500 flex-shrink-0" />
-            <div className="flex gap-2 flex-nowrap">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 ${
-                    activeCategory === category
-                      ? "bg-saffron-500 text-white shadow-md"
-                      : "bg-white text-graphite-700 hover:bg-graphite-100 border border-graphite-200"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Video Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredVideos.map((video, index) => (
-              <a
-                key={index}
-                href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="card group cursor-pointer"
-              >
-                {/* Thumbnail */}
-                <div className="relative overflow-hidden">
-                  <img
-                    src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
-                    alt={video.title}
-                    className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                    <PlayCircle className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                  {/* Duration Badge */}
-                  <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {video.duration}
-                  </div>
-                </div>
-                {/* Content */}
-                <div className="p-5">
-                  <span className="inline-block bg-jade-50 text-jade-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-3">
-                    {video.category}
-                  </span>
-                  <h3 className="font-display font-semibold text-graphite-900 group-hover:text-saffron-600 transition-colors line-clamp-2">
-                    {video.title}
-                  </h3>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          {/* Empty State */}
-          {filteredVideos.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-graphite-500 text-lg">
-                No videos found in this category. Check back soon!
-              </p>
-            </div>
-          )}
+          <VideoGrid videos={videos} />
         </div>
       </section>
 
