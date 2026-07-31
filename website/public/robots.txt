@@ -1,0 +1,8 @@
+# UKPSC Decoded — https://ukpscdecoded.vercel.app
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://ukpscdecoded.vercel.app/sitemap.xml
