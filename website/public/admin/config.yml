@@ -8,7 +8,6 @@ backend:
 # Uncomment while running `npx decap-server` for local editing without OAuth:
 # local_backend: true
 
-publish_mode: simple
 media_folder: "website/public/uploads"
 public_folder: "/uploads"
 
