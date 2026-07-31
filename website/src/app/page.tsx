@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { BookOpen, ArrowRight, Star, BookMarked, Video, Send } from "lucide-react";
+import { BookOpen, ArrowRight, Star, BookMarked, Video, Send, FileText, Calendar } from "lucide-react";
 import { getIcon } from "@/lib/icons";
+import { getAllArticles } from "@/lib/articles";
 import home from "@content/home.json";
 
 export default function Home() {
@@ -156,6 +157,48 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Articles Section */}
+      <section className="section-padding bg-white border-t border-graphite-100">
+        <div className="container-custom">
+          <div className="text-center mb-14">
+            <h2 className="heading-lg text-graphite-900 mb-4">
+              Latest{" "}
+              <span className="text-saffron-500">Articles</span>
+            </h2>
+            <p className="text-graphite-600 text-lg max-w-2xl mx-auto">
+              Free, in-depth preparation guides written from real exam experience — strategy, answer writing, book lists, and more.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {getAllArticles().slice(0, 3).map((article) => (
+              <Link
+                key={article.slug}
+                href={`/articles/${article.slug}`}
+                className="card bg-white p-6 border border-graphite-100 hover:border-saffron-200 hover:shadow-lg transition-all group"
+              >
+                <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-4 bg-saffron-100 text-saffron-700">
+                  {article.category}
+                </span>
+                <h3 className="text-lg font-display font-semibold text-graphite-900 mb-3 group-hover:text-saffron-600 transition-colors line-clamp-2">
+                  {article.title}
+                </h3>
+                <p className="text-graphite-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                  {article.meta_description}
+                </p>
+                <span className="text-saffron-500 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Read Article <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/articles" className="btn-outline inline-flex items-center gap-2">
+              View All Articles <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
