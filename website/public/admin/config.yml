@@ -2,9 +2,7 @@ backend:
   name: github
   repo: joshibhanu2018-design/Ukpscdecoded
   branch: main
-  # OAuth is handled by this site's own API routes (src/app/api/auth + api/callback).
-  # Leaving base_url unset makes Decap use the current origin, so this works
-  # automatically on localhost, Vercel previews, and the live domain.
+  base_url: https://ukpscdecoded.vercel.app
   auth_endpoint: api/auth
 
 # Uncomment while running `npx decap-server` for local editing without OAuth:
