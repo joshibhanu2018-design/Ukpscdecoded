@@ -4,7 +4,7 @@ import {
   PlayCircle,
 } from "lucide-react";
 import { fetchChannelVideos, isFreePreview, type YouTubeVideo } from "@/lib/youtube";
-import VideoGrid from "./VideoGrid";
+import FreeContentTabs from "./FreeContentTabs";
 
 // Fallback data in case YouTube API fails or returns empty
 const fallbackVideos: YouTubeVideo[] = [
@@ -112,23 +112,23 @@ export default async function FreeContentPage() {
             </span>
           </div>
           <h1 className="heading-xl text-white mb-6 max-w-4xl mx-auto">
-            Free Video Lectures —{" "}
+            Free Content —{" "}
             <span className="text-saffron-400">
-              Learn Uttarakhand GK Systematically
+              Resources & Video Lectures
             </span>
           </h1>
           <p className="text-lg md:text-xl text-graphite-300 max-w-2xl mx-auto leading-relaxed">
-            Chapter-wise video lectures covering the complete UKPSC syllabus.
-            Watch at your own pace, revise anytime. All content available on our
-            YouTube channel.
+            Download free guides and trackers, and watch chapter-wise video
+            lectures covering the complete UKPSC syllabus. Learn at your own
+            pace, revise anytime.
           </p>
         </div>
       </section>
 
-      {/* Category Filter + Video Grid */}
+      {/* Tabs: Free Resources + Video Lectures */}
       <section className="section-padding bg-ivory-50">
         <div className="container-custom">
-          <VideoGrid videos={videos} />
+          <FreeContentTabs videos={videos} />
         </div>
       </section>
 

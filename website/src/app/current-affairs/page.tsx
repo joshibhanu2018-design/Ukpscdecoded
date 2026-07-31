@@ -8,59 +8,34 @@ import {
   Building2,
   Mountain,
   Calendar,
+  CalendarDays,
   CheckCircle2,
   XCircle,
   RefreshCw,
   Tag,
   Loader2,
 } from "lucide-react";
+import currentAffairs from "@content/currentAffairs.json";
 
-// ===== WEEKLY CURRENT AFFAIRS DATA (from July 2026 PDF) =====
-const currentAffairsData = [
-  // UTTARAKHAND
-  { id: 1, title: "Uttarakhand approved as a 'Fully Literate State'", category: "Uttarakhand", date: "July 2026" },
-  { id: 2, title: "Cabinet clears \u20B91.11 lakh crore Budget for FY 2026-27; 28 proposals approved", category: "Uttarakhand", date: "July 2026" },
-  { id: 3, title: "Uniform Civil Code, Uttarakhand (Amendment) Bill, 2026 sanctioned", category: "Uttarakhand", date: "July 2026" },
-  { id: 4, title: "Kumbh Mela 2027 (Haridwar): Cabinet delegates enhanced financial powers", category: "Uttarakhand", date: "July 2026" },
-  { id: 5, title: "UKPSC Rules, 2026 amended by State Cabinet", category: "Uttarakhand", date: "July 2026" },
-  { id: 6, title: "Voluntary/Partial Consolidation (Chakbandi) Promotion Policy, 2026 for hill districts", category: "Uttarakhand", date: "July 2026" },
-  { id: 7, title: "Char Dham Yatra 2026 repeatedly disrupted by landslides and heavy rain", category: "Uttarakhand", date: "July 2026" },
-  { id: 8, title: "Advanced Apple Nursery Development Scheme 2026 and Honey Production Policy 2026 approved", category: "Uttarakhand", date: "July 2026" },
-  { id: 9, title: "Bal Palash Yojana (Child Nutrition Campaign) expanded", category: "Uttarakhand", date: "July 2026" },
-  { id: 10, title: "Equine insurance cover for pilgrimage-route horses and mules", category: "Uttarakhand", date: "July 2026" },
-  { id: 11, title: "Center for Aromatic Plants renamed Perfumery & Aromatic R&D Institute", category: "Uttarakhand", date: "July 2026" },
-  { id: 12, title: "Excise and motor vehicle rule amendments: VAT raised to 65%", category: "Uttarakhand", date: "July 2026" },
-  { id: 13, title: "One-time relaxation for Statehood Movement activists' reservation claims", category: "Uttarakhand", date: "July 2026" },
-  // NATIONAL
-  { id: 14, title: "Monsoon Session of Parliament 2026 begins (20 July \u2013 13 August)", category: "National", date: "July 2026" },
-  { id: 15, title: "Union Cabinet approves Mobile Phone Manufacturing Scheme & Semicon 2.0", category: "National", date: "July 2026" },
-  { id: 16, title: "Cabinet approves National Investment Policy for Urea (NIPU-2026)", category: "National", date: "July 2026" },
-  { id: 17, title: "Cabinet approves railway multitracking projects in Odisha and Jharkhand", category: "National", date: "July 2026" },
-  { id: 18, title: "Anurag Jain appointed CEO of NITI Aayog", category: "National", date: "July 2026" },
-  { id: 19, title: "Ajit Doval selected for Lokmanya Tilak National Award 2026", category: "National", date: "July 2026" },
-  { id: 20, title: "16th BRICS Health Ministers' Meeting held in Chandigarh", category: "National", date: "July 2026" },
-  { id: 21, title: "Tri-Service all-women circumnavigation 'Samudra Pradakshina' concludes", category: "National", date: "July 2026" },
-  { id: 22, title: "Ministry of I&B launches 'Gems of India' Challenge on MyWAVES", category: "National", date: "July 2026" },
-  { id: 23, title: "RBI keeps repo rate unchanged at 5.25%; GDP forecast trimmed to 6.6%", category: "National", date: "July 2026" },
-  { id: 24, title: "Vikram-1 (Mission Aagaman): India's first private orbital launch", category: "National", date: "July 2026" },
-  { id: 25, title: "NITI Aayog releases 'Unlocking Growth in Tourism & Hospitality' report", category: "National", date: "July 2026" },
-  { id: 26, title: "Supreme Court flags use of AI-hallucinated case law in judicial orders", category: "National", date: "July 2026" },
-  { id: 27, title: "MY Bharat launches 'Viksit Bharat Yuva Connect Programme'", category: "National", date: "July 2026" },
-  // INTERNATIONAL
-  { id: 28, title: "US\u2013Iran conflict: temporary pause in strikes, Strait of Hormuz tensions", category: "International", date: "July 2026" },
-  { id: 29, title: "France becomes first EU nation to ban social media for under-15s", category: "International", date: "July 2026" },
-  { id: 30, title: "President Murmu unveils Mahatma Gandhi bust in North Macedonia", category: "International", date: "July 2026" },
-  { id: 31, title: "Saudi\u2013Houthi hostilities escalate on the Red Sea coast", category: "International", date: "July 2026" },
-  { id: 32, title: "International Criminal Court votes to remove its chief prosecutor", category: "International", date: "July 2026" },
-  { id: 33, title: "Wildfires in France and Spain disrupt Tour de France", category: "International", date: "July 2026" },
-  { id: 34, title: "PM Modi welcomes Japanese PM Sanae Takaichi on first India visit", category: "International", date: "July 2026" },
-  { id: 35, title: "US tariff escalation continues under President Trump", category: "International", date: "July 2026" },
-  { id: 36, title: "Berlin Pride event disrupted by attack", category: "International", date: "July 2026" },
-  { id: 37, title: "EU moves toward bloc-wide child social-media access framework", category: "International", date: "July 2026" },
-  { id: 38, title: "16th BRICS Health Ministerial Declaration adopted", category: "International", date: "July 2026" },
-  { id: 39, title: "India's space economy: USD 8.4B (2026) \u2192 projected USD 100B by 2040", category: "International", date: "July 2026" },
-  { id: 40, title: "Barack Obama Presidential Center opens in Chicago", category: "International", date: "July 2026" },
-];
+// ===== WEEKLY CURRENT AFFAIRS DATA (from content/currentAffairs.json) =====
+interface CAItem {
+  category: string;
+  title: string;
+  context?: string;
+  source?: string;
+}
+interface CAWeek {
+  id: string;
+  label: string;
+  gistNote?: string;
+  publishDate?: string;
+  items: CAItem[];
+}
+
+// Weeks sorted latest-first (by publishDate, descending)
+const weeks: CAWeek[] = [...(currentAffairs.weeks as CAWeek[])].sort((a, b) =>
+  (b.publishDate || "").localeCompare(a.publishDate || "")
+);
 
 // ===== MCQ TYPES =====
 interface MCQQuestion {
@@ -177,6 +152,7 @@ const categoryColors: Record<string, string> = {
 
 export default function CurrentAffairsPage() {
   const [activeTab, setActiveTab] = useState<TabType>("Weekly Current Affairs");
+  const [activeWeekId, setActiveWeekId] = useState<string>(weeks[0]?.id ?? "");
   const [mcqQuestions, setMcqQuestions] = useState<MCQQuestion[]>([]);
   const [loadingMCQ, setLoadingMCQ] = useState(false);
   const [revealedAnswers, setRevealedAnswers] = useState<Record<number, boolean>>({});
@@ -243,11 +219,13 @@ export default function CurrentAffairsPage() {
     setSelectedOptions({});
   };
 
-  // Group current affairs by category
+  // Active week + group its items by category
+  const activeWeek = weeks.find((w) => w.id === activeWeekId) ?? weeks[0];
+  const activeItems = activeWeek?.items ?? [];
   const groupedAffairs = {
-    Uttarakhand: currentAffairsData.filter((item) => item.category === "Uttarakhand"),
-    National: currentAffairsData.filter((item) => item.category === "National"),
-    International: currentAffairsData.filter((item) => item.category === "International"),
+    Uttarakhand: activeItems.filter((item) => item.category === "Uttarakhand"),
+    National: activeItems.filter((item) => item.category === "National"),
+    International: activeItems.filter((item) => item.category === "International"),
   };
 
   return (
@@ -302,20 +280,52 @@ export default function CurrentAffairsPage() {
           {/* ===== WEEKLY CURRENT AFFAIRS TAB ===== */}
           {activeTab === "Weekly Current Affairs" && (
             <div>
-              {/* Header */}
-              <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 bg-white border border-graphite-200 rounded-lg px-4 py-2 text-sm text-graphite-600 mb-4">
-                  <Calendar className="w-4 h-4 text-saffron-500" />
-                  <span>
-                    <strong className="text-graphite-800">July 2026</strong> — 40 Headlines
-                  </span>
+              {/* Week Sub-Tabs (latest on top / first) */}
+              {weeks.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2 mb-8">
+                  {weeks.map((week) => (
+                    <button
+                      key={week.id}
+                      onClick={() => setActiveWeekId(week.id)}
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-all duration-200 ${
+                        activeWeekId === week.id
+                          ? "bg-jade-600 text-white border-jade-600 shadow-md"
+                          : "bg-white text-graphite-600 border-graphite-200 hover:border-jade-300 hover:text-graphite-900"
+                      }`}
+                    >
+                      <CalendarDays className="w-4 h-4" />
+                      {week.label}
+                    </button>
+                  ))}
                 </div>
-              </div>
+              )}
+
+              {/* Header for the active week */}
+              {activeWeek && (
+                <div className="text-center mb-10">
+                  {activeWeek.gistNote && (
+                    <div className="inline-flex items-center gap-2 bg-saffron-500/10 border border-saffron-200 rounded-full px-4 py-1.5 text-sm text-saffron-700 font-medium mb-3">
+                      <Newspaper className="w-4 h-4" />
+                      {activeWeek.gistNote}
+                    </div>
+                  )}
+                  <div className="flex justify-center">
+                    <div className="inline-flex items-center gap-2 bg-white border border-graphite-200 rounded-lg px-4 py-2 text-sm text-graphite-600">
+                      <Calendar className="w-4 h-4 text-saffron-500" />
+                      <span>
+                        <strong className="text-graphite-800">{activeWeek.label}</strong> —{" "}
+                        {activeItems.length} Headlines
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Category Sections */}
               <div className="space-y-10">
-                {(Object.entries(groupedAffairs) as [string, typeof currentAffairsData][]).map(
-                  ([category, items]) => {
+                {(Object.entries(groupedAffairs) as [string, CAItem[]][])
+                  .filter(([, items]) => items.length > 0)
+                  .map(([category, items]) => {
                     const IconComponent = categoryIcons[category] || Newspaper;
                     const colorClass = categoryColors[category] || "bg-graphite-50 text-graphite-700";
 
@@ -335,29 +345,35 @@ export default function CurrentAffairsPage() {
 
                         {/* Items Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {items.map((item) => (
+                          {items.map((item, idx) => (
                             <div
-                              key={item.id}
+                              key={`${category}-${idx}`}
                               className="flex items-start gap-3 bg-white rounded-lg p-4 border border-graphite-100 hover:border-saffron-200 hover:shadow-sm transition-all duration-200"
                             >
                               <span className="flex-shrink-0 w-7 h-7 rounded-full bg-saffron-100 text-saffron-700 font-bold text-xs flex items-center justify-center">
-                                {item.id}
+                                {idx + 1}
                               </span>
                               <div>
-                                <p className="font-medium text-graphite-900 text-sm leading-relaxed">
+                                <p className="font-semibold text-graphite-900 text-sm leading-relaxed">
                                   {item.title}
                                 </p>
-                                <span className="text-xs text-graphite-500 mt-1 inline-block">
-                                  {item.date}
-                                </span>
+                                {item.context && (
+                                  <p className="text-sm text-graphite-600 mt-1.5 leading-relaxed">
+                                    {item.context}
+                                  </p>
+                                )}
+                                {item.source && (
+                                  <span className="text-xs text-graphite-400 mt-2 inline-block italic">
+                                    {item.source}
+                                  </span>
+                                )}
                               </div>
                             </div>
                           ))}
                         </div>
                       </div>
                     );
-                  }
-                )}
+                  })}
               </div>
             </div>
           )}

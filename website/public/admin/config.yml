@@ -168,6 +168,7 @@ collections:
               - { label: "Item", name: "text", widget: "string" }
 
           - { label: "Chapters Section Heading", name: "chaptersHeading", widget: "string" }
+          - { label: "Chapters Note", name: "chaptersNote", widget: "text", required: false, hint: "Shown under the chapters heading — e.g. explains that video lectures are coming." }
           - label: "Chapter Parts"
             name: "chapters"
             widget: "list"
@@ -177,9 +178,11 @@ collections:
               - label: "Chapters in this Part"
                 name: "items"
                 widget: "list"
-                summary: "{{fields.title}}"
+                summary: "{{fields.number}}. {{fields.title}}"
                 fields:
+                  - { label: "Chapter Number", name: "number", widget: "number", value_type: "int", required: false }
                   - { label: "Chapter Title", name: "title", widget: "string" }
+                  - { label: "Video Lecture URL", name: "videoUrl", widget: "string", required: false, hint: "Paste the YouTube link once this chapter's video is ready. Leave blank to show 'Video coming soon'." }
 
           - label: "Trust Badges"
             name: "trustBadges"
@@ -368,6 +371,79 @@ collections:
           - { label: "Success Heading", name: "successHeading", widget: "string" }
           - { label: "Success Message", name: "successMessage", widget: "text" }
           - { label: "Delay (seconds)", name: "delaySeconds", widget: "number", value_type: "int", default: 25 }
+
+  # ============================================
+  # WEEKLY CURRENT AFFAIRS
+  # ============================================
+  - name: "currentAffairs"
+    label: "🗞️ Weekly Current Affairs"
+    files:
+      - name: "currentAffairs"
+        label: "Weekly Current Affairs"
+        file: "website/content/currentAffairs.json"
+        description: "Add a new week each Sunday. The week with the latest 'Publish Date' automatically appears on top. Add each headline with short context and a source."
+        fields:
+          - { label: "Page Heading", name: "heading", widget: "string" }
+          - { label: "Page Subheading", name: "subheading", widget: "text" }
+          - label: "Weeks"
+            name: "weeks"
+            widget: "list"
+            summary: "{{fields.label}}"
+            hint: "Each entry is one week's gist. Newest week (by Publish Date) shows first."
+            fields:
+              - { label: "ID (unique)", name: "id", widget: "string", hint: "e.g. 2026-08-week1 — must be unique" }
+              - { label: "Week Label", name: "label", widget: "string", hint: "e.g. August 2026 — Week 1" }
+              - { label: "Gist Note", name: "gistNote", widget: "string", required: false, default: "Weekly Gist · Sunday" }
+              - { label: "Publish Date", name: "publishDate", widget: "date", hint: "Used to sort weeks — latest on top. Use the Sunday it goes live." }
+              - label: "Headlines"
+                name: "items"
+                widget: "list"
+                summary: "{{fields.title}}"
+                fields:
+                  - label: "Category"
+                    name: "category"
+                    widget: "select"
+                    options: ["Uttarakhand", "National", "International"]
+                  - { label: "Headline", name: "title", widget: "string" }
+                  - { label: "Context / Analysis", name: "context", widget: "text", required: false, hint: "1–2 lines of context or why it matters for the exam." }
+                  - { label: "Source", name: "source", widget: "string", required: false, hint: "e.g. Tribune India — 13 Jul 2026" }
+
+  # ============================================
+  # FREE RESOURCES (PDFs / Guides)
+  # ============================================
+  - name: "freeResources"
+    label: "📂 Free Resources"
+    files:
+      - name: "freeResources"
+        label: "Free Resources (PDFs & Guides)"
+        file: "website/content/freeResources.json"
+        description: "Downloadable PDFs, trackers and guides shown on the Free Content page under the 'Free Resources' tab."
+        fields:
+          - { label: "Section Heading", name: "heading", widget: "string" }
+          - { label: "Section Subheading", name: "subheading", widget: "text" }
+          - label: "Resources"
+            name: "resources"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Type Label", name: "type", widget: "string", hint: "e.g. PDF, Sheet, Guide" }
+              - { label: "URL", name: "url", widget: "string", hint: "Google Drive / Docs link" }
+              - label: "Icon"
+                name: "icon"
+                widget: "select"
+                options: ["book", "chart", "newspaper", "brain"]
+                required: false
+          - label: "Playlists"
+            name: "playlists"
+            widget: "list"
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "URL", name: "url", widget: "string", hint: "YouTube playlist link" }
 
   # ============================================
   # SITE SETTINGS

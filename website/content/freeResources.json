@@ -1,0 +1,41 @@
+{
+  "heading": "Free Study Resources",
+  "subheading": "Download our guides, trackers and strategy material — 100% free. No sign-up required.",
+  "resources": [
+    {
+      "title": "Master Answer Writing Guide",
+      "description": "Complete framework for UKPSC Mains answer writing — structure, intros, diagrams and value addition.",
+      "type": "PDF",
+      "url": "https://drive.google.com/file/d/1_bDi4rrKRm9xX15IpeDsdgmgrKr0bON8/view?usp=drivesdk",
+      "icon": "book"
+    },
+    {
+      "title": "Previous Year Questions (PYQ) Tracker",
+      "description": "Consolidated UKPSC PYQ tracker to map trends across years and prioritise high-yield topics.",
+      "type": "PDF",
+      "url": "https://drive.google.com/file/d/1nNA_rw1MUBcaL4j-gIA7aBtDWZ8Hrtmx/view?usp=drivesdk",
+      "icon": "chart"
+    },
+    {
+      "title": "PYQ Tracker — Spreadsheet",
+      "description": "The same PYQ tracker as an interactive spreadsheet you can filter and sort online.",
+      "type": "Sheet",
+      "url": "https://docs.google.com/spreadsheets/u/1/d/1AaRep--MPac5uKK1hR7Wl40vOA2d_VH4/htmlview",
+      "icon": "chart"
+    },
+    {
+      "title": "Comprehensive UKPSC Strategy Guide",
+      "description": "End-to-end preparation strategy — syllabus breakdown, resources, timetable and revision plan.",
+      "type": "PDF",
+      "url": "https://drive.google.com/file/d/1dgkozlyzjDvscEm_o4klHtxkgDYgeLdO/view?usp=share_link",
+      "icon": "book"
+    }
+  ],
+  "playlists": [
+    {
+      "title": "UKPSC 2026 Playlist",
+      "description": "Full video series for UKPSC 2026 preparation on YouTube.",
+      "url": "https://www.youtube.com/playlist?list=PLTgXoa2M6V-c"
+    }
+  ]
+}
