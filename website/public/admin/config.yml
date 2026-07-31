@@ -219,10 +219,21 @@ collections:
               - { label: "Price (₹)", name: "price", widget: "number", value_type: "int", hint: "Use 0 if using a Price Label instead" }
               - { label: "Price Label (optional)", name: "priceLabel", widget: "string", required: false, hint: "e.g. 'On Request' — overrides the ₹ price when set" }
               - { label: "Description", name: "description", widget: "text" }
-              - { label: "Show 'Launching Soon' badge", name: "launchingSoon", widget: "boolean", default: true }
-              - { label: "Badge Text", name: "badge", widget: "string", required: false }
-              - { label: "Demo Video URL", name: "demoVideoUrl", widget: "string", required: false, hint: "Paste the demo/preview YouTube link. Leave blank to show 'Demo video coming soon'." }
-              - { label: "Payment Link (Instamojo)", name: "paymentUrl", widget: "string", required: false, hint: "Paste the Instamojo payment link at launch. While blank, the card shows 'Register Interest'." }
+              - label: "Badge Text"
+                name: "badge"
+                widget: "string"
+                required: false
+                hint: "Text for the orange pill on the card, e.g. 'Launching Soon' or 'New'. CLEAR THIS FIELD to remove the pill."
+              - label: "Demo Video URL"
+                name: "demoVideoUrl"
+                widget: "string"
+                required: false
+                hint: "Paste any YouTube link to show a red 'Watch Demo Lecture' link. Leave blank to show 'Demo video coming soon'."
+              - label: "Payment Link"
+                name: "paymentUrl"
+                widget: "string"
+                required: false
+                hint: "Paste the Instamojo (or any) payment link to turn the button into 'Enroll Now'. While blank, the button stays 'Register Interest' and collects leads."
               - label: "Accent Colour"
                 name: "color"
                 widget: "select"
@@ -422,14 +433,46 @@ collections:
             summary: "{{fields.label}}"
             hint: "Each entry is one week's gist. Newest week (by Publish Date) shows first."
             fields:
-              - { label: "ID (unique)", name: "id", widget: "string", hint: "e.g. 2026-08-week1 — must be unique" }
-              - { label: "Week Label", name: "label", widget: "string", hint: "e.g. August 2026 — Week 1" }
+              - { label: "Publish Date", name: "publishDate", widget: "date", hint: "The Sunday this week goes live. Weeks sort by this — latest on top." }
+
+              # ---- QUICK PUBLISH: paste and go ----
+              - label: "⚡ Quick Publish — paste raw content here"
+                name: "paste"
+                widget: "text"
+                required: false
+                hint: >
+                  Paste headlines straight from any source — one headline per line.
+                  Bullets and numbering (-, 1., •) are removed automatically.
+                  Optional extras: write "Headline — context" to add context;
+                  add "(Source: PIB)" at the end for a source; type a line containing
+                  only "National" or "International" to switch category for the lines
+                  below it. Page numbers, links and blank lines are ignored.
+              - label: "Category for pasted lines"
+                name: "pasteCategory"
+                widget: "select"
+                options: ["Uttarakhand", "National", "International"]
+                default: "Uttarakhand"
+                required: false
+                hint: "Category applied to pasted lines until a category line changes it."
+
+              # ---- Optional: fine-grained control ----
+              - label: "Week Label"
+                name: "label"
+                widget: "string"
+                required: false
+                hint: "Leave blank to auto-generate from the date (e.g. August 2026 — Week 1)."
               - { label: "Gist Note", name: "gistNote", widget: "string", required: false, default: "Weekly Gist · Sunday" }
-              - { label: "Publish Date", name: "publishDate", widget: "date", hint: "Used to sort weeks — latest on top. Use the Sunday it goes live." }
-              - label: "Headlines"
+              - label: "ID (unique)"
+                name: "id"
+                widget: "string"
+                required: false
+                hint: "Leave blank — the publish date is used automatically."
+              - label: "Headlines (optional — only if you want to type them one by one)"
                 name: "items"
                 widget: "list"
+                required: false
                 summary: "{{fields.title}}"
+                hint: "You can ignore this entirely if you used Quick Publish above."
                 fields:
                   - label: "Category"
                     name: "category"
@@ -459,8 +502,17 @@ collections:
             fields:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Description", name: "description", widget: "text" }
-              - { label: "Type Label", name: "type", widget: "string", hint: "e.g. PDF, Sheet, Guide" }
-              - { label: "URL", name: "url", widget: "string", hint: "Google Drive / Docs link" }
+              - { label: "Type Label", name: "type", widget: "string", hint: "e.g. PDF, Sheet, Guide, Tracker" }
+              - label: "Upload a PDF / file"
+                name: "file"
+                widget: "file"
+                required: false
+                hint: "Upload the PDF here to host it on the site. If you upload a file, it is used instead of the link below."
+              - label: "Or paste a link"
+                name: "url"
+                widget: "string"
+                required: false
+                hint: "Google Drive / Docs / Sheets link, or an internal path like /pyq-tracker. Ignored when a file is uploaded above."
               - label: "Icon"
                 name: "icon"
                 widget: "select"
@@ -539,5 +591,42 @@ collections:
           - "PYQ Analysis"
           - "Current Affairs"
       - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - label: "Featured Image"
+        name: "featured_image"
+        widget: "image"
+        required: false
+        hint: "Optional. Shown at the top of the article and used as the social-share preview image."
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        hint: >
+          Standard format: "##" for each section, "###" for sub-points, "-" for
+          bullet lists, "1." for steps. Do NOT add a top-level "#" title — the
+          page prints the Title field above automatically.
+        default: |
+          Open with two or three lines that state the problem and what the reader will get from this article.
+
+          ## Why this matters for UKPSC
+
+          - First reason, with the exam angle made explicit
+          - Second reason
+
+          ## Step-by-step approach
+
+          1. First step — what to do and why
+          2. Second step
+          3. Third step
+
+          ## Common mistakes to avoid
+
+          - Mistake one — why it costs marks
+          - Mistake two — what to do instead
+
+          ## Key takeaways
+
+          - Takeaway one
+          - Takeaway two
+
+          ---
+
+          *Preparing for UKPSC 2026? Join our Telegram channel for daily current affairs and MCQs.*

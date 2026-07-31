@@ -17,26 +17,18 @@ import {
 } from "lucide-react";
 import currentAffairs from "@content/currentAffairs.json";
 import mcqBank from "@content/mcqBank.json";
+import {
+  buildWeeks,
+  groupByCategory,
+  type CAItem,
+  type CAWeek,
+  type RawCAWeek,
+} from "@/lib/currentAffairs";
 
 // ===== WEEKLY CURRENT AFFAIRS DATA (from content/currentAffairs.json) =====
-interface CAItem {
-  category: string;
-  title: string;
-  context?: string;
-  source?: string;
-}
-interface CAWeek {
-  id: string;
-  label: string;
-  gistNote?: string;
-  publishDate?: string;
-  items: CAItem[];
-}
-
-// Weeks sorted latest-first (by publishDate, descending)
-const weeks: CAWeek[] = [...(currentAffairs.weeks as CAWeek[])].sort((a, b) =>
-  (b.publishDate || "").localeCompare(a.publishDate || "")
-);
+// buildWeeks merges structured items with anything pasted into the CMS
+// "Quick Publish" box, fills in missing ids/labels, and sorts newest first.
+const weeks: CAWeek[] = buildWeeks(currentAffairs.weeks as RawCAWeek[]);
 
 // ===== MCQ TYPES =====
 interface MCQQuestion {
@@ -267,11 +259,7 @@ export default function CurrentAffairsPage() {
   // Active week + group its items by category
   const activeWeek = weeks.find((w) => w.id === activeWeekId) ?? weeks[0];
   const activeItems = activeWeek?.items ?? [];
-  const groupedAffairs = {
-    Uttarakhand: activeItems.filter((item) => item.category === "Uttarakhand"),
-    National: activeItems.filter((item) => item.category === "National"),
-    International: activeItems.filter((item) => item.category === "International"),
-  };
+  const groupedAffairs = groupByCategory(activeItems);
 
   return (
     <div>

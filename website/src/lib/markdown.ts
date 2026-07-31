@@ -1,114 +1,248 @@
 // Lightweight markdown-to-HTML converter (no external dependency).
-// Supports headings, bold/italic, links, images, inline code, lists,
-// blockquotes, horizontal rules and GitHub-flavoured tables.
-export function markdownToHtml(md: string): string {
-  let html = md
-    // Horizontal rules
-    .replace(/^---$/gm, "<hr />")
-    // Headers
-    .replace(/^######\s+(.+)$/gm, "<h6>$1</h6>")
-    .replace(/^#####\s+(.+)$/gm, "<h5>$1</h5>")
-    .replace(/^####\s+(.+)$/gm, "<h4>$1</h4>")
-    .replace(/^###\s+(.+)$/gm, "<h3>$1</h3>")
-    .replace(/^##\s+(.+)$/gm, "<h2>$1</h2>")
-    .replace(/^#\s+(.+)$/gm, "<h1>$1</h1>")
-    // Bold and italic
-    .replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-    // Images
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="rounded-lg" />')
-    // Inline code
-    .replace(/`([^`]+)`/g, "<code>$1</code>");
+//
+// Supports: headings, bold/italic, inline code, links, images, ordered and
+// unordered lists (including one level of nesting), blockquotes, horizontal
+// rules, GitHub-flavoured tables and multi-line paragraphs.
+//
+// Styling comes from the `prose` wrapper on the article page, so elements are
+// emitted without classes except where structure demands it (tables, images).
 
-  // Process blocks (lists, paragraphs, tables)
-  const lines = html.split("\n");
-  let result = "";
-  let inList = false;
-  let inOrderedList = false;
-  let inTable = false;
-  let tableStarted = false;
+/** Inline formatting applied to the text inside a block. */
+function inline(text: string): string {
+  return (
+    text
+      // Images must run before links, otherwise ![alt](src) loses its "!".
+      .replace(
+        /!\[([^\]]*)\]\(([^)\s]+)\)/g,
+        '<img src="$2" alt="$1" class="rounded-lg" loading="lazy" />'
+      )
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_match, label: string, href: string) => {
+        const external = /^https?:\/\//i.test(href);
+        const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : "";
+        return `<a href="${href}"${attrs}>${label}</a>`;
+      })
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      // Single-asterisk italics, without eating the markers of bold text.
+      .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>")
+  );
+}
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+interface ListItem {
+  ordered: boolean;
+  content: string;
+  indent: number;
+}
 
-    // Table rows
-    if (line.startsWith("|") && line.endsWith("|")) {
-      if (!inTable) {
-        inTable = true;
-        tableStarted = false;
-        result += '<div class="overflow-x-auto my-6"><table class="min-w-full border border-graphite-200 text-sm">';
-      }
-      // Skip separator row
-      if (line.match(/^\|[\s\-:|]+\|$/)) {
-        tableStarted = true;
-        continue;
-      }
-      const cells = line.split("|").filter((c) => c.trim() !== "");
-      const tag = !tableStarted ? "th" : "td";
-      const rowClass = !tableStarted
-        ? ' class="bg-graphite-100 font-semibold"'
-        : "";
-      result += `<tr${rowClass}>`;
-      cells.forEach((cell) => {
-        result += `<${tag} class="px-3 py-2 border border-graphite-200">${cell.trim()}</${tag}>`;
-      });
-      result += "</tr>";
-      if (!tableStarted) tableStarted = true;
-      continue;
-    } else if (inTable) {
-      inTable = false;
-      result += "</table></div>";
-    }
+function listMarker(line: string): ListItem | null {
+  const match = line.match(/^(\s*)([-*+]|\d{1,3}[.)])\s+(.*)$/);
+  if (!match) return null;
+  return {
+    ordered: /\d/.test(match[2]),
+    content: match[3],
+    indent: match[1].replace(/\t/g, "  ").length,
+  };
+}
 
-    // Unordered list
-    if (line.match(/^[-*]\s+/)) {
-      if (!inList) { result += "<ul>"; inList = true; }
-      result += `<li>${line.replace(/^[-*]\s+/, "")}</li>`;
-      continue;
-    } else if (inList) {
-      inList = false;
-      result += "</ul>";
-    }
+function isHeading(text: string): boolean {
+  return /^#{1,6}\s+/.test(text);
+}
 
-    // Ordered list
-    if (line.match(/^\d+\.\s+/)) {
-      if (!inOrderedList) { result += "<ol>"; inOrderedList = true; }
-      result += `<li>${line.replace(/^\d+\.\s+/, "")}</li>`;
-      continue;
-    } else if (inOrderedList) {
-      inOrderedList = false;
-      result += "</ol>";
-    }
+function isHorizontalRule(text: string): boolean {
+  return /^(-{3,}|\*{3,}|_{3,})$/.test(text);
+}
 
-    // Blockquote
-    if (line.startsWith("> ")) {
-      result += `<blockquote><p>${line.replace(/^>\s*/, "")}</p></blockquote>`;
-      continue;
-    }
+function isTableRow(text: string): boolean {
+  return text.startsWith("|") && text.endsWith("|") && text.length > 2;
+}
 
-    // HTML tags pass through
-    if (line.startsWith("<")) {
-      result += line;
-      continue;
-    }
+function isTableSeparator(text: string): boolean {
+  return /^\|[\s:\-|]+\|$/.test(text) && text.includes("-");
+}
 
-    // Empty line
-    if (line.trim() === "") {
-      result += "";
-      continue;
-    }
+/** Split "| a | b |" into ["a", "b"], preserving empty cells. */
+function tableCells(row: string): string[] {
+  return row
+    .trim()
+    .slice(1, -1)
+    .split("|")
+    .map((cell) => cell.trim());
+}
 
-    // Regular paragraph
-    result += `<p>${line}</p>`;
+function parseTable(lines: string[], start: number): [string, number] {
+  const header = tableCells(lines[start]);
+  let index = start + 2; // skip header and separator
+
+  let html =
+    '<div class="overflow-x-auto my-6"><table class="min-w-full border border-graphite-200 text-sm">';
+  html += '<thead><tr class="bg-graphite-100">';
+  html += header
+    .map(
+      (cell) =>
+        `<th class="px-3 py-2 border border-graphite-200 text-left font-semibold">${inline(cell)}</th>`
+    )
+    .join("");
+  html += "</tr></thead><tbody>";
+
+  while (index < lines.length && isTableRow(lines[index].trim())) {
+    const row = tableCells(lines[index]);
+    html += "<tr>";
+    html += row
+      .map((cell) => `<td class="px-3 py-2 border border-graphite-200">${inline(cell)}</td>`)
+      .join("");
+    html += "</tr>";
+    index++;
   }
 
-  // Close any open lists/tables
-  if (inList) result += "</ul>";
-  if (inOrderedList) result += "</ol>";
-  if (inTable) result += "</table></div>";
+  html += "</tbody></table></div>";
+  return [html, index];
+}
 
-  return result;
+function parseList(lines: string[], start: number, indent: number): [string, number] {
+  const first = listMarker(lines[start]);
+  if (!first) return ["", start + 1];
+
+  const tag = first.ordered ? "ol" : "ul";
+  let html = `<${tag}>`;
+  let index = start;
+
+  while (index < lines.length) {
+    const line = lines[index];
+
+    // A blank line only continues the list if another item follows.
+    if (!line.trim()) {
+      const next = index + 1 < lines.length ? listMarker(lines[index + 1]) : null;
+      if (next && next.indent >= indent) {
+        index++;
+        continue;
+      }
+      break;
+    }
+
+    const marker = listMarker(line);
+    if (!marker || marker.indent < indent) break;
+
+    // Deeper indent: a nested list belonging to the previous item.
+    if (marker.indent > indent) {
+      const [nested, next] = parseList(lines, index, marker.indent);
+      html = html.replace(/<\/li>$/, `${nested}</li>`);
+      index = next;
+      continue;
+    }
+
+    // Switching between bulleted and numbered ends this list.
+    if (marker.ordered !== first.ordered) break;
+
+    html += `<li>${inline(marker.content.trim())}</li>`;
+    index++;
+  }
+
+  html += `</${tag}>`;
+  return [html, index];
+}
+
+function startsNewBlock(rawLine: string): boolean {
+  const text = rawLine.trim();
+  if (!text) return true;
+  return (
+    isHeading(text) ||
+    isHorizontalRule(text) ||
+    isTableRow(text) ||
+    /^>\s?/.test(text) ||
+    text.startsWith("<") ||
+    listMarker(rawLine) !== null
+  );
+}
+
+export function markdownToHtml(md: string): string {
+  const lines = md.replace(/\r\n?/g, "\n").split("\n");
+  const out: string[] = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const raw = lines[index];
+    const text = raw.trim();
+
+    if (!text) {
+      index++;
+      continue;
+    }
+
+    if (isHorizontalRule(text)) {
+      out.push("<hr />");
+      index++;
+      continue;
+    }
+
+    const heading = text.match(/^(#{1,6})\s+(.*)$/);
+    if (heading) {
+      const level = heading[1].length;
+      out.push(`<h${level}>${inline(heading[2].trim())}</h${level}>`);
+      index++;
+      continue;
+    }
+
+    if (
+      isTableRow(text) &&
+      index + 1 < lines.length &&
+      isTableSeparator(lines[index + 1].trim())
+    ) {
+      const [html, next] = parseTable(lines, index);
+      out.push(html);
+      index = next;
+      continue;
+    }
+
+    if (/^>\s?/.test(text)) {
+      const quoted: string[] = [];
+      while (index < lines.length && /^\s*>\s?/.test(lines[index])) {
+        quoted.push(lines[index].replace(/^\s*>\s?/, ""));
+        index++;
+      }
+      out.push(`<blockquote>${markdownToHtml(quoted.join("\n"))}</blockquote>`);
+      continue;
+    }
+
+    if (listMarker(raw)) {
+      const [html, next] = parseList(lines, index, listMarker(raw)!.indent);
+      out.push(html);
+      index = next;
+      continue;
+    }
+
+    // Raw HTML passes through untouched.
+    if (text.startsWith("<")) {
+      out.push(text);
+      index++;
+      continue;
+    }
+
+    // Paragraph: absorb following lines until a blank line or a new block.
+    const paragraph: string[] = [text];
+    index++;
+    while (index < lines.length && !startsNewBlock(lines[index])) {
+      paragraph.push(lines[index].trim());
+      index++;
+    }
+    out.push(`<p>${inline(paragraph.join(" "))}</p>`);
+  }
+
+  return out.join("\n");
+}
+
+/**
+ * Remove a leading `# Heading` from article markdown.
+ *
+ * The article page already renders the frontmatter title as the page's only
+ * <h1>, so a body that opens with its own H1 produces two H1s — bad for both
+ * SEO and heading hierarchy.
+ */
+export function stripLeadingH1(md: string): string {
+  const lines = md.replace(/\r\n?/g, "\n").split("\n");
+  let index = 0;
+  while (index < lines.length && !lines[index].trim()) index++;
+  if (index >= lines.length) return md;
+  if (!/^#\s+/.test(lines[index].trim())) return md;
+  return lines.slice(index + 1).join("\n").replace(/^\n+/, "");
 }
