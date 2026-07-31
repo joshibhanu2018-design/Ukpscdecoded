@@ -34,12 +34,18 @@ export async function submitLead(data: LeadPayload): Promise<boolean> {
     }
     return false;
   }
+  // Automatically record where the lead came from (page path + site host)
+  // so a single sheet stays fully segregated by origin/landing page.
+  const context =
+    typeof window !== "undefined"
+      ? { page: window.location.pathname, site: window.location.host, url: window.location.href }
+      : {};
   try {
     await fetch(endpoint, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, submittedAt: new Date().toISOString() }),
+      body: JSON.stringify({ ...context, ...data, submittedAt: new Date().toISOString() }),
     });
     return true;
   } catch {

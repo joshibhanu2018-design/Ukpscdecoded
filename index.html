@@ -146,6 +146,22 @@
 
                 <!-- Trust -->
                 <p class="text-center text-xs text-gray-600 mt-4">Trusted by 500+ UKPSC aspirants</p>
+
+                <!-- Explore Main Site Links -->
+                <div class="mt-5 grid grid-cols-2 gap-2">
+                    <a href="https://ukpscdecoded.netlify.app/buy-book#free-samples" class="flex items-center justify-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-amber-800 hover:bg-amber-100 transition-colors">
+                        📖 Read Free Samples
+                    </a>
+                    <a href="https://ukpscdecoded.netlify.app/courses" class="flex items-center justify-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 transition-colors">
+                        🎓 Explore Courses
+                    </a>
+                    <a href="https://ukpscdecoded.netlify.app/free-content" class="flex items-center justify-center gap-1.5 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-blue-800 hover:bg-blue-100 transition-colors">
+                        📂 Free Resources
+                    </a>
+                    <a href="https://ukpscdecoded.netlify.app/current-affairs" class="flex items-center justify-center gap-1.5 bg-purple-50 border border-purple-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-purple-800 hover:bg-purple-100 transition-colors">
+                        📰 Weekly CA + Daily MCQ
+                    </a>
+                </div>
             </div>
 
             <!-- ═══════ THANK YOU VIEW (Hidden initially) ═══════ -->
@@ -223,7 +239,7 @@
         // ║  2. Your WhatsApp number (that you want them to save)       ║
         // ╚══════════════════════════════════════════════════════════════╝
         
-        const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycby-vKJt3Fyq2RkA-uYVLkYSIn1b7vhHM3Lmh6fMY6rOtO4Jxh9wyrAhJEuB7MMbHnUG/exec';
+        const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyTIOwMIO6iNvJ9gCS8pRO15g5SvnwwW8gt7DdiXSZn939IzJV6WTniu1lETIk-7ufq/exec';
 
         // ─── Elements ───
         const form = document.getElementById('leadForm');
@@ -261,7 +277,10 @@
                         name: name,
                         phone: '+91' + phone,
                         exam: exam,
-                        source: 'landing-page'
+                        source: 'landing-page',
+                        page: location.pathname,
+                        site: location.host,
+                        url: location.href
                     }),
                     mode: 'no-cors'
                 });
