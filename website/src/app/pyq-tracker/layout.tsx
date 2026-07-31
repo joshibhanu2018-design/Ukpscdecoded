@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "PYQ Tracker — Previous Year Question Analysis",
+  title: "PYQ Tracker — UKPSC Previous Year Question Analysis + 60-Day Plan",
   description:
-    "Analyze UKPSC previous year question patterns from 2018-2023. Topic-wise weightage, trends, and frequency data for Paper V (Uttarakhand GK) and Paper VI (General Studies).",
+    "Cluster-wise UKPSC PYQ analysis (2016, 2021, 2024, 2025) for Uttarakhand & National topics with priority tags, plus a ready 60-day preparation plan. Filter and search by topic.",
   keywords: [
     "UKPSC PYQ",
     "UKPSC previous year questions",

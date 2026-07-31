@@ -3,7 +3,7 @@ import {
   Send,
   PlayCircle,
 } from "lucide-react";
-import { fetchChannelVideos, type YouTubeVideo } from "@/lib/youtube";
+import { fetchChannelVideos, isFreePreview, type YouTubeVideo } from "@/lib/youtube";
 import VideoGrid from "./VideoGrid";
 
 // Fallback data in case YouTube API fails or returns empty
@@ -96,6 +96,9 @@ export default async function FreeContentPage() {
   if (videos.length === 0) {
     videos = fallbackVideos;
   }
+
+  // Ensure free-preview flag is applied (from content/videoConfig.json)
+  videos = videos.map((v) => ({ ...v, freePreview: v.freePreview ?? isFreePreview(v.id) }));
 
   return (
     <div>

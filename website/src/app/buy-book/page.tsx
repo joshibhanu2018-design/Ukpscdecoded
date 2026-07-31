@@ -9,6 +9,8 @@ import {
   Loader2,
 } from 'lucide-react';
 import { getIcon } from '@/lib/icons';
+import CountdownBanner from '@/components/CountdownBanner';
+import BookPreview from '@/components/BookPreview';
 import book from '@content/book.json';
 
 interface FormData {
@@ -76,6 +78,17 @@ export default function BuyBookPage() {
 
   return (
     <div>
+      {/* Early-Bird Countdown Banner */}
+      {book.earlyBird?.enabled && (
+        <CountdownBanner
+          deadline={book.earlyBird.deadline}
+          badge={book.earlyBird.badge}
+          headline={book.earlyBird.headline}
+          subtext={book.earlyBird.subtext}
+          stockNote={book.earlyBird.stockNote}
+        />
+      )}
+
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-graphite-900 via-graphite-800 to-graphite-950 text-white section-padding">
         <div className="container-custom text-center">
@@ -141,7 +154,7 @@ export default function BuyBookPage() {
             </div>
 
             {/* Right — Order Form */}
-            <div>
+            <div id="order-form">
               <div className="card p-6 sm:p-8 sticky top-24">
                 {/* Price */}
                 <div className="text-center mb-6 pb-6 border-b border-graphite-100">
@@ -155,6 +168,11 @@ export default function BuyBookPage() {
                     </span>
                   </div>
                   <p className="text-xs text-jade-600 font-medium mt-1">{book.shippingNote}</p>
+                  {book.earlyBird?.enabled && (
+                    <div className="mt-3 inline-flex items-center gap-1.5 bg-saffron-50 text-saffron-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+                      🔥 Early-bird: Save ₹{book.originalPrice - book.price} ({Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% off)
+                    </div>
+                  )}
                 </div>
 
                 {/* Form */}
@@ -305,6 +323,14 @@ export default function BuyBookPage() {
           </div>
         </div>
       </section>
+
+      {/* Free Sample Pages */}
+      <BookPreview
+        heading={book.previewHeading}
+        subtext={book.previewSubtext}
+        previews={book.freePreviews}
+        price={book.price}
+      />
 
       {/* Trust Badges */}
       <section className="section-padding bg-graphite-50">

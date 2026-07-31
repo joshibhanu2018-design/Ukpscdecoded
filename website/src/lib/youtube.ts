@@ -1,6 +1,8 @@
 // YouTube Data API v3 integration
 // Fetches videos from UKPSC Decoded channel and categorizes them
 
+import videoConfig from '@content/videoConfig.json';
+
 const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || '';
 
 export interface YouTubeVideo {
@@ -11,6 +13,12 @@ export interface YouTubeVideo {
   publishedAt: string;
   duration?: string;
   category: string;
+  freePreview?: boolean;
+}
+
+// Video IDs flagged as free-preview lectures (editable in content/videoConfig.json)
+export function isFreePreview(videoId: string): boolean {
+  return (videoConfig.freePreviewVideoIds || []).includes(videoId);
 }
 
 // Get channel ID from handle @ukpscdecoded
@@ -59,6 +67,7 @@ export async function fetchChannelVideos(): Promise<YouTubeVideo[]> {
           '',
         publishedAt: item.snippet.publishedAt,
         category,
+        freePreview: isFreePreview(videoId),
       };
     });
 

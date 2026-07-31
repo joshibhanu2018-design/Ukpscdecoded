@@ -5,7 +5,15 @@
   "price": 499,
   "originalPrice": 799,
   "shippingNote": "Free shipping across India",
-  "whatsappNumber": "919999999999",
+  "whatsappNumber": "919632662418",
+  "earlyBird": {
+    "enabled": true,
+    "badge": "🔥 Early-Bird Launch Offer",
+    "headline": "First Edition — Limited Launch Price",
+    "subtext": "Introductory price ends soon. Price increases to ₹799 after the early-bird window.",
+    "deadline": "2026-08-31T23:59:59+05:30",
+    "stockNote": "Limited first-edition print run"
+  },
   "includedHeading": "What's Included",
   "included": [
     { "text": "Complete Paper V + Paper VI coverage" },
@@ -62,6 +70,25 @@
         { "title": "Indian Economy (with State Focus)" },
         { "title": "Current Affairs Capsule" }
       ]
+    }
+  ],
+  "previewHeading": "Read Free Sample Pages",
+  "previewSubtext": "See the quality and depth before you buy — a page each from three key sections.",
+  "freePreviews": [
+    {
+      "label": "Chapter 1 — History",
+      "title": "Ancient History of Uttarakhand",
+      "content": "[REPLACE THIS with one essential/high-quality page from Chapter 1 of the book. This preview is shown free to build buyer trust. Keep it to roughly one page of your strongest content — e.g. the Katyuri dynasty overview with key facts, dates and a map reference.]"
+    },
+    {
+      "label": "Economy Section",
+      "title": "Uttarakhand Economy & Budget",
+      "content": "[REPLACE THIS with one strong page from the Economy section — e.g. state GDP composition, key schemes, SIDCUL industrial areas, and 3-4 exam-ready data points that show the book's data-driven approach.]"
+    },
+    {
+      "label": "Geography Section",
+      "title": "Rivers, Glaciers & Physiography",
+      "content": "[REPLACE THIS with one strong page from the Geography section — e.g. the Alaknanda system and Panch Prayag, major glaciers and the rivers originating from them, with the kind of map-linked detail that wins Prelims marks.]"
     }
   ],
   "trustBadges": [

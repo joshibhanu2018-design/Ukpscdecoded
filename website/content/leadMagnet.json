@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "badge": "Free Download",
+  "title": "Free UKPSC Answer Writing Guidebook",
+  "subtitle": "Get the exact answer-writing framework that scored 846/1650 in Mains — keyword decoding, diagram placement, and the LHS=RHS technique. Straight to your inbox.",
+  "benefits": [
+    "The GADJI introduction framework",
+    "Diagram toolkit + placement rules",
+    "Priority topic mapping from PYQs"
+  ],
+  "buttonText": "Send Me the Free Guidebook",
+  "namePlaceholder": "Your name",
+  "phonePlaceholder": "WhatsApp number",
+  "emailPlaceholder": "Email address",
+  "formEndpoint": "",
+  "pdfUrl": "",
+  "telegramLink": "https://t.me/ukpscdecoded",
+  "successHeading": "Check your inbox! 🎉",
+  "successMessage": "Your free Answer Writing Guidebook is on its way. Meanwhile, join our Telegram for daily MCQs and updates.",
+  "delaySeconds": 25
+}

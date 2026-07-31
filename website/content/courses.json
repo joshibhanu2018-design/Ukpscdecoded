@@ -11,6 +11,7 @@
       "launchingSoon": true,
       "badge": "Launching Soon",
       "color": "saffron",
+      "freePreviewUrl": "",
       "features": [
         { "text": "200+ video lectures" },
         { "text": "Printed study material" },
@@ -27,6 +28,7 @@
       "launchingSoon": true,
       "badge": "Launching Soon",
       "color": "jade",
+      "freePreviewUrl": "",
       "features": [
         { "text": "100+ topic-wise videos" },
         { "text": "Uttarakhand-specific focus" },
@@ -43,6 +45,7 @@
       "launchingSoon": true,
       "badge": "Launching Soon",
       "color": "graphite",
+      "freePreviewUrl": "",
       "features": [
         { "text": "30 full-length tests" },
         { "text": "Detailed solutions" },
