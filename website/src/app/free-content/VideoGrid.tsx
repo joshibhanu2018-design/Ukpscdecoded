@@ -100,6 +100,13 @@ export default function VideoGrid({ videos }: { videos: YouTubeVideo[] }) {
                   {video.duration}
                 </div>
               )}
+              {/* Free Preview Badge */}
+              {video.freePreview && (
+                <div className="absolute top-2 left-2 bg-jade-600 text-white text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md">
+                  <PlayCircle className="w-3 h-3" />
+                  Free Preview
+                </div>
+              )}
             </div>
             {/* Content */}
             <div className="p-5">

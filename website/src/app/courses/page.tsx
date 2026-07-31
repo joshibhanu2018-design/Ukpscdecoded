@@ -10,6 +10,7 @@ import {
   ArrowRight,
   Sparkles,
   CheckCircle2,
+  PlayCircle,
 } from 'lucide-react';
 import courses from '@content/courses.json';
 
@@ -115,6 +116,17 @@ export default function CoursesPage() {
                     <Bell className="w-4 h-4" />
                     {course.launchingSoon ? 'Notify Me' : 'Enroll Now'}
                   </button>
+                  {course.freePreviewUrl && (
+                    <a
+                      href={course.freePreviewUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 w-full inline-flex items-center justify-center gap-2 text-jade-700 font-semibold px-6 py-2.5 rounded-lg border-2 border-jade-200 hover:bg-jade-50 transition-all text-sm"
+                    >
+                      <PlayCircle className="w-4 h-4" />
+                      Watch Free Preview Lecture
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

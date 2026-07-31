@@ -136,6 +136,29 @@ collections:
           - { label: "Shipping Note", name: "shippingNote", widget: "string" }
           - { label: "WhatsApp Number", name: "whatsappNumber", widget: "string", hint: "With country code, digits only. e.g. 919876543210" }
 
+          - label: "Early-Bird Offer Banner"
+            name: "earlyBird"
+            widget: "object"
+            fields:
+              - { label: "Show Banner", name: "enabled", widget: "boolean", default: true }
+              - { label: "Badge Text", name: "badge", widget: "string" }
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Subtext", name: "subtext", widget: "string" }
+              - { label: "Offer Ends (deadline)", name: "deadline", widget: "datetime", hint: "Countdown counts down to this date/time" }
+              - { label: "Stock Note", name: "stockNote", widget: "string", required: false }
+
+          - { label: "Free Sample — Section Heading", name: "previewHeading", widget: "string" }
+          - { label: "Free Sample — Subtext", name: "previewSubtext", widget: "text" }
+          - label: "Free Sample Pages"
+            name: "freePreviews"
+            widget: "list"
+            summary: "{{fields.title}}"
+            hint: "Paste one real page of content per sample to show free before purchase."
+            fields:
+              - { label: "Label", name: "label", widget: "string", hint: "e.g. Chapter 1 — History" }
+              - { label: "Sample Title", name: "title", widget: "string" }
+              - { label: "Page Content", name: "content", widget: "text" }
+
           - { label: "'What's Included' Heading", name: "includedHeading", widget: "string" }
           - label: "What's Included Items"
             name: "included"
@@ -289,6 +312,62 @@ collections:
               - { label: "Instagram Handle", name: "instagramHandle", widget: "string" }
               - { label: "Form Success Heading", name: "successHeading", widget: "string" }
               - { label: "Form Success Message", name: "successMessage", widget: "text" }
+
+  # ============================================
+  # DAILY QUIZ
+  # ============================================
+  - name: "quiz"
+    label: "❓ Daily Quiz"
+    files:
+      - name: "quiz"
+        label: "Homepage Quiz Questions"
+        file: "website/content/quiz.json"
+        description: "Edit the 5 homepage quiz questions. Update these regularly (e.g. from your PYQ PDF)."
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+          - { label: "Subheading", name: "subheading", widget: "text" }
+          - label: "Questions"
+            name: "questions"
+            widget: "list"
+            summary: "{{fields.question}}"
+            fields:
+              - { label: "Question", name: "question", widget: "string" }
+              - label: "Options"
+                name: "options"
+                widget: "list"
+                hint: "Add exactly 4 options"
+              - { label: "Correct Option Index (0-3)", name: "correctIndex", widget: "number", value_type: "int", min: 0, max: 3 }
+              - { label: "Explanation", name: "explanation", widget: "text" }
+              - { label: "% Who Got It Right", name: "solvedPct", widget: "number", value_type: "int", min: 0, max: 100, hint: "Social-proof stat shown to users" }
+
+  # ============================================
+  # LEAD MAGNET POPUP
+  # ============================================
+  - name: "leadMagnet"
+    label: "🎁 Lead Popup"
+    files:
+      - name: "leadMagnet"
+        label: "Free Guidebook Popup"
+        file: "website/content/leadMagnet.json"
+        description: "The popup that offers a free download to capture leads. Fill Form Endpoint + PDF URL to go live."
+        fields:
+          - { label: "Enable Popup", name: "enabled", widget: "boolean", default: true }
+          - { label: "Badge", name: "badge", widget: "string" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "text" }
+          - label: "Benefit Bullets"
+            name: "benefits"
+            widget: "list"
+          - { label: "Button Text", name: "buttonText", widget: "string" }
+          - { label: "Name Placeholder", name: "namePlaceholder", widget: "string" }
+          - { label: "Phone Placeholder", name: "phonePlaceholder", widget: "string" }
+          - { label: "Email Placeholder", name: "emailPlaceholder", widget: "string" }
+          - { label: "Form Endpoint URL", name: "formEndpoint", widget: "string", required: false, hint: "Google Apps Script / Form webhook that saves leads to your spreadsheet" }
+          - { label: "Free PDF Download URL", name: "pdfUrl", widget: "string", required: false, hint: "Link to the free guidebook PDF" }
+          - { label: "Telegram Link", name: "telegramLink", widget: "string" }
+          - { label: "Success Heading", name: "successHeading", widget: "string" }
+          - { label: "Success Message", name: "successMessage", widget: "text" }
+          - { label: "Delay (seconds)", name: "delaySeconds", widget: "number", value_type: "int", default: 25 }
 
   # ============================================
   # SITE SETTINGS

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { BookOpen, ArrowRight, Star, BookMarked, Video, Send, FileText, Calendar } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { getAllArticles } from "@/lib/articles";
+import HomeQuiz from "@/components/HomeQuiz";
+import quiz from "@content/quiz.json";
 import home from "@content/home.json";
 
 export default function Home() {
@@ -91,6 +93,22 @@ export default function Home() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* Daily Quiz Widget */}
+      <section className="section-padding bg-gradient-to-br from-graphite-900 via-graphite-800 to-graphite-950">
+        <div className="container-custom">
+          <div className="text-center mb-10">
+            <h2 className="heading-lg text-white mb-3">
+              {quiz.heading.split("—")[0]}
+              <span className="text-saffron-400">
+                {quiz.heading.includes("—") ? "— " + quiz.heading.split("—")[1] : ""}
+              </span>
+            </h2>
+            <p className="text-graphite-300 text-lg max-w-2xl mx-auto">{quiz.subheading}</p>
+          </div>
+          <HomeQuiz />
         </div>
       </section>
 

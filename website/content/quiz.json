@@ -1,0 +1,41 @@
+{
+  "heading": "Test Yourself — Daily 5",
+  "subheading": "Answer 5 UKPSC-style questions and get instant feedback. New questions added regularly.",
+  "questions": [
+    {
+      "question": "Which is the tallest dam in India, located in Uttarakhand?",
+      "options": ["Bhakra Dam", "Tehri Dam", "Sardar Sarovar Dam", "Hirakud Dam"],
+      "correctIndex": 1,
+      "explanation": "Tehri Dam on the Bhagirathi river is the tallest dam in India (260.5 m).",
+      "solvedPct": 72
+    },
+    {
+      "question": "The Kalsi rock edict in Uttarakhand belongs to which ruler?",
+      "options": ["Chandragupta Maurya", "Samudragupta", "Ashoka", "Harshavardhan"],
+      "correctIndex": 2,
+      "explanation": "Kalsi (Dehradun) has the only Ashokan rock edict found in Uttarakhand.",
+      "solvedPct": 54
+    },
+    {
+      "question": "The Chipko Movement is most closely associated with which pair?",
+      "options": ["Gaura Devi & Sundarlal Bahuguna", "Kalyan Singh Rawat & Chandi Prasad", "Badri Dutt Pandey & Kalu Mahara", "Nain Singh & Bishen Singh"],
+      "correctIndex": 0,
+      "explanation": "Gaura Devi led the Reni village action; Sundarlal Bahuguna gave the movement national voice.",
+      "solvedPct": 66
+    },
+    {
+      "question": "Which article of the Constitution deals with the Right to Constitutional Remedies?",
+      "options": ["Article 19", "Article 21", "Article 32", "Article 44"],
+      "correctIndex": 2,
+      "explanation": "Article 32 — called the 'heart and soul' of the Constitution by Dr. B.R. Ambedkar.",
+      "solvedPct": 61
+    },
+    {
+      "question": "The state animal of Uttarakhand is the:",
+      "options": ["Snow Leopard", "Musk Deer", "Himalayan Monal", "Tiger"],
+      "correctIndex": 1,
+      "explanation": "Musk Deer (Kasturi Mrig) is the state animal; the Himalayan Monal is the state bird.",
+      "solvedPct": 78
+    }
+  ]
+}

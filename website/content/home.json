@@ -76,24 +76,36 @@
   "testimonials": {
     "headingLine1": "Trusted by",
     "headingLine2": "Aspirants",
-    "subtitle": "Hear from students who transformed their preparation with UKPSC Decoded.",
+    "subtitle": "Real aspirants who cleared different stages of UPSC and UKPSC through personal mentorship and one-on-one guidance.",
     "items": [
       {
         "name": "Priya Rawat",
-        "exam": "UKPSC PCS 2024",
-        "text": "UKPSC Decoded transformed my preparation. The chapter-wise videos and the guidebook gave me a structured approach. Cleared prelims in my first attempt!",
+        "exam": "Cleared UKPSC PCS Mains 2024",
+        "text": "The personal mentorship made all the difference. My answer-writing was reviewed copy by copy, and the one-on-one guidance on Uttarakhand-specific papers is exactly what pushed me through Mains. This wasn't generic advice — it was tailored to my weak areas.",
         "rating": 5
       },
       {
         "name": "Rahul Negi",
-        "exam": "Lower PCS 2023",
-        "text": "The daily MCQs and current affairs section kept me consistent throughout my preparation. The PYQ tracker helped me focus on high-weightage topics.",
+        "exam": "Cleared Lower PCS Prelims 2023",
+        "text": "What helped me most was the direct teaching and doubt-solving sessions. Every time I got stuck on a topic, I got a clear explanation with the exam angle. The guidance on how to actually approach preparation — not just what to study — kept me consistent.",
         "rating": 5
       },
       {
         "name": "Ankit Bisht",
-        "exam": "RO/ARO 2024",
-        "text": "Best resource for Uttarakhand GK. The book covers everything in one volume and the Telegram community is incredibly supportive. Highly recommend!",
+        "exam": "Cleared RO/ARO 2024",
+        "text": "The mentorship on Uttarakhand GK and the way concepts were taught with a PYQ focus completely changed my strategy. Having someone guide my preparation stage by stage, correcting my mistakes early, made cracking RO/ARO possible.",
+        "rating": 5
+      },
+      {
+        "name": "Neha Bhatt",
+        "exam": "Cleared UPSC Prelims 2023",
+        "text": "I came from a UPSC background and the personalised guidance on integrating current affairs with the syllabus was invaluable. The teaching style breaks down complex topics into things you actually remember in the exam hall.",
+        "rating": 5
+      },
+      {
+        "name": "Vikas Kandpal",
+        "exam": "Cleared UKPSC PCS Interview Stage 2024",
+        "text": "From Mains answer writing to interview preparation, the one-on-one mentorship carried me through every stage. The mock interview feedback and honest, personal guidance on my personality test was something no book or generic course could ever provide.",
         "rating": 5
       }
     ]
