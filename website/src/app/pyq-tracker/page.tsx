@@ -26,13 +26,21 @@ const priorityStyles: Record<Priority, { badge: string; ring: string; label: str
 };
 
 
-function ClusterCard({ cluster }: { cluster: PYQCluster }) {
+function ClusterCard({ cluster, forceOpen }: { cluster: PYQCluster; forceOpen?: boolean }) {
   const style = priorityStyles[cluster.priority];
+  const [open, setOpen] = useState(false);
+  const isOpen = forceOpen || open;
   return (
     <div className={`card bg-white border ${style.ring} p-0 overflow-hidden`}>
-      <div className="p-4 sm:p-5 border-b border-graphite-100 bg-gradient-to-r from-ivory-50 to-white">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full text-left p-4 sm:p-5 border-b border-graphite-100 bg-gradient-to-r from-ivory-50 to-white hover:from-saffron-50 transition-colors"
+      >
         <div className="flex items-start justify-between gap-3 flex-wrap">
-          <h3 className="font-display font-semibold text-graphite-900 text-base sm:text-lg">
+          <h3 className="font-display font-semibold text-graphite-900 text-base sm:text-lg flex items-center gap-2">
+            <ChevronDown
+              className={`w-4 h-4 text-graphite-400 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+            />
             {cluster.cluster}
           </h3>
           <div className="flex items-center gap-2">
@@ -44,8 +52,12 @@ function ClusterCard({ cluster }: { cluster: PYQCluster }) {
             </span>
           </div>
         </div>
-        <p className="text-xs text-graphite-500 mt-1">Repeat pattern: {cluster.repeat}</p>
-      </div>
+        <p className="text-xs text-graphite-500 mt-1 ml-6">
+          Repeat pattern: {cluster.repeat}
+          {!isOpen && <span className="ml-2 text-saffron-600 font-medium">· Tap to expand ({cluster.topics.length} topics)</span>}
+        </p>
+      </button>
+      {isOpen && (
       <div className="divide-y divide-graphite-50">
         {cluster.topics.map((t) => (
           <div key={t.topic} className="p-4 hover:bg-saffron-50/40 transition-colors">
@@ -74,6 +86,7 @@ function ClusterCard({ cluster }: { cluster: PYQCluster }) {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
@@ -161,17 +174,13 @@ export default function PYQTrackerPage() {
         </div>
       </section>
 
-      {/* Exam at a Glance — Visual Notes */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <h2 className="heading-md text-graphite-900 text-center mb-2">Exam at a Glance</h2>
-          <p className="text-graphite-500 text-center mb-8 text-sm">Visual snapshots of what actually decides your selection.</p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            <ExamStages />
-            <MarksDistribution />
-            <DynastyTimeline />
-            <RevisionPyramid />
-          </div>
+      {/* Intro note — trackers first */}
+      <section className="bg-white border-b border-graphite-100">
+        <div className="container-custom py-6 text-center">
+          <p className="text-graphite-600 text-sm max-w-2xl mx-auto">
+            Browse the trackers below — tap any cluster to expand its topics. Scroll down for the
+            visual <span className="font-semibold text-graphite-800">&quot;Exam at a Glance&quot;</span> snapshots.
+          </p>
         </div>
       </section>
 
@@ -245,9 +254,9 @@ export default function PYQTrackerPage() {
               {filteredClusters.length === 0 ? (
                 <p className="text-center text-graphite-500 py-16">No topics match your search.</p>
               ) : (
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-6 items-start">
                   {filteredClusters.map((c) => (
-                    <ClusterCard key={c.cluster} cluster={c} />
+                    <ClusterCard key={c.cluster} cluster={c} forceOpen={search.trim() !== ''} />
                   ))}
                 </div>
               )}
@@ -257,6 +266,20 @@ export default function PYQTrackerPage() {
               </div>
             </>
           )}
+        </div>
+      </section>
+
+      {/* Exam at a Glance — Visual Notes (below the trackers) */}
+      <section className="section-padding bg-white border-t border-graphite-100">
+        <div className="container-custom">
+          <h2 className="heading-md text-graphite-900 text-center mb-2">Exam at a Glance</h2>
+          <p className="text-graphite-500 text-center mb-8 text-sm">Visual snapshots of what actually decides your selection.</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <ExamStages />
+            <MarksDistribution />
+            <DynastyTimeline />
+            <RevisionPyramid />
+          </div>
         </div>
       </section>
     </div>

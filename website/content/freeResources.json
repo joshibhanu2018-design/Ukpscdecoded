@@ -29,6 +29,20 @@
       "type": "PDF",
       "url": "https://drive.google.com/file/d/1dgkozlyzjDvscEm_o4klHtxkgDYgeLdO/view?usp=share_link",
       "icon": "book"
+    },
+    {
+      "title": "PYQ Tracker — National",
+      "description": "National (General Studies) previous-year question tracker — topic trends across UKPSC papers.",
+      "type": "Sheet",
+      "url": "https://docs.google.com/spreadsheets/u/1/d/1AaRep--MPac5uKK1hR7Wl40vOA2d_VH4/htmlview",
+      "icon": "chart"
+    },
+    {
+      "title": "60-Day Study Plan",
+      "description": "Day-by-day 60-day preparation plan built from actual PYQ weightage. Explore it interactively on our PYQ Tracker page.",
+      "type": "Plan",
+      "url": "/pyq-tracker",
+      "icon": "chart"
     }
   ],
   "playlists": [

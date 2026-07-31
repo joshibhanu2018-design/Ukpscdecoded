@@ -8,11 +8,11 @@
     "secondaryButtonText": "Get the Book",
     "secondaryButtonLink": "/buy-book"
   },
-  "stats": [
-    { "value": "2000+", "label": "YouTube Subscribers", "icon": "video" },
-    { "value": "1000+", "label": "Telegram Members", "icon": "users" },
-    { "value": "28", "label": "Chapters", "icon": "book" },
-    { "value": "6", "label": "Exams Covered", "icon": "award" }
+  "quickLinks": [
+    { "title": "The Book", "label": "Complete Uttarakhand guidebook for all UK exams", "icon": "book", "href": "/buy-book" },
+    { "title": "Free Content", "label": "Video lectures & free study resources", "icon": "play", "href": "/free-content" },
+    { "title": "Weekly Current Affairs", "label": "Weekly gist, every Sunday", "icon": "newspaper", "href": "/current-affairs" },
+    { "title": "Daily MCQ", "label": "Fresh questions every day", "icon": "brain", "href": "/current-affairs#daily-quiz" }
   ],
   "features": {
     "headingLine1": "Everything You Need to",
@@ -80,32 +80,32 @@
     "items": [
       {
         "name": "Priya Rawat",
-        "exam": "Cleared UKPSC PCS Mains 2024",
-        "text": "The personal mentorship made all the difference. My answer-writing was reviewed copy by copy, and the one-on-one guidance on Uttarakhand-specific papers is exactly what pushed me through Mains. This wasn't generic advice — it was tailored to my weak areas.",
+        "exam": "Cleared Assistant Commandant (UPSC) 2025",
+        "text": "The personal mentorship made all the difference. My answer-writing was reviewed copy by copy and the one-on-one guidance was tailored to my weak areas — exactly what I needed to clear Assistant Commandant in 2025.",
         "rating": 5
       },
       {
-        "name": "Rahul Negi",
-        "exam": "Cleared Lower PCS Prelims 2023",
-        "text": "What helped me most was the direct teaching and doubt-solving sessions. Every time I got stuck on a topic, I got a clear explanation with the exam angle. The guidance on how to actually approach preparation — not just what to study — kept me consistent.",
+        "name": "Rahul Hondadakeri",
+        "exam": "Cleared Karnataka Administrative Services (KAS) 2024",
+        "text": "What helped me most was the direct teaching and doubt-solving sessions. Every time I got stuck, I got a clear explanation with the exam angle. That guidance on how to actually approach preparation carried me through KAS 2024.",
         "rating": 5
       },
       {
-        "name": "Ankit Bisht",
-        "exam": "Cleared RO/ARO 2024",
-        "text": "The mentorship on Uttarakhand GK and the way concepts were taught with a PYQ focus completely changed my strategy. Having someone guide my preparation stage by stage, correcting my mistakes early, made cracking RO/ARO possible.",
+        "name": "Gaurav",
+        "exam": "Cleared RO/ARO",
+        "text": "The mentorship on Uttarakhand GK and the way concepts were taught with a PYQ focus completely changed my strategy. Being guided stage by stage, with my mistakes corrected early, made cracking RO/ARO possible.",
         "rating": 5
       },
       {
         "name": "Neha Bhatt",
-        "exam": "Cleared UPSC Prelims 2023",
-        "text": "I came from a UPSC background and the personalised guidance on integrating current affairs with the syllabus was invaluable. The teaching style breaks down complex topics into things you actually remember in the exam hall.",
+        "exam": "Gave UPSC Mains 2022 & Interview 2024",
+        "text": "The personalised guidance on integrating current affairs with the syllabus was invaluable. The teaching style breaks down complex topics into things you actually remember in the exam hall — it took me through UPSC Mains 2022 and the Interview stage in 2024.",
         "rating": 5
       },
       {
         "name": "Vikas Kandpal",
-        "exam": "Cleared UKPSC PCS Interview Stage 2024",
-        "text": "From Mains answer writing to interview preparation, the one-on-one mentorship carried me through every stage. The mock interview feedback and honest, personal guidance on my personality test was something no book or generic course could ever provide.",
+        "exam": "Cleared UKPSC Mains & Gave Interview 2024",
+        "text": "From Mains answer writing to interview preparation, the one-on-one mentorship carried me through every stage. The mock-interview feedback and honest, personal guidance ahead of my 2024 interview was something no book or generic course could provide.",
         "rating": 5
       }
     ]

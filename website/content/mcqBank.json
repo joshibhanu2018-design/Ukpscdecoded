@@ -1,0 +1,201 @@
+{
+  "note": "Curated MCQ bank compiled from the UKPSC Basic GK, Census and Cities/Religious-Places question sets. Combined at runtime with the live Google Sheet to form the daily rotation. Add or edit questions here, or add rows to the Sheet.",
+  "questions": [
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Statehood",
+      "question": "When was the Uttar Pradesh Re-organisation Act signed by the President for the formation of Uttarakhand?",
+      "options": ["1st August 2000", "5th August 2000", "28th August 2000", "30th August 2000"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Statehood",
+      "question": "When was the state of Uttarakhand formed?",
+      "options": ["1 December 2001", "9 November 2001", "9 November 2000", "10 November 2000"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Polity",
+      "question": "Who was the first Chief Minister of Uttarakhand?",
+      "options": ["N.D. Tiwari", "Nityanand Swami", "Bhagat Singh Koshyari", "Surjit Singh Barnala"],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Administration",
+      "question": "How many districts are there in Uttarakhand?",
+      "options": ["15", "12", "11", "13"],
+      "correctAnswer": 3
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Symbols",
+      "question": "Which is the state bird of Uttarakhand?",
+      "options": ["Quail", "Peacock", "Sparrow", "Monal"],
+      "correctAnswer": 3
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Symbols",
+      "question": "Which is the state animal of Uttarakhand?",
+      "options": ["Elephant", "Snow Leopard", "Musk Deer", "Tiger"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Symbols",
+      "question": "What is the State Flower of Uttarakhand?",
+      "options": ["Lotus", "Buransh", "Brahma Kamal", "None of these"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Symbols",
+      "question": "What is the State sport (game) of Uttarakhand?",
+      "options": ["Cricket", "Hockey", "Football", "Kho-Kho"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Geography",
+      "question": "What is the altitude of the Nanda Devi peak in Uttarakhand?",
+      "options": ["7816 m", "7756 m", "7355 m", "7120 m"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Geography",
+      "question": "What is the height of the Nandakot mountain peak?",
+      "options": ["7138 m", "6400 m", "6861 m", "6320 m"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Geography",
+      "question": "Which range is known as the 'Pamir of Uttarakhand'?",
+      "options": ["Shiwalik", "Doodhatoli", "Trans Himalaya", "Greater Himalaya"],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Polity",
+      "question": "Which is the summer capital of Uttarakhand?",
+      "options": ["Gairsain", "Dehradun", "Haridwar", "Joshimath"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Polity",
+      "question": "Where is the High Court of Uttarakhand situated?",
+      "options": ["Nainital", "Ranikhet", "Haridwar", "Dehradun"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Geography",
+      "question": "Koteshwar Cave is situated in which district of Uttarakhand?",
+      "options": ["Dehradun", "Pithoragarh", "Rudraprayag", "Almora"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Census 2011",
+      "question": "What is the sex ratio of Uttarakhand (Census 2011)?",
+      "options": ["940", "953", "963", "972"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Census 2011",
+      "question": "What is the average literacy percentage of Uttarakhand (Census 2011)?",
+      "options": ["78.82", "70.70", "68.90", "81.20"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Census 2011",
+      "question": "Which district has the highest population in Uttarakhand?",
+      "options": ["Dehradun", "Chamoli", "Uttarkashi", "Haridwar"],
+      "correctAnswer": 3
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Census 2011",
+      "question": "Which district has the least population in Uttarakhand?",
+      "options": ["Rudraprayag", "Bageshwar", "Uttarkashi", "Champawat"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Census 2011",
+      "question": "Which district has the highest population density in Uttarakhand?",
+      "options": ["Haridwar", "Chamoli", "Dehradun", "U.S. Nagar"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Census 2011",
+      "question": "Which is the most urbanized district of Uttarakhand?",
+      "options": ["Dehradun", "Haridwar", "Pauri", "Nainital"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Census 2011",
+      "question": "What is the total population of Uttarakhand (Census 2011)?",
+      "options": ["1,00,86,292", "1,00,66,292", "1,00,76,792", "1,00,96,292"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Temples & Places",
+      "question": "In which district is the Badrinath Temple located?",
+      "options": ["Uttarkashi", "Chamoli", "Pauri", "Tehri"],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Temples & Places",
+      "question": "In which district is Kedarnath located?",
+      "options": ["Rudraprayag", "Uttarkashi", "Chamoli", "Tehri"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Temples & Places",
+      "question": "Where is the Purnagiri Temple situated?",
+      "options": ["Chamoli", "Almora", "Champawat", "Bageshwar"],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Tourist Places",
+      "question": "Which place in Uttarakhand is known as 'Mini Kashmir'?",
+      "options": ["Kausani", "Ranikhet", "Mussoorie", "Pithoragarh"],
+      "correctAnswer": 3
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Tourist Places",
+      "question": "Which place was described as the 'Switzerland of India' by Gandhiji?",
+      "options": ["Kausani", "Ranikhet", "Mussoorie", "Pithoragarh"],
+      "correctAnswer": 0
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "History",
+      "question": "Kashipur was earlier known as?",
+      "options": ["Kartikeypur", "Govishan", "Katarmal", "Lakhanpur"],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "Uttarakhand GK",
+      "topic": "Geography",
+      "question": "Which river makes the eastern border of the state of Uttarakhand?",
+      "options": ["Saryu", "Kali", "Eastern Ramganga", "Gomti"],
+      "correctAnswer": 1
+    }
+  ]
+}

@@ -4,11 +4,8 @@ import { useState } from 'react';
 import {
   BookOpen,
   CheckCircle2,
-  MessageCircle,
   ShieldCheck,
   Loader2,
-  PlayCircle,
-  Clock,
 } from 'lucide-react';
 import { getIcon } from '@/lib/icons';
 import CountdownBanner from '@/components/CountdownBanner';
@@ -65,18 +62,14 @@ export default function BuyBookPage() {
       if (data.paymentUrl) {
         window.location.href = data.paymentUrl;
       } else {
-        setError(data.error || 'Something went wrong. Please try again or order via WhatsApp.');
+        setError(data.error || 'Something went wrong. Please try again.');
       }
     } catch {
-      setError('Network error. Please try again or order via WhatsApp.');
+      setError('Network error. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
-  const whatsappMessage = encodeURIComponent(
-    `Hi! I want to order "${book.title} — ${book.subtitle}" (₹${book.price}). Please share the details.`
-  );
 
   return (
     <div>
@@ -98,11 +91,28 @@ export default function BuyBookPage() {
             <BookOpen className="w-10 h-10 text-saffron-400" />
           </div>
           <h1 className="heading-xl text-white mb-6">{book.title}</h1>
-          <p className="text-xl md:text-2xl text-graphite-300 font-display font-medium">
+          <p className="text-xl md:text-2xl text-graphite-300 font-display font-medium mb-8">
             {book.subtitle}
           </p>
+          <a
+            href="#free-samples"
+            className="inline-flex items-center justify-center gap-2 bg-jade-500 hover:bg-jade-600 text-white font-semibold px-6 py-3 rounded-lg transition-all shadow-lg"
+          >
+            <BookOpen className="w-5 h-5" />
+            Read Free Sample Pages First
+          </a>
         </div>
       </section>
+
+      {/* Free Sample Pages — highlighted near the top */}
+      <div id="free-samples">
+        <BookPreview
+          heading={book.previewHeading}
+          subtext={book.previewSubtext}
+          previews={book.freePreviews}
+          price={book.price}
+        />
+      </div>
 
       {/* Main Content — Two Column */}
       <section className="section-padding">
@@ -132,23 +142,16 @@ export default function BuyBookPage() {
               </div>
 
               {/* Chapters */}
-              <h3 className="heading-md text-graphite-900 mb-2">{book.chaptersHeading}</h3>
-              {book.chaptersNote && (
-                <p className="text-sm text-graphite-500 mb-4">{book.chaptersNote}</p>
-              )}
+              <h3 className="heading-md text-graphite-900 mb-4">{book.chaptersHeading}</h3>
               <div className="space-y-4">
                 {book.chapters.map((section) => (
                   <div key={section.part} className="border border-graphite-100 rounded-lg p-4">
                     <h4 className="font-display font-semibold text-graphite-800 mb-3 text-sm uppercase tracking-wider">
                       {section.part}
                     </h4>
-                    <ul className="space-y-2.5">
+                    <ul className="space-y-2">
                       {section.items.map((item) => {
-                        const chapterItem = item as {
-                          number?: number;
-                          title: string;
-                          videoUrl?: string;
-                        };
+                        const chapterItem = item as { number?: number; title: string };
                         return (
                           <li
                             key={chapterItem.title}
@@ -157,25 +160,7 @@ export default function BuyBookPage() {
                             <span className="flex-shrink-0 w-5 h-5 rounded bg-saffron-100 text-saffron-700 text-[11px] font-bold flex items-center justify-center mt-0.5">
                               {chapterItem.number ?? "•"}
                             </span>
-                            <div className="flex-1">
-                              <span>{chapterItem.title}</span>
-                              {chapterItem.videoUrl ? (
-                                <a
-                                  href={chapterItem.videoUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="ml-2 inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-700 align-middle"
-                                >
-                                  <PlayCircle className="w-3.5 h-3.5" />
-                                  Watch lecture
-                                </a>
-                              ) : (
-                                <span className="ml-2 inline-flex items-center gap-1 text-[11px] font-medium text-graphite-400 align-middle">
-                                  <Clock className="w-3 h-3" />
-                                  Video coming soon
-                                </span>
-                              )}
-                            </div>
+                            <span className="flex-1">{chapterItem.title}</span>
                           </li>
                         );
                       })}
@@ -337,32 +322,11 @@ export default function BuyBookPage() {
                     )}
                   </button>
                 </form>
-
-                {/* WhatsApp Alternative */}
-                <div className="mt-4">
-                  <a
-                    href={`https://wa.me/${book.whatsappNumber}?text=${whatsappMessage}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full btn-secondary flex items-center justify-center gap-2"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Or Order via WhatsApp
-                  </a>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Free Sample Pages */}
-      <BookPreview
-        heading={book.previewHeading}
-        subtext={book.previewSubtext}
-        previews={book.freePreviews}
-        price={book.price}
-      />
 
       {/* Trust Badges */}
       <section className="section-padding bg-graphite-50">

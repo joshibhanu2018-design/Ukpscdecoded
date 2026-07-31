@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { BookOpen, X, Lock, ChevronRight } from "lucide-react";
+import { markdownToHtml } from "@/lib/markdown";
 
 interface Preview {
   label: string;
@@ -71,9 +72,10 @@ export default function BookPreview({ heading, subtext, previews, price }: BookP
               </button>
             </div>
             <div className="p-6 overflow-y-auto">
-              <div className="prose prose-sm max-w-none text-graphite-700 whitespace-pre-line">
-                {previews[active].content}
-              </div>
+              <div
+                className="prose prose-sm max-w-none text-graphite-700 prose-headings:font-display prose-headings:text-graphite-900 prose-strong:text-graphite-800"
+                dangerouslySetInnerHTML={{ __html: markdownToHtml(previews[active].content) }}
+              />
             </div>
             <div className="p-5 border-t border-graphite-100 bg-ivory-50">
               <div className="flex items-center gap-2 text-sm text-graphite-500 mb-3">

@@ -39,17 +39,19 @@ collections:
               - { label: "Secondary Button Text", name: "secondaryButtonText", widget: "string" }
               - { label: "Secondary Button Link", name: "secondaryButtonLink", widget: "string" }
 
-          - label: "Stats Bar"
-            name: "stats"
+          - label: "Quick Links Bar"
+            name: "quickLinks"
             widget: "list"
-            summary: "{{fields.value}} — {{fields.label}}"
+            summary: "{{fields.title}}"
+            hint: "The 4 shortcut cards shown under the hero (Book, Free Content, Weekly CA, Daily MCQ)."
             fields:
-              - { label: "Value", name: "value", widget: "string", hint: "e.g. 2000+" }
-              - { label: "Label", name: "label", widget: "string", hint: "e.g. YouTube Subscribers" }
+              - { label: "Title", name: "title", widget: "string", hint: "e.g. The Book" }
+              - { label: "Label", name: "label", widget: "string", hint: "Short description under the title" }
+              - { label: "Link", name: "href", widget: "string", hint: "e.g. /buy-book or /current-affairs#daily-quiz" }
               - label: "Icon"
                 name: "icon"
                 widget: "select"
-                options: ["video", "users", "book", "award"]
+                options: ["book", "play", "newspaper", "brain", "chart"]
 
           - label: "Features Section"
             name: "features"
@@ -168,7 +170,6 @@ collections:
               - { label: "Item", name: "text", widget: "string" }
 
           - { label: "Chapters Section Heading", name: "chaptersHeading", widget: "string" }
-          - { label: "Chapters Note", name: "chaptersNote", widget: "text", required: false, hint: "Shown under the chapters heading — e.g. explains that video lectures are coming." }
           - label: "Chapter Parts"
             name: "chapters"
             widget: "list"
@@ -182,7 +183,6 @@ collections:
                 fields:
                   - { label: "Chapter Number", name: "number", widget: "number", value_type: "int", required: false }
                   - { label: "Chapter Title", name: "title", widget: "string" }
-                  - { label: "Video Lecture URL", name: "videoUrl", widget: "string", required: false, hint: "Paste the YouTube link once this chapter's video is ready. Leave blank to show 'Video coming soon'." }
 
           - label: "Trust Badges"
             name: "trustBadges"
@@ -216,16 +216,18 @@ collections:
             summary: "{{fields.title}} — ₹{{fields.price}}"
             fields:
               - { label: "Course Title", name: "title", widget: "string" }
-              - { label: "Duration", name: "duration", widget: "string", hint: "e.g. 6 months" }
-              - { label: "Price (₹)", name: "price", widget: "number", value_type: "int" }
-              - { label: "Original Price (₹)", name: "originalPrice", widget: "number", value_type: "int" }
+              - { label: "Duration / Type", name: "duration", widget: "string", hint: "e.g. Crash Course, Intensive, 1-on-1 Mentorship" }
+              - { label: "Price (₹)", name: "price", widget: "number", value_type: "int", hint: "Use 0 if using a Price Label instead" }
+              - { label: "Price Label (optional)", name: "priceLabel", widget: "string", required: false, hint: "e.g. 'On Request' — overrides the ₹ price when set" }
               - { label: "Description", name: "description", widget: "text" }
               - { label: "Show 'Launching Soon' badge", name: "launchingSoon", widget: "boolean", default: true }
               - { label: "Badge Text", name: "badge", widget: "string", required: false }
+              - { label: "Demo Video URL", name: "demoVideoUrl", widget: "string", required: false, hint: "Paste the demo/preview YouTube link. Leave blank to show 'Demo video coming soon'." }
+              - { label: "Payment Link (Instamojo)", name: "paymentUrl", widget: "string", required: false, hint: "Paste the Instamojo payment link at launch. While blank, the card shows 'Register Interest'." }
               - label: "Accent Colour"
                 name: "color"
                 widget: "select"
-                options: ["saffron", "jade", "graphite"]
+                options: ["saffron", "jade", "graphite", "blue"]
               - label: "Features"
                 name: "features"
                 widget: "list"
@@ -233,14 +235,18 @@ collections:
                 fields:
                   - { label: "Feature", name: "text", widget: "string" }
 
-          - label: "Email Capture Section"
-            name: "emailCapture"
+          - label: "Register Interest Popup"
+            name: "register"
             widget: "object"
             fields:
               - { label: "Heading", name: "heading", widget: "string" }
               - { label: "Subtitle", name: "subtitle", widget: "text" }
               - { label: "Button Text", name: "buttonText", widget: "string" }
-              - { label: "Success Message", name: "successMessage", widget: "string" }
+              - { label: "Name Placeholder", name: "namePlaceholder", widget: "string" }
+              - { label: "Email Placeholder", name: "emailPlaceholder", widget: "string" }
+              - { label: "WhatsApp Placeholder", name: "phonePlaceholder", widget: "string" }
+              - { label: "Success Heading", name: "successHeading", widget: "string" }
+              - { label: "Success Message", name: "successMessage", widget: "text" }
 
           - label: "Free Content CTA"
             name: "freeCta"
@@ -272,6 +278,23 @@ collections:
               - { label: "Mission Quote", name: "quote", widget: "text", hint: "Shown as a large italic quote" }
               - { label: "Supporting Paragraph", name: "body", widget: "text" }
 
+          - label: "Founder Section"
+            name: "founder"
+            widget: "object"
+            fields:
+              - { label: "Section Label", name: "heading", widget: "string" }
+              - { label: "Founder Name", name: "name", widget: "string" }
+              - { label: "Role", name: "role", widget: "string" }
+              - { label: "Bio", name: "bio", widget: "text" }
+              - { label: "Credentials Heading", name: "credentialsHeading", widget: "string" }
+              - label: "Credentials"
+                name: "credentials"
+                widget: "list"
+                summary: "{{fields.area}}"
+                fields:
+                  - { label: "Area", name: "area", widget: "string" }
+                  - { label: "Credential", name: "credential", widget: "string" }
+
           - { label: "Stats Section Heading", name: "statsHeading", widget: "string" }
           - label: "Impact Stats"
             name: "stats"
@@ -285,6 +308,15 @@ collections:
                 widget: "select"
                 options: ["video", "send", "book", "award"]
 
+          - label: "Free Sample CTA"
+            name: "freeSample"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Body", name: "body", widget: "text" }
+              - { label: "Button Text", name: "buttonText", widget: "string" }
+              - { label: "Button Link", name: "buttonLink", widget: "string" }
+
           - { label: "Timeline Section Heading", name: "timelineHeading", widget: "string" }
           - label: "Journey Timeline"
             name: "timeline"
@@ -297,7 +329,7 @@ collections:
               - label: "Icon"
                 name: "icon"
                 widget: "select"
-                options: ["video", "send", "book", "rocket"]
+                options: ["video", "send", "book", "rocket", "award"]
 
           - label: "Contact Section"
             name: "contact"
@@ -459,6 +491,7 @@ collections:
           - { label: "Brand Name — Part 1", name: "brandName1", widget: "string", hint: "e.g. UKPSC (shown in white)" }
           - { label: "Brand Name — Part 2", name: "brandName2", widget: "string", hint: "e.g. Decoded (shown in saffron)" }
           - { label: "Navbar CTA Button Text", name: "navCtaText", widget: "string" }
+          - { label: "Lead Capture Endpoint (Google Apps Script Web App URL)", name: "leadEndpoint", widget: "string", required: false, hint: "Paste your deployed Apps Script Web App URL. All forms (contact, lead popup, course interest) send name/email/WhatsApp here so leads land in your Google Sheet. Leave blank until set up." }
 
           - label: "Footer"
             name: "footer"
