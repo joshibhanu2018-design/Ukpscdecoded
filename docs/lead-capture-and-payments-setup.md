@@ -40,7 +40,7 @@ That's it — leads start flowing into the sheet immediately.
 ```javascript
 var SHEET_ID = '1eZPttwL8qA8KbGnjPlYRgfL8jL34ZNUT76IZ_wER8Cc';
 var TAB_NAME = 'Leads';
-var HEADERS = ['Timestamp', 'Source', 'Page', 'Site', 'Name', 'Email', 'WhatsApp/Phone', 'Course', 'Message', 'URL'];
+var HEADERS = ['Timestamp', 'Source', 'Page', 'Site', 'Name', 'Email', 'WhatsApp/Phone', 'Exam', 'Course', 'Message', 'URL'];
 
 function doPost(e) {
   try {
@@ -54,13 +54,14 @@ function doPost(e) {
       sheet.appendRow(HEADERS);
     }
     sheet.appendRow([
-      data.submittedAt || new Date().toISOString(),
+      data.submittedAt || data.timestamp || new Date().toISOString(),
       data.source || '',
       data.page || '',
       data.site || '',
       data.name || '',
       data.email || '',
       data.phone || '',
+      data.exam || '',
       data.course || '',
       data.message || '',
       data.url || ''
@@ -76,9 +77,12 @@ function doPost(e) {
 }
 
 function doGet() {
-  return ContentService.createTextOutput('UKPSC Decoded lead endpoint is live.');
+  return ContentService.createTextOutput('WORKING - UKPSC Decoded Lead Capture Active');
 }
 ```
+
+> **Both landing pages (`index.html`, `course-waitlist.html`) and the main site now point to this ONE endpoint.**
+> Because the landing pages also send `phone` (WhatsApp) and `exam`, make sure your deployed script is **this exact version** (it has the `Exam` and `WhatsApp/Phone` columns). If your current deployment is an older/simpler version, paste this in and redeploy via **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy** — the URL stays the same, so nothing else needs changing.
 
 > Note: the website sends the request with `mode: "no-cors"`, so no extra CORS setup is
 > needed. If you ever change the sheet, just update `SHEET_ID` and re-deploy (Deploy →

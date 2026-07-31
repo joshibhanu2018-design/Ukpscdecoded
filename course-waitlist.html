@@ -159,7 +159,7 @@
         // REPLACE THIS with your Google Apps Script Web App URL
         // (See LEAD_CAPTURE_SETUP.md in repo for instructions)
         // ═══════════════════════════════════════════════════════
-        const FORM_ENDPOINT = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+        const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyTIOwMIO6iNvJ9gCS8pRO15g5SvnwwW8gt7DdiXSZn939IzJV6WTniu1lETIk-7ufq/exec';
 
         // Where to redirect after submission
         const REDIRECT_URL = 'https://whatsapp.com/channel/0029VbD7B0aHQbRvTSXjOt2B';
@@ -191,6 +191,9 @@
                         phone: '+91' + phone,
                         exam: exam,
                         source: 'course-waitlist',
+                        page: location.pathname,
+                        site: location.host,
+                        url: location.href,
                         timestamp: new Date().toISOString()
                     }),
                     mode: 'no-cors' // Required for Google Apps Script

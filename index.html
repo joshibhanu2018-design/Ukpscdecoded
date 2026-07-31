@@ -223,7 +223,7 @@
         // ║  2. Your WhatsApp number (that you want them to save)       ║
         // ╚══════════════════════════════════════════════════════════════╝
         
-        const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycby-vKJt3Fyq2RkA-uYVLkYSIn1b7vhHM3Lmh6fMY6rOtO4Jxh9wyrAhJEuB7MMbHnUG/exec';
+        const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyTIOwMIO6iNvJ9gCS8pRO15g5SvnwwW8gt7DdiXSZn939IzJV6WTniu1lETIk-7ufq/exec';
 
         // ─── Elements ───
         const form = document.getElementById('leadForm');
@@ -261,7 +261,10 @@
                         name: name,
                         phone: '+91' + phone,
                         exam: exam,
-                        source: 'landing-page'
+                        source: 'landing-page',
+                        page: location.pathname,
+                        site: location.host,
+                        url: location.href
                     }),
                     mode: 'no-cors'
                 });
