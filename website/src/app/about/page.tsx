@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   Video,
   Send,
@@ -9,12 +10,16 @@ import {
   Camera,
   ExternalLink,
   CheckCircle2,
+  Award,
+  BookOpen,
+  ArrowRight,
 } from 'lucide-react';
 import { getIcon } from '@/lib/icons';
+import { submitLead } from '@/lib/leads';
 import about from '@content/about.json';
 
 export default function AboutPage() {
-  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
   const handleContactChange = (
@@ -25,10 +30,11 @@ export default function AboutPage() {
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    submitLead({ ...contactForm, source: 'about-contact-form' });
     setSubmitted(true);
   };
 
-  const { mission, stats, timeline, contact } = about;
+  const { mission, founder, stats, freeSample, timeline, contact } = about;
 
   const contactLinks = [
     {
@@ -99,6 +105,39 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Founder Section */}
+      <section className="section-padding bg-graphite-900 text-white">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <span className="inline-block bg-saffron-500/20 text-saffron-300 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                {founder.heading}
+              </span>
+              <h2 className="heading-lg text-white">{founder.name}</h2>
+              <p className="text-graphite-400 mt-1">{founder.role}</p>
+            </div>
+            <p className="text-graphite-300 leading-relaxed text-lg text-center max-w-3xl mx-auto mb-10">
+              {founder.bio}
+            </p>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+              <div className="flex items-center gap-2 px-5 py-4 border-b border-white/10 bg-white/5">
+                <Award className="w-5 h-5 text-saffron-400" />
+                <h3 className="font-display font-semibold text-white">{founder.credentialsHeading}</h3>
+              </div>
+              <div className="divide-y divide-white/5">
+                {founder.credentials.map((c) => (
+                  <div key={c.area} className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4 px-5 py-3.5">
+                    <span className="font-semibold text-saffron-300 text-sm">{c.area}</span>
+                    <span className="sm:col-span-2 text-graphite-200 text-sm">{c.credential}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="section-padding bg-gradient-to-br from-saffron-50 via-ivory-50 to-jade-50">
         <div className="container-custom">
@@ -124,8 +163,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline Section */}
+      {/* Free Sample CTA */}
       <section className="section-padding">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-saffron-50 to-jade-50 border border-saffron-100 rounded-2xl p-8 md:p-10 text-center">
+            <BookOpen className="w-10 h-10 text-saffron-500 mx-auto mb-4" />
+            <h2 className="heading-md text-graphite-900 mb-2">{freeSample.heading}</h2>
+            <p className="text-graphite-600 max-w-2xl mx-auto mb-6">{freeSample.body}</p>
+            <Link
+              href={freeSample.buttonLink}
+              className="btn-primary inline-flex items-center gap-2"
+            >
+              {freeSample.buttonText}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline Section */}
+      <section className="section-padding bg-graphite-50">
         <div className="container-custom">
           <h2 className="heading-lg text-graphite-900 text-center mb-12">
             {about.timelineHeading}
@@ -174,7 +231,7 @@ export default function AboutPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="section-padding bg-graphite-50">
+      <section className="section-padding bg-white border-t border-graphite-100">
         <div className="container-custom">
           <h2 className="heading-lg text-graphite-900 text-center mb-12">
             {contact.heading}
@@ -250,6 +307,25 @@ export default function AboutPage() {
                       value={contactForm.email}
                       onChange={handleContactChange}
                       placeholder="your@email.com"
+                      className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none transition-all text-graphite-800"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="contact-phone"
+                      className="block text-sm font-medium text-graphite-700 mb-1"
+                    >
+                      Phone / WhatsApp
+                    </label>
+                    <input
+                      id="contact-phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      value={contactForm.phone}
+                      onChange={handleContactChange}
+                      placeholder="10-digit WhatsApp number"
                       className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none transition-all text-graphite-800"
                     />
                   </div>

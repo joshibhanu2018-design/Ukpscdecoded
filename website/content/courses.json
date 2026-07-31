@@ -1,64 +1,87 @@
 {
   "heading": "Structured Courses — Learn With a Plan",
-  "subtitle": "Expert-designed courses to take you from zero to selection. Each course is built around UKPSC patterns and Uttarakhand-specific content.",
+  "subtitle": "Expert-designed courses built around UKPSC patterns, our PYQ Tracker and the 60-Day Study Plan. Register your interest now — we'll notify you the moment enrolment opens.",
   "items": [
     {
-      "title": "UKPSC Foundation Batch",
-      "duration": "6 months",
-      "price": 4999,
-      "originalPrice": 8999,
-      "description": "Comprehensive preparation covering both Paper V (Uttarakhand GK) and Paper VI (General Studies). Designed for serious aspirants targeting PCS, Lower PCS, and RO/ARO exams with structured learning.",
+      "title": "UKPSC / Upper PCS 2026 Prelims Crash Course",
+      "duration": "Crash Course",
+      "price": 2399,
+      "description": "A focused Prelims crash course covering the most important and most-repeated topics — built directly from our PYQ Tracker and 60-Day Study Plan.",
       "launchingSoon": true,
       "badge": "Launching Soon",
       "color": "saffron",
-      "freePreviewUrl": "",
+      "demoVideoUrl": "",
+      "paymentUrl": "",
       "features": [
-        { "text": "200+ video lectures" },
-        { "text": "Printed study material" },
-        { "text": "Weekly tests" },
-        { "text": "Doubt clearing sessions" }
+        { "text": "50+ video lectures on high-yield & repeated topics" },
+        { "text": "Based on the PYQ Tracker + 60-Day Study Plan" },
+        { "text": "8 full-length tests (UK GK + National + State Current Affairs)" },
+        { "text": "4 CSAT tests included" },
+        { "text": "Doubt resolution session" },
+        { "text": "Study material included" }
       ]
     },
     {
       "title": "Uttarakhand GK Intensive",
-      "duration": "3 months",
-      "price": 2499,
-      "originalPrice": 4999,
-      "description": "Deep-dive into Uttarakhand-specific topics — history, geography, culture, polity, and current affairs. Perfect for aspirants who need focused Paper V preparation with PYQ-based approach.",
+      "duration": "Intensive",
+      "price": 1399,
+      "description": "A deep-dive into every part of the Uttarakhand GK syllabus — the state-specific edge that decides selection.",
       "launchingSoon": true,
-      "badge": "Launching Soon",
+      "badge": "New",
       "color": "jade",
-      "freePreviewUrl": "",
+      "demoVideoUrl": "",
+      "paymentUrl": "",
       "features": [
-        { "text": "100+ topic-wise videos" },
-        { "text": "Uttarakhand-specific focus" },
-        { "text": "Daily MCQs" },
-        { "text": "PYQ analysis included" }
+        { "text": "25+ lectures covering all parts of the syllabus" },
+        { "text": "2 tests on Uttarakhand GK" },
+        { "text": "Study material included" }
       ]
     },
     {
-      "title": "Test Series + Mentorship",
-      "duration": "4 months",
-      "price": 1999,
-      "originalPrice": 3999,
-      "description": "Practice under real exam conditions with full-length mock tests, detailed performance analytics, and 1-on-1 mentorship. Ideal for aspirants in their revision phase.",
+      "title": "Test Series",
+      "duration": "Full-Length Tests",
+      "price": 499,
+      "description": "Practice under real exam conditions with full-length tests on the actual pattern, plus detailed solutions.",
       "launchingSoon": true,
       "badge": "Launching Soon",
       "color": "graphite",
-      "freePreviewUrl": "",
+      "demoVideoUrl": "",
+      "paymentUrl": "",
       "features": [
-        { "text": "30 full-length tests" },
-        { "text": "Detailed solutions" },
-        { "text": "Personal mentorship" },
-        { "text": "Strategy sessions" }
+        { "text": "12 full-length tests" },
+        { "text": "UK GK + National + State Current Affairs" },
+        { "text": "Detailed solutions" }
+      ]
+    },
+    {
+      "title": "Personalised Mentorship — with Bhanu Joshi",
+      "duration": "1-on-1 Mentorship",
+      "price": 0,
+      "priceLabel": "On Request",
+      "description": "One-on-one mentorship with Bhanu Joshi — from beginner hand-holding to advanced answer-writing guidance, tailored to you.",
+      "launchingSoon": true,
+      "badge": "Launching Soon",
+      "color": "blue",
+      "demoVideoUrl": "",
+      "paymentUrl": "",
+      "features": [
+        { "text": "6 personalised sessions" },
+        { "text": "Beginner hand-holding → advanced answer writing" },
+        { "text": "Personalised study plans for working professionals" },
+        { "text": "Free doubt sessions" },
+        { "text": "Strategy sessions: Current Affairs, Prelims & Mains (UK-special sections)" }
       ]
     }
   ],
-  "emailCapture": {
-    "heading": "Get Notified When Courses Launch",
-    "subtitle": "Be the first to know. Early subscribers get exclusive launch discounts.",
-    "buttonText": "Notify Me",
-    "successMessage": "You're on the list! We'll email you when courses launch."
+  "register": {
+    "heading": "Register Your Interest",
+    "subtitle": "Share your details and we'll notify you when this course opens — plus early-bird pricing.",
+    "buttonText": "Submit",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Email address",
+    "phonePlaceholder": "WhatsApp number",
+    "successHeading": "You're on the list! 🎉",
+    "successMessage": "Thanks for registering your interest. We'll reach out on WhatsApp/email when enrolment opens."
   },
   "freeCta": {
     "heading": "Meanwhile, Start With Our FREE Content",

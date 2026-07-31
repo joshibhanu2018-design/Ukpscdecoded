@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import type { YouTubeVideo } from "@/lib/youtube";
 
-const categories = ["All", "UK Special", "Shorts", "PYQ", "Current Affairs", "Strategy", "National"];
+const categories = ["All", "UK Special", "PYQ", "Current Affairs", "Strategy", "National", "Shorts"];
 
 function getCategoryColor(category: string): string {
   switch (category) {
@@ -46,10 +46,16 @@ function formatDate(dateStr: string): string {
 export default function VideoGrid({ videos }: { videos: YouTubeVideo[] }) {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filteredVideos =
+  const filteredVideos = (
     activeCategory === "All"
       ? videos
-      : videos.filter((video) => video.category === activeCategory);
+      : videos.filter((video) => video.category === activeCategory)
+  )
+    // Keep YouTube Shorts at the end — both in the "All" view and within any tab.
+    .slice()
+    .sort(
+      (a, b) => (a.category === "Shorts" ? 1 : 0) - (b.category === "Shorts" ? 1 : 0)
+    );
 
   return (
     <>

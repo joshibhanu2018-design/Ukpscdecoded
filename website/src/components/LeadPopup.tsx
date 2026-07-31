@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { X, Gift, CheckCircle2, Send, Loader2, Download } from "lucide-react";
 import lead from "@content/leadMagnet.json";
+import { submitLead } from "@/lib/leads";
 
 const STORAGE_KEY = "ukpsc_lead_popup_seen";
 
@@ -37,22 +38,11 @@ export default function LeadPopup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      if (lead.formEndpoint) {
-        await fetch(lead.formEndpoint, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...form, source: "website-popup" }),
-        });
-      }
-      localStorage.setItem(STORAGE_KEY, "1");
-      setDone(true);
-    } catch {
-      setDone(true);
-    } finally {
-      setLoading(false);
-    }
+    // Sends name + WhatsApp phone + email to the single lead backend (settings.leadEndpoint).
+    await submitLead({ ...form, source: "lead-popup-answer-writing-guide" });
+    if (typeof window !== "undefined") localStorage.setItem(STORAGE_KEY, "1");
+    setDone(true);
+    setLoading(false);
   };
 
 

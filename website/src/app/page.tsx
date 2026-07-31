@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, ArrowRight, Star, BookMarked, Video, Send, FileText, Calendar } from "lucide-react";
+import { BookOpen, ArrowRight, Star, BookMarked, Video, Send } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { getAllArticles } from "@/lib/articles";
 import HomeQuiz from "@/components/HomeQuiz";
@@ -7,7 +7,7 @@ import quiz from "@content/quiz.json";
 import home from "@content/home.json";
 
 export default function Home() {
-  const { hero, stats, features, bookPreview, testimonials, finalCta } = home;
+  const { hero, quickLinks, features, bookPreview, testimonials, finalCta } = home;
 
   return (
     <div>
@@ -41,22 +41,45 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Stats Bar */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              {stats.map((stat) => {
-                const Icon = getIcon(stat.icon);
+            {/* Quick Links Bar */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {quickLinks.map((link) => {
+                const Icon = getIcon(link.icon);
                 return (
-                  <div key={stat.label} className="text-center">
-                    <Icon className="w-6 h-6 text-saffron-400 mx-auto mb-2" />
-                    <div className="text-2xl md:text-3xl font-display font-bold text-white">
-                      {stat.value}
+                  <Link
+                    key={link.title}
+                    href={link.href}
+                    className="group text-left bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/10 hover:border-saffron-400/40 transition-all"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-saffron-500/15 flex items-center justify-center mb-3 group-hover:bg-saffron-500/25 transition-colors">
+                      <Icon className="w-5 h-5 text-saffron-400" />
                     </div>
-                    <div className="text-sm text-graphite-400">{stat.label}</div>
-                  </div>
+                    <div className="font-display font-semibold text-white flex items-center gap-1 group-hover:gap-2 transition-all">
+                      {link.title}
+                      <ArrowRight className="w-4 h-4 text-saffron-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                    <div className="text-sm text-graphite-400 mt-1">{link.label}</div>
+                  </Link>
                 );
               })}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Daily Quiz Widget — Test Yourself (moved above features) */}
+      <section className="section-padding bg-gradient-to-br from-graphite-900 via-graphite-800 to-graphite-950">
+        <div className="container-custom">
+          <div className="text-center mb-10">
+            <h2 className="heading-lg text-white mb-3">
+              {quiz.heading.split("—")[0]}
+              <span className="text-saffron-400">
+                {quiz.heading.includes("—") ? "— " + quiz.heading.split("—")[1] : ""}
+              </span>
+            </h2>
+            <p className="text-graphite-300 text-lg max-w-2xl mx-auto">{quiz.subheading}</p>
+          </div>
+          <HomeQuiz />
         </div>
       </section>
 
@@ -93,22 +116,6 @@ export default function Home() {
               );
             })}
           </div>
-        </div>
-      </section>
-
-      {/* Daily Quiz Widget */}
-      <section className="section-padding bg-gradient-to-br from-graphite-900 via-graphite-800 to-graphite-950">
-        <div className="container-custom">
-          <div className="text-center mb-10">
-            <h2 className="heading-lg text-white mb-3">
-              {quiz.heading.split("—")[0]}
-              <span className="text-saffron-400">
-                {quiz.heading.includes("—") ? "— " + quiz.heading.split("—")[1] : ""}
-              </span>
-            </h2>
-            <p className="text-graphite-300 text-lg max-w-2xl mx-auto">{quiz.subheading}</p>
-          </div>
-          <HomeQuiz />
         </div>
       </section>
 

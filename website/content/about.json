@@ -1,43 +1,78 @@
 {
   "heading": "About UKPSC Decoded",
-  "subtitle": "Built by aspirants, for aspirants. We believe quality exam preparation should be accessible to everyone.",
+  "subtitle": "Built by an aspirant, for aspirants. We believe quality exam preparation should be accessible to everyone.",
   "mission": {
     "heading": "Our Mission",
     "quote": "Making quality Uttarakhand exam preparation accessible to every aspirant, regardless of geography or budget.",
-    "body": "Uttarakhand aspirants often struggle to find quality, structured preparation material — especially for the state-specific portions. Coaching centers are concentrated in Dehradun and Haldwani, leaving thousands of aspirants in remote areas without access. UKPSC Decoded bridges that gap through digital content, a comprehensive guidebook, and an engaged community."
+    "body": "Uttarakhand aspirants often struggle to find quality, structured preparation material — especially for the state-specific portions. Coaching centers are concentrated in Dehradun and Haldwani, leaving thousands of aspirants in remote areas without access. UKPSC Decoded bridges that gap through digital content, comprehensive guidebooks, and an engaged community."
+  },
+  "founder": {
+    "heading": "Your Guide & Founder",
+    "name": "Bhanu Joshi",
+    "role": "Founder & Mentor, UKPSC Decoded",
+    "bio": "UKPSC Decoded is founded and mentored by Bhanu Joshi — a serious UPSC/UKPSC aspirant turned educator. After coming agonisingly close in UPSC twice and clearing multiple UKPSC stages (including the Upper PCS 2024 interview), he channelled 5+ years of teaching experience at UPSC coaching institutes into building the single, updated, Uttarakhand-focused resource he wished existed when he started. Through the YouTube channel, the Telegram community and this platform, he mentors aspirants one-on-one — from strategy and answer writing to interview preparation.",
+    "credentialsHeading": "Credentials",
+    "credentials": [
+      { "area": "UPSC", "credential": "Missed the final list twice — by 11 marks & 5 marks" },
+      { "area": "UKPSC Mains", "credential": "Written Mains across multiple UKPSC exams" },
+      { "area": "UKPSC Interview", "credential": "Cleared to Interview — Upper PCS 2024" },
+      { "area": "UKPSC Mains 2025", "credential": "Appeared — result awaited" },
+      { "area": "Lower PCS", "credential": "Mains written — interview awaited" },
+      { "area": "DEO 2024", "credential": "Cleared Deputy Education Officer cut-off (Upper PCS)" },
+      { "area": "Teaching", "credential": "5+ years at UPSC coaching institutes" },
+      { "area": "Network", "credential": "Close friends cleared UPSC and State PCS" }
+    ]
   },
   "statsHeading": "Our Impact So Far",
   "stats": [
     { "value": "2000+", "label": "YouTube Subscribers", "icon": "video" },
     { "value": "1000+", "label": "Telegram Members", "icon": "send" },
-    { "value": "28", "label": "Chapters Written", "icon": "book" },
-    { "value": "6", "label": "Exams Covered", "icon": "award" }
+    { "value": "GS V + VI", "label": "Uttarakhand-Special Guidebooks (multiple)", "icon": "book" },
+    { "value": "5+ Yrs", "label": "UPSC Teaching Experience", "icon": "award" }
   ],
+  "freeSample": {
+    "heading": "Try Before You Buy",
+    "body": "Read real sample pages from the guidebook — a page each from History, Economy and Geography, in the same table-driven format as the book.",
+    "buttonText": "Read Free Sample Pages",
+    "buttonLink": "/buy-book#free-samples"
+  },
   "timelineHeading": "Our Journey",
   "timeline": [
     {
-      "year": "2022",
-      "title": "YouTube Channel Started",
-      "description": "Began uploading Uttarakhand GK videos to help aspirants prepare for free.",
+      "year": "2020",
+      "title": "YouTube Channel for UPSC Started",
+      "description": "Began sharing UPSC preparation content on YouTube to help aspirants for free.",
       "icon": "video"
     },
     {
-      "year": "2023",
+      "year": "2024",
       "title": "Telegram Community Launched",
       "description": "Created a dedicated space for daily MCQs, current affairs, and peer discussion.",
       "icon": "send"
     },
     {
-      "year": "2024",
+      "year": "2026",
       "title": "Book Manuscript Completed",
-      "description": "28 chapters covering the entire UKPSC syllabus — history, geography, polity, culture, and more.",
+      "description": "Wrote a complete, updated Uttarakhand guidebook — because no single book with such diverse, current content existed in the market.",
       "icon": "book"
     },
     {
-      "year": "2025",
-      "title": "Website + Courses Launching",
-      "description": "Full-stack digital platform with PYQ tracker, courses, test series, and mentorship programs.",
+      "year": "2026",
+      "title": "UKPSC Decoded YouTube Channel Launched",
+      "description": "A dedicated channel focused entirely on UKPSC and Uttarakhand state exams.",
+      "icon": "video"
+    },
+    {
+      "year": "2026 · July",
+      "title": "UKPSC Decoded Website Launched",
+      "description": "A full digital platform — PYQ tracker, free content, weekly current affairs and daily MCQs.",
       "icon": "rocket"
+    },
+    {
+      "year": "Upcoming",
+      "title": "Courses, Test Series & Mentorship",
+      "description": "Structured courses, test series, and personalised mentorship with an answer-writing program.",
+      "icon": "award"
     }
   ],
   "contact": {

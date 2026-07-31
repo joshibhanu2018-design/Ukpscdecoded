@@ -16,6 +16,7 @@ import {
   Loader2,
 } from "lucide-react";
 import currentAffairs from "@content/currentAffairs.json";
+import mcqBank from "@content/mcqBank.json";
 
 // ===== WEEKLY CURRENT AFFAIRS DATA (from content/currentAffairs.json) =====
 interface CAItem {
@@ -102,6 +103,41 @@ const fallbackMCQs: MCQQuestion[] = [
   },
 ];
 
+// Questions from the curated local bank (content/mcqBank.json)
+const bankMCQs: MCQQuestion[] = (mcqBank.questions || []).map((q, i) => ({
+  qno: 100000 + i,
+  subject: q.subject,
+  topic: q.topic,
+  question: q.question,
+  options: q.options,
+  correctAnswer: q.correctAnswer,
+  postedDate: "",
+}));
+
+// Day index that rolls over at 08:00 IST every morning.
+function getDailyIndex(): number {
+  const IST_OFFSET = 5.5 * 60 * 60 * 1000; // IST = UTC+5:30
+  const EIGHT_AM = 8 * 60 * 60 * 1000;
+  const shifted = Date.now() + IST_OFFSET - EIGHT_AM;
+  return Math.floor(shifted / (24 * 60 * 60 * 1000));
+}
+
+// Combine the Google Sheet + local bank, de-duplicate by question text,
+// then deterministically pick today's 5 (rotates daily, repeats through the pool).
+function pickDailyFive(sheetQuestions: MCQQuestion[]): MCQQuestion[] {
+  const combined = [...sheetQuestions, ...bankMCQs];
+  const seen = new Set<string>();
+  const pool = combined.filter((q) => {
+    const key = q.question.trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  if (pool.length === 0) return [];
+  const start = (getDailyIndex() * 5) % pool.length;
+  return Array.from({ length: Math.min(5, pool.length) }, (_, i) => pool[(start + i) % pool.length]);
+}
+
 // ===== CSV PARSER =====
 function parseCSV(text: string): string[][] {
   const rows: string[][] = [];
@@ -135,7 +171,7 @@ function parseCSV(text: string): string[][] {
 }
 
 // ===== TABS =====
-const tabs = ["Weekly Current Affairs", "Daily 5 PYQ Quiz"] as const;
+const tabs = ["Weekly Current Affairs", "Daily MCQ"] as const;
 type TabType = (typeof tabs)[number];
 
 const categoryIcons: Record<string, typeof Mountain> = {
@@ -158,9 +194,16 @@ export default function CurrentAffairsPage() {
   const [revealedAnswers, setRevealedAnswers] = useState<Record<number, boolean>>({});
   const [selectedOptions, setSelectedOptions] = useState<Record<number, number>>({});
 
-  // Fetch MCQs from Google Sheet when Daily 5 PYQ tab is active
+  // Open the Daily MCQ tab directly when arriving via /current-affairs#daily-quiz
   useEffect(() => {
-    if (activeTab === "Daily 5 PYQ Quiz" && mcqQuestions.length === 0) {
+    if (typeof window !== "undefined" && window.location.hash === "#daily-quiz") {
+      setActiveTab("Daily MCQ");
+    }
+  }, []);
+
+  // Build the daily MCQ set when the Daily MCQ tab is active
+  useEffect(() => {
+    if (activeTab === "Daily MCQ" && mcqQuestions.length === 0) {
       fetchMCQs();
     }
   }, [activeTab]);
@@ -193,12 +236,14 @@ export default function CurrentAffairsPage() {
         })
         .filter((q) => q.question.length > 0);
 
-      // Take the last 5 questions (highest QNo)
-      const latest5 = questions.slice(-5);
-      setMcqQuestions(latest5.length > 0 ? latest5 : fallbackMCQs);
+      // Combine the sheet with the local bank and pick today's rotating 5.
+      const daily = pickDailyFive(questions);
+      setMcqQuestions(daily.length > 0 ? daily : fallbackMCQs);
     } catch (error) {
       console.error("Failed to fetch MCQs:", error);
-      setMcqQuestions(fallbackMCQs);
+      // Sheet unavailable — still rotate through the local bank.
+      const daily = pickDailyFive([]);
+      setMcqQuestions(daily.length > 0 ? daily : fallbackMCQs);
     } finally {
       setLoadingMCQ(false);
     }
@@ -244,8 +289,8 @@ export default function CurrentAffairsPage() {
             <span className="text-saffron-400">Stay Updated, Stay Ahead</span>
           </h1>
           <p className="text-lg md:text-xl text-graphite-300 max-w-2xl mx-auto leading-relaxed">
-            Weekly current affairs curated for UKPSC exams, plus daily PYQ quizzes
-            fetched live from our Google Sheet to test your preparation.
+            Weekly current affairs curated for UKPSC exams, plus a fresh daily MCQ
+            set every morning to test your preparation.
           </p>
         </div>
       </section>
@@ -378,16 +423,16 @@ export default function CurrentAffairsPage() {
             </div>
           )}
 
-          {/* ===== DAILY 5 PYQ QUIZ TAB ===== */}
-          {activeTab === "Daily 5 PYQ Quiz" && (
+          {/* ===== DAILY MCQ TAB ===== */}
+          {activeTab === "Daily MCQ" && (
             <div>
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <h3 className="heading-md text-graphite-900">
-                    Daily 5 PYQ Quiz
+                    Daily MCQ
                   </h3>
                   <p className="text-graphite-600 mt-1">
-                    5 questions fetched live from our Google Sheet
+                    5 fresh questions every morning — mixed from our question bank and Google Sheet
                   </p>
                 </div>
                 <button
@@ -404,7 +449,7 @@ export default function CurrentAffairsPage() {
                 <div className="flex flex-col items-center justify-center py-20">
                   <Loader2 className="w-8 h-8 text-saffron-500 animate-spin mb-4" />
                   <p className="text-graphite-600 font-medium">
-                    Fetching latest questions from Google Sheet...
+                    Loading today&apos;s questions...
                   </p>
                 </div>
               )}
@@ -547,8 +592,8 @@ export default function CurrentAffairsPage() {
               <RefreshCw className="w-4 h-4 text-jade-600" />
               <span>
                 {activeTab === "Weekly Current Affairs"
-                  ? "Current affairs updated from our monthly PDF compilation"
-                  : "Quiz data fetched live from Google Sheets — auto-refreshes every hour"}
+                  ? "Weekly current affairs — a new gist every Sunday"
+                  : "New MCQ set every day at 8 AM IST — combined from our question bank and Google Sheet"}
               </span>
             </div>
           </div>
