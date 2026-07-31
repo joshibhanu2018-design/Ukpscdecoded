@@ -1,0 +1,65 @@
+{
+  "heading": "Structured Courses — Learn With a Plan",
+  "subtitle": "Expert-designed courses to take you from zero to selection. Each course is built around UKPSC patterns and Uttarakhand-specific content.",
+  "items": [
+    {
+      "title": "UKPSC Foundation Batch",
+      "duration": "6 months",
+      "price": 4999,
+      "originalPrice": 8999,
+      "description": "Comprehensive preparation covering both Paper V (Uttarakhand GK) and Paper VI (General Studies). Designed for serious aspirants targeting PCS, Lower PCS, and RO/ARO exams with structured learning.",
+      "launchingSoon": true,
+      "badge": "Launching Soon",
+      "color": "saffron",
+      "features": [
+        { "text": "200+ video lectures" },
+        { "text": "Printed study material" },
+        { "text": "Weekly tests" },
+        { "text": "Doubt clearing sessions" }
+      ]
+    },
+    {
+      "title": "Uttarakhand GK Intensive",
+      "duration": "3 months",
+      "price": 2499,
+      "originalPrice": 4999,
+      "description": "Deep-dive into Uttarakhand-specific topics — history, geography, culture, polity, and current affairs. Perfect for aspirants who need focused Paper V preparation with PYQ-based approach.",
+      "launchingSoon": true,
+      "badge": "Launching Soon",
+      "color": "jade",
+      "features": [
+        { "text": "100+ topic-wise videos" },
+        { "text": "Uttarakhand-specific focus" },
+        { "text": "Daily MCQs" },
+        { "text": "PYQ analysis included" }
+      ]
+    },
+    {
+      "title": "Test Series + Mentorship",
+      "duration": "4 months",
+      "price": 1999,
+      "originalPrice": 3999,
+      "description": "Practice under real exam conditions with full-length mock tests, detailed performance analytics, and 1-on-1 mentorship. Ideal for aspirants in their revision phase.",
+      "launchingSoon": true,
+      "badge": "Launching Soon",
+      "color": "graphite",
+      "features": [
+        { "text": "30 full-length tests" },
+        { "text": "Detailed solutions" },
+        { "text": "Personal mentorship" },
+        { "text": "Strategy sessions" }
+      ]
+    }
+  ],
+  "emailCapture": {
+    "heading": "Get Notified When Courses Launch",
+    "subtitle": "Be the first to know. Early subscribers get exclusive launch discounts.",
+    "buttonText": "Notify Me",
+    "successMessage": "You're on the list! We'll email you when courses launch."
+  },
+  "freeCta": {
+    "heading": "Meanwhile, Start With Our FREE Content",
+    "subtitle": "Access free video lectures, daily MCQs, and study resources while you wait for the full courses.",
+    "buttonText": "Explore Free Content"
+  }
+}

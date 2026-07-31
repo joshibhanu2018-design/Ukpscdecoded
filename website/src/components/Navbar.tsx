@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, BookOpen } from "lucide-react";
+import settings from "@content/settings.json";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -23,7 +24,8 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2 group">
             <BookOpen className="w-8 h-8 text-saffron-400 group-hover:text-saffron-300 transition-colors" />
             <span className="font-display font-bold text-xl text-white">
-              UKPSC <span className="text-saffron-400">Decoded</span>
+              {settings.brandName1}{" "}
+              <span className="text-saffron-400">{settings.brandName2}</span>
             </span>
           </Link>
 
@@ -39,7 +41,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link href="/buy-book" className="ml-3 btn-primary text-sm py-2 px-4">
-              Get the Book
+              {settings.navCtaText}
             </Link>
           </div>
 
@@ -71,7 +73,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               className="block mt-3 mx-4 text-center btn-primary"
             >
-              Get the Book
+              {settings.navCtaText}
             </Link>
           </div>
         )}

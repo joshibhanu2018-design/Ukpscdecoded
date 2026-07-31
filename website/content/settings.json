@@ -1,0 +1,22 @@
+{
+  "brandName1": "UKPSC",
+  "brandName2": "Decoded",
+  "navCtaText": "Get the Book",
+  "footer": {
+    "aboutText": "India's most comprehensive single-platform preparation resource for all Uttarakhand state examinations. From free videos to the complete guidebook.",
+    "email": "ukpscdecoded@gmail.com",
+    "exams": [
+      { "name": "UKPSC PCS (Prelims + Mains)" },
+      { "name": "Lower PCS / ACF / RFO" },
+      { "name": "RO/ARO Examination" },
+      { "name": "UKSSSC (Group C)" },
+      { "name": "Patwari / Lekhpal" },
+      { "name": "Forest Guard / SI" }
+    ]
+  },
+  "social": {
+    "youtube": "https://youtube.com/@ukpscdecoded",
+    "telegram": "https://t.me/ukpscdecoded",
+    "instagram": "https://instagram.com/ukpscdecoded"
+  }
+}

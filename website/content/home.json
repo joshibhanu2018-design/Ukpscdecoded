@@ -1,0 +1,109 @@
+{
+  "hero": {
+    "headingLine1": "Crack Every Uttarakhand Exam —",
+    "headingLine2": "From One Platform",
+    "subtitle": "Comprehensive preparation for UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all state exams. Free videos, daily MCQs, PYQ analysis, and India's most complete Uttarakhand GK guidebook.",
+    "primaryButtonText": "Explore Free Content",
+    "primaryButtonLink": "/free-content",
+    "secondaryButtonText": "Get the Book",
+    "secondaryButtonLink": "/buy-book"
+  },
+  "stats": [
+    { "value": "2000+", "label": "YouTube Subscribers", "icon": "video" },
+    { "value": "1000+", "label": "Telegram Members", "icon": "users" },
+    { "value": "28", "label": "Chapters", "icon": "book" },
+    { "value": "6", "label": "Exams Covered", "icon": "award" }
+  ],
+  "features": {
+    "headingLine1": "Everything You Need to",
+    "headingLine2": "Succeed",
+    "subtitle": "A complete ecosystem designed for Uttarakhand exam aspirants — from foundational learning to exam-day confidence.",
+    "items": [
+      {
+        "title": "Free Video Lectures",
+        "description": "Comprehensive video lectures covering every topic of Uttarakhand GK, systematically organized chapter-wise.",
+        "icon": "play"
+      },
+      {
+        "title": "Daily Current Affairs & MCQ",
+        "description": "Stay updated with daily current affairs relevant to UKPSC exams plus practice MCQs to test your knowledge.",
+        "icon": "newspaper"
+      },
+      {
+        "title": "PYQ Analysis Tracker",
+        "description": "Track previous year questions with detailed analysis showing topic-wise weightage and trends across exams.",
+        "icon": "chart"
+      },
+      {
+        "title": "Complete Guidebook",
+        "description": "India's only single-volume guidebook covering all Uttarakhand state exams in 28 comprehensive chapters.",
+        "icon": "book"
+      },
+      {
+        "title": "Expert Analysis",
+        "description": "In-depth analysis of exam patterns, cut-offs, and strategic preparation tips from experienced educators.",
+        "icon": "brain"
+      },
+      {
+        "title": "Community Support",
+        "description": "Join our active Telegram community for doubt resolution, peer discussions, and daily motivation.",
+        "icon": "message"
+      }
+    ]
+  },
+  "bookPreview": {
+    "badge": "BESTSELLING GUIDEBOOK",
+    "headingLine1": "The Complete Uttarakhand GK —",
+    "headingLine2": "In One Volume",
+    "description": "28 meticulously researched chapters covering History, Geography, Polity, Economy, Culture, Disaster Management & more. Aligned with the latest UKPSC syllabus and enriched with PYQ references.",
+    "tocHeading": "Table of Contents (Highlights):",
+    "chapters": [
+      "Uttarakhand: Origin & History",
+      "Ancient & Medieval History",
+      "Modern History & Freedom Struggle",
+      "Art, Culture & Traditions",
+      "Geography & Natural Resources",
+      "Polity & Governance",
+      "Economy & Development",
+      "Disaster Management & HRD"
+    ],
+    "moreChaptersNote": "...and 20 more chapters",
+    "buttonText": "Get Your Copy",
+    "coverTitle": "UKPSC Decoded",
+    "coverSubtitle": "Complete Uttarakhand GK",
+    "coverFooter": "28 Chapters • 6 Exams • 1 Volume"
+  },
+  "testimonials": {
+    "headingLine1": "Trusted by",
+    "headingLine2": "Aspirants",
+    "subtitle": "Hear from students who transformed their preparation with UKPSC Decoded.",
+    "items": [
+      {
+        "name": "Priya Rawat",
+        "exam": "UKPSC PCS 2024",
+        "text": "UKPSC Decoded transformed my preparation. The chapter-wise videos and the guidebook gave me a structured approach. Cleared prelims in my first attempt!",
+        "rating": 5
+      },
+      {
+        "name": "Rahul Negi",
+        "exam": "Lower PCS 2023",
+        "text": "The daily MCQs and current affairs section kept me consistent throughout my preparation. The PYQ tracker helped me focus on high-weightage topics.",
+        "rating": 5
+      },
+      {
+        "name": "Ankit Bisht",
+        "exam": "RO/ARO 2024",
+        "text": "Best resource for Uttarakhand GK. The book covers everything in one volume and the Telegram community is incredibly supportive. Highly recommend!",
+        "rating": 5
+      }
+    ]
+  },
+  "finalCta": {
+    "heading": "Start Your Preparation Today",
+    "subtitle": "Join thousands of aspirants already preparing smarter with free videos, daily MCQs, and expert guidance. Your journey to cracking Uttarakhand exams starts here.",
+    "telegramText": "Join Telegram",
+    "telegramLink": "https://t.me/ukpscdecoded",
+    "youtubeText": "Subscribe on YouTube",
+    "youtubeLink": "https://youtube.com/@ukpscdecoded"
+  }
+}

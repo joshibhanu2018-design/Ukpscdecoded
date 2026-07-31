@@ -1,0 +1,329 @@
+backend:
+  name: github
+  repo: joshibhanu2018-design/Ukpscdecoded
+  branch: main
+  # OAuth is handled by this site's own API routes (src/app/api/auth + api/callback).
+  # Leaving base_url unset makes Decap use the current origin, so this works
+  # automatically on localhost, Vercel previews, and the live domain.
+  auth_endpoint: api/auth
+
+# Uncomment while running `npx decap-server` for local editing without OAuth:
+# local_backend: true
+
+publish_mode: simple
+media_folder: "website/public/uploads"
+public_folder: "/uploads"
+
+site_url: https://ukpscdecoded.vercel.app
+display_url: https://ukpscdecoded.vercel.app
+
+collections:
+  # ============================================
+  # HOME PAGE
+  # ============================================
+  - name: "home"
+    label: "🏠 Home Page"
+    files:
+      - name: "home"
+        label: "Home Page Content"
+        file: "website/content/home.json"
+        description: "Edit the hero section, stats, features, book preview and testimonials on your homepage."
+        fields:
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Heading — Line 1", name: "headingLine1", widget: "string" }
+              - { label: "Heading — Line 2 (saffron highlight)", name: "headingLine2", widget: "string", hint: "This part appears in saffron/orange colour" }
+              - { label: "Subtitle", name: "subtitle", widget: "text" }
+              - { label: "Primary Button Text", name: "primaryButtonText", widget: "string" }
+              - { label: "Primary Button Link", name: "primaryButtonLink", widget: "string" }
+              - { label: "Secondary Button Text", name: "secondaryButtonText", widget: "string" }
+              - { label: "Secondary Button Link", name: "secondaryButtonLink", widget: "string" }
+
+          - label: "Stats Bar"
+            name: "stats"
+            widget: "list"
+            summary: "{{fields.value}} — {{fields.label}}"
+            fields:
+              - { label: "Value", name: "value", widget: "string", hint: "e.g. 2000+" }
+              - { label: "Label", name: "label", widget: "string", hint: "e.g. YouTube Subscribers" }
+              - label: "Icon"
+                name: "icon"
+                widget: "select"
+                options: ["video", "users", "book", "award"]
+
+          - label: "Features Section"
+            name: "features"
+            widget: "object"
+            fields:
+              - { label: "Heading — Line 1", name: "headingLine1", widget: "string" }
+              - { label: "Heading — Line 2 (jade highlight)", name: "headingLine2", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "text" }
+              - label: "Feature Cards"
+                name: "items"
+                widget: "list"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "description", widget: "text" }
+                  - label: "Icon"
+                    name: "icon"
+                    widget: "select"
+                    options: ["play", "newspaper", "chart", "book", "brain", "message"]
+
+          - label: "Book Preview Section"
+            name: "bookPreview"
+            widget: "object"
+            fields:
+              - { label: "Badge Text", name: "badge", widget: "string" }
+              - { label: "Heading — Line 1", name: "headingLine1", widget: "string" }
+              - { label: "Heading — Line 2 (saffron highlight)", name: "headingLine2", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Table of Contents Heading", name: "tocHeading", widget: "string" }
+              - label: "Chapter Highlights"
+                name: "chapters"
+                widget: "list"
+                hint: "Shown as a numbered list"
+              - { label: "'More chapters' Note", name: "moreChaptersNote", widget: "string" }
+              - { label: "Button Text", name: "buttonText", widget: "string" }
+              - { label: "Book Cover — Title", name: "coverTitle", widget: "string" }
+              - { label: "Book Cover — Subtitle", name: "coverSubtitle", widget: "string" }
+              - { label: "Book Cover — Footer Text", name: "coverFooter", widget: "string" }
+
+          - label: "Testimonials Section"
+            name: "testimonials"
+            widget: "object"
+            fields:
+              - { label: "Heading — Line 1", name: "headingLine1", widget: "string" }
+              - { label: "Heading — Line 2 (jade highlight)", name: "headingLine2", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "text" }
+              - label: "Testimonial Cards"
+                name: "items"
+                widget: "list"
+                summary: "{{fields.name}} — {{fields.exam}}"
+                fields:
+                  - { label: "Student Name", name: "name", widget: "string" }
+                  - { label: "Exam & Year", name: "exam", widget: "string", hint: "e.g. UKPSC PCS 2024" }
+                  - { label: "Testimonial Text", name: "text", widget: "text" }
+                  - { label: "Star Rating", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, default: 5 }
+
+          - label: "Final CTA Section"
+            name: "finalCta"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "text" }
+              - { label: "Telegram Button Text", name: "telegramText", widget: "string" }
+              - { label: "Telegram Link", name: "telegramLink", widget: "string" }
+              - { label: "YouTube Button Text", name: "youtubeText", widget: "string" }
+              - { label: "YouTube Link", name: "youtubeLink", widget: "string" }
+
+  # ============================================
+  # BOOK DETAILS
+  # ============================================
+  - name: "book"
+    label: "📕 Book Details"
+    files:
+      - name: "book"
+        label: "Buy Book Page Content"
+        file: "website/content/book.json"
+        description: "Edit book title, price, chapter list, what's included and trust badges."
+        fields:
+          - { label: "Book Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string" }
+          - { label: "Short Description", name: "description", widget: "text" }
+          - { label: "Selling Price (₹)", name: "price", widget: "number", value_type: "int" }
+          - { label: "Original Price (₹, struck-through)", name: "originalPrice", widget: "number", value_type: "int" }
+          - { label: "Shipping Note", name: "shippingNote", widget: "string" }
+          - { label: "WhatsApp Number", name: "whatsappNumber", widget: "string", hint: "With country code, digits only. e.g. 919876543210" }
+
+          - { label: "'What's Included' Heading", name: "includedHeading", widget: "string" }
+          - label: "What's Included Items"
+            name: "included"
+            widget: "list"
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "Item", name: "text", widget: "string" }
+
+          - { label: "Chapters Section Heading", name: "chaptersHeading", widget: "string" }
+          - label: "Chapter Parts"
+            name: "chapters"
+            widget: "list"
+            summary: "{{fields.part}}"
+            fields:
+              - { label: "Part Name", name: "part", widget: "string", hint: "e.g. Part A — History" }
+              - label: "Chapters in this Part"
+                name: "items"
+                widget: "list"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Chapter Title", name: "title", widget: "string" }
+
+          - label: "Trust Badges"
+            name: "trustBadges"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "string" }
+              - label: "Icon"
+                name: "icon"
+                widget: "select"
+                options: ["truck", "banknote", "return"]
+
+  # ============================================
+  # COURSES
+  # ============================================
+  - name: "courses"
+    label: "🎓 Courses"
+    files:
+      - name: "courses"
+        label: "Courses Page Content"
+        file: "website/content/courses.json"
+        description: "Edit course names, prices, descriptions and features. Toggle 'Launching Soon' per course."
+        fields:
+          - { label: "Page Heading", name: "heading", widget: "string" }
+          - { label: "Page Subtitle", name: "subtitle", widget: "text" }
+
+          - label: "Course Cards"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}} — ₹{{fields.price}}"
+            fields:
+              - { label: "Course Title", name: "title", widget: "string" }
+              - { label: "Duration", name: "duration", widget: "string", hint: "e.g. 6 months" }
+              - { label: "Price (₹)", name: "price", widget: "number", value_type: "int" }
+              - { label: "Original Price (₹)", name: "originalPrice", widget: "number", value_type: "int" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Show 'Launching Soon' badge", name: "launchingSoon", widget: "boolean", default: true }
+              - { label: "Badge Text", name: "badge", widget: "string", required: false }
+              - label: "Accent Colour"
+                name: "color"
+                widget: "select"
+                options: ["saffron", "jade", "graphite"]
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                fields:
+                  - { label: "Feature", name: "text", widget: "string" }
+
+          - label: "Email Capture Section"
+            name: "emailCapture"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "text" }
+              - { label: "Button Text", name: "buttonText", widget: "string" }
+              - { label: "Success Message", name: "successMessage", widget: "string" }
+
+          - label: "Free Content CTA"
+            name: "freeCta"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "text" }
+              - { label: "Button Text", name: "buttonText", widget: "string" }
+
+  # ============================================
+  # ABOUT / CONTACT
+  # ============================================
+  - name: "about"
+    label: "👤 About & Contact"
+    files:
+      - name: "about"
+        label: "About / Contact Page Content"
+        file: "website/content/about.json"
+        description: "Edit mission statement, stats, journey timeline and all contact details."
+        fields:
+          - { label: "Page Heading", name: "heading", widget: "string" }
+          - { label: "Page Subtitle", name: "subtitle", widget: "text" }
+
+          - label: "Mission Section"
+            name: "mission"
+            widget: "object"
+            fields:
+              - { label: "Section Heading", name: "heading", widget: "string" }
+              - { label: "Mission Quote", name: "quote", widget: "text", hint: "Shown as a large italic quote" }
+              - { label: "Supporting Paragraph", name: "body", widget: "text" }
+
+          - { label: "Stats Section Heading", name: "statsHeading", widget: "string" }
+          - label: "Impact Stats"
+            name: "stats"
+            widget: "list"
+            summary: "{{fields.value}} — {{fields.label}}"
+            fields:
+              - { label: "Value", name: "value", widget: "string" }
+              - { label: "Label", name: "label", widget: "string" }
+              - label: "Icon"
+                name: "icon"
+                widget: "select"
+                options: ["video", "send", "book", "award"]
+
+          - { label: "Timeline Section Heading", name: "timelineHeading", widget: "string" }
+          - label: "Journey Timeline"
+            name: "timeline"
+            widget: "list"
+            summary: "{{fields.year}} — {{fields.title}}"
+            fields:
+              - { label: "Year", name: "year", widget: "string" }
+              - { label: "Milestone Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - label: "Icon"
+                name: "icon"
+                widget: "select"
+                options: ["video", "send", "book", "rocket"]
+
+          - label: "Contact Section"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "Section Heading", name: "heading", widget: "string" }
+              - { label: "'Connect With Us' Heading", name: "connectHeading", widget: "string" }
+              - { label: "'Send a Message' Heading", name: "formHeading", widget: "string" }
+              - { label: "Email Address", name: "email", widget: "string" }
+              - { label: "YouTube URL", name: "youtube", widget: "string" }
+              - { label: "YouTube Handle", name: "youtubeHandle", widget: "string" }
+              - { label: "Telegram URL", name: "telegram", widget: "string" }
+              - { label: "Telegram Handle", name: "telegramHandle", widget: "string" }
+              - { label: "Instagram URL", name: "instagram", widget: "string" }
+              - { label: "Instagram Handle", name: "instagramHandle", widget: "string" }
+              - { label: "Form Success Heading", name: "successHeading", widget: "string" }
+              - { label: "Form Success Message", name: "successMessage", widget: "text" }
+
+  # ============================================
+  # SITE SETTINGS
+  # ============================================
+  - name: "settings"
+    label: "⚙️ Site Settings"
+    files:
+      - name: "settings"
+        label: "Global Settings"
+        file: "website/content/settings.json"
+        description: "Brand name, footer text, exam list and social links used across the whole site."
+        fields:
+          - { label: "Brand Name — Part 1", name: "brandName1", widget: "string", hint: "e.g. UKPSC (shown in white)" }
+          - { label: "Brand Name — Part 2", name: "brandName2", widget: "string", hint: "e.g. Decoded (shown in saffron)" }
+          - { label: "Navbar CTA Button Text", name: "navCtaText", widget: "string" }
+
+          - label: "Footer"
+            name: "footer"
+            widget: "object"
+            fields:
+              - { label: "About Text", name: "aboutText", widget: "text" }
+              - { label: "Contact Email", name: "email", widget: "string" }
+              - label: "Exams Covered List"
+                name: "exams"
+                widget: "list"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Exam Name", name: "name", widget: "string" }
+
+          - label: "Social Links"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "YouTube URL", name: "youtube", widget: "string" }
+              - { label: "Telegram URL", name: "telegram", widget: "string" }
+              - { label: "Instagram URL", name: "instagram", widget: "string" }

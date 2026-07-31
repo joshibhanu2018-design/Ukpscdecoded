@@ -1,0 +1,84 @@
+{
+  "title": "Decode Uttarakhand",
+  "subtitle": "The Complete Guidebook",
+  "description": "India's only single-volume guidebook covering all topics for UKPSC PCS, Lower PCS, RO/ARO, and UKSSSC exams.",
+  "price": 499,
+  "originalPrice": 799,
+  "shippingNote": "Free shipping across India",
+  "whatsappNumber": "919999999999",
+  "includedHeading": "What's Included",
+  "included": [
+    { "text": "Complete Paper V + Paper VI coverage" },
+    { "text": "2026 Edition — Latest syllabus aligned" },
+    { "text": "Current Affairs Capsule (up to Dec 2025)" },
+    { "text": "28 chapters, 500+ pages" }
+  ],
+  "chaptersHeading": "28 Chapters Across 5 Parts",
+  "chapters": [
+    {
+      "part": "Part A — History",
+      "items": [
+        { "title": "Ancient History of Uttarakhand" },
+        { "title": "Medieval Dynasties (Katyuri, Panwar, Chand)" },
+        { "title": "British Rule & Freedom Struggle" },
+        { "title": "Statehood Movement" },
+        { "title": "Post-Independence Development" }
+      ]
+    },
+    {
+      "part": "Part B — Geography",
+      "items": [
+        { "title": "Physical Geography & Topography" },
+        { "title": "Rivers, Lakes & Glaciers" },
+        { "title": "Climate & Biodiversity" },
+        { "title": "National Parks & Wildlife Sanctuaries" },
+        { "title": "Minerals & Natural Resources" }
+      ]
+    },
+    {
+      "part": "Part C — Polity & Economy",
+      "items": [
+        { "title": "State Administration & Governance" },
+        { "title": "Panchayati Raj & Local Bodies" },
+        { "title": "Economy & Planning" },
+        { "title": "Agriculture & Industry" },
+        { "title": "Government Schemes & Programs" }
+      ]
+    },
+    {
+      "part": "Part D — Society & Culture",
+      "items": [
+        { "title": "Tribes & Social Structure" },
+        { "title": "Fairs, Festivals & Traditions" },
+        { "title": "Art, Music & Dance Forms" },
+        { "title": "Literature & Languages" },
+        { "title": "Famous Personalities" }
+      ]
+    },
+    {
+      "part": "Part E — General Studies",
+      "items": [
+        { "title": "Indian Polity (Comparative)" },
+        { "title": "Indian Economy (with State Focus)" },
+        { "title": "Current Affairs Capsule" }
+      ]
+    }
+  ],
+  "trustBadges": [
+    {
+      "title": "Free Shipping",
+      "description": "Across all pincodes in India",
+      "icon": "truck"
+    },
+    {
+      "title": "Cash on Delivery Available",
+      "description": "Pay when you receive the book",
+      "icon": "banknote"
+    },
+    {
+      "title": "7-Day Return Policy",
+      "description": "No questions asked returns",
+      "icon": "return"
+    }
+  ]
+}
