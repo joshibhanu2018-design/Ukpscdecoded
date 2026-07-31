@@ -6,6 +6,15 @@
     <meta name="robots" content="noindex" />
     <title>UKPSC Decoded — Content Manager</title>
     <link rel="icon" href="data:," />
+    <!--
+      Tell Decap CMS exactly where config.yml lives.
+
+      Without this, Decap resolves "config.yml" relative to the page URL. This
+      site is served at /admin (no trailing slash), so the relative lookup
+      becomes /config.yml -> 404 -> "Error loading the CMS configuration".
+      An absolute href makes the lookup correct regardless of trailing slash.
+    -->
+    <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml" />
     <style>
       body { margin: 0; font-family: system-ui, sans-serif; }
       #nc-root { min-height: 100vh; }
@@ -40,6 +49,7 @@
         <p>Loading Content Manager&hellip;</p>
       </div>
     </div>
+    <!-- Pinned to an exact version so a CDN release can never change what loads here. -->
     <script src="https://unpkg.com/decap-cms@3.3.3/dist/decap-cms.js"></script>
   </body>
 </html>

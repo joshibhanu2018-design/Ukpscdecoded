@@ -140,6 +140,12 @@ before pushing, otherwise the live dashboard will try to reach a local server.
 
 ## Troubleshooting
 
+**"Error loading the CMS configuration — Failed to load config.yml (404)"**
+Decap looks for `config.yml` relative to the page URL. This site is served at
+`/admin` with no trailing slash, so a relative lookup resolves to `/config.yml`
+(404) instead of `/admin/config.yml`. The absolute `<link rel="cms-config-url">`
+tag in `website/public/admin/index.html` pins the correct path — don't remove it.
+
 **"GitHub OAuth is not configured"**
 The environment variables are missing or the site hasn't been redeployed since
 you added them. Re-check Step 2, then redeploy.
