@@ -47,9 +47,10 @@ export async function fetchChannelVideos(): Promise<YouTubeVideo[]> {
 
     const videos: YouTubeVideo[] = (videosData.items || []).map((item: any) => {
       const title = item.snippet.title;
-      const category = categorizeVideo(title);
+      const videoId = item.snippet.resourceId.videoId;
+      const category = categorizeVideo(title, videoId);
       return {
-        id: item.snippet.resourceId.videoId,
+        id: videoId,
         title: title,
         description: item.snippet.description?.substring(0, 150) || '',
         thumbnail:
@@ -68,20 +69,67 @@ export async function fetchChannelVideos(): Promise<YouTubeVideo[]> {
   }
 }
 
-// Auto-categorize based on video title keywords
-function categorizeVideo(title: string): string {
+// Auto-categorize based on video title keywords and video characteristics
+function categorizeVideo(title: string, videoId?: string): string {
   const lower = title.toLowerCase();
+
+  // Shorts — YouTube Shorts have specific title patterns or very short titles
+  // Also detected by #shorts hashtag in title or description
   if (
-    lower.includes('current affairs') ||
-    lower.includes('current') ||
-    lower.includes('समसामयिक')
+    lower.includes('#shorts') ||
+    lower.includes('#short') ||
+    lower.includes('shorts') ||
+    (title.length < 60 && !lower.includes('full') && !lower.includes('complete'))
   )
-    return 'Current Affairs';
+    return 'Shorts';
+
+  // PYQ — Previous Year Questions
   if (
     lower.includes('pyq') ||
     lower.includes('previous year') ||
-    lower.includes('analysis')
+    lower.includes('पिछले वर्ष') ||
+    lower.includes('past paper')
   )
-    return 'PYQ Analysis';
-  return 'Uttarakhand GK';
+    return 'PYQ';
+
+  // Current Affairs
+  if (
+    lower.includes('current affairs') ||
+    lower.includes('current') ||
+    lower.includes('समसामयिक') ||
+    lower.includes('weekly') ||
+    lower.includes('monthly')
+  )
+    return 'Current Affairs';
+
+  // Strategy — exam tips, preparation strategy, how-to
+  if (
+    lower.includes('strategy') ||
+    lower.includes('topper') ||
+    lower.includes('preparation') ||
+    lower.includes('how to') ||
+    lower.includes('tips') ||
+    lower.includes('plan') ||
+    lower.includes('syllabus') ||
+    lower.includes('booklist') ||
+    lower.includes('roadmap') ||
+    lower.includes('रणनीति')
+  )
+    return 'Strategy';
+
+  // National — Indian polity, economy, history (non-Uttarakhand)
+  if (
+    lower.includes('indian polity') ||
+    lower.includes('indian economy') ||
+    lower.includes('indian history') ||
+    lower.includes('national') ||
+    lower.includes('india') ||
+    lower.includes('constitution') ||
+    lower.includes('parliament') ||
+    lower.includes('भारत')
+  )
+    return 'National';
+
+  // Default — UK Special (Uttarakhand-specific)
+  return 'UK Special';
 }

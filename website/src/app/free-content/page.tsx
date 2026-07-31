@@ -14,7 +14,7 @@ const fallbackVideos: YouTubeVideo[] = [
     description: "Detailed lecture covering the ancient history of Uttarakhand from prehistoric times to early kingdoms.",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
     publishedAt: "2025-01-15T10:00:00Z",
-    category: "Uttarakhand GK",
+    category: "UK Special",
   },
   {
     id: "jNQXAC9IVRw",
@@ -22,7 +22,7 @@ const fallbackVideos: YouTubeVideo[] = [
     description: "In-depth analysis of the Katyuri and Chand dynasties, their contributions and important facts for exams.",
     thumbnail: "https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg",
     publishedAt: "2025-01-12T10:00:00Z",
-    category: "Uttarakhand GK",
+    category: "UK Special",
   },
   {
     id: "9bZkp7q19f0",
@@ -38,7 +38,7 @@ const fallbackVideos: YouTubeVideo[] = [
     description: "Complete analysis of Previous Year Questions from UKPSC PCS Prelims 2023 on Polity & Governance.",
     thumbnail: "https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg",
     publishedAt: "2025-02-10T10:00:00Z",
-    category: "PYQ Analysis",
+    category: "PYQ",
   },
   {
     id: "RgKAFK5djSk",
@@ -46,7 +46,7 @@ const fallbackVideos: YouTubeVideo[] = [
     description: "Detailed mapping and explanation of all major rivers, tributaries, and glaciers of Uttarakhand.",
     thumbnail: "https://img.youtube.com/vi/RgKAFK5djSk/hqdefault.jpg",
     publishedAt: "2025-01-20T10:00:00Z",
-    category: "Uttarakhand GK",
+    category: "UK Special",
   },
   {
     id: "JGwWNGJdvx8",
@@ -54,7 +54,7 @@ const fallbackVideos: YouTubeVideo[] = [
     description: "Explore the diverse climate zones and rich biodiversity of Uttarakhand for UKPSC exams.",
     thumbnail: "https://img.youtube.com/vi/JGwWNGJdvx8/hqdefault.jpg",
     publishedAt: "2025-02-01T10:00:00Z",
-    category: "Uttarakhand GK",
+    category: "UK Special",
   },
   {
     id: "OPf0YbXqDm0",
@@ -62,7 +62,7 @@ const fallbackVideos: YouTubeVideo[] = [
     description: "Comprehensive analysis of Uttarakhand's economic sectors, GDP trends, and key statistics.",
     thumbnail: "https://img.youtube.com/vi/OPf0YbXqDm0/hqdefault.jpg",
     publishedAt: "2025-02-15T10:00:00Z",
-    category: "Uttarakhand GK",
+    category: "UK Special",
   },
   {
     id: "60ItHLz5WEA",
@@ -70,7 +70,7 @@ const fallbackVideos: YouTubeVideo[] = [
     description: "Previous year question analysis covering Geography and Environment from recent UKPSC papers.",
     thumbnail: "https://img.youtube.com/vi/60ItHLz5WEA/hqdefault.jpg",
     publishedAt: "2025-03-01T10:00:00Z",
-    category: "PYQ Analysis",
+    category: "PYQ",
   },
   {
     id: "lp-EO5I60KA",

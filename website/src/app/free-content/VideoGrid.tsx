@@ -9,7 +9,26 @@ import {
 } from "lucide-react";
 import type { YouTubeVideo } from "@/lib/youtube";
 
-const categories = ["All", "Uttarakhand GK", "Current Affairs", "PYQ Analysis"];
+const categories = ["All", "UK Special", "Shorts", "PYQ", "Current Affairs", "Strategy", "National"];
+
+function getCategoryColor(category: string): string {
+  switch (category) {
+    case "UK Special":
+      return "bg-jade-50 text-jade-700";
+    case "Shorts":
+      return "bg-pink-50 text-pink-700";
+    case "PYQ":
+      return "bg-saffron-50 text-saffron-700";
+    case "Current Affairs":
+      return "bg-blue-50 text-blue-700";
+    case "Strategy":
+      return "bg-purple-50 text-purple-700";
+    case "National":
+      return "bg-graphite-100 text-graphite-700";
+    default:
+      return "bg-jade-50 text-jade-700";
+  }
+}
 
 function formatDate(dateStr: string): string {
   try {
@@ -85,7 +104,7 @@ export default function VideoGrid({ videos }: { videos: YouTubeVideo[] }) {
             {/* Content */}
             <div className="p-5">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-block bg-jade-50 text-jade-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full ${getCategoryColor(video.category)}`}>
                   {video.category}
                 </span>
                 {video.publishedAt && (
