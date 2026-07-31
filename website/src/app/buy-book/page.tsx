@@ -4,13 +4,12 @@ import { useState } from 'react';
 import {
   BookOpen,
   CheckCircle2,
-  Truck,
-  Banknote,
-  RotateCcw,
   MessageCircle,
   ShieldCheck,
   Loader2,
 } from 'lucide-react';
+import { getIcon } from '@/lib/icons';
+import book from '@content/book.json';
 
 interface FormData {
   name: string;
@@ -21,14 +20,6 @@ interface FormData {
   state: string;
   pincode: string;
 }
-
-const chapters = [
-  { part: 'Part A — History', items: ['Ancient History of Uttarakhand', 'Medieval Dynasties (Katyuri, Panwar, Chand)', 'British Rule & Freedom Struggle', 'Statehood Movement', 'Post-Independence Development'] },
-  { part: 'Part B — Geography', items: ['Physical Geography & Topography', 'Rivers, Lakes & Glaciers', 'Climate & Biodiversity', 'National Parks & Wildlife Sanctuaries', 'Minerals & Natural Resources'] },
-  { part: 'Part C — Polity & Economy', items: ['State Administration & Governance', 'Panchayati Raj & Local Bodies', 'Economy & Planning', 'Agriculture & Industry', 'Government Schemes & Programs'] },
-  { part: 'Part D — Society & Culture', items: ['Tribes & Social Structure', 'Fairs, Festivals & Traditions', 'Art, Music & Dance Forms', 'Literature & Languages', 'Famous Personalities'] },
-  { part: 'Part E — General Studies', items: ['Indian Polity (Comparative)', 'Indian Economy (with State Focus)', 'Current Affairs Capsule'] },
-];
 
 export default function BuyBookPage() {
   const [form, setForm] = useState<FormData>({
@@ -60,8 +51,8 @@ export default function BuyBookPage() {
           name: form.name,
           email: form.email,
           phone: form.phone,
-          amount: 499,
-          purpose: 'Decode Uttarakhand — The Complete Guidebook',
+          amount: book.price,
+          purpose: `${book.title} — ${book.subtitle}`,
         }),
       });
 
@@ -80,7 +71,7 @@ export default function BuyBookPage() {
   };
 
   const whatsappMessage = encodeURIComponent(
-    'Hi! I want to order "Decode Uttarakhand — The Complete Guidebook" (₹499). Please share the details.'
+    `Hi! I want to order "${book.title} — ${book.subtitle}" (₹${book.price}). Please share the details.`
   );
 
   return (
@@ -91,11 +82,9 @@ export default function BuyBookPage() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <BookOpen className="w-10 h-10 text-saffron-400" />
           </div>
-          <h1 className="heading-xl text-white mb-6">
-            Decode Uttarakhand
-          </h1>
+          <h1 className="heading-xl text-white mb-6">{book.title}</h1>
           <p className="text-xl md:text-2xl text-graphite-300 font-display font-medium">
-            The Complete Guidebook
+            {book.subtitle}
           </p>
         </div>
       </section>
@@ -106,47 +95,43 @@ export default function BuyBookPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Left — Book Details */}
             <div>
-              <h2 className="heading-lg text-graphite-900 mb-2">Decode Uttarakhand</h2>
-              <p className="text-lg text-graphite-600 mb-6">
-                India&apos;s only single-volume guidebook covering all topics for UKPSC PCS, Lower PCS, RO/ARO, and UKSSSC exams.
-              </p>
+              <h2 className="heading-lg text-graphite-900 mb-2">{book.title}</h2>
+              <p className="text-lg text-graphite-600 mb-6">{book.description}</p>
 
               {/* What's Included */}
               <div className="bg-jade-50 border border-jade-200 rounded-xl p-5 mb-8">
-                <h3 className="font-display font-semibold text-jade-800 mb-3">What&apos;s Included</h3>
+                <h3 className="font-display font-semibold text-jade-800 mb-3">
+                  {book.includedHeading}
+                </h3>
                 <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-sm text-jade-700">
-                    <CheckCircle2 className="w-4 h-4 text-jade-600 flex-shrink-0" />
-                    Complete Paper V + Paper VI coverage
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-jade-700">
-                    <CheckCircle2 className="w-4 h-4 text-jade-600 flex-shrink-0" />
-                    2026 Edition — Latest syllabus aligned
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-jade-700">
-                    <CheckCircle2 className="w-4 h-4 text-jade-600 flex-shrink-0" />
-                    Current Affairs Capsule (up to Dec 2025)
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-jade-700">
-                    <CheckCircle2 className="w-4 h-4 text-jade-600 flex-shrink-0" />
-                    28 chapters, 500+ pages
-                  </li>
+                  {book.included.map((item) => (
+                    <li
+                      key={item.text}
+                      className="flex items-center gap-2 text-sm text-jade-700"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-jade-600 flex-shrink-0" />
+                      {item.text}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               {/* Chapters */}
-              <h3 className="heading-md text-graphite-900 mb-4">28 Chapters Across 5 Parts</h3>
+              <h3 className="heading-md text-graphite-900 mb-4">{book.chaptersHeading}</h3>
               <div className="space-y-4">
-                {chapters.map((section) => (
+                {book.chapters.map((section) => (
                   <div key={section.part} className="border border-graphite-100 rounded-lg p-4">
                     <h4 className="font-display font-semibold text-graphite-800 mb-2 text-sm uppercase tracking-wider">
                       {section.part}
                     </h4>
                     <ul className="space-y-1.5">
                       {section.items.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-sm text-graphite-600">
+                        <li
+                          key={item.title}
+                          className="flex items-start gap-2 text-sm text-graphite-600"
+                        >
                           <CheckCircle2 className="w-3.5 h-3.5 text-saffron-500 mt-0.5 flex-shrink-0" />
-                          {item}
+                          {item.title}
                         </li>
                       ))}
                     </ul>
@@ -162,10 +147,14 @@ export default function BuyBookPage() {
                 <div className="text-center mb-6 pb-6 border-b border-graphite-100">
                   <p className="text-sm text-graphite-500 uppercase tracking-wider mb-1">Price</p>
                   <div className="flex items-baseline justify-center gap-3">
-                    <span className="text-4xl font-display font-bold text-graphite-900">₹499</span>
-                    <span className="text-lg text-graphite-400 line-through">₹799</span>
+                    <span className="text-4xl font-display font-bold text-graphite-900">
+                      ₹{book.price}
+                    </span>
+                    <span className="text-lg text-graphite-400 line-through">
+                      ₹{book.originalPrice}
+                    </span>
                   </div>
-                  <p className="text-xs text-jade-600 font-medium mt-1">Free shipping across India</p>
+                  <p className="text-xs text-jade-600 font-medium mt-1">{book.shippingNote}</p>
                 </div>
 
                 {/* Form */}
@@ -293,7 +282,7 @@ export default function BuyBookPage() {
                     ) : (
                       <>
                         <ShieldCheck className="w-4 h-4" />
-                        Buy Now — ₹499
+                        Buy Now — ₹{book.price}
                       </>
                     )}
                   </button>
@@ -302,7 +291,7 @@ export default function BuyBookPage() {
                 {/* WhatsApp Alternative */}
                 <div className="mt-4">
                   <a
-                    href={`https://wa.me/919999999999?text=${whatsappMessage}`}
+                    href={`https://wa.me/${book.whatsappNumber}?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full btn-secondary flex items-center justify-center gap-2"
@@ -321,21 +310,21 @@ export default function BuyBookPage() {
       <section className="section-padding bg-graphite-50">
         <div className="container-custom">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-graphite-100">
-              <Truck className="w-8 h-8 text-jade-600 mb-3" />
-              <h3 className="font-display font-semibold text-graphite-800 mb-1">Free Shipping</h3>
-              <p className="text-sm text-graphite-500">Across all pincodes in India</p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-graphite-100">
-              <Banknote className="w-8 h-8 text-jade-600 mb-3" />
-              <h3 className="font-display font-semibold text-graphite-800 mb-1">Cash on Delivery Available</h3>
-              <p className="text-sm text-graphite-500">Pay when you receive the book</p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-graphite-100">
-              <RotateCcw className="w-8 h-8 text-jade-600 mb-3" />
-              <h3 className="font-display font-semibold text-graphite-800 mb-1">7-Day Return Policy</h3>
-              <p className="text-sm text-graphite-500">No questions asked returns</p>
-            </div>
+            {book.trustBadges.map((badge) => {
+              const Icon = getIcon(badge.icon);
+              return (
+                <div
+                  key={badge.title}
+                  className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-graphite-100"
+                >
+                  <Icon className="w-8 h-8 text-jade-600 mb-3" />
+                  <h3 className="font-display font-semibold text-graphite-800 mb-1">
+                    {badge.title}
+                  </h3>
+                  <p className="text-sm text-graphite-500">{badge.description}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

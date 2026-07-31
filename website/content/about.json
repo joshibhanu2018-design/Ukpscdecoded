@@ -1,0 +1,57 @@
+{
+  "heading": "About UKPSC Decoded",
+  "subtitle": "Built by aspirants, for aspirants. We believe quality exam preparation should be accessible to everyone.",
+  "mission": {
+    "heading": "Our Mission",
+    "quote": "Making quality Uttarakhand exam preparation accessible to every aspirant, regardless of geography or budget.",
+    "body": "Uttarakhand aspirants often struggle to find quality, structured preparation material — especially for the state-specific portions. Coaching centers are concentrated in Dehradun and Haldwani, leaving thousands of aspirants in remote areas without access. UKPSC Decoded bridges that gap through digital content, a comprehensive guidebook, and an engaged community."
+  },
+  "statsHeading": "Our Impact So Far",
+  "stats": [
+    { "value": "2000+", "label": "YouTube Subscribers", "icon": "video" },
+    { "value": "1000+", "label": "Telegram Members", "icon": "send" },
+    { "value": "28", "label": "Chapters Written", "icon": "book" },
+    { "value": "6", "label": "Exams Covered", "icon": "award" }
+  ],
+  "timelineHeading": "Our Journey",
+  "timeline": [
+    {
+      "year": "2022",
+      "title": "YouTube Channel Started",
+      "description": "Began uploading Uttarakhand GK videos to help aspirants prepare for free.",
+      "icon": "video"
+    },
+    {
+      "year": "2023",
+      "title": "Telegram Community Launched",
+      "description": "Created a dedicated space for daily MCQs, current affairs, and peer discussion.",
+      "icon": "send"
+    },
+    {
+      "year": "2024",
+      "title": "Book Manuscript Completed",
+      "description": "28 chapters covering the entire UKPSC syllabus — history, geography, polity, culture, and more.",
+      "icon": "book"
+    },
+    {
+      "year": "2025",
+      "title": "Website + Courses Launching",
+      "description": "Full-stack digital platform with PYQ tracker, courses, test series, and mentorship programs.",
+      "icon": "rocket"
+    }
+  ],
+  "contact": {
+    "heading": "Get In Touch",
+    "connectHeading": "Connect With Us",
+    "formHeading": "Send a Message",
+    "email": "ukpscdecoded@gmail.com",
+    "youtube": "https://youtube.com/@ukpscdecoded",
+    "youtubeHandle": "@ukpscdecoded",
+    "telegram": "https://t.me/ukpscdecoded",
+    "telegramHandle": "@ukpscdecoded",
+    "instagram": "https://instagram.com/ukpscdecoded",
+    "instagramHandle": "@ukpscdecoded",
+    "successHeading": "Message Sent!",
+    "successMessage": "Thank you for reaching out. We'll get back to you within 24-48 hours."
+  }
+}
