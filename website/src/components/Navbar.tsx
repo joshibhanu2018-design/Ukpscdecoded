@@ -6,6 +6,7 @@ import settings from "@content/settings.json";
 
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/articles", label: "Articles" },
   { href: "/free-content", label: "Free Content" },
   { href: "/current-affairs", label: "Current Affairs & MCQ" },
   { href: "/pyq-tracker", label: "PYQ Tracker" },

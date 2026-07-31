@@ -325,3 +325,32 @@ collections:
               - { label: "YouTube URL", name: "youtube", widget: "string" }
               - { label: "Telegram URL", name: "telegram", widget: "string" }
               - { label: "Instagram URL", name: "instagram", widget: "string" }
+
+  # ============================================
+  # ARTICLES
+  # ============================================
+  - name: "articles"
+    label: "📝 Articles"
+    folder: "website/content/articles"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} — {{category}}"
+    sortable_fields: ["title", "category", "date"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string", hint: "URL-friendly identifier, e.g. ukpsc-2026-complete-strategy" }
+      - { label: "Meta Description", name: "meta_description", widget: "text", hint: "SEO description (150-160 characters ideal)" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - "Strategy"
+          - "Answer Writing"
+          - "Book List"
+          - "PYQ Analysis"
+          - "Current Affairs"
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
