@@ -1,279 +1,292 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import {
-  GraduationCap,
-  Calendar,
-  Bell,
-  ArrowRight,
-  Sparkles,
-  CheckCircle2,
-  PlayCircle,
-  Clock,
-  X,
-  Loader2,
-  CreditCard,
-} from 'lucide-react';
-import courses from '@content/courses.json';
-import { submitLead } from '@/lib/leads';
+import React, { useState } from 'react';
+import { X, Loader2, CheckCircle2 } from 'lucide-react';
+import Image from 'next/image';
 
-const headerGradients: Record<string, string> = {
-  saffron: 'bg-gradient-to-br from-saffron-50 to-ivory-50',
-  jade: 'bg-gradient-to-br from-jade-50 to-ivory-50',
-  graphite: 'bg-gradient-to-br from-graphite-50 to-ivory-50',
-  blue: 'bg-gradient-to-br from-blue-50 to-ivory-50',
-};
+interface CourseData {
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  features: string[];
+  cta: string;
+  badge?: string;
+}
 
-type Course = (typeof courses.items)[number];
+const coursesData: CourseData[] = [
+  {
+    title: 'UKPSC / Upper PCS 2026 Prelims Crash Course',
+    description: 'A focused Prelims crash course covering the most important and most-repeated topics — built directly from our PYQ Tracker and 60-Day Study Plan.',
+    image: '/images/crash-course.jpg',
+    price: 2399,
+    features: [
+      '50+ video lectures on high-yield & repeated topics',
+      'Based on the PYQ Tracker + 60-Day Study Plan',
+      '8 full-length tests (UK GK + National + State Current Affairs)',
+      '4 CSAT tests included',
+      'Doubt resolution session',
+      'Study material included',
+    ],
+    cta: 'Register Interest',
+    badge: 'Launching Soon',
+  },
+  {
+    title: 'Uttarakhand GK Intensive',
+    description: 'A deep-dive into every part of the Uttarakhand GK syllabus — the state-specific edge that decides selection.',
+    image: '/images/intensive.jpg',
+    price: 1399,
+    features: [
+      '25+ lectures covering all parts of the syllabus',
+      '2 tests on Uttarakhand GK',
+      'Study material included',
+      'Demo video coming soon',
+    ],
+    cta: 'Register Interest',
+    badge: 'New',
+  },
+  {
+    title: 'Test Series',
+    description: 'Practice under real exam conditions with full-length tests on the actual pattern, plus detailed solutions.',
+    image: '/images/test-series.jpg',
+    price: 999,
+    features: [
+      '12 full-length tests',
+      'Detailed solutions',
+      'Performance analytics',
+      'Community access',
+    ],
+    cta: 'Register Interest',
+    badge: 'Launching Soon',
+  },
+  {
+    title: 'Personalised Mentorship — with Bhanu Joshi',
+    description: 'One-on-one mentorship with Bhanu Joshi — from beginner hand-holding to advanced answer-writing guidance, tailored to you.',
+    image: '/images/mentorship.jpg',
+    price: 4999,
+    features: [
+      '1-on-1 personalized guidance',
+      'Answer writing review',
+      'Strategy sessions',
+      'Exam preparation support',
+    ],
+    cta: 'Register Interest',
+    badge: 'Launching Soon',
+  },
+];
 
-export default function CoursesPage() {
-  const [activeCourse, setActiveCourse] = useState<Course | null>(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '' });
+interface CourseModalProps {
+  course: CourseData | null;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function CourseModal({ course, isOpen, onClose }: CourseModalProps) {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState('');
 
-  const openRegister = (course: Course) => {
-    setActiveCourse(course);
-    setDone(false);
-    setForm({ name: '', email: '', phone: '' });
-  };
-
-  const closeRegister = () => setActiveCourse(null);
+  if (!isOpen || !course) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await submitLead({
-      ...form,
-      course: activeCourse?.title,
-      source: 'course-interest',
-    });
+    setError('');
+
+    try {
+      const res = await fetch('/api/course-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          courseInterested: course.title,
+          message: form.message,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setDone(true);
+        setTimeout(() => {
+          setForm({ name: '', email: '', phone: '', message: '' });
+          setDone(false);
+          onClose();
+        }, 3000);
+      } else {
+        setError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+      console.error('Submission error:', err);
+    }
     setLoading(false);
-    setDone(true);
   };
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-graphite-900 via-graphite-800 to-graphite-950 text-white section-padding">
-        <div className="container-custom text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <GraduationCap className="w-10 h-10 text-saffron-400" />
-          </div>
-          <h1 className="heading-xl text-white mb-6">{courses.heading}</h1>
-          <p className="text-lg text-graphite-400 max-w-2xl mx-auto">
-            {courses.subtitle}
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl">
+        <div className="bg-saffron-500 text-white p-6 rounded-t-2xl relative">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 hover:bg-saffron-600 p-1 rounded-full transition-all"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <h3 className="font-semibold text-white text-sm uppercase tracking-wide">
+            {course.title}
+          </h3>
+          <p className="heading-md text-white mt-2">Register Your Interest</p>
+        </div>
+
+        <div className="p-6">
+          {done ? (
+            <div className="text-center py-8">
+              <CheckCircle2 className="w-12 h-12 text-jade-500 mx-auto mb-3" />
+              <h4 className="font-semibold text-graphite-900 mb-1">Thanks for registering!</h4>
+              <p className="text-sm text-graphite-600">
+                We'll contact you soon with course details and early-bird pricing.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <p className="text-sm text-graphite-600 mb-4">
+                Share your details and we'll notify you when this course opens — plus early-bird pricing.
+              </p>
+
+              <input
+                required
+                type="text"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Your name"
+                className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none text-sm text-graphite-800"
+              />
+
+              <input
+                required
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="Email address"
+                className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none text-sm text-graphite-800"
+              />
+
+              <input
+                required
+                type="tel"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                placeholder="WhatsApp number"
+                className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none text-sm text-graphite-800"
+              />
+
+              <textarea
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                placeholder="Any specific questions or preferences? (Optional)"
+                rows={3}
+                className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none text-sm text-graphite-800 resize-none"
+              />
+
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                  <p className="text-sm text-red-600">{error}</p>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-saffron-500 hover:bg-saffron-600 text-white font-semibold py-3 rounded-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  '🔔 Submit'
+                )}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function CoursesPage() {
+  const [activeModal, setActiveModal] = useState<CourseData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (course: CourseData) => {
+    setActiveModal(course);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setActiveModal(null);
+  };
+
+  return (
+    <div className="min-h-screen bg-graphite-50">
+      <section className="bg-gradient-to-br from-graphite-900 to-graphite-950 text-white py-12 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="heading-xl text-white mb-3">Our Courses</h1>
+          <p className="text-graphite-300 max-w-2xl">
+            Carefully designed to match every preparation stage — from Prelims crash prep to interview mentorship.
           </p>
         </div>
       </section>
 
-      {/* Courses Grid */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {courses.items.map((course) => {
-              const c = course as Course & {
-                priceLabel?: string;
-                demoVideoUrl?: string;
-                paymentUrl?: string;
-              };
-              return (
-                <div key={course.title} className="card relative flex flex-col">
-                  {/* Badge */}
-                  {course.badge && (
-                    <div className="absolute top-4 right-4 z-10">
-                      <span className="inline-flex items-center gap-1 bg-saffron-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-                        <Sparkles className="w-3 h-3" />
-                        {course.badge}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Card Header */}
-                  <div
-                    className={`p-6 pb-4 ${
-                      headerGradients[course.color] ?? headerGradients.graphite
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 text-xs font-semibold text-graphite-500 uppercase tracking-wider mb-3">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {course.duration}
-                    </div>
-                    <h3 className="heading-md text-graphite-900 mb-2">{course.title}</h3>
-                    <p className="text-graphite-600 text-sm leading-relaxed">
-                      {course.description}
-                    </p>
-                  </div>
-
-                  {/* Features */}
-                  <div className="p-6 pt-4 flex-1">
-                    <ul className="space-y-3">
-                      {course.features.map((feature) => (
-                        <li
-                          key={feature.text}
-                          className="flex items-start gap-3 text-sm text-graphite-700"
-                        >
-                          <span className="flex items-center justify-center w-7 h-7 rounded-full bg-jade-50 text-jade-600 flex-shrink-0">
-                            <CheckCircle2 className="w-4 h-4" />
-                          </span>
-                          {feature.text}
-                        </li>
-                      ))}
-                    </ul>
-
-                    {/* Demo video slot */}
-                    <div className="mt-5">
-                      {c.demoVideoUrl ? (
-                        <a
-                          href={c.demoVideoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700"
-                        >
-                          <PlayCircle className="w-4 h-4" />
-                          Watch Demo Lecture
-                        </a>
-                      ) : (
-                        <span className="inline-flex items-center gap-2 text-sm font-medium text-graphite-400">
-                          <Clock className="w-4 h-4" />
-                          Demo video coming soon
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Price & CTA */}
-                  <div className="p-6 pt-0 mt-auto">
-                    <div className="flex items-baseline gap-3 mb-4">
-                      {c.priceLabel ? (
-                        <span className="text-2xl font-display font-bold text-graphite-900">
-                          {c.priceLabel}
-                        </span>
-                      ) : (
-                        <span className="text-3xl font-display font-bold text-graphite-900">
-                          ₹{course.price.toLocaleString('en-IN')}
-                        </span>
-                      )}
-                    </div>
-
-                    {c.paymentUrl ? (
-                      <a
-                        href={c.paymentUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full btn-primary flex items-center justify-center gap-2"
-                      >
-                        <CreditCard className="w-4 h-4" />
-                        Enroll Now
-                      </a>
-                    ) : (
-                      <button
-                        onClick={() => openRegister(course)}
-                        className="w-full btn-primary flex items-center justify-center gap-2"
-                      >
-                        <Bell className="w-4 h-4" />
-                        Register Interest
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Free Content CTA */}
-      <section className="section-padding bg-gradient-to-br from-saffron-50 via-ivory-50 to-jade-50">
-        <div className="container-custom">
-          <div className="bg-gradient-to-r from-graphite-800 to-graphite-900 rounded-2xl p-8 md:p-12 text-center">
-            <h2 className="heading-lg text-white mb-4">{courses.freeCta.heading}</h2>
-            <p className="text-graphite-300 mb-8 max-w-xl mx-auto">
-              {courses.freeCta.subtitle}
-            </p>
-            <Link href="/free-content" className="btn-primary inline-flex items-center gap-2">
-              {courses.freeCta.buttonText}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Register Interest Modal */}
-      {activeCourse && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-            <button
-              onClick={closeRegister}
-              aria-label="Close"
-              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-graphite-100 hover:bg-graphite-200 flex items-center justify-center transition-colors"
+      <section className="py-16 px-4">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          {coursesData.map((course, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
             >
-              <X className="w-4 h-4 text-graphite-600" />
-            </button>
+              {course.badge && (
+                <div className="bg-saffron-500 text-white px-4 py-2 text-xs font-semibold">
+                  {course.badge}
+                </div>
+              )}
 
-            {done ? (
-              <div className="p-8 text-center">
-                <div className="w-16 h-16 rounded-full bg-jade-100 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle2 className="w-8 h-8 text-jade-600" />
+              <div className="p-6 sm:p-8">
+                <h3 className="heading-md text-graphite-900 mb-2">{course.title}</h3>
+                <p className="text-sm text-graphite-600 mb-6">{course.description}</p>
+
+                <ul className="space-y-2 mb-8">
+                  {course.features.map((feature, i) => (
+                    <li key={i} className="flex gap-2 text-sm text-graphite-700">
+                      <span className="text-jade-500 mt-1">✓</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="border-t border-graphite-200 pt-6">
+                  <div className="text-2xl font-bold text-graphite-900 mb-4">₹{course.price.toLocaleString()}</div>
+                  <button
+                    onClick={() => openModal(course)}
+                    className="w-full bg-saffron-500 hover:bg-saffron-600 text-white font-semibold py-3 rounded-lg transition-all active:scale-95"
+                  >
+                    {course.cta}
+                  </button>
                 </div>
-                <h3 className="heading-md text-graphite-900 mb-2">{courses.register.successHeading}</h3>
-                <p className="text-graphite-600 text-sm mb-6">{courses.register.successMessage}</p>
-                <button onClick={closeRegister} className="btn-primary w-full">
-                  Done
-                </button>
               </div>
-            ) : (
-              <>
-                <div className="bg-gradient-to-br from-saffron-500 to-saffron-600 p-6 text-white">
-                  <span className="inline-block text-xs font-bold uppercase tracking-wider bg-white/20 rounded-full px-3 py-1 mb-2">
-                    {activeCourse.title}
-                  </span>
-                  <h3 className="text-xl font-display font-bold leading-tight">
-                    {courses.register.heading}
-                  </h3>
-                </div>
-                <div className="p-6">
-                  <p className="text-sm text-graphite-600 mb-4">{courses.register.subtitle}</p>
-                  <form onSubmit={handleSubmit} className="space-y-3">
-                    <input
-                      required
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder={courses.register.namePlaceholder}
-                      className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none text-sm text-graphite-800"
-                    />
-                    <input
-                      required
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      placeholder={courses.register.emailPlaceholder}
-                      className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none text-sm text-graphite-800"
-                    />
-                    <input
-                      required
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      placeholder={courses.register.phonePlaceholder}
-                      className="w-full px-4 py-2.5 rounded-lg border border-graphite-200 focus:border-saffron-500 focus:ring-2 focus:ring-saffron-200 outline-none text-sm text-graphite-800"
-                    />
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-70"
-                    >
-                      {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Bell className="w-4 h-4" />}
-                      {courses.register.buttonText}
-                    </button>
-                  </form>
-                </div>
-              </>
-            )}
-          </div>
+            </div>
+          ))}
         </div>
-      )}
+      </section>
+
+      <CourseModal course={activeModal} isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }
