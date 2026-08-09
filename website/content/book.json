@@ -148,14 +148,9 @@
       "icon": "truck"
     },
     {
-      "title": "Cash on Delivery Available",
-      "description": "Pay when you receive the book",
+      "title": "Fast delivery",
+      "description": "Get your Book within a week",
       "icon": "banknote"
-    },
-    {
-      "title": "7-Day Return Policy",
-      "description": "No questions asked returns",
-      "icon": "return"
     }
   ],
   "price": 499,
