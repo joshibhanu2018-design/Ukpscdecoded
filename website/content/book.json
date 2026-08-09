@@ -1,99 +1,144 @@
 {
-  "title": "Decode Uttarakhand",
-  "subtitle": "The Complete Guidebook",
-  "description": "India's only single-volume guidebook covering all topics for UKPSC PCS, Lower PCS, RO/ARO, and UKSSSC exams.",
-  "price": 499,
-  "originalPrice": 799,
   "shippingNote": "Free shipping across India",
-  "whatsappNumber": "919632662418",
-  "earlyBird": {
-    "enabled": true,
-    "badge": "🔥 Early-Bird Launch Offer",
-    "headline": "First Edition — Limited Launch Price",
-    "subtext": "Introductory price ends soon. Price increases to ₹799 after the early-bird window.",
-    "deadline": "2026-08-31T23:59:59+05:30",
-    "stockNote": "Limited first-edition print run"
-  },
+  "previewSubtext": "See the quality and depth before you buy — real pages from three key sections, in the same table-driven format as the book.",
   "includedHeading": "What's Included",
-  "included": [
-    { "text": "Complete Paper V + Paper VI coverage" },
-    { "text": "2026 Edition — Latest syllabus aligned" },
-    { "text": "Current Affairs Capsule (up to Dec 2025)" },
-    { "text": "28 chapters, 500+ pages" }
-  ],
-  "chaptersHeading": "28 Chapters Across 5 Parts",
   "chapters": [
     {
       "part": "Part A — History & Culture (Paper V)",
       "items": [
-        { "number": 1, "title": "Prehistoric & Proto-historic Period, Ancient Tribes & Early Political Powers" },
-        { "number": 2, "title": "Ancient Dynasties — Kartikeyapur, Katyuri & Parmar" },
-        { "number": 3, "title": "Chand Dynasty & Gorkha Invasion" },
-        { "number": 4, "title": "British Rule in Uttarakhand" },
-        { "number": 5, "title": "Tehri Princely State" },
-        { "number": 6, "title": "National Movement & Freedom Fighters" },
-        { "number": 7, "title": "People's Movements, Social Reformers & Statehood" },
-        { "number": 8, "title": "Society of Uttarakhand — Family, Marriage, Caste System" },
-        { "number": 9, "title": "Folk Culture — Songs, Dance, Art, Instruments" },
-        { "number": 10, "title": "Religious Places, Temples, Fairs & Festivals" }
+        {
+          "number": 1,
+          "title": "Prehistoric & Proto-historic Period, Ancient Tribes & Early Political Powers"
+        },
+        {
+          "number": 2,
+          "title": "Ancient Dynasties — Kartikeyapur, Katyuri & Parmar"
+        },
+        {
+          "number": 3,
+          "title": "Chand Dynasty & Gorkha Invasion"
+        },
+        {
+          "number": 4,
+          "title": "British Rule in Uttarakhand"
+        },
+        {
+          "number": 5,
+          "title": "Tehri Princely State"
+        },
+        {
+          "number": 6,
+          "title": "National Movement & Freedom Fighters"
+        },
+        {
+          "number": 7,
+          "title": "People's Movements, Social Reformers & Statehood"
+        },
+        {
+          "number": 8,
+          "title": "Society of Uttarakhand — Family, Marriage, Caste System"
+        },
+        {
+          "number": 9,
+          "title": "Folk Culture — Songs, Dance, Art, Instruments"
+        },
+        {
+          "number": 10,
+          "title": "Religious Places, Temples, Fairs & Festivals"
+        }
       ]
     },
     {
       "part": "Part B — Polity & Governance (Paper V)",
       "items": [
-        { "number": 11, "title": "Political System — Governor, CM, Legislature, Parties" },
-        { "number": 12, "title": "Administrative System — Govt Structure, UKPSC, High Court" },
-        { "number": 13, "title": "Local Self-Government — Panchayati Raj & Urban Bodies" },
-        { "number": 14, "title": "Good Governance & Public Policy" }
+        {
+          "number": 11,
+          "title": "Political System — Governor, CM, Legislature, Parties"
+        },
+        {
+          "number": 12,
+          "title": "Administrative System — Govt Structure, UKPSC, High Court"
+        },
+        {
+          "number": 13,
+          "title": "Local Self-Government — Panchayati Raj & Urban Bodies"
+        },
+        {
+          "number": 14,
+          "title": "Good Governance & Public Policy"
+        }
       ]
     },
     {
       "part": "Part C — Geography (Paper VI)",
       "items": [
-        { "number": 15, "title": "Physical Geography — Part 1 (Structure, Climate, Rivers)" },
-        { "number": 16, "title": "Physical Geography — Part 2 (Soils, Vegetation, Glaciers)" },
-        { "number": 17, "title": "Resources & Agriculture" },
-        { "number": 18, "title": "Industry, Transport & Energy" },
-        { "number": 19, "title": "Tourism, National Parks & Wildlife" },
-        { "number": 20, "title": "Population, Migration & Urbanization" }
+        {
+          "number": 15,
+          "title": "Physical Geography — Part 1 (Structure, Climate, Rivers)"
+        },
+        {
+          "number": 16,
+          "title": "Physical Geography — Part 2 (Soils, Vegetation, Glaciers)"
+        },
+        {
+          "number": 17,
+          "title": "Resources & Agriculture"
+        },
+        {
+          "number": 18,
+          "title": "Industry, Transport & Energy"
+        },
+        {
+          "number": 19,
+          "title": "Tourism, National Parks & Wildlife"
+        },
+        {
+          "number": 20,
+          "title": "Population, Migration & Urbanization"
+        }
       ]
     },
     {
       "part": "Part D — Economy (Paper VI)",
       "items": [
-        { "number": 21, "title": "Economy — Features, GSDP, Income Sources" },
-        { "number": 22, "title": "Industrial Development & MSME" },
-        { "number": 23, "title": "Infrastructure" },
-        { "number": 24, "title": "Economic Planning, Budget & Public Finance" },
-        { "number": 25, "title": "Major Economic Problems & Welfare Programs" }
+        {
+          "number": 21,
+          "title": "Economy — Features, GSDP, Income Sources"
+        },
+        {
+          "number": 22,
+          "title": "Industrial Development & MSME"
+        },
+        {
+          "number": 23,
+          "title": "Infrastructure"
+        },
+        {
+          "number": 24,
+          "title": "Economic Planning, Budget & Public Finance"
+        },
+        {
+          "number": 25,
+          "title": "Major Economic Problems & Welfare Programs"
+        }
       ]
     },
     {
       "part": "Part E — Disaster Management & HRD (Paper VI)",
       "items": [
-        { "number": 26, "title": "Disaster Management" },
-        { "number": 27, "title": "Education & Human Resource Development" },
-        { "number": 28, "title": "Health" }
+        {
+          "number": 26,
+          "title": "Disaster Management"
+        },
+        {
+          "number": 27,
+          "title": "Education & Human Resource Development"
+        },
+        {
+          "number": 28,
+          "title": "Health"
+        }
       ]
-    }
-  ],
-  "previewHeading": "Read Free Sample Pages",
-  "previewSubtext": "See the quality and depth before you buy — real pages from three key sections, in the same table-driven format as the book.",
-  "freePreviews": [
-    {
-      "label": "Chapter 1 — History",
-      "title": "Epigraphy: Inscriptions & Their Significance",
-      "content": "## Epigraphy: Inscriptions & Their Significance\n\nInscriptions are the most reliable primary sources for reconstructing Uttarakhand's ancient political history. They fall into three groups — rock/stone inscriptions, copper-plate land grants, and coins (numismatics).\n\n### Rock Edicts & Stone Inscriptions\n\n| Inscription | Date | Location | Script/Language | Significance |\n|---|---|---|---|---|\n| Kalsi Rock Edict | 257 BC | Yamuna–Tons confluence, Dehradun | Prakrit / Brahmi | Proves Mauryan suzerainty; mentions 'Pulind' & 'Aparanta' |\n| Gopeshwar Trishul | 6th–7th C. | Chamoli | Southern Brahmi | Names 4 Naga kings; 12th C. addition on King Ashokchalla |\n| Barahat Trishul | — | Uttarkashi | — | 26-foot high; erected by King Ganeshwar's son, Shri Guha |\n| Lakhamandal Inscription | — | Dehradun | — | Princess Ishwara; confirms Yaduvanshi rule; capital Singhpur |\n| Baleshwar Temple Inscription | 1223 AD | Champawat | — | Nepalese King Krachaldev; lists 10 subordinate Mandaliks |\n\n### Copper Plate Inscriptions (Tamra Patra)\n\n| Copper Plate | Dynasty | Key Information |\n|---|---|---|\n| Pandukeshwar Plates | Katyuri | Lalit Sur Dev's rule and land grants |\n| Bageshwar Plate (King Bhudev) | Katyuri | Names 8 Katyuri kings |\n| Taleshwar Plates (Almora) | Paurava | Sanskrit/Brahmi; names 5 kings; 'Parvatakar / Brahmapur State' (580–680 CE) |\n\n### Numismatics — Coin Summary\n\n| Coin Type | Dynasty/Power | Location Found | Key Features |\n|---|---|---|---|\n| Amoghbhuti Type | Kuninda | Widespread | Silver + Copper; Goddess + Deer; Brahmi & Kharoshthi |\n| Almora Type | Kuninda | Katyur Valley (54 coins) | Names: Aasek, Gomitra, Shivadutt, Hardutt |\n| Chatreshwar Type | Kuninda | — | Trident + Deer + Swastika; deity Chatreshwar |\n| Kushana Coins | Kushan Empire | Virbhadra, Govishan, Khatima, Muni Ki Reti | Gold (Vashu); 44 coins (Huvishka) |\n| Yaudheya Coins | Yaudheya | Jaunsar-Bhabhar, Pauri | Kartikeya motif; \"Yaudheya Ganasya Jayah\" |\n\n*This is a free sample from Chapter 1. The full guidebook covers every dynasty, tribe and archaeological site with exam-ready tables.*"
-    },
-    {
-      "label": "Chapter 21 — Economy",
-      "title": "The Uttarakhand Economic Model",
-      "content": "## The Uttarakhand Economic Model\n\nSince its formation on 9 November 2000, Uttarakhand's economy has undergone a **26-fold transformation** — from a subsistence \"Money Order Economy\" to a diversified Himalayan growth model driven by manufacturing, tourism and services.\n\n### Key Characteristics\n\n1. Service-sector dominance: over 50% of GSDP from the tertiary sector.\n2. Manufacturing corridor concentrated in the Haridwar–US Nagar–Dehradun (SIDCUL) belt.\n3. Primary-sector crisis: agriculture is under 10% of GSDP but employs ~58% of the rural workforce.\n4. Per capita income consistently above the national average.\n5. First state globally to index Gross Environmental Product (GEP).\n\n### GSDP at Current Prices\n\n| Year | GSDP (₹ Thousand Crore) | Growth (%) |\n|---|---|---|\n| 2000-01 | ~14.79 | — |\n| 2021-22 | 254.00 | 8.19% |\n| 2023-24 | 346.20 | 7.58% |\n| 2025-26 (Projected) | 381.89 | 7.23% |\n\n### Per Capita Income (PCI)\n\n| Year | Uttarakhand PCI (₹) | National PCI (₹) |\n|---|---|---|\n| 2023-24 | 2,60,201 | — |\n| 2025-26 (Est.) | 2,73,921 | 2,19,575 |\n\n### Sectoral Contribution to GSDP (2025-26)\n\n| Sector | Contribution (%) | Growth (%) |\n|---|---|---|\n| Primary | 9.59% | 2.06% |\n| Secondary | 39.95% | 7.98% |\n| Tertiary | 50.46% | 11.11% |\n\n*This is a free sample from Chapter 21. The full book covers the budget, SANTULAN / GYAN frameworks, reforms and schemes.*"
-    },
-    {
-      "label": "Geography — Natural Vegetation",
-      "title": "Natural Vegetation — Altitudinal Zonation",
-      "content": "## Geography: Natural Vegetation — Altitudinal Zonation\n\nUttarakhand's forests change with altitude, forming five distinct zones from the tropical foothills to the alpine meadows.\n\n### Five Altitude Zones\n\n| Zone | Altitude | Forest Type | Key Species |\n|---|---|---|---|\n| Tropical | Below 1,000m | Moist/Dry Deciduous (Terai-Bhabar) | Sal (dominant), Khair, Shisham, Haldu, Bamboo |\n| Subtropical | 1,000–2,000m | Coniferous (Pine forests) | Chir Pine (Pinus roxburghii) — near-total dominance |\n| Temperate | 2,000–3,000m | Moist Evergreen + Coniferous | Banj/Moru/Kharsu Oak, Deodar, Buransh, Cypress |\n| Sub-Alpine | 3,000–3,600m | High-level forests | Birch (Bhojpatra), Silver Fir, Juniper, Willow |\n| Alpine | Above 3,600m | Tundra → Perpetual ice | Bugyals: grasses, mosses, lichens, Blue Poppy, Brahma Kamal |\n\nVegetation ceases entirely in the perpetually frozen zone above 4,800 m.\n\n### ISFR 2023 (18th Report) — Key Data\n\nTotal forest cover is **24,303.83 sq. km — 45.44%** of the state's area. Very Dense Forest rose by 211.57 sq. km, while Moderately Dense Forest fell by 250.42 sq. km — a \"hollowing out\" of the middle canopy.\n\n### Species Dominance (ISFR 2023)\n\n| Rank | By Volume (%) | By Number (RFA) |\n|---|---|---|\n| 1st | Chir Pine (28.72%) | Chir Pine (1,93,883) |\n| 2nd | Sal (18.71%) | Banj Oak (1,57,597) |\n| 3rd | Banj Oak (8.29%) | Sal (90,283) |\n\n*This is a free sample from the Geography section (Chapter 16). The full book also covers soils, glaciers, lakes and climate change — plus the Pirul Paradox and fire vulnerability.*"
     }
   ],
   "trustBadges": [
@@ -112,5 +157,60 @@
       "description": "No questions asked returns",
       "icon": "return"
     }
-  ]
+  ],
+  "price": 499,
+  "freePreviews": [
+    {
+      "label": "Chapter 1 — History",
+      "title": "Epigraphy: Inscriptions & Their Significance",
+      "content": "## Epigraphy: Inscriptions & Their Significance\n\nInscriptions are the most reliable primary sources for reconstructing Uttarakhand's ancient political history. They fall into three groups — rock/stone inscriptions, copper-plate land grants, and coins (numismatics).\n\n### Rock Edicts & Stone Inscriptions\n\n| Inscription | Date | Location | Script/Language | Significance |\n|---|---|---|---|---|\n| Kalsi Rock Edict | 257 BC | Yamuna–Tons confluence, Dehradun | Prakrit / Brahmi | Proves Mauryan suzerainty; mentions 'Pulind' & 'Aparanta' |\n| Gopeshwar Trishul | 6th–7th C. | Chamoli | Southern Brahmi | Names 4 Naga kings; 12th C. addition on King Ashokchalla |\n| Barahat Trishul | — | Uttarkashi | — | 26-foot high; erected by King Ganeshwar's son, Shri Guha |\n| Lakhamandal Inscription | — | Dehradun | — | Princess Ishwara; confirms Yaduvanshi rule; capital Singhpur |\n| Baleshwar Temple Inscription | 1223 AD | Champawat | — | Nepalese King Krachaldev; lists 10 subordinate Mandaliks |\n\n### Copper Plate Inscriptions (Tamra Patra)\n\n| Copper Plate | Dynasty | Key Information |\n|---|---|---|\n| Pandukeshwar Plates | Katyuri | Lalit Sur Dev's rule and land grants |\n| Bageshwar Plate (King Bhudev) | Katyuri | Names 8 Katyuri kings |\n| Taleshwar Plates (Almora) | Paurava | Sanskrit/Brahmi; names 5 kings; 'Parvatakar / Brahmapur State' (580–680 CE) |\n\n### Numismatics — Coin Summary\n\n| Coin Type | Dynasty/Power | Location Found | Key Features |\n|---|---|---|---|\n| Amoghbhuti Type | Kuninda | Widespread | Silver + Copper; Goddess + Deer; Brahmi & Kharoshthi |\n| Almora Type | Kuninda | Katyur Valley (54 coins) | Names: Aasek, Gomitra, Shivadutt, Hardutt |\n| Chatreshwar Type | Kuninda | — | Trident + Deer + Swastika; deity Chatreshwar |\n| Kushana Coins | Kushan Empire | Virbhadra, Govishan, Khatima, Muni Ki Reti | Gold (Vashu); 44 coins (Huvishka) |\n| Yaudheya Coins | Yaudheya | Jaunsar-Bhabhar, Pauri | Kartikeya motif; \"Yaudheya Ganasya Jayah\" |\n\n*This is a free sample from Chapter 1. The full guidebook covers every dynasty, tribe and archaeological site with exam-ready tables.*"
+    },
+    {
+      "label": "Chapter 21 — Economy",
+      "title": "The Uttarakhand Economic Model",
+      "content": "## The Uttarakhand Economic Model\n\nSince its formation on 9 November 2000, Uttarakhand's economy has undergone a **26-fold transformation** — from a subsistence \"Money Order Economy\" to a diversified Himalayan growth model driven by manufacturing, tourism and services.\n\n### Key Characteristics\n\n1. Service-sector dominance: over 50% of GSDP from the tertiary sector.\n2. Manufacturing corridor concentrated in the Haridwar–US Nagar–Dehradun (SIDCUL) belt.\n3. Primary-sector crisis: agriculture is under 10% of GSDP but employs ~58% of the rural workforce.\n4. Per capita income consistently above the national average.\n5. First state globally to index Gross Environmental Product (GEP).\n\n### GSDP at Current Prices\n\n| Year | GSDP (₹ Thousand Crore) | Growth (%) |\n|---|---|---|\n| 2000-01 | ~14.79 | — |\n| 2021-22 | 254.00 | 8.19% |\n| 2023-24 | 346.20 | 7.58% |\n| 2025-26 (Projected) | 381.89 | 7.23% |\n\n### Per Capita Income (PCI)\n\n| Year | Uttarakhand PCI (₹) | National PCI (₹) |\n|---|---|---|\n| 2023-24 | 2,60,201 | — |\n| 2025-26 (Est.) | 2,73,921 | 2,19,575 |\n\n### Sectoral Contribution to GSDP (2025-26)\n\n| Sector | Contribution (%) | Growth (%) |\n|---|---|---|\n| Primary | 9.59% | 2.06% |\n| Secondary | 39.95% | 7.98% |\n| Tertiary | 50.46% | 11.11% |\n\n*This is a free sample from Chapter 21. The full book covers the budget, SANTULAN / GYAN frameworks, reforms and schemes.*"
+    },
+    {
+      "label": "Geography — Natural Vegetation",
+      "title": "Natural Vegetation — Altitudinal Zonation",
+      "content": "## Geography: Natural Vegetation — Altitudinal Zonation\n\nUttarakhand's forests change with altitude, forming five distinct zones from the tropical foothills to the alpine meadows.\n\n### Five Altitude Zones\n\n| Zone | Altitude | Forest Type | Key Species |\n|---|---|---|---|\n| Tropical | Below 1,000m | Moist/Dry Deciduous (Terai-Bhabar) | Sal (dominant), Khair, Shisham, Haldu, Bamboo |\n| Subtropical | 1,000–2,000m | Coniferous (Pine forests) | Chir Pine (Pinus roxburghii) — near-total dominance |\n| Temperate | 2,000–3,000m | Moist Evergreen + Coniferous | Banj/Moru/Kharsu Oak, Deodar, Buransh, Cypress |\n| Sub-Alpine | 3,000–3,600m | High-level forests | Birch (Bhojpatra), Silver Fir, Juniper, Willow |\n| Alpine | Above 3,600m | Tundra → Perpetual ice | Bugyals: grasses, mosses, lichens, Blue Poppy, Brahma Kamal |\n\nVegetation ceases entirely in the perpetually frozen zone above 4,800 m.\n\n### ISFR 2023 (18th Report) — Key Data\n\nTotal forest cover is **24,303.83 sq. km — 45.44%** of the state's area. Very Dense Forest rose by 211.57 sq. km, while Moderately Dense Forest fell by 250.42 sq. km — a \"hollowing out\" of the middle canopy.\n\n### Species Dominance (ISFR 2023)\n\n| Rank | By Volume (%) | By Number (RFA) |\n|---|---|---|\n| 1st | Chir Pine (28.72%) | Chir Pine (1,93,883) |\n| 2nd | Sal (18.71%) | Banj Oak (1,57,597) |\n| 3rd | Banj Oak (8.29%) | Sal (90,283) |\n\n*This is a free sample from the Geography section (Chapter 16). The full book also covers soils, glaciers, lakes and climate change — plus the Pirul Paradox and fire vulnerability.*"
+    },
+    {
+      "label": "Chapter 27 - education",
+      "title": "Issues in education sector",
+      "content": "27.3 EDUCATION SYSTEM PROBLEMS AND CHALLENGES\nThe \"Himalayan distance penalty\" and mass out-migration (Palayan) have created deep structural bottlenecks that make Uttarakhand's education challenges fundamentally different from plain-area states.\nMaster Problem Table\n| Problem | Nature | Scale / Data |\n|---|---|---|\n| Ghost Teachers | Teachers appointed to remote schools live in plains; sub-let duties to unqualified locals | Severe governance failure; \"No work-No pay\" policy introduced |\n| Single-Digit Enrollments | Mass migration emptied hill primary schools | 826+ schools permanently closed over 5 years; 2,655 schools run on single teacher |\n| Single Teacher Schools | Critical shortage of educators in remote areas | 2,655 primary schools; 28,000+ students pedagogically vulnerable |\n| Stalled School Mergers | \"Cluster Schools\" policy announced but infrastructure within 5-10 km stalled | Terrain difficulties and administrative delays |\n| Human-Wildlife Conflict | Wildlife attacks disrupt children's schooling in rural areas | Critical need for transport support and closer schooling |\n| Topographical Accessibility | Plain-area population thresholds fail to account for \"distance penalty\" | Strong demand for hill-specific norms |\n| Contractualization | Increasing contractual teachers and Class IV workers | Impacts job security and institutional stability |\n| RTE Implementation Gaps | Delayed payments, \"neighborhood tracking\" difficulties in sparse habitations | Private schools face long delays in per-child reimbursements |\n| Infrastructure Deficits | Many schools lack safe drinking water, functional girls' toilets, boundary walls | \"PEVD Paradox\" (Planning-Execution-Verification-Delivery failure) |\n| Learning Poverty | Rote-based curriculum; students not trained in local value chains | Despite high literacy, employability remains low |\n| Emerging Social Threats | Rising drug/alcohol usage among youth | Threatens to derail demographic dividend |\n| Budget Surrenders | Departments return unspent allocations while infrastructure gaps persist | ₹2,366 crore returned by departments |\nA. The \"Ghost Teacher\" Phenomenon\nThe \"Ghost Teacher\" phenomenon involves teachers appointed to remote hill schools who live in the plains and sub-let their duties to unqualified locals for a fraction of their salary, severely compromising education quality in remote areas. Tech-driven reforms now require geo-fenced, biometric attendance via the Apni Sarkar portal, with salary linked to physical presence at school coordinates. The \"No work-No pay\" policy makes salary strictly conditional on verified attendance. CCTV-based attendance verification has been introduced, while the Shailesh Matiyani Awards provide honors, cash prizes, and 2-year service extensions for outstanding educators.\nB. Single-Digit Enrollments and School Closures (The Palayan Effect)\n"
+    }
+  ],
+  "subtitle": "The Complete Guidebook",
+  "originalPrice": 599,
+  "title": "Decode Uttarakhand",
+  "previewHeading": "Read Free Sample Pages",
+  "whatsappNumber": "919632662418",
+  "included": [
+    {
+      "text": "Complete Paper V + Paper VI coverage"
+    },
+    {
+      "text": "2026 Edition — Latest syllabus aligned"
+    },
+    {
+      "text": "Current Affairs Capsule (up to June 2026)"
+    },
+    {
+      "text": "28 chapters, 500+ pages"
+    },
+    {
+      "text": "Economic survey and Budget 2026-27"
+    }
+  ],
+  "chaptersHeading": "28 Chapters Across 5 Parts",
+  "earlyBird": {
+    "enabled": true,
+    "badge": "🔥 Early-Bird Launch Offer",
+    "headline": "First Edition — Limited Launch Price",
+    "subtext": "Introductory price ends soon. Price increases to ₹599 after the early-bird window.",
+    "deadline": "2026-08-31T23:59:59+05:30",
+    "stockNote": "Limited first-edition print run"
+  },
+  "description": "India's only single-volume guidebook covering all topics for UKPSC PCS, Lower PCS, RO/ARO, and UKSSSC exams."
 }
