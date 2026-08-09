@@ -61,9 +61,9 @@ const coursesData: CourseData[] = [
   },
   {
     title: 'Personalised Mentorship — with Bhanu Joshi',
-    description: 'One-on-one mentorship with Bhanu Joshi — from beginner hand-holding to advanced answer-writing guidance, tailored to you.',
+    description: 'total 3 One-on-one mentorship sessions with Bhanu Joshi — from beginner hand-holding to advanced answer-writing guidance, tailored to you.',
     image: '/images/mentorship.jpg',
-    price:  starting </Rs>499 per session,
+    price:   889 ,
     features: [
       '1-on-1 personalized guidance, plans, resources,strategy',
       'Answer writing and answer evaluation',
