@@ -40,35 +40,40 @@ export default function BuyBookPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  e.preventDefault();
+  setLoading(true);
+  setError('');
 
-    try {
-      const res = await fetch('/api/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          amount: book.price,
-          purpose: `${book.title} — ${book.subtitle}`,
-        }),
-      });
+  try {
+    const res = await fetch('/api/submit-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        city: form.city,
+        pincode: form.pincode,
+        state: form.state,
+      }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (data.paymentUrl) {
-        window.location.href = data.paymentUrl;
-      } else {
-        setError(data.error || 'Something went wrong. Please try again.');
-      }
-    } catch {
-      setError('Network error. Please try again.');
-    } finally {
-      setLoading(false);
+    if (data.upiLink) {
+      sessionStorage.setItem('latestOrder', JSON.stringify(data));
+      window.location.href = data.upiLink;
+    } else {
+      setError(data.error || 'Something went wrong. Please try again.');
     }
+  } catch {
+    setError('Network error. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
+
   };
 
   return (
