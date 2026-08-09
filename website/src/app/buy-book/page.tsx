@@ -63,7 +63,7 @@ export default function BuyBookPage() {
 
     if (data.upiLink) {
       sessionStorage.setItem('latestOrder', JSON.stringify(data));
-      window.location.href = data.upiLink;
+      window.location.href = '/order-confirmation';
     } else {
       setError(data.error || 'Something went wrong. Please try again.');
     }
