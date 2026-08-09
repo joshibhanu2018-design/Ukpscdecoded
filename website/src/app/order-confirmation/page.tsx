@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import QRCode from 'qrcode.react';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function OrderConfirmationPage() {
@@ -15,11 +14,12 @@ export default function OrderConfirmationPage() {
   }, []);
 
   if (!orderData) {
-    return <div className="p-8 text-center">Loading order details...</div>;
+    return <div className="p-8 text-center text-white">Loading order details...</div>;
   }
 
   const upiLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const whatsappNumber = '918317390586'; // Your WhatsApp number
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
+  const whatsappNumber = '918317390586';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-graphite-900 to-graphite-950 text-white py-12 px-4">
@@ -27,7 +27,7 @@ export default function OrderConfirmationPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <CheckCircle2 className="w-16 h-16 text-jade-500 mx-auto mb-4" />
-          <h1 className="heading-lg text-white mb-2">Order Confirmed!</h1>
+          <h1 className="heading-lg text-white mb-2">Order Confirmed! 🎉</h1>
           <p className="text-graphite-400">Order ID: {orderData.orderId}</p>
         </div>
 
@@ -39,8 +39,8 @@ export default function OrderConfirmationPage() {
               <span className="font-semibold">{orderData.customerName}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-graphite-300">Email:</span>
-              <span className="font-semibold text-sm">{orderData.customerEmail}</span>
+              <span className="text-graphite-300">Phone:</span>
+              <span className="font-semibold">{orderData.customerPhone}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-graphite-300">Amount:</span>
@@ -48,33 +48,45 @@ export default function OrderConfirmationPage() {
             </div>
           </div>
 
-          {/* QR Code */}
+          {/* QR Code Section */}
           <div className="bg-white p-6 rounded-lg text-center">
-            <p className="text-graphite-800 text-sm font-semibold mb-3">Scan to Pay</p>
-            <QRCode value={upiLink} size={256} level="H" />
-            <p className="text-graphite-600 text-xs mt-3">Scan with Google Pay, PhonePe, or Paytm</p>
+            <p className="text-graphite-800 text-sm font-semibold mb-4">Scan to Pay Instantly</p>
+            <img 
+              src={qrCodeUrl} 
+              alt="UPI Payment QR Code" 
+              className="w-full rounded-lg"
+            />
+            <p className="text-graphite-600 text-xs mt-3">Works with Google Pay, PhonePe, Paytm</p>
           </div>
         </div>
 
         {/* Instructions */}
         <div className="bg-jade-500/20 border border-jade-500/50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-jade-300 mb-2">Payment Instructions:</h3>
+          <h3 className="font-semibold text-jade-300 mb-2">Payment Steps:</h3>
           <ol className="text-sm text-graphite-300 space-y-1">
-            <li>1. Scan the QR code with your phone</li>
-            <li>2. Confirm payment in your UPI app</li>
-            <li>3. Send screenshot to WhatsApp</li>
-            <li>4. You'll receive order confirmation</li>
+            <li>✓ Scan QR code above, OR</li>
+            <li>✓ Click "Pay with Google Pay" button</li>
+            <li>✓ Complete payment in your app</li>
+            <li>✓ Send screenshot to WhatsApp</li>
           </ol>
         </div>
 
+        {/* Auto-Pay Button */}
+        <a
+          href={upiLink}
+          className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition-all mb-3 active:scale-95"
+        >
+          💳 Pay with Google Pay
+        </a>
+
         {/* WhatsApp Button */}
         <a
-          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Payment Screenshot for Order ${orderData.orderId}\n\nName: ${orderData.customerName}\nAmount: ₹${orderData.amount}`)}`}
+          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Payment Screenshot\n\nOrder ID: ${orderData.orderId}\nName: ${orderData.customerName}\nAmount: ₹${orderData.amount}\n\nI have completed the payment. Please confirm and send tracking details.`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg text-center transition-all"
         >
-          Send Payment Screenshot via WhatsApp
+          📱 Send Payment Screenshot via WhatsApp
         </a>
       </div>
     </div>
