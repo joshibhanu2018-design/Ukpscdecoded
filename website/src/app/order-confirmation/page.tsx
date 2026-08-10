@@ -18,27 +18,9 @@ export default function OrderConfirmationPage() {
   }
 
   const googlePayLink = `tez://upi/pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-const paytmLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=Paytm`;
-const phonepeLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=PhonePe`;
-
-// For QR code - use universal UPI link
-const googlePayLink = `tez://upi/pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-const paytmLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=Paytm`;
-const phonepeLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=PhonePe`;
-const upiLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
-
-
-const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
-
-  // Google Pay
-const googlePayLink = `tez://upi/pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-
-// Paytm
-const paytmLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=Paytm`;
-
-// PhonePe
-const phonepeLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=PhonePe`;
+  const paytmLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=Paytm`;
+  const phonepeLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=PhonePe`;
+  const upiLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
   const whatsappNumber = '918317390586';
 
@@ -72,9 +54,9 @@ const phonepeLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=$
           {/* QR Code Section */}
           <div className="bg-white p-6 rounded-lg text-center">
             <p className="text-graphite-800 text-sm font-semibold mb-4">Scan to Pay Instantly</p>
-            <img 
-              src={qrCodeUrl} 
-              alt="UPI Payment QR Code" 
+            <img
+              src={qrCodeUrl}
+              alt="UPI Payment QR Code"
               className="w-full rounded-lg"
             />
             <p className="text-graphite-600 text-xs mt-3">Works with Google Pay, PhonePe, Paytm</p>
@@ -86,33 +68,33 @@ const phonepeLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=$
           <h3 className="font-semibold text-jade-300 mb-2">Payment Steps:</h3>
           <ol className="text-sm text-graphite-300 space-y-1">
             <li>✓ Scan QR code above, OR</li>
-            <li>✓ Click "Pay with UPI" button</li>
+            <li>✓ Click a payment app button below</li>
             <li>✓ Complete payment in your app</li>
             <li>✓ Send screenshot to WhatsApp</li>
           </ol>
         </div>
 
         {/* Payment App Buttons */}
-<div className="grid grid-cols-3 gap-2 mb-3">
-  <a
-    href={googlePayLink}
-    className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
-  >
-    Google Pay
-  </a>
-  <a
-    href={paytmLink}
-    className="block w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg text-center text-sm"
-  >
-    Paytm
-  </a>
-  <a
-    href={phonepeLink}
-    className="block w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
-  >
-    PhonePe
-  </a>
-</div>
+        <div className="grid grid-cols-3 gap-2 mb-3">
+          <a
+            href={googlePayLink}
+            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
+          >
+            Google Pay
+          </a>
+          <a
+            href={paytmLink}
+            className="block w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg text-center text-sm"
+          >
+            Paytm
+          </a>
+          <a
+            href={phonepeLink}
+            className="block w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
+          >
+            PhonePe
+          </a>
+        </div>
 
         {/* WhatsApp Button */}
         <a
