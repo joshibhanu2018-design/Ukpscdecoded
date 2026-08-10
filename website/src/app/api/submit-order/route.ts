@@ -10,8 +10,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email, phone, address, city, pincode, state } = body;
 
-    // Validate required fields
-    if (!name || !email || !phone || !address || !city || !pincode || !state) {
+    // Validate required fields (pincode removed from validation - accepts any length)
+    if (!name || !email || !phone || !address || !city || !state) {
       return Response.json(
         { error: "Missing required fields" },
         { status: 400 }
