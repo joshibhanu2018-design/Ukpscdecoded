@@ -17,7 +17,14 @@ export default function OrderConfirmationPage() {
     return <div className="p-8 text-center text-white">Loading order details...</div>;
   }
 
-  const upiLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+  // Google Pay
+const googlePayLink = `tez://upi/pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+
+// Paytm
+const paytmLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=Paytm`;
+
+// PhonePe
+const phonepeLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase&tr=PhonePe`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
   const whatsappNumber = '918317390586';
 
@@ -71,13 +78,27 @@ export default function OrderConfirmationPage() {
           </ol>
         </div>
 
-        {/* Auto-Pay Button */}
-        <a
-          href={upiLink}
-          className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition-all mb-3 active:scale-95"
-        >
-          💳 Pay with UPI
-        </a>
+        {/* Payment App Buttons */}
+<div className="grid grid-cols-3 gap-2 mb-3">
+  <a
+    href={googlePayLink}
+    className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
+  >
+    Google Pay
+  </a>
+  <a
+    href={paytmLink}
+    className="block w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg text-center text-sm"
+  >
+    Paytm
+  </a>
+  <a
+    href={phonepeLink}
+    className="block w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
+  >
+    PhonePe
+  </a>
+</div>
 
         {/* WhatsApp Button */}
         <a
