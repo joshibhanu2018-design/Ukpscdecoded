@@ -65,7 +65,7 @@ export default function OrderConfirmationPage() {
           <h3 className="font-semibold text-jade-300 mb-2">Payment Steps:</h3>
           <ol className="text-sm text-graphite-300 space-y-1">
             <li>✓ Scan QR code above, OR</li>
-            <li>✓ Click "Pay with Google Pay" button</li>
+            <li>✓ Click "Pay with UPI" button</li>
             <li>✓ Complete payment in your app</li>
             <li>✓ Send screenshot to WhatsApp</li>
           </ol>
@@ -76,7 +76,7 @@ export default function OrderConfirmationPage() {
           href={upiLink}
           className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition-all mb-3 active:scale-95"
         >
-          💳 Pay with Google Pay
+          💳 Pay with UPI
         </a>
 
         {/* WhatsApp Button */}
