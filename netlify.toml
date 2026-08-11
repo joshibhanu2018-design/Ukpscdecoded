@@ -1,0 +1,8 @@
+# Root-level Netlify config — points to the Next.js website subfolder
+[build]
+  base = "website"
+  command = "npm run build"
+  publish = "website/.next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
