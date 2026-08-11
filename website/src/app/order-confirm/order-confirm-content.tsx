@@ -49,7 +49,7 @@ export default function OrderConfirmContent() {
 
         <div className="bg-jade-500/20 border border-jade-500/50 rounded-xl p-5 mb-6">
           <h3 className="font-semibold text-jade-300 mb-3 flex items-center gap-2">
-            <span className="text-lg">📋</span> What's Next?
+            <span className="text-lg">📋</span> What&apos;s Next?
           </h3>
           <ol className="text-sm text-graphite-300 space-y-2">
             <li className="flex gap-2">
@@ -58,7 +58,7 @@ export default function OrderConfirmContent() {
             </li>
             <li className="flex gap-2">
               <span className="font-bold text-jade-400">2.</span>
-              <span>Take a screenshot showing the payment success & UTR</span>
+              <span>Take a screenshot showing the payment success &amp; UTR</span>
             </li>
             <li className="flex gap-2">
               <span className="font-bold text-jade-400">3.</span>
@@ -79,7 +79,7 @@ export default function OrderConfirmContent() {
           Your Order ID is already pre-filled so we can match it instantly
         </p>
 
-        
+        <a
           href={issueUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -90,7 +90,7 @@ export default function OrderConfirmContent() {
         </a>
 
         <div className="bg-graphite-800/50 border border-graphite-700 rounded-lg p-4 text-xs text-graphite-400 text-center">
-          <p>💚 <strong>Your order is secured.</strong> We'll process it once we receive your payment screenshot on WhatsApp.</p>
+          <p>💚 <strong>Your order is secured.</strong> We&apos;ll process it once we receive your payment screenshot on WhatsApp.</p>
           <p className="mt-2">Shipping starts <strong>August 14, 2026</strong></p>
         </div>
 
@@ -118,7 +118,7 @@ export default function OrderConfirmContent() {
                 onClick={() => setShowPopup(false)}
                 className="w-full text-graphite-400 hover:text-graphite-300 text-sm py-2 transition-all"
               >
-                I'll do it later
+                I&apos;ll do it later
               </button>
             </div>
           </div>
