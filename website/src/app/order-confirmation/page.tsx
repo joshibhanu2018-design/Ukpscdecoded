@@ -30,9 +30,9 @@ export default function OrderConfirmationPage() {
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <CheckCircle2 className="w-16 h-16 text-jade-500 mx-auto mb-4" />
-          <h1 className="heading-lg text-white mb-2">Order Confirmed! 🎉</h1>
-          <p className="text-graphite-400">Order ID: {orderData.orderId}</p>
+          <CheckCircle2 className="w-16 h-16 text-saffron-400 mx-auto mb-4" />
+          <h1 className="heading-lg text-white mb-2">⏳ Complete Your Payment</h1>
+          <p className="text-graphite-400">Your order is saved. Order ID: {orderData.orderId}</p>
         </div>
 
         {/* Order Details */}
