@@ -18,6 +18,8 @@ export async function POST(request: Request) {
       );
     }
 
+    const orderId = `ORDER-${Date.now()}`;
+
     // Log order to Google Sheet
     try {
       await fetch(ORDERS_SHEET_ENDPOINT, {
@@ -25,6 +27,7 @@ export async function POST(request: Request) {
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          orderId,
           name,
           email,
           phone,
@@ -33,6 +36,7 @@ export async function POST(request: Request) {
           pincode,
           state,
           amount: AMOUNT,
+          status: "Pending Payment",
           submittedAt: new Date().toISOString(),
         }),
       });
@@ -46,7 +50,7 @@ export async function POST(request: Request) {
     // Return order confirmation details + UPI link
     return Response.json({
       success: true,
-      orderId: `ORDER-${Date.now()}`,
+      orderId,
       message: "Order created. Please proceed to payment.",
       customerName: name,
       customerEmail: email,
