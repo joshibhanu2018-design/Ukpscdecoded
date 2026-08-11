@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   BookOpen,
   CheckCircle2,
@@ -8,6 +9,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { getIcon } from '@/lib/icons';
+import { generateOrderId } from '@/lib/orderId';
 import CountdownBanner from '@/components/CountdownBanner';
 import BookPreview from '@/components/BookPreview';
 import book from '@content/book.json';
@@ -23,6 +25,7 @@ interface FormData {
 }
 
 export default function BuyBookPage() {
+  const router = useRouter();
   const [form, setForm] = useState<FormData>({
     name: '',
     email: '',
@@ -40,40 +43,48 @@ export default function BuyBookPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setError('');
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
-  try {
-    const res = await fetch('/api/submit-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        address: form.address,
-        city: form.city,
-        pincode: form.pincode,
-        state: form.state,
-      }),
-    });
+    try {
+      const orderId = generateOrderId();
 
-    const data = await res.json();
+      const res = await fetch('/api/submit-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          address: form.address,
+          city: form.city,
+          pincode: form.pincode,
+          state: form.state,
+          orderId: orderId,
+        }),
+      });
 
-    if (data.upiLink) {
-      sessionStorage.setItem('latestOrder', JSON.stringify(data));
-      window.location.href = '/order-confirmation';
-    } else {
-      setError(data.error || 'Something went wrong. Please try again.');
+      const data = await res.json();
+
+      if (data.success || data.upiLink) {
+        sessionStorage.setItem('latestOrder', JSON.stringify({
+          ...data,
+          orderId,
+          customerName: form.name,
+          customerPhone: form.phone,
+        }));
+        
+        router.push(`/order-confirm?orderId=${orderId}&name=${encodeURIComponent(form.name)}&phone=${form.phone}`);
+      } else {
+        setError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  } catch {
-    setError('Network error. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   return (
     <div>
@@ -98,8 +109,8 @@ export default function BuyBookPage() {
           <p className="text-xl md:text-2xl text-graphite-300 font-display font-medium mb-8">
             {book.subtitle}
           </p>
-          <a
-            href="#free-samples"
+          
+          <a href="#free-samples"
             className="inline-flex items-center justify-center gap-2 bg-jade-500 hover:bg-jade-600 text-white font-semibold px-6 py-3 rounded-lg transition-all shadow-lg"
           >
             <BookOpen className="w-5 h-5" />
@@ -295,62 +306,43 @@ export default function BuyBookPage() {
                       <option value="Uttarakhand">Uttarakhand</option>
                       <option value="Uttar Pradesh">Uttar Pradesh</option>
                       <option value="Delhi">Delhi</option>
-                      <option value="Haryana">Haryana</option>
                       <option value="Himachal Pradesh">Himachal Pradesh</option>
-                      <option value="Rajasthan">Rajasthan</option>
+                      <option value="Punjab">Punjab</option>
+                      <option value="Haryana">Haryana</option>
                       <option value="Other">Other</option>
                     </select>
                   </div>
 
                   {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                      <p className="text-sm text-red-600">{error}</p>
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                      {error}
                     </div>
                   )}
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full bg-saffron-500 hover:bg-saffron-600 disabled:bg-saffron-300 text-white font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2"
                   >
                     {loading ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Loader2 className="w-5 h-5 animate-spin" />
                         Processing...
                       </>
                     ) : (
                       <>
-                        <ShieldCheck className="w-4 h-4" />
-                        Buy Now — ₹{book.price}
+                        <ShieldCheck className="w-5 h-5" />
+                        Proceed to Payment
                       </>
                     )}
                   </button>
+
+                  <p className="text-xs text-graphite-500 text-center">
+                    ✓ Secure payment via UPI • No card required
+                  </p>
                 </form>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust Badges */}
-      <section className="section-padding bg-graphite-50">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {book.trustBadges.map((badge) => {
-              const Icon = getIcon(badge.icon);
-              return (
-                <div
-                  key={badge.title}
-                  className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-graphite-100"
-                >
-                  <Icon className="w-8 h-8 text-jade-600 mb-3" />
-                  <h3 className="font-display font-semibold text-graphite-800 mb-1">
-                    {badge.title}
-                  </h3>
-                  <p className="text-sm text-graphite-500">{badge.description}</p>
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>
