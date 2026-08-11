@@ -1,9 +1,7 @@
 // src/app/api/submit-order/route.ts
+import { UPI_ID, AMOUNT, BUSINESS_NAME } from "@/lib/payment";
 
 const ORDERS_SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbzh_9ESmles7ee25kh2aqeyLD1qTztGO3a4TXlP5CB2i2m6Bf7vZ5oxApGcNj8BFyqeOg/exec";
-const UPI_ID = "bhanujoshi1910-1@oksbi";
-const AMOUNT = 499;
-const BUSINESS_NAME = "UKPSC Decoded";
 
 export async function POST(request: Request) {
   try {
