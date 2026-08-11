@@ -1,6 +1,6 @@
 // src/app/api/submit-order/route.ts
 
-const ORDERS_SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbzh_9ESmles7ee25kh2aqeyLD1qTztGO3a4TXlP5CB2i2m6Bf7vZ5oxApGcNj8BFyqeOg/exec";
+const ORDERS_SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbxFFppC4fnOY7Xm7ArZGLjjcprdFWz6gRlTAEmgKQEzfmqqDzPeSZtXT6DcR3mmZXQ9nw/exec";
 const UPI_ID = "bhanujoshi1910-1@oksbi";
 const AMOUNT = 499;
 const BUSINESS_NAME = "UKPSC Decoded";

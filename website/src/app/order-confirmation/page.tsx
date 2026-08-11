@@ -1,247 +1,134 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { CheckCircle2, AlertCircle } from 'lucide-react';
 
-import { useEffect, useState, useRef } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+export default function OrderConfirm() {
+  const params = useSearchParams();
+  const orderId = params.get('orderId');
+  const name = params.get('name');
+  const phone = params.get('phone');
+  const [showPopup, setShowPopup] = useState(true);
 
-export default function OrderConfirmationPage() {
-  const [orderData, setOrderData] = useState<any>(null);
-  const [utr, setUtr] = useState('');
-  const [screenshot, setScreenshot] = useState<File | null>(null);
-  const [screenshotPreview, setScreenshotPreview] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
-  const [formError, setFormError] = useState('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const screenshotMessage = `Hi, I've completed payment for *Uttarakhand Decoded* book.\n\nOrder ID: ${orderId}\nName: ${name}\nPhone: ${phone}\n\nAttaching my payment screenshot below.`;
+  const screenshotUrl = `https://wa.me/918317390586?text=${encodeURIComponent(screenshotMessage)}`;
 
-  useEffect(() => {
-    const stored = sessionStorage.getItem('latestOrder');
-    if (stored) {
-      setOrderData(JSON.parse(stored));
-    }
-  }, []);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setScreenshot(file);
-    const reader = new FileReader();
-    reader.onload = (ev) => setScreenshotPreview(ev.target?.result as string);
-    reader.readAsDataURL(file);
-  };
-
-  const handleConfirmPayment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError('');
-
-    if (!screenshot) {
-      setFormError('Please upload your payment screenshot.');
-      return;
-    }
-    if (!utr.trim()) {
-      setFormError('Please enter the Reference/UTR number from your payment screen.');
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      const reader = new FileReader();
-      const base64 = await new Promise<string>((resolve, reject) => {
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(screenshot);
-      });
-
-      const res = await fetch('/api/confirm-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId: orderData.orderId,
-          name: orderData.customerName,
-          email: orderData.customerEmail,
-          phone: orderData.customerPhone,
-          amount: orderData.amount,
-          utr: utr.trim().toUpperCase(),
-          screenshotBase64: base64,
-          screenshotFileName: screenshot.name,
-        }),
-      });
-
-      if (res.ok) {
-        setConfirmed(true);
-      } else {
-        setFormError('Something went wrong saving your confirmation. Please try again, or message us on WhatsApp below.');
-      }
-    } catch {
-      setFormError('Network error. Please try again, or message us on WhatsApp below.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  if (!orderData) {
-    return <div className="p-8 text-center text-white">Loading order details...</div>;
-  }
-
-  const googlePayLink = `tez://upi/pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const paytmLink = `paytmmp://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const phonepeLink = `phonepe://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const upiLink = `upi://pay?pa=bhanujoshi1910-1@oksbi&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
-  const whatsappNumber = '918317390586';
+  const issueMessage = `Hi, I'm facing an issue with my payment for *Uttarakhand Decoded* book.\n\nOrder ID: ${orderId}\nName: ${name}\nPhone: ${phone}\n\nCould you please help me?`;
+  const issueUrl = `https://wa.me/918317390586?text=${encodeURIComponent(issueMessage)}`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-graphite-900 to-graphite-950 text-white py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-graphite-900 via-graphite-800 to-graphite-950 text-white py-12 px-4">
       <div className="max-w-md mx-auto">
-        {/* Header */}
+        {/* Congratulations Header */}
         <div className="text-center mb-8">
-          <CheckCircle2 className="w-16 h-16 text-jade-500 mx-auto mb-4" />
-          <h1 className="heading-lg text-white mb-2">Order Confirmed! 🎉</h1>
-          <p className="text-graphite-400">Order ID: {orderData.orderId}</p>
+          <CheckCircle2 className="w-20 h-20 text-jade-500 mx-auto mb-4 animate-pulse" />
+          <h1 className="heading-lg text-white mb-2">🎉 Order Confirmed!</h1>
+          <p className="text-graphite-300 text-lg">Your Order ID</p>
+          <p className="font-mono font-bold text-saffron-400 text-xl mt-2">{orderId}</p>
         </div>
 
-        {/* Order Details */}
+        {/* Order Summary */}
         <div className="bg-white/10 border border-white/20 rounded-xl p-6 mb-8">
-          <div className="space-y-3 mb-6">
-            <div className="flex justify-between">
-              <span className="text-graphite-300">Name:</span>
-              <span className="font-semibold">{orderData.customerName}</span>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-graphite-300">Recipient Name:</span>
+              <span className="font-semibold">{name}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <span className="text-graphite-300">Phone:</span>
-              <span className="font-semibold">{orderData.customerPhone}</span>
+              <span className="font-semibold font-mono">{phone}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-graphite-300">Amount:</span>
-              <span className="font-semibold text-saffron-400">₹{orderData.amount}</span>
+            <div className="flex justify-between items-center">
+              <span className="text-graphite-300">Book Price:</span>
+              <span className="font-bold text-saffron-400 text-lg">₹499</span>
             </div>
-          </div>
-
-          {/* QR Code Section */}
-          <div className="bg-white p-6 rounded-lg text-center">
-            <p className="text-graphite-800 text-sm font-semibold mb-4">Scan to Pay Instantly</p>
-            <img
-              src={qrCodeUrl}
-              alt="UPI Payment QR Code"
-              className="w-full rounded-lg"
-            />
-            <p className="text-graphite-600 text-xs mt-3">Works with Google Pay, PhonePe, Paytm</p>
+            <div className="flex justify-between items-center">
+              <span className="text-graphite-300">Shipping:</span>
+              <span className="text-jade-400 text-sm">Starts Aug 14</span>
+            </div>
           </div>
         </div>
 
-        {confirmed ? (
-          /* Confirmed State */
-          <div className="bg-jade-500/20 border border-jade-500/50 rounded-xl p-6 text-center">
-            <CheckCircle2 className="w-12 h-12 text-jade-400 mx-auto mb-3" />
-            <h3 className="font-semibold text-jade-300 text-lg mb-2">Payment Confirmation Received!</h3>
-            <p className="text-sm text-graphite-300">
-              We've recorded your payment details. Your book ships starting{' '}
-              <strong>Friday, 14th August</strong> and arrives within a week after that.
-              You'll get an update on email.
-            </p>
-          </div>
-        ) : (
-          <>
-            {/* Instructions */}
-            <div className="bg-jade-500/20 border border-jade-500/50 rounded-lg p-4 mb-6">
-              <h3 className="font-semibold text-jade-300 mb-2">Payment Steps:</h3>
-              <ol className="text-sm text-graphite-300 space-y-1">
-                <li>✓ Scan QR code above, OR</li>
-                <li>✓ Click a payment app button below</li>
-                <li>✓ Complete payment in your app</li>
-                <li>✓ Come back here and confirm below</li>
-              </ol>
-            </div>
+        {/* Next Steps */}
+        <div className="bg-jade-500/20 border border-jade-500/50 rounded-xl p-5 mb-6">
+          <h3 className="font-semibold text-jade-300 mb-3 flex items-center gap-2">
+            <span className="text-lg">📋</span> What's Next?
+          </h3>
+          <ol className="text-sm text-graphite-300 space-y-2">
+            <li className="flex gap-2">
+              <span className="font-bold text-jade-400">1.</span>
+              <span>Complete your UPI payment (if not done yet)</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="font-bold text-jade-400">2.</span>
+              <span>Take a screenshot showing the payment success & UTR</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="font-bold text-jade-400">3.</span>
+              <span>Tap the WhatsApp button below to send it to us</span>
+            </li>
+          </ol>
+        </div>
 
-            {/* Payment App Buttons */}
-            <div className="grid grid-cols-3 gap-2 mb-6">
-              <a
-                href={googlePayLink}
-                className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
-              >
-                Google Pay
-              </a>
-              <a
-                href={paytmLink}
-                className="block w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg text-center text-sm"
-              >
-                Paytm
-              </a>
-              <a
-                href={phonepeLink}
-                className="block w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
-              >
-                PhonePe
-              </a>
-            </div>
+        {/* Main CTA — Mandatory WhatsApp */}
+        <button
+          onClick={() => window.open(screenshotUrl, '_blank')}
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-4 rounded-lg mb-4 transition-all shadow-lg flex items-center justify-center gap-2 text-lg"
+        >
+          <span className="text-2xl">✓</span>
+          Send Payment Screenshot on WhatsApp
+        </button>
 
-            {/* Mandatory Confirmation Form */}
-            <form onSubmit={handleConfirmPayment} className="bg-white/10 border border-white/20 rounded-xl p-6 space-y-4">
-              <h3 className="font-semibold text-white text-lg">Confirm Your Payment</h3>
+        <p className="text-center text-xs text-graphite-400 mb-6">
+          Your Order ID is already pre-filled so we can match it instantly
+        </p>
 
-              <div>
-                <label className="block text-sm font-medium text-graphite-300 mb-1">
-                  Payment Screenshot (Required)
-                </label>
-                <p className="text-xs text-graphite-400 mb-2">
-                  Screenshot your payment success screen — make sure the Reference/UTR number is visible before closing the app.
-                </p>
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-white/30 rounded-lg p-4 text-center cursor-pointer hover:border-jade-400 transition"
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                  {screenshotPreview ? (
-                    <img src={screenshotPreview} alt="Screenshot preview" className="max-h-40 mx-auto rounded" />
-                  ) : (
-                    <p className="text-sm text-graphite-300">📤 Tap to upload screenshot</p>
-                  )}
-                </div>
-              </div>
+        {/* Payment Issue Link */}
+        <a
+          href={issueUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-6 py-3 rounded-lg transition-all mb-4"
+        >
+          <AlertCircle className="w-5 h-5 text-red-400" />
+          Facing Payment Issues?
+        </a>
 
-              <div>
-                <label className="block text-sm font-medium text-graphite-300 mb-1">
-                  Reference / UTR Number (Required)
-                </label>
-                <input
-                  type="text"
-                  value={utr}
-                  onChange={(e) => setUtr(e.target.value)}
-                  placeholder="e.g., 003969145613"
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-graphite-500 text-sm outline-none focus:border-jade-400"
-                />
-              </div>
+        {/* Info Box */}
+        <div className="bg-graphite-800/50 border border-graphite-700 rounded-lg p-4 text-xs text-graphite-400 text-center">
+          <p>💚 <strong>Your order is secured.</strong> We'll process it once we receive your payment screenshot on WhatsApp.</p>
+          <p className="mt-2">Shipping starts <strong>August 14, 2026</strong></p>
+        </div>
 
-              {formError && (
-                <div className="bg-red-500/20 border border-red-500/40 rounded-lg p-3">
-                  <p className="text-sm text-red-300">{formError}</p>
-                </div>
-              )}
-
+        {/* Mandatory WhatsApp Pop-up (appears once on load) */}
+        {showPopup && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div className="bg-graphite-900 border border-jade-500/50 rounded-xl p-6 max-w-sm shadow-2xl">
+              <CheckCircle2 className="w-12 h-12 text-jade-500 mx-auto mb-4" />
+              <h2 className="font-bold text-lg text-white mb-3 text-center">One Last Step!</h2>
+              <p className="text-sm text-graphite-300 mb-4 text-center">
+                After you complete your UPI payment, tap below to send your payment screenshot on WhatsApp. 
+                <br />
+                <br />
+                <strong>Your Order ID is already filled in</strong> — we can match it instantly.
+              </p>
               <button
-                type="submit"
-                disabled={submitting}
-                className="w-full bg-jade-500 hover:bg-jade-600 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition-all"
+                onClick={() => {
+                  window.open(screenshotUrl, '_blank');
+                  setShowPopup(false);
+                }}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg mb-2 transition-all"
               >
-                {submitting ? 'Submitting...' : '✓ Confirm Payment'}
+                📱 Open WhatsApp
               </button>
-            </form>
-
-            {/* WhatsApp Backup */}
-            <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Facing an issue confirming my payment.\n\nOrder ID: ${orderData.orderId}\nName: ${orderData.customerName}\nAmount: ₹${orderData.amount}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center text-graphite-400 hover:text-graphite-200 text-sm mt-4"
-            >
-              💬 Facing an issue? Message us on WhatsApp
-            </a>
-          </>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="w-full text-graphite-400 hover:text-graphite-300 text-sm py-2 transition-all"
+              >
+                I'll do it later
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>
