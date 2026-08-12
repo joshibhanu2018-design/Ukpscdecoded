@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
-import { UPI_ID } from '@/lib/payment';
+import { UPI_ID_GPAY, UPI_ID_PAYTM } from '@/lib/payment';
 
 export default function OrderConfirmationPage() {
   const [orderData, setOrderData] = useState<any>(null);
@@ -18,10 +18,11 @@ export default function OrderConfirmationPage() {
     return <div className="p-8 text-center text-white">Loading order details...</div>;
   }
 
-  const googlePayLink = `tez://upi/pay?pa=${UPI_ID}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const paytmLink = `paytmmp://pay?pa=${UPI_ID}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const phonepeLink = `phonepe://pay?pa=${UPI_ID}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const upiLink = `upi://pay?pa=${UPI_ID}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+  // Google Pay uses the SBI account; Paytm and PhonePe both use the BoB/Paytm account
+  const googlePayLink = `tez://upi/pay?pa=${UPI_ID_GPAY}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+  const paytmLink = `paytmmp://pay?pa=${UPI_ID_PAYTM}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+  const phonepeLink = `phonepe://pay?pa=${UPI_ID_PAYTM}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+  const upiLink = `upi://pay?pa=${UPI_ID_GPAY}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
   const whatsappNumber = '918317390586';
 
@@ -71,12 +72,12 @@ export default function OrderConfirmationPage() {
             <li>✓ Scan QR code above, OR</li>
             <li>✓ Click a payment app button below</li>
             <li>✓ Complete payment in your app</li>
-            <li>✓ Send screenshot to WhatsApp</li>
+            <li>✓ Come back here and tap the green button to confirm</li>
           </ol>
         </div>
 
         {/* Payment App Buttons */}
-        <div className="grid grid-cols-3 gap-2 mb-3">
+        <div className="grid grid-cols-3 gap-2 mb-2">
           <a
             href={googlePayLink}
             className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
@@ -97,15 +98,23 @@ export default function OrderConfirmationPage() {
           </a>
         </div>
 
-        {/* WhatsApp Button */}
+        {/* Fallback note if a payment option fails */}
+        <p className="text-xs text-graphite-400 text-center mb-6">
+          One option not working? Try scanning the QR code, or try a different app button above.
+        </p>
+
+        {/* Big, high-visibility "confirm payment" CTA */}
         <a
           href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Payment Screenshot\n\nOrder ID: ${orderData.orderId}\nName: ${orderData.customerName}\nAmount: ₹${orderData.amount}\n\nI have completed the payment. Please confirm and send tracking details.`)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg text-center transition-all"
+          className="block w-full bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-5 rounded-xl text-center shadow-lg shadow-green-500/30 animate-pulse hover:animate-none transition-all"
         >
-          📱 Send Payment Screenshot via WhatsApp
+          ✅ Done Paying? Click Here to Share Screenshot & Confirm Your Order
         </a>
+        <p className="text-center text-graphite-400 text-xs mt-3">
+          Your order isn't confirmed until we receive your payment screenshot — please don't skip this step.
+        </p>
       </div>
     </div>
   );
