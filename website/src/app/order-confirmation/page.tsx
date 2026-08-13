@@ -18,11 +18,11 @@ export default function OrderConfirmationPage() {
     return <div className="p-8 text-center text-white">Loading order details...</div>;
   }
 
-  // Google Pay uses the SBI account; Paytm and PhonePe both use the BoB/Paytm account
+  // Google Pay + PhonePe use the SBI account; QR code + Paytm both use the BoB/Paytm account
   const googlePayLink = `tez://upi/pay?pa=${UPI_ID_GPAY}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
   const paytmLink = `paytmmp://pay?pa=${UPI_ID_PAYTM}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const phonepeLink = `phonepe://pay?pa=${UPI_ID_PAYTM}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const upiLink = `upi://pay?pa=${UPI_ID_GPAY}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+  const phonepeLink = `phonepe://pay?pa=${UPI_ID_GPAY}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
+  const upiLink = `upi://pay?pa=${UPI_ID_PAYTM}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
   const whatsappNumber = '918317390586';
 
@@ -128,7 +128,7 @@ export default function OrderConfirmationPage() {
 
         {/* Fallback note if a payment option fails */}
         <p className="text-xs text-graphite-400 text-center mb-6">
-          Reminder: QR + Google Pay use one bank account, Paytm + PhonePe use another — if one is stuck, the other usually isn't.
+          Reminder: Google Pay + PhonePe use one bank account, QR + Paytm use another — if one is stuck, the other usually isn't.
         </p>
 
         {/* Big, high-visibility "confirm payment" CTA */}
