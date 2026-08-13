@@ -65,15 +65,43 @@ export default function OrderConfirmationPage() {
           </div>
         </div>
 
-        {/* Instructions */}
-        <div className="bg-jade-500/20 border border-jade-500/50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-jade-300 mb-2">Payment Steps:</h3>
-          <ol className="text-sm text-graphite-300 space-y-1">
-            <li>✓ Scan QR code above, OR</li>
-            <li>✓ Click a payment app button below</li>
-            <li>✓ Complete payment in your app</li>
-            <li>✓ Come back here and tap the green button to confirm</li>
-          </ol>
+        {/* Payment Escalation Guide — try one, then the next */}
+        <div className="bg-gradient-to-b from-amber-500/15 to-amber-500/5 border-2 border-amber-500/40 rounded-xl p-4 mb-6">
+          <div className="flex justify-center mb-3">
+            <span className="inline-block bg-amber-400 text-graphite-900 font-extrabold text-xs px-3 py-1.5 rounded-full uppercase tracking-wide">
+              ⚠️ Please try at least 2 payment methods
+            </span>
+          </div>
+          <p className="text-amber-300 font-bold text-center text-sm mb-3">
+            If one payment method fails, try the next one below
+          </p>
+          <div className="space-y-2">
+            <div className="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-400 text-graphite-900 font-bold text-xs flex items-center justify-center">1</span>
+              <span className="text-sm text-white">Try <strong>Scan QR Code</strong> above</span>
+            </div>
+            <div className="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-400 text-graphite-900 font-bold text-xs flex items-center justify-center">2</span>
+              <span className="text-sm text-white">QR not working? Try <strong>Google Pay</strong> button below</span>
+            </div>
+            <div className="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-400 text-graphite-900 font-bold text-xs flex items-center justify-center">3</span>
+              <span className="text-sm text-white">Still stuck? Try <strong>Paytm</strong> or <strong>PhonePe</strong> — different bank account, often works when others don't</span>
+            </div>
+
+            {/* Directly clickable WhatsApp escalation link */}
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Payment Issue\n\nOrder ID: ${orderData.orderId}\nName: ${orderData.customerName}\nAmount: ₹${orderData.amount}\n\nI've tried multiple payment methods and none are working. Please help.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 bg-red-500/20 border-2 border-red-400/60 rounded-lg px-3 py-3 hover:bg-red-500/30 transition-colors"
+            >
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-400 text-graphite-900 font-bold text-xs flex items-center justify-center">!</span>
+              <span className="text-sm text-white">
+                Tried 2+ methods and still failing? <strong className="text-red-200 underline">👉 Click here to contact us on WhatsApp</strong> — we'll help right away
+              </span>
+            </a>
+          </div>
         </div>
 
         {/* Payment App Buttons */}
@@ -100,7 +128,7 @@ export default function OrderConfirmationPage() {
 
         {/* Fallback note if a payment option fails */}
         <p className="text-xs text-graphite-400 text-center mb-6">
-          One option not working? Try scanning the QR code, or try a different app button above.
+          Reminder: QR + Google Pay use one bank account, Paytm + PhonePe use another — if one is stuck, the other usually isn't.
         </p>
 
         {/* Big, high-visibility "confirm payment" CTA */}
