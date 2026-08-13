@@ -1,17 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { CheckCircle2, XCircle, Brain, RotateCcw, ArrowRight, Users } from "lucide-react";
-import quiz from "@content/quiz.json";
+import { CheckCircle2, XCircle, Brain, RotateCcw, ArrowRight, Users, Loader2 } from "lucide-react";
+import { fetchDailyFive, pseudoSolvedPct, type MCQQuestion } from "@/lib/dailyMcq";
 
 export default function HomeQuiz() {
-  const questions = quiz.questions;
+  const [questions, setQuestions] = useState<MCQQuestion[]>([]);
+  const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+
+  useEffect(() => {
+    fetchDailyFive().then((qs) => {
+      setQuestions(qs);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-2xl border border-graphite-100 shadow-lg p-10 max-w-2xl mx-auto flex flex-col items-center justify-center gap-3">
+        <Loader2 className="w-8 h-8 text-saffron-500 animate-spin" />
+        <p className="text-graphite-500 text-sm">Loading today's questions...</p>
+      </div>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl border border-graphite-100 shadow-lg p-10 max-w-2xl mx-auto text-center">
+        <p className="text-graphite-500 text-sm">
+          Couldn't load today's questions. Try the full{" "}
+          <Link href="/current-affairs#daily-quiz" className="text-saffron-600 underline">
+            Daily MCQ page
+          </Link>
+          .
+        </p>
+      </div>
+    );
+  }
 
   const q = questions[current];
   const isLast = current === questions.length - 1;
@@ -20,7 +51,7 @@ export default function HomeQuiz() {
     if (revealed) return;
     setSelected(i);
     setRevealed(true);
-    if (i === q.correctIndex) setScore((s) => s + 1);
+    if (i === q.correctAnswer) setScore((s) => s + 1);
   };
 
   const handleNext = () => {
@@ -40,7 +71,6 @@ export default function HomeQuiz() {
     setScore(0);
     setFinished(false);
   };
-
 
   if (finished) {
     const pct = Math.round((score / questions.length) * 100);
@@ -75,7 +105,7 @@ export default function HomeQuiz() {
           Question {current + 1} of {questions.length}
         </span>
         <span className="text-xs font-semibold text-jade-600 flex items-center gap-1">
-          <Users className="w-3.5 h-3.5" /> {q.solvedPct}% got this right
+          <Users className="w-3.5 h-3.5" /> {pseudoSolvedPct(q)}% got this right
         </span>
       </div>
       <div className="w-full h-1.5 bg-graphite-100 rounded-full mb-6 overflow-hidden">
@@ -89,7 +119,7 @@ export default function HomeQuiz() {
 
       <div className="space-y-3">
         {q.options.map((opt, i) => {
-          const isCorrect = i === q.correctIndex;
+          const isCorrect = i === q.correctAnswer;
           const isChosen = i === selected;
           let cls = "border-graphite-200 hover:border-saffron-300 hover:bg-saffron-50";
           if (revealed && isCorrect) cls = "border-jade-400 bg-jade-50";
@@ -111,7 +141,10 @@ export default function HomeQuiz() {
 
       {revealed && (
         <div className="mt-5 bg-ivory-100 border border-ivory-300 rounded-lg p-4">
-          <p className="text-sm text-graphite-700"><span className="font-semibold">Explanation:</span> {q.explanation}</p>
+          <p className="text-sm text-graphite-700">
+            <span className="font-semibold">Subject:</span> {q.subject}
+            {q.topic ? ` · ${q.topic}` : ""}
+          </p>
           <button onClick={handleNext} className="btn-primary mt-4 inline-flex items-center gap-2 text-sm">
             {isLast ? "See Result" : "Next Question"} <ArrowRight className="w-4 h-4" />
           </button>

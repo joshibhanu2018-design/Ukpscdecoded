@@ -3,14 +3,14 @@
     "headingLine1": "Crack Every Uttarakhand Exam —",
     "headingLine2": "From One Platform",
     "subtitle": "Comprehensive preparation for UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all state exams. Free videos, daily MCQs, PYQ analysis, and India's most complete Uttarakhand GK guidebook.",
-    "primaryButtonText": "Explore Free Content",
-    "primaryButtonLink": "/free-content",
-    "secondaryButtonText": "Get the Book",
-    "secondaryButtonLink": "/buy-book"
+    "primaryButtonText": "Buy Book: Uttarakhand Decoded",
+    "primaryButtonLink": "/buy-book",
+    "secondaryButtonText": "Explore Free Content",
+    "secondaryButtonLink": "/free-content"
   },
   "quickLinks": [
-    { "title": "The Book", "label": "Complete Uttarakhand guidebook for all UK exams", "icon": "book", "href": "/buy-book" },
-    { "title": "Free Content", "label": "Video lectures & free study resources", "icon": "play", "href": "/free-content" },
+    { "title": "Courses", "label": "Structured video courses for every stage", "icon": "video", "href": "/courses" },
+    { "title": "PYQ Tracker", "label": "Track & practice previous year questions", "icon": "chart", "href": "/pyq-tracker" },
     { "title": "Weekly Current Affairs", "label": "Weekly gist, every Sunday", "icon": "newspaper", "href": "/current-affairs" },
     { "title": "Daily MCQ", "label": "Fresh questions every day", "icon": "brain", "href": "/current-affairs#daily-quiz" }
   ],
