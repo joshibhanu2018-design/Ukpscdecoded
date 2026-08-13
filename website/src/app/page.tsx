@@ -24,21 +24,33 @@ export default function Home() {
             <p className="text-lg md:text-xl text-graphite-300 mb-10 max-w-2xl mx-auto leading-relaxed">
               {hero.subtitle}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            {/* Large, Eye-Catching Buy Book CTA — Dominates Hero */}
+            <div className="w-full max-w-3xl mx-auto mb-16">
               <Link
                 href={hero.primaryButtonLink}
-                className="btn-primary inline-flex items-center justify-center gap-2 text-lg"
+                className="group relative w-full inline-flex items-center justify-center gap-3 px-8 py-6 text-2xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+                style={{
+                  background: "linear-gradient(135deg, #f59307 0%, #e67e22 50%, #d35400 100%)",
+                  boxShadow: "0 10px 40px rgba(245, 147, 7, 0.4)"
+                }}
               >
-                {hero.primaryButtonText}
-                <ArrowRight className="w-5 h-5" />
+                {/* Animated background shine effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 group-hover:translate-x-full transition-transform duration-700" />
+                
+                {/* Button content */}
+                <div className="relative z-10 flex items-center justify-center gap-3">
+                  <BookOpen className="w-7 h-7" />
+                  <span>{hero.primaryButtonText}</span>
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                </div>
+
+                {/* Pulse border animation */}
+                <div className="absolute inset-0 rounded-2xl border-2 border-white/40 group-hover:border-white/60 transition-colors" />
               </Link>
-              <Link
-                href={hero.secondaryButtonLink}
-                className="btn-secondary inline-flex items-center justify-center gap-2 text-lg"
-              >
-                {hero.secondaryButtonText}
-                <BookMarked className="w-5 h-5" />
-              </Link>
+
+              <p className="text-center text-white/80 text-sm mt-4 font-medium">
+                ₹499 • 300 pages • Complete Uttarakhand prep for all exams
+              </p>
             </div>
 
             {/* Quick Links Bar */}
