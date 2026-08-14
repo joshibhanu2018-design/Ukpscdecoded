@@ -49,7 +49,7 @@ export default function Home() {
               </Link>
 
               <p className="text-center text-white/80 text-sm mt-4 font-medium">
-                ₹499 • 300 pages • Complete Uttarakhand prep for all exams
+                ₹499 • Complete Uttarakhand prep for all exams
               </p>
             </div>
 
