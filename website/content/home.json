@@ -3,6 +3,22 @@
     "headingLine1": "Crack Every Uttarakhand Exam —",
     "headingLine2": "From One Platform",
     "subtitle": "Comprehensive preparation for UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all state exams. Free videos, daily MCQs, PYQ analysis, and India's most complete Uttarakhand GK guidebook.",
+    "bookEditions": [
+      {
+        "language": "English",
+        "languageCode": "en",
+        "buttonText": "📕 Buy Book: English Edition",
+        "buttonLink": "/buy-book?lang=en",
+        "price": "₹499"
+      },
+      {
+        "language": "Hindi",
+        "languageCode": "hi",
+        "buttonText": "📗 किताब खरीदें: हिंदी संस्करण",
+        "buttonLink": "/buy-book?lang=hi",
+        "price": "₹499"
+      }
+    ],
     "primaryButtonText": "Buy Book: Uttarakhand Decoded",
     "primaryButtonLink": "/buy-book",
     "secondaryButtonText": "Explore Free Content",

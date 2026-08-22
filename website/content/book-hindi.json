@@ -1,0 +1,141 @@
+{
+  "title": "उत्तराखंड डिकोडेड",
+  "subtitle": "हर परीक्षा को क्रैक करें — एक प्लेटफॉर्म से",
+  "titleEnglish": "Uttarakhand Decoded",
+  "language": "Hindi",
+  "languageCode": "hi",
+  "price": 499,
+  "currency": "₹",
+  "description": "उत्तराखंड की सभी परीक्षाओं के लिए व्यापक तैयारी। UKPSC PCS, निचली PCS, RO/ARO, UKSSSC और सभी राज्य परीक्षाएं। मुफ्त वीडियो, दैनिक MCQ, PYQ विश्लेषण, और भारत की सबसे संपूर्ण उत्तराखंड GK मार्गदर्शिका।",
+  "descriptionEnglish": "Comprehensive preparation for UKPSC exams. UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all state exams. Free videos, daily MCQs, PYQ analysis, and India's most complete Uttarakhand GK guidebook.",
+  "pageCount": 326,
+  "chapters": [
+    {
+      "number": 1,
+      "titleHindi": "प्राचीन और प्रागैतिहासिक उत्तराखंड",
+      "titleEnglish": "Prehistoric and Ancient Uttarakhand",
+      "pages": "7-20"
+    },
+    {
+      "number": 2,
+      "titleHindi": "चंद वंश और गोरखा शासन",
+      "titleEnglish": "Chand Dynasty and Gorkha Rule",
+      "pages": "23-40"
+    },
+    {
+      "number": 3,
+      "titleHindi": "ब्रिटिश काल और राजनीतिक विकास",
+      "titleEnglish": "British Period and Political Development",
+      "pages": "41-60"
+    },
+    {
+      "number": 4,
+      "titleHindi": "स्वतंत्रता संग्राम",
+      "titleEnglish": "Freedom Struggle",
+      "pages": "61-80"
+    },
+    {
+      "number": 12,
+      "titleHindi": "प्रशासनिक प्रणाली",
+      "titleEnglish": "Administrative System",
+      "pages": "120-135"
+    },
+    {
+      "number": 17,
+      "titleHindi": "पर्यटन और आर्थिक विकास",
+      "titleEnglish": "Tourism and Economic Development",
+      "pages": "178-195"
+    },
+    {
+      "number": 24,
+      "titleHindi": "बुनियादी ढांचा विकास",
+      "titleEnglish": "Infrastructure Development",
+      "pages": "258-275"
+    },
+    {
+      "number": 27,
+      "titleHindi": "शिक्षा और मानव संसाधन विकास",
+      "titleEnglish": "Education and HRD",
+      "pages": "325-326"
+    }
+  ],
+  "sampleChapters": [
+    {
+      "number": 1,
+      "titleHindi": "प्राचीन उत्तराखंड",
+      "titleEnglish": "Ancient Uttarakhand",
+      "pages": "7, 8, 17",
+      "description": "प्रागैतिहासिक काल से प्राचीन राज्यों तक"
+    },
+    {
+      "number": 2,
+      "titleHindi": "चंद वंश",
+      "titleEnglish": "Chand Dynasty",
+      "pages": "23, 24, 25",
+      "description": "उत्तराखंड के शक्तिशाली शासकों का इतिहास"
+    },
+    {
+      "number": 3,
+      "titleHindi": "गोरखा शासन",
+      "titleEnglish": "Gorkha Rule",
+      "pages": "41, 42",
+      "description": "18वीं और 19वीं सदी का परिवर्तनकारी काल"
+    },
+    {
+      "number": 12,
+      "titleHindi": "प्रशासनिक ढांचा",
+      "titleEnglish": "Administrative Structure",
+      "pages": "121, 122",
+      "description": "जिले, तहसील और पंचायत प्रणाली"
+    },
+    {
+      "number": 17,
+      "titleHindi": "पर्यटन क्षेत्र",
+      "titleEnglish": "Tourism Sector",
+      "pages": "178, 179",
+      "description": "उत्तराखंड के प्रमुख पर्यटन स्थल और आर्थिक प्रभाव"
+    },
+    {
+      "number": 24,
+      "titleHindi": "बुनियादी ढांचा",
+      "titleEnglish": "Infrastructure",
+      "pages": "258, 259",
+      "description": "सड़क, पुल और विद्युत विकास परियोजनाएं"
+    },
+    {
+      "number": 27,
+      "titleHindi": "शिक्षा प्रणाली",
+      "titleEnglish": "Education System",
+      "pages": "325, 326",
+      "description": "उच्च शिक्षा संस्थान और कौशल विकास"
+    }
+  ],
+  "appendices": [
+    {
+      "number": 1,
+      "titleHindi": "महत्वपूर्ण नियम और कानून",
+      "titleEnglish": "Important Acts and Laws",
+      "pages": "345, 346"
+    }
+  ],
+  "tableOfContentsPages": "5, 6",
+  "features": [
+    "300+ पृष्ठों की व्यापक गाइड",
+    "सभी परीक्षाओं के लिए प्रासंगिक विषय",
+    "परीक्षा-केंद्रित अध्ययन सामग्री",
+    "नवीनतम सांख्यिकी और डेटा",
+    "महत्वपूर्ण नियम और कानून",
+    "स्मरणीय तथ्य और बिंदु"
+  ],
+  "featuresEnglish": [
+    "300+ pages of comprehensive guide",
+    "Relevant topics for all exams",
+    "Exam-focused study material",
+    "Latest statistics and data",
+    "Important acts and laws",
+    "Memorable facts and pointers"
+  ],
+  "target": "UKPSC PCS, Lower PCS, RO/ARO, UKSSSC और सभी उत्तराखंड परीक्षाएं",
+  "targetEnglish": "UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all Uttarakhand exams",
+  "whatsappMessage": "📚 उत्तराखंड डिकोडेड - हिंदी संस्करण\n\nकिताब खरीदने के लिए धन्यवाद!\n\nनीचे दिए गए विवरण बुक शिपिंग के लिए:\n\nऑर्डर ID: {ORDER_ID}\nनाम: {CUSTOMER_NAME}\nराशि: ₹{AMOUNT}\n📚 संस्करण: हिंदी\n\nआपकी किताब 3-5 कार्य दिवसों में आपके पते पर पहुंचेगी।\n\nधन्यवाद! 🙏"
+}
