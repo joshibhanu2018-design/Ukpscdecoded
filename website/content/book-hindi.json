@@ -1,141 +1,249 @@
 {
   "title": "उत्तराखंड डिकोडेड",
   "subtitle": "हर परीक्षा को क्रैक करें — एक प्लेटफॉर्म से",
-  "titleEnglish": "Uttarakhand Decoded",
   "language": "Hindi",
-  "languageCode": "hi",
   "price": 499,
   "currency": "₹",
+  "pages": 326,
+  "totalChapters": 28,
   "description": "उत्तराखंड की सभी परीक्षाओं के लिए व्यापक तैयारी। UKPSC PCS, निचली PCS, RO/ARO, UKSSSC और सभी राज्य परीक्षाएं। मुफ्त वीडियो, दैनिक MCQ, PYQ विश्लेषण, और भारत की सबसे संपूर्ण उत्तराखंड GK मार्गदर्शिका।",
-  "descriptionEnglish": "Comprehensive preparation for UKPSC exams. UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all state exams. Free videos, daily MCQs, PYQ analysis, and India's most complete Uttarakhand GK guidebook.",
-  "pageCount": 326,
-  "chapters": [
+  "sections": [
     {
-      "number": 1,
-      "titleHindi": "प्राचीन और प्रागैतिहासिक उत्तराखंड",
-      "titleEnglish": "Prehistoric and Ancient Uttarakhand",
-      "pages": "7-20"
+      "name": "भाग A: इतिहास एवं संस्कृति",
+      "chapters": [
+        {
+          "number": 1,
+          "title": "प्रागैतिहासिक एवं आद्य-ऐतिहासिक काल, प्राचीन जनजातियाँ एवं प्रारंभिक राजनीतिक शक्तियाँ",
+          "pages": "1-20"
+        },
+        {
+          "number": 2,
+          "title": "प्राचीन राजवंश — कार्तिकेयपुर, कत्यूरी एवं परमार",
+          "pages": "21-40"
+        },
+        {
+          "number": 3,
+          "title": "चंद राजवंश एवं गोरखा आक्रमण",
+          "pages": "41-60"
+        },
+        {
+          "number": 4,
+          "title": "उत्तराखंड में ब्रिटिश शासन",
+          "pages": "61-75"
+        },
+        {
+          "number": 5,
+          "title": "टिहरी रियासत",
+          "pages": "76-85"
+        },
+        {
+          "number": 6,
+          "title": "राष्ट्रीय आंदोलन एवं स्वतंत्रता सेनानी",
+          "pages": "86-100"
+        },
+        {
+          "number": 7,
+          "title": "जन-आंदोलन, सामाजिक सुधारक एवं राज्यत्व आंदोलन",
+          "pages": "101-115"
+        },
+        {
+          "number": 8,
+          "title": "उत्तराखंड का समाज — परिवार, विवाह, जाति व्यवस्था",
+          "pages": "116-130"
+        },
+        {
+          "number": 9,
+          "title": "लोक संस्कृति — गीत, नृत्य, कला, वाद्य यंत्र",
+          "pages": "131-145"
+        },
+        {
+          "number": 10,
+          "title": "धार्मिक स्थल, मंदिर, मेले एवं त्योहार",
+          "pages": "146-160"
+        }
+      ]
     },
     {
-      "number": 2,
-      "titleHindi": "चंद वंश और गोरखा शासन",
-      "titleEnglish": "Chand Dynasty and Gorkha Rule",
-      "pages": "23-40"
+      "name": "भाग B: राजनीति एवं गवर्नेंस",
+      "chapters": [
+        {
+          "number": 11,
+          "title": "राजनीतिक व्यवस्था — राज्यपाल, मुख्यमंत्री, विधानमंडल, राजनीतिक दल",
+          "pages": "161-175"
+        },
+        {
+          "number": 12,
+          "title": "प्रशासनिक व्यवस्था — शासन संरचना, UKPSC, हाईकोर्ट",
+          "pages": "176-190"
+        },
+        {
+          "number": 13,
+          "title": "स्थानीय स्वशासन — पंचायती राज एवं शहरी निकाय",
+          "pages": "191-205"
+        },
+        {
+          "number": 14,
+          "title": "गुड गवर्नेंस एवं पब्लिक पॉलिसी",
+          "pages": "206-220"
+        }
+      ]
     },
     {
-      "number": 3,
-      "titleHindi": "ब्रिटिश काल और राजनीतिक विकास",
-      "titleEnglish": "British Period and Political Development",
-      "pages": "41-60"
+      "name": "भाग C: भूगोल",
+      "chapters": [
+        {
+          "number": 15,
+          "title": "भौतिक भूगोल — भाग 1 (संरचना, जलवायु, नदियाँ)",
+          "pages": "221-235"
+        },
+        {
+          "number": 16,
+          "title": "भौतिक भूगोल — भाग 2 (मृदा, वनस्पति, ग्लेशियर)",
+          "pages": "236-250"
+        },
+        {
+          "number": 17,
+          "title": "संसाधन एवं कृषि",
+          "pages": "251-265"
+        },
+        {
+          "number": 18,
+          "title": "उद्योग, परिवहन एवं ऊर्जा",
+          "pages": "266-280"
+        },
+        {
+          "number": 19,
+          "title": "पर्यटन, राष्ट्रीय उद्यान एवं वन्यजीव",
+          "pages": "281-295"
+        },
+        {
+          "number": 20,
+          "title": "जनसंख्या, प्रवास एवं शहरीकरण",
+          "pages": "296-310"
+        }
+      ]
     },
     {
-      "number": 4,
-      "titleHindi": "स्वतंत्रता संग्राम",
-      "titleEnglish": "Freedom Struggle",
-      "pages": "61-80"
+      "name": "भाग D: अर्थव्यवस्था",
+      "chapters": [
+        {
+          "number": 21,
+          "title": "अर्थव्यवस्था — विशेषताएँ, GSDP, आय के स्रोत",
+          "pages": "311-320"
+        },
+        {
+          "number": 22,
+          "title": "औद्योगिक विकास एवं MSME",
+          "pages": "321-325"
+        },
+        {
+          "number": 23,
+          "title": "इन्फ्रास्ट्रक्चर",
+          "pages": "326-330"
+        },
+        {
+          "number": 24,
+          "title": "आर्थिक नियोजन, बजट एवं लोक वित्त",
+          "pages": "331-335"
+        },
+        {
+          "number": 25,
+          "title": "प्रमुख आर्थिक समस्याएँ एवं कल्याण कार्यक्रम",
+          "pages": "336-340"
+        }
+      ]
     },
     {
-      "number": 12,
-      "titleHindi": "प्रशासनिक प्रणाली",
-      "titleEnglish": "Administrative System",
-      "pages": "120-135"
-    },
-    {
-      "number": 17,
-      "titleHindi": "पर्यटन और आर्थिक विकास",
-      "titleEnglish": "Tourism and Economic Development",
-      "pages": "178-195"
-    },
-    {
-      "number": 24,
-      "titleHindi": "बुनियादी ढांचा विकास",
-      "titleEnglish": "Infrastructure Development",
-      "pages": "258-275"
-    },
-    {
-      "number": 27,
-      "titleHindi": "शिक्षा और मानव संसाधन विकास",
-      "titleEnglish": "Education and HRD",
-      "pages": "325-326"
+      "name": "भाग E: आपदा प्रबंधन एवं HRD",
+      "chapters": [
+        {
+          "number": 26,
+          "title": "आपदा प्रबंधन",
+          "pages": "341-345"
+        },
+        {
+          "number": 27,
+          "title": "शिक्षा एवं मानव संसाधन विकास (HRD)",
+          "pages": "346-350"
+        },
+        {
+          "number": 28,
+          "title": "स्वास्थ्य",
+          "pages": "351-355"
+        }
+      ]
     }
   ],
   "sampleChapters": [
     {
       "number": 1,
-      "titleHindi": "प्राचीन उत्तराखंड",
-      "titleEnglish": "Ancient Uttarakhand",
-      "pages": "7, 8, 17",
-      "description": "प्रागैतिहासिक काल से प्राचीन राज्यों तक"
+      "title": "प्रागैतिहासिक एवं आद्य-ऐतिहासिक काल",
+      "description": "उत्तराखंड में पाषाण युग, प्रमुख शैल चित्रकला, और प्राचीन मानव निवास के प्रमाण",
+      "pages": "1-20",
+      "highlights": [
+        "पाषाण उपकरण और शैलाश्रय (रॉक शेल्टर)",
+        "लाखु उड्यार की प्रसिद्ध गुफा कला",
+        "भीमबेटका समानताएँ",
+        "ग्वारख्या गुफा की 41 आकृतियाँ"
+      ]
     },
     {
       "number": 2,
-      "titleHindi": "चंद वंश",
-      "titleEnglish": "Chand Dynasty",
-      "pages": "23, 24, 25",
-      "description": "उत्तराखंड के शक्तिशाली शासकों का इतिहास"
-    },
-    {
-      "number": 3,
-      "titleHindi": "गोरखा शासन",
-      "titleEnglish": "Gorkha Rule",
-      "pages": "41, 42",
-      "description": "18वीं और 19वीं सदी का परिवर्तनकारी काल"
-    },
-    {
-      "number": 12,
-      "titleHindi": "प्रशासनिक ढांचा",
-      "titleEnglish": "Administrative Structure",
-      "pages": "121, 122",
-      "description": "जिले, तहसील और पंचायत प्रणाली"
+      "title": "प्राचीन राजवंश — कार्तिकेयपुर, कत्यूरी एवं परमार",
+      "description": "कत्यूरी वंश की स्थापना, प्रमुख शासक, प्रशासनिक व्यवस्था, और सांस्कृतिक योगदान",
+      "pages": "21-40",
+      "highlights": [
+        "700 ईस्वी में बसंत देव द्वारा स्थापना",
+        "निम्बर, ललितसुर देव और भूदेव जैसे महान शासक",
+        "केंद्रीकृत प्रशासनिक संरचना",
+        "भुक्ति, विष और पल्लिका विभाजन"
+      ]
     },
     {
       "number": 17,
-      "titleHindi": "पर्यटन क्षेत्र",
-      "titleEnglish": "Tourism Sector",
-      "pages": "178, 179",
-      "description": "उत्तराखंड के प्रमुख पर्यटन स्थल और आर्थिक प्रभाव"
+      "title": "संसाधन एवं कृषि — वन, जल, खनिज",
+      "description": "उत्तराखंड के वन संसाधन, जलविज्ञान, कृषि प्रणाली और आर्थिक मूल्य",
+      "pages": "251-265",
+      "highlights": [
+        "24,303.83 वर्ग किमी वन क्षेत्र (45.44%)",
+        "भारत के राष्ट्रीय जल संसाधनों का 42%",
+        "12,167 वन पंचायतें (भारत में अद्वितीय)",
+        "कीड़ा जड़ी और औषधीय पौधों का अंतरराष्ट्रीय मूल्य"
+      ]
     },
     {
       "number": 24,
-      "titleHindi": "बुनियादी ढांचा",
-      "titleEnglish": "Infrastructure",
-      "pages": "258, 259",
-      "description": "सड़क, पुल और विद्युत विकास परियोजनाएं"
-    },
-    {
-      "number": 27,
-      "titleHindi": "शिक्षा प्रणाली",
-      "titleEnglish": "Education System",
-      "pages": "325, 326",
-      "description": "उच्च शिक्षा संस्थान और कौशल विकास"
+      "title": "आर्थिक नियोजन, बजट एवं लोक वित्त",
+      "description": "राजकोषीय विकास, बजट संरचना, राजस्व स्रोत और आर्थिक प्रवृत्तियाँ",
+      "pages": "331-335",
+      "highlights": [
+        "2026-27 बजट: 1,11,703 करोड़ रुपये (22 गुना वृद्धि)",
+        "स्वयं कर राजस्व: 25,913 करोड़ रुपये",
+        "राजस्व अधिशेष: 2,536 करोड़ रुपये",
+        "पूँजीगत व्यय: 14,763 करोड़ रुपये (रिकॉर्ड)"
+      ]
     }
   ],
   "appendices": [
     {
-      "number": 1,
-      "titleHindi": "महत्वपूर्ण नियम और कानून",
-      "titleEnglish": "Important Acts and Laws",
-      "pages": "345, 346"
+      "number": "A",
+      "title": "उत्तराखंड समसामयिकी कैप्सूल (2024–2026)",
+      "description": "अंतिम तीन वर्षों की महत्वपूर्ण घटनाएँ और नीतिगत विकास"
+    },
+    {
+      "number": "B",
+      "title": "डेटा एट अ ग्लांस — मुख्य तथ्य एवं आंकड़े",
+      "description": "उत्तराखंड की सारणीबद्ध सूचना और महत्वपूर्ण आँकड़े"
     }
   ],
-  "tableOfContentsPages": "5, 6",
   "features": [
-    "300+ पृष्ठों की व्यापक गाइड",
+    "326 पृष्ठों की व्यापक गाइड",
+    "28 अध्यायों में पूर्ण कवरेज",
     "सभी परीक्षाओं के लिए प्रासंगिक विषय",
     "परीक्षा-केंद्रित अध्ययन सामग्री",
     "नवीनतम सांख्यिकी और डेटा",
     "महत्वपूर्ण नियम और कानून",
-    "स्मरणीय तथ्य और बिंदु"
-  ],
-  "featuresEnglish": [
-    "300+ pages of comprehensive guide",
-    "Relevant topics for all exams",
-    "Exam-focused study material",
-    "Latest statistics and data",
-    "Important acts and laws",
-    "Memorable facts and pointers"
-  ],
-  "target": "UKPSC PCS, Lower PCS, RO/ARO, UKSSSC और सभी उत्तराखंड परीक्षाएं",
-  "targetEnglish": "UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all Uttarakhand exams",
-  "whatsappMessage": "📚 उत्तराखंड डिकोडेड - हिंदी संस्करण\n\nकिताब खरीदने के लिए धन्यवाद!\n\nनीचे दिए गए विवरण बुक शिपिंग के लिए:\n\nऑर्डर ID: {ORDER_ID}\nनाम: {CUSTOMER_NAME}\nराशि: ₹{AMOUNT}\n📚 संस्करण: हिंदी\n\nआपकी किताब 3-5 कार्य दिवसों में आपके पते पर पहुंचेगी।\n\nधन्यवाद! 🙏"
+    "स्मरणीय तथ्य और बिंदु",
+    "अनुमानित 1,748 औषधीय पौधों की जानकारी"
+  ]
 }
