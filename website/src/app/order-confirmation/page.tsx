@@ -1,149 +1,347 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
-import { UPI_ID_GPAY, UPI_ID_PAYTM } from '@/lib/payment';
+import { useState, useEffect } from 'react';
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import {
+  Copy,
+  Check,
+  MessageCircle,
+  Smartphone,
+  QrCode,
+  AlertCircle,
+  Clock,
+} from 'lucide-react';
 
-export default function OrderConfirmationPage() {
-  const [orderData, setOrderData] = useState<any>(null);
+function OrderConfirmationContent() {
+  const searchParams = useSearchParams();
+  const [copied, setCopied] = useState(false);
+  const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    const stored = sessionStorage.getItem('latestOrder');
-    if (stored) {
-      setOrderData(JSON.parse(stored));
+  const orderId = searchParams?.get('orderId') || 'UK' + Date.now();
+  const language = searchParams?.get('language') || 'English';
+
+  const isHindi = language === 'हिंदी';
+
+  const content = {
+    en: {
+      title: 'Payment Confirmation',
+      subtitle: 'Complete your payment to receive your book',
+      orderPlaced: 'Your Order is Confirmed',
+      orderId: 'Order ID',
+      amount: 'Amount to Pay',
+      paymentMethods: 'Choose Your Payment Method',
+      upiId: 'UPI ID (Bank of Baroda)',
+      scanQr: 'Scan QR Code',
+      googlePay: 'Google Pay',
+      phonePe: 'PhonePe',
+      paytm: 'Paytm',
+      utrLabel: 'UTR / Transaction ID',
+      utrPlaceholder: 'Enter your UTR or Transaction ID',
+      uploadScreenshot: 'Upload Payment Screenshot',
+      uploadHint: 'Upload screenshot of successful payment confirmation',
+      uploadButton: 'Choose Screenshot',
+      confirm: 'Confirm Payment',
+      confirming: 'Confirming...',
+      whatsappSupport: 'Need Help? Chat on WhatsApp',
+      whatsappMessage: `Payment Issue - Order ID: ${orderId}\n\nI'm having trouble with my payment. Please help me complete my order for Uttarakhand Decoded book.`,
+      whatsappUpload: 'Send Screenshot via WhatsApp',
+      sendMessage: 'Send Message',
+      tryOtherMethods: '⚠️ Please try at least 2 different payment methods',
+      deliveryInfo: '✅ Free Delivery • 4 Days Shipping',
+      securePayment: 'Secure Payment • No Extra Charges',
+      noScreenshotYet: 'No screenshot selected yet',
+    },
+    hi: {
+      title: 'भुगतान पुष्टि',
+      subtitle: 'अपनी किताब प्राप्त करने के लिए भुगतान पूरा करें',
+      orderPlaced: 'आपका ऑर्डर पुष्ट हो गया',
+      orderId: 'ऑर्डर ID',
+      amount: 'भुगतान की जाने वाली राशि',
+      paymentMethods: 'अपनी भुगतान विधि चुनें',
+      upiId: 'UPI ID (बैंक ऑफ बड़ौदा)',
+      scanQr: 'QR कोड स्कैन करें',
+      googlePay: 'Google Pay',
+      phonePe: 'PhonePe',
+      paytm: 'Paytm',
+      utrLabel: 'UTR / लेनदेन ID',
+      utrPlaceholder: 'अपना UTR या लेनदेन ID दर्ज करें',
+      uploadScreenshot: 'भुगतान स्क्रीनशॉट अपलोड करें',
+      uploadHint: 'सफल भुगतान पुष्टि की स्क्रीनशॉट अपलोड करें',
+      uploadButton: 'स्क्रीनशॉट चुनें',
+      confirm: 'भुगतान की पुष्टि करें',
+      confirming: 'पुष्टि की जा रही है...',
+      whatsappSupport: 'सहायता चाहिए? WhatsApp पर चैट करें',
+      whatsappMessage: `भुगतान समस्या - ऑर्डर ID: ${orderId}\n\nमुझे अपना भुगतान पूरा करने में समस्या हो रही है। कृपया उत्तराखंड डिकोडेड किताब के लिए मेरे ऑर्डर को पूरा करने में मदद करें।`,
+      whatsappUpload: 'WhatsApp के माध्यम से स्क्रीनशॉट भेजें',
+      sendMessage: 'संदेश भेजें',
+      tryOtherMethods: '⚠️ कृपया कम से कम 2 भुगतान तरीकों को आज़माएं',
+      deliveryInfo: '✅ मुफ्त डिलीवरी • 4 दिन की शिपिंग',
+      securePayment: 'सुरक्षित भुगतान • कोई अतिरिक्त शुल्क नहीं',
+      noScreenshotYet: 'अभी तक कोई स्क्रीनशॉट नहीं चुना गया',
     }
-  }, []);
+  };
 
-  if (!orderData) {
-    return <div className="p-8 text-center text-white">Loading order details...</div>;
-  }
+  const txt = content[isHindi ? 'hi' : 'en'];
+  const upiId = '9632662418@ptyes';
+  const amount = 499;
+  const phoneNumber = '918317390586';
 
-  // Google Pay + PhonePe use the SBI account; QR code + Paytm both use the BoB/Paytm account
-  const googlePayLink = `tez://upi/pay?pa=${UPI_ID_GPAY}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const paytmLink = `paytmmp://pay?pa=${UPI_ID_PAYTM}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const phonepeLink = `phonepe://pay?pa=${UPI_ID_GPAY}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const upiLink = `upi://pay?pa=${UPI_ID_PAYTM}&pn=UKPSC%20Decoded&am=${orderData.amount}&cu=INR&tn=Book%20Purchase`;
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
-  const whatsappNumber = '918317390586';
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(upiId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setScreenshotFile(e.target.files[0]);
+    }
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!screenshotFile) {
+      alert(isHindi ? 'कृपया स्क्रीनशॉट अपलोड करें' : 'Please upload a screenshot');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64 = reader.result as string;
+        
+        const response = await fetch('/api/confirm-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId,
+            screenshotBase64: base64,
+            utr: (document.getElementById('utr') as HTMLInputElement)?.value || '',
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert(isHindi ? 'भुगतान की पुष्टि की गई! धन्यवाद।' : 'Payment confirmed! Thank you.');
+          window.location.href = '/';
+        }
+      };
+      reader.readAsDataURL(screenshotFile);
+    } catch (error) {
+      console.error('Error:', error);
+      alert(isHindi ? 'त्रुटि हुई। कृपया पुनः प्रयास करें।' : 'Error occurred. Please try again.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(txt.whatsappMessage)}`;
+  const whatsappUploadLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(`Order ID: ${orderId}\n\nPlease find attached my payment screenshot.`)}`;
+
+  // QR Code generation (simple UPI string)
+  const upiString = `upi://pay?pa=${upiId}&pn=UKPSC%20Decoded&am=${amount}&tn=Uttarakhand%20Decoded%20Book`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-graphite-900 to-graphite-950 text-white py-12 px-4">
-      <div className="max-w-md mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <CheckCircle2 className="w-16 h-16 text-saffron-400 mx-auto mb-4" />
-          <h1 className="heading-lg text-white mb-2">⏳ Complete Your Payment</h1>
-          <p className="text-graphite-400">Your order is saved. Order ID: {orderData.orderId}</p>
+    <div className="min-h-screen bg-gradient-to-b from-graphite-900 via-graphite-800 to-graphite-900 text-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        {/* Order Confirmed Header */}
+        <div className="text-center mb-12">
+          <div className="inline-block bg-jade-500/10 rounded-full p-4 mb-4">
+            <Check className="w-8 h-8 text-jade-400" />
+          </div>
+          <h1 className="text-4xl font-bold mb-2">{txt.orderPlaced}</h1>
+          <p className="text-graphite-400 text-lg">{txt.subtitle}</p>
         </div>
 
         {/* Order Details */}
-        <div className="bg-white/10 border border-white/20 rounded-xl p-6 mb-8">
-          <div className="space-y-3 mb-6">
-            <div className="flex justify-between">
-              <span className="text-graphite-300">Name:</span>
-              <span className="font-semibold">{orderData.customerName}</span>
+        <div className="bg-graphite-800/50 rounded-2xl p-6 sm:p-8 border border-graphite-700/50 mb-8">
+          <div className="grid sm:grid-cols-2 gap-6 mb-6">
+            <div>
+              <p className="text-graphite-400 text-sm mb-1">{txt.orderId}</p>
+              <p className="text-2xl font-bold text-saffron-400">{orderId}</p>
             </div>
-            <div className="flex justify-between">
-              <span className="text-graphite-300">Phone:</span>
-              <span className="font-semibold">{orderData.customerPhone}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-graphite-300">Amount:</span>
-              <span className="font-semibold text-saffron-400">₹{orderData.amount}</span>
+            <div>
+              <p className="text-graphite-400 text-sm mb-1">{txt.amount}</p>
+              <p className="text-2xl font-bold text-saffron-400">₹{amount}</p>
             </div>
           </div>
 
-          {/* QR Code Section */}
-          <div className="bg-white p-6 rounded-lg text-center">
-            <p className="text-graphite-800 text-sm font-semibold mb-4">Scan to Pay Instantly</p>
-            <img
-              src={qrCodeUrl}
-              alt="UPI Payment QR Code"
-              className="w-full rounded-lg"
-            />
-            <p className="text-graphite-600 text-xs mt-3">Works with Google Pay, PhonePe, Paytm</p>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div className="flex items-center gap-2 text-jade-400">
+              <Clock className="w-4 h-4" />
+              <span>{txt.deliveryInfo}</span>
+            </div>
+            <div className="flex items-center gap-2 text-jade-400">
+              <Check className="w-4 h-4" />
+              <span>{txt.securePayment}</span>
+            </div>
           </div>
         </div>
 
-        {/* Payment Escalation Guide — try one, then the next */}
-        <div className="bg-gradient-to-b from-amber-500/15 to-amber-500/5 border-2 border-amber-500/40 rounded-xl p-4 mb-6">
-          <div className="flex justify-center mb-3">
-            <span className="inline-block bg-amber-400 text-graphite-900 font-extrabold text-xs px-3 py-1.5 rounded-full uppercase tracking-wide">
-              ⚠️ Please try at least 2 payment methods
-            </span>
+        {/* Payment Methods Section */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          
+          {/* Left: Payment Options */}
+          <div className="space-y-6">
+            <div className="bg-graphite-800/50 rounded-2xl p-6 sm:p-8 border border-graphite-700/50">
+              <h2 className="text-2xl font-bold mb-6">{txt.paymentMethods}</h2>
+
+              {/* UPI ID Display */}
+              <div className="bg-graphite-700/30 rounded-lg p-4 mb-6">
+                <p className="text-sm text-graphite-400 mb-2">{txt.upiId}</p>
+                <div className="flex items-center gap-2">
+                  <code className="text-lg font-bold text-saffron-400 flex-1">{upiId}</code>
+                  <button
+                    onClick={copyToClipboard}
+                    className="p-2 hover:bg-graphite-600 rounded transition"
+                    title="Copy UPI ID"
+                  >
+                    {copied ? <Check className="w-5 h-5 text-jade-400" /> : <Copy className="w-5 h-5 text-graphite-400" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* QR Code */}
+              <div className="bg-white rounded-lg p-4 mb-6">
+                <div className="flex items-center justify-center">
+                  <div className="text-center">
+                    <QrCode className="w-32 h-32 text-graphite-800 mx-auto" />
+                    <p className="text-graphite-800 text-sm mt-2">{txt.scanQr}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment App Buttons */}
+              <div className="space-y-3 mb-6">
+                <a
+                  href={`upi://pay?pa=${upiId}&pn=UKPSC%20Decoded&am=${amount}&tn=Book`}
+                  className="block w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold text-center transition"
+                >
+                  💙 {txt.googlePay}
+                </a>
+                <a
+                  href={`upi://pay?pa=${upiId}&pn=UKPSC%20Decoded&am=${amount}&tn=Book`}
+                  className="block w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold text-center transition"
+                >
+                  💜 {txt.phonePe}
+                </a>
+                <a
+                  href={`upi://pay?pa=${upiId}&pn=UKPSC%20Decoded&am=${amount}&tn=Book`}
+                  className="block w-full bg-cyan-600 hover:bg-cyan-700 py-3 rounded-lg font-bold text-center transition"
+                >
+                  🔵 {txt.paytm}
+                </a>
+              </div>
+
+              {/* Try Multiple Methods Warning */}
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 flex gap-3">
+                <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-amber-200">{txt.tryOtherMethods}</p>
+              </div>
+            </div>
           </div>
-          <p className="text-amber-300 font-bold text-center text-sm mb-3">
-            If one payment method fails, try the next one below
+
+          {/* Right: Confirmation & WhatsApp */}
+          <div className="space-y-6">
+            
+            {/* Payment Confirmation */}
+            <div className="bg-graphite-800/50 rounded-2xl p-6 sm:p-8 border border-graphite-700/50">
+              <h3 className="text-xl font-bold mb-4">{txt.uploadScreenshot}</h3>
+              <p className="text-graphite-400 text-sm mb-4">{txt.uploadHint}</p>
+
+              {/* UTR Input */}
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2">{txt.utrLabel}</label>
+                <input
+                  id="utr"
+                  type="text"
+                  placeholder={txt.utrPlaceholder}
+                  className="w-full px-4 py-2 rounded-lg bg-graphite-700 border border-graphite-600 text-white placeholder-graphite-500 text-sm focus:outline-none focus:border-saffron-500"
+                />
+              </div>
+
+              {/* Screenshot Upload */}
+              <div className="mb-4">
+                <label className="block">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleScreenshotChange}
+                    className="hidden"
+                  />
+                  <span className="block w-full px-4 py-3 bg-graphite-700 border border-graphite-600 rounded-lg text-center cursor-pointer hover:bg-graphite-600 transition font-semibold">
+                    {screenshotFile ? '✅ ' + screenshotFile.name : txt.uploadButton}
+                  </span>
+                </label>
+              </div>
+
+              {/* Confirm Payment Button */}
+              <button
+                onClick={handleConfirmPayment}
+                disabled={uploading || !screenshotFile}
+                className="w-full py-3 bg-jade-500 hover:bg-jade-600 disabled:opacity-50 rounded-lg font-bold transition"
+              >
+                {uploading ? txt.confirming : txt.confirm}
+              </button>
+            </div>
+
+            {/* WhatsApp Support */}
+            <div className="bg-graphite-800/50 rounded-2xl p-6 sm:p-8 border border-graphite-700/50">
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <MessageCircle className="w-5 h-5 text-green-400" />
+                {txt.whatsappSupport}
+              </h3>
+
+              <div className="space-y-3">
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 hover:bg-green-700 rounded-lg font-bold transition"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  {txt.sendMessage}
+                </a>
+
+                <a
+                  href={whatsappUploadLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-green-700 hover:bg-green-800 rounded-lg font-bold transition"
+                >
+                  <Smartphone className="w-5 h-5" />
+                  {txt.whatsappUpload}
+                </a>
+              </div>
+
+              <p className="text-graphite-400 text-xs mt-4 text-center">
+                {isHindi ? 'हमारी टीम आपको तुरंत सहायता प्रदान करेगी' : 'Our team will assist you immediately'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Info Box */}
+        <div className="bg-graphite-800/50 rounded-2xl p-6 border border-graphite-700/50 text-center">
+          <p className="text-graphite-400 text-sm">
+            {isHindi 
+              ? '✅ भुगतान के बाद, आपकी किताब 3-5 व्यावसायिक दिनों में पहुंच जाएगी।'
+              : '✅ After payment, your book will be delivered within 3-5 business days.'
+            }
           </p>
-          <div className="space-y-2">
-            <div className="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-400 text-graphite-900 font-bold text-xs flex items-center justify-center">1</span>
-              <span className="text-sm text-white">Try <strong>Scan QR Code</strong> above</span>
-            </div>
-            <div className="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-400 text-graphite-900 font-bold text-xs flex items-center justify-center">2</span>
-              <span className="text-sm text-white">QR not working? Try <strong>Google Pay</strong> button below</span>
-            </div>
-            <div className="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-400 text-graphite-900 font-bold text-xs flex items-center justify-center">3</span>
-              <span className="text-sm text-white">Still stuck? Try <strong>Paytm</strong> or <strong>PhonePe</strong> — different bank account, often works when others don't</span>
-            </div>
-
-            {/* Directly clickable WhatsApp escalation link */}
-            <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Payment Issue\n\nOrder ID: ${orderData.orderId}\nName: ${orderData.customerName}\nAmount: ₹${orderData.amount}\n\nI've tried multiple payment methods and none are working. Please help.`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-red-500/20 border-2 border-red-400/60 rounded-lg px-3 py-3 hover:bg-red-500/30 transition-colors"
-            >
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red-400 text-graphite-900 font-bold text-xs flex items-center justify-center">!</span>
-              <span className="text-sm text-white">
-                Tried 2+ methods and still failing? <strong className="text-red-200 underline">👉 Click here to contact us on WhatsApp</strong> — we'll help right away
-              </span>
-            </a>
-          </div>
         </div>
-
-        {/* Payment App Buttons */}
-        <div className="grid grid-cols-3 gap-2 mb-2">
-          <a
-            href={googlePayLink}
-            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
-          >
-            Google Pay
-          </a>
-          <a
-            href={paytmLink}
-            className="block w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg text-center text-sm"
-          >
-            Paytm
-          </a>
-          <a
-            href={phonepeLink}
-            className="block w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg text-center text-sm"
-          >
-            PhonePe
-          </a>
-        </div>
-
-        {/* Fallback note if a payment option fails */}
-        <p className="text-xs text-graphite-400 text-center mb-6">
-          Reminder: Google Pay + PhonePe use one bank account, QR + Paytm use another — if one is stuck, the other usually isn't.
-        </p>
-
-        {/* Big, high-visibility "confirm payment" CTA */}
-        <a
-          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Payment Screenshot\n\nOrder ID: ${orderData.orderId}\nName: ${orderData.customerName}\nAmount: ₹${orderData.amount}\n\nI have completed the payment. Please confirm and send tracking details.`)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-5 rounded-xl text-center shadow-lg shadow-green-500/30 animate-pulse hover:animate-none transition-all"
-        >
-          ✅ Done Paying? Click Here to Share Screenshot & Confirm Your Order
-        </a>
-        <p className="text-center text-graphite-400 text-xs mt-3">
-          Your order isn't confirmed until we receive your payment screenshot — please don't skip this step.
-        </p>
       </div>
     </div>
+  );
+}
+
+export default function OrderConfirmationPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-20 text-white">Loading...</div>}>
+      <OrderConfirmationContent />
+    </Suspense>
   );
 }
