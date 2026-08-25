@@ -12,6 +12,7 @@ function OrderConfirmationContent() {
   const customerEmail = searchParams?.get('email') || '';
   const customerPhone = searchParams?.get('phone') || '';
   const language = searchParams?.get('language') || 'English';
+  const bookEdition = language === 'हिंदी' ? 'हिंदी संस्करण' : 'English Edition';
 
   const isHindi = language === 'हिंदी';
   const upiId = '9632662418@ptyes';
@@ -24,14 +25,14 @@ function OrderConfirmationContent() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // UPI deep links - PhonePe & Paytm only
   const phonePeLink = `phonepe://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
   const paytmLink = `paytm://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
   const upiLink = `upi://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
 
+  // UPDATED WhatsApp message with Book Edition (removed email)
   const whatsappMessage = isHindi
-    ? `नमस्ते 👋\n\nमैंने अपना भुगतान पूरा कर दिया है।\n\nनाम: ${customerName}\nईमेल: ${customerEmail}\nफोन: ${customerPhone}\nऑर्डर ID: ${orderId}`
-    : `Hi 👋\n\nI have completed my payment.\n\nName: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}\nOrder ID: ${orderId}`;
+    ? `नमस्ते 👋\n\nमैंने अपना भुगतान पूरा कर दिया है।\n\nनाम: ${customerName}\nफोन: ${customerPhone}\nऑर्डर ID: ${orderId}\nकिताब संस्करण: ${bookEdition}\n\nकृपया मेरा स्क्रीनशॉट संलग्न देखें।`
+    : `Hi 👋\n\nI have completed my payment.\n\nName: ${customerName}\nPhone: ${customerPhone}\nOrder ID: ${orderId}\nBook Edition: ${bookEdition}\n\nPlease find my screenshot attached.`;
 
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -68,38 +69,24 @@ function OrderConfirmationContent() {
             </div>
           </div>
 
-          {/* QR Code */}
           <div className="bg-white rounded-lg p-6 mb-8 flex justify-center">
             <div className="text-center">
               <p className="text-graphite-800 font-bold mb-4">{isHindi ? 'या QR स्कैन करें' : 'Or Scan QR'}</p>
-              <img 
-                src="https://lh3.googleusercontent.com/d/1XRZxaaYIu50JOMpddgu_EFq5ibVQoJF2?raw=true" 
-                alt="UPI QR Code" 
-                className="w-56 h-56 mx-auto"
-              />
+              <img src="https://lh3.googleusercontent.com/d/1XRZxaaYIu50JOMpddgu_EFq5ibVQoJF2?raw=true" alt="UPI QR Code" className="w-56 h-56 mx-auto" />
             </div>
           </div>
 
-          {/* Payment Buttons - PhonePe & Paytm Only */}
           <div className="space-y-3">
-            <button
-              onClick={handlePaymentClick(phonePeLink)}
-              className="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-3"
-            >
+            <button onClick={handlePaymentClick(phonePeLink)} className="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-3">
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white"><path d="M12 3 L20 9 L20 15 Q12 21 4 15 L4 9 Z" stroke="white" fill="none" strokeWidth="2"/></svg>
               PhonePe
             </button>
 
-            <button
-              onClick={handlePaymentClick(paytmLink)}
-              className="w-full bg-cyan-600 hover:bg-cyan-700 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-3"
-            >
+            <button onClick={handlePaymentClick(paytmLink)} className="w-full bg-cyan-600 hover:bg-cyan-700 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-3">
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white"><rect x="4" y="4" width="16" height="16" rx="2" stroke="white" strokeWidth="2"/></svg>
               Paytm
             </button>
           </div>
-
-          <p className="text-graphite-400 text-sm mt-4 text-center">{isHindi ? 'अपने डिवाइस पर ऐप खुलेगा या कोई भी UPI ऐप चुनें' : 'App will open on your device or choose any UPI app'}</p>
         </div>
 
         <div className="flex justify-center mb-8"><ArrowDown className="w-8 h-8 text-saffron-400 animate-bounce" /></div>
@@ -108,12 +95,7 @@ function OrderConfirmationContent() {
         <div className="bg-green-900/30 rounded-2xl p-8 border-2 border-green-600/50">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-3"><div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center font-bold text-sm">2</div>{isHindi ? 'WhatsApp पर भेजें' : 'Send on WhatsApp'}</h2>
           <p className="text-graphite-300 mb-8 text-lg">{isHindi ? '📸 अपना भुगतान स्क्रीनशॉट WhatsApp पर हमें भेजें।' : '📸 Send your payment screenshot to us on WhatsApp.'}</p>
-          <a
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 w-full py-6 bg-green-600 hover:bg-green-700 rounded-xl font-bold text-xl"
-          >
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full py-6 bg-green-600 hover:bg-green-700 rounded-xl font-bold text-xl">
             <MessageCircle className="w-8 h-8" />
             {isHindi ? 'WhatsApp पर संदेश भेजें' : 'Send Message on WhatsApp'}
           </a>
@@ -123,7 +105,7 @@ function OrderConfirmationContent() {
         <div className="bg-graphite-800/50 rounded-lg p-6 border border-graphite-700/50 mt-8 text-center">
           <p className="text-graphite-400 mb-2">{isHindi ? 'ऑर्डर ID' : 'Order ID'}</p>
           <p className="text-2xl font-bold text-saffron-400 mb-4">{orderId}</p>
-          <p className="text-graphite-300">₹{amount} • {isHindi ? '4 दिन में डिलीवरी' : '4 Day Delivery'}</p>
+          <p className="text-graphite-300">₹{amount} • {isHindi ? '4 दिन में डिलीवरी' : '4 Day Delivery'} • {bookEdition}</p>
         </div>
       </div>
     </div>
