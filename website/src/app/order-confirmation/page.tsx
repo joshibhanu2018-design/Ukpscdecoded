@@ -24,8 +24,7 @@ function OrderConfirmationContent() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // UPI deep links
-  const googlePayLink = `tez://upi/pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
+  // UPI deep links - PhonePe & Paytm only
   const phonePeLink = `phonepe://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
   const paytmLink = `paytm://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
   const upiLink = `upi://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
@@ -81,21 +80,13 @@ function OrderConfirmationContent() {
             </div>
           </div>
 
-          {/* Payment Buttons */}
+          {/* Payment Buttons - PhonePe & Paytm Only */}
           <div className="space-y-3">
-            <button
-              onClick={handlePaymentClick(googlePayLink)}
-              className="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-3"
-            >
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1" fill="none"/></svg>
-              Google Pay
-            </button>
-
             <button
               onClick={handlePaymentClick(phonePeLink)}
               className="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-3"
             >
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white"><path d="M12 3 L20 9 L20 15 Q12 21 4 15 L4 9 Z" stroke="white" fill="none"/></svg>
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white"><path d="M12 3 L20 9 L20 15 Q12 21 4 15 L4 9 Z" stroke="white" fill="none" strokeWidth="2"/></svg>
               PhonePe
             </button>
 
@@ -103,10 +94,12 @@ function OrderConfirmationContent() {
               onClick={handlePaymentClick(paytmLink)}
               className="w-full bg-cyan-600 hover:bg-cyan-700 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-3"
             >
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white"><rect x="4" y="4" width="16" height="16" rx="2" stroke="white" strokeWidth="2"/></svg>
               Paytm
             </button>
           </div>
+
+          <p className="text-graphite-400 text-sm mt-4 text-center">{isHindi ? 'अपने डिवाइस पर ऐप खुलेगा या कोई भी UPI ऐप चुनें' : 'App will open on your device or choose any UPI app'}</p>
         </div>
 
         <div className="flex justify-center mb-8"><ArrowDown className="w-8 h-8 text-saffron-400 animate-bounce" /></div>
