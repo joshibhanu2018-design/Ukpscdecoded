@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { BookOpen, ShieldCheck, Loader2, Clock, Truck, Zap, CheckCircle2, X, List } from 'lucide-react';
 import CountdownBanner from '@/components/CountdownBanner';
 
-// YOUR EXACT CONTENT - NOT PLACEHOLDER
 const chapterContent = {
   en: {
     1: {
@@ -45,116 +44,319 @@ Inscriptions are the most reliable primary sources for reconstructing Uttarakhan
 
 *This is a free sample from Chapter 1. The full guidebook covers every dynasty, tribe and archaeological site with exam-ready tables.*`
     },
-    21: {
-      label: "Chapter 21 — Economy",
-      title: "The Uttarakhand Economic Model",
-      content: `## The Uttarakhand Economic Model
+    2: {
+      label: "Chapter 2 — Ancient Dynasties",
+      title: "Katyuri Dynasty: Administrative & Architectural Excellence",
+      content: `## Katyuri Dynasty: Administrative Structure & Legacy
 
-Since its formation on 9 November 2000, Uttarakhand's economy has undergone a **26-fold transformation** — from a subsistence "Money Order Economy" to a diversified Himalayan growth model driven by manufacturing, tourism and services.
+### Organizational Hierarchy
 
-### Key Characteristics
+The Katyuri administrative system was highly centralized and hierarchical, with the following structure at its apex:
 
-1. **Service-sector dominance**: over 50% of GSDP from the tertiary sector.
-2. **Manufacturing corridor**: concentrated in the Haridwar–US Nagar–Dehradun (SIDCUL) belt.
-3. **Primary-sector crisis**: agriculture is under 10% of GSDP but employs ~58% of the rural workforce.
-4. **Per capita income**: consistently above the national average.
-5. **Environmental innovation**: First state globally to index Gross Environmental Product (GEP).
+**Regional Division:**
+- **Bhukti** (Provinces) → administered by an **Uparika**
+- **Visha** (Jurisdictions) → managed by a **Vishpati**  
+- **Pallika** (Villages) → overseen by a **Mahattam** or **Sayan**
 
-### GSDP at Current Prices
+### Key Administrative Officers
 
-| Year | GSDP (₹ Thousand Crore) | Growth (%) |
-|---|---|---|
-| 2000-01 | ~14.79 | — |
-| 2021-22 | 254.00 | 8.19% |
-| 2023-24 | 346.20 | 7.58% |
-| 2025-26 (Projected) | 381.89 | 7.23% |
+| Official | Responsibility |
+|---|---|
+| **Saudabhangadhikrita** | Chief architect of royal construction projects |
+| **Prantpal** | Defender of kingdom borders |
+| **Ghattpal** | Guardian of mountain passes |
+| **Narpati** | Manager of river crossings and toll collection |
+| **Akshpatlik** | Chief auditor and accountant |
+| **Bhogpati** | Tax collector |
+| **Bhatt & Char** | Officials responsible for conscripting labor (begar) |
+| **Pramavatar** | Land measurement officer |
 
-### Per Capita Income (PCI)
+### Military Organization
 
-| Year | Uttarakhand PCI (₹) | National PCI (₹) |
-|---|---|---|
-| 2023-24 | 2,60,201 | — |
-| 2025-26 (Est.) | 2,73,921 | 2,19,575 |
+The Katyuri army consisted of **four divisions**:
+- **Paidal Sena** (Infantry) — led by **Gaulmik**
+- **Ashvabal** (Cavalry) — commanded by **Ashvabaladhikrita**
+- **Hastibal** (Elephant Corps) — led by **Hastibaldhikrita**
+- **Ushtrabal** (Camel Corps) — under **Ushtrabaladhikrita**
 
-### Sectoral Contribution to GSDP (2025-26)
+---
 
-| Sector | Contribution (%) | Growth (%) |
-|---|---|---|
-| Primary | 9.59% | 2.06% |
-| Secondary | 39.95% | 7.98% |
-| Tertiary | 50.46% | 11.11% |
+## Comparative Analysis: Four Rulers of Uttarakhand
 
-*This is a free sample from Chapter 21. The full book covers the budget, SANTULAN / GYAN frameworks, reforms and schemes.*`
+| Criteria | Katyuri Dynasty | Parmar Dynasty (Garhwal) | Chand Dynasty (Kumaon) | Gorkha Rule |
+|---|---|---|---|---|
+| **Nature** | First unified monarchy | Regional monarchy (Garhwal) | Regional monarchy (Kumaon) | Foreign military occupation |
+| **Territory** | Unified Uttarakhand | Garhwal only | Kumaon only | Both Kumaon & Garhwal |
+| **Period** | 700–11th century CE | 688–1804 CE | ~700–1790 CE | 1790–1815 |
+| **Founder** | Basant Dev | Kanakpal | Somchand | Nepal's King (as administrator) |
+| **Greatest Ruler** | Lalit Suri Dev | Fateh Shah / Ajay Pal | Jagat Chand / Rudra Chand | — |
+| **First Capital** | Joshimath | Chandpur Garhi | Champawat | Almora (Subedar's seat) |
+| **Final Capital** | Baijnath | Srinagar | Almora | — |
+| **Golden Age** | Entire period (Architecture) | Fateh Shah's reign | Jagat Chand's reign | Dark age |
+| **Taxation** | Land-based via Bhogpati | Tihar (1/3 of production) | Galla-Chhahara (1/6 of production) | Pungdi tax (arbitrary, heavy) |
+| **Justice System** | King supreme | King supreme; village panchayats → Dewan's court | Two formal courts: Nyowali + Bishtali | No codified law; divine tests (fire trials) |
+| **Architecture** | Temple design (Nagar style) | Garhwal painting school (Mola Ram) | Stone carving & naulas (water conservation) | Destruction of local culture |
+| **Decline Cause** | Nepali invasions + weak successors | Natural disasters + conspiracies + Gorkha invasions | Weak rulers + Harsh Dev Joshi's betrayal + Gorkha invasions | British military superiority (Anglo-Gorkha War) |
+
+*This is a free sample from Chapter 2. The full guidebook covers administrative hierarchies, military structures, tax systems, and architectural achievements.*`
     },
-    16: {
-      label: "Geography — Natural Vegetation",
-      title: "Natural Vegetation — Altitudinal Zonation",
-      content: `## Geography: Natural Vegetation — Altitudinal Zonation
+    3: {
+      label: "Chapter 3 — Gorkha War & Liberation",
+      title: "Anglo-Gorkha War (1814–1815) & Uttarakhand's Freedom",
+      content: `## The Gorkha Conquest & Anglo-Gorkha War (1814–1815)
 
-Uttarakhand's forests change with altitude, forming five distinct zones from the tropical foothills to the alpine meadows.
+### Background: Gorkha Expansion & British Response
 
-### Five Altitude Zones
+Gorkha expansion westward collided with British East India Company interests when Gorkha forces, under Nepal's King Girvan Yuddha Bikram Shah, annexed both Kumaon (1790) and Garhwal (1803) territories. The British Governor-General declared war on Gorkha forces in 1814.
 
-| Zone | Altitude | Forest Type | Key Species |
+### The Battle of Khalanga (Nalapani), Dehradun
+
+**Date:** October 1814  
+**Significance:** The most celebrated engagement of the Anglo-Gorkha War
+
+The British Army under **Major General Gillespie** attacked the **Khalanga Fort** (also called Nalapani), defended by **Captain Balhadur Thapa** with only **500 Gorkha soldiers**.
+
+**Key Events:**
+- General Gillespie was **killed on October 31, 1814** during direct assault
+- British victory achieved only by **cutting off the fort's water supply** — a testament to Gorkha resistance
+- Both sides displayed extraordinary valor recognized by the British erection of the **Khalanga War Memorial in Dehradun** — unique in military history for honoring both victors and vanquished
+
+### Treaty of Sugauli (May 4, 1816)
+
+The formal treaty between Britain and Nepal concluded the war. It resulted in territorial reorganization:
+
+| Territory | Outcome |
+|---|---|
+| **Eastern Garhwal (Pauri)** | Remained under British East India Company |
+| **Western Garhwal** | Returned to Sudarshan Shah as Tehri Kingdom |
+| **Entire Kumaon** | British annexation (later Kumaon Division) |
+
+This treaty formally liberated Uttarakhand from Gorkha occupation and initiated the British colonial period.
+
+---
+
+## Master Comparative Table: All Four Rulers of Uttarakhand
+
+| Criterion | Katyuri Dynasty | Parmar Dynasty (Garhwal) | Chand Dynasty (Kumaon) | Gorkha Rule |
+|---|---|---|---|---|
+| **Primary Strength** | Administrative sophistication & unified vision | Military prowess & cultural patronage | Longevity (790 years) & local legitimacy | Military efficiency & rapid conquest |
+| **Tax System** | Sophisticated, codified | Simple (tihar) | Detailed (36 codified taxes) | Arbitrary & oppressive (pungdi) |
+| **Justice** | Hierarchical (King → Dewan → Village) | King-led with panchayat input | Formal dual courts (Nyowali & Bishtali) | Divine ordeals (fire tests) |
+| **Cultural Peak** | Temple architecture (Nagar style) | Garhwal painting (Mola Ram school) | Stone carving & water infrastructure | Cultural destruction |
+| **Fall Reason** | External (Nepali invasions) + Internal (weak heirs) | Mixed (natural disasters + conspiracies + Gorkha pressure) | External (Gorkha invasion) + Internal (betrayal by Harsh Dev Joshi) | External (British military superiority) |
+| **Legacy** | Architectural monuments (Jageshwar, Baijnath) | Artistic traditions (miniature painting) | Administrative precedent & fort systems | Trauma & institutional collapse |
+
+*This is a free sample from Chapter 3. The full guidebook provides detailed military analysis, biographical accounts of rulers, and strategic assessments of each dynasty's fall.*`
+    }
+  },
+  hi: {
+    1: {
+      label: "अध्याय 1 — इतिहास",
+      title: "प्रागैतिहासिक एवं आद्य-ऐतिहासिक काल, प्राचीन जनजातियाँ तथा प्रारंभिक राजनीतिक शक्तियाँ",
+      content: `## विषय-सूची (इंडेक्स)
+
+### भाग A: इतिहास एवं संस्कृति (पेपर V)
+
+| क्र. | अध्याय शीर्षक |
+|-----|--------|
+| 1 | प्रागैतिहासिक एवं आद्य-ऐतिहासिक काल, प्राचीन जनजातियाँ एवं प्रारंभिक राजनीतिक शक्तियाँ |
+| 2 | प्राचीन राजवंश — कार्तिकेयपुर, कत्यूरी एवं परमार |
+| 3 | चंद राजवंश एवं गोरखा आक्रमण |
+| 4 | उत्तराखंड में ब्रिटिश शासन |
+| 5 | टिहरी रियासत |
+| 6 | राष्ट्रीय आंदोलन एवं स्वतंत्रता सेनानी |
+| 7 | जन-आंदोलन, सामाजिक सुधारक एवं राज्यत्व आंदोलन |
+| 8 | उत्तराखंड का समाज — परिवार, विवाह, जाति व्यवस्था |
+| 9 | लोक संस्कृति — गीत, नृत्य, कला, वाद्य यंत्र |
+| 10 | धार्मिक स्थल, मंदिर, मेले एवं त्योहार |
+
+### भाग B: राजनीति एवं गवर्नेंस (पेपर V)
+
+| क्र. | अध्याय शीर्षक |
+|-----|--------|
+| 11 | राजनीतिक व्यवस्था — राज्यपाल, मुख्यमंत्री, विधानमंडल, राजनीतिक दल |
+| 12 | प्रशासनिक व्यवस्था — शासन संरचना, UKPSC, हाईकोर्ट |
+| 13 | स्थानीय स्वशासन — पंचायती राज एवं शहरी निकाय |
+| 14 | गुड गवर्नेंस एवं पब्लिक पॉलिसी |
+
+---
+
+### भाग C: भूगोल (पेपर VI)
+
+| क्र. | अध्याय शीर्षक |
+|-----|--------|
+| 15 | भौतिक भूगोल — भाग 1 (संरचना, जलवायु, नदियाँ) |
+| 16 | भौतिक भूगोल — भाग 2 (मृदा, वनस्पति, ग्लेशियर) |
+| 17 | संसाधन एवं कृषि |
+| 18 | उद्योग, परिवहन एवं ऊर्जा |
+| 19 | पर्यटन, राष्ट्रीय उद्यान एवं वन्यजीव |
+| 20 | जनसंख्या, प्रवास एवं शहरीकरण |
+
+### भाग D: अर्थव्यवस्था (पेपर VI)
+
+| क्र. | अध्याय शीर्षक |
+|-----|--------|
+| 21 | अर्थव्यवस्था — विशेषताएँ, GSDP, आय के स्रोत |
+| 22 | औद्योगिक विकास एवं MSME |
+| 23 | इन्फ्रास्ट्रक्चर |
+| 24 | आर्थिक नियोजन, बजट एवं पब्लिक फाइनेंस |
+| 25 | प्रमुख आर्थिक समस्याएँ एवं कल्याण कार्यक्रम |
+
+### भाग E: आपदा प्रबंधन एवं HRD (पेपर VI)
+
+| क्र. | अध्याय शीर्षक |
+|-----|--------|
+| 26 | आपदा प्रबंधन |
+| 27 | शिक्षा एवं मानव संसाधन विकास (HRD) |
+| 28 | स्वास्थ्य |
+
+---
+
+## 1.1 उत्तराखंड में पाषाण युग
+
+उत्तराखंड के प्रागैतिहासिक काल का पुनर्निर्माण मुख्य रूप से **पाषाण उपकरणों** और **शैलाश्रयों (रॉक शेल्टर)** के माध्यम से किया गया है। अलकनंदा घाटी में डांग और स्वीट जैसे स्थलों पर, पुरातत्वविदों ने हाथ की कुल्हाड़ियाँ, छेदक (चॉपर) और खुरचनी बरामद की हैं — जो उच्च हिमालय में प्रारंभिक मानव निवास की पुष्टि करती हैं।
+
+## 1.2 प्रमुख प्रागैतिहासिक शैल चित्रकला एवं गुफा आश्रय
+
+### A. अल्मोड़ा जनपद — शैल कला का केंद्र
+
+| स्थल | खोजकर्ता | वर्ष | प्रमुख विशेषताएँ |
 |---|---|---|---|
-| Tropical | Below 1,000m | Moist/Dry Deciduous (Terai-Bhabar) | Sal (dominant), Khair, Shisham, Haldu, Bamboo |
-| Subtropical | 1,000–2,000m | Coniferous (Pine forests) | Chir Pine (Pinus roxburghii) — near-total dominance |
-| Temperate | 2,000–3,000m | Moist Evergreen + Coniferous | Banj/Moru/Kharsu Oak, Deodar, Buransh, Cypress |
-| Sub-Alpine | 3,000–3,600m | High-level forests | Birch (Bhojpatra), Silver Fir, Juniper, Willow |
-| Alpine | Above 3,600m | Tundra → Perpetual ice | Bugyals: grasses, mosses, lichens, Blue Poppy, Brahma Kamal |
+| **लाखु उड्यार (गुफा)** | डॉ. एम.पी. जोशी | 1968 | सुयाल नदी पर भदीछीना के निकट डालबंद; नृत्य करते और पशुओं का पीछा करते मानवों का चित्रण; तीन रंग परतें — सफेद (ऊपर), भूरा-लाल/गुलाबी (मध्य), काला (नीचे) |
+| **कसार देवी मंदिर** | — | — | कश्यप पर्वत पर स्थित; **14 नर्तकों** का चित्रण |
+| **फड़का नौली** | डॉ. यशोधर मठपाल | 1985 | कई महत्वपूर्ण शैलाश्रय |
+| **पेटशाला** | डॉ. यशोधर मठपाल | 1989 | शैलाश्रय समूह |
+| **फल्सीमा** | — | — | **योग एवं नृत्य** दोनों मुद्राओं में मानवों का अनूठा चित्रण |
 
-Vegetation ceases entirely in the perpetually frozen zone above 4,800 m.
+### B. चमोली जनपद
 
-### ISFR 2023 (18th Report) — Key Data
+राकेश भट्ट द्वारा खोजी गई **ग्वारख्या गुफा**, थराली तहसील के डुगरी गाँव में अलकनंदा नदी के निकट स्थित है। इसमें कुल **41 आकृतियाँ** हैं — 33 मानव और 8 पशु।
 
-Total forest cover is **24,303.83 sq. km — 45.44%** of the state's area. Very Dense Forest rose by 211.57 sq. km, while Moderately Dense Forest fell by 250.42 sq. km — a "hollowing out" of the middle canopy.
+### C. उत्तरकाशी जनपद
 
-### Species Dominance (ISFR 2023)
+**हुडली** का शैल कला स्थल उत्तराखंड के अन्य स्थलों से वास्तुशिल्प की दृष्टि से भिन्न है, यहाँ दुर्लभ **नीले रंग** के शैल चित्र मिले हैं।
 
-| Rank | By Volume (%) | By Number (RFA) |
-|---|---|---|
-| 1st | Chir Pine (28.72%) | Chir Pine (1,93,883) |
-| 2nd | Sal (18.71%) | Banj Oak (1,57,597) |
-| 3rd | Banj Oak (8.29%) | Sal (90,283) |
-
-*This is a free sample from the Geography section (Chapter 16). The full book also covers soils, glaciers, lakes and climate change — plus the Pirul Paradox and fire vulnerability.*`
+*यह अध्याय 1 का एक मुक्त नमूना है। संपूर्ण गाइडबुक हर राजवंश, जनजाति और पुरातात्विक स्थल को परीक्षा के लिए तैयार तालिकाओं के साथ कवर करती है।*`
     },
-    27: {
-      label: "Chapter 27 - Education",
-      title: "Issues in Education Sector",
-      content: `## Education System Problems and Challenges
+    2: {
+      label: "अध्याय 2 — कत्यूरी राजवंश",
+      title: "कत्यूरी वंश एवं गढ़वाल का परमार वंश",
+      content: `## कार्तिकेयपुर (कत्यूरी) वंश (700 ईस्वी – 11वीं शताब्दी)
 
-The "Himalayan distance penalty" and mass out-migration (Palayan) have created deep structural bottlenecks that make Uttarakhand's education challenges fundamentally different from plain-area states.
+कार्तिकेयपुर वंश, जिसे सामान्यतः कत्यूरी वंश के नाम से जाना जाता है, उत्तराखंड का प्रथम एकीकृत ऐतिहासिक वंश होने का गौरव रखता है।
 
-### Master Problem Table
+## 2.1 स्थापना एवं प्रमुख शासक
 
-| Problem | Nature | Scale / Data |
+इस वंश की स्थापना लगभग 700 ईस्वी में बसंत देव ने की थी। शासकों ने *परमभट्टारक महाराजाधिराज परमेश्वर* की शाही उपाधि धारण की, जो क्षेत्र पर सर्वोच्च संप्रभुता के उनके दावे को दर्शाती है।
+
+तीन शासक विशेष रूप से उल्लेखनीय हैं:
+- **निम्बर वंश के इष्टगण** — संपूर्ण उत्तराखंड क्षेत्र को एकीकृत करने वाले प्रथम शासक
+- **ललितसुर देव** — सबसे शक्तिशाली शासक और प्रचुर निर्माणकर्ता
+- **भूदेव** — ब्राह्मणवाद के दृढ़ समर्थक और बैजनाथ मंदिर के निर्माणकर्ता
+
+## 2.2 प्रशासन एवं सैन्य संरचना
+
+### क्षेत्रीय विभाजन
+
+कत्यूरी प्रशासनिक व्यवस्था अत्यंत केंद्रीकृत एवं पदानुक्रमिक थी:
+- **भुक्तियाँ** (प्रांत) → प्रबंधक: **उपरिक**
+- **विषय** (जनपद) → प्रबंधक: **विषपति**
+- **पल्लिकाएँ** (गाँव) → प्रमुख: **महत्तम** या **सयान**
+
+### प्रमुख प्रशासनिक अधिकारी
+
+| अधिकारी | जिम्मेदारी |
+|---|---|
+| **सौदाभंगाधिकृत** | राजकीय निर्माण परियोजनाओं के मुख्य वास्तुकार |
+| **प्रांतपाल** | राज्य सीमाओं का रक्षक |
+| **घट्टपाल** | पर्वतीय दर्रों का रक्षक |
+| **नरपति** | नदी घाटों का प्रबंधक एवं पार-शुल्क वसूल करने वाला |
+| **अक्षपटलिक** | मुख्य लेखा परीक्षक |
+| **भोगपति** | कर संग्रहकर्ता |
+| **भट्ट और चर** | बेगार (जबरन श्रम) निकलवाने के लिए जिम्मेदार |
+| **प्रमावतार** | भूमि माप अधिकारी |
+
+### सैन्य विभाजन
+
+कत्यूरी सेना **चार विभागों** में संगठित थी:
+- **गौल्मिक** (पैदल सेना)
+- **अश्वबलाधिकृत** (घुड़सवार सेना)
+- **हस्तिबलाधिकृत** (गज सेना)
+- **उष्ट्रबलाधिकृत** (ऊँट सेना)
+
+## 2.3 स्थापत्य कला — मंदिर निर्माण का चरमोत्कर्ष
+
+कत्यूरी काल उत्तराखंड के स्थापत्य स्वर्ण युग का प्रतिनिधित्व करता है।
+
+**प्रमुख स्थापत्य स्थल:**
+- **जागेश्वर:** 100 से अधिक मंदिर (नागर और शिखर दोनों शैलियाँ)
+- **द्वाराहाट (गुजर देवल):** शिखर शैली का अतुलनीय उदाहरण
+- **कटारमल सूर्य मंदिर:** भारत का दूसरा सबसे बड़ा सूर्य मंदिर
+- **बैजनाथ:** मुख्य शिव मंदिर के साथ 17 सहायक मंदिर
+
+*यह अध्याय 2 का एक मुक्त नमूना है। संपूर्ण गाइडबुक प्रशासनिक पदानुक्रमों, सैन्य संरचनाओं, कर प्रणालियों और स्थापत्य उपलब्धियों को विस्तार से कवर करती है।*`
+    },
+    3: {
+      label: "अध्याय 3 — चंद राजवंश एवं गोरखा आक्रमण",
+      title: "आंग्ल-गोरखा युद्ध एवं उत्तराखंड की मुक्ति (1814–1815)",
+      content: `## गोरखा विजय एवं आंग्ल-गोरखा युद्ध (1814–1815)
+
+### पृष्ठभूमि: गोरखा विस्तार एवं ब्रिटिश प्रतिक्रिया
+
+गोरखा विस्तार पश्चिमी दिशा में बढ़ा जब गोरखा बलों ने 1790 में कुमाऊं और 1803 में गढ़वाल को अनेषित किया। ब्रिटिश गवर्नर-जनरल ने 1814 में गोरखा बलों के विरुद्ध युद्ध की घोषणा की।
+
+## 3.1 खलंगा (नालापानी) का युद्ध, देहरादून
+
+**तारीख:** अक्टूबर 1814  
+**महत्व:** आंग्ल-गोरखा युद्ध का सबसे प्रसिद्ध संघर्ष
+
+ब्रिटिश सेना **मेजर जनरल गिलेस्पी** के अधीन देहरादून के **खलंगा किले** पर आक्रमण किया, जिसकी रक्षा **कैप्टन बलभद्र थापा** मात्र **500 गोरखा सैनिकों** के साथ कर रहे थे।
+
+### प्रमुख घटनाएँ:
+
+| घटना | तारीख | महत्व |
 |---|---|---|
-| Ghost Teachers | Teachers appointed to remote schools live in plains; sub-let duties to unqualified locals | Severe governance failure; "No work-No pay" policy introduced |
-| Single-Digit Enrollments | Mass migration emptied hill primary schools | 826+ schools permanently closed over 5 years; 2,655 schools run on single teacher |
-| Single Teacher Schools | Critical shortage of educators in remote areas | 2,655 primary schools; 28,000+ students pedagogically vulnerable |
-| Stalled School Mergers | "Cluster Schools" policy announced but infrastructure within 5-10 km stalled | Terrain difficulties and administrative delays |
-| Human-Wildlife Conflict | Wildlife attacks disrupt children's schooling in rural areas | Critical need for transport support and closer schooling |
-| Topographical Accessibility | Plain-area population thresholds fail to account for "distance penalty" | Strong demand for hill-specific norms |
-| Contractualization | Increasing contractual teachers and Class IV workers | Impacts job security and institutional stability |
-| RTE Implementation Gaps | Delayed payments, "neighborhood tracking" difficulties in sparse habitations | Private schools face long delays in per-child reimbursements |
-| Infrastructure Deficits | Many schools lack safe drinking water, functional girls' toilets, boundary walls | "PEVD Paradox" (Planning-Execution-Verification-Delivery failure) |
-| Learning Poverty | Rote-based curriculum; students not trained in local value chains | Despite high literacy, employability remains low |
-| Emerging Social Threats | Rising drug/alcohol usage among youth | Threatens to derail demographic dividend |
-| Budget Surrenders | Departments return unspent allocations while infrastructure gaps persist | ₹2,366 crore returned by departments |
+| गिलेस्पी की मृत्यु | 31 अक्टूबर 1814 | युद्ध में सेनापति की मृत्यु |
+| किले पर कब्जा | नवंबर 1814 | ब्रिटिश विजय (जल आपूर्ति काटकर) |
+| खलंगा स्मारक निर्माण | बाद में | विजेताओं और पराजितों दोनों को सम्मानित करने के लिए अद्वितीय |
 
-### The "Ghost Teacher" Phenomenon
+गिलेस्पी 31 अक्टूबर 1814 को युद्ध में मारे गए। अंग्रेज अंततः केवल किले की पेयजल आपूर्ति काटकर ही विजयी हुए।
 
-The "Ghost Teacher" phenomenon involves teachers appointed to remote hill schools who live in the plains and sub-let their duties to unqualified locals for a fraction of their salary, severely compromising education quality in remote areas. Tech-driven reforms now require geo-fenced, biometric attendance via the Apni Sarkar portal, with salary linked to physical presence at school coordinates. The "No work-No pay" policy makes salary strictly conditional on verified attendance.
+## 3.2 सुगौली की संधि (1816)
 
-*This is a free sample from Chapter 27. The full book covers all education challenges, HRD initiatives, and strategic reforms.*`
+अंग्रेजों और नेपाल के बीच **सुगौली संधि** पर हस्ताक्षर हुए, जिसे नेपाल ने **4 मई 1816** को अनुमोदित किया।
+
+### युद्धोत्तर विभाजन:
+
+| क्षेत्र | परिणाम |
+|---|---|
+| **पूर्वी गढ़वाल (पौड़ी)** | अंग्रेजों के पास रहा |
+| **पश्चिमी गढ़वाल** | टेहरी राज्य के रूप में सुदर्शन शाह को लौटा दिया गया |
+| **संपूर्ण कुमाऊं** | ब्रिटिश अनेषण (बाद में कुमाऊं डिवीजन) |
+
+---
+
+## 3.3 तुलनात्मक विश्लेषण: उत्तराखंड के चारों शासक
+
+| मानदंड | कत्यूरी वंश | परमार वंश (गढ़वाल) | चंद वंश (कुमाऊं) | गोरखा शासन |
+|---|---|---|---|---|
+| **प्रकृति** | प्रथम एकीकृत राजतंत्र | क्षेत्रीय राजतंत्र (गढ़वाल) | क्षेत्रीय राजतंत्र (कुमाऊं) | विदेशी सैन्य अधिग्रहण |
+| **क्षेत्र** | एकीकृत उत्तराखंड | गढ़वाल | कुमाऊं | कुमाऊं एवं गढ़वाल दोनों |
+| **काल** | 700–11वीं शताब्दी ईस्वी | 688–1804 ईस्वी | ~700–1790 ईस्वी | 1790–1815 |
+| **संस्थापक** | बसंत देव | कनकपाल | सोमचंद | नेपाल का राजा |
+| **स्वर्ण युग** | स्थापत्य कला (संपूर्ण काल) | फतेह शाह का शासनकाल | जगत चंद का शासनकाल | अंधकार युग |
+| **कराधान** | भोगपति के माध्यम से | तिहार (उत्पादन का 1/3) | छतीसी (36 संहिताबद्ध कर) | पुंगड़ी कर (मनमाना, भारी) |
+| **न्याय व्यवस्था** | राजा सर्वोच्च | राजा सर्वोच्च + गाँव पंचायत | दो औपचारिक न्यायालय | दिव्य परीक्षाएँ |
+| **पतन का कारण** | नेपाली आक्रमण + कमजोर उत्तराधिकारी | प्राकृतिक आपदाएँ + षड्यंत्र + गोरखा आक्रमण | कमजोर शासक + हर्षदेव जोशी का विश्वासघात | ब्रिटिश सैन्य श्रेष्ठता |
+
+*यह अध्याय 3 का एक मुक्त नमूना है। संपूर्ण गाइडबुक सैन्य विश्लेषण, जीवनी खाते और प्रत्येक राजवंश के पतन के रणनीतिक आकलन प्रदान करती है।*`
     }
   }
 };
 
 const tableOfContents = [
   { chapter: 1, title: "Prehistoric & Proto-historic Period, Ancient Tribes & Early Political Powers", pages: "1-20" },
-  { chapter: 2, title: "Ancient Dynasties — Kartikeyapur, Katyuri & Parmar", pages: "21-40" },
+  { chapter: 2, title: "Ancient Dynasties — Kartikeypur, Katyuri & Parmar", pages: "21-40" },
   { chapter: 3, title: "Chand Dynasty & Gorkha Invasion", pages: "41-60" },
   { chapter: 4, title: "British Rule in Uttarakhand", pages: "61-80" },
   { chapter: 5, title: "Tehri Princely State", pages: "81-100" },
@@ -184,6 +386,7 @@ const tableOfContents = [
 ];
 
 function BuyBookContent() {
+  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'hi'>('en');
   const [selectedChapter, setSelectedChapter] = useState<number | null>(null);
   const [showTOC, setShowTOC] = useState(false);
   const [form, setForm] = useState({
@@ -216,7 +419,7 @@ function BuyBookContent() {
     }
   };
 
-  const selectedChapterData = selectedChapter && chapterContent.en[selectedChapter as keyof typeof chapterContent.en];
+  const selectedChapterData = selectedChapter && chapterContent[selectedLanguage][selectedChapter as keyof typeof chapterContent.en];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-graphite-900 via-graphite-800 to-graphite-900 text-white">
@@ -240,6 +443,14 @@ function BuyBookContent() {
               <div className="flex items-center gap-3 bg-white/10 p-3 rounded-lg"><Clock className="w-5 h-5" /><span>✅ Fast Delivery (within a week)</span></div>
               <div className="flex items-center gap-3 bg-white/10 p-3 rounded-lg"><Zap className="w-5 h-5" /><span>✅ 28 Chapters, 560+ Pages</span></div>
             </div>
+          </div>
+        </div>
+
+        {/* Language Toggle */}
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex bg-graphite-700/50 rounded-full p-1">
+            <button onClick={() => { setSelectedLanguage('en'); setSelectedChapter(null); }} className={`px-6 py-2 rounded-full font-semibold ${selectedLanguage === 'en' ? 'bg-saffron-500 text-white' : 'text-graphite-300'}`}>📕 English</button>
+            <button onClick={() => { setSelectedLanguage('hi'); setSelectedChapter(null); }} className={`px-6 py-2 rounded-full font-semibold ${selectedLanguage === 'hi' ? 'bg-indigo-500 text-white' : 'text-graphite-300'}`}>📗 हिंदी</button>
           </div>
         </div>
 
@@ -284,29 +495,41 @@ function BuyBookContent() {
 
             {/* FREE SAMPLE */}
             <div className="bg-graphite-800/50 rounded-2xl p-8 border border-graphite-700/50">
-              <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><BookOpen className="w-5 h-5" />Read Free Sample Pages</h3>
-              <p className="text-graphite-300 mb-6">See the quality and depth before you buy — real pages from four key sections, in the same table-driven format as the book.</p>
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><BookOpen className="w-5 h-5" />{selectedLanguage === 'en' ? 'Read Free Sample Pages' : 'मुक्त नमूना पृष्ठ पढ़ें'}</h3>
+              <p className="text-graphite-300 mb-6">{selectedLanguage === 'en' ? 'See the quality and depth before you buy — real pages from four key sections, in the same table-driven format as the book.' : 'खरीदने से पहले गुणवत्ता और गहराई देखें — चार मुख्य अनुभागों से वास्तविक पृष्ठ, किताब के समान तालिका-संचालित प्रारूप में।'}</p>
               
               <div className="space-y-3">
-                <button onClick={() => setSelectedChapter(1)} className="w-full text-left bg-gradient-to-r from-saffron-600/20 to-saffron-500/20 rounded-lg p-4 hover:from-saffron-600/40 hover:to-saffron-500/40 border border-saffron-500/50 transition">
-                  <h4 className="font-bold text-saffron-400">✓ Chapter 1 — History: Epigraphy & Inscriptions</h4>
-                  <p className="text-graphite-400 text-sm mt-1">Real tables showing rock edicts, copper plates, and numismatics with exam-ready formatting</p>
-                </button>
-
-                <button onClick={() => setSelectedChapter(21)} className="w-full text-left bg-gradient-to-r from-jade-600/20 to-jade-500/20 rounded-lg p-4 hover:from-jade-600/40 hover:to-jade-500/40 border border-jade-500/50 transition">
-                  <h4 className="font-bold text-jade-400">✓ Chapter 21 — Economy: The Uttarakhand Economic Model</h4>
-                  <p className="text-graphite-400 text-sm mt-1">GSDP tables, per capita income comparisons, sectoral contributions with growth rates</p>
-                </button>
-
-                <button onClick={() => setSelectedChapter(16)} className="w-full text-left bg-gradient-to-r from-blue-600/20 to-blue-500/20 rounded-lg p-4 hover:from-blue-600/40 hover:to-blue-500/40 border border-blue-500/50 transition">
-                  <h4 className="font-bold text-blue-400">✓ Chapter 16 — Geography: Natural Vegetation & Altitudinal Zonation</h4>
-                  <p className="text-graphite-400 text-sm mt-1">Forest zones, ISFR data, species dominance with altitude tables</p>
-                </button>
-
-                <button onClick={() => setSelectedChapter(27)} className="w-full text-left bg-gradient-to-r from-purple-600/20 to-purple-500/20 rounded-lg p-4 hover:from-purple-600/40 hover:to-purple-500/40 border border-purple-500/50 transition">
-                  <h4 className="font-bold text-purple-400">✓ Chapter 27 — Education: Issues in Education Sector</h4>
-                  <p className="text-graphite-400 text-sm mt-1">Master problem table with scale/data, ghost teacher phenomenon analysis</p>
-                </button>
+                {selectedLanguage === 'en' ? (
+                  <>
+                    <button onClick={() => setSelectedChapter(1)} className="w-full text-left bg-gradient-to-r from-saffron-600/20 to-saffron-500/20 rounded-lg p-4 hover:from-saffron-600/40 hover:to-saffron-500/40 border border-saffron-500/50 transition">
+                      <h4 className="font-bold text-saffron-400">✓ Chapter 1 — History: Epigraphy & Inscriptions</h4>
+                      <p className="text-graphite-400 text-sm mt-1">Real tables showing rock edicts, copper plates, and numismatics with exam-ready formatting</p>
+                    </button>
+                    <button onClick={() => setSelectedChapter(2)} className="w-full text-left bg-gradient-to-r from-jade-600/20 to-jade-500/20 rounded-lg p-4 hover:from-jade-600/40 hover:to-jade-500/40 border border-jade-500/50 transition">
+                      <h4 className="font-bold text-jade-400">✓ Chapter 2 — Katyuri Dynasty: Administration & Architecture</h4>
+                      <p className="text-graphite-400 text-sm mt-1">Administrative hierarchy, military structure, and architectural achievements with detailed tables</p>
+                    </button>
+                    <button onClick={() => setSelectedChapter(3)} className="w-full text-left bg-gradient-to-r from-blue-600/20 to-blue-500/20 rounded-lg p-4 hover:from-blue-600/40 hover:to-blue-500/40 border border-blue-500/50 transition">
+                      <h4 className="font-bold text-blue-400">✓ Chapter 3 — Chand Dynasty: Gorkha War & Liberation (1814–1815)</h4>
+                      <p className="text-graphite-400 text-sm mt-1">Battle of Khalanga, Treaty of Sugauli, and comparative analysis of all four rulers</p>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => setSelectedChapter(1)} className="w-full text-left bg-gradient-to-r from-saffron-600/20 to-saffron-500/20 rounded-lg p-4 hover:from-saffron-600/40 hover:to-saffron-500/40 border border-saffron-500/50 transition">
+                      <h4 className="font-bold text-saffron-400">✓ अध्याय 1 — इतिहास: प्रागैतिहासिक काल एवं विषय-सूची</h4>
+                      <p className="text-graphite-400 text-sm mt-1">शैल चित्रकला, गुफा आश्रय, और पुरातात्विक साक्ष्य परीक्षा-तैयार तालिकाओं के साथ</p>
+                    </button>
+                    <button onClick={() => setSelectedChapter(2)} className="w-full text-left bg-gradient-to-r from-jade-600/20 to-jade-500/20 rounded-lg p-4 hover:from-jade-600/40 hover:to-jade-500/40 border border-jade-500/50 transition">
+                      <h4 className="font-bold text-jade-400">✓ अध्याय 2 — कत्यूरी वंश: प्रशासन एवं सैन्य संरचना</h4>
+                      <p className="text-graphite-400 text-sm mt-1">प्रशासनिक पदानुक्रम, सैन्य विभाग, और स्थापत्य कला विस्तृत तालिकाओं के साथ</p>
+                    </button>
+                    <button onClick={() => setSelectedChapter(3)} className="w-full text-left bg-gradient-to-r from-blue-600/20 to-blue-500/20 rounded-lg p-4 hover:from-blue-600/40 hover:to-blue-500/40 border border-blue-500/50 transition">
+                      <h4 className="font-bold text-blue-400">✓ अध्याय 3 — आंग्ल-गोरखा युद्ध एवं मुक्ति (1814–1815)</h4>
+                      <p className="text-graphite-400 text-sm mt-1">खलंगा युद्ध, सुगौली संधि, और चारों शासकों का तुलनात्मक विश्लेषण</p>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -348,7 +571,7 @@ function BuyBookContent() {
         </div>
       </div>
 
-      {/* FULLSCREEN MODAL - PROPERLY FORMATTED */}
+      {/* FULLSCREEN MODAL */}
       {selectedChapter && selectedChapterData && (
         <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-0 sm:p-4 overflow-y-auto">
           <div className="bg-graphite-800 w-full sm:max-w-4xl sm:rounded-2xl border border-graphite-700 min-h-screen sm:min-h-auto flex flex-col my-auto">
@@ -372,7 +595,6 @@ function BuyBookContent() {
                   } else if (paragraph.startsWith('###')) {
                     return <h3 key={i} className="text-xl font-bold mt-5 mb-3 text-saffron-400">{paragraph.replace(/^###\s/, '')}</h3>;
                   } else if (paragraph.startsWith('|')) {
-                    // Render table
                     const lines = paragraph.split('\n').filter(line => line.trim());
                     if (lines.length < 2) return null;
                     
@@ -403,14 +625,14 @@ function BuyBookContent() {
                         </table>
                       </div>
                     );
-                  } else if (paragraph.startsWith('1.') || paragraph.startsWith('2.') || paragraph.startsWith('3.') || paragraph.startsWith('4.') || paragraph.startsWith('5.')) {
-                    // List item
-                    return <li key={i} className="ml-6 mb-2">{paragraph.replace(/^[0-9]+\.\s/, '')}</li>;
+                  } else if (paragraph.startsWith('- ')) {
+                    return <li key={i} className="ml-6 mb-2">{paragraph.replace(/^-\s/, '')}</li>;
                   } else if (paragraph.startsWith('*')) {
                     return <em key={i} className="block italic text-graphite-400 mt-4">{paragraph.replace(/\*/g, '')}</em>;
-                  } else {
+                  } else if (paragraph.trim()) {
                     return <p key={i} className="text-graphite-200 leading-relaxed">{paragraph}</p>;
                   }
+                  return null;
                 })}
               </div>
             </div>
