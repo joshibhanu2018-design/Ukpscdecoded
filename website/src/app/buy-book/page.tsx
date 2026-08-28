@@ -558,10 +558,20 @@ export default function BuyBookPage() {
           </h1>
           <p className="text-xl text-slate-300">उत्तराखंड का संपूर्ण अध्ययन पुस्तक</p>
 
-          <div className="flex justify-center gap-4 mt-8 mb-8">
-            <button onClick={() => handleLanguageChange('en')} className={`px-8 py-3 rounded-lg font-semibold transition-all ${selectedLanguage === 'en' ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'}`}>English</button>
-            <button onClick={() => handleLanguageChange('hi')} className={`px-8 py-3 rounded-lg font-semibold transition-all ${selectedLanguage === 'hi' ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'}`}>हिंदी</button>
+          {/* LARGE LANGUAGE TOGGLE */}
+          <div className="flex justify-center gap-6 mt-8 mb-8">
+            <button onClick={() => handleLanguageChange('en')} className={`px-10 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 ${selectedLanguage === 'en' ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-2xl' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'}`}>
+              🇬🇧 ENGLISH
+            </button>
+            <button onClick={() => handleLanguageChange('hi')} className={`px-10 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 ${selectedLanguage === 'hi' ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-2xl' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'}`}>
+              🇮🇳 हिंदी
+            </button>
           </div>
+
+          {/* QUICK INDEX BUTTON */}
+          <button onClick={() => setSelectedChapter('index')} className="inline-block px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 rounded-lg font-bold text-sm hover:shadow-lg transition-all">
+            📑 {selectedLanguage === 'en' ? 'VIEW FULL INDEX' : 'पूरी विषय-सूची देखें'}
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
