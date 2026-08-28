@@ -610,7 +610,7 @@ export default function BuyBookPage() {
           </div>
         </div>
 
-        {/* Main Content */}
+        {/* Main Content - CHAPTERS ON TOP, FORM ON BOTTOM */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* LEFT: Chapters (INDEX FIRST) */}
           <div className="lg:col-span-1">
@@ -650,10 +650,48 @@ export default function BuyBookPage() {
             </div>
           </div>
 
-          {/* RIGHT: Form + Preview */}
-          <div className="lg:col-span-2">
-            {/* FORM */}
-            <div className="bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-700 mb-6">
+          {/* RIGHT: CHAPTERS ON TOP, FORM ON BOTTOM */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* CHAPTER PREVIEW - TOP */}
+            {selectedChapterData ? (
+              <div className="bg-slate-800 rounded-2xl overflow-hidden shadow-2xl border border-slate-700">
+                <div className="bg-gradient-to-r from-slate-700 to-slate-900 p-6 border-b border-slate-600 flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">{selectedChapterData.title}</h2>
+                    <p className="text-slate-300 text-sm mt-2">{selectedChapterData.isIndex ? (selectedLanguage === 'en' ? '📑 Index' : '📑 विषय-सूची') : (selectedLanguage === 'en' ? '📄 Sample' : '📄 नमूना')}</p>
+                  </div>
+                  <button onClick={() => setSelectedChapter('')} className="text-slate-400 hover:text-white">
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <div className="p-8 max-h-96 overflow-y-auto">
+                  {selectedChapterData.htmlContent ? (
+                    <div dangerouslySetInnerHTML={{ __html: selectedChapterData.htmlContent }} />
+                  ) : selectedChapterData.pdfUrl ? (
+                    <div className="text-center py-12">
+                      <Eye size={56} className="text-slate-400 mx-auto mb-4" />
+                      <p className="text-slate-300 mb-6">{selectedLanguage === 'en' ? 'PDF Preview' : 'PDF पूर्वावलोकन'}</p>
+                      <button onClick={() => window.open(selectedChapterData.pdfUrl, '_blank')} className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-3 rounded-lg font-bold">
+                        👁️ {selectedLanguage === 'en' ? 'View PDF' : 'PDF देखें'}
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-slate-800 rounded-2xl p-12 text-center border border-slate-700">
+                <ChevronDown size={48} className="mx-auto opacity-50 mb-4 text-slate-400" />
+                <p className="text-slate-300 text-lg">
+                  {selectedLanguage === 'en'
+                    ? 'Select a chapter from the left to view sample'
+                    : 'नमूना देखने के लिए बाईं ओर से कोई अध्याय चुनें'}
+                </p>
+              </div>
+            )}
+
+            {/* FORM - BOTTOM */}
+            <div className="bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-700">
               <h2 className="text-3xl font-bold text-white mb-8">📦 {selectedLanguage === 'en' ? 'Place Order' : 'आदेश दें'}</h2>
 
               <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -682,35 +720,6 @@ export default function BuyBookPage() {
                 </button>
               </form>
             </div>
-
-            {/* CHAPTER PREVIEW */}
-            {selectedChapterData ? (
-              <div className="bg-slate-800 rounded-2xl overflow-hidden shadow-2xl border border-slate-700">
-                <div className="bg-gradient-to-r from-slate-700 to-slate-900 p-6 border-b border-slate-600 flex justify-between items-start">
-                  <div>
-                    <h2 className="text-2xl font-bold text-white">{selectedChapterData.title}</h2>
-                    <p className="text-slate-300 text-sm mt-2">{selectedChapterData.isIndex ? (selectedLanguage === 'en' ? '📑 Index' : '📑 विषय-सूची') : (selectedLanguage === 'en' ? '📄 Sample' : '📄 नमूना')}</p>
-                  </div>
-                  <button onClick={() => setSelectedChapter('')} className="text-slate-400 hover:text-white">
-                    <X size={24} />
-                  </button>
-                </div>
-
-                <div className="p-8 max-h-96 overflow-y-auto">
-                  {selectedChapterData.htmlContent ? (
-                    <div dangerouslySetInnerHTML={{ __html: selectedChapterData.htmlContent }} />
-                  ) : selectedChapterData.pdfUrl ? (
-                    <div className="text-center py-12">
-                      <Eye size={56} className="text-slate-400 mx-auto mb-4" />
-                      <p className="text-slate-300 mb-6">{selectedLanguage === 'en' ? 'PDF Preview' : 'PDF पूर्वावलोकन'}</p>
-                      <button onClick={() => window.open(selectedChapterData.pdfUrl, '_blank')} className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-3 rounded-lg font-bold">
-                        👁️ {selectedLanguage === 'en' ? 'View PDF' : 'PDF देखें'}
-                      </button>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            ) : null}
           </div>
         </div>
       </div>
