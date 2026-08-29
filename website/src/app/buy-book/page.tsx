@@ -106,8 +106,120 @@ export default function BuyBookPage() {
       },
       '2': {
         label: 'Chapter 2',
-        title: 'The Katyuri Dynasty',
-        htmlContent: `<div class="space-y-4 text-slate-300 text-sm"><p>✅ Chapter 2 content embedded with tables and details on Katyuri Dynasty administration, military, economy, architecture and decline.</p></div>`,
+        title: 'The Katyuri Dynasty & Parmar Dynasty of Garhwal',
+        htmlContent: `
+          <div class="space-y-6 text-slate-300 text-sm">
+            <h2 class="text-2xl font-bold text-white">Chapter 2: The Katyuri Dynasty & Parmar Dynasty of Garhwal</h2>
+            
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">PART A: THE KARTIKEYAPUR (KATYURI) DYNASTY (700 CE – 11th Century)</h3>
+              <p>The Kartikeyapur Dynasty, commonly known as the Katyuri Dynasty, holds the distinction of being the first unified historical dynasty of Uttarakhand. Their reign is widely regarded as the Golden Age of the region's architecture and sculpture.</p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">2.1 FOUNDATION & KEY RULERS</h3>
+              <p class="mb-3">The dynasty was founded by Basant Dev around 700 CE. The rulers adopted the imperial title of <em>Paramabhattaraka Maharajadhiraja Parameshwar</em>, reflecting their claim to supreme sovereignty over the region. Their first capital was established at Joshimath in Chamoli district, which was later shifted to Vaidhnath-Kartikeyapur in the Katyur Valley near Baijnath by Subhikshraj Dev.</p>
+              <p><strong>Three Key Rulers:</strong></p>
+              <ul class="list-disc list-inside space-y-1">
+                <li><strong>Ishtagan</strong> - First to unite entire Uttarakhand region</li>
+                <li><strong>Lalitsur Dev</strong> - Most powerful; prolific builder with maximum copper plate inscriptions</li>
+                <li><strong>Bhudev</strong> - Staunch Brahmanist; major contributor to Baijnath temple construction</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">2.2 ADMINISTRATION & MILITARY STRUCTURE</h3>
+              <p class="mb-2"><strong>Territorial Division</strong></p>
+              <p class="mb-3">The Katyuri administrative system was highly centralized and hierarchical. At the apex stood the King, beneath whom the territory was divided into Bhuktis (provinces) headed by an Uparika. Each Bhukti was subdivided into Vishs (districts) managed by a Vishpati, which in turn contained Pallikas (villages) headed by a Mahattam or Sayan.</p>
+              
+              <p class="mb-2"><strong>Key Administrative Officials</strong></p>
+              <table class="w-full text-xs border border-slate-600 mb-4">
+                <thead>
+                  <tr class="bg-slate-700">
+                    <th class="border border-slate-600 px-3 py-2 text-left">Official</th>
+                    <th class="border border-slate-600 px-3 py-2 text-left">Responsibility</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border border-slate-600 px-3 py-2">Saudabhangadhikrit</td>
+                    <td class="border border-slate-600 px-3 py-2">Chief Architect for royal construction</td>
+                  </tr>
+                  <tr class="bg-slate-700/50">
+                    <td class="border border-slate-600 px-3 py-2">Prantpal</td>
+                    <td class="border border-slate-600 px-3 py-2">Defender of kingdom borders</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-600 px-3 py-2">Ghattpal</td>
+                    <td class="border border-slate-600 px-3 py-2">Guardian of mountain passes</td>
+                  </tr>
+                  <tr class="bg-slate-700/50">
+                    <td class="border border-slate-600 px-3 py-2">Narapati</td>
+                    <td class="border border-slate-600 px-3 py-2">Manager of river crossings & toll collection</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-600 px-3 py-2">Akshapatlik</td>
+                    <td class="border border-slate-600 px-3 py-2">Chief Auditor & Accountant</td>
+                  </tr>
+                  <tr class="bg-slate-700/50">
+                    <td class="border border-slate-600 px-3 py-2">Bhogpati</td>
+                    <td class="border border-slate-600 px-3 py-2">Tax Collector</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-600 px-3 py-2">Pramavatar</td>
+                    <td class="border border-slate-600 px-3 py-2">Land Measurement Officer</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p class="mb-2"><strong>Military Divisions</strong></p>
+              <ul class="list-disc list-inside space-y-1">
+                <li><strong>Paidal Sena</strong> (Infantry) - led by Gaulmika</li>
+                <li><strong>Ashvabal</strong> (Cavalry) - commanded by Ashvabaladhikrit</li>
+                <li><strong>Hastibal</strong> (Elephant Corps) - led by Hastibaladhikrit</li>
+                <li><strong>Ushtrabal</strong> (Camel Corps) - under Ushtrabaladhikrit</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">2.3 ECONOMY & TAXATION</h3>
+              <p>Agriculture, minerals, and forests constituted the primary revenue sources of the Katyuri state. Land measurement followed a standardized system in which the basic units were the Dronavapam and Nali Vapam. Larger measurements included the Kulyavap (equivalent to 8 Dron) and the Kharivap (equivalent to 20 Dron).</p>
+              <p class="mt-3">The dynasty maintained a system of land grants known as Vishnupriti, Goonth, or Agrahar – tax-free lands donated to Brahmins or temples. This Goonth land grant system formed the foundation of the temple economy in ancient Uttarakhand and enabled the construction and maintenance of the region's remarkable sacred architecture.</p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">2.4 SOCIETY, CULTURE & RELIGION</h3>
+              <p>Sanskrit served as the court language, while the common people spoke Prakrit or Pali (Lokbhasha). The most significant religious event of this period was the arrival of Adi Guru Shankaracharya, who established Jyotirmath (Badrikashram) as part of his mission to re-establish Hinduism across the subcontinent. Shankaracharya is believed to have renounced his body at Kedarnath in 820 CE.</p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">2.5 ARCHITECTURE – THE ZENITH OF TEMPLE CONSTRUCTION</h3>
+              <p class="mb-3">The Katyuri period represents the architectural Golden Age of Uttarakhand, heavily influenced by the Nagara style of North Indian temple architecture. Two distinct styles emerged during this era.</p>
+              <p class="mb-3"><strong>Two Distinct Styles:</strong></p>
+              <ul class="list-disc list-inside space-y-2">
+                <li><strong>Chhatra-Type (Pagoda)</strong> - Featured wooden umbrella roof; predominantly wood-based. Examples: Kedarnath Temple, Lakhamandal, Bageshwar temples</li>
+                <li><strong>Shikhara-Type</strong> - Square, stone-built structures without wooden umbrellas. Examples: Dwarahat Group (Gujar Deval), Katarmal Sun Temple</li>
+              </ul>
+              <p class="mt-3"><strong>Key Architectural Sites:</strong></p>
+              <ul class="list-disc list-inside space-y-1">
+                <li><strong>Jageshwar</strong> - Over 100 temples showcasing Nagara and Shikara styles</li>
+                <li><strong>Dwarahat (Gujar Deval)</strong> - Incomparable example of Shikhara style</li>
+                <li><strong>Katarmal Sun Temple</strong> - Second largest Sun Temple in India</li>
+                <li><strong>Baijnath</strong> - Main Shiva shrine + 17 subsidiary shrines</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">2.6 DECLINE & FRAGMENTATION</h3>
+              <p>The decline of the Katyuri Dynasty was driven by multiple factors. Weak successors allowed internal administrative decay to set in. Two devastating Nepalese invasions accelerated the collapse: King Ashokchalla attacked in 1191 CE, and King Krachaldeva subjugated Katyuri territories in 1223 CE. The dynasty eventually fractured into multiple branches, including the Rajwars of Askot and the Mallas of Doti. The last ruler, Brahmadev (also known as Veerdev), was highly tyrannical and oppressive – according to the folk ballad <em>Jiyarani</em>, his misrule was the primary internal cause of the dynasty's collapse. The rising Chand Dynasty eventually ended Katyuri supremacy entirely.</p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">2.7 COPPER PLATE EVIDENCE</h3>
+              <p>Copper plate inscriptions discovered at various locations provide crucial historical evidence of the Katyuri Dynasty. Plates found at Pandukeshwar document Lalit Sur Dev's rule and land grants. Those at Bageshwar, issued by King Bhudev, name eight Katyuri kings. Additional plates from Kandara provide administrative evidence, while those found at Champawat confirm the dynasty's presence in Kumaon.</p>
+            </div>
+          </div>
+        `,
       },
       '3': {
         label: 'Chapter 3',
@@ -253,7 +365,76 @@ export default function BuyBookPage() {
       '4': {
         label: 'Chapter 4',
         title: 'British Rule in Uttarakhand (1815-1947)',
-        htmlContent: `<div class="space-y-4 text-slate-300 text-sm"><p>✅ Chapter 4 content embedded with tables on British Commissioners, G.W. Traill profile, and 4 phases of Forest Management (Exploitation, Scientific Management, Rebellions, Panchayats).</p></div>`,
+        htmlContent: `
+          <div class="space-y-6 text-slate-300 text-sm">
+            <h2 class="text-2xl font-bold text-white">Chapter 4: British Rule in Uttarakhand (1815–1947)</h2>
+            
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">4.1 ARRIVAL & TERRITORIAL DIVISION (1815)</h3>
+              <p class="mb-3">Following the defeat of the Gorkhas and the Treaty of Sugauli (1815), the British East India Company took control of the region. The territory was divided into two parts: British Kumaon and Garhwal (east of the Alaknanda River) came under direct British rule and was included in the Kumaon Commissionerate, while the western trans-Alaknanda region (excluding Dehradun and Rawain) was handed to the Parmar King Sudarshan Shah as the Tehri Riyasat (Princely State). The Alaknanda River thus served as the natural boundary between British territory and the Tehri Princely State.</p>
+              <p>The initial period of British rule (1815–1857) was characterized as a time of subdued governance, peace, and dynamism – a stark contrast to the brutal Gorkha era, which had conditioned the traumatized local population to perceive British administration as liberal and reformist.</p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-3">4.2 MAJOR BRITISH COMMISSIONERS</h3>
+              <table class="w-full text-xs border border-slate-600">
+                <thead>
+                  <tr class="bg-slate-700">
+                    <th class="border border-slate-600 px-2 py-2 text-left">Commissioner</th>
+                    <th class="border border-slate-600 px-2 py-2 text-left">Tenure</th>
+                    <th class="border border-slate-600 px-2 py-2 text-left">Key Title</th>
+                    <th class="border border-slate-600 px-2 py-2 text-left">Major Contributions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border border-slate-600 px-2 py-2"><strong>Edward Gardner</strong></td>
+                    <td class="border border-slate-600 px-2 py-2">1815–1816</td>
+                    <td class="border border-slate-600 px-2 py-2">First Commissioner</td>
+                    <td class="border border-slate-600 px-2 py-2">First land settlement; postal service</td>
+                  </tr>
+                  <tr class="bg-slate-700/50">
+                    <td class="border border-slate-600 px-2 py-2"><strong>G.W. Traill</strong></td>
+                    <td class="border border-slate-600 px-2 py-2">1816–1835</td>
+                    <td class="border border-slate-600 px-2 py-2">Father of Revenue Police</td>
+                    <td class="border border-slate-600 px-2 py-2">Patwari posts, Double Lock System, Mule Army, forest reservations</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-600 px-2 py-2"><strong>J.H. Batten</strong></td>
+                    <td class="border border-slate-600 px-2 py-2">1848–1856</td>
+                    <td class="border border-slate-600 px-2 py-2">–</td>
+                    <td class="border border-slate-600 px-2 py-2">Shifted HQ to Nainital; Upper Ganges Canal</td>
+                  </tr>
+                  <tr class="bg-slate-700/50">
+                    <td class="border border-slate-600 px-2 py-2"><strong>Sir Henry Ramsay</strong></td>
+                    <td class="border border-slate-600 px-2 py-2">1856–1884</td>
+                    <td class="border border-slate-600 px-2 py-2">Uncrowned King of Kumaon</td>
+                    <td class="border border-slate-600 px-2 py-2">Golden Age; Revenue Police codified; Ramsay School (1871)</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-600 px-2 py-2"><strong>K.L. Mehta</strong></td>
+                    <td class="border border-slate-600 px-2 py-2">1947–48</td>
+                    <td class="border border-slate-600 px-2 py-2">First Indian Commissioner</td>
+                    <td class="border border-slate-600 px-2 py-2">Last Commissioner of Kumaon Commissionerate</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">4.3 COMMISSIONER G.W. TRAILL – DETAILED PROFILE</h3>
+              <p class="mb-3">G.W. Traill was the man who built the administrative DNA of British Uttarakhand. His judicial policy was characteristically iron-fisted, encapsulated in the phrase <em>"Na Vakeel, Na Daleel, Na Appeal"</em> (No lawyer, no argument, no appeal).</p>
+              <p class="mb-3">In 1819, Traill created the Revenue Police system by establishing nine posts of Patwari – officials responsible for revenue collection, land records, and police powers simultaneously. In 1824, he introduced the Double Lock System for treasury security, whereby one key was held by the Collector and another by the Treasurer. To address the exploitative Coolie Begar system, he established the 'Mule Army' (Khachchar Sena) in 1822 to transport goods, reducing the burden on forced labourers.</p>
+              <p class="mb-3">Traill's forest policy began in 1826 when he reserved 'Thapla' land for government use and banned the felling of Sal trees – laying the first foundation for government-controlled forests in the region. He also implemented postal service across Uttarakhand starting in 1816, and oversaw construction of the Almora Jail (1816) and Pauri Jail (1821). His landmark land settlement, the Assi Sala Settlement of 1823, achieved the first precise boundary demarcation of the region.</p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-2">4.4 COMMISSIONER SIR HENRY RAMSAY – DETAILED PROFILE</h3>
+              <p class="mb-3">Sir Henry Ramsay earned the title 'Uncrowned King of Kumaon' during his unprecedented 28-year tenure (1856–1884), the longest of any Commissioner. His era is regarded as the Golden Age of British rule in the region.</p>
+              <p class="mb-3">Ramsay managed the impact of the 1857 Revolt by declaring martial law in Kumaon and utilizing the loyalty of local zamindars, keeping the revolt's impact extremely low in the region. In 1858, he abolished the destructive forest contractor system and initiated scientific management practices including tree marking, fire protection, and planned plantation. He formally expanded and codified the Revenue Police System in 1874, a system that currently covers approximately 60 per cent of Uttarakhand. In 1871, he established the Ramsay Collegiate School in Almora – Kumaon's first inter college.</p>
+            </div>
+          </div>
+        `,
       },
       '27': {
         label: 'Chapter 27',
