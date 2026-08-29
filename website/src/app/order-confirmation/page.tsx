@@ -25,8 +25,10 @@ function OrderConfirmationContent() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const paytmLink = `paytm://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
-  const upiLink = `upi://pay?pa=${upiId}&pn=UKPSC&am=${amount}&tn=Book`;
+  // Fixed payment links - properly formatted
+  const upiLink = `upi://pay?pa=${upiId}&pn=UKPSC%20Decoded&am=${amount}&tn=UKPSC%20Book%20Payment&tr=BookOrder`;
+  const paytmLink = `upi://pay?pa=${upiId}&pn=UKPSC%20Decoded&am=${amount}&tn=UKPSC%20Book%20Payment&tr=BookOrder`;
+  // Fallback for Paytm app if installed: paytm://upi/{upiId}?amount={amount}
 
   const whatsappMessage = isHindi
     ? `नमस्ते 👋\n\nमैंने अपना भुगतान पूरा कर दिया है।\n\nनाम: ${customerName}\nफोन: ${customerPhone}\nऑर्डर ID: ${orderId}\nकिताब संस्करण: ${bookEdition}\n\nकृपया मेरा स्क्रीनशॉट संलग्न देखें।`
@@ -41,12 +43,9 @@ function OrderConfirmationContent() {
 
   const handlePaymentClick = (appLink: string) => (e: React.MouseEvent) => {
     e.preventDefault();
+    // Directly open the UPI payment link
+    // This will open the user's default UPI app
     window.location.href = appLink;
-    setTimeout(() => {
-      if (!document.hidden) {
-        window.location.href = upiLink;
-      }
-    }, 2000);
   };
 
   return (
