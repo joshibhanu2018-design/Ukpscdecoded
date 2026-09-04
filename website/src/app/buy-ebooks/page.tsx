@@ -206,7 +206,7 @@ export default function BuyPDFPage() {
           Polity Decoded
         </h1>
         <p className="text-xl text-gray-700 mb-2">
-          The Complete Visual e-Book for UPSC Prelims & Mains
+          The Complete Visual e-Book for UPSC UKPSC UPPSC Prelims & Mains
         </p>
         <p className="text-gray-600 italic">SHORT YET COMPREHENSIVE</p>
       </div>
