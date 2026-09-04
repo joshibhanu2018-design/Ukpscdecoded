@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface PaymentResponse {
   orderId: string;
@@ -69,7 +70,6 @@ export default function BuyPDFPage() {
       return false;
     }
 
-    // Optional: validate email if provided
     if (formData.email && !formData.email.includes('@')) {
       setError('Please enter a valid email address');
       return false;
@@ -211,30 +211,32 @@ export default function BuyPDFPage() {
           Polity Decoded
         </h1>
         <p className="text-xl text-gray-700 mb-2">
-          The Complete Visual e-Book for PCS Prelims cum Mains
+          The Complete Visual e-Book for UPSC Prelims & Mains
         </p>
         <p className="text-gray-600 italic">SHORT YET COMPREHENSIVE</p>
       </div>
 
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
-        {/* Left: Book Description */}
+        {/* Left: Book Description & Cover */}
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="mb-8">
-            <div className="bg-gradient-to-br from-orange-100 to-blue-100 rounded-lg h-64 flex items-center justify-center mb-6">
-              <div className="text-center">
-                <p className="text-6xl mb-2">📚</p>
-                <p className="text-gray-700 font-semibold">Polity Decoded</p>
-              </div>
+            {/* Book Cover Image */}
+            <div className="bg-gradient-to-br from-orange-100 to-blue-100 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
+              <img 
+                src="https://drive.google.com/uc?export=view&id=1iVey_ycu-cE9_pSeg9a56J39k0NQ1P9W" 
+                alt="Polity Decoded Book Cover" 
+                className="w-full h-auto object-cover"
+              />
             </div>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">About This Book</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              A beautifully designed visual compendium that distills Laxmikant's and Dinka's Kashyap's 
+              A beautifully designed visual compendium that distills Laxmikant's and Subhash Kashyap's 
               complex concepts into scannable, graphic-rich modules based on PYQ and frequently asked questions.
             </p>
 
             <p className="text-gray-700 leading-relaxed mb-6">
-              Built specifically for PCS aspirants preparing for UKPSC, UPPCS, BPSC, and other state exams. 
+              Built specifically for aspirants preparing for UPSC, UKPSC, UPPSC, and other state exams. 
               Every concept includes flowcharts and interconnected notes—designed for quick revision in your 
               final 30 days or as daily reference material.
             </p>
@@ -255,7 +257,7 @@ export default function BuyPDFPage() {
               </div>
               <div className="flex items-start">
                 <span className="text-green-600 font-bold mr-3">✓</span>
-                <span className="text-gray-700">All state exams (UKPSC, UPPCS, BPSC, etc.)</span>
+                <span className="text-gray-700">All competitive exams (UPSC, UKPSC, UPPSC, etc.)</span>
               </div>
             </div>
 
@@ -274,10 +276,10 @@ export default function BuyPDFPage() {
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="mb-8">
             <div className="text-center mb-8">
-              <p className="text-gray-600 text-sm mb-2">Introductory Price</p>
+              <p className="text-gray-600 text-sm mb-2">Special Price</p>
               <div className="flex items-center justify-center gap-3">
                 <span className="text-5xl font-bold text-green-600">₹129</span>
-                <span className="text-2xl text-gray-400 line-through">₹249</span>
+                <span className="text-2xl text-gray-400 line-through">₹169</span>
               </div>
               <p className="text-xs text-gray-500 mt-2">Limited time offer - Only for first 100 buyers</p>
             </div>
@@ -373,17 +375,9 @@ export default function BuyPDFPage() {
 
           {/* Trust Badges */}
           <div className="mt-8 pt-8 border-t border-gray-200">
-            <p className="text-xs text-gray-600 text-center mb-4">Trusted by UKPSC aspirants</p>
-            <div className="flex justify-center gap-6 text-center">
-              <div>
-                <p className="text-2xl font-bold text-orange-600">2K+</p>
-                <p className="text-xs text-gray-600">Buyers</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-green-600">4.8★</p>
-                <p className="text-xs text-gray-600">Rating</p>
-              </div>
-            </div>
+            <p className="text-sm text-gray-600 text-center">
+              Trusted by over 5000 aspirants for UPSC, UKPSC, UPPSC
+            </p>
           </div>
         </div>
       </div>
@@ -429,7 +423,7 @@ export default function BuyPDFPage() {
             </button>
 
             <p className="text-xs text-gray-500 text-center mt-4">
-              📧 Order details have been recorded in our system.
+              📧 Order details have been recorded.
             </p>
           </div>
         </div>
