@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateToken, incrementDownloadCount } from './token-manager';
+import { validateToken, incrementDownloadCount } from '@/lib/utils/token-manager';
 
 // PDF Configuration with GitHub raw URLs
 const PDF_CONFIG = {
