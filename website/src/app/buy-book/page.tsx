@@ -271,20 +271,42 @@ export default function BuyBookPage() {
             </button>
           </div>
 
-          {/* BOOK COVER DISPLAY - NEW SECTION */}
+          {/* RESPONSIVE BOOK COVER DISPLAY */}
           <div className="flex justify-center mb-12">
-            <div className="w-full max-w-sm">
+            <div className="w-full max-w-sm md:max-w-2xl">
               <div className="bg-slate-800 rounded-2xl overflow-hidden shadow-2xl border border-slate-700 p-4 hover:shadow-3xl transition-shadow">
-                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-slate-900">
-                  <Image
-                    src={selectedLanguage === 'en' ? '/ENGLISH COVER FULL FRONT AND BACK.png' : '/HINDI COVER FULL FRONT AND BACK.png'}
-                    alt={selectedLanguage === 'en' ? 'UTTARAKHAND Decoded - English Edition' : 'UTTARAKHAND Decoded - Hindi Edition'}
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
+                
+                {/* DESKTOP: Full Front & Back Cover (PNG) - Hidden on Mobile */}
+                <div className="hidden md:block">
+                  <div className="relative w-full overflow-hidden rounded-xl bg-slate-900">
+                    <div className="relative w-full pb-[150%]">
+                      <Image
+                        src={selectedLanguage === 'en' ? '/IMG_5853 2.png' : '/IMG_5850 2.png'}
+                        alt={selectedLanguage === 'en' ? 'UTTARAKHAND Decoded - English Edition' : 'UTTARAKHAND Decoded - Hindi Edition'}
+                        fill
+                        className="object-cover"
+                        priority
+                        sizes="(max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  </div>
                 </div>
+
+                {/* MOBILE: Front Cover Only (JPEG) - Hidden on Desktop */}
+                <div className="md:hidden">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-slate-900">
+                    <Image
+                      src={selectedLanguage === 'en' ? '/IMG_5855.jpeg' : '/IMG_5854.jpeg'}
+                      alt={selectedLanguage === 'en' ? 'UTTARAKHAND Decoded - English Edition' : 'UTTARAKHAND Decoded - Hindi Edition'}
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="(max-width: 640px) 100vw"
+                    />
+                  </div>
+                </div>
+
+                {/* BOOK INFO */}
                 <div className="mt-4 text-center">
                   <p className="text-slate-400 text-sm">{selectedLanguage === 'en' ? '🇬🇧 English Edition' : '🇮🇳 हिंदी संस्करण'}</p>
                   <p className="text-white font-bold mt-2">UTTARAKHAND Decoded</p>
