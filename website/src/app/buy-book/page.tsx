@@ -45,7 +45,7 @@ export default function BuyBookPage() {
         isIndex: true,
         htmlContent: `
           <div class="space-y-6">
-            <h2 class="text-2xl font-bold text-white">UKPSC Decoded - Complete Index (28 Chapters)</h2>
+            <h2 class="text-2xl font-bold text-white">UTTARAKHAND Decoded - Complete Index (28 Chapters)</h2>
             <div class="space-y-4">
               <div>
                 <h3 class="text-xl font-bold text-orange-400 mb-3">PART A: HISTORY & CULTURE (Chapters 1-10)</h3>
