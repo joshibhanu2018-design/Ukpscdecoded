@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateToken, incrementDownloadCount } from '@/lib/utils/token-manager';
 
 // PDF Configuration with GitHub raw URLs
 const PDF_CONFIG = {
@@ -13,45 +12,12 @@ const PDF_CONFIG = {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token');
     const pdfId = searchParams.get('pdfId') || 'polity-decoded';
 
-    console.log(`📥 Download request: token=${token?.substring(0, 8)}..., pdfId=${pdfId}`);
+    console.log(`📥 Download request for: ${pdfId}`);
 
     // ==============================
-    // 1. VALIDATE TOKEN
-    // ==============================
-    if (!token) {
-      console.error('❌ No download token provided');
-      return NextResponse.json(
-        { error: 'No download token provided' },
-        { status: 400 }
-      );
-    }
-
-    const tokenData = validateToken(token);
-
-    if (!tokenData) {
-      console.error(`❌ Invalid or expired token: ${token?.substring(0, 8)}`);
-      return NextResponse.json(
-        { error: 'Invalid or expired download link. Please purchase again.' },
-        { status: 401 }
-      );
-    }
-
-    // ==============================
-    // 2. VALIDATE PDF ID MATCHES TOKEN
-    // ==============================
-    if (tokenData.pdfId !== pdfId) {
-      console.error(`❌ Token PDF mismatch: expected ${tokenData.pdfId}, got ${pdfId}`);
-      return NextResponse.json(
-        { error: 'Token does not match requested PDF' },
-        { status: 403 }
-      );
-    }
-
-    // ==============================
-    // 3. VALIDATE PDF CONFIG
+    // 1. VALIDATE PDF CONFIG
     // ==============================
     const pdfConfig = PDF_CONFIG[pdfId as keyof typeof PDF_CONFIG];
     if (!pdfConfig) {
@@ -63,22 +29,20 @@ export async function GET(request: NextRequest) {
     }
 
     // ==============================
-    // 4. FETCH PDF FROM GITHUB
+    // 2. FETCH PDF FROM GITHUB
     // ==============================
-    console.log(`📥 Fetching: ${pdfConfig.name} from GitHub`);
-    console.log(`   Size: ~10MB | URL: ${pdfConfig.fileUrl.substring(0, 50)}...`);
+    console.log(`📥 Fetching PDF from GitHub: ${pdfConfig.fileUrl.substring(0, 60)}...`);
 
     let pdfArrayBuffer: ArrayBuffer;
 
     try {
-      // Add timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000);
 
       const response = await fetch(pdfConfig.fileUrl, {
         signal: controller.signal,
         headers: {
-          'User-Agent': 'Mozilla/5.0',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         },
       });
 
@@ -89,9 +53,7 @@ export async function GET(request: NextRequest) {
       }
 
       const contentLength = response.headers.get('content-length');
-      if (contentLength && parseInt(contentLength) === 0) {
-        throw new Error('PDF file is empty');
-      }
+      console.log(`📊 PDF Size: ${contentLength ? (parseInt(contentLength) / 1024 / 1024).toFixed(2) + 'MB' : 'Unknown'}`);
 
       pdfArrayBuffer = await response.arrayBuffer();
 
@@ -102,25 +64,19 @@ export async function GET(request: NextRequest) {
       console.log(`✅ PDF fetched successfully: ${(pdfArrayBuffer.byteLength / 1024 / 1024).toFixed(2)}MB`);
     } catch (fetchError) {
       const errorMsg = fetchError instanceof Error ? fetchError.message : String(fetchError);
-      console.error(`❌ Error fetching PDF from GitHub: ${errorMsg}`);
+      console.error(`❌ Error fetching PDF: ${errorMsg}`);
       
       return NextResponse.json(
         { 
-          error: 'Failed to retrieve PDF. Please try again in a few moments.',
-          details: 'GitHub server may be temporarily unavailable'
+          error: 'Failed to retrieve PDF. Please try again.',
+          details: errorMsg,
         },
         { status: 503 }
       );
     }
 
     // ==============================
-    // 5. TRACK DOWNLOAD
-    // ==============================
-    incrementDownloadCount(token);
-    console.log(`✅ Download count incremented for ${tokenData.name} (token: ${token.substring(0, 8)}...)`);
-
-    // ==============================
-    // 6. SEND PDF TO CLIENT
+    // 3. SEND PDF TO CLIENT
     // ==============================
     console.log(`📤 Sending PDF to client: ${pdfConfig.fileName}`);
 
@@ -130,7 +86,7 @@ export async function GET(request: NextRequest) {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${pdfConfig.fileName}"`,
         'Content-Length': pdfArrayBuffer.byteLength.toString(),
-        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0',
         'X-Content-Type-Options': 'nosniff',
@@ -139,10 +95,10 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    console.error(`❌ Unexpected error in download route: ${errorMsg}`);
+    console.error(`❌ Download error: ${errorMsg}`);
     
     return NextResponse.json(
-      { error: 'An unexpected error occurred during download' },
+      { error: 'Download failed', details: errorMsg },
       { status: 500 }
     );
   }
