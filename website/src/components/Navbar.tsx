@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/pyq-tracker", label: "PYQ Tracker" },
   { href: "/courses", label: "Courses" },
   { href: "/buy-book", label: "Buy Book" },
+  { href: "/buy-ebooks", label: "📚 Buy E-Books" },
   { href: "/about", label: "About" },
 ];
 
