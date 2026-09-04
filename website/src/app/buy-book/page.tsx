@@ -735,7 +735,7 @@ export default function BuyBookPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 flex items-center justify-center gap-3">
             <Book className="text-orange-500" size={40} />
-            UKPSC Decoded
+            UTTARAKHAND Decoded
           </h1>
           <p className="text-xl text-slate-300">उत्तराखंड का संपूर्ण अध्ययन पुस्तक</p>
 
