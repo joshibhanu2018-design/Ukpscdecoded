@@ -68,17 +68,17 @@ export async function GET(request: NextRequest) {
     console.log(`📥 Fetching: ${pdfConfig.name} from GitHub`);
     console.log(`   Size: ~10MB | URL: ${pdfConfig.fileUrl.substring(0, 50)}...`);
 
-    let pdfData: Buffer;
+    let pdfArrayBuffer: ArrayBuffer;
 
     try {
-      // Add timeout and retry logic
+      // Add timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
 
       const response = await fetch(pdfConfig.fileUrl, {
         signal: controller.signal,
         headers: {
-          'User-Agent': 'Mozilla/5.0', // GitHub prefers this
+          'User-Agent': 'Mozilla/5.0',
         },
       });
 
@@ -88,21 +88,18 @@ export async function GET(request: NextRequest) {
         throw new Error(`GitHub returned ${response.status}: ${response.statusText}`);
       }
 
-      // Get content-length for validation
       const contentLength = response.headers.get('content-length');
       if (contentLength && parseInt(contentLength) === 0) {
         throw new Error('PDF file is empty');
       }
 
-      // Convert response to buffer
-      const arrayBuffer = await response.arrayBuffer();
-      pdfData = Buffer.from(arrayBuffer);
+      pdfArrayBuffer = await response.arrayBuffer();
 
-      if (pdfData.length === 0) {
+      if (pdfArrayBuffer.byteLength === 0) {
         throw new Error('Downloaded PDF is empty');
       }
 
-      console.log(`✅ PDF fetched successfully: ${(pdfData.length / 1024 / 1024).toFixed(2)}MB`);
+      console.log(`✅ PDF fetched successfully: ${(pdfArrayBuffer.byteLength / 1024 / 1024).toFixed(2)}MB`);
     } catch (fetchError) {
       const errorMsg = fetchError instanceof Error ? fetchError.message : String(fetchError);
       console.error(`❌ Error fetching PDF from GitHub: ${errorMsg}`);
@@ -127,12 +124,12 @@ export async function GET(request: NextRequest) {
     // ==============================
     console.log(`📤 Sending PDF to client: ${pdfConfig.fileName}`);
 
-    return new NextResponse(pdfData, {
+    return new NextResponse(pdfArrayBuffer, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${pdfConfig.fileName}"`,
-        'Content-Length': pdfData.length.toString(),
+        'Content-Length': pdfArrayBuffer.byteLength.toString(),
         'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
         'Pragma': 'no-cache',
         'Expires': '0',
