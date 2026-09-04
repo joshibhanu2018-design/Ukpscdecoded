@@ -23,10 +23,9 @@ export default function BuyPDFPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(86400); // 24 hours in seconds
+  const [timeLeft, setTimeLeft] = useState(86400);
   const [paymentId, setPaymentId] = useState<string>('');
 
-  // Timer for download link expiry
   useEffect(() => {
     if (!downloadLink) return;
 
@@ -109,7 +108,6 @@ export default function BuyPDFPage() {
 
       const data: PaymentResponse = await response.json();
 
-      // Initialize Razorpay
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.async = true;
@@ -140,7 +138,7 @@ export default function BuyPDFPage() {
             },
           },
           theme: {
-            color: '#FF9933', // Saffron color
+            color: '#FF9933',
           },
         };
 
@@ -162,7 +160,6 @@ export default function BuyPDFPage() {
 
   const handlePaymentSuccess = async (response: any, orderId: string) => {
     try {
-      // Verify payment on backend
       const verifyResponse = await fetch('/api/verify-pdf-payment', {
         method: 'POST',
         headers: {
@@ -188,11 +185,9 @@ export default function BuyPDFPage() {
       const verifyData = await verifyResponse.json();
       setDownloadLink(verifyData.downloadLink);
       setPaymentId(verifyData.paymentId || response.razorpay_payment_id);
-      setTimeLeft(86400); // Reset timer
+      setTimeLeft(86400);
       setShowModal(true);
       setError(null);
-      
-      // Reset form
       setFormData({ name: '', phone: '', email: '' });
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error';
@@ -221,9 +216,9 @@ export default function BuyPDFPage() {
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="mb-8">
             {/* Book Cover Image */}
-            <div className="bg-gradient-to-br from-orange-100 to-blue-100 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
+            <div className="rounded-lg mb-6 overflow-hidden shadow-md">
               <img 
-                src="https://drive.google.com/uc?export=view&id=1iVey_ycu-cE9_pSeg9a56J39k0NQ1P9W" 
+                src="/IMG_5845.png" 
                 alt="Polity Decoded Book Cover" 
                 className="w-full h-auto object-cover"
               />
@@ -261,8 +256,18 @@ export default function BuyPDFPage() {
               </div>
             </div>
 
-            {/* File Info */}
+            {/* Sample Pages */}
             <div className="mt-8 pt-6 border-t border-gray-200">
+              <h3 className="font-bold text-gray-900 mb-3">Preview Sample Pages</h3>
+              <div className="grid grid-cols-3 gap-3">
+                <img src="/IMG_5835.png" alt="Sample Page 1" className="w-full h-auto rounded-md border border-gray-200" />
+                <img src="/IMG_5837.png" alt="Sample Page 2" className="w-full h-auto rounded-md border border-gray-200" />
+                <img src="/IMG_5838.png" alt="Sample Page 3" className="w-full h-auto rounded-md border border-gray-200" />
+              </div>
+            </div>
+
+            {/* File Info */}
+            <div className="mt-6 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-600">
                 <span className="font-semibold">📄 File Size:</span> ~10 MB<br />
                 <span className="font-semibold">📥 Download Validity:</span> 24 hours<br />
