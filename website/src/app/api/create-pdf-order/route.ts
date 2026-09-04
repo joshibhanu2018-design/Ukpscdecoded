@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       amount: pdf.amount,
       currency: 'INR',
       receipt: receiptId,
-      payment_capture: 1,
+      payment_capture: true, // ✅ Fixed: boolean instead of number
       notes: {
         name: name.trim(),
         phone: phoneDigitsOnly,
