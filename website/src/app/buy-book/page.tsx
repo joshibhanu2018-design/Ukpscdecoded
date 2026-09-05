@@ -692,7 +692,7 @@ export default function BuyBookPage() {
 
       script.onload = () => {
         const options = {
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          key: process.env.RAZORPAY_KEY_ID,
           amount: 499 * 100, // Amount in paise (₹499)
           currency: 'INR',
           name: 'UKPSC Decoded',
