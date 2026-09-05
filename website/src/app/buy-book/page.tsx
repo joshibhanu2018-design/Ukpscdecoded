@@ -675,56 +675,109 @@ export default function BuyBookPage() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.phone || !formData.city || !formData.pincode || !formData.state || !formData.address) {
+      alert(selectedLanguage === 'en' ? 'Please fill all required fields!' : 'कृपया सभी आवश्यक फ़ील्ड भरें!');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
-      const payload = {
-        name: formData.name || '',
-        email: formData.email || '',
-        phone: formData.phone || '',
-        address: formData.address || '',
-        city: formData.city || '',
-        pincode: formData.pincode || '',
-        state: formData.state || '',
-        landmark: formData.landmark || '',
-        language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
-      };
+      // Load Razorpay script
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.body.appendChild(script);
 
-      await fetch(
-        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+      script.onload = () => {
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount: 499 * 100, // Amount in paise (₹499)
+          currency: 'INR',
+          name: 'UKPSC Decoded',
+          description: selectedLanguage === 'en' ? 'UKPSC Book - English Edition' : 'UKPSC पुस्तक - हिंदी संस्करण',
+          image: 'https://ukpscdecoded.in/logo.png',
+          prefill: {
+            name: formData.name,
+            email: formData.email,
+            contact: formData.phone,
           },
-          body: JSON.stringify(payload),
-          mode: 'no-cors',
-        }
-      );
+          notes: {
+            language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
+            address: formData.address,
+            city: formData.city,
+            pincode: formData.pincode,
+            state: formData.state,
+            landmark: formData.landmark,
+          },
+          handler: async (response: any) => {
+            // Payment successful - submit form to Google Sheet
+            await submitOrderToSheet(response.razorpay_payment_id);
+          },
+          modal: {
+            ondismiss: () => {
+              setSubmitting(false);
+              alert(selectedLanguage === 'en' ? 'Payment cancelled' : 'भुगतान रद्द किया गया');
+            },
+          },
+        };
 
-      const orderId = 'UK' + Date.now();
+        const razorpay = new (window as any).Razorpay(options);
+        razorpay.open();
+      };
+    } catch (error) {
+      console.error('Payment error:', error);
+      setSubmitting(false);
+      alert(selectedLanguage === 'en' ? 'Payment failed. Please try again.' : 'भुगतान विफल। कृपया पुनः प्रयास करें।');
+    }
+  };
+
+  const submitOrderToSheet = async (paymentId: string) => {
+    const timestamp = new Date().toISOString();
+    const orderId = `UK${timestamp.replace(/[^0-9]/g, '').slice(0, 14)}`;
+
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      city: formData.city,
+      pincode: formData.pincode,
+      state: formData.state,
+      landmark: formData.landmark,
+      language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
+      timestamp: timestamp,
+      orderId: orderId,
+      paymentId: paymentId,
+      status: 'PAYMENT_RECEIVED',
+    };
+
+    try {
+      // Submit to Google Apps Script
+      await fetch('https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        mode: 'no-cors',
+      });
+
+      // Redirect to success page
       const params = new URLSearchParams({
         orderId: orderId,
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
+        paymentId: paymentId,
+        status: 'success',
       });
 
       router.push(`/order-confirmation?${params.toString()}`);
     } catch (error) {
-      console.error('Form submission error:', error);
-      const orderId = 'UK' + Date.now();
-      const params = new URLSearchParams({
-        orderId: orderId,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
-      });
-      router.push(`/order-confirmation?${params.toString()}`);
-    } finally {
+      console.error('Sheet submission error:', error);
       setSubmitting(false);
+      alert(selectedLanguage === 'en' ? 'Order submission failed. Please contact support.' : 'ऑर्डर सबमिशन विफल। कृपया सहायता से संपर्क करें।');
     }
   };
 
