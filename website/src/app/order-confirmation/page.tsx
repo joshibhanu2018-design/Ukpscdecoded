@@ -15,12 +15,13 @@ function OrderConfirmationContent() {
   const bookEdition = language === 'हिंदी' ? 'हिंदी संस्करण' : 'English Edition';
 
   const isHindi = language === 'हिंदी';
-  const upiId = '9632662418@ptyes';
+  const upiId = '9632662418@ptyes'; // Bank of Baroda (Primary)
+  const upiId2 = 'bhanujoshi1910-1@oksbi'; // SBI (Backup)
   const amount = 499;
   const phoneNumber = '918317390586';
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(upiId);
+  const copyToClipboard = (id: string) => {
+    navigator.clipboard.writeText(id);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
