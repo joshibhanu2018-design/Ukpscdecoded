@@ -66,7 +66,7 @@ function OrderConfirmationContent() {
             <p className="text-sm text-saffron-300 mb-3 font-semibold">{isHindi ? '⭐ प्राथमिक विधि: UPI ID कॉपी करें' : '⭐ PRIMARY METHOD: Copy UPI ID'}</p>
             <div className="flex items-center gap-3 bg-graphite-900 rounded-lg p-4">
               <code className="text-2xl font-bold text-saffron-400 flex-1 break-all">{upiId}</code>
-              <button onClick={copyToClipboard} className="flex-shrink-0 flex items-center gap-2 px-4 py-2 bg-saffron-500 hover:bg-saffron-600 rounded-lg font-bold whitespace-nowrap">
+              <button onClick={() => copyToClipboard(upiId)} className="flex-shrink-0 flex items-center gap-2 px-4 py-2 bg-saffron-500 hover:bg-saffron-600 rounded-lg font-bold whitespace-nowrap">
                 {copied ? (<><Check className="w-5 h-5" />{isHindi ? 'किया' : 'Copied'}</>) : (<><Copy className="w-5 h-5" />{isHindi ? 'कॉपी' : 'Copy'}</>)}
               </button>
             </div>
