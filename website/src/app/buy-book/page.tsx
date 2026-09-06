@@ -472,22 +472,118 @@ export default function BuyBookPage() {
 
             <div>
               <h3 class="text-lg font-bold text-orange-400 mb-3">B. FLAGSHIP SKILLING SCHEMES</h3>
-              <p class="mb-3">Major programs include Mukhyamantri Kaushal Yojana with global mobility training, UKWDP (World Bank) for modernizing ITI machinery, UKSDM for vocational courses, Devbhoomi Udyamita for innovation labs, and Corporate-ITI partnerships upgrading machinery.</p>
+              <table class="w-full text-xs border border-slate-600 mb-4">
+                <thead>
+                  <tr class="bg-slate-700">
+                    <th class="border border-slate-600 px-3 py-2 text-left">Scheme</th>
+                    <th class="border border-slate-600 px-3 py-2 text-left">Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border border-slate-600 px-3 py-2"><strong>Mukhyamantri Kaushal Yojana</strong></td>
+                    <td class="border border-slate-600 px-3 py-2">Global mobility; trains ANM/GNM, hospitality, elder-care; 20% subsidy on foreign language training; 75% loan interest subsidy</td>
+                  </tr>
+                  <tr class="bg-slate-700/50">
+                    <td class="border border-slate-600 px-3 py-2"><strong>UKWDP (World Bank)</strong></td>
+                    <td class="border border-slate-600 px-3 py-2">Modernizes ITI machinery, smart labs, aligns curriculum</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-600 px-3 py-2"><strong>UKSDM</strong></td>
+                    <td class="border border-slate-600 px-3 py-2">3-6 month free vocational courses for dropouts; homestay, adventure tourism, organic products</td>
+                  </tr>
+                  <tr class="bg-slate-700/50">
+                    <td class="border border-slate-600 px-3 py-2"><strong>Devbhoomi Udyamita</strong></td>
+                    <td class="border border-slate-600 px-3 py-2">Innovation labs in colleges; 12,000+ entrepreneurship training</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-600 px-3 py-2"><strong>Corporate-ITI Partnerships</strong></td>
+                    <td class="border border-slate-600 px-3 py-2">Hyundai, Maruti, Samsung, Tata STRIVE upgrading machinery</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
             <div>
               <h3 class="text-lg font-bold text-orange-400 mb-3">C. ORANGE ECONOMY (Creative & Cultural)</h3>
-              <p class="mb-3">Uttarakhand pivots toward Orange Economy—intellectual property, cultural heritage, arts, and creative expression. Key components include Heritage & Craft, "House of Himalayas" brand marketing 68,000 Women SHGs products, GI Tag Leadership with 29 products protected, ODTP (One District Two Products), Digital Content Hub, and Wellness & Yoga training.</p>
+              <p class="mb-3">Uttarakhand pivots toward Orange Economy—intellectual property, cultural heritage, arts, and creative expression.</p>
+              <table class="w-full text-xs border border-slate-600 mb-4">
+                <tr class="bg-slate-700">
+                  <th class="border border-slate-600 px-3 py-2 text-left">Component</th>
+                  <th class="border border-slate-600 px-3 py-2 text-left">Details</th>
+                </tr>
+                <tr>
+                  <td class="border border-slate-600 px-3 py-2"><strong>Heritage & Craft</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">Aipan art, ringal-bamboo weaving standardized; artisans to entrepreneurs</td>
+                </tr>
+                <tr class="bg-slate-700/50">
+                  <td class="border border-slate-600 px-3 py-2"><strong>"House of Himalayas"</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">Premium brand marketing 68,000 Women SHGs products</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-600 px-3 py-2"><strong>GI Tag Leadership</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">29 products protected (Munsiyari Rajma, Almora Copperware); 30-40% value boost</td>
+                </tr>
+                <tr class="bg-slate-700/50">
+                  <td class="border border-slate-600 px-3 py-2"><strong>ODTP (One District Two Products)</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">Each district specializes 2 local products for global promotion</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-600 px-3 py-2"><strong>Digital Content Hub</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">Film production, drone piloting, travel vlogging skills</td>
+                </tr>
+                <tr class="bg-slate-700/50">
+                  <td class="border border-slate-600 px-3 py-2"><strong>Wellness & Yoga</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">Yoga instructors, Ayurvedic therapists; Rishikesh as training node</td>
+                </tr>
+              </table>
             </div>
 
             <div>
               <h3 class="text-lg font-bold text-orange-400 mb-3">D. SILVER ECONOMY & CAREGIVER MISSION</h3>
-              <p>Aging hill population due to youth out-migration. <strong>Caregiver Skill Mission</strong> trains youth as Care Sahayaks for elderly homestays and wellness retreats. Plan: Train 1.5 lakh Care Sahayaks to turn demographic challenge into high-value service.</p>
+              <p class="mb-3">Aging hill population due to youth out-migration. <strong>Caregiver Skill Mission</strong> trains youth as Care Sahayaks for elderly homestays and wellness retreats. Plan: Train 1.5 lakh Care Sahayaks to turn demographic challenge into high-value service.</p>
             </div>
 
             <div>
-              <h3 class="text-lg font-bold text-orange-400 mb-3">E. SYSTEMIC ISSUES & WAY FORWARD</h3>
-              <p class="mb-3">The SANTULAN Model converts "Geography-led problems into Technology-led solutions" through curriculum contextualization, hub-and-spoke training networks, transition to weightless industries, green skills training, orange & green economy focus, localized incubation, silver economy development, and AI Mission 2025.</p>
+              <h3 class="text-lg font-bold text-orange-400 mb-3">E. SYSTEMIC ISSUES IN SKILLING</h3>
+              <table class="w-full text-xs border border-slate-600 mb-4">
+                <tr class="bg-slate-700">
+                  <th class="border border-slate-600 px-3 py-2 text-left">Issue</th>
+                  <th class="border border-slate-600 px-3 py-2 text-left">Details</th>
+                </tr>
+                <tr>
+                  <td class="border border-slate-600 px-3 py-2"><strong>Spatial Disconnect</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">Training skewed toward plains; mountain youth travel far</td>
+                </tr>
+                <tr class="bg-slate-700/50">
+                  <td class="border border-slate-600 px-3 py-2"><strong>Skills Paradox</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">78.82% literacy but low employability</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-600 px-3 py-2"><strong>Gender Gap</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">Rural LFPR 52.6%; Urban LFPR only 24.4%</td>
+                </tr>
+                <tr class="bg-slate-700/50">
+                  <td class="border border-slate-600 px-3 py-2"><strong>Ex-Servicemen Mismatch</strong></td>
+                  <td class="border border-slate-600 px-3 py-2">1.39 lakh ex-servicemen underutilized</td>
+                </tr>
+              </table>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-orange-400 mb-3">27.17 THE WAY FORWARD - SANTULAN MODEL</h3>
+              <p class="mb-3"><strong>SANTULAN:</strong> Convert "Geography-led problems into Technology-led solutions"</p>
+              <ul class="list-disc list-inside space-y-2 text-xs">
+                <li><strong>Curriculum Contextualization:</strong> Monetize local geography—eco-tourism, carbon auditing</li>
+                <li><strong>PM SHRI Cluster:</strong> Residential "Schools of Excellence" with smart bus services</li>
+                <li><strong>Hub-and-Spoke:</strong> Apex centers feeding mobile training labs to remote blocks</li>
+                <li><strong>Transition to Weightless Industries:</strong> IT, AYUSH, Aromatic plants (Aroma Valleys)</li>
+                <li><strong>Green Skills:</strong> Train "Carbon Auditors" and "Eco-mapping Technicians"</li>
+                <li><strong>Orange & Green Economy:</strong> High-value mountain products, climate-smart agriculture, eco-tourism</li>
+                <li><strong>Localized Incubation:</strong> District start-up incubators + soft loans for ITI graduates</li>
+                <li><strong>Silver Economy:</strong> Certified geriatric caregivers for aging hill population</li>
+                <li><strong>AI Mission 2025:</strong> Prompt engineering and modern tech roles</li>
+              </ul>
             </div>
           </div>
         `,
