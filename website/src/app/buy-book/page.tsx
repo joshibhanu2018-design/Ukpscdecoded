@@ -176,6 +176,39 @@ export default function BuyBookPage() {
     setError(null);
   };
 
+  const submitOrderToSheet = async (status: 'PENDING_PAYMENT' | 'PAYMENT_RECEIVED', orderId: string, paymentId: string = 'N/A') => {
+    const payload = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.replace(/\D/g, ''),
+      address: formData.address.trim(),
+      city: formData.city.trim(),
+      pincode: formData.pincode.trim(),
+      state: formData.state.trim(),
+      landmark: formData.landmark.trim(),
+      language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
+      timestamp: new Date().toISOString(),
+      orderId: orderId,
+      paymentId: paymentId,
+      status: status,
+    };
+
+    try {
+      await fetch(
+        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          mode: 'no-cors',
+        }
+      );
+      console.log(`✅ Order submitted to Google Sheet - Status: ${status}`);
+    } catch (error) {
+      console.error('Google Sheet submission error (non-critical):', error);
+    }
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -188,13 +221,13 @@ export default function BuyBookPage() {
     setSubmitting(true);
 
     try {
-      // Load Razorpay script first
-      await loadRazorpayScript();
-
       // Generate order ID immediately
       const timestamp = Date.now();
       const orderId = `UKPSC_BOOK_${timestamp}`;
-      
+
+      // Load Razorpay script
+      await loadRazorpayScript();
+
       const razorpay = (window as any).Razorpay;
       if (!razorpay) {
         throw new Error('Razorpay not loaded');
@@ -202,7 +235,7 @@ export default function BuyBookPage() {
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_live_TXb0nhqyo9LhkM',
-        amount: 49900, // ₹499 in paise
+        amount: 49900,
         currency: 'INR',
         name: 'UKPSC Decoded',
         description: selectedLanguage === 'en' ? 'UKPSC Book - English Edition' : 'UKPSC पुस्तक - हिंदी संस्करण',
@@ -212,24 +245,30 @@ export default function BuyBookPage() {
           contact: formData.phone.replace(/\D/g, ''),
         },
         notes: {
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone.replace(/\D/g, ''),
-          address: formData.address,
-          city: formData.city,
-          pincode: formData.pincode,
-          state: formData.state,
-          landmark: formData.landmark,
-          language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
           orderId: orderId,
         },
         handler: async (response: any) => {
-          await handlePaymentSuccess(response, orderId);
+          // PAYMENT SUCCESS - Submit with PAYMENT_RECEIVED status
+          await submitOrderToSheet('PAYMENT_RECEIVED', orderId, response.razorpay_payment_id);
+          
+          const params = new URLSearchParams({
+            orderId: orderId,
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
+            paymentId: response.razorpay_payment_id,
+            status: 'success',
+          });
+
+          router.push(`/order-confirmation?${params.toString()}`);
         },
         modal: {
-          ondismiss: () => {
+          ondismiss: async () => {
+            // PAYMENT CANCELLED - Submit with PENDING_PAYMENT status
+            await submitOrderToSheet('PENDING_PAYMENT', orderId, 'CANCELLED');
             setSubmitting(false);
-            setError(selectedLanguage === 'en' ? 'Payment cancelled. Please try again.' : 'भुगतान रद्द किया गया। कृपया पुनः प्रयास करें।');
+            setError(selectedLanguage === 'en' ? 'Payment cancelled. Your details have been saved. You can retry anytime.' : 'भुगतान रद्द किया गया। आपके विवरण सहेजे गए हैं। आप कभी भी पुनः प्रयास कर सकते हैं।');
           },
         },
         theme: { color: '#FF9933' },
@@ -254,7 +293,7 @@ export default function BuyBookPage() {
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.async = true;
-      
+
       script.onload = () => {
         if ((window as any).Razorpay) {
           resolve();
@@ -269,73 +308,6 @@ export default function BuyBookPage() {
 
       document.body.appendChild(script);
     });
-  };
-
-  const handlePaymentSuccess = async (response: any, orderId: string) => {
-    try {
-      // Submit order to Google Sheet immediately
-      await submitOrderToSheet(response, orderId);
-
-      // Redirect to confirmation
-      const params = new URLSearchParams({
-        orderId: orderId,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
-        paymentId: response.razorpay_payment_id,
-        status: 'success',
-      });
-
-      router.push(`/order-confirmation?${params.toString()}`);
-    } catch (err) {
-      console.error('Error after payment:', err);
-      setSubmitting(false);
-      const params = new URLSearchParams({
-        orderId: orderId,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
-        paymentId: response.razorpay_payment_id,
-        status: 'success',
-      });
-      router.push(`/order-confirmation?${params.toString()}`);
-    }
-  };
-
-  const submitOrderToSheet = async (paymentResponse: any, orderId: string) => {
-    const payload = {
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      phone: formData.phone.replace(/\D/g, ''),
-      address: formData.address.trim(),
-      city: formData.city.trim(),
-      pincode: formData.pincode.trim(),
-      state: formData.state.trim(),
-      landmark: formData.landmark.trim(),
-      language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
-      timestamp: new Date().toISOString(),
-      orderId: orderId,
-      paymentId: paymentResponse.razorpay_payment_id,
-      status: 'PAYMENT_RECEIVED',
-    };
-
-    try {
-      await fetch(
-        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          mode: 'no-cors',
-        }
-      );
-      console.log('✅ Order submitted to Google Sheet');
-    } catch (error) {
-      console.error('Google Sheet submission error (non-critical):', error);
-      // Don't throw - sheet submission failure shouldn't block user experience
-    }
   };
 
   const selectedChapterData = selectedChapter ? currentContent[selectedChapter] : null;
