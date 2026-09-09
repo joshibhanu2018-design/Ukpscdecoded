@@ -109,7 +109,7 @@ export default function BuyBookPage() {
         label: '📑 विषय-सूची',
         title: 'संपूर्ण विषय-सूची',
         isIndex: true,
-        pdfUrl: '/book-samples/hindi/Hindi%20book%20index.pdf',
+        pdfUrl: '/book-samples/hindi/Hindi book index.pdf',
       },
       '2': {
         label: 'अध्याय 2',
@@ -126,16 +126,36 @@ export default function BuyBookPage() {
         title: 'ब्रिटिश शासन',
         pdfUrl: '/book-samples/hindi/Chapter 4.pdf',
       },
+      '9': {
+        label: 'अध्याय 9',
+        title: 'धार्मिक महत्व',
+        pdfUrl: '/book-samples/hindi/Chapter 9.pdf',
+      },
+      '11': {
+        label: 'अध्याय 11',
+        title: 'राजनीतिक दल',
+        pdfUrl: '/book-samples/hindi/Chapter 11.pdf',
+      },
+      '19': {
+        label: 'अध्याय 19',
+        title: 'खनिज संसाधन',
+        pdfUrl: '/book-samples/hindi/Chapter 19.pdf',
+      },
+      '25': {
+        label: 'अध्याय 25',
+        title: 'आर्थिक विकास',
+        pdfUrl: '/book-samples/hindi/Chapter 25.pdf',
+      },
       '27': {
         label: 'अध्याय 27',
         title: 'शिक्षा सुधार',
-        pdfUrl: '/book-samples/hindi/27 chapter education .pdf',
+        pdfUrl: '/book-samples/hindi/27 chapter education.pdf',
       },
     },
   };
 
   const englishChapters = ['index', '2', '3', '4', '27'];
-  const hindiChapters = ['index', '2', '3', '4', '27'];
+  const hindiChapters = ['index', '2', '3', '4', '9', '11', '19', '25', '27'];
   const currentChapters = selectedLanguage === 'en' ? englishChapters : hindiChapters;
   const currentContent = chapterContent[selectedLanguage];
 
