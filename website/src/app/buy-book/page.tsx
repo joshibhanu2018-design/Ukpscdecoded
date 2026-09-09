@@ -79,29 +79,93 @@ export default function BuyBookPage() {
     en: {
       'index': {
         label: '📑 Table of Contents',
-        title: 'Complete Index - All 28 Chapters',
+        title: 'UTTARAKHAND Decoded - Complete Index (28 Chapters)',
         isIndex: true,
-        htmlContent: `<div class="text-slate-300">All 28 chapters available in the book...</div>`,
+        htmlContent: `<div class="space-y-4">
+          <div>
+            <h3 class="text-xl font-bold text-orange-400 mb-3">PART A: HISTORY & CULTURE (Chapters 1-10)</h3>
+            <ol class="list-decimal list-inside space-y-2 text-slate-300">
+              <li>Epigraphy - Inscriptions & Their Significance</li>
+              <li>The Katyuri Dynasty & Parmar Dynasty of Garhwal</li>
+              <li>Anglo-Gorkha War & Liberation (1814-1815)</li>
+              <li>British Rule in Uttarakhand (1815-1947)</li>
+              <li>Indian Freedom Struggle in Uttarakhand</li>
+              <li>Post-Independence Development (1947-2000)</li>
+              <li>Formation of Uttarakhand State (2000)</li>
+              <li>Cultural Heritage & Sacred Sites</li>
+              <li>Religious Significance & Pilgrimage Routes</li>
+              <li>Local Traditions & Folk Culture</li>
+            </ol>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-orange-400 mb-3">PART B: POLITICS & GOVERNANCE (Chapters 11-14)</h3>
+            <ol class="list-decimal list-inside space-y-2 text-slate-300" start="11">
+              <li>Political Parties & Electoral History</li>
+              <li>Electoral System & Democratic Institutions</li>
+              <li>District Administration & Local Bodies</li>
+              <li>Land Reforms & Constitutional Amendments</li>
+            </ol>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-orange-400 mb-3">PART C: GEOGRAPHY (Chapters 15-20)</h3>
+            <ol class="list-decimal list-inside space-y-2 text-slate-300" start="15">
+              <li>Physical Geography & Topography</li>
+              <li>Climate & Weather Patterns</li>
+              <li>Vegetation & Biodiversity</li>
+              <li>Water Resources & Hydropower</li>
+              <li>Mineral Resources & Geology</li>
+              <li>Environmental Protection & Conservation</li>
+            </ol>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-orange-400 mb-3">PART D: ECONOMY (Chapters 21-25)</h3>
+            <ol class="list-decimal list-inside space-y-2 text-slate-300" start="21">
+              <li>Agriculture & Horticulture</li>
+              <li>Industries & MSME Development</li>
+              <li>Tourism & Hospitality Sector</li>
+              <li>Transportation & Infrastructure</li>
+              <li>Economic Development & Growth Indicators</li>
+            </ol>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-orange-400 mb-3">PART E: DISASTER MANAGEMENT & HRD (Chapters 26-28)</h3>
+            <ol class="list-decimal list-inside space-y-2 text-slate-300" start="26">
+              <li>Disaster Management & Natural Hazards</li>
+              <li>Education Reforms & Human Resources Development</li>
+              <li>Health & Wellness Infrastructure</li>
+            </ol>
+          </div>
+        </div>`,
+      },
+      '1': {
+        label: 'Chapter 1',
+        title: 'Epigraphy - Inscriptions & Their Significance',
+        pdfUrl: '/book-samples/English/Chapter 1',
       },
       '2': {
         label: 'Chapter 2',
-        title: 'The Katyuri Dynasty',
-        htmlContent: `<div class="text-slate-300">Content preview...</div>`,
-      },
-      '3': {
-        label: 'Chapter 3',
-        title: 'Gorkha Rule',
-        htmlContent: `<div class="text-slate-300">Content preview...</div>`,
+        title: 'The Katyuri Dynasty & Parmar Dynasty',
+        pdfUrl: '/book-samples/English/Chapter 2.pdf',
       },
       '4': {
         label: 'Chapter 4',
-        title: 'British Rule',
-        htmlContent: `<div class="text-slate-300">Content preview...</div>`,
+        title: 'British Rule in Uttarakhand (1815-1947)',
+        pdfUrl: '/book-samples/English/Chapter 4.pdf',
       },
-      '27': {
-        label: 'Chapter 27',
-        title: 'Education & Skills',
-        htmlContent: `<div class="text-slate-300">Content preview...</div>`,
+      '8': {
+        label: 'Chapter 8',
+        title: 'Cultural Heritage & Sacred Sites',
+        pdfUrl: '/book-samples/English/Chapter 8.pdf',
+      },
+      '12': {
+        label: 'Chapter 12',
+        title: 'Electoral System & Democratic Institutions',
+        pdfUrl: '/book-samples/English/Chapter 12.pdf',
+      },
+      'misc': {
+        label: '📋 Miscellaneous',
+        title: 'Miscellaneous Topics & Additional Resources',
+        pdfUrl: '/book-samples/English/Miscellaneous.pdf',
       },
     },
     hi: {
@@ -154,7 +218,7 @@ export default function BuyBookPage() {
     },
   };
 
-  const englishChapters = ['index', '2', '3', '4', '27'];
+  const englishChapters = ['index', '1', '2', '4', '8', '12', 'misc'];
   const hindiChapters = ['index', '2', '3', '4', '9', '11', '19', '25', '27'];
   const currentChapters = selectedLanguage === 'en' ? englishChapters : hindiChapters;
   const currentContent = chapterContent[selectedLanguage];
