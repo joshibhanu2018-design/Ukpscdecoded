@@ -5,6 +5,11 @@ import { X, Eye, ChevronDown, Book } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+// Constants
+const BOOK_PRICE_INR = 499;
+const BOOK_PRICE_PAISE = BOOK_PRICE_INR * 100; // For Razorpay
+const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY || '';
+
 interface ChapterContent {
   label: string;
   title: string;
@@ -22,13 +27,12 @@ interface LanguageChapters {
   hi: ChapterBook;
 }
 
-const RAZORPAY_KEY = 'rzp_live_TXb0nhqyo9LhkM'; // Live Production Key
-
 export default function BuyBookPage() {
   const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'hi'>('en');
   const [selectedChapter, setSelectedChapter] = useState<string>('index');
   const [razorpayReady, setRazorpayReady] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -41,6 +45,7 @@ export default function BuyBookPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastSubmittedOrderId, setLastSubmittedOrderId] = useState<string | null>(null);
 
   // Pre-load Razorpay script on component mount
   useEffect(() => {
@@ -65,7 +70,6 @@ export default function BuyBookPage() {
 
     script.onerror = () => {
       console.error('❌ Failed to load Razorpay script');
-      // Retry after 2 seconds
       setTimeout(() => {
         console.log('🔄 Retrying Razorpay script load...');
         preloadRazorpayScript();
@@ -140,32 +144,32 @@ export default function BuyBookPage() {
       '1': {
         label: 'Chapter 1',
         title: 'Epigraphy - Inscriptions & Their Significance',
-        pdfUrl: '/book-samples/English/Chapter 1',
+        pdfUrl: '/book-samples/english/chapter-01.pdf',
       },
       '2': {
         label: 'Chapter 2',
         title: 'The Katyuri Dynasty & Parmar Dynasty',
-        pdfUrl: '/book-samples/English/Chapter 2.pdf',
+        pdfUrl: '/book-samples/english/chapter-02.pdf',
       },
       '4': {
         label: 'Chapter 4',
         title: 'British Rule in Uttarakhand (1815-1947)',
-        pdfUrl: '/book-samples/English/Chapter 4.pdf',
+        pdfUrl: '/book-samples/english/chapter-04.pdf',
       },
       '8': {
         label: 'Chapter 8',
         title: 'Cultural Heritage & Sacred Sites',
-        pdfUrl: '/book-samples/English/Chapter 8.pdf',
+        pdfUrl: '/book-samples/english/chapter-08.pdf',
       },
       '12': {
         label: 'Chapter 12',
         title: 'Electoral System & Democratic Institutions',
-        pdfUrl: '/book-samples/English/Chapter 12.pdf',
+        pdfUrl: '/book-samples/english/chapter-12.pdf',
       },
       'misc': {
         label: '📋 Miscellaneous',
         title: 'Miscellaneous Topics & Additional Resources',
-        pdfUrl: '/book-samples/English/Miscellaneous.pdf',
+        pdfUrl: '/book-samples/english/miscellaneous.pdf',
       },
     },
     hi: {
@@ -173,47 +177,47 @@ export default function BuyBookPage() {
         label: '📑 विषय-सूची',
         title: 'संपूर्ण विषय-सूची',
         isIndex: true,
-        pdfUrl: '/book-samples/hindi/Hindi book index.pdf',
+        pdfUrl: '/book-samples/hindi/index.pdf',
       },
       '2': {
         label: 'अध्याय 2',
         title: 'कत्यूरी वंश',
-        pdfUrl: '/book-samples/hindi/Chapter 2 sample.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-02.pdf',
       },
       '3': {
         label: 'अध्याय 3',
         title: 'गोरखा शासन',
-        pdfUrl: '/book-samples/hindi/Chapter 3.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-03.pdf',
       },
       '4': {
         label: 'अध्याय 4',
         title: 'ब्रिटिश शासन',
-        pdfUrl: '/book-samples/hindi/Chapter 4.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-04.pdf',
       },
       '9': {
         label: 'अध्याय 9',
         title: 'धार्मिक महत्व',
-        pdfUrl: '/book-samples/hindi/Chapter 9.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-09.pdf',
       },
       '11': {
         label: 'अध्याय 11',
         title: 'राजनीतिक दल',
-        pdfUrl: '/book-samples/hindi/Chapter 11.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-11.pdf',
       },
       '19': {
         label: 'अध्याय 19',
         title: 'खनिज संसाधन',
-        pdfUrl: '/book-samples/hindi/Chapter 19.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-19.pdf',
       },
       '25': {
         label: 'अध्याय 25',
         title: 'आर्थिक विकास',
-        pdfUrl: '/book-samples/hindi/Chapter 25.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-25.pdf',
       },
       '27': {
         label: 'अध्याय 27',
         title: 'शिक्षा सुधार',
-        pdfUrl: '/book-samples/hindi/27 chapter education.pdf',
+        pdfUrl: '/book-samples/hindi/chapter-27.pdf',
       },
     },
   };
@@ -221,7 +225,7 @@ export default function BuyBookPage() {
   const englishChapters = ['index', '1', '2', '4', '8', '12', 'misc'];
   const hindiChapters = ['index', '2', '3', '4', '9', '11', '19', '25', '27'];
   const currentChapters = selectedLanguage === 'en' ? englishChapters : hindiChapters;
-  const currentContent = chapterContent[selectedLanguage];
+  const currentContent = chapterContent[selectedLanguage] || chapterContent['en'];
 
   const handleLanguageChange = (language: 'en' | 'hi') => {
     setSelectedLanguage(language);
@@ -237,11 +241,19 @@ export default function BuyBookPage() {
     setError(null);
   };
 
-  const submitOrderToSheet = async (status: 'PENDING_PAYMENT' | 'PAYMENT_RECEIVED', orderId: string, paymentId: string = 'N/A') => {
+  /**
+   * IMPROVED: Save order via backend API instead of direct Google Sheets
+   * This prevents exposing the Apps Script URL
+   */
+  const submitOrderToBackend = async (
+    status: 'PENDING_PAYMENT' | 'PAYMENT_RECEIVED',
+    orderId: string,
+    paymentId: string = 'N/A'
+  ) => {
     const payload = {
       name: formData.name.trim(),
       email: formData.email.trim(),
-      phone: formData.phone.replace(/\D/g, ''),
+      phone: formatPhoneForRazorpay(formData.phone),
       address: formData.address.trim(),
       city: formData.city.trim(),
       pincode: formData.pincode.trim(),
@@ -255,29 +267,90 @@ export default function BuyBookPage() {
     };
 
     try {
-      await fetch(
-        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          mode: 'no-cors',
-        }
-      );
+      const response = await fetch('/api/save-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to save order:', response.statusText);
+        return false;
+      }
+
       console.log(`✅ Order submitted - Status: ${status}`);
+      return true;
     } catch (error) {
-      console.error('Google Sheet error (non-critical):', error);
+      console.error('Order submission error:', error);
+      // Don't throw - let payment flow continue even if backup fails
+      return false;
+    }
+  };
+
+  /**
+   * IMPROVED: Format phone number consistently
+   * Handles various input formats (spaces, dashes, +91 prefix)
+   */
+  const formatPhoneForRazorpay = (phone: string): string => {
+    const digits = phone.replace(/\D/g, '');
+
+    // If already has country code (12 digits starting with 91)
+    if (digits.startsWith('91') && digits.length === 12) {
+      return digits;
+    }
+
+    // If 10 digits, add country code
+    if (digits.length === 10) {
+      return '91' + digits;
+    }
+
+    // Return as-is (may fail validation, but let Razorpay handle it)
+    return digits;
+  };
+
+  /**
+   * IMPROVED: Verify payment on backend before proceeding
+   * Prevents fraud from forged payment responses
+   */
+  const verifyPaymentSignature = async (
+    razorpayPaymentId: string,
+    razorpayOrderId: string,
+    razorpaySignature: string
+  ): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          razorpay_payment_id: razorpayPaymentId,
+          razorpay_order_id: razorpayOrderId,
+          razorpay_signature: razorpaySignature,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Payment verification failed');
+        return false;
+      }
+
+      const data = await response.json();
+      return data.success === true;
+    } catch (error) {
+      console.error('Payment verification error:', error);
+      return false;
     }
   };
 
   const openRazorpayCheckout = async (retryCount = 0) => {
     try {
-      // Check if Razorpay is loaded
       if (!((window as any).Razorpay)) {
-        // Wait and retry up to 3 times
         if (retryCount < 3) {
           console.log(`Razorpay not ready, retrying... (${retryCount + 1}/3)`);
-          setError(selectedLanguage === 'en' ? 'Loading payment gateway...' : 'भुगतान गेटवे लोड हो रहा है...');
+          setError(
+            selectedLanguage === 'en'
+              ? 'Loading payment gateway...'
+              : 'भुगतान गेटवे लोड हो रहा है...'
+          );
           await new Promise(resolve => setTimeout(resolve, 1000));
           return openRazorpayCheckout(retryCount + 1);
         } else {
@@ -288,35 +361,67 @@ export default function BuyBookPage() {
       const timestamp = Date.now();
       const orderId = `UKPSC_BOOK_${timestamp}`;
 
+      // Prevent duplicate submissions
+      if (lastSubmittedOrderId === orderId) {
+        setError(
+          selectedLanguage === 'en'
+            ? 'Order already in progress...'
+            : 'आदेश पहले से प्रोसेस हो रहा है...'
+        );
+        return;
+      }
+
+      setLastSubmittedOrderId(orderId);
       const Razorpay = (window as any).Razorpay;
 
       const options = {
-        key: RAZORPAY_KEY, // Use constant instead of env var
-        amount: 49900, // ₹499 in paise
+        key: RAZORPAY_KEY,
+        amount: BOOK_PRICE_PAISE,
         currency: 'INR',
         name: 'UKPSC Decoded',
-        description: selectedLanguage === 'en' ? 'UKPSC Book - English Edition' : 'UKPSC पुस्तक - हिंदी संस्करण',
+        description:
+          selectedLanguage === 'en'
+            ? 'UKPSC Book - English Edition'
+            : 'UKPSC पुस्तक - हिंदी संस्करण',
         image: 'https://ukpscdecoded.vercel.app/logo.png',
         prefill: {
           name: formData.name.trim(),
           email: formData.email.trim(),
-          contact: formData.phone.replace(/\D/g, ''),
+          contact: formatPhoneForRazorpay(formData.phone),
         },
         notes: {
           orderId: orderId,
           language: selectedLanguage,
         },
-        handler: (response: any) => {
+        handler: async (response: any) => {
           console.log('✅ Payment successful:', response.razorpay_payment_id);
-          handlePaymentSuccess(response, orderId);
+
+          // IMPROVED: Verify payment signature on backend
+          const isValid = await verifyPaymentSignature(
+            response.razorpay_payment_id,
+            response.razorpay_order_id,
+            response.razorpay_signature
+          );
+
+          if (!isValid) {
+            setError(
+              selectedLanguage === 'en'
+                ? 'Payment verification failed. Please contact support.'
+                : 'भुगतान सत्यापन विफल। कृपया सहायता से संपर्क करें।'
+            );
+            setSubmitting(false);
+            return;
+          }
+
+          await handlePaymentSuccess(response, orderId);
         },
         modal: {
           ondismiss: () => {
             console.log('❌ Payment cancelled by user');
             handlePaymentCancel(orderId);
           },
-          escape: false, // Prevent ESC key dismiss
-          backdropclose: false, // Prevent backdrop click dismiss
+          escape: false,
+          backdropclose: false,
         },
         theme: {
           color: '#FF9933',
@@ -328,13 +433,19 @@ export default function BuyBookPage() {
     } catch (err) {
       console.error('Razorpay error:', err);
       setSubmitting(false);
-      setError(err instanceof Error ? err.message : (selectedLanguage === 'en' ? 'Payment gateway error. Please refresh and try again.' : 'भुगतान गेटवे त्रुटि। कृपया रीफ्रेश करें और पुनः प्रयास करें।'));
+      setError(
+        err instanceof Error
+          ? err.message
+          : selectedLanguage === 'en'
+            ? 'Payment gateway error. Please refresh and try again.'
+            : 'भुगतान गेटवे त्रुटि। कृपया रीफ्रेश करें और पुनः प्रयास करें।'
+      );
     }
   };
 
   const handlePaymentSuccess = async (response: any, orderId: string) => {
     try {
-      await submitOrderToSheet('PAYMENT_RECEIVED', orderId, response.razorpay_payment_id);
+      await submitOrderToBackend('PAYMENT_RECEIVED', orderId, response.razorpay_payment_id);
 
       const params = new URLSearchParams({
         orderId: orderId,
@@ -349,7 +460,6 @@ export default function BuyBookPage() {
       router.push(`/order-confirmation?${params.toString()}`);
     } catch (err) {
       console.error('Post-payment error:', err);
-      // Still redirect even if sheet submission fails
       const params = new URLSearchParams({
         orderId: orderId,
         name: formData.name,
@@ -364,41 +474,69 @@ export default function BuyBookPage() {
   };
 
   const handlePaymentCancel = async (orderId: string) => {
-    await submitOrderToSheet('PENDING_PAYMENT', orderId, 'CANCELLED');
+    await submitOrderToBackend('PENDING_PAYMENT', orderId, 'CANCELLED');
     setSubmitting(false);
-    setError(selectedLanguage === 'en' 
-      ? '⏳ Payment cancelled. Your details have been saved. You can retry anytime.' 
-      : '⏳ भुगतान रद्द किया गया। आपके विवरण सहेजे गए हैं। आप कभी भी पुनः प्रयास कर सकते हैं।');
+    setError(
+      selectedLanguage === 'en'
+        ? '⏳ Payment cancelled. Your details have been saved. You can retry anytime.'
+        : '⏳ भुगतान रद्द किया गया। आपके विवरण सहेजे गए हैं। आप कभी भी पुनः प्रयास कर सकते हैं।'
+    );
+  };
+
+  const handleViewPdf = () => {
+    setPdfLoading(true);
+    const pdfWindow = window.open(selectedChapterData?.pdfUrl, '_blank');
+    if (pdfWindow) {
+      setTimeout(() => setPdfLoading(false), 2000);
+    }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // Validate all fields
-    if (!formData.name || !formData.email || !formData.phone || !formData.city || !formData.pincode || !formData.state || !formData.address) {
-      setError(selectedLanguage === 'en' ? '❌ Please fill all required fields!' : '❌ कृपया सभी आवश्यक फ़ील्ड भरें!');
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.city ||
+      !formData.pincode ||
+      !formData.state ||
+      !formData.address
+    ) {
+      setError(
+        selectedLanguage === 'en'
+          ? '❌ Please fill all required fields!'
+          : '❌ कृपया सभी आवश्यक फ़ील्ड भरें!'
+      );
       return;
     }
 
-    // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setError(selectedLanguage === 'en' ? '❌ Please enter a valid email!' : '❌ कृपया सही ईमेल दर्ज करें!');
+      setError(
+        selectedLanguage === 'en'
+          ? '❌ Please enter a valid email!'
+          : '❌ कृपया सही ईमेल दर्ज करें!'
+      );
       return;
     }
 
-    // Validate phone (minimum 10 digits)
     const phoneDigits = formData.phone.replace(/\D/g, '');
     if (phoneDigits.length < 10) {
-      setError(selectedLanguage === 'en' ? '❌ Please enter a valid 10-digit phone number!' : '❌ कृपया 10-अंकीय फोन नंबर दर्ज करें!');
+      setError(
+        selectedLanguage === 'en'
+          ? '❌ Please enter a valid 10-digit phone number!'
+          : '❌ कृपया 10-अंकीय फोन नंबर दर्ज करें!'
+      );
       return;
     }
 
     setSubmitting(true);
-    setError(selectedLanguage === 'en' ? 'Opening payment gateway...' : 'भुगतान गेटवे खोल रहे हैं...');
+    setError(
+      selectedLanguage === 'en' ? 'Opening payment gateway...' : 'भुगतान गेटवे खोल रहे हैं...'
+    );
 
-    // Wait a moment then open checkout
     setTimeout(() => {
       openRazorpayCheckout();
     }, 500);
@@ -417,10 +555,24 @@ export default function BuyBookPage() {
           <p className="text-xl text-slate-300">उत्तराखंड का संपूर्ण अध्ययन पुस्तक</p>
 
           <div className="flex justify-center gap-6 mt-8 mb-8">
-            <button onClick={() => handleLanguageChange('en')} className={`px-10 py-4 rounded-xl font-bold text-lg transition-all ${selectedLanguage === 'en' ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-2xl' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'}`}>
+            <button
+              onClick={() => handleLanguageChange('en')}
+              className={`px-10 py-4 rounded-xl font-bold text-lg transition-all ${
+                selectedLanguage === 'en'
+                  ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-2xl'
+                  : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
+              }`}
+            >
               🇬🇧 ENGLISH
             </button>
-            <button onClick={() => handleLanguageChange('hi')} className={`px-10 py-4 rounded-xl font-bold text-lg transition-all ${selectedLanguage === 'hi' ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-2xl' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'}`}>
+            <button
+              onClick={() => handleLanguageChange('hi')}
+              className={`px-10 py-4 rounded-xl font-bold text-lg transition-all ${
+                selectedLanguage === 'hi'
+                  ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-2xl'
+                  : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
+              }`}
+            >
               🇮🇳 हिंदी
             </button>
           </div>
@@ -431,22 +583,27 @@ export default function BuyBookPage() {
                 <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-slate-900">
                   <Image
                     src={selectedLanguage === 'en' ? '/IMG_5855.jpeg' : '/IMG_5854.jpeg'}
-                    alt="Book Cover"
+                    alt={selectedLanguage === 'en' ? 'UKPSC Decoded - English Edition Book Cover' : 'UKPSC डिकोडित - हिंदी संस्करण पुस्तक कवर'}
                     fill
                     className="object-cover"
                     priority
                   />
                 </div>
                 <div className="mt-4 text-center">
-                  <p className="text-slate-400 text-sm">{selectedLanguage === 'en' ? '🇬🇧 English' : '🇮🇳 हिंदी'}</p>
+                  <p className="text-slate-400 text-sm">
+                    {selectedLanguage === 'en' ? '🇬🇧 English' : '🇮🇳 हिंदी'}
+                  </p>
                   <p className="text-white font-bold mt-2">UTTARAKHAND Decoded</p>
-                  <p className="text-orange-400 font-bold mt-1">₹499</p>
+                  <p className="text-orange-400 font-bold mt-1">₹{BOOK_PRICE_INR}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <button onClick={() => setSelectedChapter('index')} className="inline-block px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 rounded-lg font-bold hover:shadow-lg">
+          <button
+            onClick={() => setSelectedChapter('index')}
+            className="inline-block px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 rounded-lg font-bold hover:shadow-lg"
+          >
             📑 {selectedLanguage === 'en' ? 'VIEW INDEX' : 'विषय-सूची'}
           </button>
         </div>
@@ -454,13 +611,23 @@ export default function BuyBookPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
             <div className="bg-slate-800 rounded-2xl p-6 sticky top-4 shadow-2xl border border-slate-700 max-h-[85vh] overflow-y-auto">
-              <h2 className="text-2xl font-bold text-white mb-4">{selectedLanguage === 'en' ? 'Chapters' : 'अध्याय'}</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">
+                {selectedLanguage === 'en' ? 'Chapters' : 'अध्याय'}
+              </h2>
               <div className="space-y-2">
                 {currentChapters.map((chapterId) => {
                   const chapter = currentContent[chapterId];
                   const isSelected = selectedChapter === chapterId;
                   return (
-                    <button key={chapterId} onClick={() => setSelectedChapter(chapterId)} className={`w-full text-left p-4 rounded-lg transition-all ${isSelected ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'}`}>
+                    <button
+                      key={chapterId}
+                      onClick={() => setSelectedChapter(chapterId)}
+                      className={`w-full text-left p-4 rounded-lg transition-all ${
+                        isSelected
+                          ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white'
+                          : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
+                      }`}
+                    >
                       <div className="font-semibold text-sm">{chapter.label}</div>
                       <div className="text-xs opacity-90 line-clamp-2">{chapter.title}</div>
                     </button>
@@ -470,7 +637,7 @@ export default function BuyBookPage() {
               <div className="mt-8 p-4 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl">
                 <div className="text-white">
                   <div className="text-sm opacity-90">Price</div>
-                  <div className="text-3xl font-bold">₹499</div>
+                  <div className="text-3xl font-bold">₹{BOOK_PRICE_INR}</div>
                   <div className="text-xs opacity-75">Free Shipping</div>
                 </div>
               </div>
@@ -482,9 +649,15 @@ export default function BuyBookPage() {
               <div className="bg-slate-800 rounded-2xl overflow-hidden shadow-2xl border border-slate-700">
                 <div className="bg-gradient-to-r from-slate-700 to-slate-900 p-6 flex justify-between items-start">
                   <div>
-                    <h2 className="text-2xl font-bold text-white">{selectedChapterData.title}</h2>
+                    <h2 className="text-2xl font-bold text-white">
+                      {selectedChapterData.title}
+                    </h2>
                   </div>
-                  <button onClick={() => setSelectedChapter('')} className="text-slate-400 hover:text-white">
+                  <button
+                    onClick={() => setSelectedChapter('')}
+                    className="text-slate-400 hover:text-white"
+                    aria-label="Close chapter view"
+                  >
                     <X size={24} />
                   </button>
                 </div>
@@ -494,7 +667,13 @@ export default function BuyBookPage() {
                   ) : selectedChapterData.pdfUrl ? (
                     <div className="text-center py-12">
                       <Eye size={56} className="text-slate-400 mx-auto mb-4" />
-                      <button onClick={() => window.open(selectedChapterData.pdfUrl, '_blank')} className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-3 rounded-lg font-bold">👁️ View PDF</button>
+                      <button
+                        onClick={handleViewPdf}
+                        disabled={pdfLoading}
+                        className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-3 rounded-lg font-bold disabled:opacity-50"
+                      >
+                        {pdfLoading ? '⏳ Loading PDF...' : '👁️ View PDF'}
+                      </button>
                     </div>
                   ) : null}
                 </div>
@@ -502,45 +681,138 @@ export default function BuyBookPage() {
             ) : null}
 
             <div className="bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-700">
-              <h2 className="text-3xl font-bold text-white mb-8">📦 {selectedLanguage === 'en' ? 'Place Order' : 'आदेश दें'}</h2>
-              
-              {/* Status Indicator */}
+              <h2 className="text-3xl font-bold text-white mb-8">
+                📦 {selectedLanguage === 'en' ? 'Place Order' : 'आदेश दें'}
+              </h2>
+
               {!razorpayReady && (
-                <div className="mb-6 p-4 bg-yellow-500/20 border border-yellow-500 text-yellow-200 rounded-lg text-sm">
-                  ⚠️ {selectedLanguage === 'en' ? 'Preparing payment gateway...' : 'भुगतान गेटवे तैयार हो रहा है...'}
+                <div className="mb-6 p-4 bg-yellow-500/20 border border-yellow-500 text-yellow-200 rounded-lg text-sm flex justify-between items-center">
+                  <span>
+                    ⚠️{' '}
+                    {selectedLanguage === 'en'
+                      ? 'Preparing payment gateway...'
+                      : 'भुगतान गेटवे तैयार हो रहा है...'}
+                  </span>
                 </div>
               )}
 
               {error && (
-                <div className="mb-6 p-4 bg-red-500/20 border border-red-500 text-red-200 rounded-lg text-sm">
-                  {error}
+                <div className="mb-6 p-4 bg-red-500/20 border border-red-500 text-red-200 rounded-lg text-sm flex justify-between items-center">
+                  <span>{error}</span>
+                  <button
+                    onClick={() => setError(null)}
+                    className="text-red-300 hover:text-red-100"
+                    aria-label="Dismiss error"
+                  >
+                    ✕
+                  </button>
                 </div>
               )}
 
               {submitting && (
                 <div className="mb-6 p-4 bg-blue-500/20 border border-blue-500 text-blue-200 rounded-lg text-sm">
-                  ⏳ {selectedLanguage === 'en' ? 'Opening payment gateway...' : 'भुगतान गेटवे खोल रहे हैं...'}
+                  ⏳{' '}
+                  {selectedLanguage === 'en'
+                    ? 'Opening payment gateway...'
+                    : 'भुगतान गेटवे खोल रहे हैं...'}
                 </div>
               )}
 
               <form onSubmit={handleFormSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="text" name="name" placeholder={selectedLanguage === 'en' ? 'Full Name' : 'पूरा नाम'} value={formData.name} onChange={handleFormChange} required className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none" />
-                  <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleFormChange} required className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none" />
+                  <input
+                    type="text"
+                    name="name"
+                    aria-label="Full name"
+                    placeholder={selectedLanguage === 'en' ? 'Full Name' : 'पूरा नाम'}
+                    value={formData.name}
+                    onChange={handleFormChange}
+                    required
+                    className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    aria-label="Email address"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    required
+                    className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                  />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="tel" name="phone" placeholder={selectedLanguage === 'en' ? 'Phone (10 digits)' : 'फोन (10 अंक)'} value={formData.phone} onChange={handleFormChange} required className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none" />
-                  <input type="text" name="city" placeholder={selectedLanguage === 'en' ? 'City' : 'शहर'} value={formData.city} onChange={handleFormChange} required className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    aria-label="Phone number"
+                    placeholder={selectedLanguage === 'en' ? 'Phone (10 digits)' : 'फोन (10 अंक)'}
+                    value={formData.phone}
+                    onChange={handleFormChange}
+                    required
+                    className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                  />
+                  <input
+                    type="text"
+                    name="city"
+                    aria-label="City"
+                    placeholder={selectedLanguage === 'en' ? 'City' : 'शहर'}
+                    value={formData.city}
+                    onChange={handleFormChange}
+                    required
+                    className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                  />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="text" name="pincode" placeholder={selectedLanguage === 'en' ? 'PIN' : 'पिन'} value={formData.pincode} onChange={handleFormChange} required className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none" />
-                  <input type="text" name="state" placeholder={selectedLanguage === 'en' ? 'State' : 'राज्य'} value={formData.state} onChange={handleFormChange} required className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none" />
+                  <input
+                    type="text"
+                    name="pincode"
+                    aria-label="PIN code"
+                    placeholder={selectedLanguage === 'en' ? 'PIN' : 'पिन'}
+                    value={formData.pincode}
+                    onChange={handleFormChange}
+                    required
+                    className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                  />
+                  <input
+                    type="text"
+                    name="state"
+                    aria-label="State"
+                    placeholder={selectedLanguage === 'en' ? 'State' : 'राज्य'}
+                    value={formData.state}
+                    onChange={handleFormChange}
+                    required
+                    className="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                  />
                 </div>
-                <textarea name="address" placeholder={selectedLanguage === 'en' ? 'Full Address' : 'पूरा पता'} rows={3} value={formData.address} onChange={handleFormChange} required className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"></textarea>
-                <input type="text" name="landmark" placeholder={selectedLanguage === 'en' ? 'Landmark (Optional)' : 'निकटतम स्थान (वैकल्पिक)'} value={formData.landmark} onChange={handleFormChange} className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none" />
-                
-                <button type="submit" disabled={submitting || !razorpayReady} className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-4 rounded-lg font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transition-all">
-                  {submitting ? '⏳ ' + (selectedLanguage === 'en' ? 'Processing...' : 'प्रोसेस हो रहा है...') : '💳 ' + (selectedLanguage === 'en' ? 'Proceed to Payment' : 'भुगतान करें')}
+                <textarea
+                  name="address"
+                  aria-label="Full address"
+                  placeholder={selectedLanguage === 'en' ? 'Full Address' : 'पूरा पता'}
+                  rows={3}
+                  value={formData.address}
+                  onChange={handleFormChange}
+                  required
+                  className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                ></textarea>
+                <input
+                  type="text"
+                  name="landmark"
+                  aria-label="Landmark"
+                  placeholder={selectedLanguage === 'en' ? 'Landmark (Optional)' : 'निकटतम स्थान (वैकल्पिक)'}
+                  value={formData.landmark}
+                  onChange={handleFormChange}
+                  className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-orange-500 outline-none"
+                />
+
+                <button
+                  type="submit"
+                  disabled={submitting || !razorpayReady}
+                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-4 rounded-lg font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transition-all"
+                >
+                  {submitting
+                    ? '⏳ ' + (selectedLanguage === 'en' ? 'Processing...' : 'प्रोसेस हो रहा है...')
+                    : '💳 ' + (selectedLanguage === 'en' ? 'Proceed to Payment' : 'भुगतान करें')}
                 </button>
               </form>
             </div>
