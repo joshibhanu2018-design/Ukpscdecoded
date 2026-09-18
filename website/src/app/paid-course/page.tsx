@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { BookOpen, Clock, Target, Users, CheckCircle, MessageSquare, Award } from 'lucide-react';
 
-export default function PaidCoursesPage() {
+export default function PaidCoursePage() {
   const [selectedTab, setSelectedTab] = useState('overview');
 
   const courseFeatures = [
@@ -134,7 +134,7 @@ export default function PaidCoursesPage() {
                   '50 Comprehensive Video Lessons (UKPCS-specific)',
                   'Weekly Current Affairs (National & Uttarakhand)',
                   'Crash Course Pamphlets (Downloadable PDFs)',
-                  '3 CSAT Quick Classes',
+                  '3 CSAT Quick Class',
                   'Economic Survey & Budget Breakdowns',
                   'Quick Revision Notes (All Topics)',
                   'Expected Questions Database',
