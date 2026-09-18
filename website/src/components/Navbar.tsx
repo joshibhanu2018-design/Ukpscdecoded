@@ -10,7 +10,7 @@ const navLinks = [
   { href: "/free-content", label: "Free Content" },
   { href: "/current-affairs", label: "Current Affairs & MCQ" },
   { href: "/pyq-tracker", label: "PYQ Tracker" },
-  { href: "/courses", label: "Courses" },
+  { name: "Paid Courses', href: '/paid-courses" },
   { href: "/buy-book", label: "Buy Book" },
   { href: "/buy-ebooks", label: "📚 Buy E-Books" },
   { href: "/about", label: "About" },
