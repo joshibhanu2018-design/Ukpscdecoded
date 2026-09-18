@@ -7,9 +7,8 @@ export default function PaidCoursesPage() {
   const [selectedTab, setSelectedTab] = useState('overview');
 
   const courseFeatures = [
-    { icon: BookOpen, text: '50+ Hours of Video Courses (UKPCS-specific)', desc: 'Comprehensive coverage at exact UKPCS difficulty level' },
+    { icon: BookOpen, text: '50 Comprehensive Video Lessons (UKPCS-specific)', desc: 'Complete coverage at exact UKPCS difficulty level' },
     { icon: Clock, text: 'Weekly Current Affairs Updates', desc: 'National & Uttarakhand news with exam-critical analysis' },
-    { icon: Target, text: 'Complete Test Series with Analytics', desc: 'Topic tests → Mini tests → Full mock tests with tracking' },
     { icon: Users, text: 'Weekly Doubt Clearing Sessions', desc: 'Live sessions to address your questions' },
     { icon: Award, text: '1 Personal Session with Bhanu Joshi', desc: 'Personalized preparation strategy & guidance' },
     { icon: MessageSquare, text: 'Elimination Techniques Guide', desc: 'Expert strategies to tackle MCQs smartly' },
@@ -45,16 +44,7 @@ export default function PaidCoursesPage() {
         'Downloadable PDF format for offline access',
       ],
     },
-    {
-      title: 'TEST SERIES & PERFORMANCE ANALYTICS',
-      description: 'Measure progress with detailed analytics',
-      items: [
-        'Subject-wise Topic Tests: Reinforce learning after each topic',
-        'Full Mock Tests: Complete exam simulations at actual difficulty',
-        'Performance Analytics Dashboard: Detailed breakdowns with recommendations',
-        'Expected Questions Database: Common exam patterns & variations',
-      ],
-    },
+
     {
       title: 'ECONOMIC SURVEY & BUDGET',
       description: 'Master economy topics for exam readiness',
@@ -68,21 +58,19 @@ export default function PaidCoursesPage() {
 
   const learningPath = [
     { step: 1, title: 'Quick Revision Notes', desc: 'Start with condensed national & state topics' },
-    { step: 2, title: 'Detailed Video Courses', desc: '50+ hours covering all exam subjects' },
-    { step: 3, title: 'Test Series & Analytics', desc: 'Topic tests → Mini tests → Full mocks with tracking' },
-    { step: 4, title: 'Doubt Clearing', desc: 'Weekly live sessions + expected question bank' },
-    { step: 5, title: 'Personal Session', desc: '1-on-1 with Bhanu Joshi for strategy & guidance' },
+    { step: 2, title: 'Detailed Video Courses', desc: '50 comprehensive videos covering all exam subjects' },
+    { step: 3, title: 'Doubt Clearing', desc: 'Weekly live sessions + expected question bank' },
+    { step: 4, title: 'Personal Session', desc: '1-on-1 with Bhanu Joshi for strategy & guidance' },
   ];
 
   const crashCourseDetails = {
     title: 'UKPCS Crash Course Bundle 2026',
-    subtitle: 'Master UKPCS Lower PCS Exams in 8 Weeks',
+    subtitle: 'Master UKPCS Lower PCS Exams in 1 Month',
     dates: 'October 2 - November 2, 2026',
     price: '₹2,699',
-    duration: '8 weeks',
-    hours: '50+',
+    duration: '1 month',
+    videos: '50',
     videoLessons: true,
-    testSeries: true,
     personalSession: true,
     currentAffairs: true,
   };
@@ -118,7 +106,7 @@ export default function PaidCoursesPage() {
                 <div className="flex items-center gap-3">
                   <Clock className="text-orange-400" size={20} />
                   <span className="text-slate-300">
-                    <strong>Total Hours:</strong> {crashCourseDetails.hours} hours of comprehensive video content
+                    <strong>Videos:</strong> {crashCourseDetails.videos} comprehensive video lessons
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
@@ -132,7 +120,6 @@ export default function PaidCoursesPage() {
               <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 rounded-xl border border-orange-500/30 mb-6">
                 <p className="text-orange-400 text-sm mb-2">PRICE</p>
                 <p className="text-4xl font-bold text-white">{crashCourseDetails.price}</p>
-                <p className="text-slate-400 text-sm mt-2">Limited time offer - 8 week crash course</p>
               </div>
 
               <button className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all">
@@ -144,11 +131,10 @@ export default function PaidCoursesPage() {
               <h3 className="text-2xl font-bold text-white mb-6">What's Included</h3>
               <div className="space-y-3">
                 {[
-                  '50+ Hours of Video Courses (UKPCS-specific)',
+                  '50 Comprehensive Video Lessons (UKPCS-specific)',
                   'Weekly Current Affairs (National & Uttarakhand)',
                   'Crash Course Pamphlets (Downloadable PDFs)',
                   '3 CSAT Quick Classes',
-                  'Complete Test Series with Analytics Dashboard',
                   'Economic Survey & Budget Breakdowns',
                   'Quick Revision Notes (All Topics)',
                   'Expected Questions Database',
@@ -292,7 +278,7 @@ export default function PaidCoursesPage() {
             Ready to Master UKPCS?
           </h2>
           <p className="text-orange-100 mb-8 text-lg">
-            Join our crash course and get exam-ready in just 8 weeks. Limited seats available!
+            Join our crash course and get exam-ready in just 1 month. Limited seats available!
           </p>
           <button className="bg-white text-orange-600 font-bold py-4 px-10 rounded-lg hover:shadow-xl transition-all text-lg">
             Enroll Now - ₹2,699
@@ -303,10 +289,10 @@ export default function PaidCoursesPage() {
   );
 }
 
-// Calendar icon fallback
-function Calendar({ size }: { size: number }) {
+// Calendar icon fallback - FIXED: Now accepts className prop
+function Calendar({ size, className }: { size: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
       <line x1="16" y1="2" x2="16" y2="6"></line>
       <line x1="8" y1="2" x2="8" y2="6"></line>
