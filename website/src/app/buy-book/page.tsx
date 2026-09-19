@@ -31,8 +31,6 @@ export default function BuyBookPage() {
   const [razorpayReady, setRazorpayReady] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [viewingPdf, setViewingPdf] = useState<string | null>(null);
-  const [viewingPdfTitle, setViewingPdfTitle] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -142,7 +140,7 @@ export default function BuyBookPage() {
       '1': {
         label: 'Chapter 1',
         title: 'Epigraphy - Inscriptions & Their Significance',
-        pdfUrl: '/book-samples/English/Chapter 1',
+        pdfUrl: '/book-samples/English/Chapter 1.pdf',
       },
       '2': {
         label: 'Chapter 2',
@@ -239,14 +237,8 @@ export default function BuyBookPage() {
     setError(null);
   };
 
-  const openPdfViewer = (pdfUrl: string, title: string) => {
-    setViewingPdf(pdfUrl);
-    setViewingPdfTitle(title);
-  };
-
-  const closePdfViewer = () => {
-    setViewingPdf(null);
-    setViewingPdfTitle('');
+  const openPdfInNewTab = (pdfUrl: string) => {
+    window.open(pdfUrl, '_blank');
   };
 
   const submitOrderToSheet = async (status: 'PENDING_PAYMENT' | 'PAYMENT_RECEIVED', orderId: string, paymentId: string = 'N/A') => {
@@ -418,34 +410,6 @@ export default function BuyBookPage() {
 
   const selectedChapterData = selectedChapter ? currentContent[selectedChapter] : null;
 
-  // If viewing PDF, show full-page viewer
-  if (viewingPdf) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex flex-col">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-slate-800 to-slate-900 p-4 flex justify-between items-center sticky top-0 z-10 border-b border-slate-700">
-          <h3 className="text-xl font-bold text-white flex-1 truncate">{viewingPdfTitle}</h3>
-          <button
-            onClick={closePdfViewer}
-            className="ml-4 px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
-          >
-            <X size={20} />
-            {selectedLanguage === 'en' ? 'Back to Shop' : 'दुकान पर वापसी'}
-          </button>
-        </div>
-
-        {/* Full-page PDF Viewer */}
-        <div className="flex-1 w-full">
-          <iframe
-            src={`${viewingPdf}#toolbar=1&navpanes=0&view=FitH`}
-            className="w-full h-full border-0"
-            title="PDF Viewer"
-          />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
 
@@ -534,13 +498,13 @@ export default function BuyBookPage() {
                     <div dangerouslySetInnerHTML={{ __html: selectedChapterData.htmlContent }} />
                   ) : selectedChapterData.pdfUrl ? (
                     <button
-                      onClick={() => openPdfViewer(selectedChapterData.pdfUrl!, selectedChapterData.title)}
+                      onClick={() => openPdfInNewTab(selectedChapterData.pdfUrl!)}
                       className="w-full cursor-pointer group relative rounded-lg overflow-hidden bg-slate-900 border-2 border-dashed border-slate-600 hover:border-orange-500 transition-all p-12"
                     >
                       <div className="text-center">
                         <Eye className="mx-auto mb-3 text-slate-500 group-hover:text-orange-500 transition-colors" size={60} />
-                        <p className="text-slate-300 group-hover:text-orange-400 font-bold text-lg">{selectedLanguage === 'en' ? 'Click to View PDF' : 'पीडीएफ देखने के लिए क्लिक करें'}</p>
-                        <p className="text-slate-500 text-sm mt-2">{selectedLanguage === 'en' ? 'Opens in full-page view' : 'पूरे पृष्ठ में खुलता है'}</p>
+                        <p className="text-slate-300 group-hover:text-orange-400 font-bold text-lg">{selectedLanguage === 'en' ? 'Click to View Full PDF' : 'पूरी पीडीएफ देखने के लिए क्लिक करें'}</p>
+                        <p className="text-slate-500 text-sm mt-2">{selectedLanguage === 'en' ? 'Opens in new browser tab' : 'नए ब्राउज़र टैब में खुलता है'}</p>
                       </div>
                     </button>
                   ) : null}
