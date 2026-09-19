@@ -29,6 +29,11 @@ export default function BuyBookPage() {
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'hi'>('en');
   const [selectedChapter, setSelectedChapter] = useState<string>('index');
   const [razorpayReady, setRazorpayReady] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [modalPdfUrl, setModalPdfUrl] = useState<string | null>(null);
+  const [modalPdfTitle, setModalPdfTitle] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,8 +44,6 @@ export default function BuyBookPage() {
     state: '',
     landmark: '',
   });
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   // Pre-load Razorpay script on component mount
   useEffect(() => {
@@ -237,6 +240,20 @@ export default function BuyBookPage() {
     setError(null);
   };
 
+  const openPdfModal = (pdfUrl: string, title: string) => {
+    setModalPdfUrl(pdfUrl);
+    setModalPdfTitle(title);
+    setShowPdfModal(true);
+  };
+
+  const closePdfModal = () => {
+    setShowPdfModal(false);
+    setTimeout(() => {
+      setModalPdfUrl(null);
+      setModalPdfTitle('');
+    }, 300);
+  };
+
   const submitOrderToSheet = async (status: 'PENDING_PAYMENT' | 'PAYMENT_RECEIVED', orderId: string, paymentId: string = 'N/A') => {
     const payload = {
       name: formData.name.trim(),
@@ -408,6 +425,45 @@ export default function BuyBookPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
+      {/* PDF Modal */}
+      {showPdfModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col border border-slate-700 overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-slate-700 to-slate-900 p-4 flex justify-between items-center border-b border-slate-700">
+              <h3 className="text-xl font-bold text-white truncate">{modalPdfTitle}</h3>
+              <button
+                onClick={closePdfModal}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <X size={28} />
+              </button>
+            </div>
+
+            {/* Modal Body - Full PDF */}
+            <div className="flex-1 overflow-hidden">
+              {modalPdfUrl && (
+                <iframe
+                  src={`${modalPdfUrl}#toolbar=1&navpanes=0`}
+                  className="w-full h-full"
+                  title="PDF Viewer"
+                />
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-slate-700 p-4 border-t border-slate-600 flex justify-end">
+              <button
+                onClick={closePdfModal}
+                className="px-4 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-lg font-semibold transition-colors"
+              >
+                {selectedLanguage === 'en' ? 'Close' : 'बंद करें'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 flex items-center justify-center gap-3">
@@ -492,11 +548,29 @@ export default function BuyBookPage() {
                   {selectedChapterData.htmlContent ? (
                     <div dangerouslySetInnerHTML={{ __html: selectedChapterData.htmlContent }} />
                   ) : selectedChapterData.pdfUrl ? (
-                    <iframe
-                      src={`${selectedChapterData.pdfUrl}#toolbar=0`}
-                      className="w-full h-96 rounded-lg border border-slate-600"
-                      title="PDF Preview"
-                    />
+                    <div className="space-y-4">
+                      {/* Preview Thumbnail */}
+                      <div
+                        onClick={() => openPdfModal(selectedChapterData.pdfUrl!, selectedChapterData.title)}
+                        className="cursor-pointer group relative rounded-lg overflow-hidden bg-slate-900 border-2 border-dashed border-slate-600 hover:border-orange-500 transition-all"
+                      >
+                        <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+                          <div className="text-center">
+                            <Eye className="mx-auto mb-3 text-slate-500 group-hover:text-orange-500 transition-colors" size={40} />
+                            <p className="text-slate-400 group-hover:text-orange-400 font-semibold">{selectedLanguage === 'en' ? 'Click to open full PDF' : 'पूरी पीडीएफ खोलने के लिए क्लिक करें'}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Quick Actions */}
+                      <button
+                        onClick={() => openPdfModal(selectedChapterData.pdfUrl!, selectedChapterData.title)}
+                        className="w-full px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2"
+                      >
+                        <Eye size={20} />
+                        {selectedLanguage === 'en' ? 'View Full PDF' : 'पूरी पीडीएफ देखें'}
+                      </button>
+                    </div>
                   ) : null}
                 </div>
               </div>
