@@ -11,6 +11,8 @@ const navLinks = [
   { href: "/current-affairs", label: "Current Affairs & MCQ" },
   { href: "/pyq-tracker", label: "PYQ Tracker" },
   { href: "/paid-course", label: "Paid Course" },
+  { href: "/test-series", label: "Test Series" },
+  { href: "/courses", label: "Courses" },
   { href: "/buy-book", label: "Buy Book" },
   { href: "/buy-ebooks", label: "📚 Buy E-Books" },
   { href: "/about", label: "About" },
