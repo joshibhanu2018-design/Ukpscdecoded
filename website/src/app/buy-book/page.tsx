@@ -124,7 +124,7 @@ export default function BuyBookPage() {
               <li>Industries & MSME Development</li>
               <li>Tourism & Hospitality Sector</li>
               <li>Transportation & Infrastructure</li>
-              <li>Economic Development & Growth Indicators</li>
+              <li>Economic Development Indicators</li>
             </ol>
           </div>
           <div>
