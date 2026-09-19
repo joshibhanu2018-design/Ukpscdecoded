@@ -140,7 +140,7 @@ export default function BuyBookPage() {
       '1': {
         label: 'Chapter 1',
         title: 'Epigraphy - Inscriptions & Their Significance',
-        pdfUrl: '/book-samples/English/Chapter 1.pdf',
+        pdfUrl: '/book-samples/English/Safari.pdf',
       },
       '2': {
         label: 'Chapter 2',
