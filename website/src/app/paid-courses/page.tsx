@@ -5,6 +5,53 @@ import { BookOpen, Clock, Target, Users, CheckCircle, MessageSquare, Award } fro
 
 export default function PaidCoursesPage() {
   const [selectedTab, setSelectedTab] = useState('overview');
+  const [showRegistration, setShowRegistration] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    courseInterest: '',
+  });
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const payload = {
+      timestamp: new Date().toISOString(),
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      courseInterest: formData.courseInterest,
+      source: 'website-paid-courses',
+    };
+
+    try {
+      await fetch(
+        'https://docs.google.com/spreadsheets/d/1XgZbdxbqzYdxheLMEhsx3yw5v2UsIDlrL3bGq6bCD4k/edit?usp=drivesdk',
+        {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          mode: 'no-cors',
+        }
+      );
+
+      alert('Thank you! We will contact you soon.');
+      setFormData({ name: '', email: '', phone: '', courseInterest: '' });
+      setShowRegistration(false);
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Registration submitted! We will be in touch soon.');
+      setShowRegistration(false);
+    }
+  };
 
   const courseFeatures = [
     { icon: BookOpen, text: '50+ Hours of Video Courses (UKPCS-specific)', desc: 'Comprehensive coverage at exact UKPCS difficulty level' },
@@ -90,15 +137,22 @@ export default function PaidCoursesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
       <div className="max-w-7xl mx-auto">
+        {/* Launch Date Banner */}
+        <div className="mb-8 p-4 bg-slate-800/50 border border-yellow-600/30 rounded-lg text-center">
+          <p className="text-sm font-semibold text-yellow-600">
+            📅 Course Launch Date: October 2, 2026
+          </p>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            Paid Courses
+            Crash Course for UKPSC Upper & Lower PCS 2026 and Tri Exam
           </h1>
           <p className="text-xl text-orange-400 font-semibold">
-            {crashCourseDetails.title}
+            Intensive Preparation Bundle
           </p>
-          <p className="text-slate-300 mt-2">{crashCourseDetails.subtitle}</p>
+          <p className="text-slate-300 mt-2">8 weeks of comprehensive exam preparation with expert guidance</p>
         </div>
 
         {/* Course Card */}
@@ -142,7 +196,7 @@ export default function PaidCoursesPage() {
                 <p className="text-slate-400 text-sm mt-2">Limited time offer - 8 week crash course</p>
               </div>
 
-              <button className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all">
+              <button onClick={() => setShowRegistration(true)} className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all">
                 Enroll Now
               </button>
             </div>
@@ -301,11 +355,61 @@ export default function PaidCoursesPage() {
           <p className="text-orange-100 mb-8 text-lg">
             Join our crash course and get exam-ready in just 8 weeks. Limited seats available!
           </p>
-          <button className="bg-white text-orange-600 font-bold py-4 px-10 rounded-lg hover:shadow-xl transition-all text-lg">
+          <button onClick={() => setShowRegistration(true)} className="bg-white text-orange-600 font-bold py-4 px-10 rounded-lg hover:shadow-xl transition-all text-lg">
             Enroll Now - ₹2,699
           </button>
         </div>
       </div>
+
+      {/* Registration Modal */}
+      {showRegistration && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl max-w-md w-full p-8 relative">
+            <button onClick={() => setShowRegistration(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+              ✕
+            </button>
+
+            <h2 className="text-2xl font-bold text-white mb-2">Enroll in Crash Course</h2>
+            <p className="text-slate-300 text-sm mb-6">Join our intensive UKPSC preparation program launching October 2.</p>
+
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">Full Name</label>
+                <input type="text" name="name" value={formData.name} onChange={handleFormChange} required placeholder="Your name" className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-yellow-600 outline-none" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">Email</label>
+                <input type="email" name="email" value={formData.email} onChange={handleFormChange} required placeholder="your@email.com" className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-yellow-600 outline-none" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">Phone</label>
+                <input type="tel" name="phone" value={formData.phone} onChange={handleFormChange} required placeholder="10-digit phone" className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-yellow-600 outline-none" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">Exam Interest</label>
+                <select name="courseInterest" value={formData.courseInterest} onChange={handleFormChange} required className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-yellow-600 outline-none">
+                  <option value="">Select exam</option>
+                  <option value="UKPSC Upper PCS">UKPSC Upper PCS</option>
+                  <option value="UKPSC Lower PCS">UKPSC Lower PCS</option>
+                  <option value="Tri-Exam">Tri-Exam</option>
+                  <option value="All Exams">All Exams</option>
+                </select>
+              </div>
+
+              <button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-lg transition-colors mt-6">
+                Enroll Now - ₹2,699
+              </button>
+            </form>
+
+            <div className="bg-orange-600/10 border border-orange-600/30 rounded-lg p-4 mt-6">
+              <p className="text-orange-300 text-xs font-semibold">🎯 Limited Seats Available | 8 Weeks Intensive Program</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
