@@ -25,17 +25,16 @@ export default function PaidCoursesPage() {
     e.preventDefault();
     
     const payload = {
-      timestamp: new Date().toISOString(),
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      courseInterest: formData.courseInterest,
+      courseInterested: formData.courseInterest,
       source: 'website-paid-courses',
     };
 
     try {
       await fetch(
-        'https://docs.google.com/spreadsheets/d/1XgZbdxbqzYdxheLMEhsx3yw5v2UsIDlrL3bGq6bCD4k/edit?usp=drivesdk',
+        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
         {
           method: 'POST',
           body: JSON.stringify(payload),
@@ -54,9 +53,8 @@ export default function PaidCoursesPage() {
   };
 
   const courseFeatures = [
-    { icon: BookOpen, text: '50+ Hours of Video Courses (UKPCS-specific)', desc: 'Comprehensive coverage at exact UKPCS difficulty level' },
-    { icon: Clock, text: 'Weekly Current Affairs Updates', desc: 'National & Uttarakhand news with exam-critical analysis' },
-    { icon: Target, text: 'Complete Test Series with Analytics', desc: 'Topic tests → Mini tests → Full mock tests with tracking' },
+    { icon: BookOpen, text: '50+ Video Lectures (UKPCS-specific)', desc: 'Comprehensive coverage at exact UKPCS difficulty level' },
+    { icon: Clock, text: 'Yearly Current Affairs (National & Uttarakhand)', desc: 'Coverage till October 15, 2026 with exam-critical analysis' },
     { icon: Users, text: 'Weekly Doubt Clearing Sessions', desc: 'Live sessions to address your questions' },
     { icon: Award, text: '1 Personal Session with Bhanu Joshi', desc: 'Personalized preparation strategy & guidance' },
     { icon: MessageSquare, text: 'Elimination Techniques Guide', desc: 'Expert strategies to tackle MCQs smartly' },
@@ -116,9 +114,8 @@ export default function PaidCoursesPage() {
   const learningPath = [
     { step: 1, title: 'Quick Revision Notes', desc: 'Start with condensed national & state topics' },
     { step: 2, title: 'Detailed Video Courses', desc: '50+ hours covering all exam subjects' },
-    { step: 3, title: 'Test Series & Analytics', desc: 'Topic tests → Mini tests → Full mocks with tracking' },
-    { step: 4, title: 'Doubt Clearing', desc: 'Weekly live sessions + expected question bank' },
-    { step: 5, title: 'Personal Session', desc: '1-on-1 with Bhanu Joshi for strategy & guidance' },
+    { step: 3, title: 'Doubt Clearing', desc: 'Weekly live sessions + expected question bank' },
+    { step: 4, title: 'Personal Session', desc: '1-on-1 with Bhanu Joshi for strategy & guidance' },
   ];
 
   const crashCourseDetails = {
@@ -147,7 +144,7 @@ export default function PaidCoursesPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            Crash Course for UKPSC Upper & Lower PCS 2026 and Tri Exam
+            Crash Course for UKPSC Upper & Lower PCS 2026 and TRI EXAM
           </h1>
           <p className="text-xl text-orange-400 font-semibold">
             Intensive Preparation Bundle
@@ -205,11 +202,10 @@ export default function PaidCoursesPage() {
               <h3 className="text-2xl font-bold text-white mb-6">What's Included</h3>
               <div className="space-y-3">
                 {[
-                  '50+ Hours of Video Courses (UKPCS-specific)',
-                  'Weekly Current Affairs (National & Uttarakhand)',
+                  '50+ Video Lectures (UKPCS-specific)',
+                  'Yearly Current Affairs (National & Uttarakhand) till October 15, 2026',
                   'Crash Course Pamphlets (Downloadable PDFs)',
                   '3 CSAT Quick Classes',
-                  'Complete Test Series with Analytics Dashboard',
                   'Economic Survey & Budget Breakdowns',
                   'Quick Revision Notes (All Topics)',
                   'Expected Questions Database',

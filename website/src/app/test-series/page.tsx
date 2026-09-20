@@ -24,17 +24,16 @@ export default function TestSeriesPage() {
     e.preventDefault();
     
     const payload = {
-      timestamp: new Date().toISOString(),
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      courseInterest: formData.courseInterest,
+      courseInterested: formData.courseInterest,
       source: 'website-test-series',
     };
 
     try {
       await fetch(
-        'https://docs.google.com/spreadsheets/d/1XgZbdxbqzYdxheLMEhsx3yw5v2UsIDlrL3bGq6bCD4k/edit?usp=drivesdk',
+        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
         {
           method: 'POST',
           body: JSON.stringify(payload),

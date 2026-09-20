@@ -283,8 +283,8 @@ export default function BuyPDFPage() {
             <div className="text-center mb-8">
               <p className="text-gray-600 text-sm mb-2">Special Price</p>
               <div className="flex items-center justify-center gap-3">
-                <span className="text-5xl font-bold text-green-600">₹129</span>
-                <span className="text-2xl text-gray-400 line-through">₹169</span>
+                <span className="text-5xl font-bold text-green-600">₹59</span>
+                <span className="text-2xl text-gray-400 line-through">₹129</span>
               </div>
               <p className="text-xs text-gray-500 mt-2">Limited time offer - Only for first 100 buyers</p>
             </div>
@@ -368,7 +368,7 @@ export default function BuyPDFPage() {
                 </>
               ) : (
                 <>
-                  💳 Get Payment Link (₹129)
+                  💳 Get Payment Link (₹59)
                 </>
               )}
             </button>
