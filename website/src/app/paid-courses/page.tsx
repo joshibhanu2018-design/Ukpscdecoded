@@ -34,7 +34,7 @@ export default function PaidCoursesPage() {
 
     try {
       await fetch(
-        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
+        'https://script.google.com/macros/s/AKfycbyE-14MJR1_hF5fCrPJG3u0IqvVtJK8H_yeKkZth5D2Y7eD3PpAymyMLC0v9_ojENlh/exec',
         {
           method: 'POST',
           body: JSON.stringify(payload),
