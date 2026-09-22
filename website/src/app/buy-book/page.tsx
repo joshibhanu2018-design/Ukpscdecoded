@@ -23,6 +23,7 @@ interface LanguageChapters {
 }
 
 const RAZORPAY_KEY = 'rzp_live_TXb0nhqyo9LhkM';
+const ORDERS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcYwHUBk_pXvGtX24h9eyvZ8-FFa1B9v0Nn5ew8GM63cl8zreXV0yRv2o8p1fwd25N8A/exec';
 
 export default function BuyBookPage() {
   const router = useRouter();
@@ -317,11 +318,12 @@ export default function BuyBookPage() {
     return Object.keys(newErrors).length === 0;
   };
 
+  type OrderStatus = 'FORM_SUBMITTED' | 'PENDING_PAYMENT' | 'PAYMENT_FAILED' | 'PAYMENT_RECEIVED';
+
   const submitOrderToSheet = async (
-    status: 'PENDING_PAYMENT' | 'PAYMENT_RECEIVED',
+    status: OrderStatus,
     orderId: string,
-    paymentId: string = 'N/A',
-    retryCount = 0
+    paymentId: string = 'N/A'
   ): Promise<boolean> => {
     const payload = {
       name: formData.name.trim(),
@@ -332,51 +334,49 @@ export default function BuyBookPage() {
       pincode: formData.pincode.trim(),
       state: formData.state.trim(),
       landmark: formData.landmark.trim(),
-      language: selectedLanguage === 'en' ? 'English' : 'हिंदी',
+      language: selectedLanguage === 'en' ? 'English Book' : 'Hindi Book (हिंदी)',
       timestamp: new Date().toISOString(),
       orderId: orderId,
       paymentId: paymentId,
       status: status,
     };
 
+    // Primary: same-origin server route (no CORS, survives page navigation via keepalive)
     try {
-      console.log(`📤 Submitting order (${status})... Attempt ${retryCount + 1}`);
-      
-      const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbxcYwHUBk_pXvGtX24h9eyvZ8-FFa1B9v0Nn5ew8GM63cl8zreXV0yRv2o8p1fwd25N8A/exec',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          mode: 'cors',
-        }
-      );
-
-      const result = await response.json();
-      
-      if (result.status === 'success' || response.ok) {
-        console.log(`✅ Order recorded successfully - Status: ${status} | Order: ${orderId}`);
+      const res = await fetch('/api/log-book-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      });
+      const result = await res.json().catch(() => ({}));
+      if (res.ok && result.ok) {
+        console.log(`✅ Order recorded - ${status} | ${orderId}`);
         return true;
-      } else {
-        throw new Error(result.message || 'Sheet submission failed');
       }
-    } catch (error) {
-      console.error(`❌ Sheet submission error (Attempt ${retryCount + 1}):`, error);
+      console.error('Sheet relay failed:', result);
+    } catch (err) {
+      console.error('Sheet relay error:', err);
+    }
 
-      // Retry logic: Retry up to 3 times with exponential backoff
-      if (retryCount < 3) {
-        const waitTime = 2000 * (retryCount + 1); // 2s, 4s, 6s
-        console.log(`🔄 Retrying in ${waitTime / 1000} seconds...`);
-        await new Promise(resolve => setTimeout(resolve, waitTime));
-        return submitOrderToSheet(status, orderId, paymentId, retryCount + 1);
-      } else {
-        console.error('❌ Failed after 3 attempts - order may not be recorded!');
-        return false;
+    // Backup: fire directly at Apps Script as a simple (no-preflight) request
+    try {
+      const body = JSON.stringify(payload);
+      const sent = typeof navigator !== 'undefined' && navigator.sendBeacon
+        ? navigator.sendBeacon(ORDERS_SCRIPT_URL, body)
+        : false;
+      if (!sent) {
+        await fetch(ORDERS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body, keepalive: true });
       }
+      console.log(`📨 Order sent via backup - ${status} | ${orderId}`);
+      return true;
+    } catch (err) {
+      console.error('Backup submission failed:', err);
+      return false;
     }
   };
 
-  const openRazorpayCheckout = async (retryCount = 0): Promise<void> => {
+  const openRazorpayCheckout = async (retryCount = 0, existingOrderId?: string): Promise<void> => {
     try {
       // Check if Razorpay is loaded
       if (!((window as any).Razorpay)) {
@@ -386,14 +386,13 @@ export default function BuyBookPage() {
             ? 'Loading payment gateway, please wait...' 
             : 'भुगतान गेटवे लोड हो रहा है, कृपया प्रतीक्षा करें...');
           await new Promise(resolve => setTimeout(resolve, 1000));
-          return openRazorpayCheckout(retryCount + 1);
+          return openRazorpayCheckout(retryCount + 1, existingOrderId);
         } else {
           throw new Error('Payment gateway failed to load. Please refresh the page and try again.');
         }
       }
 
-      const timestamp = Date.now();
-      const orderId = `UKPSC_BOOK_${timestamp}`;
+      const orderId = existingOrderId || `UKPSC_BOOK_${Date.now()}`;
 
       // Clean phone number
       const cleanPhone = formData.phone.replace(/\D/g, '');
@@ -446,6 +445,10 @@ export default function BuyBookPage() {
       };
 
       const razorpay = new Razorpay(options);
+      razorpay.on('payment.failed', (resp: any) => {
+        console.log('❌ Payment failed:', resp?.error?.description);
+        submitOrderToSheet('PAYMENT_FAILED', orderId, resp?.error?.metadata?.payment_id || resp?.error?.reason || 'FAILED');
+      });
       razorpay.open();
       
     } catch (err) {
@@ -523,9 +526,13 @@ export default function BuyBookPage() {
       ? 'Opening payment gateway...' 
       : 'भुगतान गेटवे खोल रहे हैं...');
 
+    // Record the enquiry immediately so every form fill reaches the sheet
+    const newOrderId = `UKPSC_BOOK_${Date.now()}`;
+    submitOrderToSheet('FORM_SUBMITTED', newOrderId, 'NOT_PAID_YET');
+
     // Wait a moment then open checkout
     setTimeout(() => {
-      openRazorpayCheckout();
+      openRazorpayCheckout(0, newOrderId);
     }, 500);
   };
 
