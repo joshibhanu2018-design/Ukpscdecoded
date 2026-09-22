@@ -343,7 +343,7 @@ export default function BuyBookPage() {
       console.log(`📤 Submitting order (${status})... Attempt ${retryCount + 1}`);
       
       const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbznUUkgs5fumldv38955Yrulur6ncv6_g-QotnuyeP9UEw5BR3-xbSrAwWii6vQag-1TA/exec',
+        'https://script.google.com/macros/s/AKfycbxcYwHUBk_pXvGtX24h9eyvZ8-FFa1B9v0Nn5ew8GM63cl8zreXV0yRv2o8p1fwd25N8A/exec',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
