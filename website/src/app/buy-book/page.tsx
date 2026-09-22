@@ -51,27 +51,44 @@ export default function BuyBookPage() {
 
   const preloadRazorpayScript = () => {
     if ((window as any).Razorpay) {
+      console.log('✅ Razorpay already loaded');
       setRazorpayReady(true);
       return;
     }
 
     const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    // Add timestamp to bypass cache
+    script.src = `https://checkout.razorpay.com/v1/checkout.js?ts=${Date.now()}`;
     script.async = true;
-    script.defer = true;
+    script.defer = false;
+    script.type = 'text/javascript';
+
+    // Add timeout for script loading
+    const timeout = setTimeout(() => {
+      console.error('❌ Razorpay script load timeout (10s)');
+      script.remove();
+      // Retry after 3 seconds
+      setTimeout(() => {
+        console.log('🔄 Retrying Razorpay script load...');
+        preloadRazorpayScript();
+      }, 3000);
+    }, 10000);
 
     script.onload = () => {
+      clearTimeout(timeout);
       console.log('✅ Razorpay script loaded successfully');
       setRazorpayReady(true);
       setError(null);
     };
 
     script.onerror = () => {
+      clearTimeout(timeout);
       console.error('❌ Failed to load Razorpay script');
+      script.remove();
       setTimeout(() => {
-        console.log('🔄 Retrying Razorpay script load...');
+        console.log('🔄 Retrying Razorpay script...');
         preloadRazorpayScript();
-      }, 2000);
+      }, 3000);
     };
 
     document.head.appendChild(script);
@@ -303,8 +320,9 @@ export default function BuyBookPage() {
   const submitOrderToSheet = async (
     status: 'PENDING_PAYMENT' | 'PAYMENT_RECEIVED',
     orderId: string,
-    paymentId: string = 'N/A'
-  ) => {
+    paymentId: string = 'N/A',
+    retryCount = 0
+  ): Promise<boolean> => {
     const payload = {
       name: formData.name.trim(),
       email: formData.email.trim(),
@@ -322,18 +340,39 @@ export default function BuyBookPage() {
     };
 
     try {
-      await fetch(
-        'https://script.google.com/macros/s/AKfycbyS2M34dKi6V5TmZv6Z2PKEdQHC0RoQmcGdMGNRjlCS1Rc2Tk6VeLWPvMI3iFEkz3q3-Q/exec',
+      console.log(`📤 Submitting order (${status})... Attempt ${retryCount + 1}`);
+      
+      const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbzoRlNNTPhDfggnxSQe1Z5W_LVOHZsodsqevTak5ipXkOEh01pAB8KVJkHY2vhll_ye6Q/exec',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
-          mode: 'no-cors',
+          mode: 'cors',
         }
       );
-      console.log(`✅ Order submitted - Status: ${status}`);
+
+      const result = await response.json();
+      
+      if (result.status === 'success' || response.ok) {
+        console.log(`✅ Order recorded successfully - Status: ${status} | Order: ${orderId}`);
+        return true;
+      } else {
+        throw new Error(result.message || 'Sheet submission failed');
+      }
     } catch (error) {
-      console.error('Google Sheet error (non-critical):', error);
+      console.error(`❌ Sheet submission error (Attempt ${retryCount + 1}):`, error);
+
+      // Retry logic: Retry up to 3 times with exponential backoff
+      if (retryCount < 3) {
+        const waitTime = 2000 * (retryCount + 1); // 2s, 4s, 6s
+        console.log(`🔄 Retrying in ${waitTime / 1000} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        return submitOrderToSheet(status, orderId, paymentId, retryCount + 1);
+      } else {
+        console.error('❌ Failed after 3 attempts - order may not be recorded!');
+        return false;
+      }
     }
   };
 
