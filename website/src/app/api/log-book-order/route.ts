@@ -5,7 +5,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const ORDERS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbxcYwHUBk_pXvGtX24h9eyvZ8-FFa1B9v0Nn5ew8GM63cl8zreXV0yRv2o8p1fwd25N8A/exec';
+  'https://script.google.com/macros/s/AKfycbzBqI-RudL7s4H1oDedmLzgAeBsimEm0gt6WJyOPVzivTCjYxjtLAFgMsp-W3pmPaKTkA/exec';
 
 async function sendToSheet(payload: Record<string, unknown>) {
   const res = await fetch(ORDERS_SCRIPT_URL, {

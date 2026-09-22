@@ -23,7 +23,7 @@ interface LanguageChapters {
 }
 
 const RAZORPAY_KEY = 'rzp_live_TXb0nhqyo9LhkM';
-const ORDERS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcYwHUBk_pXvGtX24h9eyvZ8-FFa1B9v0Nn5ew8GM63cl8zreXV0yRv2o8p1fwd25N8A/exec';
+const ORDERS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBqI-RudL7s4H1oDedmLzgAeBsimEm0gt6WJyOPVzivTCjYxjtLAFgMsp-W3pmPaKTkA/exec';
 
 export default function BuyBookPage() {
   const router = useRouter();
