@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { CalendarDays, Flame, Target, Trophy, Video, Zap } from "lucide-react";
+import { CalendarDays, CheckCircle2, Flame, Lock, Target, Trophy, Video, Zap } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import {
   formatClassDate,
@@ -15,7 +15,12 @@ import {
   getUserActiveEnrollments,
   type Package,
 } from "@/lib/packages";
-import { getPackageProgress, getUserAverageScore, getUserGamificationStats } from "@/lib/dashboard";
+import {
+  getPackageProgress,
+  getPackageTestsWithRelease,
+  getUserAverageScore,
+  getUserGamificationStats,
+} from "@/lib/dashboard";
 import LogoutButton from "@/components/LogoutButton";
 
 export const metadata: Metadata = {
@@ -44,10 +49,16 @@ function StatTile({
   );
 }
 
-export default async function TestPlatformPage() {
+export default async function TestPlatformPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ purchase?: string }>;
+}) {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
   const user = await getUserFromSession(token);
   if (!user) redirect("/student/login");
+
+  const { purchase } = await searchParams;
 
   const [allPackages, includes, enrollments, stats, avgScore] = await Promise.all([
     getActivePackages(),
@@ -71,6 +82,7 @@ export default async function TestPlatformPage() {
       pkg,
       progress: await getPackageProgress(user.id, pkg.id, pkg.total_tests),
       validTill: getPackageAccessSource(pkg.id, enrollments, includes)?.access_valid_till ?? pkg.access_valid_till,
+      tests: await getPackageTestsWithRelease(pkg.id),
     }))
   );
 
@@ -89,6 +101,14 @@ export default async function TestPlatformPage() {
           </div>
           <LogoutButton />
         </div>
+
+        {purchase === "success" && (
+          <div className="mb-6 flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-sm text-green-300">
+            <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
+            भुगतान सफल — आपका पैकेज सक्रिय है।{" "}
+            <span className="text-green-400/80">/ Payment successful — your package is active.</span>
+          </div>
+        )}
 
         <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <StatTile icon={<Target className="h-5 w-5" />} label="Tests Taken" value={String(stats.total_tests_taken)} />
@@ -129,7 +149,7 @@ export default async function TestPlatformPage() {
             </div>
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {testSeriesProgress.map(({ pkg, progress, validTill }) => (
+              {testSeriesProgress.map(({ pkg, progress, validTill, tests }) => (
                 <div key={pkg.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
                   <h3 className="font-semibold text-white">{pkg.package_name}</h3>
                   <div className="mt-3">
@@ -156,6 +176,22 @@ export default async function TestPlatformPage() {
                     <p className="mt-3 flex items-center gap-1.5 text-xs text-slate-500">
                       <CalendarDays className="h-3.5 w-3.5" /> Valid till {formatDateLabel(validTill)}
                     </p>
+                  )}
+                  {tests.length > 0 && (
+                    <ul className="mt-4 space-y-1.5 border-t border-slate-800 pt-3">
+                      {tests.map((t) => (
+                        <li key={t.id} className="flex items-center gap-1.5 text-xs">
+                          {t.isReleased ? (
+                            <span className="text-slate-300">{t.test_name}</span>
+                          ) : (
+                            <span className="flex items-center gap-1.5 text-slate-500">
+                              <Lock className="h-3 w-3 flex-shrink-0" />
+                              {t.test_name} — Unlocks on {formatDateLabel(t.release_at)}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </div>
               ))}

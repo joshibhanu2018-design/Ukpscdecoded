@@ -72,3 +72,38 @@ export async function getPackageProgress(
 
   return { testsDone: new Set(attempts.map((a) => a.test_id)).size, totalTests };
 }
+
+export type TestRelease = { id: string; test_name: string; release_at: string | null; isReleased: boolean };
+
+/**
+ * Tests belonging to a package, each flagged with whether it's released
+ * yet. release_at is a genuine timestamptz (unlike most timestamp columns
+ * in this schema), so PostgREST returns it with an explicit UTC offset —
+ * safe to parse directly with `new Date()`, no local-timezone footgun.
+ */
+export async function getPackageTestsWithRelease(packageId: string): Promise<TestRelease[]> {
+  const { data: packageTests, error: ptError } = await supabaseAdmin()
+    .from("package_tests")
+    .select("test_id")
+    .eq("package_id", packageId);
+
+  if (ptError || !packageTests || packageTests.length === 0) return [];
+
+  const { data: tests, error } = await supabaseAdmin()
+    .from("tests")
+    .select("id, test_name, release_at")
+    .in(
+      "id",
+      packageTests.map((r) => r.test_id)
+    );
+
+  if (error || !tests) return [];
+
+  const now = Date.now();
+  return tests.map((t) => ({
+    id: t.id,
+    test_name: t.test_name,
+    release_at: t.release_at,
+    isReleased: !t.release_at || new Date(t.release_at).getTime() <= now,
+  }));
+}

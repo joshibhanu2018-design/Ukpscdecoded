@@ -1,8 +1,55 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarDays, Check, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { CalendarDays, Check, Loader2, Sparkles } from "lucide-react";
 import { formatINR, type Package, type Savings } from "@/lib/packages";
+
+type RazorpayResponse = {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+};
+
+type RazorpayInstance = { open: () => void };
+
+type RazorpayOptions = {
+  key: string;
+  amount: number;
+  currency: string;
+  order_id: string;
+  name: string;
+  description: string;
+  prefill: { email: string; name: string };
+  theme: { color: string };
+  handler: (response: RazorpayResponse) => void;
+  modal: { ondismiss: () => void };
+};
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: RazorpayOptions) => RazorpayInstance;
+  }
+}
+
+function loadRazorpayScript(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (typeof window === "undefined") {
+      resolve(false);
+      return;
+    }
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
 
 export default function PackageCard({
   pkg,
@@ -10,15 +57,86 @@ export default function PackageCard({
   owned,
   isBestValue,
   classStartLabel,
+  userEmail,
+  userName,
 }: {
   pkg: Package;
   savings: Savings | null;
   owned: boolean;
   isBestValue?: boolean;
   classStartLabel?: string | null;
+  userEmail: string;
+  userName: string;
 }) {
-  const [buying, setBuying] = useState(false);
+  const router = useRouter();
+  const [status, setStatus] = useState<"idle" | "loading">("idle");
+  const [error, setError] = useState<string | null>(null);
   const bullets = (pkg.description || "").split("\n").filter(Boolean);
+
+  const handleBuy = async () => {
+    setError(null);
+    setStatus("loading");
+
+    const scriptReady = await loadRazorpayScript();
+    if (!scriptReady || !window.Razorpay) {
+      setError("Could not load the payment gateway. Please try again.");
+      setStatus("idle");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/payments/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ package_id: pkg.id }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Could not start payment. Please try again.");
+        setStatus("idle");
+        return;
+      }
+
+      const razorpay = new window.Razorpay({
+        key: data.key_id,
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.order_id,
+        name: "UKPSC Decoded",
+        description: data.package_name,
+        prefill: { email: userEmail, name: userName },
+        theme: { color: "#f59307" },
+        handler: async (response) => {
+          try {
+            const verifyRes = await fetch("/api/payments/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(response),
+            });
+
+            if (!verifyRes.ok) {
+              setError("Payment succeeded but activation failed. Contact support with your payment ID.");
+              setStatus("idle");
+              return;
+            }
+
+            router.push("/test-platform?purchase=success");
+            router.refresh();
+          } catch {
+            setError("Payment succeeded but activation failed. Contact support with your payment ID.");
+            setStatus("idle");
+          }
+        },
+        modal: { ondismiss: () => setStatus("idle") },
+      });
+
+      razorpay.open();
+    } catch {
+      setError("Could not start payment. Please try again.");
+      setStatus("idle");
+    }
+  };
 
   return (
     <div
@@ -81,17 +199,31 @@ export default function PackageCard({
           <div className="w-full rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-center text-sm font-semibold text-green-400">
             Purchased
           </div>
-        ) : buying ? (
-          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm text-slate-300">
-            Payment coming soon — Razorpay checkout is the next step.
-          </div>
         ) : (
-          <button
-            onClick={() => setBuying(true)}
-            className="w-full rounded-lg bg-yellow-500 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-yellow-400"
-          >
-            Buy Now
-          </button>
+          <>
+            {error && (
+              <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                {error}
+              </div>
+            )}
+            <button
+              onClick={handleBuy}
+              disabled={status === "loading"}
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-yellow-400 disabled:opacity-60"
+            >
+              {status === "loading" && <Loader2 className="h-4 w-4 animate-spin" />}
+              Buy Now
+            </button>
+            <p className="mt-2 text-center text-[11px] leading-snug text-slate-500">
+              खाता साझा करने पर बिना रिफंड के निलंबन होगा।{" "}
+              <span className="text-slate-600">
+                / Account sharing leads to suspension without refund.
+              </span>{" "}
+              <Link href="/terms" className="underline hover:text-slate-400">
+                Terms
+              </Link>
+            </p>
+          </>
         )}
       </div>
     </div>

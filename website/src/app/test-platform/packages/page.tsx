@@ -32,6 +32,8 @@ function Section({
   includes,
   allPackages,
   bestValueId,
+  userEmail,
+  userName,
 }: {
   title: string;
   hindiTitle: string;
@@ -40,6 +42,8 @@ function Section({
   includes: { combo_package_id: string; included_package_id: string }[];
   allPackages: Package[];
   bestValueId?: string;
+  userEmail: string;
+  userName: string;
 }) {
   if (packages.length === 0) return null;
 
@@ -63,6 +67,8 @@ function Section({
               owned={ownedIds.has(pkg.id)}
               isBestValue={pkg.id === bestValueId}
               classStartLabel={classStart}
+              userEmail={userEmail}
+              userName={userName}
             />
           );
         })}
@@ -138,6 +144,8 @@ export default async function PackageStorePage() {
               includes={includes}
               allPackages={allPackages}
               bestValueId={bestValue?.id}
+              userEmail={user.email}
+              userName={user.full_name}
             />
           ))
         )}
