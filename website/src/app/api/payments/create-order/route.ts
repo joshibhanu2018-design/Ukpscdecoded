@@ -12,6 +12,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "You must be logged in to purchase" }, { status: 401 });
   }
 
+  // Kill switch: sales are off unless explicitly turned on. Checked here
+  // (server-side, after auth) rather than only hiding the button, so
+  // nobody can buy by calling this endpoint directly while the store is
+  // in test mode on production.
+  if (process.env.PAYMENTS_ENABLED !== "true") {
+    return NextResponse.json({ error: "Sales are not open yet." }, { status: 403 });
+  }
+
   const body = await request.json().catch(() => null);
   const packageId = typeof body?.package_id === "string" ? body.package_id : "";
   if (!packageId) {

@@ -34,6 +34,7 @@ function Section({
   bestValueId,
   userEmail,
   userName,
+  paymentsEnabled,
 }: {
   title: string;
   hindiTitle: string;
@@ -44,6 +45,7 @@ function Section({
   bestValueId?: string;
   userEmail: string;
   userName: string;
+  paymentsEnabled: boolean;
 }) {
   if (packages.length === 0) return null;
 
@@ -69,6 +71,7 @@ function Section({
               classStartLabel={classStart}
               userEmail={userEmail}
               userName={userName}
+              paymentsEnabled={paymentsEnabled}
             />
           );
         })}
@@ -89,6 +92,7 @@ export default async function PackageStorePage() {
   ]);
 
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
+  const paymentsEnabled = process.env.PAYMENTS_ENABLED === "true";
 
   const testSeries = allPackages.filter((p) => p.package_type === "test_series");
 
@@ -146,6 +150,7 @@ export default async function PackageStorePage() {
               bestValueId={bestValue?.id}
               userEmail={user.email}
               userName={user.full_name}
+              paymentsEnabled={paymentsEnabled}
             />
           ))
         )}

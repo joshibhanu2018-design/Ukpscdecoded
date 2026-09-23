@@ -59,6 +59,7 @@ export default function PackageCard({
   classStartLabel,
   userEmail,
   userName,
+  paymentsEnabled,
 }: {
   pkg: Package;
   savings: Savings | null;
@@ -67,6 +68,7 @@ export default function PackageCard({
   classStartLabel?: string | null;
   userEmail: string;
   userName: string;
+  paymentsEnabled: boolean;
 }) {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "loading">("idle");
@@ -198,6 +200,10 @@ export default function PackageCard({
         {owned ? (
           <div className="w-full rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-center text-sm font-semibold text-green-400">
             Purchased
+          </div>
+        ) : !paymentsEnabled ? (
+          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-400">
+            बिक्री जल्द शुरू <span className="text-slate-500">/ Sales open soon</span>
           </div>
         ) : (
           <>
