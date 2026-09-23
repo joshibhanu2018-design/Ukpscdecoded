@@ -1,0 +1,139 @@
+import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import {
+  computeSavings,
+  formatClassDate,
+  getActivePackages,
+  getOwnedPackageIds,
+  getPackageIncludes,
+  getUserActiveEnrollments,
+  type Package,
+} from "@/lib/packages";
+import PackageCard from "@/components/PackageCard";
+
+export const metadata: Metadata = {
+  title: "Package Store",
+  description: "Test series, crash course and combo packages for UKPSC preparation.",
+};
+
+function Section({
+  title,
+  hindiTitle,
+  packages,
+  ownedIds,
+  includes,
+  allPackages,
+  bestValueId,
+}: {
+  title: string;
+  hindiTitle: string;
+  packages: Package[];
+  ownedIds: Set<string>;
+  includes: { combo_package_id: string; included_package_id: string }[];
+  allPackages: Package[];
+  bestValueId?: string;
+}) {
+  if (packages.length === 0) return null;
+
+  return (
+    <section className="mb-10">
+      <h2 className="mb-4 text-xl font-bold text-white">
+        {hindiTitle} <span className="text-slate-400">/ {title}</span>
+      </h2>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {packages.map((pkg) => {
+          const classStart =
+            pkg.package_type === "video_course"
+              ? formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined)
+              : null;
+
+          return (
+            <PackageCard
+              key={pkg.id}
+              pkg={pkg}
+              savings={computeSavings(pkg, includes, allPackages)}
+              owned={ownedIds.has(pkg.id)}
+              isBestValue={pkg.id === bestValueId}
+              classStartLabel={classStart}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+export default async function PackageStorePage() {
+  const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
+  const user = await getUserFromSession(token);
+  if (!user) redirect("/student/login");
+
+  const [allPackages, includes, enrollments] = await Promise.all([
+    getActivePackages(),
+    getPackageIncludes(),
+    getUserActiveEnrollments(user.id),
+  ]);
+
+  const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
+
+  const testSeries = allPackages.filter((p) => p.package_type === "test_series");
+  const videoCourses = allPackages.filter((p) => p.package_type === "video_course");
+  const combos = allPackages.filter((p) => p.package_type === "combo_bundle");
+
+  const bestValue = testSeries
+    .map((p) => ({ id: p.id, savings: computeSavings(p, includes, allPackages) }))
+    .filter((x) => x.savings)
+    .sort((a, b) => (b.savings!.savingPercent ?? 0) - (a.savings!.savingPercent ?? 0))[0];
+
+  return (
+    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-white">
+            पैकेज स्टोर <span className="text-slate-400">/ Package Store</span>
+          </h1>
+          <p className="mt-1 text-sm text-slate-400">
+            अपनी तैयारी के लिए सही प्लान चुनें{" "}
+            <span className="text-slate-500">/ Choose the right plan for your UKPSC preparation.</span>
+          </p>
+        </div>
+
+        {allPackages.length === 0 ? (
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center text-slate-400">
+            No packages are available yet. Check back soon.
+          </div>
+        ) : (
+          <>
+            <Section
+              title="Test Series"
+              hindiTitle="टेस्ट सीरीज"
+              packages={testSeries}
+              ownedIds={ownedIds}
+              includes={includes}
+              allPackages={allPackages}
+              bestValueId={bestValue?.id}
+            />
+            <Section
+              title="Combo Bundles"
+              hindiTitle="कॉम्बो बंडल"
+              packages={combos}
+              ownedIds={ownedIds}
+              includes={includes}
+              allPackages={allPackages}
+            />
+            <Section
+              title="Crash Course"
+              hindiTitle="क्रैश कोर्स"
+              packages={videoCourses}
+              ownedIds={ownedIds}
+              includes={includes}
+              allPackages={allPackages}
+            />
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
