@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Send } from "lucide-react";
+import ForgotPasswordForm from "@/components/ForgotPasswordForm";
 
 export const metadata: Metadata = {
   title: "Forgot Password",
@@ -15,20 +15,12 @@ export default function ForgotPasswordPage() {
           पासवर्ड भूल गए? <span className="text-slate-400">/ Forgot Password?</span>
         </h1>
         <p className="mt-2 text-sm text-slate-400">
-          Self-serve password reset by email isn&apos;t set up yet — it needs an email delivery
-          provider wired into a later phase. For now, message us on Telegram with your registered
-          email and we&apos;ll help reset it manually.
+          अपना ईमेल दर्ज करें और हम आपको एक रीसेट लिंक भेजेंगे।{" "}
+          <span className="text-slate-500">/ Enter your email and we&apos;ll send you a reset link.</span>
         </p>
       </div>
 
-      <a
-        href="https://t.me/ukpscdecoded"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-yellow-400"
-      >
-        <Send className="h-4 w-4" /> Contact us on Telegram
-      </a>
+      <ForgotPasswordForm />
 
       <p className="mt-6 text-center text-sm text-slate-400">
         Remembered your password?{" "}

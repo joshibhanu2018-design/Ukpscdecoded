@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   description: "Test series, crash course and combo packages for UKPSC preparation.",
 };
 
+const SECTION_LABELS: Record<string, { title: string; hindiTitle: string }> = {
+  test_series: { title: "Test Series", hindiTitle: "टेस्ट सीरीज" },
+  combo_bundle: { title: "Combo Bundles", hindiTitle: "कॉम्बो बंडल" },
+  video_course: { title: "Crash Course", hindiTitle: "क्रैश कोर्स" },
+};
+
 function Section({
   title,
   hindiTitle,
@@ -79,13 +85,30 @@ export default async function PackageStorePage() {
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
 
   const testSeries = allPackages.filter((p) => p.package_type === "test_series");
-  const videoCourses = allPackages.filter((p) => p.package_type === "video_course");
-  const combos = allPackages.filter((p) => p.package_type === "combo_bundle");
 
   const bestValue = testSeries
     .map((p) => ({ id: p.id, savings: computeSavings(p, includes, allPackages) }))
     .filter((x) => x.savings)
     .sort((a, b) => (b.savings!.savingPercent ?? 0) - (a.savings!.savingPercent ?? 0))[0];
+
+  // Section order (which heading appears first) is derived from data, not
+  // hardcoded — each type's section sorts by the lowest sort_order among
+  // its packages, so reordering (e.g. supabase/update-package-sort-order.sql)
+  // moves whole sections without any code change.
+  const sectionsByType = new Map<string, Package[]>();
+  for (const pkg of allPackages) {
+    const list = sectionsByType.get(pkg.package_type);
+    if (list) list.push(pkg);
+    else sectionsByType.set(pkg.package_type, [pkg]);
+  }
+  const sections = [...sectionsByType.entries()]
+    .map(([type, packages]) => ({
+      type,
+      packages,
+      minSortOrder: Math.min(...packages.map((p) => p.sort_order)),
+      label: SECTION_LABELS[type] ?? { title: type, hindiTitle: type },
+    }))
+    .sort((a, b) => a.minSortOrder - b.minSortOrder);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
@@ -105,33 +128,18 @@ export default async function PackageStorePage() {
             No packages are available yet. Check back soon.
           </div>
         ) : (
-          <>
+          sections.map((s) => (
             <Section
-              title="Test Series"
-              hindiTitle="टेस्ट सीरीज"
-              packages={testSeries}
+              key={s.type}
+              title={s.label.title}
+              hindiTitle={s.label.hindiTitle}
+              packages={s.packages}
               ownedIds={ownedIds}
               includes={includes}
               allPackages={allPackages}
               bestValueId={bestValue?.id}
             />
-            <Section
-              title="Combo Bundles"
-              hindiTitle="कॉम्बो बंडल"
-              packages={combos}
-              ownedIds={ownedIds}
-              includes={includes}
-              allPackages={allPackages}
-            />
-            <Section
-              title="Crash Course"
-              hindiTitle="क्रैश कोर्स"
-              packages={videoCourses}
-              ownedIds={ownedIds}
-              includes={includes}
-              allPackages={allPackages}
-            />
-          </>
+          ))
         )}
       </div>
     </div>

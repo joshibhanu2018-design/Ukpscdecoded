@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
 import LoginForm from "@/components/LoginForm";
 
 export const metadata: Metadata = {
@@ -7,7 +8,13 @@ export const metadata: Metadata = {
   description: "Log in to your UKPSC Decoded test platform account.",
 };
 
-export default function StudentLoginPage() {
+export default async function StudentLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ reset?: string }>;
+}) {
+  const { reset } = await searchParams;
+
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl sm:p-8">
       <div className="mb-6 text-center">
@@ -16,6 +23,14 @@ export default function StudentLoginPage() {
         </h1>
         <p className="mt-1 text-sm text-slate-400">Welcome back. Log in to continue your preparation.</p>
       </div>
+
+      {reset === "success" && (
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-sm text-green-300">
+          <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
+          पासवर्ड रीसेट हो गया — कृपया लॉग इन करें।{" "}
+          <span className="text-green-400/80">/ Password reset — please log in.</span>
+        </div>
+      )}
 
       <LoginForm />
 
