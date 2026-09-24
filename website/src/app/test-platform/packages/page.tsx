@@ -8,9 +8,11 @@ import {
   getActivePackages,
   getOwnedPackageIds,
   getPackageIncludes,
+  getSeatsRemaining,
   getUserActiveEnrollments,
   type Package,
 } from "@/lib/packages";
+import { getPriceInfo } from "@/lib/pricing";
 import PackageCard from "@/components/PackageCard";
 
 export const metadata: Metadata = {
@@ -22,6 +24,7 @@ const SECTION_LABELS: Record<string, { title: string; hindiTitle: string }> = {
   test_series: { title: "Test Series", hindiTitle: "टेस्ट सीरीज" },
   combo_bundle: { title: "Combo Bundles", hindiTitle: "कॉम्बो बंडल" },
   video_course: { title: "Crash Course", hindiTitle: "क्रैश कोर्स" },
+  mentorship: { title: "Mentorship", hindiTitle: "मेंटरशिप" },
 };
 
 function Section({
@@ -35,6 +38,7 @@ function Section({
   userEmail,
   userName,
   paymentsEnabled,
+  seatsByPackage,
 }: {
   title: string;
   hindiTitle: string;
@@ -46,6 +50,7 @@ function Section({
   userEmail: string;
   userName: string;
   paymentsEnabled: boolean;
+  seatsByPackage: Map<string, number>;
 }) {
   if (packages.length === 0) return null;
 
@@ -60,11 +65,13 @@ function Section({
             pkg.package_type === "video_course"
               ? formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined)
               : null;
+          const seatsRemaining = seatsByPackage.get(pkg.id) ?? null;
 
           return (
             <PackageCard
               key={pkg.id}
               pkg={pkg}
+              priceInfo={getPriceInfo(pkg)}
               savings={computeSavings(pkg, includes, allPackages)}
               owned={ownedIds.has(pkg.id)}
               isBestValue={pkg.id === bestValueId}
@@ -72,6 +79,7 @@ function Section({
               userEmail={userEmail}
               userName={userName}
               paymentsEnabled={paymentsEnabled}
+              seatsRemaining={seatsRemaining}
             />
           );
         })}
@@ -93,6 +101,12 @@ export default async function PackageStorePage() {
 
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
   const paymentsEnabled = process.env.PAYMENTS_ENABLED === "true";
+
+  const seatedPackages = allPackages.filter((p) => p.seats_total != null);
+  const seatsEntries = await Promise.all(
+    seatedPackages.map(async (p) => [p.id, await getSeatsRemaining(p.id, p.seats_total!)] as const)
+  );
+  const seatsByPackage = new Map(seatsEntries);
 
   const testSeries = allPackages.filter((p) => p.package_type === "test_series");
 
@@ -151,6 +165,7 @@ export default async function PackageStorePage() {
               userEmail={user.email}
               userName={user.full_name}
               paymentsEnabled={paymentsEnabled}
+              seatsByPackage={seatsByPackage}
             />
           ))
         )}

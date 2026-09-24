@@ -3,56 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { CalendarDays, Check, Loader2, Sparkles } from "lucide-react";
-import { formatINR, type Package, type Savings } from "@/lib/packages";
-
-type RazorpayResponse = {
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
-};
-
-type RazorpayInstance = { open: () => void };
-
-type RazorpayOptions = {
-  key: string;
-  amount: number;
-  currency: string;
-  order_id: string;
-  name: string;
-  description: string;
-  prefill: { email: string; name: string };
-  theme: { color: string };
-  handler: (response: RazorpayResponse) => void;
-  modal: { ondismiss: () => void };
-};
-
-declare global {
-  interface Window {
-    Razorpay?: new (options: RazorpayOptions) => RazorpayInstance;
-  }
-}
-
-function loadRazorpayScript(): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (typeof window === "undefined") {
-      resolve(false);
-      return;
-    }
-    if (window.Razorpay) {
-      resolve(true);
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
+import { CalendarDays, Check, Loader2, Sparkles, Tag, Users } from "lucide-react";
+import { formatINR } from "@/lib/format";
+import type { Package, Savings } from "@/lib/packages";
+import { formatFoundingLabel, type PriceInfo } from "@/lib/pricing";
+import { loadRazorpayScript } from "@/lib/razorpay-client";
 
 export default function PackageCard({
   pkg,
+  priceInfo,
   savings,
   owned,
   isBestValue,
@@ -60,8 +19,10 @@ export default function PackageCard({
   userEmail,
   userName,
   paymentsEnabled,
+  seatsRemaining,
 }: {
   pkg: Package;
+  priceInfo: PriceInfo;
   savings: Savings | null;
   owned: boolean;
   isBestValue?: boolean;
@@ -69,11 +30,48 @@ export default function PackageCard({
   userEmail: string;
   userName: string;
   paymentsEnabled: boolean;
+  seatsRemaining: number | null;
 }) {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "loading">("idle");
   const [error, setError] = useState<string | null>(null);
   const bullets = (pkg.description || "").split("\n").filter(Boolean);
+  const foundingLabel = formatFoundingLabel(priceInfo);
+  const soldOut = seatsRemaining !== null && seatsRemaining <= 0;
+
+  const [showCodeField, setShowCodeField] = useState(false);
+  const [codeInput, setCodeInput] = useState("");
+  const [codeStatus, setCodeStatus] = useState<"idle" | "checking">("idle");
+  const [codeMessage, setCodeMessage] = useState<{ ok: boolean; text: string } | null>(null);
+  const [appliedCode, setAppliedCode] = useState<string | null>(null);
+
+  const handleApplyCode = async () => {
+    if (!codeInput.trim()) return;
+    setCodeStatus("checking");
+    setCodeMessage(null);
+
+    try {
+      const res = await fetch("/api/payments/check-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ package_id: pkg.id, code: codeInput.trim() }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setCodeMessage({ ok: false, text: data.error || "Invalid code." });
+        setAppliedCode(null);
+      } else {
+        setCodeMessage({ ok: true, text: data.message || "Code applied" });
+        setAppliedCode(codeInput.trim());
+      }
+    } catch {
+      setCodeMessage({ ok: false, text: "Could not check that code. Please try again." });
+      setAppliedCode(null);
+    } finally {
+      setCodeStatus("idle");
+    }
+  };
 
   const handleBuy = async () => {
     setError(null);
@@ -90,7 +88,7 @@ export default function PackageCard({
       const res = await fetch("/api/payments/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ package_id: pkg.id }),
+        body: JSON.stringify({ package_id: pkg.id, code: appliedCode || undefined }),
       });
       const data = await res.json();
 
@@ -163,15 +161,24 @@ export default function PackageCard({
       )}
 
       <div className="mt-3 flex items-baseline gap-2">
-        <span className="text-2xl font-bold text-white">{formatINR(pkg.price)}</span>
+        <span className="text-2xl font-bold text-white">{formatINR(priceInfo.amount)}</span>
         {savings && (
           <span className="text-sm text-slate-500 line-through">{formatINR(savings.componentTotal)}</span>
         )}
       </div>
 
+      {foundingLabel && <p className="mt-1 text-xs font-medium text-yellow-400">{foundingLabel}</p>}
+
       {savings && (
         <p className="mt-1 text-sm font-medium text-green-400">
           Save {formatINR(savings.saving)} ({savings.savingPercent}%) vs buying separately
+        </p>
+      )}
+
+      {seatsRemaining !== null && (
+        <p className={`mt-1 flex items-center gap-1.5 text-xs ${soldOut ? "text-red-400" : "text-slate-400"}`}>
+          <Users className="h-3.5 w-3.5" />
+          {soldOut ? "All seats full" : `${seatsRemaining} seat${seatsRemaining === 1 ? "" : "s"} left`}
         </p>
       )}
 
@@ -205,6 +212,10 @@ export default function PackageCard({
           <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-400">
             बिक्री जल्द शुरू <span className="text-slate-500">/ Sales open soon</span>
           </div>
+        ) : soldOut ? (
+          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-400">
+            All seats are full
+          </div>
         ) : (
           <>
             {error && (
@@ -212,6 +223,43 @@ export default function PackageCard({
                 {error}
               </div>
             )}
+
+            {showCodeField ? (
+              <div className="mb-3">
+                <div className="flex gap-2">
+                  <input
+                    value={codeInput}
+                    onChange={(e) => {
+                      setCodeInput(e.target.value);
+                      setAppliedCode(null);
+                      setCodeMessage(null);
+                    }}
+                    placeholder="Coupon or referral code"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-100 placeholder:text-slate-500 outline-none focus:border-yellow-500"
+                  />
+                  <button
+                    onClick={handleApplyCode}
+                    disabled={codeStatus === "checking" || !codeInput.trim()}
+                    className="flex-shrink-0 rounded-lg border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-yellow-500 hover:text-yellow-400 disabled:opacity-50"
+                  >
+                    {codeStatus === "checking" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Apply"}
+                  </button>
+                </div>
+                {codeMessage && (
+                  <p className={`mt-1.5 text-xs ${codeMessage.ok ? "text-green-400" : "text-red-400"}`}>
+                    {codeMessage.text}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowCodeField(true)}
+                className="mb-3 flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-yellow-400"
+              >
+                <Tag className="h-3.5 w-3.5" /> Have a coupon or referral code?
+              </button>
+            )}
+
             <button
               onClick={handleBuy}
               disabled={status === "loading"}

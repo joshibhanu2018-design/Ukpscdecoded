@@ -446,3 +446,70 @@ export function formatDuration(totalSeconds: number): string {
   const ss = String(sec).padStart(2, "0");
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 }
+
+export type TestListItem = {
+  id: string;
+  test_name: string;
+  subject: string | null;
+  total_questions: number | null;
+  duration_minutes: number | null;
+  release_at: string | null;
+};
+
+/** Full test list for a course detail page — name, subject, question count, duration, release date. */
+export async function getPackageTestList(packageId: string): Promise<TestListItem[]> {
+  const db = supabaseAdmin();
+
+  const { data: links, error: linkError } = await db
+    .from("package_tests")
+    .select("test_id, test_order")
+    .eq("package_id", packageId);
+
+  if (linkError || !links || links.length === 0) return [];
+
+  const { data: tests, error } = await db
+    .from("tests")
+    .select("id, test_name, subject, total_questions, duration_minutes, release_at")
+    .in(
+      "id",
+      links.map((l) => l.test_id)
+    );
+
+  if (error || !tests) return [];
+
+  const orderOf = new Map(links.map((l) => [l.test_id as string, Number(l.test_order ?? 0)]));
+  return [...tests].sort((a, b) => (orderOf.get(a.id) ?? 0) - (orderOf.get(b.id) ?? 0));
+}
+
+export type TestAttemptSummary = { attemptId: string; score: number; totalMarks: number; percentage: number; attempts: number };
+
+/** Per test: the latest submitted attempt and how many times it's been taken. */
+export async function getUserTestSummaries(userId: string, testIds: string[]): Promise<Map<string, TestAttemptSummary>> {
+  const out = new Map<string, TestAttemptSummary>();
+  if (testIds.length === 0) return out;
+
+  const { data, error } = await supabaseAdmin()
+    .from("attempts")
+    .select("id, test_id, score, total_marks, percentage, submitted_at")
+    .eq("user_id", userId)
+    .eq("status", "submitted")
+    .in("test_id", testIds)
+    .order("submitted_at", { ascending: false });
+
+  if (error || !data) return out;
+  for (const a of data) {
+    const existing = out.get(a.test_id);
+    if (existing) {
+      existing.attempts += 1;
+      continue;
+    }
+    out.set(a.test_id, {
+      attemptId: a.id,
+      score: Number(a.score),
+      totalMarks: Number(a.total_marks),
+      percentage: Number(a.percentage),
+      attempts: 1,
+    });
+  }
+  return out;
+}

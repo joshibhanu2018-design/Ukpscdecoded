@@ -1,15 +1,20 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LeadPopup from "@/components/LeadPopup";
+import InstallPrompt from "@/components/InstallPrompt";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 
 const siteUrl = "https://ukpscdecoded.vercel.app";
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#1a1a1f",
+  viewportFit: "cover",
+  themeColor: "#0f172a",
 };
 
 export const metadata: Metadata = {
@@ -43,6 +48,8 @@ export const metadata: Metadata = {
     "free UKPSC videos",
   ],
   authors: [{ name: "UKPSC Decoded", url: siteUrl }],
+  // iPhone "Add to Home Screen": open full-screen with the app's own name.
+  appleWebApp: { capable: true, title: "UKPSC Decoded", statusBarStyle: "black-translucent" },
   creator: "UKPSC Decoded",
   publisher: "UKPSC Decoded",
   robots: {
@@ -116,26 +123,38 @@ const jsonLd = {
   },
 };
 
-export default function RootLayout({
+async function getNavbarUser() {
+  const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
+  const user = await getUserFromSession(token);
+  return user ? { fullName: user.full_name } : null;
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const navbarUser = await getNavbarUser();
+
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+        <link rel="manifest" href="/manifest.json" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body>
-        <Navbar />
+        <Navbar user={navbarUser} />
         <main className="min-h-screen">{children}</main>
         <Footer />
         <LeadPopup />
+        <InstallPrompt />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

@@ -6,19 +6,40 @@ when phases land or SQL files get run.
 
 ## What's done
 
-**Auth (Phase 1)** — `/student/signup`, `/student/login`, `/student/forgot-password`,
-`/student/reset-password`. Bcrypt password hashing, stateless HMAC-signed
-session cookies (no `sessions` table — the token carries `{sub, iat, exp}`
-and is verified against `users.password_changed_at` on each request).
+**Auth — passwordless email OTP (Phase 7, replaces Phase 1 password
+login + Phase 3 password reset).** One screen at `/student/login`: email →
+"Send code" → 6-digit code by email (Resend, bilingual, valid 10 min) →
+logged in. A new email creates the account automatically after asking for
+a name. Phone is collected at checkout. `/student/signup`,
+`/student/forgot-password`, `/student/reset-password` now redirect to the
+login screen (keeping `?next=`), so old links still work. Existing
+accounts log in with their email as before — nothing to migrate.
+- Codes stored as HMAC-SHA256 keyed with `SESSION_SECRET` (a plain hash of
+  a 6-digit code is brute-forceable offline), never in plain text.
+- Max 5 guesses per code. Each guess *claims* an attempt with a
+  compare-and-set UPDATE before comparing, so a burst of parallel guesses
+  can't get extra tries. Requesting a new code supersedes older ones.
+- Max 3 codes per email per 15 minutes, max 10 per IP per hour (fails
+  closed if the DB check errors). The request endpoint answers the same
+  whether or not the email has an account.
+- A correct code is consumed immediately (single use, guarded UPDATE). A
+  first-time user gets a signed 15-minute signup ticket for the name step,
+  so that step can't be used for more guesses.
+- Sessions unchanged: stateless HMAC-signed cookie (`src/lib/auth-utils.ts`).
+- Removed: password signup/login/reset pages, forms and API routes, and
+  `src/lib/password-reset.ts`. `password_reset_tokens` and existing
+  `password_hash` values are left in the DB, unused.
+- **Not tested against the live DB or real Resend yet** (the cloud session
+  that built it had no credentials). Logic checked against an in-memory
+  DB stand-in (rate limits, 5-attempt cap incl. 20 parallel guesses,
+  single use, expiry, supersede, ticket tampering, case-insensitive
+  email); UI checked at 375/768/1280px. **Before relying on it:** run
+  `schema-phase7-otp-login.sql`, then on localhost log in with a
+  temporary email end-to-end, and delete that user +
+  its `login_codes` rows afterwards.
+
 Admin question importer at `/test-platform/admin/questions` (Excel/CSV
 upload, gated by a shared admin secret, not tied to student auth).
-
-**Password reset (Phase 3)** — Resend-powered, bilingual email, 1-hour
-single-use token (hashed at rest, never stored raw), rate-limited to 3
-emails/hour/address, always returns an identical response regardless of
-whether the email exists. Resetting invalidates every session for that
-user (via `password_changed_at`) in the same write as the password
-update.
 
 **Package store + dashboard (Phase 2A/2B)** — `/test-platform` (dashboard)
 and `/test-platform/packages` (store). 9 real packages seeded: 6 test
@@ -91,12 +112,87 @@ on the dashboard are now clickable; a "Free Tests" section lists
   sample data, but no session so far has had Supabase credentials. First
   real run: import a few questions, create a free test, take it.
 
+**My Courses + checkout polish (Phase 6, finished in the cloud session).**
+- `/test-platform` is now "My Courses": one card per owned course (combo
+  bundles expand to their components) with image, progress bar, validity
+  and a big "Continue / जारी रखें" button; stats, free tests, referral
+  card, then "Explore more courses" → `/courses`.
+- Continue on a test series opens `/test-platform/course/[slug]`: "Up next"
+  test, tests grouped by subject, each showing Start / score (→ result) /
+  locked-until date / "Soon" (no questions attached yet).
+- Checkout price breakdown now updates live when a code is applied: price,
+  discount, store credit, total — and the button reads "Pay ₹<total>".
+  Preview and real charge share one formula (`computeOrderTotal` in
+  `src/lib/pricing.ts`), so the button always matches what Razorpay charges.
+- Course cards/pages show `packages.image_url` when set (gradient otherwise).
+- PWA: added iPhone home-screen meta (`appleWebApp`); the install bar is
+  hidden on the exam screen, checkout and course pages so it never covers
+  Prev/Next/Pay/Buy Now. Service worker still never caches pages or API
+  responses (icons only).
+- `seed-phase6-tests.sql` fixed before first run: it omitted
+  `question_ids` (NOT NULL — the file would have failed) and
+  `test_order`. Tests start with no questions; they show on course pages
+  but can't be started until questions are attached.
+- Slow-connection check (375px, 400 kbps, 4× CPU): login page first paint
+  ≈2.7s, ~190 KB gzipped JS. The Supabase client (≈55 KB) was being
+  shipped to browsers via `formatINR`; moved to `src/lib/format.ts`.
+
 **Daily backup** — Vercel cron (`vercel.json`, `30 18 * * *` = 00:00 IST)
 hits `/api/cron/daily-backup`, protected by `CRON_SECRET` (fails closed
 if unset). Emails 3 CSVs (users — **no password hashes**, enrollments,
 payment_orders) to bhanujoshi1910@gmail.com via Resend. Verified live:
 correct row counts, correct headers, downloaded the actual CSV to
 confirm no password data is present.
+
+**Pricing engine + coupons + referrals (Phase 5).** Tested live end-to-end with temporary users,
+cleaned up after: founding→regular price switch (simulated by temporarily backdating a test
+package's `founding_ends_at`, both display and the actual Razorpay charge switched correctly, then
+restored), a single-use coupon blocked on reuse at both `check-code` and `create-order` after being
+consumed, the full referral loop (code generated on first purchase → self-referral blocked →
+referee gets ₹200 off → referrer credited ₹200 on completion → credit auto-applied at the
+referrer's next checkout with no code needed → balance correctly deducted), and the mentorship
+seat cap (blocked the 2nd buyer once the 1 test seat was taken, confirmed the owner's flattened
+entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course).
+- Founding/regular pricing: `packages.founding_price`/`regular_price`/`founding_ends_at` (genuine
+  `timestamptz`). The effective price is computed fresh from these on every request — display
+  (store/dashboard) and `create-order` (charge) both call the same `getPriceInfo()` — so the
+  founding→regular switch on 30 Sep 2026 23:59:59 IST needs no redeploy and no cron. Store shows
+  "Founding price ₹X, becomes ₹Y on 1 October" (bilingual) only while founding is active; no fake
+  timers, no fake strike-through of an invented price — the only strike-through on the store is
+  the real combo-savings comparison, unrelated to founding/regular.
+- New `mentorship` product type joins `combo_bundle` as entitlement-granting in
+  `getOwnedPackageIds` — buying "Prelims Mentorship with Bhanu Joshi" unlocks the Complete Prelims
+  Pack and, transitively (flattened at the data level via `package_includes`, not recursive code),
+  Premium Bundle and Crash Course too. Seat cap (`packages.seats_total`) enforced server-side in
+  `create-order`, shown as "X seats left" on the store card.
+- Coupons: `coupons` + `coupon_redemptions`. Two types — `single_use_percent` (admin generates N
+  individually-unique codes like `UKD-7K3Q9P` from an unambiguous charset, no 0/O/1/I/L) and
+  `multi_use_price_lock` (one named code that extends founding-price eligibility for whoever uses
+  it, past the package's own cutoff). Reservation model: applying a code at checkout inserts a
+  `reserved` redemption row good for 30 minutes; consumed only on verified payment; an abandoned
+  reservation simply ages out of the availability count with no cleanup job needed. Admin page
+  `/test-platform/admin/coupons` (same admin-secret gate): generate codes, create a price-lock
+  code, table of all codes with status/used-by/order, copy buttons, CSV export.
+- Referrals: `users.referral_code` (generated on a user's first paid enrollment) +
+  `users.store_credit_paise`, plus `referral_redemptions` using the same reserve-then-consume
+  pattern as coupons. Referee gets ₹200 off; referrer gets ₹200 store credit, auto-applied at
+  their next checkout (not "a code," so it stacks with a coupon/referral code on the same order —
+  the "one code per order" rule is about the coupon-or-referral field specifically). Self-referral
+  blocked by user id, email, or phone match. Dashboard shows the code, a WhatsApp share button
+  with a prefilled bilingual message, and the credit balance. Admin referrals list on the same
+  `/test-platform/admin/coupons` page.
+- Checkout has one "Have a coupon or referral code?" field. A lightweight `/api/payments/check-code`
+  endpoint previews the discount without reserving (reservation is real order-creation only);
+  `create-order` re-validates and reserves for real — the client-side preview is never trusted for
+  the actual charge. The amount sent to Razorpay is always the server-computed total.
+- Receipt email now shows price, discount (if any) and total paid.
+- Wording: crash course description everywhere changed to "50 video lectures including 8-10 live
+  sessions + PDF notes" (the corrected phrasing — live sessions are a subset of the 50, not
+  additional). "Hours" mentions and the phrase "live crash course classes" removed from the
+  package's own description (DB) and the legacy `/paid-courses` marketing page. Not touched:
+  `content/courses.json` and `/paid-course` (singular) — neither contains "hours" or "live crash
+  course classes", and they're pre-existing standalone marketing pages with their own different
+  prices/structure, out of scope for a wording-only fix.
 
 **Security fixes made along the way:**
 - Row Level Security enabled on every table (verified via direct anon-key
@@ -124,7 +220,9 @@ confirm no password data is present.
   test-taking flow now exists, so this can hook into `finalizeAttempt()`
   in `src/lib/tests.ts`.
 - **No edit/delete for tests** in the admin builder — fix mistakes in the
-  Supabase table editor for now.
+  Supabase table editor for now. The 62 seeded Premium Test Series tests
+  also need their questions attached: there's no admin screen for that
+  yet (the builder only creates new tests).
 - **Video course delivery.** `videos` table exists; no player/UI.
 - **Cross-path payment idempotency untested.** Verified `verify` called
   twice is idempotent; verified logic is identical for the webhook path,
@@ -154,6 +252,14 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `update-package-sort-order.sql` | Sets the current `sort_order` values (Combo Bundles → Test Series → Crash Course) | ✅ Run |
 | `schema-phase3-password-reset.sql` | `password_reset_tokens.used_at`, `users.password_changed_at` | ✅ Run |
 | `schema-phase4-payments.sql` | `payment_orders` table, `tests.release_at` | ✅ Run |
+| `schema-phase5-pricing.sql` | `packages.founding_price`/`regular_price`/`founding_ends_at`/`seats_total` | ✅ Run |
+| `schema-phase5-coupons.sql` | `coupons`, `coupon_redemptions` tables | ✅ Run |
+| `schema-phase5-referrals.sql` | `users.referral_code`/`store_credit_paise`, `referral_redemptions`, `payment_orders.original_amount`/`discount_amount`/`credit_applied` | ✅ Run |
+| `seed-phase5-pricing-update.sql` | Renames the combo to Complete Prelims Pack, sets founding/regular prices on 8 packages, deactivates Standard + Standard/Crash combo, inserts the new mentorship package + its `package_includes` | ✅ Run |
+| `schema-phase6-content.sql` | `packages.slug`/`image_url`/`highlights`/`curriculum`/`faq`, `banners` table, `tests.subject`, unique `package_tests(package_id, test_id)` | Check — run 1st of phase 6 |
+| `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | Check — run 2nd |
+| `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | Not run — run 3rd |
+| `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | Not run — **required before deploying OTP login** |
 
 ## Environment variables
 

@@ -1,16 +1,82 @@
 import Link from "next/link";
-import { BookOpen, ArrowRight, Star, BookMarked, Video, Send } from "lucide-react";
+import { cookies } from "next/headers";
+import { BookOpen, ArrowRight, Star, BookMarked, Video, Send, FileText } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { getAllArticles } from "@/lib/articles";
 import HomeQuiz from "@/components/HomeQuiz";
+import HomeCarousel from "@/components/HomeCarousel";
+import CourseCard from "@/components/CourseCard";
+import { getActiveBanners } from "@/lib/banners";
+import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
+import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import quiz from "@content/quiz.json";
 import home from "@content/home.json";
 
-export default function Home() {
+export default async function Home() {
   const { hero, quickLinks, features, bookPreview, testimonials, finalCta } = home;
+
+  const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
+  const user = await getUserFromSession(token);
+
+  const [banners, allPackages, includes] = await Promise.all([
+    getActiveBanners(),
+    getActivePackages(),
+    getPackageIncludes(),
+  ]);
+  const bannerById = new Map(allPackages.map((p) => [p.id, p]));
+  const carouselItems = banners
+    .filter((b) => b.package_id && bannerById.get(b.package_id)?.slug)
+    .map((b) => ({ ...b, href: `/courses/${bannerById.get(b.package_id!)!.slug}` }));
+
+  const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
+  const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
+  const featuredCourses = allPackages.slice(0, 8);
 
   return (
     <div>
+      {/* Course Carousel — DB-driven, editable without a redeploy */}
+      <HomeCarousel banners={carouselItems} />
+
+      {/* Course Cards */}
+      <section className="bg-slate-900 px-4 py-14">
+        <div className="container-custom mx-auto">
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+              हमारे कोर्स <span className="text-slate-400">/ Our Courses</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredCourses.map((pkg) => (
+              <CourseCard
+                key={pkg.id}
+                pkg={pkg}
+                mostPopular={pkg.slug === "complete-prelims-pack"}
+                owned={ownedIds.has(pkg.id)}
+              />
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              href="/courses"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-200 hover:border-yellow-500 hover:text-yellow-400"
+            >
+              सभी कोर्स देखें / View All Courses <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Free Sample Test — placeholder until real test-taking exists */}
+      <section className="border-y border-slate-800 bg-slate-950 px-4 py-12">
+        <div className="container-custom mx-auto text-center">
+          <FileText className="mx-auto mb-3 h-8 w-8 text-yellow-500" />
+          <h2 className="text-xl font-bold text-white">
+            फ्री सैंपल टेस्ट <span className="text-slate-400">/ Free Sample Test</span>
+          </h2>
+          <p className="mt-2 text-sm text-slate-400">जल्द आ रहा है / Coming soon</p>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-br from-graphite-950 via-graphite-900 to-graphite-800 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(245,147,7,0.1),transparent_50%)]" />
