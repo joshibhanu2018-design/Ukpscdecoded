@@ -91,7 +91,16 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
   }
 }
 
-function buildReceiptHtml(opts: { packageName: string; amountLabel: string; paymentId: string }): string {
+type ReceiptRow = { packageName: string; originalLabel: string; discountLabel: string | null; amountLabel: string; paymentId: string };
+
+function buildReceiptHtml(opts: ReceiptRow): string {
+  const discountRow = opts.discountLabel
+    ? `<tr>
+      <td style="padding: 8px 0; color: #555555; border-top: 1px solid #eeeeee;">छूट / Discount</td>
+      <td style="padding: 8px 0; text-align: right; color: #0b9163; border-top: 1px solid #eeeeee;">-${opts.discountLabel}</td>
+    </tr>`
+    : "";
+
   return `
 <div style="font-family: Arial, Helvetica, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 24px; color: #1a1a1f;">
   <h2 style="margin: 0 0 16px; font-size: 20px; color: #1a1a1f;">भुगतान की पुष्टि / Payment Confirmation</h2>
@@ -105,7 +114,12 @@ function buildReceiptHtml(opts: { packageName: string; amountLabel: string; paym
       <td style="padding: 8px 0; text-align: right; font-weight: bold;">${opts.packageName}</td>
     </tr>
     <tr>
-      <td style="padding: 8px 0; color: #555555; border-top: 1px solid #eeeeee;">राशि / Amount</td>
+      <td style="padding: 8px 0; color: #555555; border-top: 1px solid #eeeeee;">मूल्य / Price</td>
+      <td style="padding: 8px 0; text-align: right; border-top: 1px solid #eeeeee;">${opts.originalLabel}</td>
+    </tr>
+    ${discountRow}
+    <tr>
+      <td style="padding: 8px 0; color: #555555; border-top: 1px solid #eeeeee;">कुल भुगतान / Total Paid</td>
       <td style="padding: 8px 0; text-align: right; font-weight: bold; border-top: 1px solid #eeeeee;">${opts.amountLabel}</td>
     </tr>
     <tr>
@@ -124,7 +138,7 @@ function buildReceiptHtml(opts: { packageName: string; amountLabel: string; paym
 </div>`.trim();
 }
 
-function buildReceiptText(opts: { packageName: string; amountLabel: string; paymentId: string }): string {
+function buildReceiptText(opts: ReceiptRow): string {
   return [
     "भुगतान की पुष्टि / Payment Confirmation",
     "",
@@ -132,23 +146,31 @@ function buildReceiptText(opts: { packageName: string; amountLabel: string; paym
     "Your payment was successful and your package has been activated.",
     "",
     `Package: ${opts.packageName}`,
-    `Amount: ${opts.amountLabel}`,
+    `Price: ${opts.originalLabel}`,
+    ...(opts.discountLabel ? [`Discount: -${opts.discountLabel}`] : []),
+    `Total Paid: ${opts.amountLabel}`,
     `Payment ID: ${opts.paymentId}`,
     "",
     `${process.env.NEXT_PUBLIC_BASE_URL || "https://ukpscdecoded.in"}/test-platform`,
   ].join("\n");
 }
 
-/** Sends the purchase receipt email. Returns false (never throws) on any failure. */
+/** Sends the purchase receipt email, showing original price / discount / final amount. Returns false (never throws) on any failure. */
 export async function sendReceiptEmail(
   to: string,
-  opts: { packageName: string; amountPaise: number; paymentId: string }
+  opts: { packageName: string; amountPaise: number; originalAmountPaise: number; discountAmountPaise: number; paymentId: string }
 ): Promise<boolean> {
   const resend = getClient();
   if (!resend) return false;
 
-  const amountLabel = `₹${(opts.amountPaise / 100).toLocaleString("en-IN")}`;
-  const emailOpts = { packageName: opts.packageName, amountLabel, paymentId: opts.paymentId };
+  const rupees = (paise: number) => `₹${(paise / 100).toLocaleString("en-IN")}`;
+  const emailOpts: ReceiptRow = {
+    packageName: opts.packageName,
+    originalLabel: rupees(opts.originalAmountPaise),
+    discountLabel: opts.discountAmountPaise > 0 ? rupees(opts.discountAmountPaise) : null,
+    amountLabel: rupees(opts.amountPaise),
+    paymentId: opts.paymentId,
+  };
 
   try {
     const { error } = await resend.emails.send({

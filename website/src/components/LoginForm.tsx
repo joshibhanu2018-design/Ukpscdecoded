@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, LogIn } from "lucide-react";
 
-export default function LoginForm() {
+export default function LoginForm({ next = "/test-platform" }: { next?: string }) {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function LoginForm() {
         return;
       }
 
-      router.push("/test-platform");
+      router.push(next);
       router.refresh();
     } catch {
       setError("Network error. Please check your connection and try again.");

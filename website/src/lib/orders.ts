@@ -6,6 +6,8 @@ import {
   getPackageIncludes,
   getUserActiveEnrollments,
 } from "./packages";
+import { consumeCouponForOrder } from "./coupons";
+import { consumeReferralForOrder, ensureReferralCode } from "./referrals";
 
 export async function isPackageOwned(userId: string, packageId: string): Promise<boolean> {
   const [allPackages, includes, enrollments] = await Promise.all([
@@ -25,6 +27,26 @@ function computeAccessValidTill(pkg: { access_valid_till: string | null; validit
   return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
 }
 
+/** Deducts credit_applied from the buyer's store credit, guarded so it can never go negative. Not recomputed — the amount was fixed at order-creation time. */
+async function deductStoreCredit(userId: string, amountPaise: number): Promise<void> {
+  if (amountPaise <= 0) return;
+
+  const db = supabaseAdmin();
+  const { data: buyer } = await db.from("users").select("store_credit_paise").eq("id", userId).maybeSingle();
+  if (!buyer || buyer.store_credit_paise < amountPaise) {
+    console.error(
+      `[orders] deductStoreCredit: user ${userId} balance ${buyer?.store_credit_paise ?? 0} < ${amountPaise} — skipping deduction (likely a concurrent order also spent it)`
+    );
+    return;
+  }
+
+  await db
+    .from("users")
+    .update({ store_credit_paise: buyer.store_credit_paise - amountPaise })
+    .eq("id", userId)
+    .eq("store_credit_paise", buyer.store_credit_paise); // guard against a concurrent change since the read above
+}
+
 /**
  * Marks a payment_orders row paid and creates the enrollment, exactly
  * once, no matter how many times or from how many places (the verify
@@ -42,7 +64,7 @@ export async function completeOrder(
 
   const { data: order, error } = await db
     .from("payment_orders")
-    .select("id, user_id, package_id, status")
+    .select("id, user_id, package_id, status, amount, original_amount, discount_amount, credit_applied")
     .eq("razorpay_order_id", razorpayOrderId)
     .maybeSingle();
 
@@ -79,7 +101,7 @@ export async function completeOrder(
       .select("package_name, package_type, access_valid_till, validity_days")
       .eq("id", order.package_id)
       .maybeSingle(),
-    db.from("users").select("email").eq("id", order.user_id).maybeSingle(),
+    db.from("users").select("email, full_name").eq("id", order.user_id).maybeSingle(),
   ]);
 
   if (!pkg) {
@@ -105,16 +127,28 @@ export async function completeOrder(
     return { ok: false, alreadyProcessed: false };
   }
 
-  if (user?.email) {
-    const { data: fullOrder } = await db
-      .from("payment_orders")
-      .select("amount")
-      .eq("id", order.id)
-      .maybeSingle();
+  // Consume any coupon/referral reservation on this order, deduct any
+  // store credit that was baked into the charged amount, and give the
+  // buyer their own referral code now that they have a paid enrollment.
+  // None of these block the purchase itself if they fail — logged, not
+  // thrown, since the enrollment above already succeeded.
+  try {
+    await Promise.all([
+      consumeCouponForOrder(order.id),
+      consumeReferralForOrder(order.id),
+      deductStoreCredit(order.user_id, order.credit_applied ?? 0),
+      user?.full_name ? ensureReferralCode(order.user_id, user.full_name) : Promise.resolve(),
+    ]);
+  } catch (err) {
+    console.error("[orders] completeOrder: post-purchase bookkeeping failed:", err);
+  }
 
+  if (user?.email) {
     await sendReceiptEmail(user.email, {
       packageName: pkg.package_name,
-      amountPaise: fullOrder?.amount ?? 0,
+      amountPaise: order.amount,
+      originalAmountPaise: order.original_amount ?? order.amount,
+      discountAmountPaise: order.discount_amount ?? 0,
       paymentId: razorpayPaymentId,
     });
   }

@@ -11,9 +11,10 @@ export const metadata: Metadata = {
 export default async function StudentLoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ reset?: string }>;
+  searchParams: Promise<{ reset?: string; next?: string }>;
 }) {
-  const { reset } = await searchParams;
+  const { reset, next } = await searchParams;
+  const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : undefined;
 
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl sm:p-8">
@@ -32,11 +33,14 @@ export default async function StudentLoginPage({
         </div>
       )}
 
-      <LoginForm />
+      <LoginForm next={safeNext} />
 
       <p className="mt-6 text-center text-sm text-slate-400">
         Don&apos;t have an account?{" "}
-        <Link href="/student/signup" className="font-medium text-yellow-500 hover:text-yellow-400">
+        <Link
+          href={safeNext ? `/student/signup?next=${encodeURIComponent(safeNext)}` : "/student/signup"}
+          className="font-medium text-yellow-500 hover:text-yellow-400"
+        >
           Sign Up
         </Link>
       </p>

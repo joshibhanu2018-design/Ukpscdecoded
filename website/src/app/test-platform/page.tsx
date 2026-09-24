@@ -21,7 +21,10 @@ import {
   getUserAverageScore,
   getUserGamificationStats,
 } from "@/lib/dashboard";
+import { getPriceInfo } from "@/lib/pricing";
+import { supabaseAdmin } from "@/lib/supabase";
 import LogoutButton from "@/components/LogoutButton";
+import ReferralCard from "@/components/ReferralCard";
 
 export const metadata: Metadata = {
   title: "Test Platform",
@@ -89,6 +92,13 @@ export default async function TestPlatformPage({
   const notOwned = allPackages.filter((p) => !ownedIds.has(p.id));
   const allVideoCourses = allPackages.filter((p) => p.package_type === "video_course");
 
+  const { data: referralInfo } = await supabaseAdmin()
+    .from("users")
+    .select("referral_code, store_credit_paise")
+    .eq("id", user.id)
+    .maybeSingle();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ukpscdecoded.in";
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
       <div className="mx-auto max-w-5xl">
@@ -129,6 +139,16 @@ export default async function TestPlatformPage({
             sub={`${stats.total_xp} XP`}
           />
         </div>
+
+        {referralInfo?.referral_code && (
+          <div className="mb-10">
+            <ReferralCard
+              referralCode={referralInfo.referral_code}
+              storeCreditPaise={referralInfo.store_credit_paise ?? 0}
+              storeUrl={`${baseUrl}/test-platform/packages`}
+            />
+          </div>
+        )}
 
         <section className="mb-10">
           <h2 className="mb-4 text-xl font-bold text-white">
@@ -243,7 +263,7 @@ export default async function TestPlatformPage({
                     {classStart && <p className="mt-1 text-xs text-yellow-400">Classes start {classStart}</p>}
                     {!owned && (
                       <div className="mt-3 flex items-center justify-between">
-                        <span className="text-sm font-bold text-white">{formatINR(pkg.price)}</span>
+                        <span className="text-sm font-bold text-white">{formatINR(getPriceInfo(pkg).amount)}</span>
                         <Link href="/test-platform/packages" className="text-xs font-medium text-yellow-500 hover:text-yellow-400">
                           View in store
                         </Link>
@@ -266,7 +286,7 @@ export default async function TestPlatformPage({
                 <div key={pkg.id} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
                   <h3 className="text-sm font-semibold text-white">{pkg.package_name}</h3>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-sm font-bold text-white">{formatINR(pkg.price)}</span>
+                    <span className="text-sm font-bold text-white">{formatINR(getPriceInfo(pkg).amount)}</span>
                     <Link
                       href="/test-platform/packages"
                       className="text-xs font-medium text-yellow-500 hover:text-yellow-400"

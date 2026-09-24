@@ -7,7 +7,14 @@ export const metadata: Metadata = {
   description: "Create your free UKPSC Decoded test platform account.",
 };
 
-export default function StudentSignupPage() {
+export default async function StudentSignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { next } = await searchParams;
+  const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : undefined;
+
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl sm:p-8">
       <div className="mb-6 text-center">
@@ -19,11 +26,14 @@ export default function StudentSignupPage() {
         </p>
       </div>
 
-      <SignupForm />
+      <SignupForm next={safeNext} />
 
       <p className="mt-6 text-center text-sm text-slate-400">
         Already have an account?{" "}
-        <Link href="/student/login" className="font-medium text-yellow-500 hover:text-yellow-400">
+        <Link
+          href={safeNext ? `/student/login?next=${encodeURIComponent(safeNext)}` : "/student/login"}
+          className="font-medium text-yellow-500 hover:text-yellow-400"
+        >
           Log In
         </Link>
       </p>

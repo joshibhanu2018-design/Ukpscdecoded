@@ -1,6 +1,12 @@
 import { supabaseAdmin } from "./supabase";
+import { getPriceInfo } from "./pricing";
 
-export type PackageType = "test_series" | "video_course" | "combo_bundle" | string;
+export type PackageType = "test_series" | "video_course" | "combo_bundle" | "mentorship" | string;
+
+// Product types whose package_includes rows grant access to the included
+// packages when owned (as opposed to being purely informational, like
+// Premium Bundle's rows used only for the savings calculation).
+const ENTITLEMENT_GRANTING_TYPES = new Set<PackageType>(["combo_bundle", "mentorship"]);
 
 export type Package = {
   id: string;
@@ -15,6 +21,15 @@ export type Package = {
   metadata: Record<string, unknown> | null;
   sort_order: number;
   is_active: boolean;
+  founding_price: number | null;
+  regular_price: number | null;
+  founding_ends_at: string | null;
+  seats_total: number | null;
+  slug: string | null;
+  image_url: string | null;
+  highlights: string[];
+  curriculum: { title: string }[];
+  faq: { question: string; answer: string }[];
 };
 
 export type PackageInclude = {
@@ -32,17 +47,30 @@ export type Enrollment = {
   created_at: string;
 };
 
+const PACKAGE_COLUMNS =
+  "id, package_name, description, price, package_type, total_tests, total_questions, access_valid_till, validity_days, metadata, sort_order, is_active, founding_price, regular_price, founding_ends_at, seats_total, slug, image_url, highlights, curriculum, faq";
+
 export async function getActivePackages(): Promise<Package[]> {
   const { data, error } = await supabaseAdmin()
     .from("packages")
-    .select(
-      "id, package_name, description, price, package_type, total_tests, total_questions, access_valid_till, validity_days, metadata, sort_order, is_active"
-    )
+    .select(PACKAGE_COLUMNS)
     .eq("is_active", true)
     .order("sort_order", { ascending: true });
 
   if (error) throw new Error(`Could not load packages: ${error.message}`);
   return data ?? [];
+}
+
+export async function getPackageBySlug(slug: string): Promise<Package | null> {
+  const { data, error } = await supabaseAdmin()
+    .from("packages")
+    .select(PACKAGE_COLUMNS)
+    .eq("slug", slug)
+    .eq("is_active", true)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  return data;
 }
 
 export async function getPackageIncludes(): Promise<PackageInclude[]> {
@@ -86,7 +114,7 @@ export function getOwnedPackageIds(
   for (const e of enrollments) {
     owned.add(e.package_id);
     const pkg = byId.get(e.package_id);
-    if (pkg?.package_type === "combo_bundle") {
+    if (pkg && ENTITLEMENT_GRANTING_TYPES.has(pkg.package_type)) {
       for (const inc of includes) {
         if (inc.combo_package_id === e.package_id) owned.add(inc.included_package_id);
       }
@@ -134,11 +162,29 @@ export function computeSavings(
   if (includedIds.length === 0) return null;
 
   const byId = new Map(allPackages.map((p) => [p.id, p]));
-  const componentTotal = includedIds.reduce((sum, id) => sum + Number(byId.get(id)?.price ?? 0), 0);
-  const saving = componentTotal - Number(pkg.price);
+  // Uses each package's current effective price (founding or regular,
+  // whichever is active right now), so the saving shown always matches
+  // what the components would actually cost bought separately today —
+  // never a stale/static number.
+  const componentTotal = includedIds.reduce((sum, id) => {
+    const component = byId.get(id);
+    return sum + (component ? getPriceInfo(component).amount : 0);
+  }, 0);
+  const saving = componentTotal - getPriceInfo(pkg).amount;
   if (componentTotal <= 0 || saving <= 0) return null;
 
   return { componentTotal, saving, savingPercent: Math.round((saving / componentTotal) * 100) };
+}
+
+/** For packages with a seat cap (e.g. mentorship) — every enrollment row for this package is a paid one, since enrollments are only ever created on successful payment. */
+export async function getSeatsRemaining(packageId: string, seatsTotal: number): Promise<number> {
+  const { count, error } = await supabaseAdmin()
+    .from("enrollments")
+    .select("id", { count: "exact", head: true })
+    .eq("package_id", packageId);
+
+  if (error) throw new Error(`Could not count enrollments: ${error.message}`);
+  return Math.max(0, seatsTotal - (count ?? 0));
 }
 
 export function formatINR(amount: number): string {

@@ -1,0 +1,99 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Download, Share, X } from "lucide-react";
+
+const DISMISS_KEY = "ukpsc_install_prompt_dismissed";
+
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+};
+
+export default function InstallPrompt() {
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [showIosHint, setShowIosHint] = useState(false);
+  const [dismissed, setDismissed] = useState(true);
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(DISMISS_KEY)) return;
+    } catch {
+      return;
+    }
+    setDismissed(false);
+
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as unknown as { standalone?: boolean }).standalone === true;
+    if (isStandalone) {
+      setDismissed(true);
+      return;
+    }
+
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (isIos) {
+      setShowIosHint(true);
+    }
+
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const dismiss = () => {
+    setDismissed(true);
+    try {
+      localStorage.setItem(DISMISS_KEY, "1");
+    } catch {
+      // ignore
+    }
+  };
+
+  const install = async () => {
+    if (!deferredPrompt) return;
+    await deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    setDeferredPrompt(null);
+    dismiss();
+  };
+
+  if (dismissed || (!deferredPrompt && !showIosHint)) return null;
+
+  return (
+    <div
+      className="fixed inset-x-0 z-40 mx-auto flex max-w-sm items-center gap-3 rounded-xl border border-slate-700 bg-slate-900 p-3 shadow-2xl sm:hidden"
+      style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))", left: "1rem", right: "1rem" }}
+    >
+      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-yellow-500/10 text-yellow-500">
+        <Download className="h-5 w-5" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-xs font-semibold text-white">
+          ऐप इंस्टॉल करें <span className="text-slate-400">/ Install app</span>
+        </p>
+        {showIosHint && !deferredPrompt ? (
+          <p className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-400">
+            Tap <Share className="h-3 w-3" /> then &quot;Add to Home Screen&quot;
+          </p>
+        ) : (
+          <p className="mt-0.5 text-[11px] text-slate-400">Quick access from your home screen</p>
+        )}
+      </div>
+      {deferredPrompt && (
+        <button
+          onClick={install}
+          className="flex-shrink-0 rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-slate-900 hover:bg-yellow-400"
+        >
+          Install
+        </button>
+      )}
+      <button onClick={dismiss} className="flex-shrink-0 text-slate-500 hover:text-slate-300" aria-label="Dismiss">
+        <X className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}

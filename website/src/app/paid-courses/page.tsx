@@ -113,7 +113,7 @@ export default function PaidCoursesPage() {
 
   const learningPath = [
     { step: 1, title: 'Quick Revision Notes', desc: 'Start with condensed national & state topics' },
-    { step: 2, title: 'Detailed Video Courses', desc: '50+ hours covering all exam subjects' },
+    { step: 2, title: 'Detailed Video Courses', desc: '50 video lectures including 8-10 live sessions + PDF notes' },
     { step: 3, title: 'Doubt Clearing', desc: 'Weekly live sessions + expected question bank' },
     { step: 4, title: 'Personal Session', desc: '1-on-1 with Bhanu Joshi for strategy & guidance' },
   ];
@@ -124,7 +124,7 @@ export default function PaidCoursesPage() {
     dates: 'October 2 - November 2, 2026',
     price: '₹2,699',
     duration: '8 weeks',
-    hours: '50+',
+    content: '50 video lectures including 8-10 live sessions + PDF notes',
     videoLessons: true,
     testSeries: true,
     personalSession: true,
@@ -176,7 +176,7 @@ export default function PaidCoursesPage() {
                 <div className="flex items-center gap-3">
                   <Clock className="text-orange-400" size={20} />
                   <span className="text-slate-300">
-                    <strong>Total Hours:</strong> {crashCourseDetails.hours} hours of comprehensive video content
+                    <strong>Content:</strong> {crashCourseDetails.content}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
