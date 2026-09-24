@@ -276,6 +276,9 @@ export default function CheckoutForm({
         <span className="text-slate-600">/ Account sharing leads to suspension without refund.</span>{" "}
         <Link href="/terms" className="underline hover:text-slate-400">
           Terms
+        </Link> ·{" "}
+        <Link href="/refund-policy" className="underline hover:text-slate-400">
+          Refund Policy
         </Link>
       </p>
     </div>

@@ -294,8 +294,11 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <ShieldCheck className="h-4 w-4 text-yellow-500" /> रिफंड नीति / Refund Policy
             </h3>
             <p>
-              Activated packages are non-refundable except for a genuine technical failure on our end. One
-              account per student — shared accounts are suspended without refund.
+              Refund only within 2 days of purchase and if fewer than 3 videos watched (tests attempted, for a test
+              series). One account per student — shared accounts are suspended without refund.{" "}
+              <Link href="/refund-policy" className="underline">
+                Full policy
+              </Link>
             </p>
             <Link href="/terms" className="mt-2 inline-block text-yellow-400 underline">
               पूरे नियम पढ़ें / Read full terms

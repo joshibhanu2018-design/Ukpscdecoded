@@ -31,10 +31,13 @@ export default function TermsPage() {
         <section>
           <h2 className="mb-2 text-lg font-bold text-graphite-900">Payments &amp; Refunds</h2>
           <p>
-            Payments are processed securely via Razorpay. Once a package is activated on your
-            account, it is considered delivered — digital access purchases are generally
-            non-refundable, except where required by law or at our discretion for a genuine
-            technical failure on our end.
+            Payments are processed securely via Razorpay. Digital courses are generally
+            non-refundable: a refund is given only if requested within 2 days of purchase and
+            before meaningful use of the course — see the{" "}
+            <a href="/refund-policy" className="text-saffron-600 underline hover:text-saffron-700">
+              Refund Policy
+            </a>{" "}
+            for the exact conditions.
           </p>
         </section>
 

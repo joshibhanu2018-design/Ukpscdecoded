@@ -148,7 +148,9 @@ export default async function MyCoursesPage({
                   : 0;
               const classStart = formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined);
               const continueHref =
-                pkg.package_type === "test_series" && pkg.slug
+                pkg.package_type === "mentorship"
+                  ? "/test-platform/mentorship"
+                  : pkg.package_type === "test_series" && pkg.slug
                   ? `/test-platform/course/${pkg.slug}`
                   : pkg.slug
                     ? `/courses/${pkg.slug}`

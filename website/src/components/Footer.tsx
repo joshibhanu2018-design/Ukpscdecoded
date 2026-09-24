@@ -8,6 +8,10 @@ const quickLinks = [
   { href: "/pyq-tracker", label: "PYQ Tracker" },
   { href: "/courses", label: "Courses" },
   { href: "/buy-book", label: "Buy the Book" },
+  { href: "/contact", label: "Contact Us" },
+  { href: "/terms", label: "Terms" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/refund-policy", label: "Refund Policy" },
 ];
 
 export default function Footer() {

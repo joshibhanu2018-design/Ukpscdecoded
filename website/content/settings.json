@@ -6,12 +6,24 @@
     "aboutText": "India's most comprehensive single-platform preparation resource for all Uttarakhand state examinations. From free videos to the complete guidebook.",
     "email": "ukpscdecoded@gmail.com",
     "exams": [
-      { "name": "UKPSC PCS (Prelims + Mains)" },
-      { "name": "Lower PCS / ACF / RFO" },
-      { "name": "RO/ARO Examination" },
-      { "name": "UKSSSC (Group C)" },
-      { "name": "Patwari / Lekhpal" },
-      { "name": "Forest Guard / SI" }
+      {
+        "name": "UKPSC PCS (Prelims + Mains)"
+      },
+      {
+        "name": "Lower PCS / ACF / RFO"
+      },
+      {
+        "name": "RO/ARO Examination"
+      },
+      {
+        "name": "UKSSSC (Group C)"
+      },
+      {
+        "name": "Patwari / Lekhpal"
+      },
+      {
+        "name": "Forest Guard / SI"
+      }
     ]
   },
   "social": {
@@ -19,5 +31,12 @@
     "telegram": "https://t.me/ukpscdecoded",
     "instagram": "https://instagram.com/ukpscdecoded"
   },
-  "leadEndpoint": "https://script.google.com/macros/s/AKfycbyTIOwMIO6iNvJ9gCS8pRO15g5SvnwwW8gt7DdiXSZn939IzJV6WTniu1lETIk-7ufq/exec"
+  "leadEndpoint": "https://script.google.com/macros/s/AKfycbyTIOwMIO6iNvJ9gCS8pRO15g5SvnwwW8gt7DdiXSZn939IzJV6WTniu1lETIk-7ufq/exec",
+  "legal": {
+    "ownerName": "Bhanu Joshi",
+    "address": "",
+    "phone": "",
+    "refundDays": 2,
+    "refundMaxVideos": 3
+  }
 }

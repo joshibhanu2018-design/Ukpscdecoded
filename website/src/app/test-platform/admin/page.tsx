@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { FileSpreadsheet, ListChecks, Loader2, Shield, Ticket } from "lucide-react";
+import { CalendarClock, FileSpreadsheet, ListChecks, Loader2, Shield, Ticket } from "lucide-react";
 
 type Admin = { id: string; full_name: string | null; email: string };
 
@@ -10,6 +10,7 @@ const TOOLS = [
   { href: "/test-platform/admin/questions", icon: FileSpreadsheet, title: "Import Questions", sub: "Excel/CSV into the question bank" },
   { href: "/test-platform/admin/tests", icon: ListChecks, title: "Create Tests", sub: "Build a test from question IDs" },
   { href: "/test-platform/admin/coupons", icon: Ticket, title: "Coupons & Referrals", sub: "Codes, price locks, referral list" },
+  { href: "/test-platform/admin/mentorship", icon: CalendarClock, title: "Mentorship", sub: "Bookings, plans, your hours" },
 ];
 
 export default function AdminHomePage() {
@@ -55,7 +56,7 @@ export default function AdminHomePage() {
       <div className="mx-auto max-w-3xl">
         <h1 className="text-2xl font-bold text-white">Admin</h1>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {TOOLS.map(({ href, icon: Icon, title, sub }) => (
             <Link key={href} href={href} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-yellow-500/50">
               <Icon className="mb-2 h-5 w-5 text-yellow-500" />

@@ -192,6 +192,35 @@ pages read the new columns).
 - Not yet: PYQ-weightage mapping of topics (bank topic names don't match
   the PYQ tracker's) and the gap-to-cutoff estimate (needs cutoff data).
 
+**Mentorship booking (Phase 11).** SQL: `schema-phase11-mentorship-booking.sql`.
+- Students who own the Mentorship package (My Courses → Continue) get
+  `/test-platform/mentorship`: open 20-minute slots for the next 2 weeks,
+  one booking per week, first come first served, optional "what to discuss"
+  note, Join button with the meeting link, cancel up to 12 hours before,
+  and past sessions with the mentor's written plan.
+- Default hours (IST): Wednesday + Thursday 10:00–12:00 and 14:00–17:00
+  = 30 slots/week for 25 seats. Slots start ≥2 hours from now.
+- Admin `/test-platform/admin/mentorship`: upcoming/recent bookings with
+  student contact + link to their performance page, write/save the plan,
+  mark completed/no-show/cancel, set the one meeting link, edit weekly
+  hours, block days off.
+- The database enforces the rules: unique active booking per slot (two
+  students clicking together → one wins) and per student per week. Verified
+  on real Postgres 16 (race, per-week limit, rebook after cancel, re-run
+  safe); slot generation checked against IST edge cases.
+- Not built: email reminders, weekly report form, intake form (see the
+  mentorship plan in chat). The Mentorship package description in the DB
+  still says "3 one-on-one calls" — update it to the weekly format.
+
+**Legal pages.** `/privacy`, `/refund-policy`, `/contact` (plus existing
+`/terms`), linked from the footer, checkout and course pages; in the
+sitemap. Refund rule: within 2 days of purchase and fewer than 3 videos
+watched (3 tests for a test series; before the first session for
+mentorship); failed/double payments always refunded. Owner name, address
+and phone come from `content/settings.json` → `legal` (address/phone are
+empty — Razorpay usually wants them; fill in before applying for live).
+Video-watch counting for the refund rule arrives with the video player.
+
 **Daily backup** — Vercel cron (`vercel.json`, `30 18 * * *` = 00:00 IST)
 hits `/api/cron/daily-backup`, protected by `CRON_SECRET` (fails closed
 if unset). Emails 3 CSVs (users — **no password hashes**, enrollments,
@@ -314,6 +343,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | Check — run 2nd |
 | `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | Not run — run 3rd |
 | `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | Not run — **required before deploying OTP login** |
+| `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
 | `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
 | `schema-phase9-sessions-xp-admin.sql` | `user_sessions` (device limit), `user_gamification.last_active_date` + `award_test_xp()`, admin-role notes | Not run — **required before deploying Phase 9**; then make yourself admin |
 
