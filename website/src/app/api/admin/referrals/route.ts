@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin";
 import { supabaseAdmin } from "@/lib/supabase";
 
-function isAuthorized(request: NextRequest): boolean {
-  const secret = process.env.ADMIN_IMPORT_SECRET;
-  if (!secret) return false;
-  return request.headers.get("x-admin-secret") === secret;
-}
-
 export async function GET(request: NextRequest) {
-  if (!isAuthorized(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdmin();
+  if ("response" in auth) return auth.response;
 
   const db = supabaseAdmin();
   const { data, error } = await db

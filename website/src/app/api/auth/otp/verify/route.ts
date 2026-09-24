@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSessionToken, sessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import { createSession, sessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { consumeCode, createSignupTicket, findUserIdByEmail, normalizeEmail, verifyCode } from "@/lib/otp";
 
 const MESSAGES = {
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ needs_name: true, ticket: createSignupTicket(email) });
     }
 
-    const { token, expiresAt } = createSessionToken(userId);
+    const { token, expiresAt } = await createSession(userId, request.headers.get("user-agent"));
     const response = NextResponse.json({ ok: true });
     response.cookies.set(SESSION_COOKIE_NAME, token, sessionCookieOptions(expiresAt));
     return response;

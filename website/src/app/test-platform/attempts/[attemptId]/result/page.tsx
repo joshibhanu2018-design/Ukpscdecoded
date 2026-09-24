@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, CheckCircle2, Clock, MinusCircle, Target, Trophy, XCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Clock, MinusCircle, Target, Trophy, XCircle, Zap } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import {
   computePercentile,
@@ -10,9 +10,12 @@ import {
   getAttempt,
   getTest,
   getTestQuestions,
+  hasEarlierSubmittedAttempt,
   sanitizeAnswers,
   scoreAttempt,
 } from "@/lib/tests";
+import { xpForAttempt } from "@/lib/gamification";
+import { parseUtcTimestamp } from "@/lib/timestamps";
 
 export const metadata: Metadata = {
   title: "Test Result",
@@ -49,6 +52,13 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   // so the page is correct even if the analytics insert ever failed.
   const r = scoreAttempt(questions, answers, test);
   const percentile = await computePercentile(test.id, r.score, attempt.id);
+  const isFirst = !(await hasEarlierSubmittedAttempt(
+    user.id,
+    test.id,
+    attempt.id,
+    attempt.submitted_at ? parseUtcTimestamp(attempt.submitted_at).toISOString() : new Date().toISOString()
+  ));
+  const xpEarned = xpForAttempt(r.percentage, isFirst, r.correct + r.wrong);
   const subjects = Object.entries(r.bySubject).sort((a, b) => b[1].total - a[1].total);
 
   return (
@@ -66,6 +76,11 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
             {r.score} <span className="text-2xl text-slate-400">/ {r.totalMarks}</span>
           </div>
           <div className="mt-1 text-sm text-slate-300">{r.percentage}%</div>
+          {xpEarned > 0 && (
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-yellow-500/15 px-3 py-1 text-sm font-semibold text-yellow-400">
+              <Zap className="h-4 w-4" /> +{xpEarned} XP{!isFirst && " (reattempt)"}
+            </div>
+          )}
           {percentile !== null && (
             <p className="mt-2 text-sm text-slate-400">
               आपने {percentile}% छात्रों से बेहतर किया / You scored higher than {percentile}% of students

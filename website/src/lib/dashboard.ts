@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "./supabase";
+import { todayIST } from "./gamification";
 
 export type GamificationStats = {
   level: number;
@@ -22,12 +23,21 @@ const DEFAULT_STATS: GamificationStats = {
 export async function getUserGamificationStats(userId: string): Promise<GamificationStats> {
   const { data, error } = await supabaseAdmin()
     .from("user_gamification")
-    .select("level, total_xp, current_streak, best_streak, total_tests_taken")
+    .select("level, total_xp, current_streak, best_streak, total_tests_taken, last_active_date")
     .eq("user_id", userId)
     .maybeSingle();
 
   if (error || !data) return DEFAULT_STATS;
-  return data as GamificationStats;
+
+  // The stored streak is only updated when a test is submitted, so a
+  // student who stopped 3 days ago still has e.g. 5 stored — show 0 once
+  // the chain is broken (no test today or yesterday, India time).
+  const today = todayIST();
+  const yesterday = todayIST(Date.now() - 24 * 60 * 60 * 1000);
+  const alive = data.last_active_date === today || data.last_active_date === yesterday;
+
+  const { last_active_date: _lastActive, ...stats } = data;
+  return { ...(stats as GamificationStats), current_streak: alive ? stats.current_streak : 0 };
 }
 
 /**

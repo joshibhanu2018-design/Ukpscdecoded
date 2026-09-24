@@ -23,6 +23,7 @@ import {
 } from "@/lib/dashboard";
 import { getFreeTests, isTestReleased } from "@/lib/tests";
 import { getPriceInfo } from "@/lib/pricing";
+import { xpForLevel } from "@/lib/gamification";
 import { supabaseAdmin } from "@/lib/supabase";
 import LogoutButton from "@/components/LogoutButton";
 import ReferralCard from "@/components/ReferralCard";
@@ -103,7 +104,14 @@ export default async function MyCoursesPage({
               मेरे कोर्स <span className="text-slate-400">/ My Courses</span>
             </h1>
           </div>
-          <LogoutButton />
+          <div className="flex flex-shrink-0 items-center gap-2">
+            {user.role === "admin" && (
+              <Link href="/test-platform/admin" className="rounded-lg border border-yellow-500/40 px-3 py-2 text-sm font-medium text-yellow-400 hover:bg-yellow-500/10">
+                Admin
+              </Link>
+            )}
+            <LogoutButton />
+          </div>
         </div>
 
         {purchase === "success" && (
@@ -203,8 +211,37 @@ export default async function MyCoursesPage({
             icon={<Flame className="h-5 w-5" />}
             label="स्ट्रीक / Streak"
             value={`${stats.current_streak} day${stats.current_streak === 1 ? "" : "s"}`}
+            sub={stats.best_streak > 0 ? `Best: ${stats.best_streak}` : "रोज़ 1 टेस्ट / 1 test a day"}
           />
-          <StatTile icon={<Zap className="h-5 w-5" />} label="लेवल / Level" value={`Lvl ${stats.level}`} sub={`${stats.total_xp} XP`} />
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4">
+            <div className="mb-1.5 text-yellow-500">
+              <Zap className="h-5 w-5" />
+            </div>
+            <div className="text-lg font-bold text-white sm:text-xl">Lvl {stats.level}</div>
+            <div className="text-[11px] text-slate-400 sm:text-xs">लेवल / Level · {stats.total_xp} XP</div>
+            {stats.level < 25 && (
+              <>
+                <div className="mt-2 h-1.5 rounded-full bg-slate-800">
+                  <div
+                    className="h-1.5 rounded-full bg-yellow-500"
+                    style={{
+                      width: `${Math.min(
+                        100,
+                        Math.round(
+                          ((stats.total_xp - xpForLevel(stats.level)) /
+                            (xpForLevel(stats.level + 1) - xpForLevel(stats.level))) *
+                            100
+                        )
+                      )}%`,
+                    }}
+                  />
+                </div>
+                <div className="mt-1 text-[11px] text-slate-500">
+                  {xpForLevel(stats.level + 1) - stats.total_xp} XP → Lvl {stats.level + 1}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         {releasedFreeTests.length > 0 && (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Copy, Download, Lock } from "lucide-react";
+import { Copy, Download } from "lucide-react";
 
 type CouponRow = {
   code: string;
@@ -29,47 +29,10 @@ type ReferralRow = {
 };
 
 export default function AdminCouponsPage() {
-  const [secret, setSecret] = useState("");
-  const [unlocked, setUnlocked] = useState(false);
-
-  if (!unlocked) {
-    return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-slate-900 px-4">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (secret.trim()) setUnlocked(true);
-          }}
-          className="w-full max-w-sm rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl"
-        >
-          <div className="mb-5 text-center">
-            <Lock className="mx-auto mb-2 h-8 w-8 text-yellow-500" />
-            <h1 className="text-xl font-bold text-white">Admin Access</h1>
-            <p className="mt-1 text-sm text-slate-400">Enter the admin import secret to continue.</p>
-          </div>
-          <input
-            type="password"
-            required
-            value={secret}
-            onChange={(e) => setSecret(e.target.value)}
-            placeholder="Admin secret"
-            className="mb-4 w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/30"
-          />
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-yellow-500 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-yellow-400"
-          >
-            Continue
-          </button>
-        </form>
-      </div>
-    );
-  }
-
-  return <Dashboard secret={secret} />;
+  return <Dashboard />;
 }
 
-function Dashboard({ secret }: { secret: string }) {
+function Dashboard() {
   const [coupons, setCoupons] = useState<CouponRow[]>([]);
   const [referrals, setReferrals] = useState<ReferralRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -91,8 +54,8 @@ function Dashboard({ secret }: { secret: string }) {
     setLoading(true);
     try {
       const [couponsRes, referralsRes] = await Promise.all([
-        fetch("/api/admin/coupons", { headers: { "x-admin-secret": secret } }),
-        fetch("/api/admin/referrals", { headers: { "x-admin-secret": secret } }),
+        fetch("/api/admin/coupons"),
+        fetch("/api/admin/referrals"),
       ]);
       const couponsData = await couponsRes.json();
       const referralsData = await referralsRes.json();
@@ -101,7 +64,7 @@ function Dashboard({ secret }: { secret: string }) {
     } finally {
       setLoading(false);
     }
-  }, [secret]);
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -116,7 +79,7 @@ function Dashboard({ secret }: { secret: string }) {
     try {
       const res = await fetch("/api/admin/coupons", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           mode: "generate",
           count: generateCount,
@@ -143,7 +106,7 @@ function Dashboard({ secret }: { secret: string }) {
     try {
       const res = await fetch("/api/admin/coupons", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           mode: "price_lock",
           code: plCode,
@@ -168,7 +131,7 @@ function Dashboard({ secret }: { secret: string }) {
   };
 
   const exportCsv = async () => {
-    const res = await fetch("/api/admin/coupons?format=csv", { headers: { "x-admin-secret": secret } });
+    const res = await fetch("/api/admin/coupons?format=csv");
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");

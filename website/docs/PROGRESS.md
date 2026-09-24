@@ -25,7 +25,7 @@ accounts log in with their email as before — nothing to migrate.
 - A correct code is consumed immediately (single use, guarded UPDATE). A
   first-time user gets a signed 15-minute signup ticket for the name step,
   so that step can't be used for more guesses.
-- Sessions unchanged: stateless HMAC-signed cookie (`src/lib/auth-utils.ts`).
+- Sessions: HMAC-signed cookie carrying a `user_sessions` row id (Phase 9, below).
 - Removed: password signup/login/reset pages, forms and API routes, and
   `src/lib/password-reset.ts`. `password_reset_tokens` and existing
   `password_hash` values are left in the DB, unused.
@@ -101,7 +101,7 @@ on the dashboard are now clickable; a "Free Tests" section lists
 - Dashboard "Tests Taken" and "Average Score" now read real submitted
   attempts (gamification counters are still inert).
 - Admin test builder at `/test-platform/admin/tests` (same
-  `ADMIN_IMPORT_SECRET`): name, duration, marks, negative fraction,
+  admin login since Phase 9): name, duration, marks, negative fraction,
   optional release date, free flag, packages, and the ordered list of
   `questionId`s from the import sheet. Refuses unknown or duplicated
   question IDs rather than guessing.
@@ -136,6 +136,38 @@ on the dashboard are now clickable; a "Free Tests" section lists
 - Slow-connection check (375px, 400 kbps, 4× CPU): login page first paint
   ≈2.7s, ~190 KB gzipped JS. The Supabase client (≈55 KB) was being
   shipped to browsers via `formatINR`; moved to `src/lib/format.ts`.
+
+**Device limit, XP/streak/level, admin accounts (Phase 9).** SQL:
+`schema-phase9-sessions-xp-admin.sql` — **required before deploying this
+code** (without `user_sessions`, nobody can log in). Running it logs every
+student out once; they log back in with an email code.
+- **Device limit:** each login creates a `user_sessions` row; the cookie
+  carries its id. Max 2 devices (`MAX_DEVICES` in `src/lib/auth-utils.ts`);
+  a 3rd login revokes the oldest ("newest login wins", so a lost phone never
+  locks anyone out). Logout revokes that device's row. The login screen
+  states the rule. Checked against an in-memory DB stand-in: 3rd login logs
+  out the 1st, logout revokes, forged and pre-Phase-9 cookies rejected.
+- **XP/streak/level** (`src/lib/gamification.ts`, SQL `award_test_xp()`):
+  per submitted test +10 for completing (+5 on a reattempt); first attempt
+  only: + half the % score, +10 if ≥60%. Blank submissions earn nothing.
+  Level n needs 50·n·(n−1) XP (L2 100, L3 300, L5 1000, max L25). Streak =
+  consecutive India-time days with a submitted test; shown as 0 once broken.
+  Awarded once per attempt inside `finalizeAttempt()` (after the
+  exactly-once submit guard); a failure is logged and never blocks the
+  result. Dashboard shows level progress and best streak; result page shows
+  "+N XP". The SQL function was run on a real Postgres 16: streak/level
+  transitions correct, idempotent re-run, and 20 simultaneous submits all
+  counted (row lock). Attempts submitted before Phase 9 earned no XP (no
+  backfill). Badges/leaderboard tables still unused.
+- **Admin accounts:** admins are users with `role = 'admin'`, logging in
+  with their own email code. `ADMIN_IMPORT_SECRET` is gone. Every
+  `/test-platform/admin/*` page is behind a server-side role check (non-admins
+  get a 404); every `/api/admin/*` route checks the role itself
+  (`src/lib/admin.ts`). New admin home `/test-platform/admin`: tool links and
+  add/remove admins by email (logged to `audit_logs`; you can't remove
+  yourself). First admin: log in once, then run the `update users set
+  role = 'admin' …` line at the bottom of the phase 9 SQL file with your
+  email. My Courses shows an "Admin" button to admins.
 
 **Daily backup** — Vercel cron (`vercel.json`, `30 18 * * *` = 00:00 IST)
 hits `/api/cron/daily-backup`, protected by `CRON_SECRET` (fails closed
@@ -233,7 +265,6 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
   `RAZORPAY_WEBHOOK_SECRET` → live values, live webhook registered
   separately) plus setting `PAYMENTS_ENABLED=true` in Vercel — no code
   changes needed.
-- **Admin auth is a shared secret**, not real per-admin roles.
 
 ## SQL files
 
@@ -260,6 +291,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | Check — run 2nd |
 | `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | Not run — run 3rd |
 | `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | Not run — **required before deploying OTP login** |
+| `schema-phase9-sessions-xp-admin.sql` | `user_sessions` (device limit), `user_gamification.last_active_date` + `award_test_xp()`, admin-role notes | Not run — **required before deploying Phase 9**; then make yourself admin |
 
 ## Environment variables
 
@@ -287,8 +319,7 @@ against this list.
 login/register in production); confirm it's still there after any
 redeploy.
 
-**Test platform — admin:**
-`ADMIN_IMPORT_SECRET`
+**Test platform — admin:** none (role-based since Phase 9; `ADMIN_IMPORT_SECRET` can be deleted from Vercel)
 
 **Test platform — email (Resend):**
 `RESEND_API_KEY`

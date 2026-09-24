@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { CheckCircle2, Loader2, Lock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 
 type AdminPackage = { id: string; package_name: string; package_type: string };
 type AdminTest = {
@@ -17,7 +17,6 @@ const inputClass =
   "w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/30";
 
 export default function AdminTestsPage() {
-  const [secret, setSecret] = useState("");
   const [packages, setPackages] = useState<AdminPackage[] | null>(null);
   const [tests, setTests] = useState<AdminTest[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -33,49 +32,26 @@ export default function AdminTestsPage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
 
-  const load = async (s: string) => {
+  const load = async () => {
     setLoadError(null);
-    const res = await fetch("/api/admin/tests", { headers: { "x-admin-secret": s } });
+    const res = await fetch("/api/admin/tests");
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
-      setLoadError(res.status === 401 ? "Wrong admin secret" : data.error || "Could not load");
+      setLoadError(data.error || "Could not load");
       return;
     }
     setPackages(data.packages);
     setTests(data.tests);
   };
 
+  useEffect(() => {
+    void load();
+  }, []);
+
   if (!packages) {
     return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-slate-900 px-4">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (secret.trim()) void load(secret.trim());
-          }}
-          className="w-full max-w-sm rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl"
-        >
-          <div className="mb-5 text-center">
-            <Lock className="mx-auto mb-2 h-8 w-8 text-yellow-500" />
-            <h1 className="text-xl font-bold text-white">Admin Access</h1>
-            <p className="mt-1 text-sm text-slate-400">Enter the admin import secret to manage tests.</p>
-          </div>
-          <input
-            type="password"
-            required
-            value={secret}
-            onChange={(e) => setSecret(e.target.value)}
-            placeholder="Admin secret"
-            className={`mb-4 ${inputClass}`}
-          />
-          {loadError && <p className="mb-3 text-sm text-red-300">{loadError}</p>}
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-yellow-500 px-4 py-2.5 text-sm font-semibold text-slate-900 hover:bg-yellow-400"
-          >
-            Continue
-          </button>
-        </form>
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-slate-900 px-4 text-sm text-slate-400">
+        {loadError ?? "Loading…"}
       </div>
     );
   }
@@ -87,7 +63,7 @@ export default function AdminTestsPage() {
     const question_codes = codes.split(/[\s,]+/).map((c) => c.trim()).filter(Boolean);
     const res = await fetch("/api/admin/tests", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-admin-secret": secret.trim() },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         test_name: name,
         duration_minutes: Number(duration),
@@ -115,7 +91,7 @@ export default function AdminTestsPage() {
     setMessage({ ok: true, text: `Created "${name}" with ${data.total_questions} questions.` });
     setName("");
     setCodes("");
-    void load(secret.trim());
+    void load();
   };
 
   return (

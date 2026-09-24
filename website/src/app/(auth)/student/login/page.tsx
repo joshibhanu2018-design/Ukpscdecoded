@@ -28,6 +28,10 @@ export default async function StudentLoginPage({ searchParams }: { searchParams:
         </p>
       </div>
       <OtpLoginForm next={safeNext} />
+      <p className="mt-5 text-center text-[11px] leading-snug text-slate-500">
+        एक खाता एक साथ अधिकतम 2 डिवाइस पर। तीसरे पर लॉग इन करने से सबसे पुराना डिवाइस लॉग आउट हो जाएगा।
+        <span className="block">One account works on up to 2 devices at a time. Logging in on a third logs out the oldest.</span>
+      </p>
     </div>
   );
 }

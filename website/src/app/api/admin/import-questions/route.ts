@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin";
 import { supabaseAdmin } from "@/lib/supabase";
 
 type IncomingQuestion = {
@@ -25,17 +26,9 @@ type IncomingQuestion = {
 
 const VALID_ANSWERS = new Set(["A", "B", "C", "D"]);
 
-function isAuthorized(request: NextRequest): boolean {
-  const secret = process.env.ADMIN_IMPORT_SECRET;
-  // Fail closed: if the secret isn't configured, nobody gets in.
-  if (!secret) return false;
-  return request.headers.get("x-admin-secret") === secret;
-}
-
 export async function POST(request: NextRequest) {
-  if (!isAuthorized(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdmin();
+  if ("response" in auth) return auth.response;
 
   const body = await request.json().catch(() => null);
   const rows: IncomingQuestion[] = Array.isArray(body?.questions) ? body.questions : [];

@@ -1,5 +1,6 @@
 import { supabaseAdmin } from "./supabase";
 import { parseUtcTimestamp } from "./timestamps";
+import { awardTestXp, xpForAttempt } from "./gamification";
 import {
   getActivePackages,
   getOwnedPackageIds,
@@ -415,6 +416,17 @@ export async function finalizeAttempt(
   // is logged, not surfaced to the student.
   if (resultError) console.error("[tests] results insert failed for attempt", attempt.id, resultError);
 
+  // XP / streak / level. Runs only for the caller that won the submit
+  // guard above, so each attempt is awarded exactly once. A failure here
+  // must never block the student from seeing their result.
+  try {
+    const isFirst = !(await hasEarlierSubmittedAttempt(attempt.user_id, test.id, attempt.id, now.toISOString()));
+    const xp = xpForAttempt(result.percentage, isFirst, attempted);
+    if (attempted > 0) await awardTestXp(attempt.user_id, xp);
+  } catch (err) {
+    console.error("[tests] XP award failed for attempt", attempt.id, err);
+  }
+
   return { alreadySubmitted: false };
 }
 
@@ -512,4 +524,23 @@ export async function getUserTestSummaries(userId: string, testIds: string[]): P
     });
   }
   return out;
+}
+
+/** Whether this user submitted this test before `beforeIso` in some other attempt (i.e. this one is a reattempt). */
+export async function hasEarlierSubmittedAttempt(
+  userId: string,
+  testId: string,
+  attemptId: string,
+  beforeIso: string
+): Promise<boolean> {
+  const { count, error } = await supabaseAdmin()
+    .from("attempts")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("test_id", testId)
+    .eq("status", "submitted")
+    .neq("id", attemptId)
+    .lt("submitted_at", beforeIso);
+  if (error) throw new Error(`attempt history lookup failed: ${error.message}`);
+  return (count ?? 0) > 0;
 }

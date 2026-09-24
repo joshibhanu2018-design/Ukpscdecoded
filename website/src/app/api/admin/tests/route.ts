@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin";
 import { supabaseAdmin } from "@/lib/supabase";
-
-function isAuthorized(request: NextRequest): boolean {
-  const secret = process.env.ADMIN_IMPORT_SECRET;
-  // Fail closed: if the secret isn't configured, nobody gets in.
-  if (!secret) return false;
-  return request.headers.get("x-admin-secret") === secret;
-}
 
 /** Packages (for the "add to package" picker) and existing tests. */
 export async function GET(request: NextRequest) {
-  if (!isAuthorized(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if ("response" in auth) return auth.response;
 
   const db = supabaseAdmin();
   const [{ data: packages, error: pErr }, { data: tests, error: tErr }] = await Promise.all([
@@ -35,7 +30,8 @@ export async function GET(request: NextRequest) {
  * order given, and attaches it to the chosen packages via package_tests.
  */
 export async function POST(request: NextRequest) {
-  if (!isAuthorized(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if ("response" in auth) return auth.response;
 
   const body = await request.json().catch(() => null);
   const testName = typeof body?.test_name === "string" ? body.test_name.trim() : "";

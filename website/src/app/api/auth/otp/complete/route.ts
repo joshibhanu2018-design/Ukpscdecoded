@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSessionToken, sessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import { createSession, sessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
 import { findUserIdByEmail, readSignupTicket } from "@/lib/otp";
 
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const { token, expiresAt } = createSessionToken(userId!);
+    const { token, expiresAt } = await createSession(userId!, request.headers.get("user-agent"));
     const response = NextResponse.json({ ok: true }, { status: 201 });
     response.cookies.set(SESSION_COOKIE_NAME, token, sessionCookieOptions(expiresAt));
     return response;

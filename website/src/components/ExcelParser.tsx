@@ -80,7 +80,7 @@ function normalizeRow(raw: Record<string, unknown>): ParsedQuestion {
   };
 }
 
-export default function ExcelParser({ adminSecret }: { adminSecret: string }) {
+export default function ExcelParser() {
   const [rows, setRows] = useState<ParsedQuestion[]>([]);
   const [fileName, setFileName] = useState("");
   const [parseError, setParseError] = useState<string | null>(null);
@@ -119,7 +119,7 @@ export default function ExcelParser({ adminSecret }: { adminSecret: string }) {
     try {
       const res = await fetch("/api/admin/import-questions", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-secret": adminSecret },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ questions: rows }),
       });
       const data = await res.json();

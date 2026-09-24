@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin";
 import { supabaseAdmin } from "@/lib/supabase";
 import { generateCouponCode } from "@/lib/coupons";
 import { toCsv } from "@/lib/csv";
-
-function isAuthorized(request: NextRequest): boolean {
-  const secret = process.env.ADMIN_IMPORT_SECRET;
-  if (!secret) return false;
-  return request.headers.get("x-admin-secret") === secret;
-}
 
 type CouponRow = {
   id: string;
@@ -77,9 +72,8 @@ async function buildCouponsView() {
 }
 
 export async function GET(request: NextRequest) {
-  if (!isAuthorized(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdmin();
+  if ("response" in auth) return auth.response;
 
   let view;
   try {
@@ -103,9 +97,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!isAuthorized(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdmin();
+  if ("response" in auth) return auth.response;
 
   const body = await request.json().catch(() => null);
   const mode = body?.mode === "price_lock" ? "price_lock" : "generate";
