@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
-import { getAttempt, getTest, isPastGrace, sanitizeAnswers, sanitizeMarked } from "@/lib/tests";
+import { getAttempt, getTest, isPastGrace, sanitizeAnswers, sanitizeConfidence, sanitizeMarked } from "@/lib/tests";
 
 /**
  * Autosave: the test page calls this every time an answer or review mark
@@ -31,10 +31,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   const body = await request.json().catch(() => null);
   const answers = sanitizeAnswers(body?.answers, test.question_ids);
   const marked = sanitizeMarked(body?.marked, test.question_ids);
+  const confidence = sanitizeConfidence(body?.confidence, test.question_ids);
 
   const { error } = await supabaseAdmin()
     .from("attempts")
-    .update({ answers, marked_for_review: marked, updated_at: new Date().toISOString() })
+    .update({ answers, marked_for_review: marked, confidence, updated_at: new Date().toISOString() })
     .eq("id", attempt.id)
     .eq("status", "in_progress");
 

@@ -10,6 +10,7 @@ import {
   getTestQuestions,
   isPastGrace,
   sanitizeAnswers,
+  sanitizeConfidence,
   sanitizeMarked,
   toPublicQuestion,
 } from "@/lib/tests";
@@ -51,6 +52,7 @@ export default async function AttemptPage({ params }: { params: Promise<{ attemp
       questions={questions}
       initialAnswers={sanitizeAnswers(attempt.answers, test.question_ids)}
       initialMarked={sanitizeMarked(attempt.marked_for_review, test.question_ids)}
+      initialConfidence={sanitizeConfidence(attempt.confidence, test.question_ids)}
       deadline={getAttemptDeadline(attempt, test).getTime()}
       serverNow={Date.now()}
     />

@@ -3,13 +3,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Bookmark, ChevronLeft, ChevronRight, Clock, Grid3X3, Loader2, X } from "lucide-react";
-import type { Answers, OptionKey, PublicQuestion } from "@/lib/tests";
+import type { Answers, Confidence, Confidences, OptionKey, PublicQuestion } from "@/lib/tests";
 
 type Lang = "hi" | "en";
 type SaveState = "idle" | "saving" | "saved" | "error";
 
 const LANG_KEY = "ukpsc_test_lang";
 const AUTOSAVE_DELAY_MS = 800;
+
+const CONFIDENCE_OPTIONS: { key: Confidence; hi: string; en: string }[] = [
+  { key: "sure", hi: "पक्का", en: "Sure" },
+  { key: "elim2", hi: "2 हटाए", en: "Ruled out 2" },
+  { key: "elim1", hi: "1 हटाया", en: "Ruled out 1" },
+  { key: "guess", hi: "अंदाज़ा", en: "Guess" },
+];
 
 function formatClock(ms: number): string {
   const s = Math.max(0, Math.ceil(ms / 1000));
@@ -26,6 +33,7 @@ export default function TestRunner({
   questions,
   initialAnswers,
   initialMarked,
+  initialConfidence = {},
   deadline,
   serverNow,
 }: {
@@ -34,6 +42,7 @@ export default function TestRunner({
   questions: PublicQuestion[];
   initialAnswers: Answers;
   initialMarked: string[];
+  initialConfidence?: Confidences;
   deadline: number; // epoch ms
   serverNow: number; // epoch ms at render, to correct for a wrong device clock
 }) {
@@ -41,6 +50,7 @@ export default function TestRunner({
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
   const [marked, setMarked] = useState<Set<string>>(() => new Set(initialMarked));
+  const [confidence, setConfidence] = useState<Confidences>(initialConfidence);
   const [visited, setVisited] = useState<Set<string>>(
     () => new Set([...Object.keys(initialAnswers), ...initialMarked, questions[0]?.id].filter(Boolean) as string[])
   );
@@ -58,8 +68,8 @@ export default function TestRunner({
   const skewRef = useRef(serverNow - Date.now());
   const [remaining, setRemaining] = useState(() => deadline - serverNow);
 
-  const latest = useRef({ answers, marked });
-  latest.current = { answers, marked };
+  const latest = useRef({ answers, marked, confidence });
+  latest.current = { answers, marked, confidence };
   const dirty = useRef(false);
   const submittedRef = useRef(false);
 
@@ -92,7 +102,11 @@ export default function TestRunner({
   };
 
   const payload = () =>
-    JSON.stringify({ answers: latest.current.answers, marked: [...latest.current.marked] });
+    JSON.stringify({
+      answers: latest.current.answers,
+      marked: [...latest.current.marked],
+      confidence: latest.current.confidence,
+    });
 
   const submit = useCallback(async () => {
     if (submittedRef.current) return;
@@ -150,7 +164,7 @@ export default function TestRunner({
     if (!dirty.current) return;
     const t = setTimeout(save, AUTOSAVE_DELAY_MS);
     return () => clearTimeout(t);
-  }, [answers, marked, save]);
+  }, [answers, marked, confidence, save]);
 
   // Retry failed saves periodically (e.g. flaky mobile data).
   useEffect(() => {
@@ -216,6 +230,21 @@ export default function TestRunner({
     setAnswers((a) => {
       const next = { ...a };
       delete next[q.id];
+      return next;
+    });
+    setConfidence((c) => {
+      const next = { ...c };
+      delete next[q.id];
+      return next;
+    });
+  };
+
+  const setSureness = (level: Confidence) => {
+    dirty.current = true;
+    setConfidence((c) => {
+      const next = { ...c };
+      if (next[q.id] === level) delete next[q.id]; // tap again to un-tag
+      else next[q.id] = level;
       return next;
     });
   };
@@ -361,6 +390,29 @@ export default function TestRunner({
                 );
               })}
             </div>
+
+            {q.id in answers && (
+              <div className="mt-4 border-t border-slate-800 pt-3">
+                <p className="mb-2 text-xs text-slate-400">
+                  कितने निश्चित हैं? <span className="text-slate-500">/ How sure are you? (optional, for your guess analysis)</span>
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {CONFIDENCE_OPTIONS.map((c) => (
+                    <button
+                      key={c.key}
+                      onClick={() => setSureness(c.key)}
+                      className={`rounded-full border px-3 py-1.5 text-xs ${
+                        confidence[q.id] === c.key
+                          ? "border-sky-400 bg-sky-500/15 text-sky-200"
+                          : "border-slate-700 text-slate-400 hover:border-slate-500"
+                      }`}
+                    >
+                      {c.hi} / {c.en}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">

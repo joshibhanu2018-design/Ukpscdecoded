@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
-import { finalizeAttempt, getAttempt, getTest, sanitizeAnswers, sanitizeMarked } from "@/lib/tests";
+import { finalizeAttempt, getAttempt, getTest, sanitizeAnswers, sanitizeConfidence, sanitizeMarked } from "@/lib/tests";
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ attemptId: string }> }) {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
@@ -24,6 +24,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     await finalizeAttempt(attempt, test, {
       answers: sanitizeAnswers(body?.answers, test.question_ids),
       marked: sanitizeMarked(body?.marked, test.question_ids),
+      confidence: sanitizeConfidence(body?.confidence, test.question_ids),
     });
     return NextResponse.json({ ok: true, attempt_id: attempt.id });
   } catch (err) {

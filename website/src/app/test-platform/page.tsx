@@ -244,6 +244,19 @@ export default async function MyCoursesPage({
           </div>
         </div>
 
+        {testsTaken > 0 && (
+          <Link
+            href="/test-platform/performance"
+            className="-mt-4 mb-8 flex items-center justify-between rounded-xl border border-sky-500/30 bg-sky-500/10 px-4 py-3 text-sm text-sky-200 hover:bg-sky-500/15"
+          >
+            <span>
+              मेरा प्रदर्शन — कमज़ोर टॉपिक, गलतियाँ, अनुमान नियम
+              <span className="block text-xs text-sky-300/80">My Performance — weak topics, error log, guess rule</span>
+            </span>
+            <ArrowRight className="h-4 w-4 flex-shrink-0" />
+          </Link>
+        )}
+
         {releasedFreeTests.length > 0 && (
           <section className="mb-8">
             <h2 className="mb-3 text-lg font-bold text-white">

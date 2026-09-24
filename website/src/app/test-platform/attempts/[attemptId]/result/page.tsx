@@ -8,12 +8,17 @@ import {
   computePercentile,
   formatDuration,
   getAttempt,
+  getAttemptById,
   getTest,
   getTestQuestions,
   hasEarlierSubmittedAttempt,
   sanitizeAnswers,
   scoreAttempt,
+  sanitizeConfidence,
+  sanitizeErrorTags,
 } from "@/lib/tests";
+import { attemptStrategy, CONFIDENCE_LABEL, guessAnalysis, guessRule } from "@/lib/analysis";
+import ErrorTagger from "@/components/ErrorTagger";
 import { xpForAttempt } from "@/lib/gamification";
 import { parseUtcTimestamp } from "@/lib/timestamps";
 
@@ -38,10 +43,15 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   if (!user) redirect("/student/login");
 
   const { attemptId } = await params;
-  const attempt = await getAttempt(attemptId, user.id);
+  // Mentors (admins) can open any student's result from the performance page.
+  const attempt = (await getAttempt(attemptId, user.id)) ?? (user.role === "admin" ? await getAttemptById(attemptId) : null);
   if (!attempt) notFound();
+  const isOwner = attempt.user_id === user.id;
   // Answers are only revealed after submission.
-  if (attempt.status !== "submitted") redirect(`/test-platform/attempts/${attempt.id}`);
+  if (attempt.status !== "submitted") {
+    if (!isOwner) notFound();
+    redirect(`/test-platform/attempts/${attempt.id}`);
+  }
 
   const test = await getTest(attempt.test_id);
   if (!test) notFound();
@@ -53,13 +63,23 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   const r = scoreAttempt(questions, answers, test);
   const percentile = await computePercentile(test.id, r.score, attempt.id);
   const isFirst = !(await hasEarlierSubmittedAttempt(
-    user.id,
+    attempt.user_id,
     test.id,
     attempt.id,
     attempt.submitted_at ? parseUtcTimestamp(attempt.submitted_at).toISOString() : new Date().toISOString()
   ));
   const xpEarned = xpForAttempt(r.percentage, isFirst, r.correct + r.wrong);
   const subjects = Object.entries(r.bySubject).sort((a, b) => b[1].total - a[1].total);
+  const strategy = attemptStrategy(questions, answers, test);
+  const confidence = sanitizeConfidence(attempt.confidence, test.question_ids);
+  const errorTags = sanitizeErrorTags(attempt.error_tags, test.question_ids);
+  const guesses = guessAnalysis(questions.map((question) => ({ question, answers, confidence, test })));
+  const rule = guessRule(guesses, 3);
+  // Weakest topics first; ignore topics with a single question (too noisy).
+  const weakTopics = Object.entries(r.byTopic)
+    .filter(([, t]) => t.total >= 2)
+    .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
+    .slice(0, 8);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
@@ -111,6 +131,107 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
             tone="text-purple-400"
           />
         </div>
+
+        <section className="mt-10 grid gap-4 lg:grid-cols-2">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h2 className="font-semibold text-white">
+              प्रयास रणनीति <span className="text-slate-400">/ Attempt strategy</span>
+            </h2>
+            <dl className="mt-3 space-y-1.5 text-sm">
+              <div className="flex justify-between text-slate-300">
+                <dt>Attempted</dt>
+                <dd>
+                  {strategy.attempted} / {strategy.total} ({strategy.attemptedPct}%)
+                </dd>
+              </div>
+              <div className="flex justify-between text-slate-300">
+                <dt>Marks from correct answers</dt>
+                <dd className="text-green-400">+{strategy.marksGained}</dd>
+              </div>
+              <div className="flex justify-between text-slate-300">
+                <dt>Lost to negative marking</dt>
+                <dd className="text-red-400">−{strategy.negativeLost}</dd>
+              </div>
+              <div className="flex justify-between border-t border-slate-800 pt-1.5 font-semibold text-white">
+                <dt>Net score</dt>
+                <dd>{strategy.net}</dd>
+              </div>
+            </dl>
+            {strategy.negativeLost > 0 && (
+              <p className="mt-3 text-xs text-slate-400">
+                गलत उत्तरों ने {strategy.negativeLost} अंक काटे। / Wrong answers cost you {strategy.negativeLost} marks —{" "}
+                that&apos;s {Math.round((strategy.negativeLost / Math.max(1, strategy.marksGained)) * 100)}% of what you earned.
+              </p>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <h2 className="font-semibold text-white">
+              अनुमान विश्लेषण <span className="text-slate-400">/ Guess analysis</span>
+            </h2>
+            {guesses.tagged === 0 ? (
+              <p className="mt-3 text-sm text-slate-400">
+                अगले टेस्ट में हर उत्तर पर &quot;कितने निश्चित?&quot; चुनें। / Next time, tag &quot;How sure?&quot; on your answers to see
+                which guesses earn marks.
+              </p>
+            ) : (
+              <>
+                <table className="mt-3 w-full text-sm">
+                  <thead className="text-xs text-slate-500">
+                    <tr>
+                      <th className="py-1 text-left font-medium">When</th>
+                      <th className="py-1 text-right font-medium">Attempted</th>
+                      <th className="py-1 text-right font-medium">Accuracy</th>
+                      <th className="py-1 text-right font-medium">Net marks</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-slate-300">
+                    {guesses.buckets
+                      .filter((b) => b.attempted > 0)
+                      .map((b) => (
+                        <tr key={b.level} className="border-t border-slate-800">
+                          <td className="py-1.5">{CONFIDENCE_LABEL[b.level]}</td>
+                          <td className="py-1.5 text-right">{b.attempted}</td>
+                          <td className="py-1.5 text-right">{b.accuracy !== null ? `${b.accuracy}%` : "—"}</td>
+                          <td className={`py-1.5 text-right ${b.net < 0 ? "text-red-400" : "text-green-400"}`}>
+                            {b.net > 0 ? "+" : ""}
+                            {b.net}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+                <p className="mt-2 text-[11px] text-slate-500">
+                  Guessing pays only above {guesses.breakEvenAccuracy}% accuracy with this test&apos;s negative marking.
+                </p>
+                {rule && (
+                  <p className="mt-3 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-200">
+                    {rule.hi}
+                    <span className="block text-sky-300/80">{rule.en}</span>
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        </section>
+
+        {weakTopics.length > 0 && (
+          <section className="mt-10">
+            <h2 className="mb-3 font-semibold text-white">
+              कमज़ोर टॉपिक <span className="text-slate-400">/ Weakest topics in this test</span>
+            </h2>
+            <ul className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900/60 text-sm">
+              {weakTopics.map(([name, t]) => (
+                <li key={name} className="flex items-center justify-between gap-3 px-4 py-2">
+                  <span className="min-w-0 truncate text-slate-300">{name}</span>
+                  <span className="flex-shrink-0 text-slate-400">
+                    {t.correct}/{t.total} correct
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {subjects.length > 1 && (
           <section className="mt-10">
@@ -197,6 +318,9 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
                       );
                     })}
                   </ul>
+                  {status !== "correct" && isOwner && (
+                    <ErrorTagger attemptId={attempt.id} questionId={q.id} initial={errorTags[q.id] ?? null} />
+                  )}
                   {(q.explanation_hindi || q.explanation_english) && (
                     <div className="mt-3 rounded-lg bg-slate-800/60 p-3 text-sm text-slate-300">
                       <span className="font-semibold text-yellow-500">व्याख्या / Explanation: </span>

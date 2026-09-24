@@ -169,6 +169,29 @@ student out once; they log back in with an email code.
   role = 'admin' …` line at the bottom of the phase 9 SQL file with your
   email. My Courses shows an "Admin" button to admins.
 
+**Test performance analysis (Phase 10).** SQL:
+`schema-phase10-test-analysis.sql` — **required before deploying** (attempt
+pages read the new columns).
+- **During the test:** after answering, an optional "How sure?" row — Sure /
+  Ruled out 2 / Ruled out 1 / Guess — saved with the answers
+  (`attempts.confidence`).
+- **Result page:** attempt strategy (attempted %, marks gained, lost to
+  negative marking, net), guess analysis (accuracy and net marks per
+  sureness level vs the 24.8% break-even, plus a personal rule such as
+  "attempt only if you can rule out 2"), weakest topics, and "Why did this go
+  wrong?" tags on each wrong/skipped question — concept / recall / misread /
+  silly / time (`attempts.error_tags`).
+- **My Performance** (`/test-platform/performance`, linked from My
+  Courses): tests taken, average, total lost to negatives, score-trend chart
+  (first attempts only, last 20), weakest/strongest topics across tests (≥5
+  questions), error-type counts with the fix for each, guess analysis over
+  all tests, list of every attempt.
+- **Mentors:** admins can open any student's performance page and results
+  (`/test-platform/admin` → Student performance, by email). Tagging is
+  owner-only.
+- Not yet: PYQ-weightage mapping of topics (bank topic names don't match
+  the PYQ tracker's) and the gap-to-cutoff estimate (needs cutoff data).
+
 **Daily backup** — Vercel cron (`vercel.json`, `30 18 * * *` = 00:00 IST)
 hits `/api/cron/daily-backup`, protected by `CRON_SECRET` (fails closed
 if unset). Emails 3 CSVs (users — **no password hashes**, enrollments,
@@ -291,6 +314,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | Check — run 2nd |
 | `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | Not run — run 3rd |
 | `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | Not run — **required before deploying OTP login** |
+| `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
 | `schema-phase9-sessions-xp-admin.sql` | `user_sessions` (device limit), `user_gamification.last_active_date` + `award_test_xp()`, admin-role notes | Not run — **required before deploying Phase 9**; then make yourself admin |
 
 ## Environment variables

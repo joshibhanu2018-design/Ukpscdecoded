@@ -12,6 +12,20 @@ import {
 export const OPTION_KEYS = ["A", "B", "C", "D"] as const;
 export type OptionKey = (typeof OPTION_KEYS)[number];
 
+/**
+ * How sure the student was when answering, tagged during the test:
+ * sure, eliminated 2 options, eliminated 1, or a blind guess. Powers the
+ * guess analysis ("attempt only if you can eliminate two").
+ */
+export const CONFIDENCE_LEVELS = ["sure", "elim2", "elim1", "guess"] as const;
+export type Confidence = (typeof CONFIDENCE_LEVELS)[number];
+export type Confidences = Record<string, Confidence>;
+
+/** Why a question went wrong, tagged by the student on the result page — each needs a different fix. */
+export const ERROR_TYPES = ["concept", "recall", "misread", "silly", "time"] as const;
+export type ErrorType = (typeof ERROR_TYPES)[number];
+export type ErrorTags = Record<string, ErrorType>;
+
 /** { [question uuid]: "A" | "B" | "C" | "D" } — the shape stored in attempts.answers. */
 export type Answers = Record<string, OptionKey>;
 
@@ -47,6 +61,8 @@ export type Attempt = {
   enrollment_id: string | null;
   answers: Answers | null;
   marked_for_review: string[] | null;
+  confidence: Confidences | null;
+  error_tags: ErrorTags | null;
   score: number | null;
   total_marks: number | null;
   percentage: number | null;
@@ -57,7 +73,7 @@ export type Attempt = {
 };
 
 const ATTEMPT_COLUMNS =
-  "id, user_id, test_id, enrollment_id, answers, marked_for_review, score, total_marks, percentage, start_time, submitted_at, time_taken_seconds, status";
+  "id, user_id, test_id, enrollment_id, answers, marked_for_review, confidence, error_tags, score, total_marks, percentage, start_time, submitted_at, time_taken_seconds, status";
 
 /** A question as sent to the browser DURING a test — no answer, no explanation. */
 export type PublicQuestion = {
@@ -200,6 +216,24 @@ export function sanitizeAnswers(input: unknown, questionIds: string[]): Answers 
   return out;
 }
 
+function sanitizeEnumMap<T extends string>(input: unknown, questionIds: string[], allowed: readonly T[]): Record<string, T> {
+  const ids = new Set(questionIds);
+  const out: Record<string, T> = {};
+  if (!input || typeof input !== "object" || Array.isArray(input)) return out;
+  for (const [id, value] of Object.entries(input as Record<string, unknown>)) {
+    if (ids.has(id) && typeof value === "string" && (allowed as readonly string[]).includes(value)) out[id] = value as T;
+  }
+  return out;
+}
+
+export function sanitizeConfidence(input: unknown, questionIds: string[]): Confidences {
+  return sanitizeEnumMap(input, questionIds, CONFIDENCE_LEVELS);
+}
+
+export function sanitizeErrorTags(input: unknown, questionIds: string[]): ErrorTags {
+  return sanitizeEnumMap(input, questionIds, ERROR_TYPES);
+}
+
 export function sanitizeMarked(input: unknown, questionIds: string[]): string[] {
   const allowed = new Set(questionIds);
   if (!Array.isArray(input)) return [];
@@ -221,6 +255,13 @@ export async function getAttempt(attemptId: string, userId: string): Promise<Att
     .eq("id", attemptId)
     .eq("user_id", userId) // ownership check: you can only ever see your own attempts
     .maybeSingle();
+  if (error || !data) return null;
+  return data as Attempt;
+}
+
+/** No ownership filter — only for admin (mentor) views; callers must check the role. */
+export async function getAttemptById(attemptId: string): Promise<Attempt | null> {
+  const { data, error } = await supabaseAdmin().from("attempts").select(ATTEMPT_COLUMNS).eq("id", attemptId).maybeSingle();
   if (error || !data) return null;
   return data as Attempt;
 }
@@ -358,13 +399,16 @@ export function scoreAttempt(
 export async function finalizeAttempt(
   attempt: Attempt,
   test: Test,
-  final?: { answers: Answers; marked: string[] }
+  final?: { answers: Answers; marked: string[]; confidence: Confidences }
 ): Promise<{ alreadySubmitted: boolean }> {
   if (attempt.status !== "in_progress") return { alreadySubmitted: true };
 
   const late = isPastGrace(attempt, test);
   const answers = final && !late ? final.answers : sanitizeAnswers(attempt.answers, test.question_ids);
   const marked = final && !late ? final.marked : (attempt.marked_for_review ?? []);
+  // Confidence only counts for questions actually answered.
+  const confidenceSrc = final && !late ? final.confidence : sanitizeConfidence(attempt.confidence, test.question_ids);
+  const confidence: Confidences = Object.fromEntries(Object.entries(confidenceSrc).filter(([id]) => id in answers));
 
   const questions = await getTestQuestions(test);
   const result = scoreAttempt(questions, answers, test);
@@ -379,6 +423,7 @@ export async function finalizeAttempt(
     .update({
       answers,
       marked_for_review: marked,
+      confidence,
       score: result.score,
       total_marks: result.totalMarks,
       percentage: result.percentage,

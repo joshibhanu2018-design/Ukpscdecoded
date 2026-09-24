@@ -65,6 +65,23 @@ export default function AdminHomePage() {
           ))}
         </div>
 
+        <form action="/test-platform/admin/student" className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h2 className="font-semibold text-white">Student performance</h2>
+          <p className="mt-1 text-xs text-slate-400">Open a student&apos;s analysis before a mentorship session.</p>
+          <div className="mt-3 flex gap-2">
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder="student@example.com"
+              className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 outline-none focus:border-yellow-500"
+            />
+            <button type="submit" className="rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-slate-900">
+              Open
+            </button>
+          </div>
+        </form>
+
         <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <h2 className="flex items-center gap-2 font-semibold text-white">
             <Shield className="h-4 w-4 text-yellow-500" /> Admins
