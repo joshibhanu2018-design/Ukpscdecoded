@@ -1,20 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { X, Gift, CheckCircle2, Send, Loader2, Download } from "lucide-react";
 import lead from "@content/leadMagnet.json";
 import { submitLead } from "@/lib/leads";
 
 const STORAGE_KEY = "ukpsc_lead_popup_seen";
 
+// Logged-in students are already leads, and a modal popping up mid-test
+// (the delay timer or the exit-intent mouseleave) would block the exam.
+const SUPPRESSED_PREFIXES = ["/test-platform", "/student"];
+
 export default function LeadPopup() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", email: "" });
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const pathname = usePathname();
+  const suppressed = SUPPRESSED_PREFIXES.some((p) => pathname?.startsWith(p));
 
   useEffect(() => {
-    if (!lead.enabled) return;
+    if (!lead.enabled || suppressed) return;
     if (typeof window === "undefined") return;
     if (localStorage.getItem(STORAGE_KEY)) return;
 
@@ -28,7 +35,7 @@ export default function LeadPopup() {
       clearTimeout(timer);
       document.removeEventListener("mouseleave", onExit);
     };
-  }, []);
+  }, [suppressed]);
 
   const close = () => {
     setOpen(false);
@@ -46,7 +53,7 @@ export default function LeadPopup() {
   };
 
 
-  if (!open) return null;
+  if (!open || suppressed) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">

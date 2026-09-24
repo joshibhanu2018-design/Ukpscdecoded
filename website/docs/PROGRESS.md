@@ -51,6 +51,46 @@ Dashboard shows "Unlocks on `<date>`" for a package's not-yet-released
 tests. No test content is seeded yet, so this currently renders nothing
 (correct, empty state) until real tests are imported.
 
+**Test-taking flow (Phase 5)** — `/test-platform/tests/[testId]`
+(instructions, marking scheme, Start/Resume/Reattempt, past attempts),
+`/test-platform/attempts/[attemptId]` (the exam screen) and
+`/test-platform/attempts/[attemptId]/result` (score, accuracy, percentile,
+subject-wise table, full answer review with explanations). Released tests
+on the dashboard are now clickable; a "Free Tests" section lists
+`is_free_test` tests to every logged-in student.
+- Access is checked server-side on every call: free test, or an active
+  enrollment on a package containing the test (via `package_tests` or
+  `tests.package_id`, combos included); release date enforced.
+- Correct answers/explanations never reach the browser until the attempt
+  is submitted (`toPublicQuestion`).
+- Timer is server-authoritative (`attempts.start_time` + duration, 60s
+  grace). Answers autosave on every click (plus retry + tab-close flush);
+  saves after the deadline are refused; a late submit scores the last
+  answers saved in time. Returning to an expired attempt auto-finalizes
+  it. Hindi/English toggle, question palette, mark-for-review.
+- Submit is exactly-once via the same guarded-UPDATE pattern as payments
+  (`UPDATE attempts ... WHERE status = 'in_progress'`), so double-clicks
+  and timer/manual races can't create two `results` rows.
+- Scoring: `negative_marking_value` is a *fraction* of
+  `marks_per_question` (0.33 = one-third). `attempts.score` / `percentage`
+  are authoritative; `results.overall_score` is raw marks. Result page
+  recomputes from `attempts.answers`, so it's correct even if the
+  analytics insert failed.
+- Unlimited reattempts; each is its own attempt + result row.
+- Dashboard "Tests Taken" and "Average Score" now read real submitted
+  attempts (gamification counters are still inert).
+- Admin test builder at `/test-platform/admin/tests` (same
+  `ADMIN_IMPORT_SECRET`): name, duration, marks, negative fraction,
+  optional release date, free flag, packages, and the ordered list of
+  `questionId`s from the import sheet. Refuses unknown or duplicated
+  question IDs rather than guessing.
+- Lead-capture popup is suppressed on `/test-platform/*` and `/student/*`
+  so it can't cover the exam screen.
+- **Not yet verified against the live DB** — built and type-checked, the
+  scoring logic unit-checked, and the exam UI checked in a browser with
+  sample data, but no session so far has had Supabase credentials. First
+  real run: import a few questions, create a free test, take it.
+
 **Daily backup** — Vercel cron (`vercel.json`, `30 18 * * *` = 00:00 IST)
 hits `/api/cron/daily-backup`, protected by `CRON_SECRET` (fails closed
 if unset). Emails 3 CSVs (users — **no password hashes**, enrollments,
@@ -76,15 +116,15 @@ confirm no password data is present.
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **No actual test-taking flow.** `tests`, `package_tests`, `attempts`,
-  `results` all exist and are wired into the dashboard/progress logic,
-  but are empty — nobody can take a test yet. This is the next big piece
-  of work.
 - **No question content imported.** The admin Excel importer works, but
-  no real question bank has been loaded via it yet.
+  no real question bank has been loaded via it yet — and no tests created
+  (use `/test-platform/admin/tests`).
 - **Gamification is inert.** `user_gamification`/`badges`/`leaderboard`
-  tables and the dashboard stat tiles exist, but nothing increments XP,
-  level, or streak — that only happens once the test-taking flow exists.
+  tables exist, but nothing increments XP, level, or streak yet. The
+  test-taking flow now exists, so this can hook into `finalizeAttempt()`
+  in `src/lib/tests.ts`.
+- **No edit/delete for tests** in the admin builder — fix mistakes in the
+  Supabase table editor for now.
 - **Video course delivery.** `videos` table exists; no player/UI.
 - **Cross-path payment idempotency untested.** Verified `verify` called
   twice is idempotent; verified logic is identical for the webhook path,

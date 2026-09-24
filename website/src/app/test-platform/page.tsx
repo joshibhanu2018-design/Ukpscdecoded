@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { CalendarDays, CheckCircle2, Flame, Lock, Target, Trophy, Video, Zap } from "lucide-react";
+import { CalendarDays, CheckCircle2, Flame, Gift, Lock, PlayCircle, Target, Trophy, Video, Zap } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import {
   formatClassDate,
@@ -20,7 +20,9 @@ import {
   getPackageTestsWithRelease,
   getUserAverageScore,
   getUserGamificationStats,
+  getUserTestsTaken,
 } from "@/lib/dashboard";
+import { getFreeTests, isTestReleased } from "@/lib/tests";
 import LogoutButton from "@/components/LogoutButton";
 
 export const metadata: Metadata = {
@@ -60,13 +62,16 @@ export default async function TestPlatformPage({
 
   const { purchase } = await searchParams;
 
-  const [allPackages, includes, enrollments, stats, avgScore] = await Promise.all([
+  const [allPackages, includes, enrollments, stats, avgScore, testsTaken, freeTests] = await Promise.all([
     getActivePackages(),
     getPackageIncludes(),
     getUserActiveEnrollments(user.id),
     getUserGamificationStats(user.id),
     getUserAverageScore(user.id),
+    getUserTestsTaken(user.id),
+    getFreeTests(),
   ]);
+  const releasedFreeTests = freeTests.filter((t) => isTestReleased(t) && t.question_ids.length > 0);
 
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
   const byId = new Map(allPackages.map((p) => [p.id, p]));
@@ -111,7 +116,7 @@ export default async function TestPlatformPage({
         )}
 
         <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <StatTile icon={<Target className="h-5 w-5" />} label="Tests Taken" value={String(stats.total_tests_taken)} />
+          <StatTile icon={<Target className="h-5 w-5" />} label="Tests Taken" value={String(testsTaken)} />
           <StatTile
             icon={<Trophy className="h-5 w-5" />}
             label="Average Score"
@@ -129,6 +134,31 @@ export default async function TestPlatformPage({
             sub={`${stats.total_xp} XP`}
           />
         </div>
+
+        {releasedFreeTests.length > 0 && (
+          <section className="mb-10">
+            <h2 className="mb-4 text-xl font-bold text-white">
+              मुफ़्त टेस्ट <span className="text-slate-400">/ Free Tests</span>
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {releasedFreeTests.map((t) => (
+                <Link
+                  key={t.id}
+                  href={`/test-platform/tests/${t.id}`}
+                  className="group rounded-xl border border-slate-800 bg-slate-900/60 p-4 transition-colors hover:border-yellow-500/50"
+                >
+                  <div className="mb-2 flex items-center gap-2 text-green-400">
+                    <Gift className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-white group-hover:text-yellow-500">{t.test_name}</h3>
+                  <p className="mt-1 text-xs text-slate-400">
+                    {t.question_ids.length} questions · {t.duration_minutes} min
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="mb-10">
           <h2 className="mb-4 text-xl font-bold text-white">
@@ -182,7 +212,13 @@ export default async function TestPlatformPage({
                       {tests.map((t) => (
                         <li key={t.id} className="flex items-center gap-1.5 text-xs">
                           {t.isReleased ? (
-                            <span className="text-slate-300">{t.test_name}</span>
+                            <Link
+                              href={`/test-platform/tests/${t.id}`}
+                              className="flex items-center gap-1.5 text-slate-300 hover:text-yellow-500"
+                            >
+                              <PlayCircle className="h-3 w-3 flex-shrink-0 text-yellow-500" />
+                              {t.test_name}
+                            </Link>
                           ) : (
                             <span className="flex items-center gap-1.5 text-slate-500">
                               <Lock className="h-3 w-3 flex-shrink-0" />

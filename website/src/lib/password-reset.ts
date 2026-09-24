@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from "crypto";
 import { supabaseAdmin } from "./supabase";
+import { parseUtcTimestamp } from "./timestamps";
 
 const TOKEN_TTL_MS = 60 * 60 * 1000; // 1 hour
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
@@ -7,20 +8,6 @@ export const RATE_LIMIT_MAX = 3;
 
 function hashToken(rawToken: string): string {
   return createHash("sha256").update(rawToken).digest("hex");
-}
-
-/**
- * password_reset_tokens.expires_at is a Postgres `timestamp without time
- * zone` column — PostgREST returns it with no UTC suffix (e.g.
- * "2026-09-23T13:07:59.418"), and JS's Date parser treats a
- * timezone-less ISO string as LOCAL time, not UTC. On a non-UTC server
- * (confirmed: IST, UTC+5:30) that silently shifts the parsed time by
- * hours, making a token created seconds ago look already expired. The
- * value is always written as UTC (see createPasswordResetToken), so it
- * must be parsed as UTC too.
- */
-function parseUtcTimestamp(value: string): Date {
-  return new Date(/[Z+-]\d{2}:?\d{2}$|Z$/.test(value) ? value : `${value}Z`);
 }
 
 /**
