@@ -19,6 +19,8 @@ import {
 } from "@/lib/tests";
 import { attemptStrategy, CONFIDENCE_LABEL, guessAnalysis, guessRule } from "@/lib/analysis";
 import ErrorTagger from "@/components/ErrorTagger";
+import { getCutoff, isFullMock, scaleToPaper } from "@/lib/performance";
+import { supabaseAdmin } from "@/lib/supabase";
 import { xpForAttempt } from "@/lib/gamification";
 import { parseUtcTimestamp } from "@/lib/timestamps";
 
@@ -71,6 +73,9 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   const xpEarned = xpForAttempt(r.percentage, isFirst, r.correct + r.wrong);
   const subjects = Object.entries(r.bySubject).sort((a, b) => b[1].total - a[1].total);
   const strategy = attemptStrategy(questions, answers, test);
+  const { data: testMeta } = await supabaseAdmin().from("tests").select("subject, total_questions").eq("id", test.id).maybeSingle();
+  const cutoff = testMeta && isFullMock(testMeta) ? await getCutoff() : null;
+  const scaled = cutoff ? scaleToPaper(r.score, r.totalMarks, cutoff.total) : null;
   const confidence = sanitizeConfidence(attempt.confidence, test.question_ids);
   const errorTags = sanitizeErrorTags(attempt.error_tags, test.question_ids);
   const guesses = guessAnalysis(questions.map((question) => ({ question, answers, confidence, test })));
@@ -100,6 +105,15 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
             <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-yellow-500/15 px-3 py-1 text-sm font-semibold text-yellow-400">
               <Zap className="h-4 w-4" /> +{xpEarned} XP{!isFirst && " (reattempt)"}
             </div>
+          )}
+          {cutoff && scaled !== null && (
+            <p className={`mt-2 text-sm font-semibold ${scaled >= cutoff.cutoff ? "text-green-400" : "text-red-400"}`}>
+              अनुमानित कट-ऑफ {cutoff.cutoff}: {scaled >= cutoff.cutoff ? `${Math.round((scaled - cutoff.cutoff) * 10) / 10} ऊपर` : `${Math.round((cutoff.cutoff - scaled) * 10) / 10} नीचे`}{" "}
+              <span className="font-normal text-slate-400">
+                / Expected cutoff {cutoff.cutoff}: you&apos;re {Math.round(Math.abs(scaled - cutoff.cutoff) * 10) / 10}{" "}
+                {scaled >= cutoff.cutoff ? "above" : "below"}
+              </span>
+            </p>
           )}
           {percentile !== null && (
             <p className="mt-2 text-sm text-slate-400">

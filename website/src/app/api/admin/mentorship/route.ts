@@ -51,6 +51,17 @@ export async function POST(request: NextRequest) {
       result = await db.from("app_settings").upsert({ key: "mentor_meet_link", value: url, updated_at: new Date().toISOString() });
       break;
     }
+    case "set_cutoff": {
+      const cutoff = Number(b.cutoff);
+      const total = Number(b.total ?? 150);
+      if (!(cutoff > 0 && total > 0 && cutoff <= total)) return fail("Cutoff must be between 1 and the paper total");
+      const at = new Date().toISOString();
+      result = await db.from("app_settings").upsert([
+        { key: "expected_cutoff", value: String(cutoff), updated_at: at },
+        { key: "cutoff_total", value: String(total), updated_at: at },
+      ]);
+      break;
+    }
     case "add_window": {
       const weekday = Number(b.weekday);
       const slot = Number(b.slot_minutes ?? 20);

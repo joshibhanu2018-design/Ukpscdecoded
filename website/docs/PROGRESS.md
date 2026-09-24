@@ -210,7 +210,28 @@ pages read the new columns).
   safe); slot generation checked against IST edge cases.
 - Not built: email reminders, weekly report form, intake form (see the
   mentorship plan in chat). The Mentorship package description in the DB
-  still says "3 one-on-one calls" — update it to the weekly format.
+  is updated by `seed-phase12-mentorship-cutoff.sql`.
+
+**Gap to cutoff + mentee dashboard (Phase 12).** SQL:
+`seed-phase12-mentorship-cutoff.sql` (after phase 11).
+- Expected cutoff 110/150 stored in `app_settings`, editable in Admin →
+  Mentees. Only full mocks (`tests.subject = 'Full Mock'` or ≥150 Q) are
+  compared to it. Projection = average of the latest 3 full-mock first
+  attempts, scaled to 150.
+- Students: "Gap to expected cutoff" card on My Performance (projection,
+  trend since first mock, negative marks lost per mock); every full-mock
+  result says how far above/below the cutoff it is. Labelled as an
+  estimate, not an official figure.
+- Admin → Mentees (`/test-platform/admin/mentees`): every mentorship
+  student in one table — tests, mocks, projected, gap, trend, negatives per
+  mock, weakest topics, top error type, days since last test (red at 7+),
+  next booked session — sorted furthest-below-cutoff first; name opens the
+  full analysis. "Download CSV" (Excel-friendly, Hindi-safe).
+- Mentorship: 30 seats (was 25), description/highlights/banner updated to
+  the weekly format; price unchanged at ₹8,999 and still unlocks the Complete
+  Prelims Pack, Premium Test Series and Crash Course. Default hours give 30
+  slots/week — exactly one per seat; add a window in Admin → Mentorship if
+  you want spare slots.
 
 **Legal pages.** `/privacy`, `/refund-policy`, `/contact` (plus existing
 `/terms`), linked from the footer, checkout and course pages; in the
@@ -343,6 +364,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | Check — run 2nd |
 | `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | Not run — run 3rd |
 | `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | Not run — **required before deploying OTP login** |
+| `seed-phase12-mentorship-cutoff.sql` | Mentorship 30 seats + weekly-format text, cutoff 110/150 setting | Not run (after phase 11) |
 | `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
 | `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
 | `schema-phase9-sessions-xp-admin.sql` | `user_sessions` (device limit), `user_gamification.last_active_date` + `award_test_xp()`, admin-role notes | Not run — **required before deploying Phase 9**; then make yourself admin |

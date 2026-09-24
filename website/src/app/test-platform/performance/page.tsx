@@ -8,6 +8,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 import { parseUtcTimestamp } from "@/lib/timestamps";
 import { formatDateLabel } from "@/lib/packages";
 import { ERROR_TYPES, sanitizeConfidence, sanitizeErrorTags, type Confidence } from "@/lib/tests";
+import { getCutoff, getStudentSummary, PROJECTION_MOCKS } from "@/lib/performance";
 import { CONFIDENCE_LABEL, ERROR_LABEL, errorBreakdown, guessRule, type GuessAnalysis, type GuessBucket } from "@/lib/analysis";
 
 export const metadata: Metadata = { title: "My Performance", robots: { index: false } };
@@ -154,6 +155,9 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
   );
   const errorTotal = Object.values(errors).reduce((x, y) => x + y, 0);
 
+  const cutoff = await getCutoff();
+  const summary = firsts.length ? await getStudentSummary(studentId, cutoff) : null;
+
   const trend = firsts.slice(-20);
   const best = trend.reduce<AttemptRow | null>((m, a) => (m === null || Number(a.percentage) > Number(m.percentage) ? a : m), null);
   const avg = firsts.length ? firsts.reduce((s, a) => s + Number(a.percentage ?? 0), 0) / firsts.length : null;
@@ -187,6 +191,49 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                 </div>
               ))}
             </div>
+
+            <section
+              className={`mt-6 rounded-2xl border p-5 ${
+                summary?.gap == null
+                  ? "border-slate-800 bg-slate-900/60"
+                  : summary.gap >= 0
+                    ? "border-green-500/30 bg-green-500/10"
+                    : "border-red-500/30 bg-red-500/10"
+              }`}
+            >
+              <h2 className="font-semibold text-white">
+                कट-ऑफ से दूरी <span className="text-slate-400">/ Gap to expected cutoff ({cutoff.cutoff}/{cutoff.total})</span>
+              </h2>
+              {summary?.projected == null ? (
+                <p className="mt-2 text-sm text-slate-400">
+                  एक फुल मॉक दें — अनुमान उसी से बनेगा। / Take a full-length mock — your projection is based on full mocks.
+                </p>
+              ) : (
+                <>
+                  <p className="mt-2 text-3xl font-bold text-white">
+                    {summary.projected}
+                    <span className="ml-2 text-base font-semibold text-slate-300">
+                      {summary.gap! >= 0 ? `+${summary.gap} above` : `${Math.abs(summary.gap!)} below`} cutoff
+                    </span>
+                  </p>
+                  <p className="mt-1 text-xs text-slate-400">
+                    पिछले {Math.min(PROJECTION_MOCKS, summary.fullMocks.length)} फुल मॉक का औसत। / Average of your latest{" "}
+                    {Math.min(PROJECTION_MOCKS, summary.fullMocks.length)} full mock(s), scaled to {cutoff.total} marks.
+                    {summary.trend !== null && ` Since your first mock: ${summary.trend > 0 ? "+" : ""}${summary.trend}.`}
+                  </p>
+                  {summary.gap! < 0 && summary.negativeLostPerMock !== null && summary.negativeLostPerMock > 0 && (
+                    <p className="mt-2 text-sm text-slate-300">
+                      आप हर मॉक में नेगेटिव से ~{summary.negativeLostPerMock} अंक खो रहे हैं — अनुमान नियम अपनाने से यह अंतर घटेगा।{" "}
+                      <span className="block text-slate-400">
+                        You lose ~{summary.negativeLostPerMock} marks per mock to negative marking — following your guess rule
+                        below closes part of this gap.
+                      </span>
+                    </p>
+                  )}
+                </>
+              )}
+              <p className="mt-2 text-[11px] text-slate-500">Expected cutoff is an estimate, not an official figure.</p>
+            </section>
 
             <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
               <h2 className="font-semibold text-white">

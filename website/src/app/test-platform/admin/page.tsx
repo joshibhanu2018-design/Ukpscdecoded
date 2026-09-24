@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { CalendarClock, FileSpreadsheet, ListChecks, Loader2, Shield, Ticket } from "lucide-react";
+import { CalendarClock, Users, FileSpreadsheet, ListChecks, Loader2, Shield, Ticket } from "lucide-react";
 
 type Admin = { id: string; full_name: string | null; email: string };
 
@@ -11,6 +11,7 @@ const TOOLS = [
   { href: "/test-platform/admin/tests", icon: ListChecks, title: "Create Tests", sub: "Build a test from question IDs" },
   { href: "/test-platform/admin/coupons", icon: Ticket, title: "Coupons & Referrals", sub: "Codes, price locks, referral list" },
   { href: "/test-platform/admin/mentorship", icon: CalendarClock, title: "Mentorship", sub: "Bookings, plans, your hours" },
+  { href: "/test-platform/admin/mentees", icon: Users, title: "Mentees", sub: "All mentees vs cutoff, CSV export" },
 ];
 
 export default function AdminHomePage() {
