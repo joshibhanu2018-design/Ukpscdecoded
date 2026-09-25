@@ -38,6 +38,36 @@ accounts log in with their email as before — nothing to migrate.
   temporary email end-to-end, and delete that user +
   its `login_codes` rows afterwards.
 
+**Question bank loader (Phase 8, built — not applied yet).**
+`scripts/load-question-bank.ts` (run with `npx --yes tsx`, from `website/`)
+loads the master bank (`MERGED_QUESTION_BANK_v2.xlsx`, minus the 153
+rows with a Review_Flag) plus `GENERATED_QUESTIONS.xlsx` (509 new `GEN-`
+questions written to cover shortfalls): 7,487 questions in total. It
+then fills the 56 non-CSAT Premium Test Series tests: 4,000 questions,
+none used twice.
+- Input files live in `test series questions/` at the repo root. That
+  folder, `*.xlsx` and `*.csv` are git-ignored (root `.gitignore`), and
+  the repo is public, so never commit question data.
+- Default is a dry run, which reads the xlsx files only. It prints
+  per-test counts, the section mix, the difficulty split, the reuse count
+  (must be 0), short tests and near-duplicate pairs. `--plan` also writes
+  `TEST_ALLOCATION_PLAN.xlsx` next to the inputs. `--apply` writes: it
+  upserts questions on `question_id` (batches of 500), then sets
+  `tests.question_ids` (in order), `total_questions` and the new names:
+  "Current Affairs Set 1-8" (were "Month 1-8").
+- Allocation is deterministic (seeded), so dry run and apply agree.
+  - Mocks: 2024-25 benchmark mix of HIS 17 / GEO 16 / POL 24 / ECO 10 /
+    ENV 7 / SCI 14 / CA 14 / UKGK 48; difficulty is spread by
+    proportional dealing.
+  - Uttarakhand: reuses 14 sets from `UTTARAKHAND_TEST_STRUCTURE.xlsx`
+    (flagged or repeated questions are replaced like for like). Statehood
+    I/II, Art/Crafts/Language, UK CA, Topper and Grand UK Mock are built
+    fresh.
+  - CSAT 1-6 are left empty.
+- **Re-running `seed-phase6-tests.sql` after the load resets the CA test
+  names and `total_questions`** (its upsert doesn't touch
+  `question_ids`). If that happens, re-run the loader with `--apply`.
+
 Admin question importer at `/test-platform/admin/questions` (Excel/CSV
 upload, gated by a shared admin secret, not tied to student auth).
 
@@ -317,9 +347,11 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **No question content imported.** The admin Excel importer works, but
-  no real question bank has been loaded via it yet — and no tests created
-  (use `/test-platform/admin/tests`).
+- **Question bank not in the DB yet.** The Phase 8 loader is ready and its
+  dry run is clean. To apply it, run the phase 6 SQL (if not already run),
+  then `schema-phase8-question-bank.sql`, then
+  `npx --yes tsx scripts/load-question-bank.ts --apply`. CSAT tests
+  have no questions (none in the bank).
 - **Gamification is inert.** `user_gamification`/`badges`/`leaderboard`
   tables exist, but nothing increments XP, level, or streak yet. The
   test-taking flow now exists, so this can hook into `finalizeAttempt()`
@@ -360,14 +392,15 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `schema-phase5-coupons.sql` | `coupons`, `coupon_redemptions` tables | ✅ Run |
 | `schema-phase5-referrals.sql` | `users.referral_code`/`store_credit_paise`, `referral_redemptions`, `payment_orders.original_amount`/`discount_amount`/`credit_applied` | ✅ Run |
 | `seed-phase5-pricing-update.sql` | Renames the combo to Complete Prelims Pack, sets founding/regular prices on 8 packages, deactivates Standard + Standard/Crash combo, inserts the new mentorship package + its `package_includes` | ✅ Run |
-| `schema-phase6-content.sql` | `packages.slug`/`image_url`/`highlights`/`curriculum`/`faq`, `banners` table, `tests.subject`, unique `package_tests(package_id, test_id)` | Check — run 1st of phase 6 |
-| `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | Check — run 2nd |
-| `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | Not run — run 3rd |
-| `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | Not run — **required before deploying OTP login** |
-| `seed-phase12-mentorship-cutoff.sql` | Mentorship 30 seats + weekly-format text, cutoff 110/150 setting | Not run (after phase 11) |
-| `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
-| `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
+| `schema-phase6-content.sql` | `packages.slug`/`image_url`/`highlights`/`curriculum`/`faq`, `banners` table, `tests.subject`, unique `package_tests(package_id, test_id)` | ✅ Run |
+| `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | ✅ Run |
+| `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | ✅ Run |
+| `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | ✅ Run |
+| `schema-phase8-question-bank.sql` | Unique index on `questions(question_id)` (the loader upserts on it), `tests.question_ids` default `'{}'` | Not run — run after phase 6, before the loader's `--apply` |
 | `schema-phase9-sessions-xp-admin.sql` | `user_sessions` (device limit), `user_gamification.last_active_date` + `award_test_xp()`, admin-role notes | Not run — **required before deploying Phase 9**; then make yourself admin |
+| `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
+| `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
+| `seed-phase12-mentorship-cutoff.sql` | Mentorship 30 seats + weekly-format text, cutoff 110/150 setting | Not run (after phase 11) |
 
 ## Environment variables
 
