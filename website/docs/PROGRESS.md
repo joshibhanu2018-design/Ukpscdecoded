@@ -38,8 +38,8 @@ accounts log in with their email as before — nothing to migrate.
   temporary email end-to-end, and delete that user +
   its `login_codes` rows afterwards.
 
-**Question bank loader (Phase 8, built — not applied yet).**
-`scripts/load-question-bank.ts` (run with `npx --yes tsx`, from `website/`)
+**Question bank loader (Phase 8; applied 25 Sep 2026; reworked in Batch 2, below).**
+`scripts/load-question-bank.mts` (run with `npx --yes tsx`, from `website/`)
 loads the master bank (`MERGED_QUESTION_BANK_v2.xlsx`, minus the 153
 rows with a Review_Flag) plus `GENERATED_QUESTIONS.xlsx` (509 new `GEN-`
 questions written to cover shortfalls): 7,487 questions in total. It
@@ -53,8 +53,8 @@ none used twice.
   (must be 0), short tests and near-duplicate pairs. `--plan` also writes
   `TEST_ALLOCATION_PLAN.xlsx` next to the inputs. `--apply` writes: it
   upserts questions on `question_id` (batches of 500), then sets
-  `tests.question_ids` (in order), `total_questions` and the new names:
-  "Current Affairs Set 1-8" (were "Month 1-8").
+  `tests.question_ids` (in order), `total_questions` and the CA test names and
+  subjects (themes since Batch 2; were "Month 1-8").
 - Allocation is deterministic (seeded), so dry run and apply agree.
   Questions deactivated in the DB (`status = 'inactive'`) are swapped in
   place for an unused question: same section, preferring the same chapter,
@@ -70,7 +70,7 @@ none used twice.
     fresh.
   - CSAT 1-6 are left empty.
 - **Re-running `seed-phase6-tests.sql` after the load resets the CA test
-  names and `total_questions`** (its upsert doesn't touch
+  names, subjects and `total_questions`** (its upsert doesn't touch
   `question_ids`). If that happens, re-run the loader with `--apply`.
 
 Admin question importer at `/test-platform/admin/questions` (Excel/CSV
@@ -312,6 +312,81 @@ exam/result pages read `questions.deactivated_at`).
   answer review in both languages, report form, instructions, courses page).
   Not yet run against the live DB with the new SQL.
 
+**Question quality & test composition (Batch 2 of NEXT_TASKS.md, 25 Sep 2026).**
+SQL: `schema-phase14-bank-browser.sql` — **required before deploying** (attempt
+pages read `attempts.question_ids`) and before re-running the loader with `--apply`.
+- **Attempts keep their own question list** (`attempts.question_ids`, set when
+  an attempt starts; the SQL backfills existing attempts from their test). A
+  test that is re-composed later never changes a past result, a resumed
+  attempt, or My Performance.
+- **Loader only re-composes what was asked.** It now reads the live tests
+  first (read-only, dry run too) and every test keeps its live questions
+  except `RECOMPOSE` (this batch: the 10 CA tests + CA Grand Revision + the
+  Free Sample Mock). The report has a `Chg` column (questions different from
+  the database now): 0 for all 12 mocks and 12 sectionals. The script is now
+  `.mts` (ESM, for the top-level DB read); the parsing helpers moved to
+  `scripts/question-bank-common.mts`.
+- **Chapter 1/2/3 preference: dropped on the owner's instruction.** The bank
+  has no `Source_File` column; traced back, the "chapter" files are the two
+  scans of the Uttarakhand MCQ book (Chapter 2 History: 322 Q, Chapter 3
+  Basic GK: 169 Q, Chapters 4-17 in the STATIC bank; no chapter 1 exists).
+  The owner chose instead: don't drop anything, combine single facts into
+  statement questions.
+- **Combined questions (CMB-).** `scripts/build-combined-questions.mts` turns a
+  hand-written spec (`test series questions/work/cmb/combined.txt`, git-ignored)
+  into `COMBINED_QUESTIONS.xlsx`: 124 new bilingual questions (61 two-statement,
+  50 three-statement, 13 four-pair match) built from 324 spare direct UK
+  questions. A statement is written once with an `{A}` slot: the source
+  question's correct option makes it true, a named wrong option makes it false,
+  in both languages, so every false statement is one of the bank's own
+  distractors and every explanation states the correct fact. New IDs
+  (`CMB-UKGK-CHxx-nnnn`, append-only); source questions stay in the bank but
+  are kept out of tests. Facts I could not verify (2025-26 schemes, budget and
+  survey figures, most UK current affairs) were not used.
+- **Statement/match share in the 20 UK tests: 31% → 45%** (46% target per
+  test). Direct questions are swapped in place — same chapter, then same
+  difficulty — for CMB- questions first, then the bank's own statement/match
+  questions: 105 CMB- + 28 bank questions placed; a live question that became
+  a CMB- source hands its slot to its CMB- question. Changes per UK test: 0-19
+  questions. Short of target: **Uttarakhand Current Affairs (12%)** — no
+  verifiable UK CA facts to combine — and **Statehood Movement II (34%)** —
+  only 2 spare post-2000 statehood facts.
+- **Current Affairs tests by theme** (was "Set 1-8"; `tests.test_name` and
+  `tests.subject` set by the loader): CA: International Relations & Summits,
+  Schemes, Reports & Indices, National Affairs & Governance, Economy & Budget,
+  Science, Tech, Defence & Space, Environment & Awards (awards alone has only
+  ~60 questions), Sports & Persons in News — subject "Current Affairs"; CA
+  Revision: 2023-24, 2025, 2026 (questions dated to those years) and the Grand
+  Revision — subject "Current Affairs Revision" (its own group on course
+  pages). Theme = chapter first, then keywords (`caTheme()` in the loader).
+- **Admin → Question Bank** (`/test-platform/admin/bank`): search text/ID
+  (English or Hindi), filter by section, chapter, source file, difficulty,
+  format, status, and "in any test / in no test / in test X"; each question
+  opens in both languages with answer and explanation; Deactivate /
+  Reactivate (audit-logged); "Copy IDs on this page"; CSV download of the
+  whole filtered list (to mark preferred questions). Needs the new
+  `questions.source_file` / `question_format` / `section_code` columns, which
+  the loader fills on `--apply`.
+- **Free Sample Mock** (fixed id in the SQL, `is_free_test`, no package): 50
+  questions in the full-mock section mix (HIS 6, GEO 5, POL 8, ECO 3, ENV 2,
+  SCI 5, CA 5, UKGK 16) from questions in no paid test. Home page "Free Sample
+  Test" and every course page show it (Coming soon until it has questions).
+  Logged-out visitors are sent to login and back to the test.
+- **Bank errors found while writing (not fixed, for review):** CH07-0134
+  ("0 districts below national literacy" — Haridwar 73.43% is below 74.04%; **in
+  Demography & Census**, deactivate it in Question Bank), CH09-0091 / CH09-0113
+  (budget "crossed ₹1 lakh crore for the first time" in 2026-27 — 2025-26 already
+  did), CH09-0015 vs CH09-0161 (contradict each other on GSVA shares),
+  CH01-0396 (Assi Ganga rises from Dodital, not Kedar Tal), CH11-0499 ("Garhwal
+  Paintings" is Mukandi Lal's book; Mola Ram was the painter). None but
+  CH07-0134 is in a test.
+- Checked: type check clean; dry run = plan run; reuse 0; no short tests; no
+  near-duplicates inside a test; home and course pages render (Free Sample
+  "Coming soon" until the SQL + loader run); admin/API routes refuse logged-out
+  users; the bank's text and status filters were run against the live DB. The
+  admin Question Bank screen itself was not opened in a browser (needs an admin
+  login and the phase 14 columns).
+
 **Legal pages.** `/privacy`, `/refund-policy`, `/contact` (plus existing
 `/terms`), linked from the footer, checkout and course pages; in the
 sitemap. Refund rule: within 2 days of purchase and fewer than 3 videos
@@ -404,11 +479,12 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **Question bank not in the DB yet.** The Phase 8 loader is ready and its
-  dry run is clean. To apply it, run the phase 6 SQL (if not already run),
-  then `schema-phase8-question-bank.sql`, then
-  `npx --yes tsx scripts/load-question-bank.ts --apply`. CSAT tests
+- **Batch 2 not applied yet.** Run `schema-phase14-bank-browser.sql`, deploy,
+  then `npx.cmd --yes tsx scripts/load-question-bank.mts --apply`. CSAT tests
   have no questions (none in the bank).
+- **UK Current Affairs and Statehood II statement share** stays low (12% /
+  34%) until verified statement-type UK CA / post-2000 statehood questions are
+  added to the bank.
 - **Gamification is inert.** `user_gamification`/`badges`/`leaderboard`
   tables exist, but nothing increments XP, level, or streak yet. The
   test-taking flow now exists, so this can hook into `finalizeAttempt()`
@@ -459,6 +535,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
 | `seed-phase12-mentorship-cutoff.sql` | Mentorship 30 seats + weekly-format text, cutoff 110/150 setting | Not run (after phase 11) |
 | `schema-phase13-marking-reports.sql` | Negative marking 0.25 on every test + re-score submitted attempts, `questions.deactivated_at`, `question_reports` | Not run — **required before deploying Batch 1**; then re-run the loader with `--apply` |
+| `schema-phase14-bank-browser.sql` | `attempts.question_ids` (+ backfill), `questions.source_file`/`question_format`/`section_code`, Free Sample Mock test row | Not run — **required before deploying Batch 2** and before the loader `--apply` |
 
 ## Environment variables
 

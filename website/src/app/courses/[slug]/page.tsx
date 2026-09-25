@@ -16,6 +16,7 @@ import {
 } from "@/lib/packages";
 import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
 import { getPackageTestList } from "@/lib/tests";
+import FreeSampleTest from "@/components/FreeSampleTest";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -173,6 +174,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               </ul>
             </section>
           )}
+
+          <FreeSampleTest compact />
 
           {/* Free demo placeholder */}
           <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">

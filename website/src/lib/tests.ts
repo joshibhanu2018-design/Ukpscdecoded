@@ -70,10 +70,12 @@ export type Attempt = {
   submitted_at: string | null;
   time_taken_seconds: number | null;
   status: string;
+  /** The test's question list when this attempt started (null only for rows from before phase 14). */
+  question_ids: string[] | null;
 };
 
 const ATTEMPT_COLUMNS =
-  "id, user_id, test_id, enrollment_id, answers, marked_for_review, confidence, error_tags, score, total_marks, percentage, start_time, submitted_at, time_taken_seconds, status";
+  "id, user_id, test_id, enrollment_id, answers, marked_for_review, confidence, error_tags, score, total_marks, percentage, start_time, submitted_at, time_taken_seconds, status, question_ids";
 
 /** A question as sent to the browser DURING a test — no answer, no explanation. */
 export type PublicQuestion = {
@@ -91,6 +93,9 @@ export type FullQuestion = PublicQuestion & {
   explanation_hindi: string | null;
   explanation_english: string | null;
 };
+
+/** The Free Sample Mock (schema-phase14-bank-browser.sql; filled by the loader). */
+export const FREE_SAMPLE_TEST_ID = "4cc0172f-6f95-4c69-b6dc-0944a16c5725";
 
 export function isTestReleased(test: Pick<Test, "release_at">): boolean {
   return !test.release_at || new Date(test.release_at).getTime() <= Date.now();
@@ -111,6 +116,19 @@ export async function getTest(testId: string): Promise<Test | null> {
   const { data, error } = await supabaseAdmin().from("tests").select(TEST_COLUMNS).eq("id", testId).maybeSingle();
   if (error || !data) return null;
   return normalizeTest(data);
+}
+
+/**
+ * The test as this attempt sees it: its own question list, not the test's
+ * current one, so a test re-composed later never changes a past result.
+ */
+export function forAttempt(test: Test, attempt: Pick<Attempt, "question_ids">): Test {
+  return attempt.question_ids?.length ? { ...test, question_ids: attempt.question_ids } : test;
+}
+
+export async function getAttemptTest(attempt: Pick<Attempt, "test_id" | "question_ids">): Promise<Test | null> {
+  const test = await getTest(attempt.test_id);
+  return test && forAttempt(test, attempt);
 }
 
 export async function getFreeTests(): Promise<Test[]> {
@@ -318,6 +336,7 @@ export async function startOrResumeAttempt(
       enrollment_id: enrollmentId,
       answers: {},
       marked_for_review: [],
+      question_ids: test.question_ids,
       start_time: new Date().toISOString(),
       status: "in_progress",
     })
@@ -413,10 +432,11 @@ export function scoreAttempt(
  */
 export async function finalizeAttempt(
   attempt: Attempt,
-  test: Test,
+  currentTest: Test,
   final?: { answers: Answers; marked: string[]; confidence: Confidences }
 ): Promise<{ alreadySubmitted: boolean }> {
   if (attempt.status !== "in_progress") return { alreadySubmitted: true };
+  const test = forAttempt(currentTest, attempt);
 
   const late = isPastGrace(attempt, test);
   const answers = final && !late ? final.answers : sanitizeAnswers(attempt.answers, test.question_ids);

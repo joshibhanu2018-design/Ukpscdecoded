@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
-import { ERROR_TYPES, getAttempt, getTest, sanitizeErrorTags, type ErrorType } from "@/lib/tests";
+import { ERROR_TYPES, getAttempt, getAttemptTest, sanitizeErrorTags, type ErrorType } from "@/lib/tests";
 
 /** Tag (or un-tag, with tag: null) why one question went wrong. Only on your own submitted attempts. */
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ attemptId: string }> }) {
@@ -14,7 +14,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (!attempt) return NextResponse.json({ error: "Attempt not found" }, { status: 404 });
   if (attempt.status !== "submitted") return NextResponse.json({ error: "Submit the test first" }, { status: 409 });
 
-  const test = await getTest(attempt.test_id);
+  const test = await getAttemptTest(attempt);
   if (!test) return NextResponse.json({ error: "Test not found" }, { status: 404 });
 
   const body = await request.json().catch(() => null);

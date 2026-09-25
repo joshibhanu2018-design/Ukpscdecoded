@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { BookOpen, ArrowRight, Star, BookMarked, Video, Send, FileText } from "lucide-react";
+import { BookOpen, ArrowRight, Star, BookMarked, Video, Send } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { getAllArticles } from "@/lib/articles";
 import HomeQuiz from "@/components/HomeQuiz";
 import HomeCarousel from "@/components/HomeCarousel";
 import CourseCard from "@/components/CourseCard";
+import FreeSampleTest from "@/components/FreeSampleTest";
 import { getActiveBanners } from "@/lib/banners";
 import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
@@ -66,16 +67,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Free Sample Test — placeholder until real test-taking exists */}
-      <section className="border-y border-slate-800 bg-slate-950 px-4 py-12">
-        <div className="container-custom mx-auto text-center">
-          <FileText className="mx-auto mb-3 h-8 w-8 text-yellow-500" />
-          <h2 className="text-xl font-bold text-white">
-            फ्री सैंपल टेस्ट <span className="text-slate-300">/ Free Sample Test</span>
-          </h2>
-          <p className="mt-2 text-sm text-slate-300">जल्द आ रहा है / Coming soon</p>
-        </div>
-      </section>
+      <FreeSampleTest />
 
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-br from-graphite-950 via-graphite-900 to-graphite-800 text-white relative overflow-hidden">

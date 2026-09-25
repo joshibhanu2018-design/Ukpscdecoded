@@ -6,7 +6,7 @@ import {
   finalizeAttempt,
   getAttempt,
   getAttemptDeadline,
-  getTest,
+  getAttemptTest,
   getTestQuestions,
   isPastGrace,
   sanitizeAnswers,
@@ -30,7 +30,7 @@ export default async function AttemptPage({ params }: { params: Promise<{ attemp
   const attempt = await getAttempt(attemptId, user.id);
   if (!attempt) notFound();
 
-  const test = await getTest(attempt.test_id);
+  const test = await getAttemptTest(attempt);
   if (!test) notFound();
 
   if (attempt.status === "in_progress" && isPastGrace(attempt, test)) {

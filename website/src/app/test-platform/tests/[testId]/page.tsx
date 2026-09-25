@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 export default async function TestInstructionsPage({ params }: { params: Promise<{ testId: string }> }) {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
   const user = await getUserFromSession(token);
-  if (!user) redirect("/student/login");
-
   const { testId } = await params;
+  if (!user) redirect(`/student/login?next=${encodeURIComponent(`/test-platform/tests/${testId}`)}`);
+
   const access = await getTestAccess(user.id, testId);
 
   if (!access.ok) {

@@ -1,30 +1,45 @@
 /**
  * Load the question bank into Supabase and fill the 56 non-CSAT tests of the
- * Premium Test Series (fixed ids from supabase/seed-phase6-tests.sql).
+ * Premium Test Series (fixed ids from supabase/seed-phase6-tests.sql) plus
+ * the Free Sample Mock.
  *
  *   cd website
- *   npx --yes tsx scripts/load-question-bank.ts            # dry run (default): reads the xlsx files only
- *   npx --yes tsx scripts/load-question-bank.ts --plan     # dry run + writes TEST_ALLOCATION_PLAN.xlsx
- *   npx --yes tsx scripts/load-question-bank.ts --apply    # writes to the database
+ *   npx --yes tsx scripts/load-question-bank.mts            # dry run (default): writes nothing
+ *   npx --yes tsx scripts/load-question-bank.mts --plan     # dry run + writes TEST_ALLOCATION_PLAN.xlsx
+ *   npx --yes tsx scripts/load-question-bank.mts --apply    # writes to the database
  *
  * Inputs (in "../test series questions/", which is git-ignored — the repo is public):
  *   MERGED_QUESTION_BANK_v2.xlsx     master bank; rows with a Review_Flag are excluded
  *   GENERATED_QUESTIONS.xlsx         GEN- questions written to cover the shortfalls
+ *   COMBINED_QUESTIONS.xlsx          CMB- statement/match questions built from 2-4 spare
+ *                                    direct UK questions (scripts/build-combined-questions.ts);
+ *                                    their source questions stay in the bank but out of tests
  *   UTTARAKHAND_TEST_STRUCTURE.xlsx  "Test Allocation" sheet, reused for 12 UK tests
+ *   UKPCS_Master_Question_Bank_CLEAN.xlsx, Uttarakhand STATIC _Question_Bank.xlsx
+ *                                    read only to trace each question's source file
  *
- * Needs supabase/schema-phase8-question-bank.sql (unique question_id) and the
+ * Needs supabase/schema-phase8-question-bank.sql (unique question_id),
+ * schema-phase14-bank-browser.sql (source columns, Free Sample Mock) and the
  * phase 6 seed files to have been run before --apply. Credentials come from
  * .env.local and are never printed.
  *
- * The allocation is deterministic (seeded shuffle), so a dry run and a later
- * --apply produce the same tests. Questions deactivated in the database
- * (status 'inactive') are swapped in place for unused ones; the dry run reads
- * that list too (read-only), so it still matches --apply.
+ * Only the tests in RECOMPOSE are built afresh; every other test keeps the
+ * questions it has in the database now (so a change to one group of tests
+ * never reshuffles the full mocks). A test with no questions yet is always
+ * built. The allocation is deterministic (seeded shuffle), so a dry run and a
+ * later --apply produce the same tests. Questions deactivated in the database
+ * (status 'inactive') are swapped in place for unused ones. Both modes read the
+ * database (read-only) first, so the dry run matches --apply.
  */
 import * as fs from "fs";
 import * as path from "path";
-import * as XLSX from "xlsx";
+import { createRequire } from "module";
 import { createClient } from "@supabase/supabase-js";
+import { numbersIn, splitOption, str } from "./question-bank-common.mjs";
+
+// ESM (.mts) so the live tests can be read before allocating; SheetJS's ESM
+// build has no readFile, so load its CommonJS build.
+const XLSX: typeof import("xlsx") = createRequire(import.meta.url)("xlsx");
 
 // ---------- paths / flags ----------
 
@@ -37,6 +52,9 @@ const WEBSITE = fs.existsSync(path.join(process.cwd(), "supabase", "seed-phase6-
 const DATA_DIR = path.join(WEBSITE, "..", "test series questions");
 const MASTER_FILE = path.join(DATA_DIR, "MERGED_QUESTION_BANK_v2.xlsx");
 const GEN_FILE = path.join(DATA_DIR, "GENERATED_QUESTIONS.xlsx");
+const CMB_FILE = path.join(DATA_DIR, "COMBINED_QUESTIONS.xlsx");
+const CLEAN_FILE = path.join(DATA_DIR, "UKPCS_Master_Question_Bank_CLEAN.xlsx");
+const STATIC_FILE = path.join(DATA_DIR, "Uttarakhand STATIC _Question_Bank.xlsx");
 const UK_FILE = path.join(DATA_DIR, "UTTARAKHAND_TEST_STRUCTURE.xlsx");
 const SEED_FILE = path.join(WEBSITE, "supabase", "seed-phase6-tests.sql");
 const ENV_FILE = path.join(WEBSITE, ".env.local");
@@ -66,6 +84,8 @@ interface Q {
   exHi: string;
   diff: Diff;
   gen: boolean;
+  srcFile: string; // where the question came from (Admin → Question Bank filter)
+  srcs?: string[]; // CMB- only: the direct questions whose facts it combines
 }
 
 interface TestDef {
@@ -78,9 +98,6 @@ interface TestDef {
 type Row = Record<string, unknown>;
 
 // ---------- small helpers ----------
-
-const str = (v: unknown) => (v === undefined || v === null ? "" : String(v)).trim();
-const DEV = /[ऀ-ॿ]/;
 
 /** Deterministic PRNG (mulberry32) so dry run and --apply agree. */
 function rng(seed: number) {
@@ -122,46 +139,6 @@ function split(total: number, weights: Record<string, number>): Record<string, n
   return Object.fromEntries(keys.map((k, i) => [k, out[i]]));
 }
 
-const NUMERIC = /^[\d.,\s%₹-]+$/;
-
-/** Digits in a string (Devanagari digits folded to ASCII, thousands commas ignored), sorted. */
-const numbersIn = (s: string) =>
-  (s.replace(/[०-९]/g, (c) => String(c.charCodeAt(0) - 0x966)).replace(/(\d),(?=\d)/g, "$1").match(/\d+(?:\.\d+)?/g) ?? [])
-    .sort()
-    .join(" ");
-
-/**
- * "English / Hindi" option cell -> parts. The split point is the last " / "
- * before the first part containing Devanagari. Many cells have the Hindi's
- * leading number cut off into its own part ("100 meters per decade / 100 /
- * मीटर प्रति दशक", "August 15, 1947 / 15 / अगस्त 1947"): a short part with a
- * number the English already contains goes back onto the Hindi side.
- * Cells without Hindi keep the same text in both languages (numbers, names),
- * except pure number pairs such as "100,86,292 / 1,00,86,292".
- */
-function splitOption(raw: string): { en: string; hi: string } {
-  const s = raw.trim();
-  const parts = s.split(" / ");
-  const k = parts.findIndex((p) => DEV.test(p));
-  if (k > 0) {
-    const en = parts.slice(0, k);
-    let hi = parts.slice(k).join(" / ").trim();
-    const last = en[en.length - 1].trim();
-    const restNums = new Set(numbersIn(en.slice(0, -1).join(" ")).split(" "));
-    const lastNums = numbersIn(last).split(" ");
-    if (en.length > 1 && last.length <= 20 && /\d/.test(last) && lastNums.every((n) => restNums.has(n))) {
-      en.pop();
-      hi = `${last} ${hi}`;
-    }
-    return { en: en.join(" / ").trim(), hi };
-  }
-  if (k === 0) return { en: s, hi: s };
-  if (parts.length === 2 && parts.every((p) => NUMERIC.test(p))) {
-    return { en: parts[0].trim(), hi: parts[1].trim() };
-  }
-  return { en: s, hi: s };
-}
-
 // boilerplate of statement / match stems, so only the substance is compared
 const TEMPLATE_WORDS = new Set(
   "consider following statements statement which given above correct incorrect only both neither select answer using codes below match list with from these those regarding about among what that this there their pairs pair correctly matched".split(
@@ -192,7 +169,16 @@ function nearDup(a: Q, b: Q): boolean {
   wa.forEach((w) => wb.has(w) && inter++);
   return inter / (wa.size + wb.size - inter || 1) >= 0.4;
 }
-const clashes = (q: Q, list: Q[]) => list.some((x) => nearDup(x, q));
+// A CMB- question also repeats every fact it combines, so it clashes with a
+// question that repeats one of its source questions (and vice versa).
+const factCache = new Map<string, Q[]>();
+const factsOf = (q: Q): Q[] => {
+  let f = factCache.get(q.qid);
+  if (!f) factCache.set(q.qid, (f = [q, ...(q.srcs ?? []).map((id) => byId.get(id)).filter((x): x is Q => !!x)]));
+  return f;
+};
+const clashes = (q: Q, list: Q[]) =>
+  list.some((x) => (q.srcs || x.srcs ? factsOf(q).some((a) => factsOf(x).some((b) => nearDup(a, b))) : nearDup(x, q)));
 
 // ---------- load questions ----------
 
@@ -206,7 +192,7 @@ function readSheet(file: string, sheet: string): Row[] {
 
 const rejected: { qid: string; reason: string }[] = [];
 
-function toQ(r: Row, gen: boolean): Q | null {
+function toQ(r: Row, gen: boolean, srcFile: string): Q | null {
   const qid = str(r["Question_ID"]);
   const ans = str(r["Correct_Answer"]).toUpperCase();
   const en = str(r["Question (English)"]);
@@ -243,7 +229,33 @@ function toQ(r: Row, gen: boolean): Q | null {
     exHi: str(r["Explanation (Hindi if needed)"]),
     diff,
     gen,
+    srcFile,
   };
+}
+
+// ---------- source file of each question ----------
+// The master bank's `Sources` names the sheet row it was merged from (first
+// line = the kept copy). Rows from the CLEAN bank are traced one step
+// further, to CLEAN's own Source_File; the two scans of the Uttarakhand MCQ
+// book are named by book chapter.
+
+const optionalSheet = (file: string, sheet: string): Row[] => (fs.existsSync(file) ? readSheet(file, sheet) : []);
+const cleanSource = new Map(
+  optionalSheet(CLEAN_FILE, "Master Bank").map((r) => [str(r["Question_ID"]), str(r["Source_File"])])
+);
+const staticRows = optionalSheet(STATIC_FILE, "New Questions Template");
+
+function sourceFileOf(r: Row): string {
+  const first = str(r["Sources"]).split(/\r?\n/)[0] ?? "";
+  const [file, , rowRef] = first.split(" › ").map((s) => s.trim());
+  if (/^UKPCS_Master_Question_Bank_CLEAN/.test(file)) return cleanSource.get(str(r["Question_ID"])) || file;
+  if (/^Uttarakhand STATIC/.test(file)) {
+    const label = str(staticRows[Number((rowRef ?? "").replace(/\D/g, "")) - 2]?.["Source_Topic_Label"]);
+    const m = label.match(/^(Chapter \d+ - .+?) \(Uttarakhand MCQ book\)$/);
+    return m ? `Uttarakhand MCQ book: ${m[1]}` : "Uttarakhand MCQ book";
+  }
+  if (/^uttarakhand_history_bilingual/.test(file)) return "Uttarakhand MCQ book: Chapter 2 - History";
+  return file || "MERGED_QUESTION_BANK_v2.xlsx";
 }
 
 const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -259,17 +271,21 @@ const futureDated: { qid: string; key: number }[] = [];
 const masterRows = readSheet(MASTER_FILE, "Question Bank");
 const flaggedIds = new Set(masterRows.filter((r) => str(r["Review_Flag"])).map((r) => str(r["Question_ID"])));
 const genRows = readSheet(GEN_FILE, "Generated Questions");
+const cmbRows = optionalSheet(CMB_FILE, "Combined Questions");
 
 const all: Q[] = [];
 const seen = new Set<string>();
 let duplicateIds = 0;
-for (const [rows, gen] of [
-  [masterRows.filter((r) => !str(r["Review_Flag"])), false],
-  [genRows, true],
+for (const [rows, gen, file] of [
+  [masterRows.filter((r) => !str(r["Review_Flag"])), false, null],
+  [genRows, true, "GENERATED_QUESTIONS.xlsx"],
+  [cmbRows, true, "COMBINED_QUESTIONS.xlsx"],
 ] as const) {
   for (const r of rows) {
-    const q = toQ(r, gen);
+    const q = toQ(r, gen, file ?? sourceFileOf(r));
     if (!q) continue;
+    const srcs = str(r["Source_IDs"]).split(/[,\s]+/).filter(Boolean);
+    if (srcs.length) q.srcs = srcs;
     const key = dateKey(q);
     if (key > NOW_KEY) {
       futureDated.push({ qid: q.qid, key });
@@ -283,7 +299,19 @@ for (const [rows, gen] of [
     all.push(q);
   }
 }
+// A CMB- question whose source was flagged (or removed) may carry the same
+// error, so it is left out too.
+const droppedCombined: string[] = [];
+for (let i = all.length - 1; i >= 0; i--) {
+  const bad = all[i].srcs?.find((id) => !seen.has(id));
+  if (bad) {
+    droppedCombined.push(`${all[i].qid} (source ${bad} is flagged, future-dated or missing)`);
+    all.splice(i, 1);
+  }
+}
 const byId = new Map(all.map((q) => [q.qid, q]));
+// Sources of CMB- questions stay in the bank (and the database) but out of every test.
+const heldBack = new Set(all.flatMap((q) => q.srcs ?? []));
 
 // ---------- tests from the seed file ----------
 
@@ -295,6 +323,9 @@ for (const m of seedSql.matchAll(
   if (m[3] === "CSAT") continue;
   tests.push({ id: m[1], name: m[2], subject: m[3], target: Number(m[4]) });
 }
+// Free for every logged-in student; row created by schema-phase14-bank-browser.sql.
+const FREE_SAMPLE: TestDef = { id: "4cc0172f-6f95-4c69-b6dc-0944a16c5725", name: "Free Sample Mock", subject: "Free Sample", target: 50 };
+tests.push(FREE_SAMPLE);
 const testById = new Map(tests.map((t) => [t.id, t]));
 const byName = (name: string) => {
   const t = tests.find((x) => x.name === name);
@@ -302,12 +333,69 @@ const byName = (name: string) => {
   return t;
 };
 
+// ---------- what the database holds now (read-only) ----------
+
+// Batch 2 (owner review, Sep 2026) re-composes the Current Affairs tests into
+// themes (not "Uttarakhand CA + Budget") and builds the Free Sample Mock.
+// Everything else keeps its live questions; the 20 Uttarakhand tests then only
+// get direct questions swapped for statement/match ones (section 2b).
+const RECOMPOSE = new Set(
+  tests
+    .filter((t) => (t.subject === "Current Affairs" && t.name !== "Uttarakhand CA + Budget") || t.id === FREE_SAMPLE.id)
+    .map((t) => t.id)
+);
+
+const inactiveIds = new Set<string>();
+const liveQids = new Map<string, string[]>(); // test id -> its Question_IDs in the database, in order
+const liveWarnings: string[] = [];
+
+async function readLive() {
+  let env: Record<string, string>;
+  try {
+    env = readEnv();
+  } catch {
+    liveWarnings.push("WARNING: .env.local not found — live tests and inactive questions were not read; every test is built afresh");
+    return;
+  }
+  const url = env.NEXT_PUBLIC_SUPABASE_URL || env.SUPABASE_URL;
+  const key = env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    liveWarnings.push("WARNING: Supabase credentials missing — live tests and inactive questions were not read; every test is built afresh");
+    return;
+  }
+  const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await db
+      .from("questions")
+      .select("question_id")
+      .eq("status", "inactive")
+      .range(from, from + 999);
+    if (error) throw new Error(`Could not read inactive questions: ${error.message}`);
+    for (const r of data ?? []) inactiveIds.add(r.question_id as string);
+    if (!data || data.length < 1000) break;
+  }
+  const { data: liveTests, error: ltErr } = await db.from("tests").select("id, question_ids").in("id", tests.map((t) => t.id));
+  if (ltErr) throw new Error(`Could not read tests: ${ltErr.message}`);
+  const uuids = [...new Set((liveTests ?? []).flatMap((t) => (t.question_ids as string[] | null) ?? []))];
+  const qidOf = new Map<string, string>();
+  for (let i = 0; i < uuids.length; i += 200) {
+    const { data, error } = await db.from("questions").select("id, question_id").in("id", uuids.slice(i, i + 200));
+    if (error) throw new Error(`Could not read live questions: ${error.message}`);
+    for (const r of data ?? []) qidOf.set(r.id as string, r.question_id as string);
+  }
+  for (const t of liveTests ?? []) {
+    liveQids.set(t.id as string, ((t.question_ids as string[] | null) ?? []).map((u) => qidOf.get(u) ?? u));
+  }
+}
+await readLive();
+
 // ---------- allocation state ----------
 
-const used = new Set<string>();
+const used = new Set<string>(heldBack);
 const assigned = new Map<string, Q[]>(tests.map((t) => [t.id, []]));
 const notes: string[] = [];
 const newNames = new Map<string, string>();
+const newSubjects = new Map<string, string>();
 
 const free = (pred: (q: Q) => boolean) => all.filter((q) => !used.has(q.qid) && pred(q));
 function take(testId: string, qs: Q[]) {
@@ -317,6 +405,64 @@ function take(testId: string, qs: Q[]) {
     assigned.get(testId)!.push(q);
   }
 }
+
+// Tests outside RECOMPOSE keep their live questions, in order. A live
+// question that is now the source of a CMB- question gives its slot to that
+// CMB- question (the fact stays in the test, with more facts around it) or,
+// if that doesn't fit, to an unused question of the same chapter (statement /
+// match first). A live question gone from the bank is replaced the same way.
+const pinnedIds = new Set<string>();
+const cmbOf = new Map<string, Q>();
+for (const q of all) for (const s of q.srcs ?? []) cmbOf.set(s, q);
+let pinSwapCmb = 0;
+let pinSwapOther = 0;
+const pinLost: string[] = [];
+for (const t of tests) {
+  const live = liveQids.get(t.id);
+  if (RECOMPOSE.has(t.id) || !live?.length) continue;
+  pinnedIds.add(t.id);
+  const keep: Q[] = [];
+  for (const id of live) {
+    const q = byId.get(id);
+    if (q && !used.has(q.qid)) {
+      keep.push(q);
+      continue;
+    }
+    const cmb = cmbOf.get(id);
+    if (cmb && !used.has(cmb.qid) && !clashes(cmb, keep)) {
+      keep.push(cmb);
+      used.add(cmb.qid);
+      pinSwapCmb++;
+      continue;
+    }
+    const like = q ?? (cmb ? byId.get(cmb.srcs![0]) : undefined);
+    const rep = like
+      ? [
+          free((x) => !/^Factual recall/.test(x.qtype) && x.sec === like.sec && x.isCA === like.isCA && x.chap === like.chap),
+          free((x) => x.sec === like.sec && x.isCA === like.isCA && x.chap === like.chap),
+          free((x) => x.sec === like.sec && x.isCA === like.isCA),
+        ]
+          .map((g) => g.find((x) => !clashes(x, keep)))
+          .find(Boolean)
+      : undefined;
+    if (rep) {
+      keep.push(rep);
+      used.add(rep.qid);
+      pinSwapOther++;
+    } else pinLost.push(`${t.name}: ${id}`);
+  }
+  // take() marks used again; clear the marks set above so it doesn't see a double assignment
+  keep.forEach((q) => used.delete(q.qid));
+  take(t.id, keep);
+}
+if (pinSwapCmb || pinSwapOther) {
+  notes.push(
+    `Live questions now used as CMB- sources (or gone from the bank): ${pinSwapCmb} replaced by their CMB- question, ${pinSwapOther} by another question of the same chapter.`
+  );
+}
+if (pinLost.length) notes.push(`Live questions with no replacement (test is short): ${pinLost.join(", ")}`);
+const pinned = (t: TestDef) => pinnedIds.has(t.id);
+notes.push(`Kept their live questions (not re-composed this run): ${pinnedIds.size} tests.`);
 
 const BENCH_MIX: Mix = { Easy: 129, Medium: 149, Hard: 22 }; // 2024-25 papers, per 300 questions
 const UK_MIX: Mix = { Easy: 20, Medium: 23, Hard: 7 }; // approved UK test design, per 50
@@ -429,6 +575,7 @@ let droppedOverlap = 0;
 let droppedRepeat = 0;
 for (const [name, sets] of REUSE) {
   const t = byName(name);
+  if (pinned(t)) continue;
   for (const [num, count] of sets) {
     const ids = wbSets.get(num) ?? [];
     const chaps = new Set<string>();
@@ -470,7 +617,7 @@ for (const [name, sets] of REUSE) {
     }
   }
 }
-notes.push(
+if (REUSE.some(([n]) => !pinned(byName(n)))) notes.push(
   `Reused ${REUSE.length} workbook sets (Agriculture + Energy combined as 25 + 25). Replaced like for like from the same topic and difficulty: ${droppedFlagged} flagged questions, ${droppedOverlap} that the workbook had put in two sets, and ${droppedRepeat} that repeated another question in the same set.`
 );
 
@@ -497,9 +644,9 @@ const POST2000_RE =
   // Movement era goes to I, post-2000 to II; balance the halves by moving the overflow.
   while (early.length > s1.target) late.unshift(early.pop()!);
   while (late.length > s2.target) early.push(late.shift()!);
-  take(s1.id, shuffle(early));
-  take(s2.id, shuffle(late));
-  notes.push(
+  if (!pinned(s1)) take(s1.id, shuffle(early));
+  if (!pinned(s2)) take(s2.id, shuffle(late));
+  if (!pinned(s1) || !pinned(s2)) notes.push(
     `Statehood I & II: ${ch05.length} CH05 questions (bank + GEN) plus ${chosen.length - ch05.length} statehood/post-2000 questions from other UK chapters (keyword match); I = movement era, II = post-2000.`
   );
 }
@@ -524,7 +671,7 @@ const ART_RE =
 {
   const t = byName("Uttarakhand CA + Budget");
   // half the test from the budget chapter, half from other UK current affairs
-  take(t.id, pick(free((q) => ukCA(q) && q.chap === "CH09"), 25, BENCH_MIX, assigned.get(t.id)!));
+  if (!pinned(t)) take(t.id, pick(free((q) => ukCA(q) && q.chap === "CH09"), 25, BENCH_MIX, assigned.get(t.id)!));
   fill(t, [free((q) => ukCA(q) && q.chap !== "CH09"), free((q) => ukStatic(q) && q.chap === "CH09")], BENCH_MIX);
 }
 
@@ -533,6 +680,81 @@ fill(byName("Uttarakhand Current Affairs"), [free((q) => ukCA(q) && q.chap !== "
 
 // Topper Test: hard-heavy, spread across chapters.
 fill(byName("Topper Test"), [free((q) => ukStatic(q) && q.chap !== "CH00")], TOPPER_MIX);
+
+// ---------- 2b. Uttarakhand: more statement / match questions ----------
+// Owner review: raise statement ("1 only / 2 only / both / neither") and
+// match-the-following questions to ~45-50% of each of the 20 UK tests. Direct
+// questions are swapped in place (same chapter and difficulty where possible)
+// for unused non-direct ones: CMB- questions first (each carries 2-4 facts from
+// spare direct questions), then the bank's own statement/match questions. The
+// swapped-out direct questions go back to the pool.
+
+const isDirect = (q: Q) => /^Factual recall/.test(q.qtype);
+const SM_TARGET = 0.46;
+const UK_TESTS: [string, (q: Q) => boolean][] = [
+  ["Statehood Movement I", (q) => ukStatic(q) && (q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && !POST2000_RE.test(q.en)],
+  ["Statehood Movement II", (q) => ukStatic(q) && (q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && POST2000_RE.test(q.en)],
+  ["Ancient & Medieval History", (q) => ukStatic(q) && q.chap === "CH03"],
+  ["Gorkha & British rule & Freedom Struggle", (q) => ukStatic(q) && q.chap === "CH04"],
+  ["Physical Geography", (q) => ukStatic(q) && q.chap === "CH01"],
+  ["Forests Flora-Fauna & National Parks", (q) => ukStatic(q) && q.chap === "CH02"],
+  ["Demography & Census", (q) => ukStatic(q) && q.chap === "CH07"],
+  ["Polity & Administration", (q) => ukStatic(q) && q.chap === "CH06"],
+  ["Economy Development & Budget", (q) => ukStatic(q) && q.chap === "CH09"],
+  ["Agriculture Energy & Infrastructure", (q) => ukStatic(q) && (q.chap === "CH08" || q.chap === "CH13")],
+  ["Festivals Fairs Folk Music & Dance", (q) => ukStatic(q) && q.chap === "CH11" && !ART_RE.test(q.en)],
+  ["Art Crafts Language & Literature", (q) => ukStatic(q) && (q.chap === "CH11" || q.chap === "CH14") && ART_RE.test(q.en)],
+  ["Tourism & Sacred Sites", (q) => ukStatic(q) && q.chap === "CH12"],
+  ["Uttarakhand Current Affairs", ukCA],
+  ["Mixed Mock A", (q) => ukStatic(q) && q.chap !== "CH00"],
+  ["Mixed Mock B", (q) => ukStatic(q) && q.chap !== "CH00"],
+  ["Mixed Mock C", (q) => ukStatic(q) && q.chap !== "CH00"],
+  ["Mixed Mock D", (q) => ukStatic(q) && q.chap !== "CH00"],
+  ["Topper Test", (q) => ukStatic(q) && q.chap !== "CH00"],
+  ["Grand Uttarakhand Mock", (q) => ukStatic(q) && q.chap !== "CH00"], // boosted after it is built (section 5)
+];
+const ukTestIds = new Set(UK_TESTS.map(([name]) => byName(name).id));
+const smShort: string[] = [];
+let smCombined = 0;
+let smBank = 0;
+function boostFormats(name: string, fits: (q: Q) => boolean) {
+  const t = byName(name);
+  const qs = assigned.get(t.id)!;
+  let need = Math.ceil(SM_TARGET * qs.length) - qs.filter((q) => !isDirect(q)).length;
+  if (need <= 0) return;
+  const cands = free((q) => !isDirect(q) && fits(q));
+  // CMB- first, then the bank; each group in a fixed shuffled order
+  const ordered = [...shuffle(cands.filter((q) => q.srcs)), ...shuffle(cands.filter((q) => !q.srcs))];
+  // swap out direct questions from the chapters the test has most of first, so topic balance holds
+  const chapCount: Record<string, number> = {};
+  qs.forEach((q) => (chapCount[q.chap] = (chapCount[q.chap] || 0) + 1));
+  const outs = shuffle(qs.filter(isDirect)).sort((a, b) => chapCount[b.chap] - chapCount[a.chap]);
+  for (const out of outs) {
+    if (need <= 0) break;
+    const i = qs.indexOf(out);
+    const others = qs.filter((_, j) => j !== i);
+    const ok = (r: Q) => !used.has(r.qid) && !clashes(r, others);
+    const rep =
+      ordered.find((r) => ok(r) && r.chap === out.chap && r.diff === out.diff) ??
+      ordered.find((r) => ok(r) && r.chap === out.chap) ??
+      ordered.find((r) => ok(r) && r.diff === out.diff) ??
+      ordered.find(ok);
+    if (!rep) break;
+    used.delete(out.qid);
+    used.add(rep.qid);
+    qs[i] = rep;
+    if (rep.srcs) smCombined++;
+    else smBank++;
+    need--;
+  }
+  if (need > 0) smShort.push(`${name} (${need} short)`);
+}
+for (const [name, fits] of UK_TESTS.slice(0, -1)) boostFormats(name, fits);
+const boostNote = () =>
+  notes.push(
+  `UK statement/match boost (target ${Math.round(SM_TARGET * 100)}% per test): swapped in ${smCombined} CMB- and ${smBank} bank statement/match questions for direct ones.` +
+    (smShort.length ? ` Not enough candidates for: ${smShort.join(", ")}.` : "")
+);
 
 // ---------- 3. Weights (2024-25 benchmark) ----------
 
@@ -649,57 +871,84 @@ function dateKey(q: Q): number {
   return best;
 }
 const caQ = (q: Q) => q.sec === "CA";
-const THEME2_RE =
-  /scheme|yojana|mission|abhiyan|econom|GDP|budget|RBI|index|report|rank|inflation|bank|tax|GST|export|import|trade|fiscal|monetary|investment|growth|survey|policy/i;
+
+// Owner review: named, theme-based CA tests instead of "Set 1-8". Each CA
+// question gets one theme: chapter first (sports, awards, reports), then
+// keywords in the question and its answer, in this priority order.
+const SPORT_RE =
+  /olympic|cricket|football|hockey|tennis|badminton|chess|athlet|medal|championship|tournament|world cup|\bgames\b|sport|boxing|wrestl|shooting|javelin|grand slam|trophy|FIFA|\bIPL\b/i;
+const AWARD_RE = /award|prize|puraskar|ratna|padma|honou?r|conferred|Booker|Nobel|Oscar|Jnanpith|Sahitya Akademi/i;
+const SCITECH_RE =
+  /satellite|ISRO|NASA|space|rocket|missile|DRDO|defen[cs]e|\barmy\b|\bnavy\b|air force|military|joint exercise|naval exercise|warship|submarine|fighter|aircraft carrier|artificial intelligence|\bAI\b|quantum|semiconductor|supercomputer|vaccine|nuclear|scientist|drone|\b[56]G\b|cyber|genome|telescope|lunar|Chandrayaan|Gaganyaan|Aditya-L1/i;
+const ENVIRO_RE =
+  /environment|climate|wildlife|tiger|forest|species|biodiversity|ramsar|wetland|pollution|emission|carbon|\bCOP ?\d|conservation|national park|sanctuary|glacier|renewable|biosphere|elephant|mangrove|coral|heatwave/i;
+const ECON_RE =
+  /econom|GDP|budget|RBI|inflation|\bbank|\btax|GST|export|import|trade|fiscal|monetary|investment|repo rate|rupee|stock|SEBI|FDI|revenue|\bUPI\b|digital payment|currency|disinvest/i;
+const SCHEME_RE = /scheme|yojana|mission|abhiyan|index|report|ranking|ranked|survey|programme|portal|initiative/i;
+const PERSON_RE =
+  /appointed|chief justice|chairman|chairperson|became the first|sworn in|passed away|\bdied\b|\bCEO\b|director general|elected (as )?(the )?(new )?(president|chief|head)/i;
+
+function caTheme(q: Q): string {
+  const t = `${q.en} ${answerOf(q)}`;
+  if (q.chap === "SPT" || SPORT_RE.test(t)) return "SPT";
+  if (q.chap === "AWD" || AWARD_RE.test(t)) return "AWD";
+  if (q.chap === "RPI") return "SCH";
+  if (SCITECH_RE.test(t)) return "SCI";
+  if (ENVIRO_RE.test(t)) return "ENV";
+  if (ECON_RE.test(t)) return "ECO";
+  if (SCHEME_RE.test(t)) return "SCH";
+  if (PERSON_RE.test(t)) return "SPT";
+  return q.chap === "INT" ? "INT" : "NAT";
+}
+
+const CA_SUBJECT = "Current Affairs";
+const CA_REVISION_SUBJECT = "Current Affairs Revision";
+// Themes as listed in the owner review (Uttarakhand CA has its own UK tests).
+// Awards alone has ~60 questions, so it shares a test with environment.
+const CA_THEMES: [string, string, string[]][] = [
+  ["Current Affairs - Theme 1", "CA: International Relations & Summits", ["INT"]],
+  ["Current Affairs - Theme 2", "CA: Schemes, Reports & Indices", ["SCH"]],
+  ["Current Affairs - Month 1", "CA: National Affairs & Governance", ["NAT"]],
+  ["Current Affairs - Month 2", "CA: Economy & Budget", ["ECO"]],
+  ["Current Affairs - Month 3", "CA: Science, Tech, Defence & Space", ["SCI"]],
+  ["Current Affairs - Month 4", "CA: Environment & Awards", ["ENV", "AWD"]],
+  ["Current Affairs - Month 5", "CA: Sports & Persons in News", ["SPT"]],
+];
+// Revision tests: questions dated to those years (month or year mentioned), spread over themes.
+const CA_REVISIONS: [string, string, number, number][] = [
+  ["Current Affairs - Month 6", "CA Revision: 2023-24", 202300, 202499],
+  ["Current Affairs - Month 7", "CA Revision: 2025", 202500, 202599],
+  ["Current Affairs - Month 8", "CA Revision: 2026", 202600, 202699],
+];
+const revisionIds = new Set<string>();
 {
-  // Themes first, from undated questions where possible, so the dated ones stay for the Sets.
-  const t1 = byName("Current Affairs - Theme 1");
-  fill(t1, [free((q) => caQ(q) && q.chap === "INT" && !dateKey(q)), free((q) => caQ(q) && q.chap === "INT")], BENCH_MIX);
-  const t2 = byName("Current Affairs - Theme 2");
-  fill(
-    t2,
-    [
-      free((q) => caQ(q) && q.chap === "RPI" && !dateKey(q)),
-      free((q) => caQ(q) && q.chap === "NAT" && THEME2_RE.test(q.en) && !dateKey(q)),
-      free((q) => caQ(q) && (q.chap === "RPI" || (q.chap === "NAT" && THEME2_RE.test(q.en)))),
-    ],
-    BENCH_MIX
-  );
+  const themeCount: Record<string, number> = {};
+  free(caQ).forEach((q) => (themeCount[caTheme(q)] = (themeCount[caTheme(q)] || 0) + 1));
+  notes.push(`CA pool by theme before allocation: ${JSON.stringify(themeCount)}`);
 
-  // Sets 1-8: the most recent dated questions, in date order, spread evenly; then undated fill.
-  const sets = Array.from({ length: 8 }, (_, i) => byName(`Current Affairs - Month ${i + 1}`));
-  sets.forEach((t, i) => newNames.set(t.id, `Current Affairs Set ${i + 1}`));
-  // Keep enough CA for the Grand Revision and the 12 mocks (14 each).
-  const reserve = 50 + 12 * 14;
-  const pool = free(caQ);
-  const dated = pool.filter((q) => dateKey(q) > 0).sort((a, b) => dateKey(a) - dateKey(b) || a.qid.localeCompare(b.qid));
-  const maxForSets = Math.min(8 * 50, Math.max(0, pool.length - reserve));
-  const useDated = dated.slice(Math.max(0, dated.length - maxForSets));
-  const per = split(useDated.length, Object.fromEntries(sets.map((t) => [t.id, 1])));
-  // walk the dated list in order; a question that repeats one already in the set moves on to the next set
-  let queue = useDated;
-  for (const t of sets) {
-    const mine: Q[] = [];
-    const later: Q[] = [];
-    for (const q of queue) {
-      if (mine.length < per[t.id] && !clashes(q, mine)) mine.push(q);
-      else later.push(q);
-    }
-    take(t.id, mine);
-    queue = later;
+  for (const [seedName, name, from, to] of CA_REVISIONS) {
+    const t = byName(seedName);
+    newNames.set(t.id, name);
+    newSubjects.set(t.id, CA_REVISION_SUBJECT);
+    revisionIds.add(t.id);
+    // pick() interleaves by chapter; interleave by theme instead via a theme-keyed copy
+    const inRange = free((q) => caQ(q) && dateKey(q) >= from && dateKey(q) <= to);
+    const byTheme = new Map(inRange.map((q) => [q.qid, { ...q, chap: caTheme(q) }]));
+    const chosen = pick([...byTheme.values()], t.target, BENCH_MIX, assigned.get(t.id)!).map((x) => byId.get(x.qid)!);
+    take(t.id, chosen);
+    if (chosen.length < t.target) notes.push(`${name}: only ${chosen.length} dated questions available`);
   }
-  for (const t of sets) fill(t, [free((q) => caQ(q) && !dateKey(q))], BENCH_MIX);
-  const first = useDated[0] ? dateKey(useDated[0]) : 0;
-  const last = useDated.length ? dateKey(useDated[useDated.length - 1]) : 0;
-  const fmt = (d: number) => {
-    const m = MONTHS[(d % 100) - 1];
-    return m ? `${m[0].toUpperCase()}${m.slice(1, 3)} ${Math.floor(d / 100)}` : `${Math.floor(d / 100)}`;
-  };
-  notes.push(
-    `CA Sets 1-8: ${useDated.length} dated questions (${first ? fmt(first) : "-"} to ${last ? fmt(last) : "-"}) in date order, ${dated.length} dated available; the rest filled with undated CA.`
-  );
 
+  for (const [seedName, name, keys] of CA_THEMES) {
+    const t = byName(seedName);
+    newNames.set(t.id, name);
+    newSubjects.set(t.id, CA_SUBJECT);
+    fill(t, [free((q) => caQ(q) && keys.includes(caTheme(q)))], BENCH_MIX);
+    const got = assigned.get(t.id)!.length;
+    if (got < t.target) notes.push(`${name}: only ${got} questions on this theme`);
+  }
   const grand = byName("Current Affairs Grand Revision");
+  newSubjects.set(grand.id, CA_REVISION_SUBJECT);
   take(grand.id, chooseByTopic(free(caQ), grand.target, smooth(BENCH.CA), BENCH_MIX, []));
 }
 
@@ -729,7 +978,7 @@ for (const sec of ["HIS", "GEO", "SCI", "POL", "ENV", "ECO", "CA", "UKGK"]) {
   const slots = [
     ...mocks.map((t) => ({ t, n: perMock })),
     ...SECTIONALS[sec].map(([name, n]) => ({ t: byName(name), n })),
-  ];
+  ].filter((s) => !pinned(s.t));
   const n = slots.reduce((s, x) => s + x.n, 0);
   const pool = all.filter((q) => q.sec === sec && (sec !== "UKGK" || !q.isCA));
   deal(chooseByTopic(pool, n, smooth(BENCH[sec]), BENCH_MIX), slots, () => pool, sectionTag, sec);
@@ -737,7 +986,7 @@ for (const sec of ["HIS", "GEO", "SCI", "POL", "ENV", "ECO", "CA", "UKGK"]) {
     const caSlots = [
       ...mocks.map((t) => ({ t, n: UK_CA_PER_MOCK })),
       ...SECTIONALS.UKGK.map(([name]) => ({ t: byName(name), n: UK_CA_PER_MOCK })),
-    ];
+    ].filter((s) => !pinned(s.t));
     const caN = caSlots.reduce((s, x) => s + x.n, 0);
     deal(pick(free(ukCA), caN, BENCH_MIX), caSlots, () => all.filter(ukCA), sectionTag, "UKGK");
   }
@@ -745,13 +994,29 @@ for (const sec of ["HIS", "GEO", "SCI", "POL", "ENV", "ECO", "CA", "UKGK"]) {
 
 {
   const t = byName("Grand Uttarakhand Mock");
-  take(t.id, chooseByTopic(free(ukStatic), t.target, smooth(BENCH.UKGK), UK_MIX, []));
+  if (!pinned(t)) take(t.id, chooseByTopic(free(ukStatic), t.target, smooth(BENCH.UKGK), UK_MIX, []));
+  const [name, fits] = UK_TESTS[UK_TESTS.length - 1];
+  boostFormats(name, fits);
+  boostNote();
 }
 
-// Order: mocks by section (paper order), everything else shuffled.
+// ---------- 5b. Free Sample Mock ----------
+// 50 questions in the full-mock section mix (scaled from 150), from questions in no paid test.
+{
+  const SAMPLE_MIX: Record<string, number> = { HIS: 6, GEO: 5, POL: 8, ECO: 3, ENV: 2, SCI: 5, CA: 5, UKGK: 16 };
+  for (const [sec, n] of Object.entries(SAMPLE_MIX)) {
+    const pool = all.filter((q) => q.sec === sec && (sec !== "UKGK" || !q.isCA));
+    take(FREE_SAMPLE.id, chooseByTopic(pool, n, smooth(BENCH[sec]), BENCH_MIX, assigned.get(FREE_SAMPLE.id)!));
+  }
+}
+
+// Order: mocks by section (paper order), CA revisions by date, everything else shuffled.
 for (const t of tests) {
   const qs = assigned.get(t.id)!;
-  if (t.subject === "Full Mock") {
+  if (pinned(t)) continue;
+  if (revisionIds.has(t.id)) {
+    assigned.set(t.id, shuffle(qs).sort((a, b) => dateKey(a) - dateKey(b)));
+  } else if (t.subject === "Full Mock" || t.id === FREE_SAMPLE.id) {
     const bySec = SECTION_ORDER.flatMap((s) => shuffle(qs.filter((q) => q.sec === s)));
     assigned.set(t.id, bySec);
   } else if (!t.name.startsWith("Statehood")) {
@@ -759,41 +1024,17 @@ for (const t of tests) {
   }
 }
 
-// ---------- 5b. Replace questions deactivated in the database ----------
+// ---------- 5c. Replace questions deactivated in the database ----------
 // A question an admin deactivated (status 'inactive', e.g. after a student
 // report) is swapped in place for an unused one: same section, preferring the
 // same chapter, difficulty and (for current affairs) a nearby date. Every
 // other test stays exactly as allocated. Both the dry run and --apply read
 // the inactive list (read-only), so they agree.
 
-const inactiveIds = new Set<string>();
 const replacements: string[] = [];
 
-async function replaceInactive() {
-  let env: Record<string, string>;
-  try {
-    env = readEnv();
-  } catch {
-    replacements.push("WARNING: .env.local not found, so inactive questions could not be checked");
-    return;
-  }
-  const url = env.NEXT_PUBLIC_SUPABASE_URL || env.SUPABASE_URL;
-  const key = env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    replacements.push("WARNING: Supabase credentials missing, so inactive questions could not be checked");
-    return;
-  }
-  const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
-  for (let from = 0; ; from += 1000) {
-    const { data, error } = await db
-      .from("questions")
-      .select("question_id")
-      .eq("status", "inactive")
-      .range(from, from + 999);
-    if (error) throw new Error(`Could not read inactive questions: ${error.message}`);
-    for (const r of data ?? []) inactiveIds.add(r.question_id as string);
-    if (!data || data.length < 1000) break;
-  }
+function replaceInactive() {
+  replacements.push(...liveWarnings);
   for (const t of tests) {
     const qs = assigned.get(t.id)!;
     qs.forEach((q, i) => {
@@ -845,18 +1086,25 @@ console.log(`  excluded (Review_Flag):  ${flaggedIds.size}`);
 console.log(`  excluded (future date):  ${futureDated.length}` + (futureDated.length ? ` — mention a month after ${Math.floor(NOW_KEY / 100)}-${String(NOW_KEY % 100).padStart(2, "0")}:` : ""));
 for (const f of futureDated) console.log(`    ${f.qid}  (${Math.floor(f.key / 100)}-${String(f.key % 100).padStart(2, "0")})`);
 console.log(`Generated (GEN-) rows:     ${genRows.length}`);
+console.log(
+  `Combined (CMB-) rows:      ${cmbRows.length}` +
+    (cmbRows.length ? `, built from ${heldBack.size} direct questions (kept in the bank, out of tests)` : " — COMBINED_QUESTIONS.xlsx not found")
+);
+if (droppedCombined.length) console.log(`  CMB- left out: ${droppedCombined.join("; ")}`);
 console.log(`Rejected (invalid rows):   ${rejected.length}`);
 console.log(`Duplicate IDs skipped:     ${duplicateIds}`);
-console.log(`Questions to upsert:       ${all.length} (bank ${all.length - genCount}, GEN ${genCount})`);
+const cmbCount = all.filter((q) => q.srcs).length;
+console.log(`Questions to upsert:       ${all.length} (bank ${all.length - genCount}, GEN ${genCount - cmbCount}, CMB ${cmbCount})`);
 if (rejected.length) {
   const why: Record<string, number> = {};
   rejected.forEach((r) => (why[r.reason] = (why[r.reason] || 0) + 1));
   console.log(`  rejected by reason: ${JSON.stringify(why)}`);
 }
 
-console.log(`\nTests (${tests.length} non-CSAT; CSAT 1-6 left empty)`);
+console.log(`\nTests (56 non-CSAT + Free Sample Mock; CSAT 1-6 left empty; * = one of the 20 UK tests)`);
+console.log("  CMB = combined statement/match; Book = from the Uttarakhand MCQ book scans; Chg = questions not in the test in the database now");
 console.log(
-  `${pad("Test", 58)}${lpad("Q", 5)}${lpad("E", 5)}${lpad("M", 5)}${lpad("H", 5)}${lpad("S/M%", 6)}${lpad("GEN", 5)}  Note`
+  `${pad("Test", 50)}${lpad("Q", 5)}${lpad("E", 5)}${lpad("M", 5)}${lpad("H", 5)}${lpad("S/M%", 6)}${lpad("GEN", 5)}${lpad("CMB", 5)}${lpad("Book", 5)}${lpad("Chg", 5)}  Note`
 );
 const short: string[] = [];
 for (const t of tests) {
@@ -865,12 +1113,16 @@ for (const t of tests) {
   const m = qs.filter((q) => q.diff === "Medium").length;
   const h = qs.filter((q) => q.diff === "Hard").length;
   const sm = qs.length ? Math.round((100 * qs.filter(NON_DIRECT).length) / qs.length) : 0;
-  const g = qs.filter((q) => q.gen).length;
-  const name = newNames.get(t.id) ?? t.name;
+  const g = qs.filter((q) => q.gen && !q.srcs).length;
+  const c = qs.filter((q) => q.srcs).length;
+  const book = qs.filter((q) => q.srcFile.startsWith("Uttarakhand MCQ book")).length;
+  const live = liveQids.get(t.id);
+  const chg = live?.length ? qs.filter((q) => !live.includes(q.qid)).length : "-";
+  const name = (ukTestIds.has(t.id) ? "* " : "") + (newNames.get(t.id) ?? t.name);
   const note = qs.length < t.target ? `SHORT by ${t.target - qs.length}` : "";
   if (note) short.push(`${name}: ${qs.length}/${t.target}`);
   console.log(
-    `${pad(name.slice(0, 57), 58)}${lpad(qs.length, 5)}${lpad(e, 5)}${lpad(m, 5)}${lpad(h, 5)}${lpad(sm, 6)}${lpad(g, 5)}  ${note}`
+    `${pad(name.slice(0, 49), 50)}${lpad(qs.length, 5)}${lpad(e, 5)}${lpad(m, 5)}${lpad(h, 5)}${lpad(sm, 6)}${lpad(g, 5)}${lpad(c, 5)}${lpad(book, 5)}${lpad(chg, 5)}  ${note}`
   );
 }
 
@@ -895,14 +1147,21 @@ for (const t of tests) {
   const qs = assigned.get(t.id)!;
   for (let i = 0; i < qs.length; i++)
     for (let j = i + 1; j < qs.length; j++)
-      if (nearDup(qs[i], qs[j])) dupPairs.push(`${newNames.get(t.id) ?? t.name}: ${qs[i].qid} ~ ${qs[j].qid}`);
+      if (clashes(qs[i], [qs[j]])) dupPairs.push(`${newNames.get(t.id) ?? t.name}: ${qs[i].qid} ~ ${qs[j].qid}`);
 }
 console.log(`Near-duplicate pairs inside a test (same answer, similar wording): ${dupPairs.length}`);
 dupPairs.slice(0, 40).forEach((d) => console.log(`  ${d}`));
 const left: Record<string, number> = {};
 all.filter((q) => !used.has(q.qid)).forEach((q) => (left[q.sec] = (left[q.sec] || 0) + 1));
-console.log(`Unused questions left in the bank by section: ${JSON.stringify(left)}`);
-console.log(`Test renames: ${newNames.size} (Current Affairs - Month 1-8 -> Current Affairs Set 1-8)`);
+console.log(`Unused questions left in the bank by section: ${JSON.stringify(left)} (plus ${heldBack.size} held back as CMB- sources)`);
+const ukAll = [...ukTestIds].flatMap((id) => assigned.get(id)!);
+console.log(`20 UK tests, statement/match/other non-direct share: ${Math.round((100 * ukAll.filter(NON_DIRECT).length) / (ukAll.length || 1))}%`);
+console.log("Test names / subjects set by this run:");
+for (const t of tests) {
+  if (newNames.has(t.id) || newSubjects.has(t.id)) {
+    console.log(`  ${t.name} -> ${newNames.get(t.id) ?? t.name}  [${newSubjects.get(t.id) ?? t.subject}]`);
+  }
+}
 
 // An option whose English and Hindi halves carry different numbers was
 // probably split at the wrong " / " (or has a typo in the sheet).
@@ -936,6 +1195,7 @@ if (WRITE_PLAN) {
         Chapter: q.chap,
         Difficulty: q.diff,
         Question_Type: q.qtype,
+        Source_File: q.srcFile,
         Question: q.en.slice(0, 160),
       })
     );
@@ -973,7 +1233,7 @@ async function apply() {
   const missing = tests.filter((t) => !have.has(t.id));
   if (missing.length) {
     throw new Error(
-      `${missing.length} tests are missing (e.g. "${missing[0].name}"). Run supabase/seed-phase6-tests.sql first.`
+      `${missing.length} tests are missing (e.g. "${missing[0].name}"). Run supabase/seed-phase6-tests.sql and schema-phase14-bank-browser.sql first.`
     );
   }
 
@@ -998,6 +1258,9 @@ async function apply() {
     correct_answer: q.ans,
     explanation_english: q.exEn || null,
     explanation_hindi: q.exHi || null,
+    source_file: q.srcFile,
+    question_format: q.qtype || null,
+    section_code: q.sec || null,
     // no `status`: new rows get the column default ('active'), and a question
     // an admin deactivated after a student report stays inactive on re-runs
     updated_at: now,
@@ -1012,7 +1275,9 @@ async function apply() {
         `Upsert failed at rows ${i + 1}-${i + batch.length}: ${error.message}` +
           (/unique|constraint|ON CONFLICT/i.test(error.message)
             ? " — run supabase/schema-phase8-question-bank.sql first."
-            : "")
+            : /source_file|question_format|section_code/.test(error.message)
+              ? " — run supabase/schema-phase14-bank-browser.sql first."
+              : "")
       );
     }
     console.log(`  ${Math.min(i + 500, rows.length)}/${rows.length}`);
@@ -1039,6 +1304,7 @@ async function apply() {
       updated_at: now,
     };
     if (newNames.has(t.id)) patch.test_name = newNames.get(t.id);
+    if (newSubjects.has(t.id)) patch.subject = newSubjects.get(t.id);
     const { error } = await db.from("tests").update(patch).eq("id", t.id);
     if (error) throw new Error(`Updating "${t.name}" failed: ${error.message}`);
   }
@@ -1046,7 +1312,7 @@ async function apply() {
 }
 
 async function main() {
-  await replaceInactive();
+  replaceInactive();
   report();
   if (APPLY) await apply();
   else console.log("\nDry run only. Re-run with --apply to write to the database.");

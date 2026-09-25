@@ -9,7 +9,7 @@ import {
   formatDuration,
   getAttempt,
   getAttemptById,
-  getTest,
+  getAttemptTest,
   getTestQuestions,
   hasEarlierSubmittedAttempt,
   sanitizeAnswers,
@@ -55,7 +55,7 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
     redirect(`/test-platform/attempts/${attempt.id}`);
   }
 
-  const test = await getTest(attempt.test_id);
+  const test = await getAttemptTest(attempt);
   if (!test) notFound();
 
   const questions = await getTestQuestions(test, attempt.start_time);

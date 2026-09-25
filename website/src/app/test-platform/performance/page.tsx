@@ -26,6 +26,7 @@ type AttemptRow = {
   submitted_at: string;
   confidence: unknown;
   error_tags: unknown;
+  question_ids: string[] | null;
 };
 type ResultRow = {
   attempt_id: string;
@@ -60,7 +61,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
 
   const { data: attemptData } = await db
     .from("attempts")
-    .select("id, test_id, percentage, score, total_marks, submitted_at, confidence, error_tags")
+    .select("id, test_id, percentage, score, total_marks, submitted_at, confidence, error_tags, question_ids")
     .eq("user_id", studentId)
     .eq("status", "submitted")
     .order("submitted_at", { ascending: true });
@@ -123,7 +124,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
     if (!t) continue;
     marks = Number(t.marks_per_question);
     penalty = t.negative_marking_enabled ? marks * Number(t.negative_marking_value) : 0;
-    const conf = sanitizeConfidence(a.confidence, t.question_ids);
+    const conf = sanitizeConfidence(a.confidence, a.question_ids ?? t.question_ids);
     for (const q of results.get(a.id)?.question_performance ?? []) {
       if (!q.selected) continue;
       const level: Confidence | "untagged" = (conf[q.question_id] as Confidence | undefined) ?? "untagged";
@@ -151,7 +152,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
 
   // ----- error log across all attempts -----
   const errors = errorBreakdown(
-    all.map((a) => sanitizeErrorTags(a.error_tags, tests.get(a.test_id)?.question_ids ?? []))
+    all.map((a) => sanitizeErrorTags(a.error_tags, a.question_ids ?? tests.get(a.test_id)?.question_ids ?? []))
   );
   const errorTotal = Object.values(errors).reduce((x, y) => x + y, 0);
 

@@ -51,6 +51,7 @@ type Row = {
   percentage: number | null;
   submitted_at: string;
   error_tags: unknown;
+  question_ids: string[] | null;
 };
 
 /** Everything a mentor needs at a glance, from the student's FIRST attempts at each test. */
@@ -58,7 +59,7 @@ export async function getStudentSummary(userId: string, cutoff: Cutoff): Promise
   const db = supabaseAdmin();
   const { data } = await db
     .from("attempts")
-    .select("id, test_id, score, total_marks, percentage, submitted_at, error_tags")
+    .select("id, test_id, score, total_marks, percentage, submitted_at, error_tags, question_ids")
     .eq("user_id", userId)
     .eq("status", "submitted")
     .order("submitted_at", { ascending: true });
@@ -138,7 +139,7 @@ export async function getStudentSummary(userId: string, cutoff: Cutoff): Promise
     lost += qp.filter((q) => q.selected && !q.is_correct).length * penalty;
   }
 
-  const errors = errorBreakdown(firsts.map((a) => sanitizeErrorTags(a.error_tags, (testById.get(a.test_id)?.question_ids as string[]) ?? [])));
+  const errors = errorBreakdown(firsts.map((a) => sanitizeErrorTags(a.error_tags, a.question_ids ?? (testById.get(a.test_id)?.question_ids as string[]) ?? [])));
   const topError = ERROR_TYPES.reduce<ErrorType | null>((best, e) => (errors[e] > 0 && (!best || errors[e] > errors[best]) ? e : best), null);
 
   return {

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
-import { getAttempt, getTest, isPastGrace, sanitizeAnswers, sanitizeConfidence, sanitizeMarked } from "@/lib/tests";
+import { getAttempt, getAttemptTest, isPastGrace, sanitizeAnswers, sanitizeConfidence, sanitizeMarked } from "@/lib/tests";
 
 /**
  * Autosave: the test page calls this every time an answer or review mark
@@ -22,7 +22,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: "This test is already submitted" }, { status: 409 });
   }
 
-  const test = await getTest(attempt.test_id);
+  const test = await getAttemptTest(attempt);
   if (!test) return NextResponse.json({ error: "Test not found" }, { status: 404 });
   if (isPastGrace(attempt, test)) {
     return NextResponse.json({ error: "Time is up" }, { status: 409 });
