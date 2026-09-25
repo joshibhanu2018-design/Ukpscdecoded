@@ -61,21 +61,21 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
     <div className="bg-slate-950 px-4 py-10">
       <div className="container-custom mx-auto max-w-lg">
         <h1 className="mb-6 text-2xl font-bold text-white">
-          चेकआउट <span className="text-slate-400">/ Checkout</span>
+          चेकआउट <span className="text-slate-300">/ Checkout</span>
         </h1>
 
         <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-          <p className="text-sm text-slate-400">आप खरीद रहे हैं / You are purchasing</p>
+          <p className="text-sm text-slate-300">आप खरीद रहे हैं / You are purchasing</p>
           <p className="mt-1 text-lg font-bold text-white">{pkg.package_name}</p>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-2xl font-bold text-white">{formatINR(priceInfo.amount)}</span>
             {priceInfo.isFounding && priceInfo.regularPrice && (
-              <span className="text-sm text-slate-500 line-through">{formatINR(priceInfo.regularPrice)}</span>
+              <span className="text-sm text-slate-300 line-through">{formatINR(priceInfo.regularPrice)}</span>
             )}
           </div>
           {foundingLabel && <p className="mt-1 text-xs font-medium text-yellow-400">{foundingLabel}</p>}
           {seatsRemaining != null && (
-            <p className="mt-1 text-xs text-slate-400">{seatsRemaining} सीटें बाकी / seats left</p>
+            <p className="mt-1 text-xs text-slate-300">{seatsRemaining} सीटें बाकी / seats left</p>
           )}
         </div>
 

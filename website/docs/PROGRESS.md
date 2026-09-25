@@ -123,7 +123,7 @@ on the dashboard are now clickable; a "Free Tests" section lists
   (`UPDATE attempts ... WHERE status = 'in_progress'`), so double-clicks
   and timer/manual races can't create two `results` rows.
 - Scoring: `negative_marking_value` is a *fraction* of
-  `marks_per_question` (0.33 = one-third). `attempts.score` / `percentage`
+  `marks_per_question` (0.25 = one-quarter, UKPSC rule). `attempts.score` / `percentage`
   are authoritative; `results.overall_score` is raw marks. Result page
   recomputes from `attempts.answers`, so it's correct even if the
   analytics insert failed.
@@ -207,7 +207,7 @@ pages read the new columns).
   (`attempts.confidence`).
 - **Result page:** attempt strategy (attempted %, marks gained, lost to
   negative marking, net), guess analysis (accuracy and net marks per
-  sureness level vs the 24.8% break-even, plus a personal rule such as
+  sureness level vs the break-even (20% at 1/4 marking), plus a personal rule such as
   "attempt only if you can rule out 2"), weakest topics, and "Why did this go
   wrong?" tags on each wrong/skipped question — concept / recall / misread /
   silly / time (`attempts.error_tags`).
@@ -262,6 +262,50 @@ pages read the new columns).
   Prelims Pack, Premium Test Series and Crash Course. Default hours give 30
   slots/week — exactly one per seat; add a window in Admin → Mentorship if
   you want spare slots.
+
+**Test-taking fixes (Batch 1 of NEXT_TASKS.md, 25 Sep 2026).** SQL:
+`schema-phase13-marking-reports.sql` — **required before deploying** (the
+exam/result pages read `questions.deactivated_at`).
+- **Negative marking is 1/4.** SQL sets every test to 0.25 (and the column
+  default), then re-scores already-submitted attempts from
+  `results.question_performance` so stored scores match the result page.
+  Admin builder, API default, loader and seed file use 0.25; break-even
+  accuracy is now 20% (computed, not hard-coded). Instructions say
+  "one-quarter" only when the fraction is exactly 0.25.
+- **Option split fix.** `splitOption()` in the loader: many cells had the
+  Hindi's leading number cut into its own part (`100 meters per decade /
+  100 / मीटर प्रति दशक`, `August 15, 1947 / 15 / अगस्त 1947`); a short part
+  whose numbers the English already has now goes back to the Hindi. The dry
+  run lists options whose English and Hindi numbers differ: 414 → 147; the
+  rest are genuine sheet differences (ordinals like "5th Rank"/"पांचवां",
+  figures only in one language) plus a few real data errors for review
+  (e.g. UKGK-CH14-0286 C `1984`/`1982`, UKGK-CH11-0320 C, CA-NAT-0553 D).
+  The allocation is unchanged (plan compared row by row: 0 differences), so
+  `--apply` only rewrites option text and sets 0.25 on the 56 tests. The
+  loader no longer writes `status`, so re-runs don't reactivate withdrawn
+  questions.
+- **Report error / गलती बताएँ** on every question in the answer review
+  (reason + optional note) → `question_reports`; one open report per student
+  per question, 30 reports/day cap. Admin → Question Reports
+  (`/test-platform/admin/reports`): open reports grouped by question
+  (most-reported first) with both languages, answer key, explanation, the
+  tests containing it, and Resolve / Deactivate (audit-logged).
+- **Withdrawn questions:** `status = 'inactive'` + `deactivated_at`. A
+  question is left out of attempts *started after* it was withdrawn;
+  attempts started before keep it, so past results render and score as
+  taken. The test page's question count still shows `question_ids.length`.
+- **Language:** instructions are one English list then one Hindi list (side
+  by side from 768px). The answer review follows the same हिंदी/EN choice as
+  the exam (shared `LangToggle`, `localStorage` key `ukpsc_test_lang`),
+  falling back to the other language where a translation is missing. The
+  toggle is now 44px tall with a yellow border and filled active side.
+- **Readability:** on dark backgrounds, `text-slate-400/500` → `slate-300`
+  site-wide (217 places; `hover:`/`placeholder:` variants untouched), navbar
+  English labels and dark footer text → `graphite-300`. The white-background
+  pages (ebooks, legal, articles) keep their greys, which already pass AA.
+- Checked at 375 / 768 / 1280 px with sample data (exam header + toggle,
+  answer review in both languages, report form, instructions, courses page).
+  Not yet run against the live DB with the new SQL.
 
 **Legal pages.** `/privacy`, `/refund-policy`, `/contact` (plus existing
 `/terms`), linked from the footer, checkout and course pages; in the
@@ -409,6 +453,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
 | `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
 | `seed-phase12-mentorship-cutoff.sql` | Mentorship 30 seats + weekly-format text, cutoff 110/150 setting | Not run (after phase 11) |
+| `schema-phase13-marking-reports.sql` | Negative marking 0.25 on every test + re-score submitted attempts, `questions.deactivated_at`, `question_reports` | Not run — **required before deploying Batch 1**; then re-run the loader with `--apply` |
 
 ## Environment variables
 

@@ -64,7 +64,7 @@ export type GuessAnalysis = { buckets: GuessBucket[]; breakEvenAccuracy: number;
 /**
  * Accuracy and net marks by how sure the student was. With negative marking
  * a bucket is worth attempting only above the break-even accuracy
- * (penalty / (marks + penalty) — 24.8% for UKPSC's 1/3 rule).
+ * (penalty / (marks + penalty) — 20% for UKPSC's 1/4 rule).
  */
 export function guessAnalysis(
   items: { question: FullQuestion; answers: Answers; confidence: Confidences; test: Marking }[]
@@ -73,7 +73,7 @@ export function guessAnalysis(
   const map = new Map(order.map((l) => [l, { level: l, attempted: 0, correct: 0, accuracy: null, net: 0 } as GuessBucket]));
   let tagged = 0;
   let marks = 1;
-  let penalty = 0.33;
+  let penalty = 0.25;
 
   for (const { question: q, answers, confidence, test } of items) {
     const a = answers[q.id];

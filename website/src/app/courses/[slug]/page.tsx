@@ -92,7 +92,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-800 bg-slate-900/95 p-3 backdrop-blur lg:hidden">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs text-slate-400">कीमत / Price</p>
+            <p className="text-xs text-slate-300">कीमत / Price</p>
             <p className="text-lg font-bold text-white">{formatINR(priceInfo.amount)}</p>
           </div>
           {owned ? (
@@ -180,7 +180,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <PlayCircle className="h-6 w-6 text-yellow-500" />
               <div>
                 <p className="font-semibold text-white">फ्री डेमो देखें / Watch Free Demo</p>
-                <p className="text-xs text-slate-400">जल्द आ रहा है / Coming soon</p>
+                <p className="text-xs text-slate-300">जल्द आ रहा है / Coming soon</p>
               </div>
             </div>
           </section>
@@ -206,12 +206,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {testList.length > 0 && (
             <section>
               <h2 className="mb-4 text-lg font-bold text-white">
-                टेस्ट लिस्ट / Test List <span className="text-slate-400">({testList.length})</span>
+                टेस्ट लिस्ट / Test List <span className="text-slate-300">({testList.length})</span>
               </h2>
               <div className="space-y-6">
                 {Object.entries(testsBySubject).map(([subject, tests]) => (
                   <div key={subject}>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{subject}</p>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-300">{subject}</p>
                     <div className="space-y-2">
                       {tests.map((t) => {
                         const releaseLabel = t.release_at ? formatDateLabel(t.release_at) : null;
@@ -222,7 +222,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                             className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm"
                           >
                             <span className="font-medium text-slate-200">{t.test_name}</span>
-                            <div className="flex items-center gap-3 text-xs text-slate-400">
+                            <div className="flex items-center gap-3 text-xs text-slate-300">
                               {t.total_questions && <span>{t.total_questions} प्रश्न / Q</span>}
                               {t.duration_minutes && (
                                 <span className="flex items-center gap-1">
@@ -253,7 +253,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 {pkg.faq.map((f, i) => (
                   <details key={i} className="rounded-lg border border-slate-800 bg-slate-900/60 p-4">
                     <summary className="cursor-pointer text-sm font-semibold text-slate-200">{f.question}</summary>
-                    <p className="mt-2 text-sm text-slate-400">{f.answer}</p>
+                    <p className="mt-2 text-sm text-slate-300">{f.answer}</p>
                   </details>
                 ))}
               </div>
@@ -270,26 +270,26 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             <dl className="space-y-2 text-sm text-slate-300">
               {pkg.total_tests && (
                 <div className="flex justify-between">
-                  <dt className="text-slate-500">Total Tests</dt>
+                  <dt className="text-slate-300">Total Tests</dt>
                   <dd>{pkg.total_tests}</dd>
                 </div>
               )}
               {pkg.total_questions && (
                 <div className="flex justify-between">
-                  <dt className="text-slate-500">Total Questions</dt>
+                  <dt className="text-slate-300">Total Questions</dt>
                   <dd>{pkg.total_questions}</dd>
                 </div>
               )}
               {validityLabel && (
                 <div className="flex justify-between">
-                  <dt className="text-slate-500">वैधता / Validity</dt>
+                  <dt className="text-slate-300">वैधता / Validity</dt>
                   <dd>{validityLabel}</dd>
                 </div>
               )}
             </dl>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5 text-sm text-slate-400">
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5 text-sm text-slate-300">
             <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-white">
               <ShieldCheck className="h-4 w-4 text-yellow-500" /> रिफंड नीति / Refund Policy
             </h3>

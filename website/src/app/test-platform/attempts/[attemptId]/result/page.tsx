@@ -18,7 +18,7 @@ import {
   sanitizeErrorTags,
 } from "@/lib/tests";
 import { attemptStrategy, CONFIDENCE_LABEL, guessAnalysis, guessRule } from "@/lib/analysis";
-import ErrorTagger from "@/components/ErrorTagger";
+import AnswerReview from "@/components/AnswerReview";
 import { getCutoff, isFullMock, scaleToPaper } from "@/lib/performance";
 import { supabaseAdmin } from "@/lib/supabase";
 import { xpForAttempt } from "@/lib/gamification";
@@ -34,7 +34,7 @@ function Stat({ icon, label, value, tone }: { icon: React.ReactNode; label: stri
     <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
       <div className={`mb-2 ${tone}`}>{icon}</div>
       <div className="text-xl font-bold text-white">{value}</div>
-      <div className="text-xs text-slate-400">{label}</div>
+      <div className="text-xs text-slate-300">{label}</div>
     </div>
   );
 }
@@ -58,7 +58,7 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   const test = await getTest(attempt.test_id);
   if (!test) notFound();
 
-  const questions = await getTestQuestions(test);
+  const questions = await getTestQuestions(test, attempt.start_time);
   const answers = sanitizeAnswers(attempt.answers, test.question_ids);
   // Recomputed from the stored answers rather than read from `results`,
   // so the page is correct even if the analytics insert ever failed.
@@ -89,16 +89,16 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
       <div className="mx-auto max-w-4xl">
-        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-yellow-500">
+        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
           <ArrowLeft className="h-4 w-4" /> Dashboard
         </Link>
 
         <h1 className="text-2xl font-bold text-white">{test.test_name}</h1>
-        <p className="mt-1 text-sm text-slate-400">परिणाम / Result</p>
+        <p className="mt-1 text-sm text-slate-300">परिणाम / Result</p>
 
         <div className="mt-6 rounded-2xl border border-yellow-500/30 bg-yellow-500/5 p-6 text-center">
           <div className="text-4xl font-bold text-yellow-500">
-            {r.score} <span className="text-2xl text-slate-400">/ {r.totalMarks}</span>
+            {r.score} <span className="text-2xl text-slate-300">/ {r.totalMarks}</span>
           </div>
           <div className="mt-1 text-sm text-slate-300">{r.percentage}%</div>
           {xpEarned > 0 && (
@@ -109,14 +109,14 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
           {cutoff && scaled !== null && (
             <p className={`mt-2 text-sm font-semibold ${scaled >= cutoff.cutoff ? "text-green-400" : "text-red-400"}`}>
               अनुमानित कट-ऑफ {cutoff.cutoff}: {scaled >= cutoff.cutoff ? `${Math.round((scaled - cutoff.cutoff) * 10) / 10} ऊपर` : `${Math.round((cutoff.cutoff - scaled) * 10) / 10} नीचे`}{" "}
-              <span className="font-normal text-slate-400">
+              <span className="font-normal text-slate-300">
                 / Expected cutoff {cutoff.cutoff}: you&apos;re {Math.round(Math.abs(scaled - cutoff.cutoff) * 10) / 10}{" "}
                 {scaled >= cutoff.cutoff ? "above" : "below"}
               </span>
             </p>
           )}
           {percentile !== null && (
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-slate-300">
               आपने {percentile}% छात्रों से बेहतर किया / You scored higher than {percentile}% of students
             </p>
           )}
@@ -125,7 +125,7 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <Stat icon={<CheckCircle2 className="h-5 w-5" />} label="Correct" value={String(r.correct)} tone="text-green-400" />
           <Stat icon={<XCircle className="h-5 w-5" />} label="Wrong" value={String(r.wrong)} tone="text-red-400" />
-          <Stat icon={<MinusCircle className="h-5 w-5" />} label="Skipped" value={String(r.unattempted)} tone="text-slate-400" />
+          <Stat icon={<MinusCircle className="h-5 w-5" />} label="Skipped" value={String(r.unattempted)} tone="text-slate-300" />
           <Stat
             icon={<Target className="h-5 w-5" />}
             label="Accuracy"
@@ -149,7 +149,7 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
         <section className="mt-10 grid gap-4 lg:grid-cols-2">
           <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
             <h2 className="font-semibold text-white">
-              प्रयास रणनीति <span className="text-slate-400">/ Attempt strategy</span>
+              प्रयास रणनीति <span className="text-slate-300">/ Attempt strategy</span>
             </h2>
             <dl className="mt-3 space-y-1.5 text-sm">
               <div className="flex justify-between text-slate-300">
@@ -172,7 +172,7 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
               </div>
             </dl>
             {strategy.negativeLost > 0 && (
-              <p className="mt-3 text-xs text-slate-400">
+              <p className="mt-3 text-xs text-slate-300">
                 गलत उत्तरों ने {strategy.negativeLost} अंक काटे। / Wrong answers cost you {strategy.negativeLost} marks —{" "}
                 that&apos;s {Math.round((strategy.negativeLost / Math.max(1, strategy.marksGained)) * 100)}% of what you earned.
               </p>
@@ -181,17 +181,17 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
 
           <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
             <h2 className="font-semibold text-white">
-              अनुमान विश्लेषण <span className="text-slate-400">/ Guess analysis</span>
+              अनुमान विश्लेषण <span className="text-slate-300">/ Guess analysis</span>
             </h2>
             {guesses.tagged === 0 ? (
-              <p className="mt-3 text-sm text-slate-400">
+              <p className="mt-3 text-sm text-slate-300">
                 अगले टेस्ट में हर उत्तर पर &quot;कितने निश्चित?&quot; चुनें। / Next time, tag &quot;How sure?&quot; on your answers to see
                 which guesses earn marks.
               </p>
             ) : (
               <>
                 <table className="mt-3 w-full text-sm">
-                  <thead className="text-xs text-slate-500">
+                  <thead className="text-xs text-slate-300">
                     <tr>
                       <th className="py-1 text-left font-medium">When</th>
                       <th className="py-1 text-right font-medium">Attempted</th>
@@ -215,7 +215,7 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
                       ))}
                   </tbody>
                 </table>
-                <p className="mt-2 text-[11px] text-slate-500">
+                <p className="mt-2 text-[11px] text-slate-300">
                   Guessing pays only above {guesses.breakEvenAccuracy}% accuracy with this test&apos;s negative marking.
                 </p>
                 {rule && (
@@ -232,13 +232,13 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
         {weakTopics.length > 0 && (
           <section className="mt-10">
             <h2 className="mb-3 font-semibold text-white">
-              कमज़ोर टॉपिक <span className="text-slate-400">/ Weakest topics in this test</span>
+              कमज़ोर टॉपिक <span className="text-slate-300">/ Weakest topics in this test</span>
             </h2>
             <ul className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900/60 text-sm">
               {weakTopics.map(([name, t]) => (
                 <li key={name} className="flex items-center justify-between gap-3 px-4 py-2">
                   <span className="min-w-0 truncate text-slate-300">{name}</span>
-                  <span className="flex-shrink-0 text-slate-400">
+                  <span className="flex-shrink-0 text-slate-300">
                     {t.correct}/{t.total} correct
                   </span>
                 </li>
@@ -250,11 +250,11 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
         {subjects.length > 1 && (
           <section className="mt-10">
             <h2 className="mb-3 font-semibold text-white">
-              विषयवार प्रदर्शन <span className="text-slate-400">/ Subject-wise</span>
+              विषयवार प्रदर्शन <span className="text-slate-300">/ Subject-wise</span>
             </h2>
             <div className="overflow-x-auto rounded-2xl border border-slate-800">
               <table className="w-full text-sm">
-                <thead className="bg-slate-800/60 text-xs text-slate-400">
+                <thead className="bg-slate-800/60 text-xs text-slate-300">
                   <tr>
                     <th className="px-4 py-2 text-left font-medium">Subject</th>
                     <th className="px-4 py-2 text-right font-medium">Correct</th>
@@ -279,76 +279,7 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
           </section>
         )}
 
-        <section className="mt-10">
-          <h2 className="mb-3 font-semibold text-white">
-            उत्तर समीक्षा <span className="text-slate-400">/ Answer Review</span>
-          </h2>
-          <ol className="space-y-4">
-            {questions.map((q, i) => {
-              const selected = answers[q.id] ?? null;
-              const status = selected === null ? "skipped" : selected === q.correct_answer ? "correct" : "wrong";
-              return (
-                <li key={q.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-                  <div className="mb-2 flex items-center justify-between gap-3 text-xs">
-                    <span className="font-semibold text-yellow-500">Q{i + 1}</span>
-                    <span
-                      className={
-                        status === "correct"
-                          ? "text-green-400"
-                          : status === "wrong"
-                            ? "text-red-400"
-                            : "text-slate-500"
-                      }
-                    >
-                      {status === "correct" ? "Correct / सही" : status === "wrong" ? "Wrong / गलत" : "Skipped / छोड़ा"}
-                    </span>
-                  </div>
-                  <p className="whitespace-pre-line text-sm text-white">{q.text_hindi}</p>
-                  {q.text_english && q.text_english !== q.text_hindi && (
-                    <p className="mt-1 whitespace-pre-line text-sm text-slate-400">{q.text_english}</p>
-                  )}
-                  <ul className="mt-3 space-y-1.5">
-                    {q.options.map((o) => {
-                      if (!o.hindi && !o.english) return null;
-                      const isCorrect = o.key === q.correct_answer;
-                      const isPicked = o.key === selected;
-                      return (
-                        <li
-                          key={o.key}
-                          className={`rounded-lg border px-3 py-2 text-sm ${
-                            isCorrect
-                              ? "border-green-500/50 bg-green-500/10 text-green-200"
-                              : isPicked
-                                ? "border-red-500/50 bg-red-500/10 text-red-200"
-                                : "border-slate-800 text-slate-300"
-                          }`}
-                        >
-                          <span className="font-semibold">{o.key}.</span> {o.hindi || o.english}
-                          {o.english && o.hindi && o.english !== o.hindi && (
-                            <span className="text-slate-500"> / {o.english}</span>
-                          )}
-                          {isPicked && <span className="ml-2 text-xs opacity-80">(your answer)</span>}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  {status !== "correct" && isOwner && (
-                    <ErrorTagger attemptId={attempt.id} questionId={q.id} initial={errorTags[q.id] ?? null} />
-                  )}
-                  {(q.explanation_hindi || q.explanation_english) && (
-                    <div className="mt-3 rounded-lg bg-slate-800/60 p-3 text-sm text-slate-300">
-                      <span className="font-semibold text-yellow-500">व्याख्या / Explanation: </span>
-                      {q.explanation_hindi && <p className="mt-1 whitespace-pre-line">{q.explanation_hindi}</p>}
-                      {q.explanation_english && q.explanation_english !== q.explanation_hindi && (
-                        <p className="mt-1 whitespace-pre-line text-slate-400">{q.explanation_english}</p>
-                      )}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </section>
+        <AnswerReview attemptId={attempt.id} questions={questions} answers={answers} errorTags={errorTags} isOwner={isOwner} />
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link

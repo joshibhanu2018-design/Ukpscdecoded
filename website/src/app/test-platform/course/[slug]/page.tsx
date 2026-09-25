@@ -75,11 +75,11 @@ export default async function MyCourseTestsPage({ params }: { params: Promise<{ 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-3xl">
-        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-yellow-500">
+        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
           <ArrowLeft className="h-4 w-4" /> मेरे कोर्स / My Courses
         </Link>
         <h1 className="text-2xl font-bold text-white">{pkg.package_name}</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <p className="mt-1 text-sm text-slate-300">
           {done} / {tests.length} टेस्ट पूरे / tests completed
         </p>
 
@@ -97,21 +97,21 @@ export default async function MyCourseTestsPage({ params }: { params: Promise<{ 
         )}
 
         {tests.length === 0 && (
-          <p className="mt-8 rounded-2xl border border-dashed border-slate-700 p-6 text-center text-slate-400">
+          <p className="mt-8 rounded-2xl border border-dashed border-slate-700 p-6 text-center text-slate-300">
             टेस्ट जल्द जोड़े जाएँगे। / Tests will be added soon.
           </p>
         )}
 
         {groups.map((g) => (
           <section key={g.subject} className="mt-8">
-            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">{g.subject}</h2>
+            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-300">{g.subject}</h2>
             <ul className="divide-y divide-slate-800 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
               {g.tests.map((t) => {
                 const s = summaries.get(t.id);
                 const released = isTestReleased(t);
                 const hasQuestions = (t.question_ids?.length ?? 0) > 0;
                 const meta = (
-                  <span className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-slate-500">
+                  <span className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-slate-300">
                     <span className="flex items-center gap-1">
                       <FileQuestion className="h-3 w-3" /> {t.total_questions ?? t.question_ids?.length ?? 0} Q
                     </span>
@@ -127,10 +127,10 @@ export default async function MyCourseTestsPage({ params }: { params: Promise<{ 
                   return (
                     <li key={t.id} className="flex items-center justify-between gap-3 px-4 py-3">
                       <div className="min-w-0">
-                        <p className="truncate text-sm text-slate-400">{t.test_name}</p>
+                        <p className="truncate text-sm text-slate-300">{t.test_name}</p>
                         {meta}
                       </div>
-                      <span className="flex flex-shrink-0 items-center gap-1 text-right text-[11px] text-slate-500">
+                      <span className="flex flex-shrink-0 items-center gap-1 text-right text-[11px] text-slate-300">
                         <Lock className="h-3 w-3" />
                         {!released ? formatDateLabel(t.release_at) : "जल्द / Soon"}
                       </span>

@@ -163,7 +163,7 @@ export default function PackageCard({
       <div className="mt-3 flex items-baseline gap-2">
         <span className="text-2xl font-bold text-white">{formatINR(priceInfo.amount)}</span>
         {savings && (
-          <span className="text-sm text-slate-500 line-through">{formatINR(savings.componentTotal)}</span>
+          <span className="text-sm text-slate-300 line-through">{formatINR(savings.componentTotal)}</span>
         )}
       </div>
 
@@ -176,14 +176,14 @@ export default function PackageCard({
       )}
 
       {seatsRemaining !== null && (
-        <p className={`mt-1 flex items-center gap-1.5 text-xs ${soldOut ? "text-red-400" : "text-slate-400"}`}>
+        <p className={`mt-1 flex items-center gap-1.5 text-xs ${soldOut ? "text-red-400" : "text-slate-300"}`}>
           <Users className="h-3.5 w-3.5" />
           {soldOut ? "All seats full" : `${seatsRemaining} seat${seatsRemaining === 1 ? "" : "s"} left`}
         </p>
       )}
 
       {pkg.access_valid_till && (
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-xs text-slate-300">
           Access valid till{" "}
           {new Date(`${pkg.access_valid_till}T00:00:00`).toLocaleDateString("en-IN", {
             day: "numeric",
@@ -209,11 +209,11 @@ export default function PackageCard({
             Purchased
           </div>
         ) : !paymentsEnabled ? (
-          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-400">
-            बिक्री जल्द शुरू <span className="text-slate-500">/ Sales open soon</span>
+          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-300">
+            बिक्री जल्द शुरू <span className="text-slate-300">/ Sales open soon</span>
           </div>
         ) : soldOut ? (
-          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-400">
+          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-300">
             All seats are full
           </div>
         ) : (
@@ -254,7 +254,7 @@ export default function PackageCard({
             ) : (
               <button
                 onClick={() => setShowCodeField(true)}
-                className="mb-3 flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-yellow-400"
+                className="mb-3 flex items-center gap-1.5 text-xs font-medium text-slate-300 hover:text-yellow-400"
               >
                 <Tag className="h-3.5 w-3.5" /> Have a coupon or referral code?
               </button>
@@ -268,9 +268,9 @@ export default function PackageCard({
               {status === "loading" && <Loader2 className="h-4 w-4 animate-spin" />}
               Buy Now
             </button>
-            <p className="mt-2 text-center text-[11px] leading-snug text-slate-500">
+            <p className="mt-2 text-center text-[11px] leading-snug text-slate-300">
               खाता साझा करने पर बिना रिफंड के निलंबन होगा।{" "}
-              <span className="text-slate-600">
+              <span className="text-slate-300">
                 / Account sharing leads to suspension without refund.
               </span>{" "}
               <Link href="/terms" className="underline hover:text-slate-400">

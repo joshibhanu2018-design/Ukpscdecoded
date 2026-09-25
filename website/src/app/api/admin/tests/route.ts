@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   const testName = typeof body?.test_name === "string" ? body.test_name.trim() : "";
   const duration = Number(body?.duration_minutes);
   const marks = body?.marks_per_question === undefined ? 1 : Number(body.marks_per_question);
-  const negative = body?.negative_marking_value === undefined ? 0.33 : Number(body.negative_marking_value);
+  const negative = body?.negative_marking_value === undefined ? 0.25 : Number(body.negative_marking_value);
   const isFree = body?.is_free_test === true;
   const packageIds: string[] = Array.isArray(body?.package_ids)
     ? body.package_ids.filter((id: unknown): id is string => typeof id === "string")

@@ -145,13 +145,13 @@ export default function ExcelParser() {
           <span className="font-medium text-yellow-500">Click to upload</span> an .xlsx or .csv file
           <input type="file" accept=".xlsx,.xls,.csv" onChange={handleFile} className="hidden" />
         </label>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-xs text-slate-300">
           Columns: QuestionID, Subject, Topic, Subtopic, Difficulty, Year, QuestionHindi,
           QuestionEnglish, OptionAHindi, OptionAEnglish, OptionBHindi, OptionBEnglish,
           OptionCHindi, OptionCEnglish, OptionDHindi, OptionDEnglish, CorrectAnswer (A/B/C/D),
           ExplanationHindi, ExplanationEnglish
         </p>
-        {fileName && <p className="mt-2 text-xs text-slate-400">Selected: {fileName}</p>}
+        {fileName && <p className="mt-2 text-xs text-slate-300">Selected: {fileName}</p>}
       </div>
 
       {parseError && (
@@ -171,7 +171,7 @@ export default function ExcelParser() {
                   <th className="px-3 py-2">Correct</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-400">
+              <tbody className="divide-y divide-slate-800 text-slate-300">
                 {rows.slice(0, 8).map((r, i) => (
                   <tr key={i}>
                     <td className="px-3 py-2">{r.subject}</td>
@@ -182,7 +182,7 @@ export default function ExcelParser() {
               </tbody>
             </table>
             {rows.length > 8 && (
-              <p className="border-t border-slate-800 px-3 py-2 text-xs text-slate-500">
+              <p className="border-t border-slate-800 px-3 py-2 text-xs text-slate-300">
                 +{rows.length - 8} more rows
               </p>
             )}

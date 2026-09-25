@@ -30,9 +30,9 @@ export default function ReferralCard({
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
       <h3 className="font-semibold text-white">
-        दोस्तों को रेफर करें <span className="text-slate-400">/ Refer Friends</span>
+        दोस्तों को रेफर करें <span className="text-slate-300">/ Refer Friends</span>
       </h3>
-      <p className="mt-1 text-xs text-slate-500">
+      <p className="mt-1 text-xs text-slate-300">
         Friends get ₹200 off their first purchase. You get ₹200 store credit when they buy.
       </p>
 
@@ -58,7 +58,7 @@ export default function ReferralCard({
         <Share2 className="h-4 w-4" /> Share on WhatsApp
       </a>
 
-      <p className="mt-3 text-xs text-slate-400">
+      <p className="mt-3 text-xs text-slate-300">
         Store credit: <span className="font-semibold text-white">₹{(storeCreditPaise / 100).toFixed(0)}</span>
       </p>
     </div>

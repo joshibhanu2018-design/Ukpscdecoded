@@ -163,7 +163,7 @@ export default function PaidCoursePage() {
                 className={`px-6 py-3 font-semibold whitespace-nowrap transition-all ${
                   selectedTab === tab
                     ? 'text-orange-400 border-b-2 border-orange-400'
-                    : 'text-slate-400 hover:text-slate-300'
+                    : 'text-slate-300 hover:text-white'
                 }`}
               >
                 {tab === 'overview' && 'Overview'}
@@ -216,7 +216,7 @@ export default function PaidCoursePage() {
               {courseModules.map((module, idx) => (
                 <div key={idx} className="bg-slate-800 rounded-xl p-8 border border-slate-700">
                   <h3 className="text-2xl font-bold text-orange-400 mb-2">{module.title}</h3>
-                  <p className="text-slate-400 mb-6">{module.description}</p>
+                  <p className="text-slate-300 mb-6">{module.description}</p>
                   <ul className="space-y-3">
                     {module.items.map((item, itemIdx) => (
                       <li key={itemIdx} className="flex items-start gap-3 text-slate-300">
@@ -247,7 +247,7 @@ export default function PaidCoursePage() {
                     </div>
                     <div className="flex-1 pt-2">
                       <h4 className="text-xl font-bold text-white mb-2">{item.title}</h4>
-                      <p className="text-slate-400">{item.desc}</p>
+                      <p className="text-slate-300">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -264,7 +264,7 @@ export default function PaidCoursePage() {
                   <div key={idx} className="bg-slate-800 rounded-xl p-8 border border-slate-700 hover:border-orange-500/50 transition-all">
                     <Icon className="text-orange-400 mb-4" size={32} />
                     <h4 className="text-lg font-bold text-white mb-2">{feature.text}</h4>
-                    <p className="text-slate-400 text-sm">{feature.desc}</p>
+                    <p className="text-slate-300 text-sm">{feature.desc}</p>
                   </div>
                 );
               })}

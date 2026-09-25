@@ -159,14 +159,29 @@ export async function getTestAccess(userId: string, testId: string): Promise<Tes
   return { ok: true, test, enrollmentId: getPackageAccessSource(packageId, enrollments, includes)?.id ?? null };
 }
 
-/** Questions in the test's own order (tests.question_ids), with answers. Server-side only. */
-export async function getTestQuestions(test: Test): Promise<FullQuestion[]> {
+/**
+ * Whether a question belongs to an attempt started at `attemptStart`. A
+ * question withdrawn after review (status 'inactive') is left out of
+ * attempts started after it was withdrawn; attempts already started keep
+ * it, so past results render and score exactly as taken.
+ */
+function inAttempt(q: { status: string | null; deactivated_at: string | null }, attemptStart: string): boolean {
+  if (q.status !== "inactive") return true;
+  if (!q.deactivated_at) return false;
+  return parseUtcTimestamp(q.deactivated_at).getTime() > parseUtcTimestamp(attemptStart).getTime();
+}
+
+/**
+ * Questions of one attempt in the test's own order (tests.question_ids),
+ * with answers. Server-side only. `attemptStart` is attempts.start_time.
+ */
+export async function getTestQuestions(test: Test, attemptStart: string): Promise<FullQuestion[]> {
   if (test.question_ids.length === 0) return [];
 
   const { data, error } = await supabaseAdmin()
     .from("questions")
     .select(
-      "id, subject, topic, question_text_hindi, question_text_english, option_a_hindi, option_a_english, option_b_hindi, option_b_english, option_c_hindi, option_c_english, option_d_hindi, option_d_english, correct_answer, explanation_hindi, explanation_english"
+      "id, subject, topic, question_text_hindi, question_text_english, option_a_hindi, option_a_english, option_b_hindi, option_b_english, option_c_hindi, option_c_english, option_d_hindi, option_d_english, correct_answer, explanation_hindi, explanation_english, status, deactivated_at"
     )
     .in("id", test.question_ids);
 
@@ -175,7 +190,7 @@ export async function getTestQuestions(test: Test): Promise<FullQuestion[]> {
   const byId = new Map(data.map((q) => [q.id as string, q]));
   return test.question_ids
     .map((id) => byId.get(id))
-    .filter((q): q is NonNullable<typeof q> => !!q)
+    .filter((q): q is NonNullable<typeof q> => !!q && inAttempt(q, attemptStart))
     .map((q) => ({
       id: q.id,
       subject: q.subject,
@@ -340,7 +355,7 @@ function bump(map: Record<string, SubjectStat>, key: string, attempted: boolean,
 
 /**
  * Pure scoring. negative_marking_value is a FRACTION of marks_per_question
- * (0.33 = UKPSC's "one-third of the marks for that question" rule), so
+ * (0.25 = UKPSC's "one-quarter of the marks for that question" rule), so
  * the penalty scales correctly if a test uses 2 marks per question.
  */
 export function scoreAttempt(
@@ -410,7 +425,7 @@ export async function finalizeAttempt(
   const confidenceSrc = final && !late ? final.confidence : sanitizeConfidence(attempt.confidence, test.question_ids);
   const confidence: Confidences = Object.fromEntries(Object.entries(confidenceSrc).filter(([id]) => id in answers));
 
-  const questions = await getTestQuestions(test);
+  const questions = await getTestQuestions(test, attempt.start_time);
   const result = scoreAttempt(questions, answers, test);
 
   const now = new Date();

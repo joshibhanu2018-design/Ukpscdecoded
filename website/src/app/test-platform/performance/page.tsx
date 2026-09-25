@@ -117,7 +117,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
   );
   let tagged = 0;
   let marks = 1;
-  let penalty = 0.33;
+  let penalty = 0.25;
   for (const a of firsts) {
     const t = tests.get(a.test_id);
     if (!t) continue;
@@ -165,16 +165,16 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-4xl">
-        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-yellow-500">
+        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
           <ArrowLeft className="h-4 w-4" /> मेरे कोर्स / My Courses
         </Link>
         <h1 className="text-2xl font-bold text-white">
-          मेरा प्रदर्शन <span className="text-slate-400">/ My Performance</span>
+          मेरा प्रदर्शन <span className="text-slate-300">/ My Performance</span>
         </h1>
         {studentLabel && <p className="mt-1 text-sm text-yellow-400">Viewing student: {studentLabel}</p>}
 
         {firsts.length === 0 ? (
-          <p className="mt-8 rounded-2xl border border-dashed border-slate-700 p-6 text-center text-slate-400">
+          <p className="mt-8 rounded-2xl border border-dashed border-slate-700 p-6 text-center text-slate-300">
             पहला टेस्ट देने के बाद यहाँ विश्लेषण दिखेगा। / Your analysis appears here after your first test.
           </p>
         ) : (
@@ -187,7 +187,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
               ].map((s) => (
                 <div key={s.label} className="rounded-xl border border-slate-800 bg-slate-900/60 p-3">
                   <div className="text-lg font-bold text-white">{s.value}</div>
-                  <div className="text-[11px] text-slate-400">{s.label}</div>
+                  <div className="text-[11px] text-slate-300">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -202,10 +202,10 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
               }`}
             >
               <h2 className="font-semibold text-white">
-                कट-ऑफ से दूरी <span className="text-slate-400">/ Gap to expected cutoff ({cutoff.cutoff}/{cutoff.total})</span>
+                कट-ऑफ से दूरी <span className="text-slate-300">/ Gap to expected cutoff ({cutoff.cutoff}/{cutoff.total})</span>
               </h2>
               {summary?.projected == null ? (
-                <p className="mt-2 text-sm text-slate-400">
+                <p className="mt-2 text-sm text-slate-300">
                   एक फुल मॉक दें — अनुमान उसी से बनेगा। / Take a full-length mock — your projection is based on full mocks.
                 </p>
               ) : (
@@ -216,7 +216,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                       {summary.gap! >= 0 ? `+${summary.gap} above` : `${Math.abs(summary.gap!)} below`} cutoff
                     </span>
                   </p>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-slate-300">
                     पिछले {Math.min(PROJECTION_MOCKS, summary.fullMocks.length)} फुल मॉक का औसत। / Average of your latest{" "}
                     {Math.min(PROJECTION_MOCKS, summary.fullMocks.length)} full mock(s), scaled to {cutoff.total} marks.
                     {summary.trend !== null && ` Since your first mock: ${summary.trend > 0 ? "+" : ""}${summary.trend}.`}
@@ -224,7 +224,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                   {summary.gap! < 0 && summary.negativeLostPerMock !== null && summary.negativeLostPerMock > 0 && (
                     <p className="mt-2 text-sm text-slate-300">
                       आप हर मॉक में नेगेटिव से ~{summary.negativeLostPerMock} अंक खो रहे हैं — अनुमान नियम अपनाने से यह अंतर घटेगा।{" "}
-                      <span className="block text-slate-400">
+                      <span className="block text-slate-300">
                         You lose ~{summary.negativeLostPerMock} marks per mock to negative marking — following your guess rule
                         below closes part of this gap.
                       </span>
@@ -232,12 +232,12 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                   )}
                 </>
               )}
-              <p className="mt-2 text-[11px] text-slate-500">Expected cutoff is an estimate, not an official figure.</p>
+              <p className="mt-2 text-[11px] text-slate-300">Expected cutoff is an estimate, not an official figure.</p>
             </section>
 
             <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
               <h2 className="font-semibold text-white">
-                स्कोर ट्रेंड <span className="text-slate-400">/ Score trend (first attempts, %)</span>
+                स्कोर ट्रेंड <span className="text-slate-300">/ Score trend (first attempts, %)</span>
               </h2>
               <div className="mt-4 flex h-40 items-end gap-1 border-b border-slate-700" role="img" aria-label="Score percentage per test, oldest to newest">
                 {trend.map((a, i) => {
@@ -253,7 +253,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                       />
                       <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden w-40 -translate-x-1/2 rounded-lg border border-slate-700 bg-slate-950 px-2 py-1.5 text-[11px] text-slate-200 shadow-xl group-hover:block">
                         <div className="font-semibold">{name}</div>
-                        <div className="text-slate-400">
+                        <div className="text-slate-300">
                           {Number(a.score)}/{Number(a.total_marks)} · {Number(a.percentage)}%
                         </div>
                       </div>
@@ -261,7 +261,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                   );
                 })}
               </div>
-              <p className="mt-1 flex justify-between text-[10px] text-slate-500">
+              <p className="mt-1 flex justify-between text-[10px] text-slate-300">
                 <span>पुराना / Oldest</span>
                 <span>नया / Latest</span>
               </p>
@@ -270,17 +270,17 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
             <section className="mt-8 grid gap-4 lg:grid-cols-2">
               <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
                 <h2 className="font-semibold text-white">
-                  कमज़ोर टॉपिक <span className="text-slate-400">/ Weakest topics</span>
+                  कमज़ोर टॉपिक <span className="text-slate-300">/ Weakest topics</span>
                 </h2>
                 {weakest.length === 0 ? (
-                  <p className="mt-3 text-sm text-slate-400">Needs at least 5 questions per topic — take a few more tests.</p>
+                  <p className="mt-3 text-sm text-slate-300">Needs at least 5 questions per topic — take a few more tests.</p>
                 ) : (
                   <ul className="mt-3 space-y-2 text-sm">
                     {weakest.map((t) => (
                       <li key={t.name}>
                         <div className="flex justify-between gap-3 text-slate-300">
                           <span className="min-w-0 truncate">{t.name}</span>
-                          <span className="flex-shrink-0 text-slate-400">
+                          <span className="flex-shrink-0 text-slate-300">
                             {t.pct}% · {t.correct}/{t.total}
                           </span>
                         </div>
@@ -292,7 +292,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                   </ul>
                 )}
                 {strongest.length > 0 && (
-                  <p className="mt-4 text-xs text-slate-500">
+                  <p className="mt-4 text-xs text-slate-300">
                     सबसे मज़बूत / Strongest: {strongest.map((t) => `${t.name} (${t.pct}%)`).join(", ")}
                   </p>
                 )}
@@ -300,10 +300,10 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
                 <h2 className="font-semibold text-white">
-                  गलतियों के प्रकार <span className="text-slate-400">/ Why answers went wrong</span>
+                  गलतियों के प्रकार <span className="text-slate-300">/ Why answers went wrong</span>
                 </h2>
                 {errorTotal === 0 ? (
-                  <p className="mt-3 text-sm text-slate-400">
+                  <p className="mt-3 text-sm text-slate-300">
                     परिणाम पेज पर गलत उत्तरों को टैग करें। / Tag your wrong answers on each result page to build your error log.
                   </p>
                 ) : (
@@ -316,9 +316,9 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                             <span>
                               {ERROR_LABEL[e].hi} / {ERROR_LABEL[e].en}
                             </span>
-                            <span className="text-slate-400">{errors[e]}</span>
+                            <span className="text-slate-300">{errors[e]}</span>
                           </div>
-                          <p className="text-xs text-slate-500">{ERROR_LABEL[e].fix}</p>
+                          <p className="text-xs text-slate-300">{ERROR_LABEL[e].fix}</p>
                         </li>
                       ))}
                   </ul>
@@ -328,17 +328,17 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
 
             <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
               <h2 className="font-semibold text-white">
-                अनुमान विश्लेषण <span className="text-slate-400">/ Guess analysis (all tests)</span>
+                अनुमान विश्लेषण <span className="text-slate-300">/ Guess analysis (all tests)</span>
               </h2>
               {guess.tagged === 0 ? (
-                <p className="mt-3 text-sm text-slate-400">
+                <p className="mt-3 text-sm text-slate-300">
                   टेस्ट में &quot;कितने निश्चित?&quot; टैग करें। / Tag &quot;How sure?&quot; while answering to get your personal attempt rule.
                 </p>
               ) : (
                 <>
                   <div className="mt-3 overflow-x-auto">
                     <table className="w-full text-sm">
-                      <thead className="text-xs text-slate-500">
+                      <thead className="text-xs text-slate-300">
                         <tr>
                           <th className="py-1 text-left font-medium">When</th>
                           <th className="py-1 text-right font-medium">Attempted</th>
@@ -363,7 +363,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-2 text-[11px] text-slate-500">Guessing pays only above {guess.breakEvenAccuracy}% accuracy.</p>
+                  <p className="mt-2 text-[11px] text-slate-300">Guessing pays only above {guess.breakEvenAccuracy}% accuracy.</p>
                   {rule && (
                     <p className="mt-3 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-200">
                       आपका नियम: {rule.hi}
@@ -376,7 +376,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
 
             <section className="mt-8">
               <h2 className="mb-3 font-semibold text-white">
-                सभी टेस्ट <span className="text-slate-400">/ All tests</span>
+                सभी टेस्ट <span className="text-slate-300">/ All tests</span>
               </h2>
               <ul className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900/60 text-sm">
                 {[...all].reverse().map((a) => (
@@ -386,7 +386,7 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                       className="flex items-center justify-between gap-3 px-4 py-2.5 hover:bg-slate-800/50"
                     >
                       <span className="min-w-0 truncate text-slate-200">{tests.get(a.test_id)?.test_name ?? "Test"}</span>
-                      <span className="flex-shrink-0 text-xs text-slate-400">
+                      <span className="flex-shrink-0 text-xs text-slate-300">
                         {formatDateLabel(parseUtcTimestamp(a.submitted_at).toISOString())} · {Number(a.score)}/{Number(a.total_marks)}
                       </span>
                     </Link>

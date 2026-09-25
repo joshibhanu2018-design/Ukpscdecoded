@@ -42,7 +42,7 @@ export default async function Home() {
         <div className="container-custom mx-auto">
           <div className="mb-8 text-center">
             <h2 className="text-2xl font-bold text-white sm:text-3xl">
-              हमारे कोर्स <span className="text-slate-400">/ Our Courses</span>
+              हमारे कोर्स <span className="text-slate-300">/ Our Courses</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -71,9 +71,9 @@ export default async function Home() {
         <div className="container-custom mx-auto text-center">
           <FileText className="mx-auto mb-3 h-8 w-8 text-yellow-500" />
           <h2 className="text-xl font-bold text-white">
-            फ्री सैंपल टेस्ट <span className="text-slate-400">/ Free Sample Test</span>
+            फ्री सैंपल टेस्ट <span className="text-slate-300">/ Free Sample Test</span>
           </h2>
-          <p className="mt-2 text-sm text-slate-400">जल्द आ रहा है / Coming soon</p>
+          <p className="mt-2 text-sm text-slate-300">जल्द आ रहा है / Coming soon</p>
         </div>
       </section>
 

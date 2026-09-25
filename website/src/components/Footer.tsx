@@ -30,7 +30,7 @@ export default function Footer() {
                 <span className="text-saffron-400">{settings.brandName2}</span>
               </span>
             </div>
-            <p className="text-sm leading-relaxed text-graphite-400">
+            <p className="text-sm leading-relaxed text-graphite-300">
               {footer.aboutText}
             </p>
           </div>
@@ -55,7 +55,7 @@ export default function Footer() {
           {/* Exams Covered */}
           <div>
             <h4 className="font-display font-semibold text-white mb-4">Exams Covered</h4>
-            <ul className="space-y-2 text-sm text-graphite-400">
+            <ul className="space-y-2 text-sm text-graphite-300">
               {footer.exams.map((exam) => (
                 <li key={exam.name}>{exam.name}</li>
               ))}
@@ -96,11 +96,11 @@ export default function Footer() {
                 <Camera className="w-5 h-5" />
               </a>
             </div>
-            <p className="text-sm text-graphite-400">Email: {footer.email}</p>
+            <p className="text-sm text-graphite-300">Email: {footer.email}</p>
           </div>
         </div>
 
-        <div className="border-t border-graphite-800 mt-10 pt-8 text-center text-sm text-graphite-500">
+        <div className="border-t border-graphite-800 mt-10 pt-8 text-center text-sm text-graphite-300">
           <p>
             &copy; {new Date().getFullYear()} {settings.brandName1}{" "}
             {settings.brandName2}. All rights reserved.

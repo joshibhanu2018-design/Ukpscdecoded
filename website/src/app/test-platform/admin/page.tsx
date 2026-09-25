@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { CalendarClock, Users, FileSpreadsheet, ListChecks, Loader2, Shield, Ticket } from "lucide-react";
+import { CalendarClock, Flag, Users, FileSpreadsheet, ListChecks, Loader2, Shield, Ticket } from "lucide-react";
 
 type Admin = { id: string; full_name: string | null; email: string };
 
@@ -12,6 +12,7 @@ const TOOLS = [
   { href: "/test-platform/admin/coupons", icon: Ticket, title: "Coupons & Referrals", sub: "Codes, price locks, referral list" },
   { href: "/test-platform/admin/mentorship", icon: CalendarClock, title: "Mentorship", sub: "Bookings, plans, your hours" },
   { href: "/test-platform/admin/mentees", icon: Users, title: "Mentees", sub: "All mentees vs cutoff, CSV export" },
+  { href: "/test-platform/admin/reports", icon: Flag, title: "Question Reports", sub: "Errors students reported; resolve or deactivate" },
 ];
 
 export default function AdminHomePage() {
@@ -62,14 +63,14 @@ export default function AdminHomePage() {
             <Link key={href} href={href} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-yellow-500/50">
               <Icon className="mb-2 h-5 w-5 text-yellow-500" />
               <div className="font-semibold text-white">{title}</div>
-              <div className="text-xs text-slate-400">{sub}</div>
+              <div className="text-xs text-slate-300">{sub}</div>
             </Link>
           ))}
         </div>
 
         <form action="/test-platform/admin/student" className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <h2 className="font-semibold text-white">Student performance</h2>
-          <p className="mt-1 text-xs text-slate-400">Open a student&apos;s analysis before a mentorship session.</p>
+          <p className="mt-1 text-xs text-slate-300">Open a student&apos;s analysis before a mentorship session.</p>
           <div className="mt-3 flex gap-2">
             <input
               name="email"
@@ -88,7 +89,7 @@ export default function AdminHomePage() {
           <h2 className="flex items-center gap-2 font-semibold text-white">
             <Shield className="h-4 w-4 text-yellow-500" /> Admins
           </h2>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-slate-300">
             Admins log in with their own email code, like students. To add someone, they must log in on the site once first.
           </p>
           <ul className="mt-4 divide-y divide-slate-800 text-sm">
@@ -97,7 +98,7 @@ export default function AdminHomePage() {
                 <span className="min-w-0 truncate text-slate-200">
                   {a.full_name ? `${a.full_name} · ` : ""}
                   {a.email}
-                  {a.id === me && <span className="ml-1 text-xs text-slate-500">(you)</span>}
+                  {a.id === me && <span className="ml-1 text-xs text-slate-300">(you)</span>}
                 </span>
                 {a.id !== me && (
                   <button onClick={() => change(a.email, "remove")} disabled={busy} className="text-xs text-red-300 hover:text-red-200">

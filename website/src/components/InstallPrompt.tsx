@@ -81,14 +81,14 @@ export default function InstallPrompt() {
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-xs font-semibold text-white">
-          ऐप इंस्टॉल करें <span className="text-slate-400">/ Install app</span>
+          ऐप इंस्टॉल करें <span className="text-slate-300">/ Install app</span>
         </p>
         {showIosHint && !deferredPrompt ? (
-          <p className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-400">
+          <p className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-300">
             Tap <Share className="h-3 w-3" /> then &quot;Add to Home Screen&quot;
           </p>
         ) : (
-          <p className="mt-0.5 text-[11px] text-slate-400">Quick access from your home screen</p>
+          <p className="mt-0.5 text-[11px] text-slate-300">Quick access from your home screen</p>
         )}
       </div>
       {deferredPrompt && (
@@ -99,7 +99,7 @@ export default function InstallPrompt() {
           Install
         </button>
       )}
-      <button onClick={dismiss} className="flex-shrink-0 text-slate-500 hover:text-slate-300" aria-label="Dismiss">
+      <button onClick={dismiss} className="flex-shrink-0 text-slate-300 hover:text-white" aria-label="Dismiss">
         <X className="h-4 w-4" />
       </button>
     </div>

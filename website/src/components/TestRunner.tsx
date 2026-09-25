@@ -4,11 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Bookmark, ChevronLeft, ChevronRight, Clock, Grid3X3, Loader2, X } from "lucide-react";
 import type { Answers, Confidence, Confidences, OptionKey, PublicQuestion } from "@/lib/tests";
+import LangToggle, { useTestLang } from "./LangToggle";
 
-type Lang = "hi" | "en";
 type SaveState = "idle" | "saving" | "saved" | "error";
 
-const LANG_KEY = "ukpsc_test_lang";
 const AUTOSAVE_DELAY_MS = 800;
 
 const CONFIDENCE_OPTIONS: { key: Confidence; hi: string; en: string }[] = [
@@ -54,7 +53,7 @@ export default function TestRunner({
   const [visited, setVisited] = useState<Set<string>>(
     () => new Set([...Object.keys(initialAnswers), ...initialMarked, questions[0]?.id].filter(Boolean) as string[])
   );
-  const [lang, setLang] = useState<Lang>("hi");
+  const [lang, changeLang] = useTestLang();
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -83,23 +82,6 @@ export default function TestRunner({
     return () => ro.disconnect();
   }, []);
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(LANG_KEY);
-      if (saved === "hi" || saved === "en") setLang(saved);
-    } catch {
-      /* storage unavailable — default language is fine */
-    }
-  }, []);
-
-  const changeLang = (l: Lang) => {
-    setLang(l);
-    try {
-      localStorage.setItem(LANG_KEY, l);
-    } catch {
-      /* ignore */
-    }
-  };
 
   const payload = () =>
     JSON.stringify({
@@ -290,7 +272,7 @@ export default function TestRunner({
           </button>
         ))}
       </div>
-      <ul className="mt-4 space-y-1.5 text-xs text-slate-400">
+      <ul className="mt-4 space-y-1.5 text-xs text-slate-300">
         <li className="flex items-center gap-2">
           <span className="h-3 w-3 rounded-sm bg-green-600" /> Answered / उत्तर दिया
         </li>
@@ -314,22 +296,12 @@ export default function TestRunner({
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <h1 className="min-w-0 truncate text-sm font-semibold text-white sm:text-base">{testName}</h1>
           <div className="flex items-center gap-2 sm:gap-3">
-            <span className="hidden text-xs text-slate-500 sm:inline">
+            <span className="hidden text-xs text-slate-300 sm:inline">
               {saveState === "saving" && "Saving…"}
               {saveState === "saved" && "Saved"}
               {saveState === "error" && <span className="text-red-300">Offline — will retry</span>}
             </span>
-            <div className="flex overflow-hidden rounded-lg border border-slate-700 text-xs">
-              {(["hi", "en"] as const).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => changeLang(l)}
-                  className={`px-2.5 py-1.5 ${lang === l ? "bg-yellow-500 font-semibold text-slate-900" : "text-slate-300"}`}
-                >
-                  {l === "hi" ? "हिंदी" : "EN"}
-                </button>
-              ))}
-            </div>
+            <LangToggle lang={lang} onChange={changeLang} />
             <div
               className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-sm font-bold ${
                 lowTime ? "bg-red-500/15 text-red-300" : "bg-slate-800 text-white"
@@ -356,7 +328,7 @@ export default function TestRunner({
               <span className="font-semibold text-yellow-500">
                 Question {current + 1} / {questions.length}
               </span>
-              {q.subject && <span className="truncate text-xs text-slate-500">{q.subject}</span>}
+              {q.subject && <span className="truncate text-xs text-slate-300">{q.subject}</span>}
             </div>
 
             <p className="whitespace-pre-line text-base leading-relaxed text-white">
@@ -393,8 +365,8 @@ export default function TestRunner({
 
             {q.id in answers && (
               <div className="mt-4 border-t border-slate-800 pt-3">
-                <p className="mb-2 text-xs text-slate-400">
-                  कितने निश्चित हैं? <span className="text-slate-500">/ How sure are you? (optional, for your guess analysis)</span>
+                <p className="mb-2 text-xs text-slate-300">
+                  कितने निश्चित हैं? <span className="text-slate-300">/ How sure are you? (optional, for your guess analysis)</span>
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {CONFIDENCE_OPTIONS.map((c) => (
@@ -404,7 +376,7 @@ export default function TestRunner({
                       className={`rounded-full border px-3 py-1.5 text-xs ${
                         confidence[q.id] === c.key
                           ? "border-sky-400 bg-sky-500/15 text-sky-200"
-                          : "border-slate-700 text-slate-400 hover:border-slate-500"
+                          : "border-slate-700 text-slate-300 hover:border-slate-500"
                       }`}
                     >
                       {c.hi} / {c.en}
@@ -483,7 +455,7 @@ export default function TestRunner({
           <div className="h-full w-72 max-w-[85vw] overflow-y-auto bg-slate-900 p-4" onClick={(e) => e.stopPropagation()}>
             <div className="mb-4 flex items-center justify-between">
               <span className="font-semibold text-white">Questions</span>
-              <button onClick={() => setPaletteOpen(false)} aria-label="Close" className="text-slate-400">
+              <button onClick={() => setPaletteOpen(false)} aria-label="Close" className="text-slate-300">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -508,19 +480,19 @@ export default function TestRunner({
             <h2 className="text-lg font-bold text-white">Submit test? / टेस्ट सबमिट करें?</h2>
             <dl className="mt-4 grid grid-cols-3 gap-2 text-center">
               <div className="rounded-lg bg-green-600/15 p-2">
-                <dt className="text-[11px] text-slate-400">Answered</dt>
+                <dt className="text-[11px] text-slate-300">Answered</dt>
                 <dd className="text-lg font-bold text-green-300">{answeredCount}</dd>
               </div>
               <div className="rounded-lg bg-slate-800 p-2">
-                <dt className="text-[11px] text-slate-400">Unanswered</dt>
+                <dt className="text-[11px] text-slate-300">Unanswered</dt>
                 <dd className="text-lg font-bold text-white">{questions.length - answeredCount}</dd>
               </div>
               <div className="rounded-lg bg-purple-600/15 p-2">
-                <dt className="text-[11px] text-slate-400">Marked</dt>
+                <dt className="text-[11px] text-slate-300">Marked</dt>
                 <dd className="text-lg font-bold text-purple-300">{markedCount}</dd>
               </div>
             </dl>
-            <p className="mt-4 text-xs text-slate-500">You can&apos;t change answers after submitting.</p>
+            <p className="mt-4 text-xs text-slate-300">You can&apos;t change answers after submitting.</p>
             {submitError && <p className="mt-3 text-sm text-red-300">{submitError}</p>}
             <div className="mt-5 flex gap-3">
               {remaining > 0 && (

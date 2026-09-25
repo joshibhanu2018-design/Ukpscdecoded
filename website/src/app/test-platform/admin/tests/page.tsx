@@ -24,7 +24,7 @@ export default function AdminTestsPage() {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("120");
   const [marks, setMarks] = useState("1");
-  const [negative, setNegative] = useState("0.33");
+  const [negative, setNegative] = useState("0.25");
   const [isFree, setIsFree] = useState(false);
   const [releaseAt, setReleaseAt] = useState("");
   const [selectedPackages, setSelectedPackages] = useState<Set<string>>(new Set());
@@ -50,7 +50,7 @@ export default function AdminTestsPage() {
 
   if (!packages) {
     return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-slate-900 px-4 text-sm text-slate-400">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-slate-900 px-4 text-sm text-slate-300">
         {loadError ?? "Loading…"}
       </div>
     );
@@ -98,7 +98,7 @@ export default function AdminTestsPage() {
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-1 text-2xl font-bold text-white">Create Test</h1>
-        <p className="mb-6 text-sm text-slate-400">
+        <p className="mb-6 text-sm text-slate-300">
           Build a test from questions already imported into the question bank.
         </p>
 
@@ -122,8 +122,8 @@ export default function AdminTestsPage() {
               <input type="number" step="0.01" min={0} max={1} required value={negative} onChange={(e) => setNegative(e.target.value)} className={inputClass} />
             </div>
           </div>
-          <p className="-mt-3 text-xs text-slate-500">
-            Negative is a fraction of the marks per question: 0.33 = one-third deducted per wrong answer, 0 = no negative marking.
+          <p className="-mt-3 text-xs text-slate-300">
+            Negative is a fraction of the marks per question: 0.25 = one-quarter deducted per wrong answer (UKPSC rule), 0 = no negative marking.
           </p>
 
           <div>
@@ -153,11 +153,11 @@ export default function AdminTestsPage() {
                       })
                     }
                   />
-                  {p.package_name} <span className="text-xs text-slate-500">({p.package_type})</span>
+                  {p.package_name} <span className="text-xs text-slate-300">({p.package_type})</span>
                 </label>
               ))}
             </div>
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-xs text-slate-300">
               A combo bundle unlocks its component packages automatically — add the test to the test-series package, not the combo.
             </p>
           </div>
@@ -172,7 +172,7 @@ export default function AdminTestsPage() {
               className={`${inputClass} font-mono`}
               placeholder={"UKGK-001\nUKGK-002\nUKGK-003"}
             />
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-slate-300">
               The questionId column from your import sheet — one per line or comma-separated. You can paste a column straight from Excel.
             </p>
           </div>
@@ -204,7 +204,7 @@ export default function AdminTestsPage() {
                     {t.test_name}
                     {t.is_free_test && <span className="ml-2 text-xs text-green-400">Free</span>}
                   </span>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-slate-300">
                     {t.total_questions} Q · {t.duration_minutes} min
                     {t.release_at && ` · releases ${new Date(t.release_at).toLocaleString("en-IN")}`}
                   </span>

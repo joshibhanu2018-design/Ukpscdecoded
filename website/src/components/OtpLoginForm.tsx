@@ -143,7 +143,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
           {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Mail className="h-5 w-5" />}
           कोड भेजें / Send code
         </button>
-        <p className="text-center text-xs text-slate-500">
+        <p className="text-center text-xs text-slate-300">
           नया ईमेल? खाता अपने-आप बन जाएगा। / New here? Your account is created automatically.
         </p>
       </form>
@@ -162,7 +162,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         <p className="text-sm text-slate-300">
           6 अंकों का कोड भेजा गया: <span className="font-semibold text-white">{email}</span>
           <br />
-          <span className="text-slate-400">We sent a 6-digit code. It&apos;s valid for 10 minutes — check spam too.</span>
+          <span className="text-slate-300">We sent a 6-digit code. It&apos;s valid for 10 minutes — check spam too.</span>
         </p>
         <input
           ref={codeRef}
@@ -194,7 +194,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
               setStep("email");
               setError(null);
             }}
-            className="flex items-center gap-1 text-slate-400 hover:text-slate-200"
+            className="flex items-center gap-1 text-slate-300 hover:text-slate-200"
           >
             <ArrowLeft className="h-4 w-4" /> ईमेल बदलें / Change email
           </button>
@@ -214,7 +214,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
   return (
     <form onSubmit={complete} className="space-y-4">
       <p className="text-sm text-slate-300">
-        स्वागत है! अपना नाम बताएँ। <span className="text-slate-400">/ Welcome! What&apos;s your name?</span>
+        स्वागत है! अपना नाम बताएँ। <span className="text-slate-300">/ Welcome! What&apos;s your name?</span>
       </p>
       <input
         type="text"

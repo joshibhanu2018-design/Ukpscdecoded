@@ -57,7 +57,7 @@ function Section({
   return (
     <section className="mb-10">
       <h2 className="mb-4 text-xl font-bold text-white">
-        {hindiTitle} <span className="text-slate-400">/ {title}</span>
+        {hindiTitle} <span className="text-slate-300">/ {title}</span>
       </h2>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {packages.map((pkg) => {
@@ -139,16 +139,16 @@ export default async function PackageStorePage() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white">
-            पैकेज स्टोर <span className="text-slate-400">/ Package Store</span>
+            पैकेज स्टोर <span className="text-slate-300">/ Package Store</span>
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-300">
             अपनी तैयारी के लिए सही प्लान चुनें{" "}
-            <span className="text-slate-500">/ Choose the right plan for your UKPSC preparation.</span>
+            <span className="text-slate-300">/ Choose the right plan for your UKPSC preparation.</span>
           </p>
         </div>
 
         {allPackages.length === 0 ? (
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center text-slate-400">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center text-slate-300">
             No packages are available yet. Check back soon.
           </div>
         ) : (

@@ -168,7 +168,7 @@ export default function CheckoutForm({
 
         <div className="space-y-3">
           <div>
-            <label className="mb-1 block text-xs font-medium text-slate-400">नाम / Name</label>
+            <label className="mb-1 block text-xs font-medium text-slate-300">नाम / Name</label>
             <input
               value={userName}
               readOnly
@@ -176,7 +176,7 @@ export default function CheckoutForm({
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-slate-400">ईमेल / Email</label>
+            <label className="mb-1 block text-xs font-medium text-slate-300">ईमेल / Email</label>
             <input
               value={userEmail}
               readOnly
@@ -184,7 +184,7 @@ export default function CheckoutForm({
             />
           </div>
           <div>
-            <label htmlFor="phone" className="mb-1 block text-xs font-medium text-slate-400">
+            <label htmlFor="phone" className="mb-1 block text-xs font-medium text-slate-300">
               मोबाइल नंबर / Mobile Number <span className="text-red-400">*</span>
             </label>
             <input
@@ -233,7 +233,7 @@ export default function CheckoutForm({
       <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
         <h2 className="mb-3 text-sm font-bold text-white">भुगतान विवरण / Price Breakdown</h2>
         <dl className="space-y-1.5 text-sm">
-          <div className="flex justify-between text-slate-400">
+          <div className="flex justify-between text-slate-300">
             <dt>मूल्य / Price</dt>
             <dd>{formatINR(total.basePaise / 100)}</dd>
           </div>
@@ -271,9 +271,9 @@ export default function CheckoutForm({
         भुगतान करें / Pay {formatINR(total.finalPaise / 100)}
       </button>
 
-      <p className="text-center text-[11px] leading-snug text-slate-500">
+      <p className="text-center text-[11px] leading-snug text-slate-300">
         खाता साझा करने पर बिना रिफंड के निलंबन होगा।{" "}
-        <span className="text-slate-600">/ Account sharing leads to suspension without refund.</span>{" "}
+        <span className="text-slate-300">/ Account sharing leads to suspension without refund.</span>{" "}
         <Link href="/terms" className="underline hover:text-slate-400">
           Terms
         </Link> ·{" "}

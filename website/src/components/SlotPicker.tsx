@@ -44,7 +44,7 @@ export default function SlotPicker({ slots }: { slots: Slot[] }) {
   };
 
   if (slots.length === 0) {
-    return <p className="text-sm text-slate-400">अभी कोई स्लॉट खाली नहीं है। / No open slots right now — check back soon.</p>;
+    return <p className="text-sm text-slate-300">अभी कोई स्लॉट खाली नहीं है। / No open slots right now — check back soon.</p>;
   }
 
   return (
@@ -75,7 +75,7 @@ export default function SlotPicker({ slots }: { slots: Slot[] }) {
       {picked && (
         <div className="mt-4 space-y-3 rounded-xl border border-slate-800 bg-slate-900 p-4">
           <p className="text-sm text-white">
-            चुना: {dayLabel(picked)}, {timeLabel(picked)} <span className="text-slate-400">(20 min)</span>
+            चुना: {dayLabel(picked)}, {timeLabel(picked)} <span className="text-slate-300">(20 min)</span>
           </p>
           <textarea
             value={note}

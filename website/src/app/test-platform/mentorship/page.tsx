@@ -27,15 +27,15 @@ export default async function MentorshipPage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-3xl">
-        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-yellow-500">
+        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
           <ArrowLeft className="h-4 w-4" /> मेरे कोर्स / My Courses
         </Link>
         <h1 className="text-2xl font-bold text-white">
-          मेंटरशिप <span className="text-slate-400">/ Mentorship</span>
+          मेंटरशिप <span className="text-slate-300">/ Mentorship</span>
         </h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <p className="mt-1 text-sm text-slate-300">
           हर सप्ताह एक 20 मिनट का 1-on-1 सत्र — पहले आओ, पहले पाओ।{" "}
-          <span className="block text-slate-500">One 20-minute 1-on-1 session per week — first come, first served.</span>
+          <span className="block text-slate-300">One 20-minute 1-on-1 session per week — first come, first served.</span>
         </p>
 
         {upcoming.length > 0 && (
@@ -45,7 +45,7 @@ export default async function MentorshipPage() {
                 <p className="flex items-center gap-2 text-sm font-semibold text-green-300">
                   <CalendarCheck className="h-4 w-4" /> बुक है / Booked: {formatSlotIST(b.slot_start)}
                 </p>
-                {b.student_note && <p className="mt-1 text-xs text-slate-400">Topic: {b.student_note}</p>}
+                {b.student_note && <p className="mt-1 text-xs text-slate-300">Topic: {b.student_note}</p>}
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                   {meetLink ? (
                     <a
@@ -57,7 +57,7 @@ export default async function MentorshipPage() {
                       <Video className="h-4 w-4" /> सत्र में जुड़ें / Join session
                     </a>
                   ) : (
-                    <span className="text-xs text-slate-400">Joining link will appear here before the session.</span>
+                    <span className="text-xs text-slate-300">Joining link will appear here before the session.</span>
                   )}
                   {new Date(b.slot_start).getTime() - now > CANCEL_NOTICE_MS && <CancelBookingButton id={b.id} />}
                 </div>
@@ -68,10 +68,10 @@ export default async function MentorshipPage() {
 
         <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <h2 className="mb-4 font-semibold text-white">
-            स्लॉट चुनें <span className="text-slate-400">/ Pick a slot (next 2 weeks)</span>
+            स्लॉट चुनें <span className="text-slate-300">/ Pick a slot (next 2 weeks)</span>
           </h2>
           <SlotPicker slots={open} />
-          <p className="mt-4 text-[11px] text-slate-500">
+          <p className="mt-4 text-[11px] text-slate-300">
             सत्र से 12 घंटे पहले तक रद्द कर सकते हैं। सत्र से पहले अपना प्रदर्शन पेज देखें — हम उसी पर चर्चा करेंगे।
             <span className="block">
               Cancel up to 12 hours before. Before your session, review your{" "}
@@ -86,14 +86,14 @@ export default async function MentorshipPage() {
         {past.length > 0 && (
           <section className="mt-8">
             <h2 className="mb-3 font-semibold text-white">
-              पिछले सत्र <span className="text-slate-400">/ Past sessions & plans</span>
+              पिछले सत्र <span className="text-slate-300">/ Past sessions & plans</span>
             </h2>
             <ul className="space-y-3">
               {past.map((b) => (
                 <li key={b.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-sm">
                   <div className="flex justify-between gap-3">
                     <span className="text-slate-300">{formatSlotIST(b.slot_start)}</span>
-                    <span className="text-xs capitalize text-slate-500">{b.status.replace("_", "-")}</span>
+                    <span className="text-xs capitalize text-slate-300">{b.status.replace("_", "-")}</span>
                   </div>
                   {b.mentor_notes && (
                     <div className="mt-2 whitespace-pre-line rounded-lg bg-slate-800/60 p-3 text-slate-200">

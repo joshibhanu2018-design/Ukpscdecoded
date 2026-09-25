@@ -584,7 +584,7 @@ export default function BuyBookPage() {
                   />
                 </div>
                 <div className="mt-4 text-center">
-                  <p className="text-slate-400 text-sm">{selectedLanguage === 'en' ? '🇬🇧 English' : '🇮🇳 हिंदी'}</p>
+                  <p className="text-slate-300 text-sm">{selectedLanguage === 'en' ? '🇬🇧 English' : '🇮🇳 हिंदी'}</p>
                   <p className="text-white font-bold mt-2">UTTARAKHAND Decoded</p>
                   <p className="text-orange-400 font-bold mt-1">₹499</p>
                 </div>
@@ -643,7 +643,7 @@ export default function BuyBookPage() {
                   </div>
                   <button 
                     onClick={() => setSelectedChapter('')} 
-                    className="text-slate-400 hover:text-white"
+                    className="text-slate-300 hover:text-white"
                   >
                     <X size={24} />
                   </button>
@@ -657,11 +657,11 @@ export default function BuyBookPage() {
                       className="w-full cursor-pointer group relative rounded-lg overflow-hidden bg-slate-900 border-2 border-dashed border-slate-600 hover:border-orange-500 transition-all p-12"
                     >
                       <div className="text-center">
-                        <Eye className="mx-auto mb-3 text-slate-500 group-hover:text-orange-500 transition-colors" size={60} />
+                        <Eye className="mx-auto mb-3 text-slate-300 group-hover:text-orange-500 transition-colors" size={60} />
                         <p className="text-slate-300 group-hover:text-orange-400 font-bold text-lg">
                           {selectedLanguage === 'en' ? 'Click to View Full PDF' : 'पूरी पीडीएफ देखने के लिए क्लिक करें'}
                         </p>
-                        <p className="text-slate-500 text-sm mt-2">
+                        <p className="text-slate-300 text-sm mt-2">
                           {selectedLanguage === 'en' ? 'Opens in new browser tab' : 'नए ब्राउज़र टैब में खुलता है'}
                         </p>
                       </div>
@@ -840,7 +840,7 @@ export default function BuyBookPage() {
                     : '💳 ' + (selectedLanguage === 'en' ? 'Proceed to Payment (₹499)' : 'भुगतान करें (₹499)')}
                 </button>
 
-                <p className="text-slate-400 text-xs text-center">
+                <p className="text-slate-300 text-xs text-center">
                   {selectedLanguage === 'en' 
                     ? '🔒 Your payment is secure and encrypted with Razorpay' 
                     : '🔒 आपका भुगतान Razorpay द्वारा सुरक्षित है'}

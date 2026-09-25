@@ -196,7 +196,7 @@ export default function TestSeriesPage() {
             <p className="text-sm font-semibold text-yellow-600">
               🚀 Test Series Launched: September 25, 2026
             </p>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-300">
               📝 Free Sample Tests - Coming Soon
             </p>
           </div>
@@ -236,7 +236,7 @@ export default function TestSeriesPage() {
                 </div>
                 <p className="text-slate-300 text-sm mb-6">{pkg.description}</p>
                 <p className="text-3xl font-bold text-white mb-6">{pkg.price}</p>
-                <div className="space-y-2 mb-6 text-sm text-slate-400">
+                <div className="space-y-2 mb-6 text-sm text-slate-300">
                   {pkg.features.map((f, i) => <p key={i}>{f}</p>)}
                 </div>
                 <p className="text-yellow-600 text-sm font-semibold mb-4">Best For: {pkg.bestFor}</p>
@@ -258,7 +258,7 @@ export default function TestSeriesPage() {
                 </div>
                 <p className="text-slate-300 text-sm mb-6">{pkg.description}</p>
                 <p className="text-3xl font-bold text-white mb-6">{pkg.price}</p>
-                <div className="space-y-2 mb-6 text-sm text-slate-400">
+                <div className="space-y-2 mb-6 text-sm text-slate-300">
                   {pkg.features.map((f, i) => <p key={i}>{f}</p>)}
                 </div>
                 <p className="text-yellow-600 text-sm font-semibold mb-4">Best For: {pkg.bestFor}</p>
@@ -286,7 +286,7 @@ export default function TestSeriesPage() {
                 </div>
                 <p className="text-slate-300 text-sm mb-6">{pkg.description}</p>
                 <p className="text-3xl font-bold text-white mb-6">{pkg.price}</p>
-                <div className="space-y-2 mb-6 text-sm text-slate-400">
+                <div className="space-y-2 mb-6 text-sm text-slate-300">
                   {pkg.features.map((f, i) => <p key={i}>{f}</p>)}
                 </div>
                 <p className="text-yellow-600 text-sm font-semibold mb-4">Best For: {pkg.bestFor}</p>
@@ -324,16 +324,16 @@ export default function TestSeriesPage() {
                 </div>
 
                 <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-yellow-600/30 rounded-xl p-8 text-center flex flex-col justify-center">
-                  <p className="text-sm text-slate-400 uppercase tracking-wide mb-2">Premium Bundle Price</p>
+                  <p className="text-sm text-slate-300 uppercase tracking-wide mb-2">Premium Bundle Price</p>
                   <p className="text-5xl font-bold text-white mb-2">{pkg.price}</p>
-                  <p className="text-slate-400 line-through text-lg mb-6">{pkg.originalPrice}</p>
+                  <p className="text-slate-300 line-through text-lg mb-6">{pkg.originalPrice}</p>
                   <div className="bg-yellow-600/10 border border-yellow-600/30 rounded-lg p-4 mb-8">
                     <p className="text-yellow-600 font-semibold text-sm">✓ Save ₹447 (22% discount)</p>
                   </div>
                   <button onClick={() => setShowRegistration(true)} className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-lg mb-4">
                     Get Premium Bundle
                   </button>
-                  <p className="text-xs text-slate-400">Lifetime access • Instant activation</p>
+                  <p className="text-xs text-slate-300">Lifetime access • Instant activation</p>
                 </div>
               </div>
             </div>
@@ -345,7 +345,7 @@ export default function TestSeriesPage() {
       {showRegistration && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl max-w-md w-full p-8 relative">
-            <button onClick={() => setShowRegistration(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+            <button onClick={() => setShowRegistration(false)} className="absolute top-4 right-4 text-slate-300 hover:text-white transition-colors">
               <X size={24} />
             </button>
 

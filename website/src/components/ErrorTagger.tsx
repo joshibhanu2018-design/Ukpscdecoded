@@ -42,14 +42,14 @@ export default function ErrorTagger({
 
   return (
     <div className="mt-3">
-      <p className="mb-1.5 text-xs text-slate-400">गलती क्यों हुई? / Why did this go wrong?</p>
+      <p className="mb-1.5 text-xs text-slate-300">गलती क्यों हुई? / Why did this go wrong?</p>
       <div className="flex flex-wrap gap-1.5">
         {OPTIONS.map((o) => (
           <button
             key={o.key}
             onClick={() => pick(o.key)}
             className={`rounded-full border px-2.5 py-1 text-[11px] ${
-              tag === o.key ? "border-sky-400 bg-sky-500/15 text-sky-200" : "border-slate-700 text-slate-400 hover:border-slate-500"
+              tag === o.key ? "border-sky-400 bg-sky-500/15 text-sky-200" : "border-slate-700 text-slate-300 hover:border-slate-500"
             }`}
           >
             {o.label}

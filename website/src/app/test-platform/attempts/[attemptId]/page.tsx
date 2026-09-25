@@ -43,7 +43,7 @@ export default async function AttemptPage({ params }: { params: Promise<{ attemp
 
   // Answers and explanations are stripped here — only the public shape
   // ever reaches the browser while the test is running.
-  const questions = (await getTestQuestions(test)).map(toPublicQuestion);
+  const questions = (await getTestQuestions(test, attempt.start_time)).map(toPublicQuestion);
 
   return (
     <TestRunner

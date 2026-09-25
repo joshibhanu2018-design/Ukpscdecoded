@@ -40,6 +40,9 @@ const SEED_FILE = path.join(WEBSITE, "supabase", "seed-phase6-tests.sql");
 const ENV_FILE = path.join(WEBSITE, ".env.local");
 const PLAN_FILE = path.join(DATA_DIR, "TEST_ALLOCATION_PLAN.xlsx");
 
+// UKPSC Prelims: a quarter of the question's marks is deducted per wrong answer.
+const NEGATIVE_FRACTION = 0.25;
+
 // ---------- types ----------
 
 type Diff = "Easy" | "Medium" | "Hard";
@@ -117,23 +120,41 @@ function split(total: number, weights: Record<string, number>): Record<string, n
   return Object.fromEntries(keys.map((k, i) => [k, out[i]]));
 }
 
+const NUMERIC = /^[\d.,\s%₹-]+$/;
+
+/** Digits in a string (Devanagari digits folded to ASCII, thousands commas ignored), sorted. */
+const numbersIn = (s: string) =>
+  (s.replace(/[०-९]/g, (c) => String(c.charCodeAt(0) - 0x966)).replace(/(\d),(?=\d)/g, "$1").match(/\d+(?:\.\d+)?/g) ?? [])
+    .sort()
+    .join(" ");
+
 /**
  * "English / Hindi" option cell -> parts. The split point is the last " / "
- * before the first Devanagari character. Cells without Hindi keep the same
- * text in both languages (numbers, names), except pure number pairs such as
- * "100,86,292 / 1,00,86,292".
+ * before the first part containing Devanagari. Many cells have the Hindi's
+ * leading number cut off into its own part ("100 meters per decade / 100 /
+ * मीटर प्रति दशक", "August 15, 1947 / 15 / अगस्त 1947"): a short part with a
+ * number the English already contains goes back onto the Hindi side.
+ * Cells without Hindi keep the same text in both languages (numbers, names),
+ * except pure number pairs such as "100,86,292 / 1,00,86,292".
  */
 function splitOption(raw: string): { en: string; hi: string } {
   const s = raw.trim();
-  const d = s.search(DEV);
-  if (d > 0) {
-    const j = s.lastIndexOf(" / ", d);
-    if (j > 0) return { en: s.slice(0, j).trim(), hi: s.slice(j + 3).trim() };
-    return { en: s, hi: s };
-  }
-  if (d === 0) return { en: s, hi: s };
   const parts = s.split(" / ");
-  if (parts.length === 2 && parts.every((p) => /^[\d.,\s%₹-]+$/.test(p))) {
+  const k = parts.findIndex((p) => DEV.test(p));
+  if (k > 0) {
+    const en = parts.slice(0, k);
+    let hi = parts.slice(k).join(" / ").trim();
+    const last = en[en.length - 1].trim();
+    const restNums = new Set(numbersIn(en.slice(0, -1).join(" ")).split(" "));
+    const lastNums = numbersIn(last).split(" ");
+    if (en.length > 1 && last.length <= 20 && /\d/.test(last) && lastNums.every((n) => restNums.has(n))) {
+      en.pop();
+      hi = `${last} ${hi}`;
+    }
+    return { en: en.join(" / ").trim(), hi };
+  }
+  if (k === 0) return { en: s, hi: s };
+  if (parts.length === 2 && parts.every((p) => NUMERIC.test(p))) {
     return { en: parts[0].trim(), hi: parts[1].trim() };
   }
   return { en: s, hi: s };
@@ -808,6 +829,19 @@ const left: Record<string, number> = {};
 all.filter((q) => !used.has(q.qid)).forEach((q) => (left[q.sec] = (left[q.sec] || 0) + 1));
 console.log(`Unused questions left in the bank by section: ${JSON.stringify(left)}`);
 console.log(`Test renames: ${newNames.size} (Current Affairs - Month 1-8 -> Current Affairs Set 1-8)`);
+
+// An option whose English and Hindi halves carry different numbers was
+// probably split at the wrong " / " (or has a typo in the sheet).
+const numberMismatch: string[] = [];
+for (const q of all) {
+  q.opts.forEach((o, i) => {
+    if (o.en !== o.hi && numbersIn(o.en) !== numbersIn(o.hi)) {
+      numberMismatch.push(`${q.qid} ${"ABCD"[i]}: "${o.en}" | "${o.hi}"${used.has(q.qid) ? "  [in a test]" : ""}`);
+    }
+  });
+}
+console.log(`Options whose English and Hindi numbers differ: ${numberMismatch.length}`);
+numberMismatch.forEach((m) => console.log(`  ${m}`));
 console.log("\nNotes:");
 notes.forEach((n) => console.log(`  - ${n}`));
 
@@ -887,7 +921,8 @@ async function apply() {
     correct_answer: q.ans,
     explanation_english: q.exEn || null,
     explanation_hindi: q.exHi || null,
-    status: "active",
+    // no `status`: new rows get the column default ('active'), and a question
+    // an admin deactivated after a student report stays inactive on re-runs
     updated_at: now,
   }));
 
@@ -920,7 +955,12 @@ async function apply() {
   console.log(`Updating ${tests.length} tests...`);
   for (const t of tests) {
     const ids = assigned.get(t.id)!.map((q) => uuid.get(q.qid)!);
-    const patch: Record<string, unknown> = { question_ids: ids, total_questions: ids.length, updated_at: now };
+    const patch: Record<string, unknown> = {
+      question_ids: ids,
+      total_questions: ids.length,
+      negative_marking_value: NEGATIVE_FRACTION,
+      updated_at: now,
+    };
     if (newNames.has(t.id)) patch.test_name = newNames.get(t.id);
     const { error } = await db.from("tests").update(patch).eq("id", t.id);
     if (error) throw new Error(`Updating "${t.name}" failed: ${error.message}`);

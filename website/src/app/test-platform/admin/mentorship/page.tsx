@@ -71,7 +71,7 @@ export default function AdminMentorshipPage() {
             {b.users?.full_name} · {b.users?.email}
             {b.users?.phone && ` · ${b.users.phone}`}
           </p>
-          {b.student_note && <p className="mt-1 text-xs text-slate-400">Topic: {b.student_note}</p>}
+          {b.student_note && <p className="mt-1 text-xs text-slate-300">Topic: {b.student_note}</p>}
         </div>
         <Link href={`/test-platform/performance?user=${b.user_id}`} className="text-xs text-yellow-400 hover:underline">
           Performance →
@@ -102,7 +102,7 @@ export default function AdminMentorshipPage() {
             Cancel
           </button>
         )}
-        <span className="self-center text-[11px] capitalize text-slate-500">{b.status.replace("_", "-")}</span>
+        <span className="self-center text-[11px] capitalize text-slate-300">{b.status.replace("_", "-")}</span>
       </div>
     </li>
   );
@@ -110,7 +110,7 @@ export default function AdminMentorshipPage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-8">
       <div className="mx-auto max-w-4xl">
-        <Link href="/test-platform/admin" className="text-sm text-slate-400 hover:text-yellow-500">
+        <Link href="/test-platform/admin" className="text-sm text-slate-300 hover:text-yellow-500">
           ← Admin
         </Link>
         <h1 className="mt-2 text-2xl font-bold text-white">Mentorship sessions</h1>
@@ -118,12 +118,12 @@ export default function AdminMentorshipPage() {
 
         <section className="mt-6">
           <h2 className="mb-3 font-semibold text-white">Upcoming ({upcoming.length})</h2>
-          {upcoming.length === 0 ? <p className="text-sm text-slate-400">No upcoming bookings.</p> : <ul className="space-y-3">{upcoming.map(bookingCard)}</ul>}
+          {upcoming.length === 0 ? <p className="text-sm text-slate-300">No upcoming bookings.</p> : <ul className="space-y-3">{upcoming.map(bookingCard)}</ul>}
         </section>
 
         <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <h2 className="font-semibold text-white">Meeting link</h2>
-          <p className="mt-1 text-xs text-slate-400">One fixed Google Meet / Zoom link, shown to students with a booking.</p>
+          <p className="mt-1 text-xs text-slate-300">One fixed Google Meet / Zoom link, shown to students with a booking.</p>
           <div className="mt-3 flex gap-2">
             <input value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://meet.google.com/xxx-xxxx-xxx" className={`${input} min-w-0 flex-1`} />
             <button onClick={() => act({ action: "set_link", value: link }, "Link saved")} className="rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-slate-900">
@@ -169,7 +169,7 @@ export default function AdminMentorshipPage() {
             {blocked.map((d) => (
               <li key={d.day} className="flex items-center justify-between py-1">
                 <span>
-                  {d.day} {d.note && <span className="text-slate-500">· {d.note}</span>}
+                  {d.day} {d.note && <span className="text-slate-300">· {d.note}</span>}
                 </span>
                 <button onClick={() => act({ action: "unblock_date", day: d.day }, "Unblocked")} className="text-xs text-red-300">
                   Remove
@@ -184,7 +184,7 @@ export default function AdminMentorshipPage() {
               Block day
             </button>
           </div>
-          <p className="mt-2 text-[11px] text-slate-500">Blocking a day hides its slots; existing bookings that day stay — cancel them above if needed.</p>
+          <p className="mt-2 text-[11px] text-slate-300">Blocking a day hides its slots; existing bookings that day stay — cancel them above if needed.</p>
         </section>
 
         {recent.length > 0 && (

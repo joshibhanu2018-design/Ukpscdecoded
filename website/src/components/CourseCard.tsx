@@ -33,7 +33,7 @@ export default function CourseCard({
           {pkg.highlights.length > 0 && (
             <ul className="mt-2 space-y-1">
               {pkg.highlights.slice(0, 4).map((h) => (
-                <li key={h} className="flex items-start gap-1.5 text-xs text-slate-400">
+                <li key={h} className="flex items-start gap-1.5 text-xs text-slate-300">
                   <Check className="mt-0.5 h-3 w-3 flex-shrink-0 text-yellow-500" /> {h}
                 </li>
               ))}

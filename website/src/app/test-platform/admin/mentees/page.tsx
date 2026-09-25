@@ -37,13 +37,13 @@ export default async function MenteesPage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-8">
       <div className="mx-auto max-w-6xl">
-        <Link href="/test-platform/admin" className="text-sm text-slate-400 hover:text-yellow-500">
+        <Link href="/test-platform/admin" className="text-sm text-slate-300 hover:text-yellow-500">
           ← Admin
         </Link>
         <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold text-white">Mentees ({mentees.length})</h1>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-300">
               Projected = average of the latest {PROJECTION_MOCKS} full mocks, first attempts only. Sorted: furthest below
               cutoff first.
             </p>
@@ -60,11 +60,11 @@ export default async function MenteesPage() {
         </div>
 
         {rows.length === 0 ? (
-          <p className="mt-8 text-sm text-slate-400">No mentorship students yet.</p>
+          <p className="mt-8 text-sm text-slate-300">No mentorship students yet.</p>
         ) : (
           <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-800">
             <table className="w-full min-w-[900px] text-sm">
-              <thead className="bg-slate-800/60 text-xs text-slate-400">
+              <thead className="bg-slate-800/60 text-xs text-slate-300">
                 <tr>
                   <th className="px-3 py-2 text-left font-medium">Student</th>
                   <th className="px-3 py-2 text-right font-medium">Tests</th>
@@ -88,7 +88,7 @@ export default async function MenteesPage() {
                         <Link href={`/test-platform/performance?user=${m.id}`} className="font-medium text-white hover:text-yellow-400">
                           {m.full_name || m.email}
                         </Link>
-                        <div className="text-[11px] text-slate-500">{m.phone ?? m.email}</div>
+                        <div className="text-[11px] text-slate-300">{m.phone ?? m.email}</div>
                       </td>
                       <td className="px-3 py-2 text-right">{s.testsTaken}</td>
                       <td className="px-3 py-2 text-right">{s.fullMocks.length}</td>
@@ -103,7 +103,7 @@ export default async function MenteesPage() {
                       <td className={`px-3 py-2 text-xs ${idle !== null && idle >= 7 ? "text-red-300" : ""}`}>
                         {idle === null ? "never" : idle === 0 ? "today" : `${idle}d ago`}
                       </td>
-                      <td className="px-3 py-2 text-xs">{nextByUser.has(m.id) ? fmt(nextByUser.get(m.id)!) : <span className="text-slate-500">not booked</span>}</td>
+                      <td className="px-3 py-2 text-xs">{nextByUser.has(m.id) ? fmt(nextByUser.get(m.id)!) : <span className="text-slate-300">not booked</span>}</td>
                     </tr>
                   );
                 })}
@@ -111,7 +111,7 @@ export default async function MenteesPage() {
             </table>
           </div>
         )}
-        <p className="mt-3 text-[11px] text-slate-500">Red &quot;Last test&quot; = no test for 7+ days. Click a name for the full analysis.</p>
+        <p className="mt-3 text-[11px] text-slate-300">Red &quot;Last test&quot; = no test for 7+ days. Click a name for the full analysis.</p>
       </div>
     </div>
   );

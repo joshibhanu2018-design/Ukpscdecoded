@@ -25,7 +25,7 @@ export default function CutoffForm({ cutoff, total }: { cutoff: number; total: n
       Expected cutoff <input value={c} onChange={(e) => setC(e.target.value)} inputMode="decimal" className={input} /> out of{" "}
       <input value={t} onChange={(e) => setT(e.target.value)} inputMode="decimal" className={input} />
       <button className="rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-slate-900">Save</button>
-      {msg && <span className="text-xs text-slate-400">{msg}</span>}
+      {msg && <span className="text-xs text-slate-300">{msg}</span>}
     </form>
   );
 }

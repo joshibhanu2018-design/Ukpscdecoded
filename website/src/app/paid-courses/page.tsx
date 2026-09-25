@@ -190,7 +190,7 @@ export default function PaidCoursesPage() {
               <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 rounded-xl border border-orange-500/30 mb-6">
                 <p className="text-orange-400 text-sm mb-2">PRICE</p>
                 <p className="text-4xl font-bold text-white">{crashCourseDetails.price}</p>
-                <p className="text-slate-400 text-sm mt-2">Limited time offer - 8 week crash course</p>
+                <p className="text-slate-300 text-sm mt-2">Limited time offer - 8 week crash course</p>
               </div>
 
               <button onClick={() => setShowRegistration(true)} className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all">
@@ -234,7 +234,7 @@ export default function PaidCoursesPage() {
                 className={`px-6 py-3 font-semibold whitespace-nowrap transition-all ${
                   selectedTab === tab
                     ? 'text-orange-400 border-b-2 border-orange-400'
-                    : 'text-slate-400 hover:text-slate-300'
+                    : 'text-slate-300 hover:text-white'
                 }`}
               >
                 {tab === 'overview' && 'Overview'}
@@ -287,7 +287,7 @@ export default function PaidCoursesPage() {
               {courseModules.map((module, idx) => (
                 <div key={idx} className="bg-slate-800 rounded-xl p-8 border border-slate-700">
                   <h3 className="text-2xl font-bold text-orange-400 mb-2">{module.title}</h3>
-                  <p className="text-slate-400 mb-6">{module.description}</p>
+                  <p className="text-slate-300 mb-6">{module.description}</p>
                   <ul className="space-y-3">
                     {module.items.map((item, itemIdx) => (
                       <li key={itemIdx} className="flex items-start gap-3 text-slate-300">
@@ -318,7 +318,7 @@ export default function PaidCoursesPage() {
                     </div>
                     <div className="flex-1 pt-2">
                       <h4 className="text-xl font-bold text-white mb-2">{item.title}</h4>
-                      <p className="text-slate-400">{item.desc}</p>
+                      <p className="text-slate-300">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -335,7 +335,7 @@ export default function PaidCoursesPage() {
                   <div key={idx} className="bg-slate-800 rounded-xl p-8 border border-slate-700 hover:border-orange-500/50 transition-all">
                     <Icon className="text-orange-400 mb-4" size={32} />
                     <h4 className="text-lg font-bold text-white mb-2">{feature.text}</h4>
-                    <p className="text-slate-400 text-sm">{feature.desc}</p>
+                    <p className="text-slate-300 text-sm">{feature.desc}</p>
                   </div>
                 );
               })}
@@ -361,7 +361,7 @@ export default function PaidCoursesPage() {
       {showRegistration && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl max-w-md w-full p-8 relative">
-            <button onClick={() => setShowRegistration(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+            <button onClick={() => setShowRegistration(false)} className="absolute top-4 right-4 text-slate-300 hover:text-white transition-colors">
               ✕
             </button>
 

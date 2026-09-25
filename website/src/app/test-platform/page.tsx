@@ -39,8 +39,8 @@ function StatTile({ icon, label, value, sub }: { icon: React.ReactNode; label: s
     <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4">
       <div className="mb-1.5 text-yellow-500">{icon}</div>
       <div className="text-lg font-bold text-white sm:text-xl">{value}</div>
-      <div className="text-[11px] text-slate-400 sm:text-xs">{label}</div>
-      {sub && <div className="text-[11px] text-slate-500">{sub}</div>}
+      <div className="text-[11px] text-slate-300 sm:text-xs">{label}</div>
+      {sub && <div className="text-[11px] text-slate-300">{sub}</div>}
     </div>
   );
 }
@@ -97,11 +97,11 @@ export default async function MyCoursesPage({
       <div className="mx-auto max-w-5xl">
         <div className="mb-6 flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-300">
               नमस्ते, <span className="text-yellow-500">{firstName}</span>
             </p>
             <h1 className="text-2xl font-bold text-white">
-              मेरे कोर्स <span className="text-slate-400">/ My Courses</span>
+              मेरे कोर्स <span className="text-slate-300">/ My Courses</span>
             </h1>
           </div>
           <div className="flex flex-shrink-0 items-center gap-2">
@@ -164,7 +164,7 @@ export default async function MyCoursesPage({
 
                     {progress && (
                       <div className="mt-3">
-                        <div className="mb-1 flex justify-between text-xs text-slate-400">
+                        <div className="mb-1 flex justify-between text-xs text-slate-300">
                           <span>प्रगति / Progress</span>
                           <span>
                             {progress.testsDone} / {progress.totalTests} tests
@@ -177,14 +177,14 @@ export default async function MyCoursesPage({
                     )}
 
                     {pkg.package_type === "video_course" && (
-                      <p className="mt-3 flex items-center gap-1.5 text-xs text-slate-400">
+                      <p className="mt-3 flex items-center gap-1.5 text-xs text-slate-300">
                         <Video className="h-3.5 w-3.5 text-yellow-500" />
                         {classStart ? `Classes start ${classStart}` : "वीडियो जल्द / Videos coming soon"}
                       </p>
                     )}
 
                     {validTill && (
-                      <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
+                      <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-300">
                         <CalendarDays className="h-3.5 w-3.5" /> Valid till {formatDateLabel(validTill)}
                       </p>
                     )}
@@ -220,7 +220,7 @@ export default async function MyCoursesPage({
               <Zap className="h-5 w-5" />
             </div>
             <div className="text-lg font-bold text-white sm:text-xl">Lvl {stats.level}</div>
-            <div className="text-[11px] text-slate-400 sm:text-xs">लेवल / Level · {stats.total_xp} XP</div>
+            <div className="text-[11px] text-slate-300 sm:text-xs">लेवल / Level · {stats.total_xp} XP</div>
             {stats.level < 25 && (
               <>
                 <div className="mt-2 h-1.5 rounded-full bg-slate-800">
@@ -238,7 +238,7 @@ export default async function MyCoursesPage({
                     }}
                   />
                 </div>
-                <div className="mt-1 text-[11px] text-slate-500">
+                <div className="mt-1 text-[11px] text-slate-300">
                   {xpForLevel(stats.level + 1) - stats.total_xp} XP → Lvl {stats.level + 1}
                 </div>
               </>
@@ -262,7 +262,7 @@ export default async function MyCoursesPage({
         {releasedFreeTests.length > 0 && (
           <section className="mb-8">
             <h2 className="mb-3 text-lg font-bold text-white">
-              मुफ़्त टेस्ट <span className="text-slate-400">/ Free Tests</span>
+              मुफ़्त टेस्ट <span className="text-slate-300">/ Free Tests</span>
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {releasedFreeTests.map((t) => (
@@ -274,7 +274,7 @@ export default async function MyCoursesPage({
                   <Gift className="h-5 w-5 flex-shrink-0 text-green-400" />
                   <div className="min-w-0">
                     <h3 className="truncate text-sm font-semibold text-white group-hover:text-yellow-500">{t.test_name}</h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-300">
                       {t.question_ids.length} Q · {t.duration_minutes} min
                     </p>
                   </div>
@@ -298,7 +298,7 @@ export default async function MyCoursesPage({
           <section>
             <div className="mb-3 flex items-center justify-between gap-3">
               <h2 className="text-lg font-bold text-white">
-                और कोर्स देखें <span className="text-slate-400">/ Explore more courses</span>
+                और कोर्स देखें <span className="text-slate-300">/ Explore more courses</span>
               </h2>
               <Link href="/courses" className="flex-shrink-0 text-sm font-medium text-yellow-500 hover:text-yellow-400">
                 सभी / All →

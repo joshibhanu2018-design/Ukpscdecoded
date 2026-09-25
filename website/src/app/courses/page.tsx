@@ -33,9 +33,9 @@ export default async function CoursesPage() {
       <div className="container-custom mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-white sm:text-3xl">
-            सभी कोर्स <span className="text-slate-400">/ All Courses</span>
+            सभी कोर्स <span className="text-slate-300">/ All Courses</span>
           </h1>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-slate-300">
             UKPSC PCS, Lower PCS, RO/ARO और UKSSSC की पूरी तैयारी / Complete preparation for every Uttarakhand exam
           </p>
         </div>

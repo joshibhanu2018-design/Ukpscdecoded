@@ -147,13 +147,13 @@ function Dashboard() {
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
       <div className="mx-auto max-w-5xl">
         <h1 className="mb-1 text-2xl font-bold text-white">Coupons &amp; Referrals</h1>
-        <p className="mb-6 text-sm text-slate-400">Generate discount codes and review referral activity.</p>
+        <p className="mb-6 text-sm text-slate-300">Generate discount codes and review referral activity.</p>
 
         <div className="mb-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl">
           <h2 className="mb-4 text-lg font-semibold text-white">Generate single-use codes</h2>
           <form onSubmit={handleGenerate} className="flex flex-wrap items-end gap-3">
             <div>
-              <label className="mb-1 block text-xs text-slate-400">How many</label>
+              <label className="mb-1 block text-xs text-slate-300">How many</label>
               <input
                 type="number"
                 min={1}
@@ -164,7 +164,7 @@ function Dashboard() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-slate-400">% off</label>
+              <label className="mb-1 block text-xs text-slate-300">% off</label>
               <input
                 type="number"
                 min={1}
@@ -175,7 +175,7 @@ function Dashboard() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-slate-400">Expires (optional)</label>
+              <label className="mb-1 block text-xs text-slate-300">Expires (optional)</label>
               <input
                 type="datetime-local"
                 value={expiresAt}
@@ -214,13 +214,13 @@ function Dashboard() {
 
         <div className="mb-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl">
           <h2 className="mb-4 text-lg font-semibold text-white">Create price-lock code</h2>
-          <p className="mb-4 text-xs text-slate-500">
+          <p className="mb-4 text-xs text-slate-300">
             Multi-use — anyone with this code gets founding prices even after the founding window
             ends, until the date below.
           </p>
           <form onSubmit={handleCreatePriceLock} className="flex flex-wrap items-end gap-3">
             <div>
-              <label className="mb-1 block text-xs text-slate-400">Code name</label>
+              <label className="mb-1 block text-xs text-slate-300">Code name</label>
               <input
                 value={plCode}
                 onChange={(e) => setPlCode(e.target.value)}
@@ -229,7 +229,7 @@ function Dashboard() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-slate-400">Founding price honored until</label>
+              <label className="mb-1 block text-xs text-slate-300">Founding price honored until</label>
               <input
                 type="datetime-local"
                 value={plUntil}
@@ -238,7 +238,7 @@ function Dashboard() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-slate-400">Max uses (optional)</label>
+              <label className="mb-1 block text-xs text-slate-300">Max uses (optional)</label>
               <input
                 type="number"
                 min={1}
@@ -272,11 +272,11 @@ function Dashboard() {
             </button>
           </div>
           {loading ? (
-            <p className="text-sm text-slate-500">Loading…</p>
+            <p className="text-sm text-slate-300">Loading…</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="text-slate-400">
+                <thead className="text-slate-300">
                   <tr>
                     <th className="pb-2 pr-4">Code</th>
                     <th className="pb-2 pr-4">Type</th>
@@ -302,7 +302,7 @@ function Dashboard() {
                         <span
                           className={
                             c.status === "used" || c.status === "expired"
-                              ? "text-slate-500"
+                              ? "text-slate-300"
                               : c.status === "reserved"
                                 ? "text-yellow-400"
                                 : "text-green-400"
@@ -316,12 +316,12 @@ function Dashboard() {
                         {c.max_uses != null ? ` / ${c.max_uses}` : ""}
                       </td>
                       <td className="py-2 pr-4">{c.used_by_email || "—"}</td>
-                      <td className="py-2 text-slate-500">{c.used_on_order ? c.used_on_order.slice(0, 8) : "—"}</td>
+                      <td className="py-2 text-slate-300">{c.used_on_order ? c.used_on_order.slice(0, 8) : "—"}</td>
                     </tr>
                   ))}
                   {coupons.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="py-4 text-center text-slate-500">
+                      <td colSpan={6} className="py-4 text-center text-slate-300">
                         No codes yet.
                       </td>
                     </tr>
@@ -335,11 +335,11 @@ function Dashboard() {
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl">
           <h2 className="mb-4 text-lg font-semibold text-white">Referrals ({referrals.length})</h2>
           {loading ? (
-            <p className="text-sm text-slate-500">Loading…</p>
+            <p className="text-sm text-slate-300">Loading…</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="text-slate-400">
+                <thead className="text-slate-300">
                   <tr>
                     <th className="pb-2 pr-4">Referrer</th>
                     <th className="pb-2 pr-4">Referee</th>
@@ -359,12 +359,12 @@ function Dashboard() {
                         </span>
                       </td>
                       <td className="py-2 pr-4">₹{(r.referrer_credit_amount / 100).toFixed(0)}</td>
-                      <td className="py-2 text-slate-500">{r.order_id.slice(0, 8)}</td>
+                      <td className="py-2 text-slate-300">{r.order_id.slice(0, 8)}</td>
                     </tr>
                   ))}
                   {referrals.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="py-4 text-center text-slate-500">
+                      <td colSpan={5} className="py-4 text-center text-slate-300">
                         No referrals yet.
                       </td>
                     </tr>

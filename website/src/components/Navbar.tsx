@@ -47,7 +47,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                 href={link.href}
                 className="rounded-md px-3 py-2 text-sm font-medium text-graphite-200 transition-all duration-200 hover:bg-graphite-800 hover:text-saffron-400"
               >
-                {link.labelHi} <span className="text-graphite-500">/ {link.labelEn}</span>
+                {link.labelHi} <span className="text-graphite-300">/ {link.labelEn}</span>
               </Link>
             ))}
 
@@ -63,7 +63,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                       href={link.href}
                       className="block px-4 py-2 text-sm text-graphite-200 hover:bg-graphite-800 hover:text-saffron-400"
                     >
-                      {link.labelHi} <span className="text-graphite-500">/ {link.labelEn}</span>
+                      {link.labelHi} <span className="text-graphite-300">/ {link.labelEn}</span>
                     </Link>
                   ))}
                 </div>
@@ -106,10 +106,10 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                 onClick={() => setIsOpen(false)}
                 className="block rounded-md px-4 py-3 text-base font-medium text-graphite-200 transition-all hover:bg-graphite-800 hover:text-saffron-400"
               >
-                {link.labelHi} <span className="text-graphite-500">/ {link.labelEn}</span>
+                {link.labelHi} <span className="text-graphite-300">/ {link.labelEn}</span>
               </Link>
             ))}
-            <p className="mt-2 px-4 pb-1 text-xs font-semibold uppercase tracking-wide text-graphite-500">
+            <p className="mt-2 px-4 pb-1 text-xs font-semibold uppercase tracking-wide text-graphite-300">
               और / More
             </p>
             {moreLinks.map((link) => (
@@ -119,7 +119,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                 onClick={() => setIsOpen(false)}
                 className="block rounded-md px-4 py-3 text-base font-medium text-graphite-200 transition-all hover:bg-graphite-800 hover:text-saffron-400"
               >
-                {link.labelHi} <span className="text-graphite-500">/ {link.labelEn}</span>
+                {link.labelHi} <span className="text-graphite-300">/ {link.labelEn}</span>
               </Link>
             ))}
           </div>

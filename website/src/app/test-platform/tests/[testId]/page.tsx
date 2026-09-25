@@ -49,11 +49,41 @@ export default async function TestInstructionsPage({ params }: { params: Promise
   const resumable = attempts.find((a) => a.status === "in_progress" && !isPastGrace(a, test));
   const submitted = attempts.filter((a) => a.status === "submitted");
   const negative = test.negative_marking_enabled ? test.marks_per_question * test.negative_marking_value : 0;
+  const perWrong = Math.round(negative * 100) / 100;
+  const quarter = test.negative_marking_value === 0.25;
+  // All points in English as one list, then all in Hindi — not mixed line by line.
+  const instructions = [
+    {
+      en: "The timer starts when you press Start and keeps running even if you close the tab.",
+      hi: "टाइमर \"Start\" दबाते ही शुरू हो जाएगा और टैब बंद करने पर भी चलता रहेगा।",
+    },
+    {
+      en: "Answers save automatically — you can come back and resume before time runs out.",
+      hi: "आपके उत्तर अपने-आप सेव होते हैं — समय रहते आप वापस आकर जारी रख सकते हैं।",
+    },
+    { en: "The test submits automatically when time is up.", hi: "समय समाप्त होने पर टेस्ट अपने-आप सबमिट हो जाएगा।" },
+    ...(negative > 0
+      ? [
+          {
+            en: `Each wrong answer deducts ${perWrong} marks${quarter ? " (one-quarter of the question's marks)" : ""}; unanswered questions cost nothing.`,
+            hi: `हर गलत उत्तर पर ${perWrong} अंक${quarter ? " (प्रश्न के अंकों का एक-चौथाई)" : ""} कटेंगे; छोड़े गए प्रश्नों पर कोई कटौती नहीं।`,
+          },
+        ]
+      : []),
+    {
+      en: "Switch between हिंदी and EN at any time with the button at the top of the test.",
+      hi: "टेस्ट के ऊपर दिए बटन से हिंदी/EN भाषा कभी भी बदली जा सकती है।",
+    },
+    {
+      en: "After submitting, you can report any question you think is wrong from the answer review.",
+      hi: "सबमिट करने के बाद उत्तर समीक्षा में किसी भी गलत लगने वाले प्रश्न की सूचना दे सकते हैं।",
+    },
+  ];
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
       <div className="mx-auto max-w-3xl">
-        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-yellow-500">
+        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
           <ArrowLeft className="h-4 w-4" /> Dashboard
         </Link>
 
@@ -78,41 +108,28 @@ export default async function TestInstructionsPage({ params }: { params: Promise
             <div key={s.label} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
               <div className="mb-2 text-yellow-500">{s.icon}</div>
               <div className="text-xl font-bold text-white">{s.value}</div>
-              <div className="text-xs text-slate-400">{s.label}</div>
+              <div className="text-xs text-slate-300">{s.label}</div>
             </div>
           ))}
         </div>
 
-        <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
-          <h2 className="mb-3 font-semibold text-white">
-            निर्देश <span className="text-slate-400">/ Instructions</span>
-          </h2>
-          <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
-            <li>
-              टाइमर &quot;Start&quot; दबाते ही शुरू हो जाएगा और टैब बंद करने पर भी चलता रहेगा।{" "}
-              <span className="text-slate-500">The timer starts when you press Start and keeps running even if you close the tab.</span>
-            </li>
-            <li>
-              आपके उत्तर अपने-आप सेव होते हैं — आप बाद में वापस आकर जारी रख सकते हैं।{" "}
-              <span className="text-slate-500">Answers save automatically — you can come back and resume before time runs out.</span>
-            </li>
-            <li>
-              समय समाप्त होने पर टेस्ट अपने-आप सबमिट हो जाएगा।{" "}
-              <span className="text-slate-500">The test submits automatically when time is up.</span>
-            </li>
-            {negative > 0 && (
-              <li>
-                हर गलत उत्तर पर {Math.round(negative * 100) / 100} अंक कटेंगे; छोड़े गए प्रश्नों पर कोई कटौती नहीं।{" "}
-                <span className="text-slate-500">
-                  Each wrong answer deducts {Math.round(negative * 100) / 100} marks; unanswered questions cost nothing.
-                </span>
-              </li>
-            )}
-            <li>
-              हिंदी/English भाषा टेस्ट के दौरान कभी भी बदली जा सकती है।{" "}
-              <span className="text-slate-500">You can switch between Hindi and English at any time.</span>
-            </li>
-          </ul>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+            <h2 className="mb-3 font-semibold text-white">Instructions</h2>
+            <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-200">
+              {instructions.map((i) => (
+                <li key={i.en}>{i.en}</li>
+              ))}
+            </ul>
+          </div>
+          <div lang="hi" className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+            <h2 className="mb-3 font-semibold text-white">निर्देश</h2>
+            <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-200">
+              {instructions.map((i) => (
+                <li key={i.hi}>{i.hi}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="mt-6">
@@ -125,12 +142,12 @@ export default async function TestInstructionsPage({ params }: { params: Promise
         {submitted.length > 0 && (
           <div className="mt-10">
             <h2 className="mb-3 font-semibold text-white">
-              पिछले प्रयास <span className="text-slate-400">/ Previous Attempts</span>
+              पिछले प्रयास <span className="text-slate-300">/ Previous Attempts</span>
             </h2>
             <ul className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900/60">
               {submitted.map((a) => (
                 <li key={a.id} className="flex items-center justify-between px-5 py-3 text-sm">
-                  <span className="text-slate-400">
+                  <span className="text-slate-300">
                     {formatDateLabel(parseUtcTimestamp(a.submitted_at ?? a.start_time).toISOString())}
                   </span>
                   <span className="font-semibold text-white">
