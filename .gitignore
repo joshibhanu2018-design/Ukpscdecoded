@@ -1,0 +1,4 @@
+# Question bank source data and generated files (public repo: never commit)
+test series questions/
+*.xlsx
+*.csv
