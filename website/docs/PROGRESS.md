@@ -410,6 +410,46 @@ pages read `attempts.question_ids`) and before re-running the loader with `--app
   admin Question Bank screen itself was not opened in a browser (needs an admin
   login and the phase 14 columns).
 
+**Courses page & course detail (Batch 3 of NEXT_TASKS.md, 25 Sep 2026).** SQL:
+`seed-phase15-course-pages.sql` (optional before deploying — without it the
+headers fall back to the package name + first description line).
+- **Card header:** the empty gradient block is now the course name + one plain
+  "what you get" line in large text (`packages.metadata.card_title` /
+  `card_tagline`), or `image_url` when set. Same text heads the course page
+  hero (package name underneath when it differs). One colour per product type
+  so the choices look different: combo gold, test series blue, crash course
+  teal, mentorship violet — all AA with white text. Shared by the home page
+  cards (`CourseHeader`, `CourseCard`).
+- **Store grouped** (`/courses`): "Premium plans" (Complete Prelims Pack —
+  Most Popular, ringed; Premium Test Series; Mentorship, side by side from
+  768px), then Crash Course (one wide card), then "Standalone test series"
+  (every other package: Basic, Uttarakhand Intensive, CA Intensive, CSAT).
+  Premium trio pinned by slug in `src/app/courses/page.tsx`.
+- **Tabs** on the course page test list and `/test-platform/course/[slug]`:
+  Full Length · Sectional · Uttarakhand · Current Affairs · CSAT (+ Other if a
+  subject doesn't fit; empty tabs hidden), with the subjects as sub-groups
+  inside a tab. From `tests.subject`, except a test named "… Sectional" is
+  sectional (Uttarakhand GK Sectional I/II), giving 12/12/20/12/6. The
+  student page opens on the tab holding "Up next". All panels are
+  server-rendered and only hidden (`TestTabs`, arrow keys work).
+- **Combo / mentorship pages** now list the tests and demo videos of the
+  packages they include (they have no `package_tests` of their own).
+- **Free demo videos:** `packages.metadata.demo_videos` =
+  `[{title, youtube_id}]`, shown in "Watch free demo" (thumbnail first, the
+  youtube-nocookie player loads on tap); anything that isn't an 11-character
+  YouTube id is ignored. "Coming soon" until set — fill in the commented
+  template at the bottom of the SQL file. The free test is the existing Free
+  Sample Mock block.
+- SQL also renames "Premium Bundle" → "Premium Test Series" (checkout,
+  receipts, My Courses).
+- Home "66+ tests" → 62 (also the legacy `/test-series` page's 66 total).
+  Course page no longer prints a stray "0" for a crash course's test count.
+- Checked at 375 / 768 / 1280 px (store, Premium Test Series, Complete Prelims
+  Pack, Crash Course, home; no horizontal overflow), with the SQL's metadata
+  and a sample video injected locally, then removed: tab switching by click
+  and arrow keys, invalid video id dropped. `/test-platform/course/[slug]` was
+  not opened in a browser (needs a student login); it uses the same tabs.
+
 **Legal pages.** `/privacy`, `/refund-policy`, `/contact` (plus existing
 `/terms`), linked from the footer, checkout and course pages; in the
 sitemap. Refund rule: within 2 days of purchase and fewer than 3 videos
@@ -557,6 +597,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `seed-phase12-mentorship-cutoff.sql` | Mentorship 30 seats + weekly-format text, cutoff 110/150 setting | Not run (after phase 11) |
 | `schema-phase13-marking-reports.sql` | Negative marking 0.25 on every test + re-score submitted attempts, `questions.deactivated_at`, `question_reports` | ✅ Run |
 | `schema-phase14-bank-browser.sql` | `attempts.question_ids` (+ backfill), `questions.source_file`/`question_format`/`section_code`, Free Sample Mock test row | ✅ Run — Batch 2 applied 25 Sep 2026 |
+| `seed-phase15-course-pages.sql` | Course card title/tagline in `packages.metadata`, Premium Bundle → Premium Test Series, commented template for `demo_videos` | Not run |
 
 ## Environment variables
 

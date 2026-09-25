@@ -90,7 +90,7 @@ test quality is not good enough.
    `is_free_test = true`, shown on the home page ("Free Sample Test" section
    currently says Coming soon) and on the course pages.
 
-## Batch 3 — Courses page & course detail
+## Batch 3 — Courses page & course detail (done 25 Sep 2026 — see PROGRESS.md)
 
 1. **Card header:** the big empty gold gradient block on every course card
    and on the course detail hero wastes space. Put the course name and a

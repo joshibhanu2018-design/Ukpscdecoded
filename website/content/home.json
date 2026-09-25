@@ -26,7 +26,7 @@
   },
   "quickLinks": [
     { "title": "Paid Courses", "label": "Structured video courses for every stage", "icon": "video", "href": "/paid-courses" },
-    { "title": "Test Series", "label": "Practice with 66+ expertly designed tests", "icon": "chart", "href": "/test-series" },
+    { "title": "Test Series", "label": "Practice with 62 expertly designed tests", "icon": "chart", "href": "/test-series" },
     { "title": "Buy E-Books", "label": "Complete subject guides (Polity, GK & more)", "icon": "book", "href": "/buy-ebooks" },
     { "title": "Daily MCQ", "label": "Fresh questions every day", "icon": "brain", "href": "/current-affairs#daily-quiz" }
   ],
