@@ -23,10 +23,9 @@
  * phase 6 seed files to have been run before --apply. Credentials come from
  * .env.local and are never printed.
  *
- * Only the tests in RECOMPOSE are built afresh; every other test keeps the
- * questions it has in the database now (so a change to one group of tests
- * never reshuffles the full mocks). A test with no questions yet is always
- * built. The allocation is deterministic (seeded shuffle), so a dry run and a
+ * Every test keeps the questions it has in the database now (so fixing one
+ * test never reshuffles the others); only a test with no questions yet, or
+ * one named in --recompose="Name,Name", is built afresh. The allocation is deterministic (seeded shuffle), so a dry run and a
  * later --apply produce the same tests. Questions deactivated in the database
  * (status 'inactive') are swapped in place for unused ones. Both modes read the
  * database (read-only) first, so the dry run matches --apply.
@@ -335,15 +334,17 @@ const byName = (name: string) => {
 
 // ---------- what the database holds now (read-only) ----------
 
-// Batch 2 (owner review, Sep 2026) re-composes the Current Affairs tests into
-// themes (not "Uttarakhand CA + Budget") and builds the Free Sample Mock.
-// Everything else keeps its live questions; the 20 Uttarakhand tests then only
-// get direct questions swapped for statement/match ones (section 2b).
-const RECOMPOSE = new Set(
-  tests
-    .filter((t) => (t.subject === "Current Affairs" && t.name !== "Uttarakhand CA + Budget") || t.id === FREE_SAMPLE.id)
-    .map((t) => t.id)
-);
+// Every test that already has questions keeps them (a deactivated one is
+// swapped in place, section 5c). To build a test afresh, name it:
+//   --recompose="CA: Economy & Budget,Free Sample Mock"   (seed or current name)
+// Batch 2 (Sep 2026) was applied with the CA tests + Free Sample Mock in this list.
+const recomposeArg = process.argv.find((a) => a.startsWith("--recompose="));
+const RECOMPOSE_NAMES = (recomposeArg?.slice("--recompose=".length) ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const liveNames = new Map<string, string>(); // test id -> current name in the database
+const RECOMPOSE = new Set<string>();
 
 const inactiveIds = new Set<string>();
 const liveQids = new Map<string, string[]>(); // test id -> its Question_IDs in the database, in order
@@ -374,7 +375,7 @@ async function readLive() {
     for (const r of data ?? []) inactiveIds.add(r.question_id as string);
     if (!data || data.length < 1000) break;
   }
-  const { data: liveTests, error: ltErr } = await db.from("tests").select("id, question_ids").in("id", tests.map((t) => t.id));
+  const { data: liveTests, error: ltErr } = await db.from("tests").select("id, test_name, question_ids").in("id", tests.map((t) => t.id));
   if (ltErr) throw new Error(`Could not read tests: ${ltErr.message}`);
   const uuids = [...new Set((liveTests ?? []).flatMap((t) => (t.question_ids as string[] | null) ?? []))];
   const qidOf = new Map<string, string>();
@@ -385,9 +386,15 @@ async function readLive() {
   }
   for (const t of liveTests ?? []) {
     liveQids.set(t.id as string, ((t.question_ids as string[] | null) ?? []).map((u) => qidOf.get(u) ?? u));
+    liveNames.set(t.id as string, t.test_name as string);
   }
 }
 await readLive();
+for (const name of RECOMPOSE_NAMES) {
+  const t = tests.find((x) => x.name === name || liveNames.get(x.id) === name);
+  if (!t) throw new Error(`--recompose: no test named "${name}"`);
+  RECOMPOSE.add(t.id);
+}
 
 // ---------- allocation state ----------
 
@@ -931,6 +938,7 @@ const revisionIds = new Set<string>();
     newNames.set(t.id, name);
     newSubjects.set(t.id, CA_REVISION_SUBJECT);
     revisionIds.add(t.id);
+    if (pinned(t)) continue;
     // pick() interleaves by chapter; interleave by theme instead via a theme-keyed copy
     const inRange = free((q) => caQ(q) && dateKey(q) >= from && dateKey(q) <= to);
     const byTheme = new Map(inRange.map((q) => [q.qid, { ...q, chap: caTheme(q) }]));
@@ -949,7 +957,7 @@ const revisionIds = new Set<string>();
   }
   const grand = byName("Current Affairs Grand Revision");
   newSubjects.set(grand.id, CA_REVISION_SUBJECT);
-  take(grand.id, chooseByTopic(free(caQ), grand.target, smooth(BENCH.CA), BENCH_MIX, []));
+  if (!pinned(grand)) take(grand.id, chooseByTopic(free(caQ), grand.target, smooth(BENCH.CA), BENCH_MIX, []));
 }
 
 // ---------- 5. Full mocks + sectionals by section ----------
@@ -1004,7 +1012,7 @@ for (const sec of ["HIS", "GEO", "SCI", "POL", "ENV", "ECO", "CA", "UKGK"]) {
 // 50 questions in the full-mock section mix (scaled from 150), from questions in no paid test.
 {
   const SAMPLE_MIX: Record<string, number> = { HIS: 6, GEO: 5, POL: 8, ECO: 3, ENV: 2, SCI: 5, CA: 5, UKGK: 16 };
-  for (const [sec, n] of Object.entries(SAMPLE_MIX)) {
+  for (const [sec, n] of Object.entries(pinned(FREE_SAMPLE) ? {} : SAMPLE_MIX)) {
     const pool = all.filter((q) => q.sec === sec && (sec !== "UKGK" || !q.isCA));
     take(FREE_SAMPLE.id, chooseByTopic(pool, n, smooth(BENCH[sec]), BENCH_MIX, assigned.get(FREE_SAMPLE.id)!));
   }

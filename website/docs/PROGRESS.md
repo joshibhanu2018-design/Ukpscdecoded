@@ -4,6 +4,27 @@ Status snapshot of `/student/*` and `/test-platform/*` — the Supabase-backed
 test platform built alongside the existing static site. Update this file
 when phases land or SQL files get run.
 
+## Standing rule: bad questions (owner, 25 Sep 2026)
+
+If any session finds a question in the bank that is wrong, doubtful,
+ambiguous or has two correct answers: **don't ask the owner.** Deactivate it
+in the database (`questions.status = 'inactive'`, `deactivated_at = now()`,
+keeping an existing `deactivated_at`; add an `audit_logs` row), run the loader
+dry run (Reuse 0, no test short, only tests that held a deactivated question
+changed), then `--apply` — the loader swaps it in place for an unused
+question (same section, then chapter, then difficulty). Log it below and list
+it in the end-of-session summary.
+
+| Date | Question | Why | Replaced in tests |
+|---|---|---|---|
+| 25 Sep 2026 | UKPCS-CA-NAT-0553 | Doubtful answer key (Batch 1) | replaced in its CA test before Batch 2 |
+| 25 Sep 2026 | UKPCS-UKGK-CH07-0134 | "0 districts below national literacy" — Haridwar 73.43% < 74.04% | Demography & Census → UKPCS-UKGK-CH07-0020 |
+| 25 Sep 2026 | UKPCS-UKGK-CH09-0091, CH09-0113 | Budget "crossed ₹1 lakh crore for the first time" in 2026-27 — 2025-26 already had | not in a test |
+| 25 Sep 2026 | UKPCS-UKGK-CH09-0015, CH09-0161 | Contradict each other on GSVA sector shares | not in a test |
+| 25 Sep 2026 | UKPCS-UKGK-CH01-0396 | Assi Ganga rises from Dodital, not Kedar Tal | not in a test |
+| 25 Sep 2026 | UKPCS-UKGK-CH11-0499 | "Garhwal Paintings" is Mukandi Lal's book (Mola Ram was the painter) | not in a test |
+| 25 Sep 2026 | UKPCS-CA-NAT-0193 | Hindi option D says कक्षा 20 (English: Class 12) | not in a test |
+
 ## What's done
 
 **Auth — passwordless email OTP (Phase 7, replaces Phase 1 password
@@ -321,8 +342,10 @@ pages read `attempts.question_ids`) and before re-running the loader with `--app
   attempt, or My Performance.
 - **Loader only re-composes what was asked.** It now reads the live tests
   first (read-only, dry run too) and every test keeps its live questions
-  except `RECOMPOSE` (this batch: the 10 CA tests + CA Grand Revision + the
-  Free Sample Mock). The report has a `Chg` column (questions different from
+  (deactivated ones swapped in place). A test is built afresh only if it has
+  no questions yet or is named in `--recompose="Name,Name"` (Batch 2 was
+  applied with the 10 CA tests, CA Grand Revision and the Free Sample Mock
+  re-composed; since then a plain re-run changes nothing). The report has a `Chg` column (questions different from
   the database now): 0 for all 12 mocks and 12 sectionals. The script is now
   `.mts` (ESM, for the top-level DB read); the parsing helpers moved to
   `scripts/question-bank-common.mts`.
@@ -372,14 +395,14 @@ pages read `attempts.question_ids`) and before re-running the loader with `--app
   SCI 5, CA 5, UKGK 16) from questions in no paid test. Home page "Free Sample
   Test" and every course page show it (Coming soon until it has questions).
   Logged-out visitors are sent to login and back to the test.
-- **Bank errors found while writing (not fixed, for review):** CH07-0134
+- **Bank errors found while writing (all deactivated, see the standing rule):** CH07-0134
   ("0 districts below national literacy" — Haridwar 73.43% is below 74.04%; **in
-  Demography & Census**, deactivate it in Question Bank), CH09-0091 / CH09-0113
+  Demography & Census**), CH09-0091 / CH09-0113
   (budget "crossed ₹1 lakh crore for the first time" in 2026-27 — 2025-26 already
   did), CH09-0015 vs CH09-0161 (contradict each other on GSVA shares),
   CH01-0396 (Assi Ganga rises from Dodital, not Kedar Tal), CH11-0499 ("Garhwal
-  Paintings" is Mukandi Lal's book; Mola Ram was the painter). None but
-  CH07-0134 is in a test.
+  Paintings" is Mukandi Lal's book; Mola Ram was the painter). All deactivated
+  on 25 Sep 2026 — see the standing rule at the top.
 - Checked: type check clean; dry run = plan run; reuse 0; no short tests; no
   near-duplicates inside a test; home and course pages render (Free Sample
   "Coming soon" until the SQL + loader run); admin/API routes refuse logged-out
@@ -479,9 +502,7 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **Batch 2 not applied yet.** Run `schema-phase14-bank-browser.sql`, deploy,
-  then `npx.cmd --yes tsx scripts/load-question-bank.mts --apply`. CSAT tests
-  have no questions (none in the bank).
+- CSAT tests have no questions (none in the bank).
 - **UK Current Affairs and Statehood II statement share** stays low (12% /
   34%) until verified statement-type UK CA / post-2000 statehood questions are
   added to the bank.
@@ -534,8 +555,8 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
 | `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
 | `seed-phase12-mentorship-cutoff.sql` | Mentorship 30 seats + weekly-format text, cutoff 110/150 setting | Not run (after phase 11) |
-| `schema-phase13-marking-reports.sql` | Negative marking 0.25 on every test + re-score submitted attempts, `questions.deactivated_at`, `question_reports` | Not run — **required before deploying Batch 1**; then re-run the loader with `--apply` |
-| `schema-phase14-bank-browser.sql` | `attempts.question_ids` (+ backfill), `questions.source_file`/`question_format`/`section_code`, Free Sample Mock test row | Not run — **required before deploying Batch 2** and before the loader `--apply` |
+| `schema-phase13-marking-reports.sql` | Negative marking 0.25 on every test + re-score submitted attempts, `questions.deactivated_at`, `question_reports` | ✅ Run |
+| `schema-phase14-bank-browser.sql` | `attempts.question_ids` (+ backfill), `questions.source_file`/`question_format`/`section_code`, Free Sample Mock test row | ✅ Run — Batch 2 applied 25 Sep 2026 |
 
 ## Environment variables
 
