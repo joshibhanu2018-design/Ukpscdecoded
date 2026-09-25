@@ -56,6 +56,11 @@ none used twice.
   `tests.question_ids` (in order), `total_questions` and the new names:
   "Current Affairs Set 1-8" (were "Month 1-8").
 - Allocation is deterministic (seeded), so dry run and apply agree.
+  Questions deactivated in the DB (`status = 'inactive'`) are swapped in
+  place for an unused question: same section, preferring the same chapter,
+  difficulty and (for CA) a nearby date. Other tests are unchanged, and
+  both modes read the inactive list read-only. First case: CA-NAT-0553
+  (doubtful answer key) was replaced by CA-NAT-0300 in Current Affairs Set 2.
   - Mocks: 2024-25 benchmark mix of HIS 17 / GEO 16 / POL 24 / ECO 10 /
     ENV 7 / SCI 14 / CA 14 / UKGK 48; difficulty is spread by
     proportional dealing.

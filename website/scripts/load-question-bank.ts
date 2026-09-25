@@ -17,7 +17,9 @@
  * .env.local and are never printed.
  *
  * The allocation is deterministic (seeded shuffle), so a dry run and a later
- * --apply produce the same tests.
+ * --apply produce the same tests. Questions deactivated in the database
+ * (status 'inactive') are swapped in place for unused ones; the dry run reads
+ * that list too (read-only), so it still matches --apply.
  */
 import * as fs from "fs";
 import * as path from "path";
@@ -757,8 +759,80 @@ for (const t of tests) {
   }
 }
 
+// ---------- 5b. Replace questions deactivated in the database ----------
+// A question an admin deactivated (status 'inactive', e.g. after a student
+// report) is swapped in place for an unused one: same section, preferring the
+// same chapter, difficulty and (for current affairs) a nearby date. Every
+// other test stays exactly as allocated. Both the dry run and --apply read
+// the inactive list (read-only), so they agree.
+
+const inactiveIds = new Set<string>();
+const replacements: string[] = [];
+
+async function replaceInactive() {
+  let env: Record<string, string>;
+  try {
+    env = readEnv();
+  } catch {
+    replacements.push("WARNING: .env.local not found, so inactive questions could not be checked");
+    return;
+  }
+  const url = env.NEXT_PUBLIC_SUPABASE_URL || env.SUPABASE_URL;
+  const key = env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    replacements.push("WARNING: Supabase credentials missing, so inactive questions could not be checked");
+    return;
+  }
+  const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await db
+      .from("questions")
+      .select("question_id")
+      .eq("status", "inactive")
+      .range(from, from + 999);
+    if (error) throw new Error(`Could not read inactive questions: ${error.message}`);
+    for (const r of data ?? []) inactiveIds.add(r.question_id as string);
+    if (!data || data.length < 1000) break;
+  }
+  for (const t of tests) {
+    const qs = assigned.get(t.id)!;
+    qs.forEach((q, i) => {
+      if (!inactiveIds.has(q.qid)) return;
+      const others = qs.filter((_, j) => j !== i);
+      const same = (x: Q) => x.sec === q.sec && x.isCA === q.isCA && !inactiveIds.has(x.qid);
+      const d = dateKey(q);
+      const near = (x: Q) => {
+        const k = dateKey(x);
+        if (!d || !k) return !d && !k;
+        const months = (y: number) => Math.floor(y / 100) * 12 + (y % 100);
+        return Math.abs(months(k) - months(d)) <= 2;
+      };
+      const mix: Mix = { Easy: 0, Medium: 0, Hard: 0 };
+      mix[q.diff] = 1;
+      const groups = [
+        free((x) => same(x) && x.chap === q.chap && near(x)),
+        free((x) => same(x) && x.chap === q.chap),
+        free(same),
+      ];
+      let rep: Q | undefined;
+      for (const g of groups) if (!rep) rep = pick(g, 1, mix, others)[0];
+      const name = newNames.get(t.id) ?? t.name;
+      if (!rep) {
+        replacements.push(`${name}: ${q.qid} is inactive and no replacement was available`);
+        return;
+      }
+      used.add(rep.qid);
+      qs[i] = rep;
+      replacements.push(`${name}: ${q.qid} (inactive) -> ${rep.qid} (${rep.chap}, ${rep.diff})`);
+    });
+  }
+}
+
 // ---------- 6. Report ----------
 
+let allAssigned: string[] = [];
+
+function report() {
 const pad = (s: string | number, n: number) => String(s).padEnd(n);
 const lpad = (s: string | number, n: number) => String(s).padStart(n);
 const NON_DIRECT = (q: Q) => !/^Factual recall/.test(q.qtype);
@@ -806,7 +880,7 @@ for (const t of mocks) {
   console.log(`  ${pad(t.name, 13)} ${SECTION_ORDER.map((s) => `${s} ${qs.filter((q) => q.sec === s).length}`).join(" / ")}`);
 }
 
-const allAssigned = tests.flatMap((t) => assigned.get(t.id)!.map((q) => q.qid));
+allAssigned = tests.flatMap((t) => assigned.get(t.id)!.map((q) => q.qid));
 const reuse = allAssigned.length - new Set(allAssigned).size;
 const total = (f: (q: Q) => boolean) => tests.flatMap((t) => assigned.get(t.id)!).filter(f).length;
 console.log(`\nQuestions placed in tests: ${allAssigned.length}`);
@@ -842,6 +916,8 @@ for (const q of all) {
 }
 console.log(`Options whose English and Hindi numbers differ: ${numberMismatch.length}`);
 numberMismatch.forEach((m) => console.log(`  ${m}`));
+console.log(`Inactive in the database: ${inactiveIds.size}; replaced in tests: ${replacements.filter((r) => r.includes("->")).length}`);
+replacements.forEach((r) => console.log(`  ${r}`));
 console.log("\nNotes:");
 notes.forEach((n) => console.log(`  - ${n}`));
 
@@ -868,6 +944,7 @@ if (WRITE_PLAN) {
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), "Allocation");
   XLSX.writeFile(wb, PLAN_FILE);
   console.log(`\nWrote ${rows.length} rows to ${PLAN_FILE}`);
+}
 }
 
 // ---------- 7. Apply ----------
@@ -968,11 +1045,14 @@ async function apply() {
   console.log(`Done: ${rows.length} questions upserted, ${tests.length} tests filled.`);
 }
 
-if (APPLY) {
-  apply().catch((err: unknown) => {
-    console.error(`\nERROR: ${err instanceof Error ? err.message : String(err)}`);
-    process.exit(1);
-  });
-} else {
-  console.log("\nDry run only. Re-run with --apply to write to the database.");
+async function main() {
+  await replaceInactive();
+  report();
+  if (APPLY) await apply();
+  else console.log("\nDry run only. Re-run with --apply to write to the database.");
 }
+
+main().catch((err: unknown) => {
+  console.error(`\nERROR: ${err instanceof Error ? err.message : String(err)}`);
+  process.exit(1);
+});
