@@ -330,6 +330,14 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
   prices/structure, out of scope for a wording-only fix.
 
 **Security fixes made along the way:**
+- **Dependencies (25 Sep 2026):** Next.js 16.2.12 → 16.3.6 for a critical
+  advisory (GHSA-p293-qw3h-jr36 / GHSA-2xp9-vwfh-vxw4: unauthenticated RCE
+  in the image optimizer / on Windows hosts), which also cleared the postcss
+  and sharp advisories; js-yaml and nanoid fixed via `npm audit fix`.
+  Remaining: `xlsx` (SheetJS, high, no fix on npm — SheetJS ships fixes only
+  from its own CDN). It only parses files an admin uploads, or the local
+  loader script, never student input; switch to the CDN build if that ever
+  changes.
 - Row Level Security enabled on every table (verified via direct anon-key
   probes — insert/select were open before `enable-rls.sql`, both blocked
   after).
@@ -396,7 +404,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `seed-phase6-content.sql` | Slugs, highlights, curriculum (crash course lecture list), FAQ, 4 home banners | ✅ Run |
 | `seed-phase6-tests.sql` | The 62 Premium Test Series tests (empty `question_ids`) + `package_tests` with `test_order` | ✅ Run |
 | `schema-phase7-otp-login.sql` | `users.password_hash` nullable, unique `lower(email)`, `login_codes` table | ✅ Run |
-| `schema-phase8-question-bank.sql` | Unique index on `questions(question_id)` (the loader upserts on it), `tests.question_ids` default `'{}'` | Not run — run after phase 6, before the loader's `--apply` |
+| `schema-phase8-question-bank.sql` | Unique index on `questions(question_id)` (the loader upserts on it), `tests.question_ids` default `'{}'` | ✅ Run — loader applied 25 Sep 2026: 7,483 questions, 56 tests filled |
 | `schema-phase9-sessions-xp-admin.sql` | `user_sessions` (device limit), `user_gamification.last_active_date` + `award_test_xp()`, admin-role notes | Not run — **required before deploying Phase 9**; then make yourself admin |
 | `schema-phase10-test-analysis.sql` | `attempts.confidence`, `attempts.error_tags` | Not run — **required before deploying Phase 10** |
 | `schema-phase11-mentorship-booking.sql` | Mentor availability (Wed/Thu defaults), blocked days, bookings with slot + per-week uniqueness, `app_settings` | Not run |
