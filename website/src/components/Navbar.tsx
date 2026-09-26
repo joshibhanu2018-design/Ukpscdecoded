@@ -8,7 +8,7 @@ import settings from "@content/settings.json";
 const primaryLinks = [
   { href: "/", label: "Home" },
   { href: "/courses", label: "Courses" },
-  { href: "/courses/premium-test-series", label: "Test Series" },
+  { href: "/test-series", label: "Test Series" },
   { href: "/buy-book", label: "Books" },
   { href: "/free-content", label: "Free Content" },
 ];
@@ -25,7 +25,7 @@ const moreLinks = [
 function isActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
   // "Courses" shouldn't light up on the test series course page, which has its own link.
-  if (href === "/courses") return pathname === "/courses" || (pathname.startsWith("/courses/") && !pathname.startsWith("/courses/premium-test-series"));
+  if (href === "/courses") return pathname === "/courses" || pathname.startsWith("/courses/");
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
