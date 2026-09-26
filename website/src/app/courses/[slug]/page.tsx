@@ -213,7 +213,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </section>
           )}
 
-          <FreeSampleTest compact />
+          {/* The free mock advertises the test series — not on a video-only course page. */}
+          {pkg.package_type !== "video_course" && <FreeSampleTest compact />}
 
           {/* Free demo videos — packages.metadata.demo_videos (YouTube until Bunny is set up) */}
           {videos.length > 0 ? (
