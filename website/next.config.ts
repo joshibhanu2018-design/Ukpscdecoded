@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   // point at the live store, so old links in videos/posts keep working.
   async redirects() {
     return [
-      { source: "/test-series", destination: "/courses/premium-test-series", permanent: true },
       { source: "/paid-courses", destination: "/courses", permanent: true },
       { source: "/paid-course", destination: "/courses/crash-course", permanent: true },
     ];

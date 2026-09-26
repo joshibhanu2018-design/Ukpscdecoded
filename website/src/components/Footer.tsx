@@ -8,7 +8,7 @@ const columns = [
     heading: "Courses & Books",
     links: [
       { href: "/courses", label: "All Courses" },
-      { href: "/courses/premium-test-series", label: "Test Series" },
+      { href: "/test-series", label: "Test Series" },
       { href: "/courses/crash-course", label: "Crash Course" },
       { href: "/courses/prelims-mentorship", label: "Mentorship" },
       { href: "/buy-book?lang=en", label: "Book — English Edition" },
