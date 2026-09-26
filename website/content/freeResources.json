@@ -17,8 +17,8 @@
       "icon": "chart"
     },
     {
-      "title": "PYQ Tracker — Spreadsheet",
-      "description": "The same PYQ tracker as an interactive spreadsheet you can filter and sort online.",
+      "title": "PYQ Tracker — Uttarakhand",
+      "description": "Uttarakhand GK previous-year question tracker — filter and sort topic trends online.",
       "type": "Sheet",
       "url": "https://docs.google.com/spreadsheets/u/1/d/1AaRep--MPac5uKK1hR7Wl40vOA2d_VH4/htmlview",
       "icon": "chart"
@@ -33,15 +33,15 @@
     {
       "title": "PYQ Tracker — National",
       "description": "National (General Studies) previous-year question tracker — topic trends across UKPSC papers.",
-      "type": "Sheet",
-      "url": "https://docs.google.com/spreadsheets/u/1/d/1AaRep--MPac5uKK1hR7Wl40vOA2d_VH4/htmlview",
+      "type": "PDF",
+      "file": "/uploads/UKPSC-PYQ-Tracker-National.pdf",
       "icon": "chart"
     },
     {
       "title": "60-Day Study Plan",
-      "description": "Day-by-day 60-day preparation plan built from actual PYQ weightage. Explore it interactively on our PYQ Tracker page.",
-      "type": "Plan",
-      "url": "/pyq-tracker",
+      "description": "Day-by-day 60-day preparation tracker built from actual PYQ weightage. Also available interactively on our PYQ Tracker page.",
+      "type": "PDF",
+      "file": "/uploads/UKPSC-60-Day-Prep-Tracker.pdf",
       "icon": "chart"
     }
   ],
