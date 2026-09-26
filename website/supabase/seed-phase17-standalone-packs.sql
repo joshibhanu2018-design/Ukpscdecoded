@@ -53,7 +53,7 @@ on conflict (package_id, test_id) do nothing;
 
 update packages set
   description = '20 Uttarakhand GK Tests (50 Questions each)' || chr(10) ||
-    '14 topic tests: Uttarakhand (Post-Independence), Uttarakhand Polity, history, geography, forests, demography, polity, economy & budget, agriculture & energy, festivals & folk culture, art & literature, tourism, Uttarakhand current affairs' || chr(10) ||
+    '14 topic tests: Uttarakhand (Post-Independence), Uttarakhand Polity (Post-2000), history, geography, forests, demography, polity, economy & budget, agriculture & energy, festivals & folk culture, art & literature, tourism, Uttarakhand current affairs' || chr(10) ||
     '4 Mixed Mocks + Topper Test + Grand Uttarakhand Mock',
   highlights = '["20 tests covering the full Uttarakhand GK syllabus", "14 topic tests: statehood, history, geography, polity, economy, culture, tourism & more", "4 Mixed Mocks + Topper Test + Grand Uttarakhand Mock", "Valid till 31 December 2026"]'::jsonb,
   total_tests = 20,
