@@ -537,8 +537,11 @@ CA Intensive card keeps its old text).
   opens on the first ready tab; `groupTestsByTab(tests, questionCount)` →
   `comingSoon`), on the public course page and the student course page; the
   public "Test List (n)" counts only ready tests (56 today).
-- The direct DB write was blocked by this session's permission rules, so the
-  links/text are applied only when the owner runs the SQL file.
+- Live DB verified 26 Sep 2026 (read via the service key): Basic 12 links
+  (1,200 Q: 6 × 150 + 6 × 50), Uttarakhand Intensive 20 links (1,000 Q, 50
+  each), no empty test in either; CSAT pack `is_active = false`; Premium 62
+  links with only CSAT 1-6 empty; descriptions, highlights, taglines and
+  totals match what's linked.
 - Checked: type check clean; Premium Test Series and Complete Prelims Pack
   pages at 375 / 768 / 1280 px, CSAT tab clicked → "Coming soon", no overflow.
 
@@ -634,9 +637,6 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **Standalone packs need `seed-phase17-standalone-packs.sql` run** (below)
-  — until then Basic and Uttarakhand Intensive have no tests linked and CSAT
-  is still in the store. Sales are off, so nobody is affected yet.
 - **CSAT pack is hidden** (`is_active = false`, after phase 17) until CSAT
   questions exist; set it back to `true` then. The Premium Test Series page
   shows the CSAT tab as "Coming soon" automatically while its tests are empty.
@@ -697,7 +697,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `schema-phase14-bank-browser.sql` | `attempts.question_ids` (+ backfill), `questions.source_file`/`question_format`/`section_code`, Free Sample Mock test row | ✅ Run — Batch 2 applied 25 Sep 2026 |
 | `seed-phase15-course-pages.sql` | Course card title/tagline in `packages.metadata`, Premium Bundle → Premium Test Series, commented template for `demo_videos` | Not run |
 | `schema-phase16-banners-ca-text.sql` | `banners.image_url`/`image_url_mobile` + public Storage bucket `banners`, English banner text + product-colour gradients, CA Intensive text, links the 12 CA tests to CA Intensive | CA text is live (seen 26 Sep); run/re-run to be sure the rest landed |
-| `seed-phase17-standalone-packs.sql` | Links Basic (Full Mock 1-6 + the "I" sectional of each of 6 subjects = 12) and Uttarakhand Intensive (the 20 UK tests), matching text/highlights/taglines; hides CSAT pack; Premium text says CSAT "coming soon" | Not run |
+| `seed-phase17-standalone-packs.sql` | Links Basic (Full Mock 1-6 + the "I" sectional of each of 6 subjects = 12) and Uttarakhand Intensive (the 20 UK tests), matching text/highlights/taglines; hides CSAT pack; Premium text says CSAT "coming soon" | ✅ Applied — verified live 26 Sep 2026 |
 
 ## Environment variables
 
