@@ -11,8 +11,8 @@ backend:
 media_folder: "website/public/uploads"
 public_folder: "/uploads"
 
-site_url: https://ukpscdecoded.vercel.app
-display_url: https://ukpscdecoded.vercel.app
+site_url: https://www.ukpscdecoded.in
+display_url: https://www.ukpscdecoded.in
 
 collections:
   # ============================================

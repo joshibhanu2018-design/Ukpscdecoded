@@ -57,15 +57,31 @@ export function readDownloadToken(token: unknown): { pdfId: EbookId; paymentId: 
   }
 }
 
-/** A 5-minute Supabase URL for the file itself; the browser downloads it directly. */
+/**
+ * A 5-minute Supabase URL for the file itself; the browser downloads it directly.
+ * If the file isn't at its expected name (e.g. uploaded with its original
+ * name), falls back to the only PDF in the bucket, so a naming slip doesn't
+ * block paying buyers.
+ */
 export async function signedEbookUrl(pdfId: EbookId): Promise<string | null> {
   const ebook = EBOOKS[pdfId];
-  const { data, error } = await supabaseAdmin()
-    .storage.from(EBOOK_BUCKET)
-    .createSignedUrl(ebook.storagePath, 300, { download: ebook.fileName });
-  if (error || !data?.signedUrl) {
-    console.error("[ebook] Could not sign download URL:", error?.message);
-    return null;
+  const bucket = supabaseAdmin().storage.from(EBOOK_BUCKET);
+  const sign = (path: string) => bucket.createSignedUrl(path, 300, { download: ebook.fileName });
+
+  const first = await sign(ebook.storagePath);
+  if (first.data?.signedUrl) return first.data.signedUrl;
+
+  const { data: files, error: listError } = await bucket.list("", { limit: 100 });
+  const pdfs = (files ?? []).filter((f) => f.name.toLowerCase().endsWith(".pdf"));
+  if (pdfs.length === 1) {
+    console.warn(`[ebook] ${ebook.storagePath} not found; using ${pdfs[0].name}`);
+    const fallback = await sign(pdfs[0].name);
+    if (fallback.data?.signedUrl) return fallback.data.signedUrl;
   }
-  return data.signedUrl;
+  console.error(
+    `[ebook] Could not sign ${EBOOK_BUCKET}/${ebook.storagePath}:`,
+    first.error?.message,
+    listError?.message ?? `bucket has ${pdfs.length} PDF(s): ${pdfs.map((f) => f.name).join(", ")}`,
+  );
+  return null;
 }

@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: pkg.package_name,
     description: pkg.description ?? `${pkg.package_name} — UKPSC Decoded`,
+    alternates: { canonical: `/courses/${pkg.slug}` },
   };
 }
 
@@ -76,8 +77,46 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
 
   const checkoutHref = `/checkout/${pkg.slug}`;
 
+  // Structured data so Google / AI search can show the course with its price and FAQs.
+  const pageUrl = `https://www.ukpscdecoded.in/courses/${pkg.slug}`;
+  const courseJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Course",
+        name: pkg.package_name,
+        description: pkg.description ?? pkg.package_name,
+        url: pageUrl,
+        inLanguage: "en-IN",
+        provider: { "@id": "https://www.ukpscdecoded.in/#organization" },
+        offers: {
+          "@type": "Offer",
+          price: priceInfo.amount,
+          priceCurrency: "INR",
+          availability: "https://schema.org/InStock",
+          url: pageUrl,
+          category: "Paid",
+        },
+        hasCourseInstance: { "@type": "CourseInstance", courseMode: "Online" },
+      },
+      ...(pkg.faq.length
+        ? [
+            {
+              "@type": "FAQPage",
+              mainEntity: pkg.faq.map((f) => ({
+                "@type": "Question",
+                name: f.question,
+                acceptedAnswer: { "@type": "Answer", text: f.answer },
+              })),
+            },
+          ]
+        : []),
+    ],
+  };
+
   return (
     <div className="bg-graphite-950 pb-28 lg:pb-0">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd).replace(/</g, "\\u003c") }} />
       {/* Sticky Buy bar — top on desktop, bottom on mobile */}
       <div className="sticky top-16 z-40 hidden border-b border-graphite-800 bg-graphite-900/95 backdrop-blur lg:block">
         <div className="container-custom mx-auto flex items-center justify-between px-4 py-3">

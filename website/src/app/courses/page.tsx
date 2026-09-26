@@ -6,6 +6,7 @@ import { getCatalog, MOST_POPULAR_SLUG } from "@/lib/catalog";
 import SectionTitle from "@/components/SectionTitle";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/courses" },
   title: "Courses",
   description: "UKPSC crash course, crash course + test series bundles and 1-on-1 mentorship with Bhanu Joshi.",
 };

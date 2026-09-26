@@ -1,9 +1,14 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles } from "@/lib/articles";
+import { getActivePackages } from "@/lib/packages";
 
 const baseUrl = "https://www.ukpscdecoded.in";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Rebuilt at most hourly, so new courses appear without a deploy.
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const courses = await getActivePackages().catch(() => []);
   return [
     {
       url: baseUrl,
@@ -84,6 +89,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     // One entry per article, so new articles are indexed automatically.
+    {
+      url: `${baseUrl}/buy-ebooks`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    ...courses
+      .filter((p) => p.slug)
+      .map((p) => ({
+        url: `${baseUrl}/courses/${p.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      })),
     ...getAllArticles().map((article) => ({
       url: `${baseUrl}/articles/${article.slug}`,
       lastModified: new Date(article.date),

@@ -4,6 +4,7 @@ import settings from "@content/settings.json";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/refund-policy" },
   title: "Refund Policy",
   description: "Refund and cancellation policy for UKPSC Decoded courses, test series and mentorship.",
 };

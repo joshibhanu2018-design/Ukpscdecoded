@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/terms" },
   title: "Terms of Service",
   description: "Terms of service for UKPSC Decoded test series, crash course and combo packages.",
 };

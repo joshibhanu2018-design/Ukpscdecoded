@@ -3,6 +3,7 @@ import settings from "@content/settings.json";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privacy" },
   title: "Privacy Policy",
   description: "How UKPSC Decoded collects, uses and protects your personal data.",
 };

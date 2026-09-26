@@ -1,0 +1,24 @@
+# UKPSC Decoded
+
+> UKPSC Decoded (https://www.ukpscdecoded.in) is an online preparation platform for Uttarakhand state exams — UKPSC Upper PCS, Lower PCS, RO/ARO and UKSSSC — run by Bhanu Joshi from Nainital, Uttarakhand. It offers test series, a crash course, 1-on-1 mentorship, Uttarakhand GK books and free study material. YouTube: https://www.youtube.com/@Ukpscdecoded
+
+## Courses and test series
+- [Test Series](https://www.ukpscdecoded.in/test-series): all UKPSC 2026 test series — Premium (full mocks, sectional, Uttarakhand, current affairs, CSAT), Basic, Uttarakhand Intensive, Current Affairs Intensive, CSAT — with analysis after every test (gap to cutoff, weak topics, negative marking)
+- [Courses](https://www.ukpscdecoded.in/courses): crash course, crash course + test series bundles, mentorship
+- [Crash Course](https://www.ukpscdecoded.in/courses/crash-course): 50 video lectures + 6 live sessions for UKPSC Upper & Lower PCS 2026, released 2 October – 15 November 2026 (tentative plan on the page)
+- [Mentorship](https://www.ukpscdecoded.in/courses/prelims-mentorship): weekly 1-on-1 guidance with Bhanu Joshi, limited seats
+- [Free Sample Mock](https://www.ukpscdecoded.in/test-series): 50-question free test with the same analysis as the paid series
+
+## Books
+- [Uttarakhand Decoded (book)](https://www.ukpscdecoded.in/buy-book): complete Uttarakhand GK in one book
+- [Polity Decoded (e-book)](https://www.ukpscdecoded.in/buy-ebooks): visual Indian Polity e-book built from PYQs
+
+## Free resources
+- [Free Content](https://www.ukpscdecoded.in/free-content): PYQ trackers (Uttarakhand and National), 60-day study plan, strategy guides, video lectures
+- [PYQ Tracker](https://www.ukpscdecoded.in/pyq-tracker): topic-wise previous-year question trends for UKPSC
+- [Daily Current Affairs & MCQ](https://www.ukpscdecoded.in/current-affairs)
+- [Articles](https://www.ukpscdecoded.in/articles): UKPSC strategy, syllabus and preparation guides
+
+## About
+- [About](https://www.ukpscdecoded.in/about)
+- [Contact](https://www.ukpscdecoded.in/contact)

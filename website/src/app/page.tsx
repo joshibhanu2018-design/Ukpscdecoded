@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { BookOpen, ArrowRight, Star, BookMarked, Video, Send } from "lucide-react";
@@ -12,6 +13,10 @@ import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiv
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import quiz from "@content/quiz.json";
 import home from "@content/home.json";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   const { hero, quickLinks, features, bookPreview, testimonials, finalCta } = home;

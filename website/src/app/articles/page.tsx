@@ -4,6 +4,7 @@ import { getAllArticles, getCategories } from "@/lib/articles";
 import { FileText, Calendar, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/articles" },
   title: "Articles — UKPSC Preparation Strategy & Guides",
   description:
     "In-depth UKPSC preparation articles — strategy, answer writing, book lists, PYQ analysis, and current affairs guides for Prelims & Mains.",
