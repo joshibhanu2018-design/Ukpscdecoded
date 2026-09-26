@@ -1,25 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import {
-  createToken,
-  validateToken,
-  incrementDownloadCount,
-} from '@/lib/utils/token-manager';
+import Razorpay from 'razorpay';
+import { createDownloadToken, DOWNLOAD_LINK_TTL_MS, getEbook } from '@/lib/ebooks';
 
 /**
  * ============================================================================
- * COMPLETE PDF PURCHASE & PAYMENT SYSTEM
- * Google Form + Razorpay Integration
+ * E-BOOK PURCHASE: verify the Razorpay payment, log it to the Google Form,
+ * and return a signed, expiring download link (see src/lib/ebooks.ts).
  * ============================================================================
  */
-
-// PDF Configuration
-const PDF_CONFIG = {
-  'polity-decoded': {
-    name: 'Polity Decoded: The Complete Visual e-Book for PCS Prelims cum Mains',
-    fileUrl: 'https://github.com/joshibhanu2018-design/Ukpscdecoded/raw/main/website/public/ULTIMATE-INDIAN-POLITY-MASTER-e-BOOK%20(Recovered).pdf',
-  },
-};
 
 // ============================================================================
 // GOOGLE FORM CONFIGURATION - YOUR VERIFIED ENTRY IDs
@@ -212,51 +201,54 @@ export async function POST(request: NextRequest) {
     console.log('✅ Razorpay signature verified successfully');
 
     // ========== STEP 3: Validate PDF Configuration ==========
-    const pdfConfig = PDF_CONFIG[pdfId as keyof typeof PDF_CONFIG];
+    const pdfConfig = getEbook(pdfId);
     if (!pdfConfig) {
       console.error(`❌ [CONFIG] PDF configuration not found for pdfId: ${pdfId}`);
       return NextResponse.json(
         { error: 'PDF configuration not found' },
-        { status: 500 }
+        { status: 400 }
       );
     }
-    console.log(`✅ PDF config validated: ${pdfConfig.name}`);
 
-    // ========== STEP 4: Create Secure Download Token ==========
-    console.log('🔑 Creating secure download token...');
-    const downloadToken = createToken(
-      pdfId,
-      name || 'Customer',
-      phone || 'N/A',
-      email || 'noemail@example.com'
-    );
-    console.log('✅ Download token created');
+    // ========== STEP 4: Check the order really is this e-book at full price ==========
+    // The signature only proves Razorpay created the order with our key — the
+    // course store shares that key, so a cheap course order must not unlock this.
+    try {
+      const razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID || '',
+        key_secret: process.env.RAZORPAY_KEY_SECRET || '',
+      });
+      const order = await razorpay.orders.fetch(razorpay_order_id);
+      if (Number(order.amount) !== pdfConfig.amount || order.notes?.pdfId !== pdfConfig.id) {
+        console.error(`❌ [SECURITY] Order ${razorpay_order_id} is not a ${pdfConfig.id} order`);
+        return NextResponse.json(
+          { error: 'This payment is not for this e-book. Please contact support.' },
+          { status: 400 }
+        );
+      }
+    } catch (orderError) {
+      console.error('❌ Could not fetch Razorpay order:', orderError);
+      return NextResponse.json(
+        { error: `Could not confirm the order. Please contact support with Payment ID: ${razorpay_payment_id}` },
+        { status: 502 }
+      );
+    }
 
-    // ========== STEP 5: Generate Download Link ==========
+    // ========== STEP 5: Signed download link ==========
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.ukpscdecoded.in';
-    const downloadLink = `${baseUrl}/api/download-pdf?token=${downloadToken}&pdfId=${pdfId}`;
-    console.log(`📥 Download link generated: ${downloadLink}`);
+    const downloadLink = `${baseUrl}/api/download-pdf?token=${createDownloadToken(pdfConfig.id, razorpay_payment_id)}`;
 
     // ========== STEP 6: Submit to Google Form (Async) ==========
     console.log('📝 Submitting payment data to Google Form...');
     
-    // Run async submission in background
-    submitToGoogleForm(
+    // Awaited: on Vercel, work left running after the response can be cut off.
+    const formResult = await submitToGoogleForm(
       name || 'Customer',
       phone || 'N/A',
       pdfConfig.name,
       razorpay_payment_id
-    )
-      .then((result) => {
-        if (result.success) {
-          console.log('✅ [ASYNC] Form submission completed successfully');
-        } else {
-          console.warn('⚠️ [ASYNC] Form submission encountered issues:', result.message);
-        }
-      })
-      .catch((err) => {
-        console.error('❌ [ASYNC] Form submission error:', err);
-      });
+    );
+    if (!formResult.success) console.warn('⚠️ Form submission encountered issues:', formResult.message);
 
     // ========== STEP 7: Send Success Response ==========
     console.log('\n' + '='.repeat(80));
@@ -266,7 +258,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       downloadLink,
-      expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      expiresAt: Date.now() + DOWNLOAD_LINK_TTL_MS,
       message: 'Payment verified successfully! Your download link is ready.',
       paymentId: razorpay_payment_id,
       orderId: razorpay_order_id,
@@ -290,15 +282,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-// Optional: GET endpoint for debugging
-export async function GET(request: NextRequest) {
-  return NextResponse.json({
-    status: 'API Configuration Active ✅',
-    googleFormConfig: {
-      formId: GOOGLE_FORM_ID,
-      fields: GOOGLE_FORM_FIELDS,
-    },
-  });
 }
