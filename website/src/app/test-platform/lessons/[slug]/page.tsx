@@ -12,6 +12,7 @@ import {
   getPackageIncludes,
   getUserActiveEnrollments,
 } from "@/lib/packages";
+import CrashCoursePlan from "@/components/CrashCoursePlan";
 import { getPackageLessons, getWatchedLessonIds, isLessonReleased, recordLessonView } from "@/lib/lessons";
 
 export const metadata: Metadata = {
@@ -153,6 +154,10 @@ export default async function LessonsPage({
             })}
           </ul>
         )}
+
+        <div className="mt-10">
+          <CrashCoursePlan collapsed />
+        </div>
       </div>
     </div>
   );

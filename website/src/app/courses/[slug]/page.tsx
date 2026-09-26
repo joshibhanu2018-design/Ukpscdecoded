@@ -21,6 +21,7 @@ import FreeSampleTest from "@/components/FreeSampleTest";
 import { courseTone } from "@/components/CourseHeader";
 import DemoVideo from "@/components/DemoVideo";
 import TestTabs from "@/components/TestTabs";
+import CrashCoursePlan from "@/components/CrashCoursePlan";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -55,6 +56,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const videos = [pkg, ...includedPackages]
     .flatMap(demoVideos)
     .filter((v) => !seenVideos.has(v.youtubeId) && Boolean(seenVideos.add(v.youtubeId)));
+  const hasCrashCourse = [pkg, ...includedPackages].some((p) => p.package_type === "video_course");
   const header = courseHeader(pkg);
   const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
   const owned = getOwnedPackageIds(enrollments, includes, allPackages).has(pkg.id);
@@ -237,8 +239,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </section>
           )}
 
+          {/* Crash course (on its own page and on combos that include it): tentative calendar
+              replaces the placeholder "Lecture N" curriculum. */}
+          {hasCrashCourse && <CrashCoursePlan collapsed />}
+
           {/* Curriculum */}
-          {pkg.curriculum.length > 0 && (
+          {pkg.curriculum.length > 0 && pkg.package_type !== "video_course" && (
             <section>
               <h2 className="mb-4 text-lg font-bold text-white">Curriculum</h2>
               <ol className="space-y-2">

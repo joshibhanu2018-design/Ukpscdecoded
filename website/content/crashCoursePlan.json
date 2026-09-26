@@ -1,0 +1,340 @@
+{
+  "firstVideo": "2026-10-02",
+  "lastVideo": "2026-11-15",
+  "examDate": "2026-11-29",
+  "videos": [
+    {
+      "date": "2026-10-02",
+      "number": 1,
+      "module": "Orientation",
+      "title": "Course Roadmap & PYQ Weightage Strategy"
+    },
+    {
+      "date": "2026-10-02",
+      "number": 2,
+      "module": "UK Geography",
+      "title": "Physical Geography - Glaciers, Rivers, Prayags"
+    },
+    {
+      "date": "2026-10-02",
+      "number": 3,
+      "module": "UK Geography",
+      "title": "Passes, Valleys, Bugyals, Doons/Tarai/Bhabar, Physiographic Divisions"
+    },
+    {
+      "date": "2026-10-02",
+      "number": 4,
+      "module": "UK Geography",
+      "title": "Protected Areas I - National Parks & Wildlife Sanctuaries"
+    },
+    {
+      "date": "2026-10-02",
+      "number": 5,
+      "module": "UK Geography",
+      "title": "Protected Areas II - Biosphere Reserves, Ramsar Sites, Lakes"
+    },
+    {
+      "date": "2026-10-02",
+      "number": 6,
+      "module": "UK Geography",
+      "title": "District Data - Population, Literacy, Sex Ratio, Forest Cover, SC/ST, Drainage"
+    },
+    {
+      "date": "2026-10-02",
+      "number": 7,
+      "module": "National History",
+      "title": "Ancient India - Indus Valley, Vedic, Mauryan, Gupta"
+    },
+    {
+      "date": "2026-10-03",
+      "number": 8,
+      "module": "National History",
+      "title": "Medieval India - Delhi Sultanate, Mughal, Bhakti-Sufi, Vijayanagara, Maratha"
+    },
+    {
+      "date": "2026-10-03",
+      "number": 9,
+      "module": "UK History",
+      "title": "Katyuri & Parmar Dynasties"
+    },
+    {
+      "date": "2026-10-04",
+      "number": 10,
+      "module": "UK History",
+      "title": "Chand & Panwar Dynasties + Inscriptions"
+    },
+    {
+      "date": "2026-10-04",
+      "number": 11,
+      "module": "UK History",
+      "title": "British Period - Gorkha Invasion, Sugauli Treaty, British Admin"
+    },
+    {
+      "date": "2026-10-05",
+      "number": 12,
+      "module": "National Polity",
+      "title": "Fundamental Rights, DPSP, Fundamental Duties"
+    },
+    {
+      "date": "2026-10-05",
+      "number": 13,
+      "module": "National Polity",
+      "title": "Constitutional Amendments, Preamble, Schedules"
+    },
+    {
+      "date": "2026-10-06",
+      "number": 14,
+      "module": "UK History",
+      "title": "Movements I - Chipko, Maiti, Doodhatoli, Anti-Alcohol"
+    },
+    {
+      "date": "2026-10-06",
+      "number": 15,
+      "module": "UK History",
+      "title": "Movements II - Tehri Anti-Dam, Statehood Movement, Coolie-Begar"
+    },
+    {
+      "date": "2026-10-07",
+      "number": 16,
+      "module": "National History",
+      "title": "Modern India I - 1857 Revolt (incl. UK's role), INC, Gandhi's Movements"
+    },
+    {
+      "date": "2026-10-07",
+      "number": 17,
+      "module": "National History",
+      "title": "Modern India II - Constitutional Acts, Reform Movements, Partition, Tribal Movements"
+    },
+    {
+      "date": "2026-10-08",
+      "number": 18,
+      "module": "UK Polity",
+      "title": "Statehood Facts, First Officials, Governors & CMs"
+    },
+    {
+      "date": "2026-10-08",
+      "number": 19,
+      "module": "UK Polity",
+      "title": "State Symbols & Legislature"
+    },
+    {
+      "date": "2026-10-09",
+      "number": 20,
+      "module": "National Polity",
+      "title": "Parliament, President & Governor Powers, Judiciary"
+    },
+    {
+      "date": "2026-10-09",
+      "number": 21,
+      "module": "National Polity",
+      "title": "Panchayati Raj, Election Commission, Emergency Provisions, Centre-State"
+    },
+    {
+      "date": "2026-10-10",
+      "number": 22,
+      "module": "UK Polity",
+      "title": "Administrative Divisions - 13 Districts"
+    },
+    {
+      "date": "2026-10-10",
+      "number": 23,
+      "module": "UK Polity",
+      "title": "Important Commissions & Committees"
+    },
+    {
+      "date": "2026-10-11",
+      "number": 24,
+      "module": "UK Culture",
+      "title": "Major Tribes & PVTG Status, Fairs & Festivals"
+    },
+    {
+      "date": "2026-10-11",
+      "number": 25,
+      "module": "UK Culture",
+      "title": "Folk Dances, Art Forms, Religious Sites (Char Dham, Panch Prayag, Panch Kedar)"
+    },
+    {
+      "date": "2026-10-12",
+      "number": 26,
+      "module": "UK Culture",
+      "title": "Literary Figures, Freedom Fighters, Social Reformers, Languages"
+    },
+    {
+      "date": "2026-10-12",
+      "number": 27,
+      "module": "National Geography",
+      "title": "Plate Tectonics & Earthquakes, Himalayan Seismic Zones"
+    },
+    {
+      "date": "2026-10-13",
+      "number": 28,
+      "module": "National Geography",
+      "title": "Indian Monsoon, Climate Zones & Vegetation"
+    },
+    {
+      "date": "2026-10-13",
+      "number": 29,
+      "module": "UK Economy",
+      "title": "Major Dams & Hydro Projects, State GDP & Sector Contribution"
+    },
+    {
+      "date": "2026-10-14",
+      "number": 30,
+      "module": "UK Economy",
+      "title": "Tourism Circuits & Pilgrimages, Major Crops & Agri Zones"
+    },
+    {
+      "date": "2026-10-14",
+      "number": 31,
+      "module": "National Geography",
+      "title": "Rivers of India, Himalayan Physiography"
+    },
+    {
+      "date": "2026-10-15",
+      "number": 32,
+      "module": "National Geography",
+      "title": "Census 2011 (National), World Geography Basics"
+    },
+    {
+      "date": "2026-10-15",
+      "number": 33,
+      "module": "UK Economy",
+      "title": "Industrial Areas & SEZs, Mineral Resources & Mining"
+    },
+    {
+      "date": "2026-10-16",
+      "number": 35,
+      "module": "National Geography",
+      "title": "Agriculture Revolutions, Mineral/Energy Resources, Transport, Industrial Regions"
+    },
+    {
+      "date": "2026-10-18",
+      "number": 34,
+      "module": "Current Affairs",
+      "title": "National CA - Flagship Schemes, Awards, Summits (12-18 mo window)"
+    },
+    {
+      "date": "2026-10-20",
+      "number": 36,
+      "module": "National Economy",
+      "title": "Planning/NITI Aayog, Banking (RBI Tools - Repo/CRR/SLR)"
+    },
+    {
+      "date": "2026-10-22",
+      "number": 37,
+      "module": "National Economy",
+      "title": "Fiscal Policy/Budget/Deficits, Money & Inflation, Poverty & Unemployment"
+    },
+    {
+      "date": "2026-10-24",
+      "number": 38,
+      "module": "National Economy",
+      "title": "International Trade, Agri Economy (MSP/FCI), Tax Structure, HDI & Indices"
+    },
+    {
+      "date": "2026-10-26",
+      "number": 41,
+      "module": "Science & Tech",
+      "title": "Physics/Chemistry + Biology/Human Body/Diseases (Foundation)"
+    },
+    {
+      "date": "2026-10-28",
+      "number": 39,
+      "module": "Current Affairs",
+      "title": "UK CA - State Schemes, Disaster Management, UK Awards"
+    },
+    {
+      "date": "2026-10-30",
+      "number": 40,
+      "module": "UK Budget",
+      "title": "State Budget Highlights + Economic Survey"
+    },
+    {
+      "date": "2026-11-01",
+      "number": 42,
+      "module": "Science & Tech",
+      "title": "ISRO Missions, Defence Tech, IT/Digital India, Biotech, Nanotech"
+    },
+    {
+      "date": "2026-11-03",
+      "number": 43,
+      "module": "Environment",
+      "title": "National Parks/Sanctuaries (National), Climate Change Protocols"
+    },
+    {
+      "date": "2026-11-05",
+      "number": 44,
+      "module": "Environment",
+      "title": "Pollution & Legislation, Biodiversity Hotspots, Wetlands/Ramsar, SDGs"
+    },
+    {
+      "date": "2026-11-07",
+      "number": 45,
+      "module": "Intl Relations/Orgs",
+      "title": "G20/BRICS/SCO/QUAD, India's Role in Global Summits"
+    },
+    {
+      "date": "2026-11-08",
+      "number": 46,
+      "module": "Govt Schemes",
+      "title": "Flagship Schemes, Awards (Padma/Sports), Reports & Indices"
+    },
+    {
+      "date": "2026-11-10",
+      "number": 48,
+      "module": "CSAT",
+      "title": "Reading Comprehension + Logical Reasoning"
+    },
+    {
+      "date": "2026-11-12",
+      "number": 49,
+      "module": "CSAT",
+      "title": "Quantitative Aptitude + Data Interpretation + Decision Making"
+    },
+    {
+      "date": "2026-11-13",
+      "number": 47,
+      "module": "Current Affairs",
+      "title": "National CA Update - Science/Defence Developments, Sports"
+    },
+    {
+      "date": "2026-11-15",
+      "number": 50,
+      "module": "Current Affairs",
+      "title": "Final Integrated CA - Uttarakhand + National Combined"
+    }
+  ],
+  "liveSessions": [
+    {
+      "date": "2026-10-11",
+      "theme": "UK Geography + History - Doubt Clearing & Extra Content",
+      "focus": "Doubt-clearing on Videos 2-15 (UK Geography, UK History dynasties/movements) plus extra high-yield content on those themes."
+    },
+    {
+      "date": "2026-10-18",
+      "theme": "Elimination Technique & Exam Strategy",
+      "focus": "Standalone skill session - how to eliminate options under negative marking, attempt-order strategy, time management on exam day."
+    },
+    {
+      "date": "2026-10-25",
+      "theme": "Uttarakhand Polity - Doubt Clearing & Extra Content",
+      "focus": "Doubt-clearing on Videos 18-23 (UK Polity) plus extra content on state governance/administrative topics."
+    },
+    {
+      "date": "2026-11-01",
+      "theme": "National Polity + Economy - Doubt Clearing & Extra Content",
+      "focus": "Doubt-clearing on Videos 12-13, 20-21 (National Polity) and 36-38 (National Economy) plus extra content."
+    },
+    {
+      "date": "2026-11-08",
+      "theme": "Science & Tech + Environment - Doubt Clearing & Extra Content",
+      "focus": "Doubt-clearing on Videos 41-44 (Sci-Tech, Environment) plus extra content on those themes."
+    },
+    {
+      "date": "2026-11-15",
+      "theme": "Current Affairs + Final Wrap-up Strategy",
+      "focus": "Final doubt-clearing on all 4 CA videos, plus last-mile revision strategy for the final 2 weeks before Nov 29 exam."
+    }
+  ],
+  "revision": "16–29 November: no new videos — pure revision and full mock tests before the Upper PCS Prelims on 29 November."
+}
