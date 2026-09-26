@@ -147,7 +147,7 @@ export default async function FreeContentPage() {
               href="https://youtube.com/@ukpscdecoded"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+              className="inline-flex items-center justify-center gap-2 bg-danger-600 hover:bg-danger-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <Video className="w-5 h-5" />
               Subscribe on YouTube

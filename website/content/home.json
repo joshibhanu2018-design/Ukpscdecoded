@@ -25,10 +25,42 @@
     "secondaryButtonLink": "/free-content"
   },
   "quickLinks": [
-    { "title": "Paid Courses", "label": "Structured video courses for every stage", "icon": "video", "href": "/paid-courses" },
-    { "title": "Test Series", "label": "Practice with 66+ expertly designed tests", "icon": "chart", "href": "/test-series" },
-    { "title": "Buy E-Books", "label": "Complete subject guides (Polity, GK & more)", "icon": "book", "href": "/buy-ebooks" },
-    { "title": "Daily MCQ", "label": "Fresh questions every day", "icon": "brain", "href": "/current-affairs#daily-quiz" }
+    {
+      "title": "Crash Course",
+      "label": "50 video lectures + live sessions + PDF notes",
+      "icon": "video",
+      "href": "/courses/crash-course"
+    },
+    {
+      "title": "Test Series",
+      "label": "62 tests: mocks, sectional, Uttarakhand, CA, CSAT",
+      "icon": "chart",
+      "href": "/courses/premium-test-series"
+    },
+    {
+      "title": "Book — English",
+      "label": "Uttarakhand Decoded, English edition",
+      "icon": "book",
+      "href": "/buy-book?lang=en"
+    },
+    {
+      "title": "Book — Hindi",
+      "label": "हिंदी संस्करण · Hindi edition",
+      "icon": "book",
+      "href": "/buy-book?lang=hi"
+    },
+    {
+      "title": "E-Books",
+      "label": "Subject guides: Polity, GK & more",
+      "icon": "file",
+      "href": "/buy-ebooks"
+    },
+    {
+      "title": "Mentorship",
+      "label": "Weekly 1-on-1 with Bhanu Joshi",
+      "icon": "users",
+      "href": "/courses/prelims-mentorship"
+    }
   ],
   "features": {
     "headingLine1": "Everything You Need to",

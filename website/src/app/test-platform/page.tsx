@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { CalendarDays, CheckCircle2, Flame, Lock, Target, Trophy, Video, Zap } from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, Flame, Gift, Target, Trophy, Video, Zap } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import {
   formatClassDate,
@@ -17,266 +17,310 @@ import {
 } from "@/lib/packages";
 import {
   getPackageProgress,
-  getPackageTestsWithRelease,
   getUserAverageScore,
   getUserGamificationStats,
+  getUserTestsTaken,
 } from "@/lib/dashboard";
+import { getFreeTests, isTestReleased } from "@/lib/tests";
+import { getPriceInfo } from "@/lib/pricing";
+import { xpForLevel } from "@/lib/gamification";
+import { supabaseAdmin } from "@/lib/supabase";
 import LogoutButton from "@/components/LogoutButton";
+import ReferralCard from "@/components/ReferralCard";
+import CourseThumb from "@/components/CourseThumb";
 
 export const metadata: Metadata = {
-  title: "Test Platform",
-  description: "Your UKPSC Decoded test platform dashboard.",
+  title: "My Courses",
+  description: "Your UKPSC Decoded courses and test series.",
 };
 
-function StatTile({
-  icon,
-  label,
-  value,
-  sub,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  sub?: string;
-}) {
+function StatTile({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-      <div className="mb-2 flex items-center gap-2 text-yellow-500">{icon}</div>
-      <div className="text-xl font-bold text-white">{value}</div>
-      <div className="text-xs text-slate-400">{label}</div>
-      {sub && <div className="text-xs text-slate-500">{sub}</div>}
+    <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-3 sm:p-4">
+      <div className="mb-1.5 text-saffron-400">{icon}</div>
+      <div className="text-lg font-bold text-white sm:text-xl">{value}</div>
+      <div className="text-[11px] text-graphite-300 sm:text-xs">{label}</div>
+      {sub && <div className="text-[11px] text-graphite-300">{sub}</div>}
     </div>
   );
 }
 
-export default async function TestPlatformPage({
+const TYPE_LABEL: Record<string, string> = {
+  test_series: "Test Series",
+  video_course: "Video Course",
+  mentorship: "Mentorship",
+};
+
+export default async function MyCoursesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ purchase?: string }>;
+  searchParams: Promise<{ purchase?: string; already?: string }>;
 }) {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
   const user = await getUserFromSession(token);
-  if (!user) redirect("/student/login");
+  if (!user) redirect("/student/login?next=/test-platform");
 
-  const { purchase } = await searchParams;
+  const { purchase, already } = await searchParams;
 
-  const [allPackages, includes, enrollments, stats, avgScore] = await Promise.all([
+  const [allPackages, includes, enrollments, stats, avgScore, testsTaken, freeTests, referralRes] = await Promise.all([
     getActivePackages(),
     getPackageIncludes(),
     getUserActiveEnrollments(user.id),
     getUserGamificationStats(user.id),
     getUserAverageScore(user.id),
+    getUserTestsTaken(user.id),
+    getFreeTests(),
+    supabaseAdmin().from("users").select("referral_code, store_credit_paise").eq("id", user.id).maybeSingle(),
   ]);
+  const referralInfo = referralRes.data;
+  const releasedFreeTests = freeTests.filter((t) => isTestReleased(t) && t.question_ids.length > 0);
 
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
-  const byId = new Map(allPackages.map((p) => [p.id, p]));
 
-  const myPackages = [...ownedIds]
-    .map((id) => byId.get(id))
-    .filter((p): p is Package => !!p && p.package_type !== "combo_bundle");
-  const myTestSeries = myPackages.filter((p) => p.package_type === "test_series");
-  const myVideoCourses = myPackages.filter((p) => p.package_type === "video_course");
+  // A combo is just a key to its components — show the components, not the combo itself.
+  const myCourses = allPackages.filter((p) => ownedIds.has(p.id) && p.package_type !== "combo_bundle");
 
-  const testSeriesProgress = await Promise.all(
-    myTestSeries.map(async (pkg) => ({
+  const courseCards = await Promise.all(
+    myCourses.map(async (pkg) => ({
       pkg,
-      progress: await getPackageProgress(user.id, pkg.id, pkg.total_tests),
       validTill: getPackageAccessSource(pkg.id, enrollments, includes)?.access_valid_till ?? pkg.access_valid_till,
-      tests: await getPackageTestsWithRelease(pkg.id),
+      progress: pkg.package_type === "test_series" ? await getPackageProgress(user.id, pkg.id, pkg.total_tests) : null,
     }))
   );
 
-  const notOwned = allPackages.filter((p) => !ownedIds.has(p.id));
-  const allVideoCourses = allPackages.filter((p) => p.package_type === "video_course");
+  const explore = allPackages.filter((p) => !ownedIds.has(p.id) && p.slug);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in";
+  const firstName = user.full_name?.split(" ")[0] || "";
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <div>
+        <div className="mb-6 flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-sm text-graphite-300">
+              Welcome back, <span className="text-saffron-400">{firstName}</span>
+            </p>
             <h1 className="text-2xl font-bold text-white">
-              स्वागत है, <span className="text-yellow-500">{user.full_name}</span>
+              My Courses
             </h1>
-            <p className="mt-1 text-sm text-slate-400">{user.email}</p>
           </div>
-          <LogoutButton />
+          <div className="flex flex-shrink-0 items-center gap-2">
+            {user.role === "admin" && (
+              <Link href="/test-platform/admin" className="rounded-lg border border-saffron-400/40 px-3 py-2 text-sm font-medium text-saffron-300 hover:bg-saffron-400/10">
+                Admin
+              </Link>
+            )}
+            <LogoutButton />
+          </div>
         </div>
 
         {purchase === "success" && (
-          <div className="mb-6 flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-sm text-green-300">
-            <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
-            भुगतान सफल — आपका पैकेज सक्रिय है।{" "}
-            <span className="text-green-400/80">/ Payment successful — your package is active.</span>
+          <div className="mb-6 flex items-start gap-2 rounded-lg border border-success-500/30 bg-success-500/10 px-4 py-2.5 text-sm text-success-300">
+            <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" />
+            <span>
+              Payment successful — your course is active.
+            </span>
+          </div>
+        )}
+        {already === "owned" && (
+          <div className="mb-6 rounded-lg border border-saffron-400/30 bg-saffron-400/10 px-4 py-2.5 text-sm text-saffron-100">
+            You already own this course.
           </div>
         )}
 
-        <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <StatTile icon={<Target className="h-5 w-5" />} label="Tests Taken" value={String(stats.total_tests_taken)} />
+        {myCourses.length === 0 ? (
+          <div className="mb-8 rounded-2xl border border-dashed border-graphite-700 bg-graphite-800/40 p-6 text-center sm:p-8">
+            <p className="text-graphite-300">You haven&apos;t enrolled in a course yet.</p>
+            <Link
+              href="/courses"
+              className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-saffron-400 px-5 py-3 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
+            >
+              Browse Courses <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        ) : (
+          <section className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {courseCards.map(({ pkg, validTill, progress }) => {
+              const pct =
+                progress && progress.totalTests > 0
+                  ? Math.min(100, Math.round((progress.testsDone / progress.totalTests) * 100))
+                  : 0;
+              const classStart = formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined);
+              const continueHref =
+                pkg.package_type === "mentorship"
+                  ? "/test-platform/mentorship"
+                  : pkg.package_type === "test_series" && pkg.slug
+                  ? `/test-platform/course/${pkg.slug}`
+                  : pkg.slug
+                    ? `/courses/${pkg.slug}`
+                    : "/courses";
+              return (
+                <div key={pkg.id} className="flex flex-col overflow-hidden rounded-2xl border border-graphite-800 bg-graphite-900/60">
+                  <CourseThumb src={pkg.image_url} alt={pkg.package_name} className="h-20 w-full" />
+                  <div className="flex flex-1 flex-col p-4">
+                    <p className="text-[11px] font-medium text-saffron-400">{TYPE_LABEL[pkg.package_type] ?? pkg.package_type}</p>
+                    <h2 className="mt-0.5 font-semibold text-white">{pkg.package_name}</h2>
+
+                    {progress && (
+                      <div className="mt-3">
+                        <div className="mb-1 flex justify-between text-xs text-graphite-300">
+                          <span>Progress</span>
+                          <span>
+                            {progress.testsDone} / {progress.totalTests} tests
+                          </span>
+                        </div>
+                        <div className="h-2 rounded-full bg-graphite-800">
+                          <div className="h-2 rounded-full bg-saffron-400" style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    )}
+
+                    {pkg.package_type === "video_course" && (
+                      <p className="mt-3 flex items-center gap-1.5 text-xs text-graphite-300">
+                        <Video className="h-3.5 w-3.5 text-saffron-400" />
+                        {classStart ? `Classes start ${classStart}` : "Videos coming soon"}
+                      </p>
+                    )}
+
+                    {validTill && (
+                      <p className="mt-2 flex items-center gap-1.5 text-xs text-graphite-300">
+                        <CalendarDays className="h-3.5 w-3.5" /> Valid till {formatDateLabel(validTill)}
+                      </p>
+                    )}
+
+                    <Link
+                      href={continueHref}
+                      className="mt-4 flex items-center justify-center gap-1.5 rounded-lg bg-saffron-400 px-4 py-3 text-sm font-bold text-graphite-900 hover:bg-saffron-300 sm:mt-auto"
+                    >
+                      Continue <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </section>
+        )}
+
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+          <StatTile icon={<Target className="h-5 w-5" />} label="Tests Taken" value={String(testsTaken)} />
           <StatTile
             icon={<Trophy className="h-5 w-5" />}
-            label="Average Score"
+            label="Average"
             value={avgScore != null ? `${avgScore.toFixed(1)}%` : "—"}
           />
           <StatTile
             icon={<Flame className="h-5 w-5" />}
-            label="Current Streak"
+            label="Streak"
             value={`${stats.current_streak} day${stats.current_streak === 1 ? "" : "s"}`}
+            sub={stats.best_streak > 0 ? `Best: ${stats.best_streak}` : "1 test a day"}
           />
-          <StatTile
-            icon={<Zap className="h-5 w-5" />}
-            label="Level"
-            value={`Lvl ${stats.level}`}
-            sub={`${stats.total_xp} XP`}
-          />
+          <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-3 sm:p-4">
+            <div className="mb-1.5 text-saffron-400">
+              <Zap className="h-5 w-5" />
+            </div>
+            <div className="text-lg font-bold text-white sm:text-xl">Level {stats.level}</div>
+            <div className="text-[11px] text-graphite-300 sm:text-xs">{stats.total_xp} XP</div>
+            {stats.level < 25 && (
+              <>
+                <div className="mt-2 h-1.5 rounded-full bg-graphite-800">
+                  <div
+                    className="h-1.5 rounded-full bg-saffron-400"
+                    style={{
+                      width: `${Math.min(
+                        100,
+                        Math.round(
+                          ((stats.total_xp - xpForLevel(stats.level)) /
+                            (xpForLevel(stats.level + 1) - xpForLevel(stats.level))) *
+                            100
+                        )
+                      )}%`,
+                    }}
+                  />
+                </div>
+                <div className="mt-1 text-[11px] text-graphite-300">
+                  {xpForLevel(stats.level + 1) - stats.total_xp} XP → Lvl {stats.level + 1}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
-        <section className="mb-10">
-          <h2 className="mb-4 text-xl font-bold text-white">
-            मेरे पैकेज <span className="text-slate-400">/ My Packages</span>
-          </h2>
+        {testsTaken > 0 && (
+          <Link
+            href="/test-platform/performance"
+            className="-mt-4 mb-8 flex items-center justify-between rounded-xl border border-saffron-400/30 bg-saffron-400/10 px-4 py-3 text-sm text-saffron-100 hover:bg-saffron-400/15"
+          >
+            <span>
+              <span className="font-semibold">My Performance</span>
+              <span className="block text-xs text-saffron-200/80">Weak topics, error log, guess rule</span>
+            </span>
+            <ArrowRight className="h-4 w-4 flex-shrink-0" />
+          </Link>
+        )}
 
-          {myPackages.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-slate-700 bg-slate-800/40 p-8 text-center">
-              <p className="text-slate-300">
-                शुरुआत करें <span className="text-slate-500">/ </span>Start with a free sample test.
-              </p>
-              <Link
-                href="/test-platform/packages"
-                className="mt-4 inline-block rounded-lg bg-yellow-500 px-5 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-yellow-400"
-              >
-                Browse the Package Store
-              </Link>
-            </div>
-          ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {testSeriesProgress.map(({ pkg, progress, validTill, tests }) => (
-                <div key={pkg.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-                  <h3 className="font-semibold text-white">{pkg.package_name}</h3>
-                  <div className="mt-3">
-                    <div className="mb-1 flex justify-between text-xs text-slate-400">
-                      <span>Progress</span>
-                      <span>
-                        {progress.testsDone} / {progress.totalTests || 0} tests
-                      </span>
-                    </div>
-                    <div className="h-2 rounded-full bg-slate-800">
-                      <div
-                        className="h-2 rounded-full bg-yellow-500"
-                        style={{
-                          width: `${
-                            progress.totalTests > 0
-                              ? Math.min(100, Math.round((progress.testsDone / progress.totalTests) * 100))
-                              : 0
-                          }%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                  {validTill && (
-                    <p className="mt-3 flex items-center gap-1.5 text-xs text-slate-500">
-                      <CalendarDays className="h-3.5 w-3.5" /> Valid till {formatDateLabel(validTill)}
-                    </p>
-                  )}
-                  {tests.length > 0 && (
-                    <ul className="mt-4 space-y-1.5 border-t border-slate-800 pt-3">
-                      {tests.map((t) => (
-                        <li key={t.id} className="flex items-center gap-1.5 text-xs">
-                          {t.isReleased ? (
-                            <span className="text-slate-300">{t.test_name}</span>
-                          ) : (
-                            <span className="flex items-center gap-1.5 text-slate-500">
-                              <Lock className="h-3 w-3 flex-shrink-0" />
-                              {t.test_name} — Unlocks on {formatDateLabel(t.release_at)}
-                            </span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-
-              {myVideoCourses.map((pkg) => {
-                const validTill = getPackageAccessSource(pkg.id, enrollments, includes)?.access_valid_till ?? pkg.access_valid_till;
-                const classStart = formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined);
-                return (
-                  <div key={pkg.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-                    <div className="mb-2 flex items-center gap-2 text-yellow-500">
-                      <Video className="h-5 w-5" />
-                    </div>
-                    <h3 className="font-semibold text-white">{pkg.package_name}</h3>
-                    {classStart && (
-                      <p className="mt-2 flex items-center gap-1.5 text-sm text-yellow-400">
-                        <CalendarDays className="h-4 w-4" /> Classes start {classStart}
-                      </p>
-                    )}
-                    <p className="mt-1 text-xs text-slate-500">Videos will appear here once added.</p>
-                    {validTill && (
-                      <p className="mt-3 text-xs text-slate-500">Valid till {formatDateLabel(validTill)}</p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
-
-        {allVideoCourses.length > 0 && (
-          <section className="mb-10">
-            <h2 className="mb-4 text-xl font-bold text-white">
-              वीडियो कोर्स <span className="text-slate-400">/ Video Courses</span>
+        {releasedFreeTests.length > 0 && (
+          <section className="mb-8">
+            <h2 className="mb-3 text-lg font-bold text-white">
+              Free Tests
             </h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {allVideoCourses.map((pkg) => {
-                const owned = ownedIds.has(pkg.id);
-                const classStart = formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined);
-                return (
-                  <div key={pkg.id} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-sm font-semibold text-white">{pkg.package_name}</h3>
-                      {owned && (
-                        <span className="flex-shrink-0 rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] font-semibold text-green-400">
-                          Enrolled
-                        </span>
-                      )}
-                    </div>
-                    {classStart && <p className="mt-1 text-xs text-yellow-400">Classes start {classStart}</p>}
-                    {!owned && (
-                      <div className="mt-3 flex items-center justify-between">
-                        <span className="text-sm font-bold text-white">{formatINR(pkg.price)}</span>
-                        <Link href="/test-platform/packages" className="text-xs font-medium text-yellow-500 hover:text-yellow-400">
-                          View in store
-                        </Link>
-                      </div>
-                    )}
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {releasedFreeTests.map((t) => (
+                <Link
+                  key={t.id}
+                  href={`/test-platform/tests/${t.id}`}
+                  className="group flex items-center gap-3 rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 hover:border-saffron-400/50"
+                >
+                  <Gift className="h-5 w-5 flex-shrink-0 text-success-400" />
+                  <div className="min-w-0">
+                    <h3 className="truncate text-sm font-semibold text-white group-hover:text-saffron-400">{t.test_name}</h3>
+                    <p className="text-xs text-graphite-300">
+                      {t.question_ids.length} Q · {t.duration_minutes} min
+                    </p>
                   </div>
-                );
-              })}
+                </Link>
+              ))}
             </div>
           </section>
         )}
 
-        {notOwned.length > 0 && (
+        {referralInfo?.referral_code && (
+          <div className="mb-8">
+            <ReferralCard
+              referralCode={referralInfo.referral_code}
+              storeCreditPaise={referralInfo.store_credit_paise ?? 0}
+              storeUrl={`${baseUrl}/courses`}
+            />
+          </div>
+        )}
+
+        {explore.length > 0 && (
           <section>
-            <h2 className="mb-4 text-xl font-bold text-white">
-              अपनी तैयारी पूरी करें <span className="text-slate-400">/ Complete Your Preparation</span>
-            </h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {notOwned.map((pkg) => (
-                <div key={pkg.id} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-                  <h3 className="text-sm font-semibold text-white">{pkg.package_name}</h3>
-                  <div className="mt-3 flex items-center justify-between">
-                    <span className="text-sm font-bold text-white">{formatINR(pkg.price)}</span>
-                    <Link
-                      href="/test-platform/packages"
-                      className="text-xs font-medium text-yellow-500 hover:text-yellow-400"
-                    >
-                      View in store
-                    </Link>
-                  </div>
-                </div>
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <h2 className="text-lg font-bold text-white">
+                Explore more courses
+              </h2>
+              <Link href="/courses" className="flex-shrink-0 text-sm font-medium text-saffron-400 hover:text-saffron-300">
+                All →
+              </Link>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {explore.slice(0, 3).map((pkg: Package) => (
+                <Link
+                  key={pkg.id}
+                  href={`/courses/${pkg.slug}`}
+                  className="flex items-center justify-between gap-3 rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 hover:border-saffron-400/50"
+                >
+                  <span className="min-w-0 truncate text-sm font-semibold text-white">{pkg.package_name}</span>
+                  <span className="flex-shrink-0 text-sm font-bold text-saffron-400">{formatINR(getPriceInfo(pkg).amount)}</span>
+                </Link>
               ))}
             </div>
+            <Link
+              href="/courses"
+              className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-saffron-400/50 px-4 py-3 text-sm font-semibold text-saffron-300 hover:bg-saffron-400/10"
+            >
+              Explore all courses <ArrowRight className="h-4 w-4" />
+            </Link>
           </section>
         )}
       </div>

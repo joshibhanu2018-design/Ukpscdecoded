@@ -1,0 +1,524 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Bookmark, ChevronLeft, ChevronRight, Clock, Grid3X3, Loader2, X } from "lucide-react";
+import type { Answers, Confidence, Confidences, OptionKey, PublicQuestion } from "@/lib/tests";
+import LangToggle, { useTestLang } from "./LangToggle";
+
+type SaveState = "idle" | "saving" | "saved" | "error";
+
+const AUTOSAVE_DELAY_MS = 800;
+
+const CONFIDENCE_OPTIONS: { key: Confidence; en: string }[] = [
+  { key: "sure", en: "Sure" },
+  { key: "elim2", en: "Ruled out 2" },
+  { key: "elim1", en: "Ruled out 1" },
+  { key: "guess", en: "Guess" },
+];
+
+function formatClock(ms: number): string {
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${pad(m)}:${pad(sec)}`;
+}
+
+export default function TestRunner({
+  attemptId,
+  testName,
+  questions,
+  initialAnswers,
+  initialMarked,
+  initialConfidence = {},
+  deadline,
+  serverNow,
+}: {
+  attemptId: string;
+  testName: string;
+  questions: PublicQuestion[];
+  initialAnswers: Answers;
+  initialMarked: string[];
+  initialConfidence?: Confidences;
+  deadline: number; // epoch ms
+  serverNow: number; // epoch ms at render, to correct for a wrong device clock
+}) {
+  const router = useRouter();
+  const [current, setCurrent] = useState(0);
+  const [answers, setAnswers] = useState<Answers>(initialAnswers);
+  const [marked, setMarked] = useState<Set<string>>(() => new Set(initialMarked));
+  const [confidence, setConfidence] = useState<Confidences>(initialConfidence);
+  const [visited, setVisited] = useState<Set<string>>(
+    () => new Set([...Object.keys(initialAnswers), ...initialMarked, questions[0]?.id].filter(Boolean) as string[])
+  );
+  const [lang, changeLang] = useTestLang();
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  // The site navbar is itself sticky; pin the timer bar just below it so
+  // the clock never scrolls out of view.
+  const [navHeight, setNavHeight] = useState(64);
+
+  // Device clock may be off; everything timer-related uses server time.
+  const skewRef = useRef(serverNow - Date.now());
+  const [remaining, setRemaining] = useState(() => deadline - serverNow);
+
+  const latest = useRef({ answers, marked, confidence });
+  latest.current = { answers, marked, confidence };
+  const dirty = useRef(false);
+  const submittedRef = useRef(false);
+
+  useEffect(() => {
+    const nav = document.querySelector("nav");
+    if (!nav) return;
+    const update = () => setNavHeight(nav.getBoundingClientRect().height);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(nav);
+    return () => ro.disconnect();
+  }, []);
+
+
+  const payload = () =>
+    JSON.stringify({
+      answers: latest.current.answers,
+      marked: [...latest.current.marked],
+      confidence: latest.current.confidence,
+    });
+
+  const submit = useCallback(async () => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch(`/api/attempts/${attemptId}/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload(),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Could not submit");
+      }
+      dirty.current = false;
+      router.replace(`/test-platform/attempts/${attemptId}/result`);
+    } catch (err) {
+      submittedRef.current = false;
+      setSubmitting(false);
+      setSubmitError(
+        err instanceof Error && err.message !== "Failed to fetch"
+          ? err.message
+          : "Network error — your answers are saved. Please try submitting again."
+      );
+    }
+  }, [attemptId, router]);
+
+  const save = useCallback(async () => {
+    if (submittedRef.current || !dirty.current) return;
+    dirty.current = false;
+    setSaveState("saving");
+    try {
+      const res = await fetch(`/api/attempts/${attemptId}/answers`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: payload(),
+      });
+      if (res.status === 409) {
+        // Time is up or already submitted server-side — finalize.
+        void submit();
+        return;
+      }
+      if (!res.ok) throw new Error("save failed");
+      setSaveState("saved");
+    } catch {
+      dirty.current = true; // retried on the next change or the interval below
+      setSaveState("error");
+    }
+  }, [attemptId, submit]);
+
+  // Debounced autosave on every change.
+  useEffect(() => {
+    if (!dirty.current) return;
+    const t = setTimeout(save, AUTOSAVE_DELAY_MS);
+    return () => clearTimeout(t);
+  }, [answers, marked, confidence, save]);
+
+  // Retry failed saves periodically (e.g. flaky mobile data).
+  useEffect(() => {
+    const t = setInterval(() => {
+      if (dirty.current) void save();
+    }, 15000);
+    return () => clearInterval(t);
+  }, [save]);
+
+  // Best-effort flush when the tab is closed/hidden.
+  useEffect(() => {
+    const flush = () => {
+      if (!dirty.current || submittedRef.current) return;
+      fetch(`/api/attempts/${attemptId}/answers`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: payload(),
+        keepalive: true,
+      }).catch(() => {});
+      dirty.current = false;
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") flush();
+    };
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [attemptId]);
+
+  // Countdown; auto-submit at zero.
+  useEffect(() => {
+    const tick = () => {
+      const left = deadline - (Date.now() + skewRef.current);
+      setRemaining(left);
+      if (left <= 0) void submit();
+    };
+    tick();
+    const t = setInterval(tick, 1000);
+    return () => clearInterval(t);
+  }, [deadline, submit]);
+
+  const goTo = (i: number) => {
+    const q = questions[i];
+    if (!q) return;
+    setCurrent(i);
+    setVisited((v) => (v.has(q.id) ? v : new Set(v).add(q.id)));
+    setPaletteOpen(false);
+  };
+
+  const q = questions[current];
+
+  const choose = (key: OptionKey) => {
+    dirty.current = true;
+    setAnswers((a) => ({ ...a, [q.id]: key }));
+  };
+
+  const clearAnswer = () => {
+    if (!(q.id in answers)) return;
+    dirty.current = true;
+    setAnswers((a) => {
+      const next = { ...a };
+      delete next[q.id];
+      return next;
+    });
+    setConfidence((c) => {
+      const next = { ...c };
+      delete next[q.id];
+      return next;
+    });
+  };
+
+  const setSureness = (level: Confidence) => {
+    dirty.current = true;
+    setConfidence((c) => {
+      const next = { ...c };
+      if (next[q.id] === level) delete next[q.id]; // tap again to un-tag
+      else next[q.id] = level;
+      return next;
+    });
+  };
+
+  const toggleMark = () => {
+    dirty.current = true;
+    setMarked((m) => {
+      const next = new Set(m);
+      if (next.has(q.id)) next.delete(q.id);
+      else next.add(q.id);
+      return next;
+    });
+  };
+
+  const answeredCount = questions.filter((x) => x.id in answers).length;
+  const markedCount = questions.filter((x) => marked.has(x.id)).length;
+  const lowTime = remaining <= 5 * 60 * 1000;
+
+  const text = (hi: string | null, en: string | null) => (lang === "hi" ? hi || en : en || hi) ?? "";
+
+  const paletteClass = (id: string) => {
+    const a = id in answers;
+    const m = marked.has(id);
+    if (a && m) return "bg-purple-600 text-white ring-2 ring-success-400";
+    if (m) return "bg-purple-600 text-white";
+    if (a) return "bg-success-600 text-white";
+    if (visited.has(id)) return "bg-danger-500/80 text-white";
+    return "bg-graphite-800 text-graphite-300";
+  };
+
+  const palette = (
+    <div>
+      <div className="grid grid-cols-5 gap-2">
+        {questions.map((x, i) => (
+          <button
+            key={x.id}
+            onClick={() => goTo(i)}
+            className={`h-9 rounded-md text-sm font-semibold ${paletteClass(x.id)} ${
+              i === current ? "outline outline-2 outline-offset-2 outline-saffron-400" : ""
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+      <ul className="mt-4 space-y-1.5 text-xs text-graphite-300">
+        <li className="flex items-center gap-2">
+          <span className="h-3 w-3 rounded-sm bg-success-600" /> Answered
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="h-3 w-3 rounded-sm bg-danger-500/80" /> Not answered
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="h-3 w-3 rounded-sm bg-purple-600" /> Marked for review
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="h-3 w-3 rounded-sm bg-graphite-800" /> Not visited
+        </li>
+      </ul>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-graphite-950">
+      {/* Header */}
+      <div className="sticky z-20 border-b border-graphite-800 bg-graphite-900/95 backdrop-blur" style={{ top: navHeight }}>
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+          <h1 className="min-w-0 truncate text-sm font-semibold text-white sm:text-base">{testName}</h1>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="hidden text-xs text-graphite-300 sm:inline">
+              {saveState === "saving" && "Saving…"}
+              {saveState === "saved" && "Saved"}
+              {saveState === "error" && <span className="text-danger-300">Offline — will retry</span>}
+            </span>
+            <LangToggle lang={lang} onChange={changeLang} />
+            <div
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-sm font-bold ${
+                lowTime ? "bg-danger-500/15 text-danger-300" : "bg-graphite-800 text-white"
+              }`}
+            >
+              <Clock className="h-4 w-4" /> {formatClock(remaining)}
+            </div>
+            <button
+              onClick={() => setPaletteOpen(true)}
+              className="rounded-lg border border-graphite-700 p-1.5 text-graphite-300 lg:hidden"
+              aria-label="Question palette"
+            >
+              <Grid3X3 className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto flex max-w-6xl gap-6 px-4 py-6">
+        {/* Question */}
+        <div className="min-w-0 flex-1">
+          <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5 sm:p-6">
+            <div className="mb-4 flex items-center justify-between gap-3 text-sm">
+              <span className="font-semibold text-saffron-400">
+                Question {current + 1} / {questions.length}
+              </span>
+              {q.subject && <span className="truncate text-xs text-graphite-300">{q.subject}</span>}
+            </div>
+
+            <p className="whitespace-pre-line text-base leading-relaxed text-white">
+              {text(q.text_hindi, q.text_english)}
+            </p>
+
+            <div className="mt-5 space-y-3">
+              {q.options.map((o) => {
+                const label = text(o.hindi, o.english);
+                if (!label) return null;
+                const selected = answers[q.id] === o.key;
+                return (
+                  <button
+                    key={o.key}
+                    onClick={() => choose(o.key)}
+                    className={`flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
+                      selected
+                        ? "border-saffron-400 bg-saffron-400/10 text-white"
+                        : "border-graphite-700 text-graphite-200 hover:border-graphite-500"
+                    }`}
+                  >
+                    <span
+                      className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                        selected ? "bg-saffron-400 text-graphite-900" : "bg-graphite-800 text-graphite-300"
+                      }`}
+                    >
+                      {o.key}
+                    </span>
+                    <span className="pt-0.5">{label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {q.id in answers && (
+              <div className="mt-4 border-t border-graphite-800 pt-3">
+                <p className="mb-2 text-xs text-graphite-300">
+                  How sure are you? (optional, for your guess analysis)
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {CONFIDENCE_OPTIONS.map((c) => (
+                    <button
+                      key={c.key}
+                      onClick={() => setSureness(c.key)}
+                      className={`rounded-full border px-3 py-1.5 text-xs ${
+                        confidence[q.id] === c.key
+                          ? "border-saffron-400 bg-saffron-400/15 text-saffron-100"
+                          : "border-graphite-700 text-graphite-300 hover:border-graphite-500"
+                      }`}
+                    >
+                      {c.en}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex gap-2">
+              <button
+                onClick={toggleMark}
+                className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm ${
+                  marked.has(q.id)
+                    ? "border-purple-500 bg-purple-500/15 text-purple-200"
+                    : "border-graphite-700 text-graphite-300 hover:border-graphite-500"
+                }`}
+              >
+                <Bookmark className="h-4 w-4" />
+                {marked.has(q.id) ? "Marked" : "Mark for review"}
+              </button>
+              <button
+                onClick={clearAnswer}
+                disabled={!(q.id in answers)}
+                className="rounded-lg border border-graphite-700 px-3 py-2 text-sm text-graphite-300 hover:border-graphite-500 disabled:opacity-40"
+              >
+                Clear
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => goTo(current - 1)}
+                disabled={current === 0}
+                className="flex items-center gap-1 rounded-lg border border-graphite-700 px-3 py-2 text-sm text-graphite-300 disabled:opacity-40"
+              >
+                <ChevronLeft className="h-4 w-4" /> Prev
+              </button>
+              {current < questions.length - 1 ? (
+                <button
+                  onClick={() => goTo(current + 1)}
+                  className="flex items-center gap-1 rounded-lg bg-saffron-400 px-4 py-2 text-sm font-semibold text-graphite-900 hover:bg-saffron-300"
+                >
+                  Next <ChevronRight className="h-4 w-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => setConfirmOpen(true)}
+                  className="rounded-lg bg-success-600 px-4 py-2 text-sm font-semibold text-white hover:bg-success-500"
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop palette */}
+        <aside className="hidden w-72 flex-shrink-0 lg:block">
+          <div className="sticky rounded-2xl border border-graphite-800 bg-graphite-900/60 p-4" style={{ top: navHeight + 80 }}>
+            {palette}
+            <button
+              onClick={() => setConfirmOpen(true)}
+              className="mt-5 w-full rounded-lg bg-success-600 py-2.5 text-sm font-semibold text-white hover:bg-success-500"
+            >
+              Submit Test
+            </button>
+          </div>
+        </aside>
+      </div>
+
+      {/* Mobile palette drawer */}
+      {paletteOpen && (
+        <div className="fixed inset-0 z-30 flex justify-end bg-black/60 lg:hidden" onClick={() => setPaletteOpen(false)}>
+          <div className="h-full w-72 max-w-[85vw] overflow-y-auto bg-graphite-900 p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="font-semibold text-white">Questions</span>
+              <button onClick={() => setPaletteOpen(false)} aria-label="Close" className="text-graphite-300">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            {palette}
+            <button
+              onClick={() => {
+                setPaletteOpen(false);
+                setConfirmOpen(true);
+              }}
+              className="mt-5 w-full rounded-lg bg-success-600 py-2.5 text-sm font-semibold text-white"
+            >
+              Submit Test
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Submit confirmation (also shown while an auto-submit is in flight) */}
+      {(confirmOpen || submitting || submitError) && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 px-4">
+          <div className="w-full max-w-sm rounded-2xl border border-graphite-800 bg-graphite-900 p-6">
+            <h2 className="text-lg font-bold text-white">Submit test?</h2>
+            <dl className="mt-4 grid grid-cols-3 gap-2 text-center">
+              <div className="rounded-lg bg-success-600/15 p-2">
+                <dt className="text-[11px] text-graphite-300">Answered</dt>
+                <dd className="text-lg font-bold text-success-300">{answeredCount}</dd>
+              </div>
+              <div className="rounded-lg bg-graphite-800 p-2">
+                <dt className="text-[11px] text-graphite-300">Unanswered</dt>
+                <dd className="text-lg font-bold text-white">{questions.length - answeredCount}</dd>
+              </div>
+              <div className="rounded-lg bg-purple-600/15 p-2">
+                <dt className="text-[11px] text-graphite-300">Marked</dt>
+                <dd className="text-lg font-bold text-purple-300">{markedCount}</dd>
+              </div>
+            </dl>
+            <p className="mt-4 text-xs text-graphite-300">You can&apos;t change answers after submitting.</p>
+            {submitError && <p className="mt-3 text-sm text-danger-300">{submitError}</p>}
+            <div className="mt-5 flex gap-3">
+              {remaining > 0 && (
+                <button
+                  onClick={() => {
+                    setConfirmOpen(false);
+                    setSubmitError(null);
+                  }}
+                  disabled={submitting}
+                  className="flex-1 rounded-lg border border-graphite-700 py-2.5 text-sm text-graphite-300 disabled:opacity-40"
+                >
+                  Go back
+                </button>
+              )}
+              <button
+                onClick={() => void submit()}
+                disabled={submitting}
+                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-success-600 py-2.5 text-sm font-semibold text-white hover:bg-success-500 disabled:opacity-60"
+              >
+                {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                {submitError ? "Retry" : "Submit"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

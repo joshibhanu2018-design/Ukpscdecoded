@@ -19,7 +19,7 @@ export default function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={loading}
-      className="flex items-center gap-2 rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:border-red-500/40 hover:text-red-300 disabled:opacity-60"
+      className="flex items-center gap-2 rounded-lg border border-graphite-700 px-4 py-2 text-sm font-medium text-graphite-300 transition-colors hover:border-danger-500/40 hover:text-danger-300 disabled:opacity-60"
     >
       <LogOut className="h-4 w-4" /> Log Out
     </button>

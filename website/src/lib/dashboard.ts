@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "./supabase";
+import { todayIST } from "./gamification";
 
 export type GamificationStats = {
   level: number;
@@ -22,23 +23,56 @@ const DEFAULT_STATS: GamificationStats = {
 export async function getUserGamificationStats(userId: string): Promise<GamificationStats> {
   const { data, error } = await supabaseAdmin()
     .from("user_gamification")
-    .select("level, total_xp, current_streak, best_streak, total_tests_taken")
+    .select("level, total_xp, current_streak, best_streak, total_tests_taken, last_active_date")
     .eq("user_id", userId)
     .maybeSingle();
 
   if (error || !data) return DEFAULT_STATS;
-  return data as GamificationStats;
+
+  // The stored streak is only updated when a test is submitted, so a
+  // student who stopped 3 days ago still has e.g. 5 stored — show 0 once
+  // the chain is broken (no test today or yesterday, India time).
+  const today = todayIST();
+  const yesterday = todayIST(Date.now() - 24 * 60 * 60 * 1000);
+  const alive = data.last_active_date === today || data.last_active_date === yesterday;
+
+  const { last_active_date: _lastActive, ...stats } = data;
+  return { ...(stats as GamificationStats), current_streak: alive ? stats.current_streak : 0 };
 }
 
+/**
+ * Average percentage across every submitted attempt. Read from attempts
+ * (the authoritative score) rather than results, whose overall_score is
+ * raw marks, not a percentage.
+ */
 export async function getUserAverageScore(userId: string): Promise<number | null> {
-  const { data, error } = await supabaseAdmin().from("results").select("overall_score").eq("user_id", userId);
+  const { data, error } = await supabaseAdmin()
+    .from("attempts")
+    .select("percentage")
+    .eq("user_id", userId)
+    .eq("status", "submitted");
 
   if (error || !data || data.length === 0) return null;
 
-  const scores = data.map((r) => Number(r.overall_score)).filter((n) => !Number.isNaN(n));
+  const scores = data.map((r) => Number(r.percentage)).filter((n) => !Number.isNaN(n));
   if (scores.length === 0) return null;
 
   return scores.reduce((a, b) => a + b, 0) / scores.length;
+}
+
+/**
+ * Real count of submitted attempts. user_gamification.total_tests_taken
+ * isn't incremented by anything yet (gamification is still inert), so the
+ * dashboard reads this instead of showing a permanent 0.
+ */
+export async function getUserTestsTaken(userId: string): Promise<number> {
+  const { count, error } = await supabaseAdmin()
+    .from("attempts")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("status", "submitted");
+
+  return error ? 0 : (count ?? 0);
 }
 
 export type PackageProgress = { testsDone: number; totalTests: number };
@@ -84,10 +118,12 @@ export type TestRelease = { id: string; test_name: string; release_at: string | 
 export async function getPackageTestsWithRelease(packageId: string): Promise<TestRelease[]> {
   const { data: packageTests, error: ptError } = await supabaseAdmin()
     .from("package_tests")
-    .select("test_id")
+    .select("test_id, test_order")
     .eq("package_id", packageId);
 
   if (ptError || !packageTests || packageTests.length === 0) return [];
+
+  const orderOf = new Map(packageTests.map((r) => [r.test_id as string, Number(r.test_order ?? 0)]));
 
   const { data: tests, error } = await supabaseAdmin()
     .from("tests")
@@ -100,10 +136,12 @@ export async function getPackageTestsWithRelease(packageId: string): Promise<Tes
   if (error || !tests) return [];
 
   const now = Date.now();
-  return tests.map((t) => ({
-    id: t.id,
-    test_name: t.test_name,
-    release_at: t.release_at,
-    isReleased: !t.release_at || new Date(t.release_at).getTime() <= now,
-  }));
+  return [...tests]
+    .sort((a, b) => (orderOf.get(a.id) ?? 0) - (orderOf.get(b.id) ?? 0))
+    .map((t) => ({
+      id: t.id,
+      test_name: t.test_name,
+      release_at: t.release_at,
+      isReleased: !t.release_at || new Date(t.release_at).getTime() <= now,
+    }));
 }

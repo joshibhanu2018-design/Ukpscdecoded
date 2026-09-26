@@ -123,7 +123,7 @@ export default function HomeQuiz() {
           const isChosen = i === selected;
           let cls = "border-graphite-200 hover:border-saffron-300 hover:bg-saffron-50";
           if (revealed && isCorrect) cls = "border-jade-400 bg-jade-50";
-          else if (revealed && isChosen && !isCorrect) cls = "border-red-300 bg-red-50";
+          else if (revealed && isChosen && !isCorrect) cls = "border-danger-300 bg-danger-50";
           return (
             <button
               key={i}
@@ -133,7 +133,7 @@ export default function HomeQuiz() {
             >
               <span>{opt}</span>
               {revealed && isCorrect && <CheckCircle2 className="w-5 h-5 text-jade-600 flex-shrink-0" />}
-              {revealed && isChosen && !isCorrect && <XCircle className="w-5 h-5 text-red-500 flex-shrink-0" />}
+              {revealed && isChosen && !isCorrect && <XCircle className="w-5 h-5 text-danger-500 flex-shrink-0" />}
             </button>
           );
         })}

@@ -9,14 +9,14 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
       <h1 className="heading-lg mb-2 text-graphite-900">
-        नियम व शर्तें <span className="text-graphite-500">/ Terms of Service</span>
+        Terms of Service
       </h1>
       <p className="mb-10 text-sm text-graphite-500">Last updated: September 2026</p>
 
       <div className="space-y-8 text-sm leading-relaxed text-graphite-700">
         <section>
           <h2 className="mb-2 text-lg font-bold text-graphite-900">
-            खाता साझा करना / Account Sharing
+            Account Sharing
           </h2>
           <p>
             Each test series, crash course or combo package is licensed to one student for their own
@@ -31,10 +31,13 @@ export default function TermsPage() {
         <section>
           <h2 className="mb-2 text-lg font-bold text-graphite-900">Payments &amp; Refunds</h2>
           <p>
-            Payments are processed securely via Razorpay. Once a package is activated on your
-            account, it is considered delivered — digital access purchases are generally
-            non-refundable, except where required by law or at our discretion for a genuine
-            technical failure on our end.
+            Payments are processed securely via Razorpay. Digital courses are generally
+            non-refundable: a refund is given only if requested within 2 days of purchase and
+            before meaningful use of the course — see the{" "}
+            <a href="/refund-policy" className="text-saffron-600 underline hover:text-saffron-700">
+              Refund Policy
+            </a>{" "}
+            for the exact conditions.
           </p>
         </section>
 

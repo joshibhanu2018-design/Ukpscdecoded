@@ -1,9 +1,11 @@
-import bcrypt from "bcryptjs";
 import { createHmac, timingSafeEqual } from "crypto";
 import { supabaseAdmin } from "./supabase";
 
-const SALT_ROUNDS = 12;
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+const LAST_SEEN_REFRESH_MS = 60 * 60 * 1000; // bump last_seen_at at most hourly
+
+/** Devices a student can stay logged in on at once; a new login beyond this logs out the oldest. */
+export const MAX_DEVICES = 2;
 
 export const SESSION_COOKIE_NAME = "ukpsc_session";
 
@@ -15,14 +17,6 @@ export type User = {
   role: string;
   created_at: string;
 };
-
-export async function hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, SALT_ROUNDS);
-}
-
-export async function verifyPassword(password: string, hash: string): Promise<boolean> {
-  return bcrypt.compare(password, hash);
-}
 
 function getSessionSecret(): string {
   const secret = process.env.SESSION_SECRET;
@@ -36,25 +30,16 @@ function sign(payload: string): string {
   return createHmac("sha256", getSessionSecret()).update(payload).digest("base64url");
 }
 
-type SessionPayload = { sub: string; iat: number; exp: number };
+type SessionPayload = { sub: string; sid: string; iat: number; exp: number };
 
 /**
- * Stateless, HMAC-signed session token: base64url(payload).base64url(signature).
- * No sessions table required — the DB schema this project already has doesn't
- * include one, so the token itself carries (userId, issuedAt, expiry) and is
- * verified on each request instead of looked up. `iat` lets getUserFromSession
- * reject tokens issued before the user's last password change (see
- * password_changed_at below) — that's how "log out all sessions" works
- * without a session table to delete rows from.
+ * Login cookie: base64url({sub, sid, iat, exp}).HMAC. `sid` points at a
+ * user_sessions row — one per device. The signature stops forgery; the row
+ * is what lets a device be logged out (logout, or the device limit).
  */
-export function createSessionToken(userId: string): { token: string; expiresAt: Date } {
-  const now = Date.now();
-  const expiresAt = new Date(now + SESSION_TTL_MS);
-  const payload = Buffer.from(JSON.stringify({ sub: userId, iat: now, exp: expiresAt.getTime() })).toString(
-    "base64url"
-  );
-  const signature = sign(payload);
-  return { token: `${payload}.${signature}`, expiresAt };
+function encodeSessionToken(payload: SessionPayload): string {
+  const encoded = Buffer.from(JSON.stringify(payload)).toString("base64url");
+  return `${encoded}.${sign(encoded)}`;
 }
 
 function decodeSessionToken(token: string | undefined | null): SessionPayload | null {
@@ -71,15 +56,65 @@ function decodeSessionToken(token: string | undefined | null): SessionPayload | 
   try {
     const data = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
     if (typeof data.sub !== "string" || typeof data.exp !== "number") return null;
+    // Cookies from before the device limit have no sid — treat as logged out.
+    if (typeof data.sid !== "string") return null;
     if (Date.now() > data.exp) return null;
-    return { sub: data.sub, iat: typeof data.iat === "number" ? data.iat : 0, exp: data.exp };
+    return { sub: data.sub, sid: data.sid, iat: typeof data.iat === "number" ? data.iat : 0, exp: data.exp };
   } catch {
     return null;
   }
 }
 
-export function verifySessionToken(token: string | undefined | null): string | null {
-  return decodeSessionToken(token)?.sub ?? null;
+/**
+ * Starts a session on a new device. If that takes the user past
+ * MAX_DEVICES, the oldest active sessions are revoked: "newest login wins",
+ * so a student who lost their phone is never locked out, while one account
+ * can't stay logged in on many devices at once.
+ */
+export async function createSession(
+  userId: string,
+  userAgent: string | null
+): Promise<{ token: string; expiresAt: Date }> {
+  const db = supabaseAdmin();
+  const now = Date.now();
+  const expiresAt = new Date(now + SESSION_TTL_MS);
+
+  const { data: row, error } = await db
+    .from("user_sessions")
+    .insert({ user_id: userId, user_agent: userAgent?.slice(0, 300) ?? null })
+    .select("id")
+    .single();
+  if (error || !row) throw new Error(`Could not create session: ${error?.message ?? "no row"}`);
+
+  const { data: active } = await db
+    .from("user_sessions")
+    .select("id")
+    .eq("user_id", userId)
+    .is("revoked_at", null)
+    .order("created_at", { ascending: false });
+
+  const excess = (active ?? []).slice(MAX_DEVICES).map((s) => s.id as string);
+  if (excess.length > 0) {
+    await db
+      .from("user_sessions")
+      .update({ revoked_at: new Date().toISOString(), revoked_reason: "device_limit" })
+      .in("id", excess)
+      .is("revoked_at", null);
+  }
+
+  return { token: encodeSessionToken({ sub: userId, sid: row.id, iat: now, exp: expiresAt.getTime() }), expiresAt };
+}
+
+/** Logs out just this device. */
+export async function revokeSession(token: string | undefined | null): Promise<void> {
+  const decoded = decodeSessionToken(token);
+  if (!decoded) return;
+  await supabaseAdmin()
+    .from("user_sessions")
+    .update({ revoked_at: new Date().toISOString(), revoked_reason: "logout" })
+    .eq("id", decoded.sid)
+    .eq("user_id", decoded.sub)
+    .is("revoked_at", null);
 }
 
 export function sessionCookieOptions(expiresAt: Date) {
@@ -96,31 +131,28 @@ export async function getUserFromSession(token: string | undefined | null): Prom
   const decoded = decodeSessionToken(token);
   if (!decoded) return null;
 
-  const { data, error } = await supabaseAdmin()
-    .from("users")
-    .select("id, full_name, email, phone, role, created_at, password_changed_at")
-    .eq("id", decoded.sub)
-    .maybeSingle();
+  const db = supabaseAdmin();
+  const [{ data: user, error }, { data: session }] = await Promise.all([
+    db.from("users").select("id, full_name, email, phone, role, created_at").eq("id", decoded.sub).maybeSingle(),
+    db
+      .from("user_sessions")
+      .select("id, last_seen_at")
+      .eq("id", decoded.sid)
+      .eq("user_id", decoded.sub)
+      .is("revoked_at", null)
+      .maybeSingle(),
+  ]);
 
-  if (error || !data) return null;
+  if (error || !user || !session) return null;
 
-  if (data.password_changed_at && decoded.iat < new Date(data.password_changed_at).getTime()) {
-    return null; // session was issued before the last password reset
+  if (Date.now() - new Date(session.last_seen_at).getTime() > LAST_SEEN_REFRESH_MS) {
+    // Fire-and-forget: a failed "last seen" update must not log anyone out.
+    void db
+      .from("user_sessions")
+      .update({ last_seen_at: new Date().toISOString() })
+      .eq("id", session.id)
+      .then(({ error: e }) => e && console.error("[auth] last_seen_at update failed:", e.message));
   }
 
-  const { password_changed_at: _passwordChangedAt, ...user } = data;
   return user as User;
-}
-
-/**
- * Updates the user's password and, in the same write, invalidates every
- * session issued before now (see decodeSessionToken/getUserFromSession).
- */
-export async function updatePassword(userId: string, newPasswordHash: string): Promise<void> {
-  const { error } = await supabaseAdmin()
-    .from("users")
-    .update({ password_hash: newPasswordHash, password_changed_at: new Date().toISOString() })
-    .eq("id", userId);
-
-  if (error) throw new Error(`Could not update password: ${error.message}`);
 }

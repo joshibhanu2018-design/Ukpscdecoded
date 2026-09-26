@@ -233,7 +233,7 @@ export async function POST(request: NextRequest) {
     console.log('✅ Download token created');
 
     // ========== STEP 5: Generate Download Link ==========
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ukpscdecoded.in';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.ukpscdecoded.in';
     const downloadLink = `${baseUrl}/api/download-pdf?token=${downloadToken}&pdfId=${pdfId}`;
     console.log(`📥 Download link generated: ${downloadLink}`);
 

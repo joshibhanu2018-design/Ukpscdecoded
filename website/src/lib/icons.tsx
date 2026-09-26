@@ -14,6 +14,7 @@ import {
   Banknote,
   RotateCcw,
   CheckCircle2,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 
@@ -32,6 +33,7 @@ const iconMap: Record<string, LucideIcon> = {
   award: Award,
   send: Send,
   rocket: Rocket,
+  file: FileText,
 
   // Features
   play: PlayCircle,

@@ -113,18 +113,18 @@ export default function FreeContentTabs({ videos }: { videos: YouTubeVideo[] }) 
                   href={pl.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="card group flex items-center gap-4 p-6 hover:border-red-300 transition-all"
+                  className="card group flex items-center gap-4 p-6 hover:border-danger-300 transition-all"
                 >
-                  <span className="flex-shrink-0 w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                  <span className="flex-shrink-0 w-12 h-12 rounded-xl bg-danger-50 text-danger-600 flex items-center justify-center">
                     <ListVideo className="w-6 h-6" />
                   </span>
                   <div className="flex-1">
-                    <h3 className="font-display font-semibold text-graphite-900 group-hover:text-red-600 transition-colors">
+                    <h3 className="font-display font-semibold text-graphite-900 group-hover:text-danger-600 transition-colors">
                       {pl.title}
                     </h3>
                     <p className="text-sm text-graphite-500 mt-1">{pl.description}</p>
                   </div>
-                  <ExternalLink className="w-5 h-5 text-graphite-400 group-hover:text-red-600 transition-colors" />
+                  <ExternalLink className="w-5 h-5 text-graphite-400 group-hover:text-danger-600 transition-colors" />
                 </a>
               ))}
             </div>

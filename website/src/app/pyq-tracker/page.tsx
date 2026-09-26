@@ -20,7 +20,7 @@ import {
 type Tab = 'uttarakhand' | 'national' | 'plan';
 
 const priorityStyles: Record<Priority, { badge: string; ring: string; label: string }> = {
-  CRITICAL: { badge: 'bg-red-100 text-red-700', ring: 'border-red-200', label: '⚡ Critical' },
+  CRITICAL: { badge: 'bg-danger-100 text-danger-700', ring: 'border-danger-200', label: '⚡ Critical' },
   HIGH: { badge: 'bg-saffron-100 text-saffron-700', ring: 'border-saffron-200', label: '🔴 High' },
   MEDIUM: { badge: 'bg-jade-100 text-jade-700', ring: 'border-jade-200', label: '🟡 Medium' },
 };
