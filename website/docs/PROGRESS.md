@@ -523,6 +523,25 @@ CA Intensive card keeps its old text).
   mentorship, checkout — need a student login; same tokens and markup as the
   pages checked) and an image banner (needs the SQL + an upload).
 
+**Standalone packs (26 Sep 2026).** SQL: `seed-phase17-standalone-packs.sql`.
+- Before this only Premium Test Series had `package_tests`, so Basic /
+  Uttarakhand Intensive / CA Intensive buyers would have got empty courses.
+  Basic = Full Mock 1-6 + Polity, History, Geography, Science & Tech, Economy
+  & Environment and Uttarakhand GK Sectional I (12). Uttarakhand Intensive =
+  the 20 Uttarakhand GK tests other than the two UK sectionals, in Premium's
+  order. CA Intensive = the 12 CA tests (phase 16). Descriptions, highlights,
+  card taglines and `total_tests`/`total_questions` match what's linked
+  (`seed-phase15` taglines updated too, so re-running it doesn't revert them).
+- CSAT pack hidden until CSAT questions exist. A test-series tab where no
+  test has questions yet shows "Coming soon" (tab label "CSAT · Soon",
+  opens on the first ready tab; `groupTestsByTab(tests, questionCount)` →
+  `comingSoon`), on the public course page and the student course page; the
+  public "Test List (n)" counts only ready tests (56 today).
+- The direct DB write was blocked by this session's permission rules, so the
+  links/text are applied only when the owner runs the SQL file.
+- Checked: type check clean; Premium Test Series and Complete Prelims Pack
+  pages at 375 / 768 / 1280 px, CSAT tab clicked → "Coming soon", no overflow.
+
 **Legal pages.** `/privacy`, `/refund-policy`, `/contact` (plus existing
 `/terms`), linked from the footer, checkout and course pages; in the
 sitemap. Refund rule: within 2 days of purchase and fewer than 3 videos
@@ -615,11 +634,12 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **Basic, Uttarakhand Intensive and CSAT packs have no tests linked**
-  (`package_tests` rows exist only for Premium Test Series; phase 16 links CA
-  Intensive). Uttarakhand = the 20 UK tests and CSAT = CSAT 1-6 are clear;
-  Basic needs a decision (which 6 mocks + 6 sectionals). Sales are off, so
-  nobody is affected yet.
+- **Standalone packs need `seed-phase17-standalone-packs.sql` run** (below)
+  — until then Basic and Uttarakhand Intensive have no tests linked and CSAT
+  is still in the store. Sales are off, so nobody is affected yet.
+- **CSAT pack is hidden** (`is_active = false`, after phase 17) until CSAT
+  questions exist; set it back to `true` then. The Premium Test Series page
+  shows the CSAT tab as "Coming soon" automatically while its tests are empty.
 - CSAT tests have no questions (none in the bank).
 - **UK Current Affairs and Statehood II statement share** stays low (12% /
   34%) until verified statement-type UK CA / post-2000 statehood questions are
@@ -676,7 +696,8 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `schema-phase13-marking-reports.sql` | Negative marking 0.25 on every test + re-score submitted attempts, `questions.deactivated_at`, `question_reports` | ✅ Run |
 | `schema-phase14-bank-browser.sql` | `attempts.question_ids` (+ backfill), `questions.source_file`/`question_format`/`section_code`, Free Sample Mock test row | ✅ Run — Batch 2 applied 25 Sep 2026 |
 | `seed-phase15-course-pages.sql` | Course card title/tagline in `packages.metadata`, Premium Bundle → Premium Test Series, commented template for `demo_videos` | Not run |
-| `schema-phase16-banners-ca-text.sql` | `banners.image_url`/`image_url_mobile` + public Storage bucket `banners`, English banner text + product-colour gradients, CA Intensive text, links the 12 CA tests to CA Intensive | Not run (after phase 15, or alone) |
+| `schema-phase16-banners-ca-text.sql` | `banners.image_url`/`image_url_mobile` + public Storage bucket `banners`, English banner text + product-colour gradients, CA Intensive text, links the 12 CA tests to CA Intensive | CA text is live (seen 26 Sep); run/re-run to be sure the rest landed |
+| `seed-phase17-standalone-packs.sql` | Links Basic (Full Mock 1-6 + the "I" sectional of each of 6 subjects = 12) and Uttarakhand Intensive (the 20 UK tests), matching text/highlights/taglines; hides CSAT pack; Premium text says CSAT "coming soon" | Not run |
 
 ## Environment variables
 

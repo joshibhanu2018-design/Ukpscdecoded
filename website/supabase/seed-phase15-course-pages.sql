@@ -15,11 +15,11 @@ update packages p set
   updated_at = now()
 from (values
   ('complete-prelims-pack',     'Complete Prelims Pack',     'Crash Course + Premium Test Series'),
-  ('premium-test-series',       'Premium Test Series',       '12 Full Mocks + 12 Sectional + 20 Uttarakhand + 12 Current Affairs + 6 CSAT'),
+  ('premium-test-series',       'Premium Test Series',       '12 Full Mocks + 12 Sectional + 20 Uttarakhand + 12 Current Affairs + 6 CSAT (coming soon)'),
   ('prelims-mentorship',        'Mentorship',                'Everything + weekly 1-on-1 with Bhanu Joshi'),
   ('crash-course',              'Crash Course',              '50 video lectures incl. 8-10 live sessions + PDF notes'),
-  ('basic-test-series',         'Basic Test Series',         '6 Full Mocks + 6 Sectional'),
-  ('uttarakhand-intensive',     'Uttarakhand Intensive',     '20 Uttarakhand GK tests'),
+  ('basic-test-series',         'Basic Test Series',         '6 Full Mocks + 6 Sectional (one per subject)'),
+  ('uttarakhand-intensive',     'Uttarakhand Intensive',     '20 Uttarakhand GK tests: 14 topics + 6 mocks'),
   ('current-affairs-intensive', 'Current Affairs Intensive', '12 tests: 7 themes + Uttarakhand CA & Budget + 4 revisions'),
   ('csat-test-series',          'CSAT Test Series',          '6 CSAT tests (100 Q each)')
 ) as v(slug, title, tagline)

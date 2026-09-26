@@ -546,6 +546,8 @@ export type TestListItem = {
   total_questions: number | null;
   duration_minutes: number | null;
   release_at: string | null;
+  /** Questions actually attached (0 = the test isn't ready yet). */
+  question_count: number;
 };
 
 /** Full test list for a course detail page — name, subject, question count, duration, release date. */
@@ -561,7 +563,7 @@ export async function getPackageTestList(packageId: string): Promise<TestListIte
 
   const { data: tests, error } = await db
     .from("tests")
-    .select("id, test_name, subject, total_questions, duration_minutes, release_at")
+    .select("id, test_name, subject, total_questions, duration_minutes, release_at, question_ids")
     .in(
       "id",
       links.map((l) => l.test_id)
@@ -570,7 +572,9 @@ export async function getPackageTestList(packageId: string): Promise<TestListIte
   if (error || !tests) return [];
 
   const orderOf = new Map(links.map((l) => [l.test_id as string, Number(l.test_order ?? 0)]));
-  return [...tests].sort((a, b) => (orderOf.get(a.id) ?? 0) - (orderOf.get(b.id) ?? 0));
+  return tests
+    .map(({ question_ids, ...t }) => ({ ...t, question_count: Array.isArray(question_ids) ? question_ids.length : 0 }))
+    .sort((a, b) => (orderOf.get(a.id) ?? 0) - (orderOf.get(b.id) ?? 0));
 }
 
 export type TestAttemptSummary = { attemptId: string; score: number; totalMarks: number; percentage: number; attempts: number };

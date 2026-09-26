@@ -70,7 +70,7 @@ export default async function MyCourseTestsPage({ params }: { params: Promise<{ 
 
   // Tabs by test type (Full Length · Sectional · …), subjects as sub-groups;
   // opens on the tab holding the "Up next" test.
-  const tabs = groupTestsByTab(tests);
+  const tabs = groupTestsByTab(tests, (t) => t.question_ids?.length ?? 0);
 
   return (
     <div className="min-h-screen bg-graphite-950 px-4 py-6 sm:py-10">
@@ -112,7 +112,13 @@ export default async function MyCourseTestsPage({ params }: { params: Promise<{ 
               key: tab.key,
               label: tab.label,
               count: tab.count,
-              panel: tab.groups.map((g) => (
+              comingSoon: tab.comingSoon,
+              panel: tab.comingSoon ? (
+                <p className="rounded-2xl border border-dashed border-graphite-700 bg-graphite-900/40 p-6 text-center text-sm text-graphite-300">
+                  <span className="block font-semibold text-white">Coming soon</span>
+                  {tab.label} tests will be added here — they&apos;re included in your plan at no extra cost.
+                </p>
+              ) : tab.groups.map((g) => (
                 <section key={g.subject} className="mb-6">
                   {tab.groups.length > 1 && (
                     <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-graphite-300">{g.subject}</h2>

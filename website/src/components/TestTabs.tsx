@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
-export type TestTab = { key: string; label: string; count: number; panel: ReactNode };
+export type TestTab = { key: string; label: string; count: number; comingSoon?: boolean; panel: ReactNode };
 
 /**
  * Tab bar for a test series (Full Length · Sectional · Uttarakhand · …).
@@ -10,7 +10,9 @@ export type TestTab = { key: string; label: string; count: number; panel: ReactN
  * in the HTML for search engines and work before hydration (first tab).
  */
 export default function TestTabs({ tabs, initialKey }: { tabs: TestTab[]; initialKey?: string }) {
-  const [active, setActive] = useState(() => (tabs.some((t) => t.key === initialKey) ? initialKey! : tabs[0]?.key));
+  const [active, setActive] = useState(() =>
+    tabs.some((t) => t.key === initialKey) ? initialKey! : (tabs.find((t) => !t.comingSoon) ?? tabs[0])?.key
+  );
   const id = useId();
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -56,7 +58,8 @@ export default function TestTabs({ tabs, initialKey }: { tabs: TestTab[]; initia
               }`}
             >
               <span className="whitespace-nowrap text-sm font-semibold">
-                {t.label} <span className={selected ? "text-graphite-800" : "text-graphite-300"}>({t.count})</span>
+                {t.label}{" "}
+                <span className={selected ? "text-graphite-800" : "text-graphite-300"}>{t.comingSoon ? "· Soon" : `(${t.count})`}</span>
               </span>
             </button>
           );

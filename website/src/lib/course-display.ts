@@ -65,10 +65,13 @@ export function testTabOf(subject: string | null | undefined, testName?: string 
  * Tests split into tabs (empty tabs dropped), each tab keeping its subjects
  * as sub-groups in first-appearance order — so "Sectional" still shows
  * Polity / History / … and "Current Affairs" shows CA vs CA Revision.
+ * `comingSoon`: no test in the tab has questions yet (CSAT today), so the
+ * page shows "Coming soon" instead of a list of empty tests.
  */
 export function groupTestsByTab<T extends { subject: string | null; test_name: string }>(
-  tests: T[]
-): { key: TestTabKey; label: string; count: number; groups: { subject: string; tests: T[] }[] }[] {
+  tests: T[],
+  questionCount: (t: T) => number
+): { key: TestTabKey; label: string; count: number; comingSoon: boolean; groups: { subject: string; tests: T[] }[] }[] {
   return TEST_TABS.map((tab) => {
     const groups: { subject: string; tests: T[] }[] = [];
     for (const t of tests) {
@@ -78,6 +81,7 @@ export function groupTestsByTab<T extends { subject: string | null; test_name: s
       if (!g) groups.push((g = { subject, tests: [] }));
       g.tests.push(t);
     }
-    return { ...tab, count: groups.reduce((n, g) => n + g.tests.length, 0), groups };
+    const all = groups.flatMap((g) => g.tests);
+    return { ...tab, count: all.length, comingSoon: all.length > 0 && all.every((t) => questionCount(t) === 0), groups };
   }).filter((t) => t.count > 0);
 }

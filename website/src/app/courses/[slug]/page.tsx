@@ -69,7 +69,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
       ? `${pkg.validity_days} days`
       : null;
 
-  const testTabs = groupTestsByTab(testList);
+  const testTabs = groupTestsByTab(testList, (t) => t.question_count);
+  const readyTestCount = testTabs.filter((t) => !t.comingSoon).reduce((n, t) => n + t.count, 0);
 
   const checkoutHref = `/checkout/${pkg.slug}`;
 
@@ -260,14 +261,20 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {testList.length > 0 && (
             <section>
               <h2 className="mb-4 text-lg font-bold text-white">
-                Test List <span className="text-graphite-300">({testList.length})</span>
+                Test List <span className="text-graphite-300">({readyTestCount})</span>
               </h2>
               <TestTabs
                 tabs={testTabs.map((tab) => ({
                   key: tab.key,
                   label: tab.label,
                   count: tab.count,
-                  panel: (
+                  comingSoon: tab.comingSoon,
+                  panel: tab.comingSoon ? (
+                    <p className="rounded-2xl border border-dashed border-graphite-700 bg-graphite-900/40 p-6 text-center text-sm text-graphite-300">
+                      <span className="block font-semibold text-white">Coming soon</span>
+                      {tab.label} tests will be added here — they&apos;re included in your plan at no extra cost.
+                    </p>
+                  ) : (
                     <div className="space-y-6">
                       {tab.groups.map((g) => (
                         <div key={g.subject}>
