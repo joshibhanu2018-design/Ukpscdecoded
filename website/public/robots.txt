@@ -1,8 +1,13 @@
-# UKPSC Decoded — https://ukpscdecoded.vercel.app
+# UKPSC Decoded — https://www.ukpscdecoded.in
+# Search engines and AI assistants (Googlebot, Bingbot, GPTBot, OAI-SearchBot,
+# ClaudeBot, PerplexityBot, Google-Extended…) are all welcome on public pages.
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /test-platform/
+Disallow: /checkout/
+Disallow: /order-confirmation
+Disallow: /student/
 
-# Sitemaps
-Sitemap: https://ukpscdecoded.vercel.app/sitemap.xml
+Sitemap: https://www.ukpscdecoded.in/sitemap.xml

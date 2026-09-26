@@ -71,25 +71,13 @@ export const metadata: Metadata = {
     title: "UKPSC Decoded — Complete Uttarakhand Exam Preparation",
     description:
       "Free videos, daily MCQs, PYQ tracker, and India's only single-volume guidebook for all Uttarakhand state exams.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "UKPSC Decoded — Crack Every Uttarakhand Exam From One Platform",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "UKPSC Decoded — Complete Uttarakhand Exam Preparation",
     description:
       "Free videos, daily MCQs, PYQ tracker, and India's only single-volume guidebook for all Uttarakhand state exams.",
-    images: ["/og-image.png"],
     creator: "@ukpscdecoded",
-  },
-  alternates: {
-    canonical: siteUrl,
   },
   verification: {
     // Add your Google Search Console verification code here once you have it
@@ -101,14 +89,18 @@ export const metadata: Metadata = {
 // JSON-LD Structured Data for the organization
 const jsonLd = {
   "@context": "https://schema.org",
+  "@graph": [
+    {
   "@type": "EducationalOrganization",
+  "@id": `${siteUrl}/#organization`,
   name: "UKPSC Decoded",
   url: siteUrl,
-  logo: `${siteUrl}/logo.png`,
+  logo: `${siteUrl}/icons/icon-512.png`,
+  founder: { "@type": "Person", name: "Bhanu Joshi" },
   description:
     "India's most comprehensive preparation platform for all Uttarakhand state examinations.",
   sameAs: [
-    "https://youtube.com/@ukpscdecoded",
+    "https://www.youtube.com/@Ukpscdecoded",
     "https://t.me/ukpscdecoded",
     "https://instagram.com/ukpscdecoded",
   ],
@@ -121,6 +113,16 @@ const jsonLd = {
     "@type": "State",
     name: "Uttarakhand",
   },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: "UKPSC Decoded",
+      url: siteUrl,
+      inLanguage: "en-IN",
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+  ],
 };
 
 async function getNavbarUser() {

@@ -5,6 +5,7 @@ import SectionTitle from "@/components/SectionTitle";
 import { getCatalog, MOST_POPULAR_SLUG } from "@/lib/catalog";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/test-series" },
   title: "Test Series",
   description:
     "UKPSC 2026 test series: Premium, Basic, Uttarakhand Intensive, Current Affairs and CSAT — plus crash course bundles and mentorship.",
