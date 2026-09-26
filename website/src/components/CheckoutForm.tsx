@@ -163,29 +163,29 @@ export default function CheckoutForm({
 
   return (
     <div className="space-y-5">
-      <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-        <h2 className="mb-4 text-sm font-bold text-white">आपकी जानकारी / Your Details</h2>
+      <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
+        <h2 className="mb-4 text-sm font-bold text-white">Your details</h2>
 
         <div className="space-y-3">
           <div>
-            <label className="mb-1 block text-xs font-medium text-slate-300">नाम / Name</label>
+            <label className="mb-1 block text-xs font-medium text-graphite-300">Name</label>
             <input
               value={userName}
               readOnly
-              className="w-full rounded-lg border border-slate-700 bg-slate-800/60 px-4 py-2.5 text-sm text-slate-300"
+              className="w-full rounded-lg border border-graphite-700 bg-graphite-800/60 px-4 py-2.5 text-sm text-graphite-300"
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-slate-300">ईमेल / Email</label>
+            <label className="mb-1 block text-xs font-medium text-graphite-300">Email</label>
             <input
               value={userEmail}
               readOnly
-              className="w-full rounded-lg border border-slate-700 bg-slate-800/60 px-4 py-2.5 text-sm text-slate-300"
+              className="w-full rounded-lg border border-graphite-700 bg-graphite-800/60 px-4 py-2.5 text-sm text-graphite-300"
             />
           </div>
           <div>
-            <label htmlFor="phone" className="mb-1 block text-xs font-medium text-slate-300">
-              मोबाइल नंबर / Mobile Number <span className="text-red-400">*</span>
+            <label htmlFor="phone" className="mb-1 block text-xs font-medium text-graphite-300">
+              Mobile number <span className="text-danger-400">*</span>
             </label>
             <input
               id="phone"
@@ -194,16 +194,16 @@ export default function CheckoutForm({
               value={phone}
               onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
               placeholder="10-digit mobile number"
-              className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/30"
+              className="w-full rounded-lg border border-graphite-700 bg-graphite-800 px-4 py-2.5 text-sm text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400 focus:ring-2 focus:ring-saffron-400/30"
             />
-            {phoneError && <p className="mt-1 text-xs text-red-400">{phoneError}</p>}
+            {phoneError && <p className="mt-1 text-xs text-danger-400">{phoneError}</p>}
           </div>
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
+      <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
         <h2 className="mb-3 flex items-center gap-1.5 text-sm font-bold text-white">
-          <Tag className="h-4 w-4 text-yellow-500" /> कूपन / रेफरल कोड / Coupon or Referral Code
+          <Tag className="h-4 w-4 text-saffron-400" /> Coupon or referral code
         </h2>
         <div className="flex gap-2">
           <input
@@ -215,49 +215,49 @@ export default function CheckoutForm({
               setCodeMessage(null);
             }}
             placeholder="Enter code (optional)"
-            className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-yellow-500"
+            className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2.5 text-sm text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400"
           />
           <button
             onClick={handleApplyCode}
             disabled={codeStatus === "checking" || !codeInput.trim()}
-            className="flex-shrink-0 rounded-lg border border-slate-700 px-4 py-2.5 text-sm font-semibold text-slate-300 hover:border-yellow-500 hover:text-yellow-400 disabled:opacity-50"
+            className="flex-shrink-0 rounded-lg border border-graphite-700 px-4 py-2.5 text-sm font-semibold text-graphite-300 hover:border-saffron-400 hover:text-saffron-300 disabled:opacity-50"
           >
             {codeStatus === "checking" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply"}
           </button>
         </div>
         {codeMessage && (
-          <p className={`mt-2 text-xs ${codeMessage.ok ? "text-green-400" : "text-red-400"}`}>{codeMessage.text}</p>
+          <p className={`mt-2 text-xs ${codeMessage.ok ? "text-success-400" : "text-danger-400"}`}>{codeMessage.text}</p>
         )}
       </div>
 
-      <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-        <h2 className="mb-3 text-sm font-bold text-white">भुगतान विवरण / Price Breakdown</h2>
+      <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
+        <h2 className="mb-3 text-sm font-bold text-white">Price breakdown</h2>
         <dl className="space-y-1.5 text-sm">
-          <div className="flex justify-between text-slate-300">
-            <dt>मूल्य / Price</dt>
+          <div className="flex justify-between text-graphite-300">
+            <dt>Price</dt>
             <dd>{formatINR(total.basePaise / 100)}</dd>
           </div>
           {total.codeDiscountPaise > 0 && (
-            <div className="flex justify-between text-green-400">
-              <dt>छूट / Discount</dt>
+            <div className="flex justify-between text-success-400">
+              <dt>Discount</dt>
               <dd>−{formatINR(total.codeDiscountPaise / 100)}</dd>
             </div>
           )}
           {total.creditAppliedPaise > 0 && (
-            <div className="flex justify-between text-green-400">
-              <dt>स्टोर क्रेडिट / Store credit</dt>
+            <div className="flex justify-between text-success-400">
+              <dt>Store credit</dt>
               <dd>−{formatINR(total.creditAppliedPaise / 100)}</dd>
             </div>
           )}
-          <div className="flex justify-between border-t border-slate-800 pt-1.5 font-bold text-white">
-            <dt>कुल देय / Total</dt>
+          <div className="flex justify-between border-t border-graphite-800 pt-1.5 font-bold text-white">
+            <dt>Total</dt>
             <dd>{formatINR(total.finalPaise / 100)}</dd>
           </div>
         </dl>
       </div>
 
       {error && (
-        <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+        <div className="rounded-lg border border-danger-500/30 bg-danger-500/10 px-4 py-2.5 text-sm text-danger-300">
           {error}
         </div>
       )}
@@ -265,19 +265,18 @@ export default function CheckoutForm({
       <button
         onClick={handlePay}
         disabled={status === "loading"}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 px-4 py-3 text-sm font-bold text-slate-900 transition-colors hover:bg-yellow-400 disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-saffron-400 px-4 py-3 text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300 disabled:opacity-60"
       >
         {status === "loading" && <Loader2 className="h-4 w-4 animate-spin" />}
-        भुगतान करें / Pay {formatINR(total.finalPaise / 100)}
+        Pay {formatINR(total.finalPaise / 100)}
       </button>
 
-      <p className="text-center text-[11px] leading-snug text-slate-300">
-        खाता साझा करने पर बिना रिफंड के निलंबन होगा।{" "}
-        <span className="text-slate-300">/ Account sharing leads to suspension without refund.</span>{" "}
-        <Link href="/terms" className="underline hover:text-slate-400">
+      <p className="text-center text-[11px] leading-snug text-graphite-300">
+        Account sharing leads to suspension without refund.{" "}
+        <Link href="/terms" className="underline hover:text-graphite-400">
           Terms
         </Link> ·{" "}
-        <Link href="/refund-policy" className="underline hover:text-slate-400">
+        <Link href="/refund-policy" className="underline hover:text-graphite-400">
           Refund Policy
         </Link>
       </p>

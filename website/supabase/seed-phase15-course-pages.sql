@@ -20,7 +20,7 @@ from (values
   ('crash-course',              'Crash Course',              '50 video lectures incl. 8-10 live sessions + PDF notes'),
   ('basic-test-series',         'Basic Test Series',         '6 Full Mocks + 6 Sectional'),
   ('uttarakhand-intensive',     'Uttarakhand Intensive',     '20 Uttarakhand GK tests'),
-  ('current-affairs-intensive', 'Current Affairs Intensive', '12 Current Affairs tests'),
+  ('current-affairs-intensive', 'Current Affairs Intensive', '12 tests: 7 themes + Uttarakhand CA & Budget + 4 revisions'),
   ('csat-test-series',          'CSAT Test Series',          '6 CSAT tests (100 Q each)')
 ) as v(slug, title, tagline)
 where p.slug = v.slug;
@@ -37,13 +37,13 @@ where slug = 'premium-test-series' and package_name = 'Premium Bundle';
 -- videos of the courses it includes, so set them on these two only.
 --
 -- update packages set metadata = metadata || '{"demo_videos": [
---   {"title": "Orientation & exam strategy / ओरिएंटेशन और रणनीति", "youtube_id": "XXXXXXXXXXX"},
---   {"title": "Sample lecture / सैंपल लेक्चर", "youtube_id": "XXXXXXXXXXX"}
+--   {"title": "Orientation & exam strategy", "youtube_id": "XXXXXXXXXXX"},
+--   {"title": "Sample lecture", "youtube_id": "XXXXXXXXXXX"}
 -- ]}'::jsonb, updated_at = now() where slug = 'crash-course';
 --
 -- update packages set metadata = metadata || '{"demo_videos": [
---   {"title": "How the test series works / टेस्ट सीरीज़ कैसे चलेगी", "youtube_id": "XXXXXXXXXXX"},
---   {"title": "Solving a mock: strategy / मॉक हल करने की रणनीति", "youtube_id": "XXXXXXXXXXX"}
+--   {"title": "How the test series works", "youtube_id": "XXXXXXXXXXX"},
+--   {"title": "Solving a mock: strategy", "youtube_id": "XXXXXXXXXXX"}
 -- ]}'::jsonb, updated_at = now() where slug = 'premium-test-series';
 
 -- Check:

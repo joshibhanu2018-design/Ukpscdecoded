@@ -15,13 +15,11 @@ export const metadata: Metadata = {
 const PREMIUM_SLUGS = ["complete-prelims-pack", "premium-test-series", "prelims-mentorship"];
 const MOST_POPULAR_SLUG = "complete-prelims-pack";
 
-function SectionTitle({ hindi, english, sub }: { hindi: string; english: string; sub?: string }) {
+function SectionTitle({ title, sub }: { title: string; sub?: string }) {
   return (
-    <div className="mb-5">
-      <h2 className="text-xl font-bold text-white sm:text-2xl">
-        {hindi} <span className="text-slate-300">/ {english}</span>
-      </h2>
-      {sub && <p className="mt-1 text-sm text-slate-300">{sub}</p>}
+    <div className="mb-6">
+      <h2 className="font-display text-xl font-bold text-white sm:text-2xl">{title}</h2>
+      {sub && <p className="mt-1 text-sm text-graphite-300">{sub}</p>}
     </div>
   );
 }
@@ -43,23 +41,21 @@ export default async function CoursesPage() {
   const standalone = rest.filter((p) => p.package_type !== "video_course");
 
   return (
-    <div className="bg-slate-950 px-4 py-10 sm:py-14">
-      <div className="container-custom mx-auto space-y-14">
+    <div className="bg-graphite-950 px-4 py-12 sm:py-16">
+      <div className="container-custom mx-auto space-y-16">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white sm:text-3xl">
-            सभी कोर्स <span className="text-slate-300">/ All Courses</span>
-          </h1>
-          <p className="mt-2 text-sm text-slate-300">
-            UKPSC PCS, Lower PCS, RO/ARO और UKSSSC की पूरी तैयारी / Complete preparation for every Uttarakhand exam
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron-400">UKPSC Decoded</p>
+          <h1 className="mt-2 font-display text-3xl font-bold text-white sm:text-4xl">All Courses</h1>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-graphite-300 sm:text-base">
+            Complete preparation for UKPSC PCS, Lower PCS, RO/ARO and UKSSSC
           </p>
         </div>
 
         {premium.length > 0 && (
           <section>
             <SectionTitle
-              hindi="प्रीमियम प्लान"
-              english="Premium plans"
-              sub="तीन में से एक चुनें — हर कार्ड के ऊपर लिखा है कि उसमें क्या मिलेगा / Pick one of three — each card's header says exactly what you get"
+              title="Premium plans"
+              sub="Pick one of three — each card's header says exactly what you get"
             />
             <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
               {premium.map((pkg) => (
@@ -77,7 +73,7 @@ export default async function CoursesPage() {
 
         {courses.length > 0 && (
           <section>
-            <SectionTitle hindi="क्रैश कोर्स" english="Crash Course" sub="वीडियो लेक्चर + लाइव सेशन + PDF नोट्स / Video lectures + live sessions + PDF notes" />
+            <SectionTitle title="Crash Course" sub="Video lectures + live sessions + PDF notes" />
             <div className="grid grid-cols-1 gap-5">
               {courses.map((pkg) => (
                 <CourseCard key={pkg.id} pkg={pkg} wide owned={ownedIds.has(pkg.id)} />
@@ -89,9 +85,8 @@ export default async function CoursesPage() {
         {standalone.length > 0 && (
           <section>
             <SectionTitle
-              hindi="अलग टेस्ट सीरीज़"
-              english="Standalone test series"
-              sub="सिर्फ़ एक हिस्से की प्रैक्टिस चाहिए? ये सब Premium Test Series में भी शामिल हैं / Need just one part? All of these are also in the Premium Test Series"
+              title="Standalone test series"
+              sub="Need just one part? All of these are also in the Premium Test Series"
             />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {standalone.map((pkg) => (

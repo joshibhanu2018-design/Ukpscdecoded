@@ -11,7 +11,7 @@ export default function PrivacyPage() {
   const { email } = settings.footer;
   const { ownerName } = settings.legal;
   return (
-    <LegalPage hindiTitle="गोपनीयता नीति" title="Privacy Policy">
+    <LegalPage title="Privacy Policy">
       <section>
         <p>
           UKPSC Decoded (&quot;we&quot;), operated by {ownerName}, respects your privacy. This policy explains what we collect when you

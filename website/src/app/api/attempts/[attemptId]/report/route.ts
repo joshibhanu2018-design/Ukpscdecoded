@@ -8,7 +8,7 @@ import { REPORT_REASONS, type ReportReason } from "@/lib/question-reports";
 const MAX_REPORTS_PER_DAY = 30;
 
 /**
- * "Report error / गलती बताएँ" on a question in the answer review. Only on
+ * "Report error" on a question in the answer review. Only on
  * your own submitted attempts; one open report per student per question
  * (reporting again updates it).
  */

@@ -9,9 +9,9 @@ type Step = "email" | "code" | "name";
 const RESEND_COOLDOWN_S = 60;
 
 const inputClass =
-  "w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-base text-slate-100 placeholder:text-slate-500 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/30";
+  "w-full rounded-lg border border-graphite-700 bg-graphite-800 px-4 py-3 text-base text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400 focus:ring-2 focus:ring-saffron-400/30";
 const buttonClass =
-  "flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 px-4 py-3 text-base font-bold text-slate-900 transition-colors hover:bg-yellow-400 disabled:opacity-60";
+  "flex w-full items-center justify-center gap-2 rounded-lg bg-saffron-400 px-4 py-3 text-base font-bold text-graphite-900 transition-colors hover:bg-saffron-300 disabled:opacity-60";
 
 export default function OtpLoginForm({ next = "/test-platform" }: { next?: string }) {
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
       setStep("code");
       setCooldown(RESEND_COOLDOWN_S);
     } catch {
-      setError("नेटवर्क त्रुटि / Network error — check your connection.");
+      setError("Network error — check your connection.");
     } finally {
       setLoading(false);
     }
@@ -87,7 +87,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
       }
       finish();
     } catch {
-      setError("नेटवर्क त्रुटि / Network error — check your connection.");
+      setError("Network error — check your connection.");
     } finally {
       setLoading(false);
     }
@@ -106,14 +106,14 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
       }
       finish();
     } catch {
-      setError("नेटवर्क त्रुटि / Network error — check your connection.");
+      setError("Network error — check your connection.");
     } finally {
       setLoading(false);
     }
   };
 
   const errorBox = error && (
-    <div role="alert" className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+    <div role="alert" className="rounded-lg border border-danger-500/30 bg-danger-500/10 px-4 py-2.5 text-sm text-danger-300">
       {error}
     </div>
   );
@@ -122,8 +122,8 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
     return (
       <form onSubmit={sendCode} className="space-y-4">
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-300">
-            ईमेल / Email
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-graphite-300">
+            Email
           </label>
           <input
             id="email"
@@ -141,10 +141,10 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         {errorBox}
         <button type="submit" disabled={loading} className={buttonClass}>
           {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Mail className="h-5 w-5" />}
-          कोड भेजें / Send code
+          Send code
         </button>
-        <p className="text-center text-xs text-slate-300">
-          नया ईमेल? खाता अपने-आप बन जाएगा। / New here? Your account is created automatically.
+        <p className="text-center text-xs text-graphite-300">
+          New here? Your account is created automatically.
         </p>
       </form>
     );
@@ -159,10 +159,9 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         }}
         className="space-y-4"
       >
-        <p className="text-sm text-slate-300">
-          6 अंकों का कोड भेजा गया: <span className="font-semibold text-white">{email}</span>
-          <br />
-          <span className="text-slate-300">We sent a 6-digit code. It&apos;s valid for 10 minutes — check spam too.</span>
+        <p className="text-sm text-graphite-300">
+          We sent a 6-digit code to <span className="font-semibold text-white">{email}</span>. It&apos;s valid for 10
+          minutes — check spam too.
         </p>
         <input
           ref={codeRef}
@@ -185,7 +184,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         {errorBox}
         <button type="submit" disabled={loading || code.length !== 6} className={buttonClass}>
           {loading && <Loader2 className="h-5 w-5 animate-spin" />}
-          लॉग इन करें / Log in
+          Log in
         </button>
         <div className="flex items-center justify-between text-sm">
           <button
@@ -194,17 +193,17 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
               setStep("email");
               setError(null);
             }}
-            className="flex items-center gap-1 text-slate-300 hover:text-slate-200"
+            className="flex items-center gap-1 text-graphite-300 hover:text-graphite-200"
           >
-            <ArrowLeft className="h-4 w-4" /> ईमेल बदलें / Change email
+            <ArrowLeft className="h-4 w-4" /> Change email
           </button>
           <button
             type="button"
             disabled={cooldown > 0 || loading}
             onClick={() => void sendCode()}
-            className="font-medium text-yellow-500 hover:text-yellow-400 disabled:text-slate-500"
+            className="font-medium text-saffron-400 hover:text-saffron-300 disabled:text-graphite-500"
           >
-            {cooldown > 0 ? `दोबारा भेजें / Resend (${cooldown}s)` : "दोबारा भेजें / Resend"}
+            {cooldown > 0 ? `Resend (${cooldown}s)` : "Resend"}
           </button>
         </div>
       </form>
@@ -213,8 +212,8 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
 
   return (
     <form onSubmit={complete} className="space-y-4">
-      <p className="text-sm text-slate-300">
-        स्वागत है! अपना नाम बताएँ। <span className="text-slate-300">/ Welcome! What&apos;s your name?</span>
+      <p className="text-sm text-graphite-300">
+        Welcome! What&apos;s your name?
       </p>
       <input
         type="text"
@@ -225,13 +224,13 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         maxLength={100}
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="पूरा नाम / Full name"
+        placeholder="Full name"
         className={inputClass}
       />
       {errorBox}
       <button type="submit" disabled={loading} className={buttonClass}>
         {loading && <Loader2 className="h-5 w-5 animate-spin" />}
-        शुरू करें / Get started
+        Get started
       </button>
     </form>
   );

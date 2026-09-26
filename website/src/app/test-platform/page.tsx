@@ -36,19 +36,19 @@ export const metadata: Metadata = {
 
 function StatTile({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4">
-      <div className="mb-1.5 text-yellow-500">{icon}</div>
+    <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-3 sm:p-4">
+      <div className="mb-1.5 text-saffron-400">{icon}</div>
       <div className="text-lg font-bold text-white sm:text-xl">{value}</div>
-      <div className="text-[11px] text-slate-300 sm:text-xs">{label}</div>
-      {sub && <div className="text-[11px] text-slate-300">{sub}</div>}
+      <div className="text-[11px] text-graphite-300 sm:text-xs">{label}</div>
+      {sub && <div className="text-[11px] text-graphite-300">{sub}</div>}
     </div>
   );
 }
 
 const TYPE_LABEL: Record<string, string> = {
-  test_series: "टेस्ट सीरीज / Test Series",
-  video_course: "वीडियो कोर्स / Video Course",
-  mentorship: "मेंटरशिप / Mentorship",
+  test_series: "Test Series",
+  video_course: "Video Course",
+  mentorship: "Mentorship",
 };
 
 export default async function MyCoursesPage({
@@ -93,20 +93,20 @@ export default async function MyCoursesPage({
   const firstName = user.full_name?.split(" ")[0] || "";
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-6 sm:py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-5xl">
         <div className="mb-6 flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-sm text-slate-300">
-              नमस्ते, <span className="text-yellow-500">{firstName}</span>
+            <p className="text-sm text-graphite-300">
+              Welcome back, <span className="text-saffron-400">{firstName}</span>
             </p>
             <h1 className="text-2xl font-bold text-white">
-              मेरे कोर्स <span className="text-slate-300">/ My Courses</span>
+              My Courses
             </h1>
           </div>
           <div className="flex flex-shrink-0 items-center gap-2">
             {user.role === "admin" && (
-              <Link href="/test-platform/admin" className="rounded-lg border border-yellow-500/40 px-3 py-2 text-sm font-medium text-yellow-400 hover:bg-yellow-500/10">
+              <Link href="/test-platform/admin" className="rounded-lg border border-saffron-400/40 px-3 py-2 text-sm font-medium text-saffron-300 hover:bg-saffron-400/10">
                 Admin
               </Link>
             )}
@@ -115,28 +115,27 @@ export default async function MyCoursesPage({
         </div>
 
         {purchase === "success" && (
-          <div className="mb-6 flex items-start gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-sm text-green-300">
+          <div className="mb-6 flex items-start gap-2 rounded-lg border border-success-500/30 bg-success-500/10 px-4 py-2.5 text-sm text-success-300">
             <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" />
             <span>
-              भुगतान सफल — आपका कोर्स सक्रिय है।{" "}
-              <span className="text-green-400/80">/ Payment successful — your course is active.</span>
+              Payment successful — your course is active.
             </span>
           </div>
         )}
         {already === "owned" && (
-          <div className="mb-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-4 py-2.5 text-sm text-yellow-200">
-            यह कोर्स आपके पास पहले से है। / You already own this course.
+          <div className="mb-6 rounded-lg border border-saffron-400/30 bg-saffron-400/10 px-4 py-2.5 text-sm text-saffron-100">
+            You already own this course.
           </div>
         )}
 
         {myCourses.length === 0 ? (
-          <div className="mb-8 rounded-2xl border border-dashed border-slate-700 bg-slate-800/40 p-6 text-center sm:p-8">
-            <p className="text-slate-300">अभी कोई कोर्स नहीं है। / You haven&apos;t enrolled in a course yet.</p>
+          <div className="mb-8 rounded-2xl border border-dashed border-graphite-700 bg-graphite-800/40 p-6 text-center sm:p-8">
+            <p className="text-graphite-300">You haven&apos;t enrolled in a course yet.</p>
             <Link
               href="/courses"
-              className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-yellow-500 px-5 py-3 text-sm font-bold text-slate-900 hover:bg-yellow-400"
+              className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-saffron-400 px-5 py-3 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
             >
-              कोर्स देखें / Browse Courses <ArrowRight className="h-4 w-4" />
+              Browse Courses <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         ) : (
@@ -156,44 +155,44 @@ export default async function MyCoursesPage({
                     ? `/courses/${pkg.slug}`
                     : "/courses";
               return (
-                <div key={pkg.id} className="flex flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
+                <div key={pkg.id} className="flex flex-col overflow-hidden rounded-2xl border border-graphite-800 bg-graphite-900/60">
                   <CourseThumb src={pkg.image_url} alt={pkg.package_name} className="h-20 w-full" />
                   <div className="flex flex-1 flex-col p-4">
-                    <p className="text-[11px] font-medium text-yellow-500">{TYPE_LABEL[pkg.package_type] ?? pkg.package_type}</p>
+                    <p className="text-[11px] font-medium text-saffron-400">{TYPE_LABEL[pkg.package_type] ?? pkg.package_type}</p>
                     <h2 className="mt-0.5 font-semibold text-white">{pkg.package_name}</h2>
 
                     {progress && (
                       <div className="mt-3">
-                        <div className="mb-1 flex justify-between text-xs text-slate-300">
-                          <span>प्रगति / Progress</span>
+                        <div className="mb-1 flex justify-between text-xs text-graphite-300">
+                          <span>Progress</span>
                           <span>
                             {progress.testsDone} / {progress.totalTests} tests
                           </span>
                         </div>
-                        <div className="h-2 rounded-full bg-slate-800">
-                          <div className="h-2 rounded-full bg-yellow-500" style={{ width: `${pct}%` }} />
+                        <div className="h-2 rounded-full bg-graphite-800">
+                          <div className="h-2 rounded-full bg-saffron-400" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                     )}
 
                     {pkg.package_type === "video_course" && (
-                      <p className="mt-3 flex items-center gap-1.5 text-xs text-slate-300">
-                        <Video className="h-3.5 w-3.5 text-yellow-500" />
-                        {classStart ? `Classes start ${classStart}` : "वीडियो जल्द / Videos coming soon"}
+                      <p className="mt-3 flex items-center gap-1.5 text-xs text-graphite-300">
+                        <Video className="h-3.5 w-3.5 text-saffron-400" />
+                        {classStart ? `Classes start ${classStart}` : "Videos coming soon"}
                       </p>
                     )}
 
                     {validTill && (
-                      <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-300">
+                      <p className="mt-2 flex items-center gap-1.5 text-xs text-graphite-300">
                         <CalendarDays className="h-3.5 w-3.5" /> Valid till {formatDateLabel(validTill)}
                       </p>
                     )}
 
                     <Link
                       href={continueHref}
-                      className="mt-4 flex items-center justify-center gap-1.5 rounded-lg bg-yellow-500 px-4 py-3 text-sm font-bold text-slate-900 hover:bg-yellow-400 sm:mt-auto"
+                      className="mt-4 flex items-center justify-center gap-1.5 rounded-lg bg-saffron-400 px-4 py-3 text-sm font-bold text-graphite-900 hover:bg-saffron-300 sm:mt-auto"
                     >
-                      जारी रखें / Continue <ArrowRight className="h-4 w-4" />
+                      Continue <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
                 </div>
@@ -203,29 +202,29 @@ export default async function MyCoursesPage({
         )}
 
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-          <StatTile icon={<Target className="h-5 w-5" />} label="टेस्ट दिए / Tests Taken" value={String(testsTaken)} />
+          <StatTile icon={<Target className="h-5 w-5" />} label="Tests Taken" value={String(testsTaken)} />
           <StatTile
             icon={<Trophy className="h-5 w-5" />}
-            label="औसत / Average"
+            label="Average"
             value={avgScore != null ? `${avgScore.toFixed(1)}%` : "—"}
           />
           <StatTile
             icon={<Flame className="h-5 w-5" />}
-            label="स्ट्रीक / Streak"
+            label="Streak"
             value={`${stats.current_streak} day${stats.current_streak === 1 ? "" : "s"}`}
-            sub={stats.best_streak > 0 ? `Best: ${stats.best_streak}` : "रोज़ 1 टेस्ट / 1 test a day"}
+            sub={stats.best_streak > 0 ? `Best: ${stats.best_streak}` : "1 test a day"}
           />
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4">
-            <div className="mb-1.5 text-yellow-500">
+          <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-3 sm:p-4">
+            <div className="mb-1.5 text-saffron-400">
               <Zap className="h-5 w-5" />
             </div>
-            <div className="text-lg font-bold text-white sm:text-xl">Lvl {stats.level}</div>
-            <div className="text-[11px] text-slate-300 sm:text-xs">लेवल / Level · {stats.total_xp} XP</div>
+            <div className="text-lg font-bold text-white sm:text-xl">Level {stats.level}</div>
+            <div className="text-[11px] text-graphite-300 sm:text-xs">{stats.total_xp} XP</div>
             {stats.level < 25 && (
               <>
-                <div className="mt-2 h-1.5 rounded-full bg-slate-800">
+                <div className="mt-2 h-1.5 rounded-full bg-graphite-800">
                   <div
-                    className="h-1.5 rounded-full bg-yellow-500"
+                    className="h-1.5 rounded-full bg-saffron-400"
                     style={{
                       width: `${Math.min(
                         100,
@@ -238,7 +237,7 @@ export default async function MyCoursesPage({
                     }}
                   />
                 </div>
-                <div className="mt-1 text-[11px] text-slate-300">
+                <div className="mt-1 text-[11px] text-graphite-300">
                   {xpForLevel(stats.level + 1) - stats.total_xp} XP → Lvl {stats.level + 1}
                 </div>
               </>
@@ -249,11 +248,11 @@ export default async function MyCoursesPage({
         {testsTaken > 0 && (
           <Link
             href="/test-platform/performance"
-            className="-mt-4 mb-8 flex items-center justify-between rounded-xl border border-sky-500/30 bg-sky-500/10 px-4 py-3 text-sm text-sky-200 hover:bg-sky-500/15"
+            className="-mt-4 mb-8 flex items-center justify-between rounded-xl border border-saffron-400/30 bg-saffron-400/10 px-4 py-3 text-sm text-saffron-100 hover:bg-saffron-400/15"
           >
             <span>
-              मेरा प्रदर्शन — कमज़ोर टॉपिक, गलतियाँ, अनुमान नियम
-              <span className="block text-xs text-sky-300/80">My Performance — weak topics, error log, guess rule</span>
+              <span className="font-semibold">My Performance</span>
+              <span className="block text-xs text-saffron-200/80">Weak topics, error log, guess rule</span>
             </span>
             <ArrowRight className="h-4 w-4 flex-shrink-0" />
           </Link>
@@ -262,19 +261,19 @@ export default async function MyCoursesPage({
         {releasedFreeTests.length > 0 && (
           <section className="mb-8">
             <h2 className="mb-3 text-lg font-bold text-white">
-              मुफ़्त टेस्ट <span className="text-slate-300">/ Free Tests</span>
+              Free Tests
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {releasedFreeTests.map((t) => (
                 <Link
                   key={t.id}
                   href={`/test-platform/tests/${t.id}`}
-                  className="group flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-yellow-500/50"
+                  className="group flex items-center gap-3 rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 hover:border-saffron-400/50"
                 >
-                  <Gift className="h-5 w-5 flex-shrink-0 text-green-400" />
+                  <Gift className="h-5 w-5 flex-shrink-0 text-success-400" />
                   <div className="min-w-0">
-                    <h3 className="truncate text-sm font-semibold text-white group-hover:text-yellow-500">{t.test_name}</h3>
-                    <p className="text-xs text-slate-300">
+                    <h3 className="truncate text-sm font-semibold text-white group-hover:text-saffron-400">{t.test_name}</h3>
+                    <p className="text-xs text-graphite-300">
                       {t.question_ids.length} Q · {t.duration_minutes} min
                     </p>
                   </div>
@@ -298,10 +297,10 @@ export default async function MyCoursesPage({
           <section>
             <div className="mb-3 flex items-center justify-between gap-3">
               <h2 className="text-lg font-bold text-white">
-                और कोर्स देखें <span className="text-slate-300">/ Explore more courses</span>
+                Explore more courses
               </h2>
-              <Link href="/courses" className="flex-shrink-0 text-sm font-medium text-yellow-500 hover:text-yellow-400">
-                सभी / All →
+              <Link href="/courses" className="flex-shrink-0 text-sm font-medium text-saffron-400 hover:text-saffron-300">
+                All →
               </Link>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -309,18 +308,18 @@ export default async function MyCoursesPage({
                 <Link
                   key={pkg.id}
                   href={`/courses/${pkg.slug}`}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-yellow-500/50"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 hover:border-saffron-400/50"
                 >
                   <span className="min-w-0 truncate text-sm font-semibold text-white">{pkg.package_name}</span>
-                  <span className="flex-shrink-0 text-sm font-bold text-yellow-500">{formatINR(getPriceInfo(pkg).amount)}</span>
+                  <span className="flex-shrink-0 text-sm font-bold text-saffron-400">{formatINR(getPriceInfo(pkg).amount)}</span>
                 </Link>
               ))}
             </div>
             <Link
               href="/courses"
-              className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-yellow-500/50 px-4 py-3 text-sm font-semibold text-yellow-400 hover:bg-yellow-500/10"
+              className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-saffron-400/50 px-4 py-3 text-sm font-semibold text-saffron-300 hover:bg-saffron-400/10"
             >
-              सभी कोर्स देखें / Explore all courses <ArrowRight className="h-4 w-4" />
+              Explore all courses <ArrowRight className="h-4 w-4" />
             </Link>
           </section>
         )}

@@ -73,33 +73,33 @@ export default function InstallPrompt() {
 
   return (
     <div
-      className="fixed inset-x-0 z-40 mx-auto flex max-w-sm items-center gap-3 rounded-xl border border-slate-700 bg-slate-900 p-3 shadow-2xl sm:hidden"
+      className="fixed inset-x-0 z-40 mx-auto flex max-w-sm items-center gap-3 rounded-xl border border-graphite-700 bg-graphite-900 p-3 shadow-2xl sm:hidden"
       style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))", left: "1rem", right: "1rem" }}
     >
-      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-yellow-500/10 text-yellow-500">
+      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400">
         <Download className="h-5 w-5" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-xs font-semibold text-white">
-          ऐप इंस्टॉल करें <span className="text-slate-300">/ Install app</span>
+          Install app
         </p>
         {showIosHint && !deferredPrompt ? (
-          <p className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-300">
+          <p className="mt-0.5 flex items-center gap-1 text-[11px] text-graphite-300">
             Tap <Share className="h-3 w-3" /> then &quot;Add to Home Screen&quot;
           </p>
         ) : (
-          <p className="mt-0.5 text-[11px] text-slate-300">Quick access from your home screen</p>
+          <p className="mt-0.5 text-[11px] text-graphite-300">Quick access from your home screen</p>
         )}
       </div>
       {deferredPrompt && (
         <button
           onClick={install}
-          className="flex-shrink-0 rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-slate-900 hover:bg-yellow-400"
+          className="flex-shrink-0 rounded-lg bg-saffron-400 px-3 py-1.5 text-xs font-semibold text-graphite-900 hover:bg-saffron-300"
         >
           Install
         </button>
       )}
-      <button onClick={dismiss} className="flex-shrink-0 text-slate-300 hover:text-white" aria-label="Dismiss">
+      <button onClick={dismiss} className="flex-shrink-0 text-graphite-300 hover:text-white" aria-label="Dismiss">
         <X className="h-4 w-4" />
       </button>
     </div>

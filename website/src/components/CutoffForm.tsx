@@ -19,13 +19,13 @@ export default function CutoffForm({ cutoff, total }: { cutoff: number; total: n
     setMsg(res.ok ? "Saved" : d.error || "Failed");
     if (res.ok) router.refresh();
   };
-  const input = "w-20 rounded-lg border border-slate-700 bg-slate-800 px-2 py-1.5 text-sm text-slate-100";
+  const input = "w-20 rounded-lg border border-graphite-700 bg-graphite-800 px-2 py-1.5 text-sm text-graphite-100";
   return (
-    <form onSubmit={save} className="flex flex-wrap items-center gap-2 text-sm text-slate-300">
+    <form onSubmit={save} className="flex flex-wrap items-center gap-2 text-sm text-graphite-300">
       Expected cutoff <input value={c} onChange={(e) => setC(e.target.value)} inputMode="decimal" className={input} /> out of{" "}
       <input value={t} onChange={(e) => setT(e.target.value)} inputMode="decimal" className={input} />
-      <button className="rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-slate-900">Save</button>
-      {msg && <span className="text-xs text-slate-300">{msg}</span>}
+      <button className="rounded-lg bg-saffron-400 px-3 py-1.5 text-xs font-semibold text-graphite-900">Save</button>
+      {msg && <span className="text-xs text-graphite-300">{msg}</span>}
     </form>
   );
 }

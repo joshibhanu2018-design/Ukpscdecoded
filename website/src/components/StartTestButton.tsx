@@ -32,12 +32,12 @@ export default function StartTestButton({ testId, label }: { testId: string; lab
       <button
         onClick={start}
         disabled={loading}
-        className="flex items-center gap-2 rounded-lg bg-yellow-500 px-6 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-yellow-400 disabled:opacity-60"
+        className="flex items-center gap-2 rounded-lg bg-saffron-400 px-6 py-3 text-sm font-semibold text-graphite-900 transition-colors hover:bg-saffron-300 disabled:opacity-60"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
         {label}
       </button>
-      {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
+      {error && <p className="mt-3 text-sm text-danger-300">{error}</p>}
     </div>
   );
 }

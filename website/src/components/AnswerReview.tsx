@@ -30,7 +30,7 @@ export default function AnswerReview({
     <section className="mt-10">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <h2 className="font-semibold text-white">
-          उत्तर समीक्षा <span className="text-slate-300">/ Answer Review</span>
+          Answer Review
         </h2>
         <LangToggle lang={lang} onChange={setLang} />
       </div>
@@ -40,13 +40,13 @@ export default function AnswerReview({
           const status = selected === null ? "skipped" : selected === q.correct_answer ? "correct" : "wrong";
           const explanation = text(q.explanation_hindi, q.explanation_english);
           return (
-            <li key={q.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <li key={q.id} className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
               <div className="mb-2 flex items-center justify-between gap-3 text-xs">
-                <span className="font-semibold text-yellow-500">Q{i + 1}</span>
+                <span className="font-semibold text-saffron-400">Q{i + 1}</span>
                 <span
-                  className={status === "correct" ? "text-green-400" : status === "wrong" ? "text-red-400" : "text-slate-300"}
+                  className={status === "correct" ? "text-success-400" : status === "wrong" ? "text-danger-400" : "text-graphite-300"}
                 >
-                  {status === "correct" ? "Correct / सही" : status === "wrong" ? "Wrong / गलत" : "Skipped / छोड़ा"}
+                  {status === "correct" ? "Correct" : status === "wrong" ? "Wrong" : "Skipped"}
                 </span>
               </div>
               <p className="whitespace-pre-line text-base leading-relaxed text-white">{text(q.text_hindi, q.text_english)}</p>
@@ -61,10 +61,10 @@ export default function AnswerReview({
                       key={o.key}
                       className={`rounded-lg border px-3 py-2 text-sm ${
                         isCorrect
-                          ? "border-green-500/50 bg-green-500/10 text-green-100"
+                          ? "border-success-500/50 bg-success-500/10 text-success-100"
                           : isPicked
-                            ? "border-red-500/50 bg-red-500/10 text-red-100"
-                            : "border-slate-700 text-slate-200"
+                            ? "border-danger-500/50 bg-danger-500/10 text-danger-100"
+                            : "border-graphite-700 text-graphite-200"
                       }`}
                     >
                       <span className="font-semibold">{o.key}.</span> {label}
@@ -77,8 +77,8 @@ export default function AnswerReview({
                 <ErrorTagger attemptId={attemptId} questionId={q.id} initial={errorTags[q.id] ?? null} />
               )}
               {explanation && (
-                <div className="mt-3 rounded-lg bg-slate-800/60 p-3 text-sm text-slate-200">
-                  <span className="font-semibold text-yellow-500">{lang === "hi" ? "व्याख्या" : "Explanation"}: </span>
+                <div className="mt-3 rounded-lg bg-graphite-800/60 p-3 text-sm text-graphite-200">
+                  <span className="font-semibold text-saffron-400">{lang === "hi" ? "व्याख्या" : "Explanation"}: </span>
                   <p className="mt-1 whitespace-pre-line">{explanation}</p>
                 </div>
               )}

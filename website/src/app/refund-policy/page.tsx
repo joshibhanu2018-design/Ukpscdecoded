@@ -12,14 +12,10 @@ export default function RefundPolicyPage() {
   const { email } = settings.footer;
   const { refundDays, refundMaxVideos } = settings.legal;
   return (
-    <LegalPage hindiTitle="रिफंड नीति" title="Refund & Cancellation Policy">
+    <LegalPage title="Refund & Cancellation Policy">
       <section>
-        <h2>सारांश / Summary</h2>
+        <h2>Summary</h2>
         <p>
-          डिजिटल कोर्स सामान्यतः रिफंड योग्य नहीं हैं। खरीद के {refundDays} दिनों के भीतर, और {refundMaxVideos} से कम वीडियो देखे होने पर ही रिफंड
-          मिलेगा।
-        </p>
-        <p className="mt-2">
           Digital courses are generally non-refundable. A refund is given only if you ask within{" "}
           <strong>{refundDays} days of purchase</strong> <em>and</em> have watched{" "}
           <strong>fewer than {refundMaxVideos} video lectures</strong> of the course.

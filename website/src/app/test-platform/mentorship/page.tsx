@@ -25,39 +25,38 @@ export default async function MentorshipPage() {
   const open = slots.filter((s) => !bookedWeeks.has(istWeekStart(new Date(s.start).getTime())));
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-6 sm:py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-3xl">
-        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
-          <ArrowLeft className="h-4 w-4" /> मेरे कोर्स / My Courses
+        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400">
+          <ArrowLeft className="h-4 w-4" /> My Courses
         </Link>
         <h1 className="text-2xl font-bold text-white">
-          मेंटरशिप <span className="text-slate-300">/ Mentorship</span>
+          Mentorship
         </h1>
-        <p className="mt-1 text-sm text-slate-300">
-          हर सप्ताह एक 20 मिनट का 1-on-1 सत्र — पहले आओ, पहले पाओ।{" "}
-          <span className="block text-slate-300">One 20-minute 1-on-1 session per week — first come, first served.</span>
+        <p className="mt-1 text-sm text-graphite-300">
+          One 20-minute 1-on-1 session per week — first come, first served.
         </p>
 
         {upcoming.length > 0 && (
           <section className="mt-6 space-y-3">
             {upcoming.map((b) => (
-              <div key={b.id} className="rounded-2xl border border-green-500/30 bg-green-500/10 p-4">
-                <p className="flex items-center gap-2 text-sm font-semibold text-green-300">
-                  <CalendarCheck className="h-4 w-4" /> बुक है / Booked: {formatSlotIST(b.slot_start)}
+              <div key={b.id} className="rounded-2xl border border-success-500/30 bg-success-500/10 p-4">
+                <p className="flex items-center gap-2 text-sm font-semibold text-success-300">
+                  <CalendarCheck className="h-4 w-4" /> Booked: {formatSlotIST(b.slot_start)}
                 </p>
-                {b.student_note && <p className="mt-1 text-xs text-slate-300">Topic: {b.student_note}</p>}
+                {b.student_note && <p className="mt-1 text-xs text-graphite-300">Topic: {b.student_note}</p>}
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                   {meetLink ? (
                     <a
                       href={meetLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-yellow-500 px-4 py-2 text-sm font-bold text-slate-900"
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-saffron-400 px-4 py-2 text-sm font-bold text-graphite-900"
                     >
-                      <Video className="h-4 w-4" /> सत्र में जुड़ें / Join session
+                      <Video className="h-4 w-4" /> Join session
                     </a>
                   ) : (
-                    <span className="text-xs text-slate-300">Joining link will appear here before the session.</span>
+                    <span className="text-xs text-graphite-300">Joining link will appear here before the session.</span>
                   )}
                   {new Date(b.slot_start).getTime() - now > CANCEL_NOTICE_MS && <CancelBookingButton id={b.id} />}
                 </div>
@@ -66,13 +65,12 @@ export default async function MentorshipPage() {
           </section>
         )}
 
-        <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <section className="mt-8 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
           <h2 className="mb-4 font-semibold text-white">
-            स्लॉट चुनें <span className="text-slate-300">/ Pick a slot (next 2 weeks)</span>
+            Pick a slot (next 2 weeks)
           </h2>
           <SlotPicker slots={open} />
-          <p className="mt-4 text-[11px] text-slate-300">
-            सत्र से 12 घंटे पहले तक रद्द कर सकते हैं। सत्र से पहले अपना प्रदर्शन पेज देखें — हम उसी पर चर्चा करेंगे।
+          <p className="mt-4 text-[11px] text-graphite-300">
             <span className="block">
               Cancel up to 12 hours before. Before your session, review your{" "}
               <Link href="/test-platform/performance" className="underline">
@@ -86,18 +84,18 @@ export default async function MentorshipPage() {
         {past.length > 0 && (
           <section className="mt-8">
             <h2 className="mb-3 font-semibold text-white">
-              पिछले सत्र <span className="text-slate-300">/ Past sessions & plans</span>
+              Past sessions & plans
             </h2>
             <ul className="space-y-3">
               {past.map((b) => (
-                <li key={b.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-sm">
+                <li key={b.id} className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-4 text-sm">
                   <div className="flex justify-between gap-3">
-                    <span className="text-slate-300">{formatSlotIST(b.slot_start)}</span>
-                    <span className="text-xs capitalize text-slate-300">{b.status.replace("_", "-")}</span>
+                    <span className="text-graphite-300">{formatSlotIST(b.slot_start)}</span>
+                    <span className="text-xs capitalize text-graphite-300">{b.status.replace("_", "-")}</span>
                   </div>
                   {b.mentor_notes && (
-                    <div className="mt-2 whitespace-pre-line rounded-lg bg-slate-800/60 p-3 text-slate-200">
-                      <span className="mb-1 block text-xs font-semibold text-yellow-500">आपकी योजना / Your plan</span>
+                    <div className="mt-2 whitespace-pre-line rounded-lg bg-graphite-800/60 p-3 text-graphite-200">
+                      <span className="mb-1 block text-xs font-semibold text-saffron-400">Your plan</span>
                       {b.mentor_notes}
                     </div>
                   )}

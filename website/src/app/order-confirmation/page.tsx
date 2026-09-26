@@ -29,8 +29,8 @@ function OrderConfirmationContent() {
           <div className="text-center space-y-8">
             {/* SUCCESS CHECKMARK */}
             <div className="flex justify-center">
-              <div className="w-24 h-24 rounded-full bg-green-500/20 border-2 border-green-500 flex items-center justify-center animate-pulse">
-                <Check className="w-12 h-12 text-green-400" />
+              <div className="w-24 h-24 rounded-full bg-success-500/20 border-2 border-success-500 flex items-center justify-center animate-pulse">
+                <Check className="w-12 h-12 text-success-400" />
               </div>
             </div>
 
@@ -59,19 +59,19 @@ function OrderConfirmationContent() {
                 {paymentId && (
                   <div>
                     <span className="text-graphite-400">{isHindi ? 'भुगतान ID:' : 'Payment ID:'}</span>
-                    <span className="ml-4 font-bold text-green-400">{paymentId}</span>
+                    <span className="ml-4 font-bold text-success-400">{paymentId}</span>
                   </div>
                 )}
                 <div>
                   <span className="text-graphite-400">{isHindi ? 'संपर्क:' : 'Contact:'}</span>
-                  <span className="ml-4 font-bold text-blue-400">{customerEmail || customerPhone}</span>
+                  <span className="ml-4 font-bold text-saffron-300">{customerEmail || customerPhone}</span>
                 </div>
               </div>
             </div>
 
             {/* DELIVERY INFORMATION */}
-            <div className="bg-amber-500/20 rounded-xl p-6 border border-amber-500/30">
-              <p className="text-base md:text-lg text-amber-100 leading-relaxed">
+            <div className="bg-saffron-500/20 rounded-xl p-6 border border-saffron-500/30">
+              <p className="text-base md:text-lg text-saffron-100 leading-relaxed">
                 {isHindi
                   ? '📦 आपकी पुस्तक 4-5 कार्य दिवसों में आपके पते पर डिलीवर की जाएगी। आप अपने ऑर्डर की ट्रैकिंग जानकारी के लिए व्हाट्सएप के माध्यम से हमसे संपर्क कर सकते हैं।'
                   : '📦 Your book will be delivered to your address within 4-5 working days. You can contact us via WhatsApp for tracking information on your order.'}
@@ -87,7 +87,7 @@ function OrderConfirmationContent() {
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 rounded-lg font-bold text-lg transition-all transform hover:scale-105"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-success-600 to-success-500 hover:from-success-700 hover:to-success-600 rounded-lg font-bold text-lg transition-all transform hover:scale-105"
               >
                 <MessageCircle className="w-6 h-6" />
                 {isHindi ? 'WhatsApp पर संपर्क करें' : 'Contact on WhatsApp'}
@@ -112,7 +112,7 @@ function OrderConfirmationContent() {
             <div>
               <a
                 href="/"
-                className="inline-block px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-all"
+                className="inline-block px-6 py-3 bg-graphite-700 hover:bg-graphite-600 rounded-lg font-semibold transition-all"
               >
                 {isHindi ? '← होम पर वापस जाएं' : '← Back to Home'}
               </a>
@@ -132,7 +132,7 @@ function OrderConfirmationContent() {
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 rounded-lg font-bold"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-success-600 to-success-500 rounded-lg font-bold"
             >
               <MessageCircle className="w-6 h-6" />
               {isHindi ? 'WhatsApp पर संपर्क करें' : 'Contact on WhatsApp'}

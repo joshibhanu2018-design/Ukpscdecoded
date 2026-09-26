@@ -26,13 +26,13 @@ export default function CourseCard({
 
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-2xl border bg-slate-900/60 shadow-xl ${
-        mostPopular ? "border-yellow-500 ring-2 ring-yellow-500/60" : "border-slate-800"
+      className={`relative flex flex-col overflow-hidden rounded-2xl border bg-graphite-900 shadow-xl shadow-black/30 ${
+        mostPopular ? "border-saffron-400 ring-2 ring-saffron-400/60" : "border-graphite-800"
       } ${wide ? "md:flex-row" : ""}`}
     >
       {mostPopular && (
-        <p className={`flex items-center justify-center gap-1.5 bg-yellow-500 px-3 py-1.5 text-xs font-bold text-slate-900 ${wide ? "md:hidden" : ""}`}>
-          <Star className="h-3.5 w-3.5 fill-current" /> सबसे लोकप्रिय / Most Popular
+        <p className={`flex items-center justify-center gap-1.5 bg-saffron-400 px-3 py-1.5 text-xs font-bold text-graphite-900 ${wide ? "md:hidden" : ""}`}>
+          <Star className="h-3.5 w-3.5 fill-current" /> Most Popular
         </p>
       )}
 
@@ -46,8 +46,8 @@ export default function CourseCard({
           {pkg.highlights.length > 0 && (
             <ul className={`space-y-1.5 ${pkg.image_url ? "mt-2" : ""}`}>
               {pkg.highlights.slice(0, 4).map((h) => (
-                <li key={h} className={`flex items-start gap-1.5 text-slate-300 ${size === "lg" ? "text-sm" : "text-xs"}`}>
-                  <Check className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-yellow-500" /> {h}
+                <li key={h} className={`flex items-start gap-1.5 text-graphite-300 ${size === "lg" ? "text-sm" : "text-xs"}`}>
+                  <Check className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-saffron-400" /> {h}
                 </li>
               ))}
             </ul>
@@ -55,18 +55,18 @@ export default function CourseCard({
           <div className="mt-4 flex items-baseline gap-2">
             <span className={`font-bold text-white ${size === "lg" ? "text-2xl" : "text-xl"}`}>{formatINR(priceInfo.amount)}</span>
           </div>
-          {foundingLabel && <p className="mt-1 text-[11px] font-medium text-yellow-400">{foundingLabel}</p>}
+          {foundingLabel && <p className="mt-1 text-[11px] font-medium text-saffron-300">{foundingLabel}</p>}
         </Link>
 
         <div className="px-5 pb-5">
           {owned ? (
-            <div className="rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-center text-sm font-semibold text-green-400">
+            <div className="rounded-lg border border-success-500/30 bg-success-500/10 px-4 py-2.5 text-center text-sm font-semibold text-success-400">
               Purchased
             </div>
           ) : (
             <Link
               href={checkoutHref}
-              className="block min-h-[44px] rounded-lg bg-yellow-500 px-4 py-2.5 text-center text-sm font-bold text-slate-900 transition-colors hover:bg-yellow-400"
+              className="block min-h-[44px] rounded-lg bg-saffron-400 px-4 py-2.5 text-center text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300"
             >
               Buy Now
             </Link>

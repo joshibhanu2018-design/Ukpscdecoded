@@ -28,21 +28,21 @@ export default function ReferralCard({
   };
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+    <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
       <h3 className="font-semibold text-white">
-        दोस्तों को रेफर करें <span className="text-slate-300">/ Refer Friends</span>
+        Refer Friends
       </h3>
-      <p className="mt-1 text-xs text-slate-300">
+      <p className="mt-1 text-xs text-graphite-300">
         Friends get ₹200 off their first purchase. You get ₹200 store credit when they buy.
       </p>
 
       <div className="mt-3 flex items-center gap-2">
-        <code className="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-semibold text-yellow-400">
+        <code className="flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2 text-sm font-semibold text-saffron-300">
           {referralCode}
         </code>
         <button
           onClick={handleCopy}
-          className="flex-shrink-0 rounded-lg border border-slate-700 p-2 text-slate-300 hover:border-yellow-500 hover:text-yellow-400"
+          className="flex-shrink-0 rounded-lg border border-graphite-700 p-2 text-graphite-300 hover:border-saffron-400 hover:text-saffron-300"
           title="Copy code"
         >
           {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -53,12 +53,12 @@ export default function ReferralCard({
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-500"
+        className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-success-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-success-500"
       >
         <Share2 className="h-4 w-4" /> Share on WhatsApp
       </a>
 
-      <p className="mt-3 text-xs text-slate-300">
+      <p className="mt-3 text-xs text-graphite-300">
         Store credit: <span className="font-semibold text-white">₹{(storeCreditPaise / 100).toFixed(0)}</span>
       </p>
     </div>

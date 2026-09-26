@@ -142,12 +142,12 @@ export default function PackageCard({
     <div
       className={`flex flex-col rounded-2xl border p-6 shadow-xl ${
         isBestValue
-          ? "border-yellow-500 bg-slate-900/80 ring-1 ring-yellow-500/50"
-          : "border-slate-800 bg-slate-900/60"
+          ? "border-saffron-400 bg-graphite-900/80 ring-1 ring-saffron-400/50"
+          : "border-graphite-800 bg-graphite-900/60"
       }`}
     >
       {isBestValue && (
-        <span className="mb-3 inline-flex w-fit items-center gap-1 rounded-full bg-yellow-500 px-3 py-1 text-xs font-bold text-slate-900">
+        <span className="mb-3 inline-flex w-fit items-center gap-1 rounded-full bg-saffron-400 px-3 py-1 text-xs font-bold text-graphite-900">
           <Sparkles className="h-3.5 w-3.5" /> Best Value
         </span>
       )}
@@ -155,7 +155,7 @@ export default function PackageCard({
       <h3 className="text-lg font-bold text-white">{pkg.package_name}</h3>
 
       {classStartLabel && (
-        <p className="mt-1 flex items-center gap-1.5 text-sm text-yellow-400">
+        <p className="mt-1 flex items-center gap-1.5 text-sm text-saffron-300">
           <CalendarDays className="h-4 w-4" /> Classes start {classStartLabel}
         </p>
       )}
@@ -163,27 +163,27 @@ export default function PackageCard({
       <div className="mt-3 flex items-baseline gap-2">
         <span className="text-2xl font-bold text-white">{formatINR(priceInfo.amount)}</span>
         {savings && (
-          <span className="text-sm text-slate-300 line-through">{formatINR(savings.componentTotal)}</span>
+          <span className="text-sm text-graphite-300 line-through">{formatINR(savings.componentTotal)}</span>
         )}
       </div>
 
-      {foundingLabel && <p className="mt-1 text-xs font-medium text-yellow-400">{foundingLabel}</p>}
+      {foundingLabel && <p className="mt-1 text-xs font-medium text-saffron-300">{foundingLabel}</p>}
 
       {savings && (
-        <p className="mt-1 text-sm font-medium text-green-400">
+        <p className="mt-1 text-sm font-medium text-success-400">
           Save {formatINR(savings.saving)} ({savings.savingPercent}%) vs buying separately
         </p>
       )}
 
       {seatsRemaining !== null && (
-        <p className={`mt-1 flex items-center gap-1.5 text-xs ${soldOut ? "text-red-400" : "text-slate-300"}`}>
+        <p className={`mt-1 flex items-center gap-1.5 text-xs ${soldOut ? "text-danger-400" : "text-graphite-300"}`}>
           <Users className="h-3.5 w-3.5" />
           {soldOut ? "All seats full" : `${seatsRemaining} seat${seatsRemaining === 1 ? "" : "s"} left`}
         </p>
       )}
 
       {pkg.access_valid_till && (
-        <p className="mt-1 text-xs text-slate-300">
+        <p className="mt-1 text-xs text-graphite-300">
           Access valid till{" "}
           {new Date(`${pkg.access_valid_till}T00:00:00`).toLocaleDateString("en-IN", {
             day: "numeric",
@@ -196,8 +196,8 @@ export default function PackageCard({
       {bullets.length > 0 && (
         <ul className="mt-4 space-y-2">
           {bullets.map((b) => (
-            <li key={b} className="flex items-start gap-2 text-sm text-slate-300">
-              <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-yellow-500" /> {b}
+            <li key={b} className="flex items-start gap-2 text-sm text-graphite-300">
+              <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-saffron-400" /> {b}
             </li>
           ))}
         </ul>
@@ -205,21 +205,21 @@ export default function PackageCard({
 
       <div className="mt-6">
         {owned ? (
-          <div className="w-full rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2.5 text-center text-sm font-semibold text-green-400">
+          <div className="w-full rounded-lg border border-success-500/30 bg-success-500/10 px-4 py-2.5 text-center text-sm font-semibold text-success-400">
             Purchased
           </div>
         ) : !paymentsEnabled ? (
-          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-300">
-            बिक्री जल्द शुरू <span className="text-slate-300">/ Sales open soon</span>
+          <div className="w-full rounded-lg border border-graphite-700 bg-graphite-800 px-4 py-2.5 text-center text-sm font-semibold text-graphite-300">
+            Sales open soon
           </div>
         ) : soldOut ? (
-          <div className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-center text-sm font-semibold text-slate-300">
+          <div className="w-full rounded-lg border border-graphite-700 bg-graphite-800 px-4 py-2.5 text-center text-sm font-semibold text-graphite-300">
             All seats are full
           </div>
         ) : (
           <>
             {error && (
-              <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+              <div className="mb-3 rounded-lg border border-danger-500/30 bg-danger-500/10 px-3 py-2 text-xs text-danger-300">
                 {error}
               </div>
             )}
@@ -235,18 +235,18 @@ export default function PackageCard({
                       setCodeMessage(null);
                     }}
                     placeholder="Coupon or referral code"
-                    className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-100 placeholder:text-slate-500 outline-none focus:border-yellow-500"
+                    className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2 text-xs text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400"
                   />
                   <button
                     onClick={handleApplyCode}
                     disabled={codeStatus === "checking" || !codeInput.trim()}
-                    className="flex-shrink-0 rounded-lg border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-yellow-500 hover:text-yellow-400 disabled:opacity-50"
+                    className="flex-shrink-0 rounded-lg border border-graphite-700 px-3 py-2 text-xs font-semibold text-graphite-300 hover:border-saffron-400 hover:text-saffron-300 disabled:opacity-50"
                   >
                     {codeStatus === "checking" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Apply"}
                   </button>
                 </div>
                 {codeMessage && (
-                  <p className={`mt-1.5 text-xs ${codeMessage.ok ? "text-green-400" : "text-red-400"}`}>
+                  <p className={`mt-1.5 text-xs ${codeMessage.ok ? "text-success-400" : "text-danger-400"}`}>
                     {codeMessage.text}
                   </p>
                 )}
@@ -254,7 +254,7 @@ export default function PackageCard({
             ) : (
               <button
                 onClick={() => setShowCodeField(true)}
-                className="mb-3 flex items-center gap-1.5 text-xs font-medium text-slate-300 hover:text-yellow-400"
+                className="mb-3 flex items-center gap-1.5 text-xs font-medium text-graphite-300 hover:text-saffron-300"
               >
                 <Tag className="h-3.5 w-3.5" /> Have a coupon or referral code?
               </button>
@@ -263,17 +263,14 @@ export default function PackageCard({
             <button
               onClick={handleBuy}
               disabled={status === "loading"}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-yellow-400 disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-saffron-400 px-4 py-2.5 text-sm font-semibold text-graphite-900 transition-colors hover:bg-saffron-300 disabled:opacity-60"
             >
               {status === "loading" && <Loader2 className="h-4 w-4 animate-spin" />}
               Buy Now
             </button>
-            <p className="mt-2 text-center text-[11px] leading-snug text-slate-300">
-              खाता साझा करने पर बिना रिफंड के निलंबन होगा।{" "}
-              <span className="text-slate-300">
-                / Account sharing leads to suspension without refund.
-              </span>{" "}
-              <Link href="/terms" className="underline hover:text-slate-400">
+            <p className="mt-2 text-center text-[11px] leading-snug text-graphite-300">
+              Account sharing leads to suspension without refund.{" "}
+              <Link href="/terms" className="underline hover:text-graphite-400">
                 Terms
               </Link>
             </p>

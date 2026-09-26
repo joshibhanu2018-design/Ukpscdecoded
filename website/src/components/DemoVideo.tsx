@@ -12,8 +12,8 @@ export default function DemoVideo({ title, youtubeId }: { title: string; youtube
   const [playing, setPlaying] = useState(false);
 
   return (
-    <figure className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60">
-      <div className="relative aspect-video w-full bg-slate-950">
+    <figure className="overflow-hidden rounded-xl border border-graphite-800 bg-graphite-900/60">
+      <div className="relative aspect-video w-full bg-graphite-950">
         {playing ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
@@ -37,11 +37,11 @@ export default function DemoVideo({ title, youtubeId }: { title: string; youtube
               decoding="async"
               className="absolute inset-0 h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-100"
             />
-            <PlayCircle className="relative h-16 w-16 text-yellow-400 drop-shadow-lg" />
+            <PlayCircle className="relative h-16 w-16 text-saffron-300 drop-shadow-lg" />
           </button>
         )}
       </div>
-      <figcaption className="px-4 py-3 text-sm font-medium text-slate-200">{title}</figcaption>
+      <figcaption className="px-4 py-3 text-sm font-medium text-graphite-200">{title}</figcaption>
     </figure>
   );
 }

@@ -44,14 +44,14 @@ export default function SlotPicker({ slots }: { slots: Slot[] }) {
   };
 
   if (slots.length === 0) {
-    return <p className="text-sm text-slate-300">अभी कोई स्लॉट खाली नहीं है। / No open slots right now — check back soon.</p>;
+    return <p className="text-sm text-graphite-300">No open slots right now — check back soon.</p>;
   }
 
   return (
     <div>
       {[...days.entries()].map(([day, list]) => (
         <div key={day} className="mb-4">
-          <p className="mb-2 text-sm font-medium text-slate-300">{day}</p>
+          <p className="mb-2 text-sm font-medium text-graphite-300">{day}</p>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
             {list.map((s) => (
               <button
@@ -60,10 +60,10 @@ export default function SlotPicker({ slots }: { slots: Slot[] }) {
                 onClick={() => setPicked(s.start)}
                 className={`rounded-lg border px-2 py-2 text-sm ${
                   s.taken
-                    ? "cursor-not-allowed border-slate-800 text-slate-600 line-through"
+                    ? "cursor-not-allowed border-graphite-800 text-graphite-600 line-through"
                     : picked === s.start
-                      ? "border-yellow-500 bg-yellow-500 font-semibold text-slate-900"
-                      : "border-slate-700 text-slate-200 hover:border-yellow-500/60"
+                      ? "border-saffron-400 bg-saffron-400 font-semibold text-graphite-900"
+                      : "border-graphite-700 text-graphite-200 hover:border-saffron-400/60"
                 }`}
               >
                 {timeLabel(s.start)}
@@ -73,29 +73,29 @@ export default function SlotPicker({ slots }: { slots: Slot[] }) {
         </div>
       ))}
       {picked && (
-        <div className="mt-4 space-y-3 rounded-xl border border-slate-800 bg-slate-900 p-4">
+        <div className="mt-4 space-y-3 rounded-xl border border-graphite-800 bg-graphite-900 p-4">
           <p className="text-sm text-white">
-            चुना: {dayLabel(picked)}, {timeLabel(picked)} <span className="text-slate-300">(20 min)</span>
+            Selected: {dayLabel(picked)}, {timeLabel(picked)} <span className="text-graphite-300">(20 min)</span>
           </p>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             maxLength={500}
             rows={2}
-            placeholder="क्या चर्चा करना है? / What do you want to discuss? (optional)"
-            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 outline-none focus:border-yellow-500"
+            placeholder="What do you want to discuss? (optional)"
+            className="w-full rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2 text-sm text-graphite-100 outline-none focus:border-saffron-400"
           />
-          {error && <p className="text-sm text-red-300">{error}</p>}
+          {error && <p className="text-sm text-danger-300">{error}</p>}
           <button
             onClick={book}
             disabled={busy}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 py-3 text-sm font-bold text-slate-900 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-saffron-400 py-3 text-sm font-bold text-graphite-900 disabled:opacity-60"
           >
-            {busy && <Loader2 className="h-4 w-4 animate-spin" />} बुक करें / Book this slot
+            {busy && <Loader2 className="h-4 w-4 animate-spin" />} Book this slot
           </button>
         </div>
       )}
-      {!picked && error && <p className="text-sm text-red-300">{error}</p>}
+      {!picked && error && <p className="text-sm text-danger-300">{error}</p>}
     </div>
   );
 }

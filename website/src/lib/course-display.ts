@@ -37,12 +37,12 @@ export function demoVideos(pkg: Package): DemoVideo[] {
 
 /** Test-series tabs, in display order. `tests.subject` (and a "Sectional" test name) decides the tab. */
 export const TEST_TABS = [
-  { key: "full", label: "Full Length", hindi: "फुल मॉक" },
-  { key: "sectional", label: "Sectional", hindi: "सेक्शनल" },
-  { key: "uttarakhand", label: "Uttarakhand", hindi: "उत्तराखंड" },
-  { key: "ca", label: "Current Affairs", hindi: "करेंट अफेयर्स" },
-  { key: "csat", label: "CSAT", hindi: "सीसैट" },
-  { key: "other", label: "Other", hindi: "अन्य" },
+  { key: "full", label: "Full Length" },
+  { key: "sectional", label: "Sectional" },
+  { key: "uttarakhand", label: "Uttarakhand" },
+  { key: "ca", label: "Current Affairs" },
+  { key: "csat", label: "CSAT" },
+  { key: "other", label: "Other" },
 ] as const;
 
 export type TestTabKey = (typeof TEST_TABS)[number]["key"];
@@ -68,7 +68,7 @@ export function testTabOf(subject: string | null | undefined, testName?: string 
  */
 export function groupTestsByTab<T extends { subject: string | null; test_name: string }>(
   tests: T[]
-): { key: TestTabKey; label: string; hindi: string; count: number; groups: { subject: string; tests: T[] }[] }[] {
+): { key: TestTabKey; label: string; count: number; groups: { subject: string; tests: T[] }[] }[] {
   return TEST_TABS.map((tab) => {
     const groups: { subject: string; tests: T[] }[] = [];
     for (const t of tests) {

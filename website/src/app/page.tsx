@@ -38,13 +38,36 @@ export default async function Home() {
       {/* Course Carousel — DB-driven, editable without a redeploy */}
       <HomeCarousel banners={carouselItems} />
 
+      {/* Quick links — one per paid product, right under the carousel */}
+      <nav aria-label="Products" className="border-b border-graphite-800 bg-graphite-950 px-4 py-6 sm:py-8">
+        <div className="container-custom mx-auto grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {quickLinks.map((link) => {
+            const Icon = getIcon(link.icon);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="group flex flex-col rounded-xl border border-graphite-800 bg-graphite-900 p-4 transition-colors hover:border-saffron-400/50 hover:bg-graphite-800/70"
+              >
+                <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <span className="flex items-center gap-1 font-display text-sm font-semibold text-white sm:text-base">
+                  {link.title}
+                  <ArrowRight className="h-3.5 w-3.5 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
+                </span>
+                <span className="mt-1 text-xs leading-snug text-graphite-400">{link.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
       {/* Course Cards */}
-      <section className="bg-slate-900 px-4 py-14">
+      <section className="bg-graphite-950 px-4 py-14 sm:py-16">
         <div className="container-custom mx-auto">
           <div className="mb-8 text-center">
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-              हमारे कोर्स <span className="text-slate-300">/ Our Courses</span>
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">Our Courses</h2>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredCourses.map((pkg) => (
@@ -59,9 +82,9 @@ export default async function Home() {
           <div className="mt-8 text-center">
             <Link
               href="/courses"
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-200 hover:border-yellow-500 hover:text-yellow-400"
+              className="inline-flex items-center gap-2 rounded-lg border border-graphite-700 px-5 py-2.5 text-sm font-semibold text-graphite-200 hover:border-saffron-400 hover:text-saffron-300"
             >
-              सभी कोर्स देखें / View All Courses <ArrowRight className="h-4 w-4" />
+              View All Courses <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -93,10 +116,10 @@ export default async function Home() {
                     style={{
                       background: edition.languageCode === 'en' 
                         ? "linear-gradient(135deg, #f59307 0%, #e67e22 50%, #d35400 100%)"
-                        : "linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%)",
+                        : "linear-gradient(135deg, #0b9163 0%, #097452 50%, #0b5c42 100%)",
                       boxShadow: edition.languageCode === 'en'
                         ? "0 10px 40px rgba(245, 147, 7, 0.4)"
-                        : "0 10px 40px rgba(99, 102, 241, 0.4)"
+                        : "0 10px 40px rgba(11, 145, 99, 0.35)"
                     }}
                   >
                     {/* Animated background shine effect */}
@@ -147,28 +170,6 @@ export default async function Home() {
               </div>
             )}
 
-            {/* Quick Links Bar */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {quickLinks.map((link) => {
-                const Icon = getIcon(link.icon);
-                return (
-                  <Link
-                    key={link.title}
-                    href={link.href}
-                    className="group text-left bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/10 hover:border-saffron-400/40 transition-all"
-                  >
-                    <div className="w-11 h-11 rounded-xl bg-saffron-500/15 flex items-center justify-center mb-3 group-hover:bg-saffron-500/25 transition-colors">
-                      <Icon className="w-5 h-5 text-saffron-400" />
-                    </div>
-                    <div className="font-display font-semibold text-white flex items-center gap-1 group-hover:gap-2 transition-all">
-                      {link.title}
-                      <ArrowRight className="w-4 h-4 text-saffron-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                    <div className="text-sm text-graphite-400 mt-1">{link.label}</div>
-                  </Link>
-                );
-              })}
-            </div>
           </div>
         </div>
       </section>
@@ -399,7 +400,7 @@ export default async function Home() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 text-lg bg-white text-graphite-900 font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg hover:bg-graphite-50"
             >
-              <Video className="w-5 h-5 text-red-600" />
+              <Video className="w-5 h-5 text-danger-600" />
               {finalCta.youtubeText}
             </a>
           </div>

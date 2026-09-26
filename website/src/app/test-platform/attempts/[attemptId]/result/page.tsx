@@ -31,10 +31,10 @@ export const metadata: Metadata = {
 
 function Stat({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: string; tone: string }) {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+    <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-4">
       <div className={`mb-2 ${tone}`}>{icon}</div>
       <div className="text-xl font-bold text-white">{value}</div>
-      <div className="text-xs text-slate-300">{label}</div>
+      <div className="text-xs text-graphite-300">{label}</div>
     </div>
   );
 }
@@ -87,111 +87,108 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
     .slice(0, 8);
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-10">
       <div className="mx-auto max-w-4xl">
-        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
+        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400">
           <ArrowLeft className="h-4 w-4" /> Dashboard
         </Link>
 
         <h1 className="text-2xl font-bold text-white">{test.test_name}</h1>
-        <p className="mt-1 text-sm text-slate-300">परिणाम / Result</p>
+        <p className="mt-1 text-sm text-graphite-300">Result</p>
 
-        <div className="mt-6 rounded-2xl border border-yellow-500/30 bg-yellow-500/5 p-6 text-center">
-          <div className="text-4xl font-bold text-yellow-500">
-            {r.score} <span className="text-2xl text-slate-300">/ {r.totalMarks}</span>
+        <div className="mt-6 rounded-2xl border border-saffron-400/30 bg-saffron-400/5 p-6 text-center">
+          <div className="text-4xl font-bold text-saffron-400">
+            {r.score} <span className="text-2xl text-graphite-300">/ {r.totalMarks}</span>
           </div>
-          <div className="mt-1 text-sm text-slate-300">{r.percentage}%</div>
+          <div className="mt-1 text-sm text-graphite-300">{r.percentage}%</div>
           {xpEarned > 0 && (
-            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-yellow-500/15 px-3 py-1 text-sm font-semibold text-yellow-400">
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-saffron-400/15 px-3 py-1 text-sm font-semibold text-saffron-300">
               <Zap className="h-4 w-4" /> +{xpEarned} XP{!isFirst && " (reattempt)"}
             </div>
           )}
           {cutoff && scaled !== null && (
-            <p className={`mt-2 text-sm font-semibold ${scaled >= cutoff.cutoff ? "text-green-400" : "text-red-400"}`}>
-              अनुमानित कट-ऑफ {cutoff.cutoff}: {scaled >= cutoff.cutoff ? `${Math.round((scaled - cutoff.cutoff) * 10) / 10} ऊपर` : `${Math.round((cutoff.cutoff - scaled) * 10) / 10} नीचे`}{" "}
-              <span className="font-normal text-slate-300">
-                / Expected cutoff {cutoff.cutoff}: you&apos;re {Math.round(Math.abs(scaled - cutoff.cutoff) * 10) / 10}{" "}
-                {scaled >= cutoff.cutoff ? "above" : "below"}
-              </span>
+            <p className={`mt-2 text-sm font-semibold ${scaled >= cutoff.cutoff ? "text-success-400" : "text-danger-400"}`}>
+              Expected cutoff {cutoff.cutoff}: you&apos;re {Math.round(Math.abs(scaled - cutoff.cutoff) * 10) / 10}{" "}
+              {scaled >= cutoff.cutoff ? "above" : "below"}
             </p>
           )}
           {percentile !== null && (
-            <p className="mt-2 text-sm text-slate-300">
-              आपने {percentile}% छात्रों से बेहतर किया / You scored higher than {percentile}% of students
+            <p className="mt-2 text-sm text-graphite-300">
+              You scored higher than {percentile}% of students
             </p>
           )}
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          <Stat icon={<CheckCircle2 className="h-5 w-5" />} label="Correct" value={String(r.correct)} tone="text-green-400" />
-          <Stat icon={<XCircle className="h-5 w-5" />} label="Wrong" value={String(r.wrong)} tone="text-red-400" />
-          <Stat icon={<MinusCircle className="h-5 w-5" />} label="Skipped" value={String(r.unattempted)} tone="text-slate-300" />
+          <Stat icon={<CheckCircle2 className="h-5 w-5" />} label="Correct" value={String(r.correct)} tone="text-success-400" />
+          <Stat icon={<XCircle className="h-5 w-5" />} label="Wrong" value={String(r.wrong)} tone="text-danger-400" />
+          <Stat icon={<MinusCircle className="h-5 w-5" />} label="Skipped" value={String(r.unattempted)} tone="text-graphite-300" />
           <Stat
             icon={<Target className="h-5 w-5" />}
             label="Accuracy"
             value={r.accuracy !== null ? `${r.accuracy}%` : "—"}
-            tone="text-yellow-500"
+            tone="text-saffron-400"
           />
           <Stat
             icon={<Clock className="h-5 w-5" />}
             label="Time taken"
             value={formatDuration(attempt.time_taken_seconds ?? 0)}
-            tone="text-sky-400"
+            tone="text-graphite-200"
           />
           <Stat
             icon={<Trophy className="h-5 w-5" />}
             label="Percentile"
             value={percentile !== null ? String(percentile) : "—"}
-            tone="text-purple-400"
+            tone="text-saffron-300"
           />
         </div>
 
         <section className="mt-10 grid gap-4 lg:grid-cols-2">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
             <h2 className="font-semibold text-white">
-              प्रयास रणनीति <span className="text-slate-300">/ Attempt strategy</span>
+              Attempt strategy
             </h2>
             <dl className="mt-3 space-y-1.5 text-sm">
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-graphite-300">
                 <dt>Attempted</dt>
                 <dd>
                   {strategy.attempted} / {strategy.total} ({strategy.attemptedPct}%)
                 </dd>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-graphite-300">
                 <dt>Marks from correct answers</dt>
-                <dd className="text-green-400">+{strategy.marksGained}</dd>
+                <dd className="text-success-400">+{strategy.marksGained}</dd>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-graphite-300">
                 <dt>Lost to negative marking</dt>
-                <dd className="text-red-400">−{strategy.negativeLost}</dd>
+                <dd className="text-danger-400">−{strategy.negativeLost}</dd>
               </div>
-              <div className="flex justify-between border-t border-slate-800 pt-1.5 font-semibold text-white">
+              <div className="flex justify-between border-t border-graphite-800 pt-1.5 font-semibold text-white">
                 <dt>Net score</dt>
                 <dd>{strategy.net}</dd>
               </div>
             </dl>
             {strategy.negativeLost > 0 && (
-              <p className="mt-3 text-xs text-slate-300">
-                गलत उत्तरों ने {strategy.negativeLost} अंक काटे। / Wrong answers cost you {strategy.negativeLost} marks —{" "}
+              <p className="mt-3 text-xs text-graphite-300">
+                Wrong answers cost you {strategy.negativeLost} marks —{" "}
                 that&apos;s {Math.round((strategy.negativeLost / Math.max(1, strategy.marksGained)) * 100)}% of what you earned.
               </p>
             )}
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
             <h2 className="font-semibold text-white">
-              अनुमान विश्लेषण <span className="text-slate-300">/ Guess analysis</span>
+              Guess analysis
             </h2>
             {guesses.tagged === 0 ? (
-              <p className="mt-3 text-sm text-slate-300">
-                अगले टेस्ट में हर उत्तर पर &quot;कितने निश्चित?&quot; चुनें। / Next time, tag &quot;How sure?&quot; on your answers to see
+              <p className="mt-3 text-sm text-graphite-300">
+                Next time, tag &quot;How sure?&quot; on your answers to see
                 which guesses earn marks.
               </p>
             ) : (
               <>
                 <table className="mt-3 w-full text-sm">
-                  <thead className="text-xs text-slate-300">
+                  <thead className="text-xs text-graphite-300">
                     <tr>
                       <th className="py-1 text-left font-medium">When</th>
                       <th className="py-1 text-right font-medium">Attempted</th>
@@ -199,15 +196,15 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
                       <th className="py-1 text-right font-medium">Net marks</th>
                     </tr>
                   </thead>
-                  <tbody className="text-slate-300">
+                  <tbody className="text-graphite-300">
                     {guesses.buckets
                       .filter((b) => b.attempted > 0)
                       .map((b) => (
-                        <tr key={b.level} className="border-t border-slate-800">
+                        <tr key={b.level} className="border-t border-graphite-800">
                           <td className="py-1.5">{CONFIDENCE_LABEL[b.level]}</td>
                           <td className="py-1.5 text-right">{b.attempted}</td>
                           <td className="py-1.5 text-right">{b.accuracy !== null ? `${b.accuracy}%` : "—"}</td>
-                          <td className={`py-1.5 text-right ${b.net < 0 ? "text-red-400" : "text-green-400"}`}>
+                          <td className={`py-1.5 text-right ${b.net < 0 ? "text-danger-400" : "text-success-400"}`}>
                             {b.net > 0 ? "+" : ""}
                             {b.net}
                           </td>
@@ -215,13 +212,12 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
                       ))}
                   </tbody>
                 </table>
-                <p className="mt-2 text-[11px] text-slate-300">
+                <p className="mt-2 text-[11px] text-graphite-300">
                   Guessing pays only above {guesses.breakEvenAccuracy}% accuracy with this test&apos;s negative marking.
                 </p>
                 {rule && (
-                  <p className="mt-3 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-200">
-                    {rule.hi}
-                    <span className="block text-sky-300/80">{rule.en}</span>
+                  <p className="mt-3 rounded-lg bg-saffron-400/10 px-3 py-2 text-sm text-saffron-100">
+                    {rule.en}
                   </p>
                 )}
               </>
@@ -232,13 +228,13 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
         {weakTopics.length > 0 && (
           <section className="mt-10">
             <h2 className="mb-3 font-semibold text-white">
-              कमज़ोर टॉपिक <span className="text-slate-300">/ Weakest topics in this test</span>
+              Weakest topics in this test
             </h2>
-            <ul className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900/60 text-sm">
+            <ul className="divide-y divide-graphite-800 rounded-2xl border border-graphite-800 bg-graphite-900/60 text-sm">
               {weakTopics.map(([name, t]) => (
                 <li key={name} className="flex items-center justify-between gap-3 px-4 py-2">
-                  <span className="min-w-0 truncate text-slate-300">{name}</span>
-                  <span className="flex-shrink-0 text-slate-300">
+                  <span className="min-w-0 truncate text-graphite-300">{name}</span>
+                  <span className="flex-shrink-0 text-graphite-300">
                     {t.correct}/{t.total} correct
                   </span>
                 </li>
@@ -250,11 +246,11 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
         {subjects.length > 1 && (
           <section className="mt-10">
             <h2 className="mb-3 font-semibold text-white">
-              विषयवार प्रदर्शन <span className="text-slate-300">/ Subject-wise</span>
+              Subject-wise
             </h2>
-            <div className="overflow-x-auto rounded-2xl border border-slate-800">
+            <div className="overflow-x-auto rounded-2xl border border-graphite-800">
               <table className="w-full text-sm">
-                <thead className="bg-slate-800/60 text-xs text-slate-300">
+                <thead className="bg-graphite-800/60 text-xs text-graphite-300">
                   <tr>
                     <th className="px-4 py-2 text-left font-medium">Subject</th>
                     <th className="px-4 py-2 text-right font-medium">Correct</th>
@@ -263,9 +259,9 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
                     <th className="px-4 py-2 text-right font-medium">Accuracy</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800">
+                <tbody className="divide-y divide-graphite-800">
                   {subjects.map(([name, s]) => (
-                    <tr key={name} className="text-slate-300">
+                    <tr key={name} className="text-graphite-300">
                       <td className="px-4 py-2">{name}</td>
                       <td className="px-4 py-2 text-right">{s.correct}</td>
                       <td className="px-4 py-2 text-right">{s.attempted}</td>
@@ -284,13 +280,13 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href={`/test-platform/tests/${test.id}`}
-            className="rounded-lg border border-slate-700 px-5 py-2.5 text-sm text-slate-300 hover:border-slate-500"
+            className="rounded-lg border border-graphite-700 px-5 py-2.5 text-sm text-graphite-300 hover:border-graphite-500"
           >
-            Reattempt / दोबारा दें
+            Reattempt
           </Link>
           <Link
             href="/test-platform"
-            className="rounded-lg bg-yellow-500 px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-yellow-400"
+            className="rounded-lg bg-saffron-400 px-5 py-2.5 text-sm font-semibold text-graphite-900 hover:bg-saffron-300"
           >
             Back to Dashboard
           </Link>

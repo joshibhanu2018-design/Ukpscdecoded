@@ -1,13 +1,14 @@
 import type { Package } from "@/lib/packages";
 import { courseHeader } from "@/lib/course-display";
 
-// One colour per kind of product, so the store's choices look different at
-// a glance. All are dark enough for white text at AA (≥4.5:1 at the light end).
+// One jewel tone per kind of product, so the store's choices look different
+// at a glance and sit on the graphite theme (each fades towards near-black).
+// White text is AA (>= 4.5:1) at the light end of every gradient.
 const TONES: Record<string, string> = {
-  combo_bundle: "linear-gradient(135deg, #b45309, #78300d)",
-  test_series: "linear-gradient(135deg, #1d4ed8, #1e3a8a)",
-  video_course: "linear-gradient(135deg, #0f766e, #134e4a)",
-  mentorship: "linear-gradient(135deg, #6d28d9, #3b0764)",
+  combo_bundle: "linear-gradient(135deg, #9a6a0c, #3d2a05)", // gold
+  test_series: "linear-gradient(135deg, #9f1d3a, #3f0b18)", // garnet
+  video_course: "linear-gradient(135deg, #0f766e, #083733)", // teal
+  mentorship: "linear-gradient(135deg, #6d28d9, #2a1159)", // amethyst
 };
 
 export function courseTone(pkg: Package): string {

@@ -497,7 +497,7 @@ export default function CurrentAffairsPage() {
                                 "border-2 border-jade-500 bg-jade-50 text-jade-800";
                             } else if (isSelected && !isCorrect) {
                               optionClass =
-                                "border-2 border-red-400 bg-red-50 text-red-700";
+                                "border-2 border-danger-400 bg-danger-50 text-danger-700";
                             } else {
                               optionClass =
                                 "border border-graphite-200 bg-graphite-50 text-graphite-500";
@@ -515,7 +515,7 @@ export default function CurrentAffairsPage() {
                                 {isRevealed && isCorrect ? (
                                   <CheckCircle2 className="w-4 h-4 text-jade-600" />
                                 ) : isRevealed && isSelected && !isCorrect ? (
-                                  <XCircle className="w-4 h-4 text-red-500" />
+                                  <XCircle className="w-4 h-4 text-danger-500" />
                                 ) : (
                                   String.fromCharCode(65 + optIndex)
                                 )}
@@ -549,7 +549,7 @@ export default function CurrentAffairsPage() {
                                 Correct!
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 text-red-600 font-semibold bg-red-50 px-3 py-1.5 rounded-lg">
+                              <span className="inline-flex items-center gap-1.5 text-danger-600 font-semibold bg-danger-50 px-3 py-1.5 rounded-lg">
                                 <XCircle className="w-4 h-4" />
                                 Incorrect — Correct answer:{" "}
                                 {q.options[q.correctAnswer]}

@@ -116,7 +116,7 @@ test quality is not good enough.
    and render them in the existing "Watch free demo" section.
 5. Home page copy says "66+ tests" — make it match the real count (62).
 
-## Batch 4 — Site-wide design & navigation
+## Batch 4 — Site-wide design & navigation (done 26 Sep 2026 — see PROGRESS.md)
 
 1. **Theme:** the portal's blue-slate dark theme doesn't match the public
    site's graphite + saffron and doesn't feel premium. Move the whole student

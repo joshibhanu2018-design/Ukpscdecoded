@@ -199,16 +199,16 @@ export default function BuyPDFPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-saffron-50 via-white to-blue-50 py-12 px-4">
       {/* Header */}
       <div className="max-w-2xl mx-auto mb-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-graphite-900 mb-4">
           Polity Decoded
         </h1>
-        <p className="text-xl text-gray-700 mb-2">
+        <p className="text-xl text-graphite-700 mb-2">
           The Complete Visual e-Book for UPSC UKPSC UPPSC Prelims & Mains
         </p>
-        <p className="text-gray-600 italic">SHORT YET COMPREHENSIVE</p>
+        <p className="text-graphite-600 italic">SHORT YET COMPREHENSIVE</p>
       </div>
 
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
@@ -224,13 +224,13 @@ export default function BuyPDFPage() {
               />
             </div>
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">About This Book</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
+            <h2 className="text-2xl font-bold text-graphite-900 mb-4">About This Book</h2>
+            <p className="text-graphite-700 leading-relaxed mb-4">
               A beautifully designed visual compendium that distills Laxmikant's and Subhash Kashyap's 
               complex concepts into scannable, graphic-rich modules based on PYQ and frequently asked questions.
             </p>
 
-            <p className="text-gray-700 leading-relaxed mb-6">
+            <p className="text-graphite-700 leading-relaxed mb-6">
               Built specifically for aspirants preparing for UPSC, UKPSC, UPPSC, and other state exams. 
               Every concept includes flowcharts and interconnected notes—designed for quick revision in your 
               final 30 days or as daily reference material.
@@ -239,36 +239,36 @@ export default function BuyPDFPage() {
             {/* Features */}
             <div className="space-y-3">
               <div className="flex items-start">
-                <span className="text-green-600 font-bold mr-3">✓</span>
-                <span className="text-gray-700">Visual flowcharts & interconnected notes</span>
+                <span className="text-success-600 font-bold mr-3">✓</span>
+                <span className="text-graphite-700">Visual flowcharts & interconnected notes</span>
               </div>
               <div className="flex items-start">
-                <span className="text-green-600 font-bold mr-3">✓</span>
-                <span className="text-gray-700">Based on PYQ patterns & frequently asked topics</span>
+                <span className="text-success-600 font-bold mr-3">✓</span>
+                <span className="text-graphite-700">Based on PYQ patterns & frequently asked topics</span>
               </div>
               <div className="flex items-start">
-                <span className="text-green-600 font-bold mr-3">✓</span>
-                <span className="text-gray-700">Perfect for 30-day final revision</span>
+                <span className="text-success-600 font-bold mr-3">✓</span>
+                <span className="text-graphite-700">Perfect for 30-day final revision</span>
               </div>
               <div className="flex items-start">
-                <span className="text-green-600 font-bold mr-3">✓</span>
-                <span className="text-gray-700">All competitive exams (UPSC, UKPSC, UPPSC, etc.)</span>
+                <span className="text-success-600 font-bold mr-3">✓</span>
+                <span className="text-graphite-700">All competitive exams (UPSC, UKPSC, UPPSC, etc.)</span>
               </div>
             </div>
 
             {/* Sample Pages */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="font-bold text-gray-900 mb-3">Preview Sample Pages</h3>
+            <div className="mt-8 pt-6 border-t border-graphite-200">
+              <h3 className="font-bold text-graphite-900 mb-3">Preview Sample Pages</h3>
               <div className="grid grid-cols-3 gap-3">
-                <img src="/IMG_5835.png" alt="Sample Page 1" className="w-full h-auto rounded-md border border-gray-200" />
-                <img src="/IMG_5837.png" alt="Sample Page 2" className="w-full h-auto rounded-md border border-gray-200" />
-                <img src="/IMG_5838.png" alt="Sample Page 3" className="w-full h-auto rounded-md border border-gray-200" />
+                <img src="/IMG_5835.png" alt="Sample Page 1" className="w-full h-auto rounded-md border border-graphite-200" />
+                <img src="/IMG_5837.png" alt="Sample Page 2" className="w-full h-auto rounded-md border border-graphite-200" />
+                <img src="/IMG_5838.png" alt="Sample Page 3" className="w-full h-auto rounded-md border border-graphite-200" />
               </div>
             </div>
 
             {/* File Info */}
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-600">
+            <div className="mt-6 pt-6 border-t border-graphite-200">
+              <p className="text-sm text-graphite-600">
                 <span className="font-semibold">📄 File Size:</span> ~10 MB<br />
                 <span className="font-semibold">📥 Download Validity:</span> 24 hours<br />
                 <span className="font-semibold">🔒 Secure:</span> Direct download from GitHub
@@ -281,16 +281,16 @@ export default function BuyPDFPage() {
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="mb-8">
             <div className="text-center mb-8">
-              <p className="text-gray-600 text-sm mb-2">Special Price</p>
+              <p className="text-graphite-600 text-sm mb-2">Special Price</p>
               <div className="flex items-center justify-center gap-3">
-                <span className="text-5xl font-bold text-green-600">₹59</span>
-                <span className="text-2xl text-gray-400 line-through">₹129</span>
+                <span className="text-5xl font-bold text-success-600">₹59</span>
+                <span className="text-2xl text-graphite-400 line-through">₹129</span>
               </div>
-              <p className="text-xs text-gray-500 mt-2">Limited time offer - Only for first 100 buyers</p>
+              <p className="text-xs text-graphite-500 mt-2">Limited time offer - Only for first 100 buyers</p>
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-graphite-700">
                 <span className="font-semibold">✅ What You Get:</span><br />
                 • Complete PDF e-book<br />
                 • Instant delivery<br />
@@ -303,15 +303,15 @@ export default function BuyPDFPage() {
           {/* Form */}
           <form onSubmit={handleGetPaymentLink} className="space-y-5">
             {error && (
-              <div className="bg-red-50 border border-red-300 rounded-lg p-4">
-                <p className="text-red-700 text-sm font-medium">
+              <div className="bg-danger-50 border border-danger-300 rounded-lg p-4">
+                <p className="text-danger-700 text-sm font-medium">
                   <span className="font-bold">⚠️</span> {error}
                 </p>
               </div>
             )}
 
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="name" className="block text-sm font-semibold text-graphite-700 mb-2">
                 Full Name *
               </label>
               <input
@@ -321,13 +321,13 @@ export default function BuyPDFPage() {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Enter your full name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-3 border border-graphite-300 rounded-lg focus:ring-2 focus:ring-saffron-500 focus:border-transparent outline-none transition"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="phone" className="block text-sm font-semibold text-graphite-700 mb-2">
                 Phone Number *
               </label>
               <input
@@ -337,13 +337,13 @@ export default function BuyPDFPage() {
                 value={formData.phone}
                 onChange={handleInputChange}
                 placeholder="10-digit phone number"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-3 border border-graphite-300 rounded-lg focus:ring-2 focus:ring-saffron-500 focus:border-transparent outline-none transition"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-graphite-700 mb-2">
                 Email (Optional)
               </label>
               <input
@@ -353,14 +353,14 @@ export default function BuyPDFPage() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="your@email.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-3 border border-graphite-300 rounded-lg focus:ring-2 focus:ring-saffron-500 focus:border-transparent outline-none transition"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-saffron-500 to-saffron-600 hover:from-saffron-600 hover:to-saffron-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -373,14 +373,14 @@ export default function BuyPDFPage() {
               )}
             </button>
 
-            <p className="text-xs text-center text-gray-500">
+            <p className="text-xs text-center text-graphite-500">
               🔒 Secure payment via Razorpay. Your data is encrypted & safe.
             </p>
           </form>
 
           {/* Trust Badges */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <p className="text-sm text-gray-600 text-center">
+          <div className="mt-8 pt-8 border-t border-graphite-200">
+            <p className="text-sm text-graphite-600 text-center">
               Trusted by over 5000 aspirants for UPSC, UKPSC, UPPSC
             </p>
           </div>
@@ -393,25 +393,25 @@ export default function BuyPDFPage() {
           <div className="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full animate-in fade-in">
             <div className="text-center mb-6">
               <div className="text-6xl mb-4 animate-bounce">✅</div>
-              <h2 className="text-2xl font-bold text-gray-900">Order Confirmed!</h2>
-              <p className="text-sm text-gray-600 mt-2">Payment ID: {paymentId}</p>
+              <h2 className="text-2xl font-bold text-graphite-900">Order Confirmed!</h2>
+              <p className="text-sm text-graphite-600 mt-2">Payment ID: {paymentId}</p>
             </div>
 
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-              <p className="text-sm text-gray-700 mb-2">
+            <div className="bg-success-50 border border-success-200 rounded-lg p-4 mb-6">
+              <p className="text-sm text-graphite-700 mb-2">
                 <span className="font-semibold">✅ Your download link is ready</span>
               </p>
-              <p className="text-xs text-gray-600">
-                Valid for: <span className="font-semibold text-orange-600">{formatTimeLeft(timeLeft)}</span>
+              <p className="text-xs text-graphite-600">
+                Valid for: <span className="font-semibold text-saffron-600">{formatTimeLeft(timeLeft)}</span>
               </p>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-graphite-500 mt-2">
                 📥 Download in time. Link expires in 24 hours.
               </p>
             </div>
 
             <a
               href={downloadLink}
-              className="w-full block text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition mb-3"
+              className="w-full block text-center bg-success-600 hover:bg-success-700 text-white font-bold py-3 rounded-lg transition mb-3"
               download
             >
               📥 Download Polity Decoded (10 MB)
@@ -422,12 +422,12 @@ export default function BuyPDFPage() {
                 setShowModal(false);
                 setDownloadLink(null);
               }}
-              className="w-full text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 rounded-lg transition"
+              className="w-full text-center bg-graphite-200 hover:bg-graphite-300 text-graphite-800 font-semibold py-2 rounded-lg transition"
             >
               Close
             </button>
 
-            <p className="text-xs text-gray-500 text-center mt-4">
+            <p className="text-xs text-graphite-500 text-center mt-4">
               📧 Order details have been recorded.
             </p>
           </div>

@@ -113,8 +113,8 @@ export async function bookSlot(userId: string, slotStart: string, note: string |
   if (Number.isNaN(start)) return { ok: false, error: "Invalid slot", status: 400 };
 
   const slot = (await getSlots()).find((s) => new Date(s.start).getTime() === start);
-  if (!slot) return { ok: false, error: "यह स्लॉट उपलब्ध नहीं है। / This slot isn't available.", status: 400 };
-  if (slot.taken) return { ok: false, error: "यह स्लॉट अभी बुक हो गया। / Someone just booked this slot — pick another.", status: 409 };
+  if (!slot) return { ok: false, error: "This slot isn't available.", status: 400 };
+  if (slot.taken) return { ok: false, error: "Someone just booked this slot — pick another.", status: 409 };
 
   const { data, error } = await supabaseAdmin()
     .from("mentor_bookings")
@@ -135,8 +135,8 @@ export async function bookSlot(userId: string, slotStart: string, note: string |
         ok: false,
         status: 409,
         error: perWeek
-          ? "इस सप्ताह आपका सत्र पहले से बुक है। / You already have a session booked this week."
-          : "यह स्लॉट अभी बुक हो गया। / Someone just booked this slot — pick another.",
+          ? "You already have a session booked this week."
+          : "Someone just booked this slot — pick another.",
       };
     }
     console.error("[mentorship] booking insert failed:", error);
@@ -155,7 +155,7 @@ export async function cancelBooking(userId: string, bookingId: string, now = Dat
     .maybeSingle();
   if (!b || b.status !== "booked") return { ok: false, error: "Booking not found", status: 404 };
   if (new Date(b.slot_start).getTime() - now < CANCEL_NOTICE_MS) {
-    return { ok: false, error: "सत्र से 12 घंटे पहले तक ही रद्द कर सकते हैं। / You can cancel up to 12 hours before the session.", status: 409 };
+    return { ok: false, error: "You can cancel up to 12 hours before the session.", status: 409 };
   }
   const { error } = await db
     .from("mentor_bookings")

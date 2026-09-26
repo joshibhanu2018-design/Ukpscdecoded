@@ -44,11 +44,11 @@ export function attemptStrategy(questions: FullQuestion[], answers: Answers, tes
 }
 
 export const CONFIDENCE_LABEL: Record<Confidence | "untagged", string> = {
-  sure: "पक्का / Sure",
-  elim2: "2 हटाए / Ruled out 2",
-  elim1: "1 हटाया / Ruled out 1",
-  guess: "अंदाज़ा / Guess",
-  untagged: "टैग नहीं / Not tagged",
+  sure: "Sure",
+  elim2: "Ruled out 2",
+  elim1: "Ruled out 1",
+  guess: "Guess",
+  untagged: "Not tagged",
 };
 
 export type GuessBucket = {

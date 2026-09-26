@@ -3,10 +3,10 @@ import { createSession, sessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/
 import { consumeCode, createSignupTicket, findUserIdByEmail, normalizeEmail, verifyCode } from "@/lib/otp";
 
 const MESSAGES = {
-  no_code: "कोई सक्रिय कोड नहीं — नया कोड मँगाएँ। / No active code — request a new one.",
-  expired: "कोड की समय-सीमा समाप्त — नया कोड मँगाएँ। / Code expired — request a new one.",
-  too_many_attempts: "बहुत सारे गलत प्रयास — नया कोड मँगाएँ। / Too many wrong attempts — request a new code.",
-  wrong: "गलत कोड / Incorrect code",
+  no_code: "No active code — request a new one.",
+  expired: "Code expired — request a new one.",
+  too_many_attempts: "Too many wrong attempts — request a new code.",
+  wrong: "Incorrect code",
 } as const;
 
 /**
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     if (!result.ok) {
       const suffix =
         result.reason === "wrong" && result.attemptsLeft
-          ? ` (${result.attemptsLeft} प्रयास बाकी / attempts left)`
+          ? ` (${result.attemptsLeft} attempts left)`
           : "";
       return NextResponse.json({ error: MESSAGES[result.reason] + suffix, reason: result.reason }, { status: 400 });
     }
@@ -48,6 +48,6 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (err) {
     console.error("[otp/verify] failed:", err);
-    return NextResponse.json({ error: "कुछ गलत हुआ — फिर कोशिश करें। / Something went wrong. Please try again." }, { status: 500 });
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

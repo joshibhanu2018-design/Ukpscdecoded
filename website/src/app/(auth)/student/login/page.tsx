@@ -18,19 +18,18 @@ export default async function StudentLoginPage({ searchParams }: { searchParams:
   if (user) redirect(safeNext);
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl sm:p-8">
+    <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-6 shadow-xl sm:p-8">
       <div className="mb-6 text-center">
         <h1 className="text-2xl font-bold text-white">
-          लॉग इन / रजिस्टर <span className="block text-base font-medium text-slate-300">Login / Register</span>
+          Login / Register
         </h1>
-        <p className="mt-2 text-sm text-slate-300">
-          पासवर्ड की ज़रूरत नहीं — ईमेल पर कोड आएगा। <span className="block text-slate-300">No password needed — we&apos;ll email you a code.</span>
+        <p className="mt-2 text-sm text-graphite-300">
+          No password needed — we&apos;ll email you a code.
         </p>
       </div>
       <OtpLoginForm next={safeNext} />
-      <p className="mt-5 text-center text-[11px] leading-snug text-slate-300">
-        एक खाता एक साथ अधिकतम 2 डिवाइस पर। तीसरे पर लॉग इन करने से सबसे पुराना डिवाइस लॉग आउट हो जाएगा।
-        <span className="block">One account works on up to 2 devices at a time. Logging in on a third logs out the oldest.</span>
+      <p className="mt-5 text-center text-[11px] leading-snug text-graphite-300">
+        One account works on up to 2 devices at a time. Logging in on a third logs out the oldest.
       </p>
     </div>
   );

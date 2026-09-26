@@ -55,54 +55,54 @@ export default function AdminHomePage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-8 sm:py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-8 sm:py-10">
       <div className="mx-auto max-w-3xl">
         <h1 className="text-2xl font-bold text-white">Admin</h1>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {TOOLS.map(({ href, icon: Icon, title, sub }) => (
-            <Link key={href} href={href} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-yellow-500/50">
-              <Icon className="mb-2 h-5 w-5 text-yellow-500" />
+            <Link key={href} href={href} className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 hover:border-saffron-400/50">
+              <Icon className="mb-2 h-5 w-5 text-saffron-400" />
               <div className="font-semibold text-white">{title}</div>
-              <div className="text-xs text-slate-300">{sub}</div>
+              <div className="text-xs text-graphite-300">{sub}</div>
             </Link>
           ))}
         </div>
 
-        <form action="/test-platform/admin/student" className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <form action="/test-platform/admin/student" className="mt-6 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
           <h2 className="font-semibold text-white">Student performance</h2>
-          <p className="mt-1 text-xs text-slate-300">Open a student&apos;s analysis before a mentorship session.</p>
+          <p className="mt-1 text-xs text-graphite-300">Open a student&apos;s analysis before a mentorship session.</p>
           <div className="mt-3 flex gap-2">
             <input
               name="email"
               type="email"
               required
               placeholder="student@example.com"
-              className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 outline-none focus:border-yellow-500"
+              className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2 text-sm text-graphite-100 outline-none focus:border-saffron-400"
             />
-            <button type="submit" className="rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-slate-900">
+            <button type="submit" className="rounded-lg bg-saffron-400 px-4 py-2 text-sm font-semibold text-graphite-900">
               Open
             </button>
           </div>
         </form>
 
-        <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+        <section className="mt-10 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
           <h2 className="flex items-center gap-2 font-semibold text-white">
-            <Shield className="h-4 w-4 text-yellow-500" /> Admins
+            <Shield className="h-4 w-4 text-saffron-400" /> Admins
           </h2>
-          <p className="mt-1 text-xs text-slate-300">
+          <p className="mt-1 text-xs text-graphite-300">
             Admins log in with their own email code, like students. To add someone, they must log in on the site once first.
           </p>
-          <ul className="mt-4 divide-y divide-slate-800 text-sm">
+          <ul className="mt-4 divide-y divide-graphite-800 text-sm">
             {admins.map((a) => (
               <li key={a.id} className="flex items-center justify-between gap-3 py-2">
-                <span className="min-w-0 truncate text-slate-200">
+                <span className="min-w-0 truncate text-graphite-200">
                   {a.full_name ? `${a.full_name} · ` : ""}
                   {a.email}
-                  {a.id === me && <span className="ml-1 text-xs text-slate-300">(you)</span>}
+                  {a.id === me && <span className="ml-1 text-xs text-graphite-300">(you)</span>}
                 </span>
                 {a.id !== me && (
-                  <button onClick={() => change(a.email, "remove")} disabled={busy} className="text-xs text-red-300 hover:text-red-200">
+                  <button onClick={() => change(a.email, "remove")} disabled={busy} className="text-xs text-danger-300 hover:text-danger-200">
                     Remove
                   </button>
                 )}
@@ -121,13 +121,13 @@ export default function AdminHomePage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="new-admin@example.com"
-              className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 outline-none focus:border-yellow-500"
+              className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2 text-sm text-graphite-100 outline-none focus:border-saffron-400"
             />
-            <button type="submit" disabled={busy} className="flex items-center gap-1.5 rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-slate-900 disabled:opacity-60">
+            <button type="submit" disabled={busy} className="flex items-center gap-1.5 rounded-lg bg-saffron-400 px-4 py-2 text-sm font-semibold text-graphite-900 disabled:opacity-60">
               {busy && <Loader2 className="h-4 w-4 animate-spin" />} Add admin
             </button>
           </form>
-          {message && <p className={`mt-3 text-sm ${message.ok ? "text-green-300" : "text-red-300"}`}>{message.text}</p>}
+          {message && <p className={`mt-3 text-sm ${message.ok ? "text-success-300" : "text-danger-300"}`}>{message.text}</p>}
         </section>
       </div>
     </div>

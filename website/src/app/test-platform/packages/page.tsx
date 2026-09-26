@@ -20,16 +20,15 @@ export const metadata: Metadata = {
   description: "Test series, crash course and combo packages for UKPSC preparation.",
 };
 
-const SECTION_LABELS: Record<string, { title: string; hindiTitle: string }> = {
-  test_series: { title: "Test Series", hindiTitle: "टेस्ट सीरीज" },
-  combo_bundle: { title: "Combo Bundles", hindiTitle: "कॉम्बो बंडल" },
-  video_course: { title: "Crash Course", hindiTitle: "क्रैश कोर्स" },
-  mentorship: { title: "Mentorship", hindiTitle: "मेंटरशिप" },
+const SECTION_LABELS: Record<string, { title: string }> = {
+  test_series: { title: "Test Series" },
+  combo_bundle: { title: "Combo Bundles" },
+  video_course: { title: "Crash Course" },
+  mentorship: { title: "Mentorship" },
 };
 
 function Section({
   title,
-  hindiTitle,
   packages,
   ownedIds,
   includes,
@@ -41,7 +40,6 @@ function Section({
   seatsByPackage,
 }: {
   title: string;
-  hindiTitle: string;
   packages: Package[];
   ownedIds: Set<string>;
   includes: { combo_package_id: string; included_package_id: string }[];
@@ -57,7 +55,7 @@ function Section({
   return (
     <section className="mb-10">
       <h2 className="mb-4 text-xl font-bold text-white">
-        {hindiTitle} <span className="text-slate-300">/ {title}</span>
+        {title}
       </h2>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {packages.map((pkg) => {
@@ -130,25 +128,24 @@ export default async function PackageStorePage() {
       type,
       packages,
       minSortOrder: Math.min(...packages.map((p) => p.sort_order)),
-      label: SECTION_LABELS[type] ?? { title: type, hindiTitle: type },
+      label: SECTION_LABELS[type] ?? { title: type },
     }))
     .sort((a, b) => a.minSortOrder - b.minSortOrder);
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-10">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white">
-            पैकेज स्टोर <span className="text-slate-300">/ Package Store</span>
+            Package Store
           </h1>
-          <p className="mt-1 text-sm text-slate-300">
-            अपनी तैयारी के लिए सही प्लान चुनें{" "}
-            <span className="text-slate-300">/ Choose the right plan for your UKPSC preparation.</span>
+          <p className="mt-1 text-sm text-graphite-300">
+            Choose the right plan for your UKPSC preparation.
           </p>
         </div>
 
         {allPackages.length === 0 ? (
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center text-slate-300">
+          <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-8 text-center text-graphite-300">
             No packages are available yet. Check back soon.
           </div>
         ) : (
@@ -156,7 +153,6 @@ export default async function PackageStorePage() {
             <Section
               key={s.type}
               title={s.label.title}
-              hindiTitle={s.label.hindiTitle}
               packages={s.packages}
               ownedIds={ownedIds}
               includes={includes}

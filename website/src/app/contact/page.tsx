@@ -13,9 +13,9 @@ export default function ContactPage() {
   const { telegram, youtube } = settings.social;
   const { ownerName, address, phone } = settings.legal;
   return (
-    <LegalPage hindiTitle="संपर्क करें" title="Contact Us">
+    <LegalPage title="Contact Us">
       <section>
-        <h2>सहायता / Support</h2>
+        <h2>Support</h2>
         <ul>
           <li>
             Email: <a href={`mailto:${email}`}>{email}</a> — we reply within 1–2 working days.

@@ -62,41 +62,41 @@ export default async function QuestionReportsPage() {
     .sort((a, b) => b.reports.length - a.reports.length);
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-8 sm:py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-8 sm:py-10">
       <div className="mx-auto max-w-4xl">
-        <Link href="/test-platform/admin" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
+        <Link href="/test-platform/admin" className="mb-6 inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400">
           <ArrowLeft className="h-4 w-4" /> Admin
         </Link>
         <h1 className="text-2xl font-bold text-white">Question reports</h1>
-        <p className="mt-1 text-sm text-slate-300">
+        <p className="mt-1 text-sm text-graphite-300">
           Open &quot;Report error&quot; reports from students. <strong>Resolve</strong> if the question is fine (or you fixed it in
           Supabase). <strong>Deactivate</strong> removes it from tests started from now on; past results keep it.
         </p>
 
         {error && (
-          <p className="mt-6 rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          <p className="mt-6 rounded-lg bg-danger-500/10 px-4 py-3 text-sm text-danger-200">
             Could not load reports ({error.message}). Has <code>schema-phase13-marking-reports.sql</code> been run?
           </p>
         )}
-        {!error && groups.length === 0 && <p className="mt-8 text-slate-300">No open reports. 🎉</p>}
+        {!error && groups.length === 0 && <p className="mt-8 text-graphite-300">No open reports. 🎉</p>}
 
         <ol className="mt-6 space-y-5">
           {groups.map(({ id, q, reports: rs }) => (
-            <li key={id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <li key={id} className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                <span className="font-mono text-yellow-400">{q?.question_id ?? id}</span>
-                <span className="rounded-full bg-orange-500/15 px-2.5 py-1 font-semibold text-orange-200">
+                <span className="font-mono text-saffron-300">{q?.question_id ?? id}</span>
+                <span className="rounded-full bg-saffron-500/15 px-2.5 py-1 font-semibold text-saffron-200">
                   {rs.length} report{rs.length > 1 ? "s" : ""}
                 </span>
               </div>
               {q ? (
                 <>
-                  <p className="mt-1 text-xs text-slate-300">
+                  <p className="mt-1 text-xs text-graphite-300">
                     {[q.subject, q.topic].filter(Boolean).join(" · ")}
-                    {q.status === "inactive" && <span className="ml-2 text-red-300">(already inactive)</span>}
+                    {q.status === "inactive" && <span className="ml-2 text-danger-300">(already inactive)</span>}
                   </p>
                   <p className="mt-3 whitespace-pre-line text-sm text-white">{q.question_text_hindi}</p>
-                  <p className="mt-2 whitespace-pre-line text-sm text-slate-200">{q.question_text_english}</p>
+                  <p className="mt-2 whitespace-pre-line text-sm text-graphite-200">{q.question_text_english}</p>
                   <ul className="mt-3 space-y-1.5">
                     {OPTION_KEYS.map((key) => {
                       const k = key.toLowerCase();
@@ -105,43 +105,43 @@ export default async function QuestionReportsPage() {
                         <li
                           key={key}
                           className={`rounded-lg border px-3 py-2 text-sm ${
-                            isKey ? "border-green-500/50 bg-green-500/10 text-green-100" : "border-slate-700 text-slate-200"
+                            isKey ? "border-success-500/50 bg-success-500/10 text-success-100" : "border-graphite-700 text-graphite-200"
                           }`}
                         >
                           <span className="font-semibold">{key}.</span> {q[`option_${k}_hindi`]}
-                          <span className="block text-slate-300">{q[`option_${k}_english`]}</span>
-                          {isKey && <span className="text-xs font-semibold text-green-300">Answer key</span>}
+                          <span className="block text-graphite-300">{q[`option_${k}_english`]}</span>
+                          {isKey && <span className="text-xs font-semibold text-success-300">Answer key</span>}
                         </li>
                       );
                     })}
                   </ul>
                   {(q.explanation_hindi || q.explanation_english) && (
-                    <div className="mt-3 rounded-lg bg-slate-800/60 p-3 text-sm text-slate-200">
-                      <span className="font-semibold text-yellow-500">Explanation</span>
+                    <div className="mt-3 rounded-lg bg-graphite-800/60 p-3 text-sm text-graphite-200">
+                      <span className="font-semibold text-saffron-400">Explanation</span>
                       {q.explanation_hindi && <p className="mt-1 whitespace-pre-line">{q.explanation_hindi}</p>}
                       {q.explanation_english && <p className="mt-1 whitespace-pre-line">{q.explanation_english}</p>}
                     </div>
                   )}
-                  <p className="mt-3 text-xs text-slate-300">
+                  <p className="mt-3 text-xs text-graphite-300">
                     In tests: {testsByQuestion.get(id)?.length ? testsByQuestion.get(id)!.join(", ") : "none"}
                   </p>
                 </>
               ) : (
-                <p className="mt-2 text-sm text-red-300">Question not found.</p>
+                <p className="mt-2 text-sm text-danger-300">Question not found.</p>
               )}
 
-              <ul className="mt-4 divide-y divide-slate-800 rounded-lg border border-slate-800 text-sm">
+              <ul className="mt-4 divide-y divide-graphite-800 rounded-lg border border-graphite-800 text-sm">
                 {rs.map((r) => {
                   const u = userById.get(r.user_id);
                   return (
                     <li key={r.id} className="px-3 py-2">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <span className="font-semibold text-orange-200">{REPORT_REASON_LABEL[r.reason]?.en ?? r.reason}</span>
-                        <span className="text-xs text-slate-300">
+                        <span className="font-semibold text-saffron-200">{REPORT_REASON_LABEL[r.reason]?.en ?? r.reason}</span>
+                        <span className="text-xs text-graphite-300">
                           {u?.full_name || u?.email || "Unknown"} · {fmt(r.created_at)}
                         </span>
                       </div>
-                      {r.note && <p className="mt-1 whitespace-pre-line text-slate-200">{r.note}</p>}
+                      {r.note && <p className="mt-1 whitespace-pre-line text-graphite-200">{r.note}</p>}
                     </li>
                   );
                 })}

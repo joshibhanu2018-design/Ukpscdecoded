@@ -450,6 +450,79 @@ headers fall back to the package name + first description line).
   and arrow keys, invalid video id dropped. `/test-platform/course/[slug]` was
   not opened in a browser (needs a student login); it uses the same tabs.
 
+**Site-wide design & navigation (Batch 4 of NEXT_TASKS.md, 26 Sep 2026).** SQL:
+`schema-phase16-banners-ca-text.sql` (optional before deploying — without it
+the carousel keeps the old bilingual banner text and has no images, and the
+CA Intensive card keeps its old text).
+- **One premium dark theme, colours defined once** in `tailwind.config.ts`:
+  `graphite` (retuned to a true neutral near-black, no blue tint — 950 page,
+  900 card, 800 borders, 300-400 text), `saffron` (gold accent; main button
+  `bg-saffron-400 text-graphite-950`), `jade` = `success`, `danger`. Every
+  hard-coded `slate`/`gray` → `graphite`, `yellow`/`amber`/`orange` →
+  `saffron`, `green`/`emerald` → `success`, `red`/`rose` → `danger`, portal
+  `sky` info boxes → saffron tints (codemod over all of `src`, so the public
+  site's dark sections match too). Portal pages now sit on `graphite-950` with
+  `graphite-900` cards (were the same colour) and fill the screen (no ivory
+  strip above the footer). Kept: purple for "Marked for review" in the exam
+  (exam-standard status colour); pastel tags on the public light pages.
+  Browser theme colour / PWA manifest → `#0f0f0e`.
+- **Product colours** (`CourseHeader`) as jewel tones fading to near-black:
+  combo gold `#9a6a0c`, test series garnet `#9f1d3a` (was royal blue), crash
+  course teal `#0f766e`, mentorship amethyst `#6d28d9`; white text AA at the
+  light end of each. The SQL gives the 4 home banners the same colours. The
+  home hero's Hindi-book button went from indigo to jade.
+- **English-only interface:** navbar, footer, login/OTP (incl. API error
+  messages), checkout, store, course pages, dashboard, performance, result,
+  mentorship, report-error, tabs, legal pages. Hindi stays in: questions,
+  options, explanations and the "your answer"/"Explanation" labels that follow
+  the exam/result language toggle; the हिंदी/EN toggle itself; the Hindi
+  instruction block on the test start page (a separate block, not doubled
+  labels); the Hindi book edition (buttons, `/buy-book`, book order
+  confirmation). Also left bilingual: the emails (receipt, login code) and the
+  WhatsApp referral message a student sends to friends — not site UI.
+- **Home:** the quick-links row moved from inside the hero to right under the
+  carousel, one tile per paid product: Crash Course, Test Series, Book —
+  English, Book — Hindi, E-Books, Mentorship (`content/home.json` →
+  `quickLinks`, CMS-editable; icons `video`/`users`/`file` added).
+- **Navigation:** bar = Home, Courses, Test Series, Books, Free Content +
+  More (Articles, Daily Current Affairs & MCQ, PYQ Tracker, E-Books, About,
+  Contact); active page highlighted; More opens on hover, click, tap or
+  keyboard and closes on Escape/outside click. Footer lists every public page
+  (Courses & Books / Free Resources / Help). "Test Series" goes to
+  `/courses/premium-test-series`.
+- **Old marketing pages removed → redirects** (`next.config.ts`, 308):
+  `/test-series` → `/courses/premium-test-series`, `/paid-courses` →
+  `/courses`, `/paid-course` → `/courses/crash-course`. They showed stale
+  prices (₹2,699 bundle, ₹799 Standard, "Premium Bundle") and "register
+  interest" forms; old links in videos keep working. All 22 nav/footer
+  destinations checked: 200 or the expected redirect.
+- **Carousel** (`HomeCarousel`): slides every 5 s; pauses while hovered,
+  keyboard-focused or touched (resumes 8 s after a swipe); never auto-slides
+  with prefers-reduced-motion; swipe = native scroll-snap; dots + prev/next
+  arrows (from 640px).
+- **Designed banners:** `banners.image_url` — desktop **1920×600** — and
+  `banners.image_url_mobile` — phones **1080×1080** (empty → the desktop image
+  is used on phones too); JPG/WebP **under 200 KB**. Upload to the public
+  Storage bucket `banners` (created by the SQL): Supabase → Storage → banners
+  → upload → copy the file's public URL into the banner row (Table Editor).
+  Empty `image_url` → the text banner (title + subtitle on the gradient). The
+  page reads banners with `select("*")`, so it works before the SQL runs.
+- **Current Affairs Intensive:** card tagline, description and highlights now
+  describe the theme tests (7 themes + Uttarakhand CA & Budget + year-wise
+  revisions 2023-24/2025/2026 + Grand Revision) instead of "8 month-wise + 2
+  theme-wise". **Found:** the standalone packs had no `package_tests` rows (a
+  buyer would get an empty course); the SQL links the 12 CA tests to CA
+  Intensive (same order as Premium). Basic, Uttarakhand Intensive and CSAT are
+  still unlinked — see Pending.
+- Checked: type check clean; 375 / 768 / 1280 px screenshots of home, store,
+  Premium Test Series, CA Intensive, login, terms, refund, contact, e-books,
+  free content, articles, current affairs — no horizontal overflow. Carousel
+  driven in headless Chrome: advances at 5 s, holds while hovered, resumes,
+  doesn't move under reduced motion, arrows work. **Not opened in a browser:**
+  the logged-in portal pages (dashboard, test runner, result, performance,
+  mentorship, checkout — need a student login; same tokens and markup as the
+  pages checked) and an image banner (needs the SQL + an upload).
+
 **Legal pages.** `/privacy`, `/refund-policy`, `/contact` (plus existing
 `/terms`), linked from the footer, checkout and course pages; in the
 sitemap. Refund rule: within 2 days of purchase and fewer than 3 videos
@@ -542,6 +615,11 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
+- **Basic, Uttarakhand Intensive and CSAT packs have no tests linked**
+  (`package_tests` rows exist only for Premium Test Series; phase 16 links CA
+  Intensive). Uttarakhand = the 20 UK tests and CSAT = CSAT 1-6 are clear;
+  Basic needs a decision (which 6 mocks + 6 sectionals). Sales are off, so
+  nobody is affected yet.
 - CSAT tests have no questions (none in the bank).
 - **UK Current Affairs and Statehood II statement share** stays low (12% /
   34%) until verified statement-type UK CA / post-2000 statehood questions are
@@ -598,6 +676,7 @@ idempotent (`IF NOT EXISTS`, `ON CONFLICT ... DO UPDATE`, no
 | `schema-phase13-marking-reports.sql` | Negative marking 0.25 on every test + re-score submitted attempts, `questions.deactivated_at`, `question_reports` | ✅ Run |
 | `schema-phase14-bank-browser.sql` | `attempts.question_ids` (+ backfill), `questions.source_file`/`question_format`/`section_code`, Free Sample Mock test row | ✅ Run — Batch 2 applied 25 Sep 2026 |
 | `seed-phase15-course-pages.sql` | Course card title/tagline in `packages.metadata`, Premium Bundle → Premium Test Series, commented template for `demo_videos` | Not run |
+| `schema-phase16-banners-ca-text.sql` | `banners.image_url`/`image_url_mobile` + public Storage bucket `banners`, English banner text + product-colour gradients, CA Intensive text, links the 12 CA tests to CA Intensive | Not run (after phase 15, or alone) |
 
 ## Environment variables
 

@@ -66,7 +66,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const validityLabel = pkg.access_valid_till
     ? formatDateLabel(pkg.access_valid_till)
     : pkg.validity_days
-      ? `${pkg.validity_days} दिन / ${pkg.validity_days} days`
+      ? `${pkg.validity_days} days`
       : null;
 
   const testTabs = groupTestsByTab(testList);
@@ -74,9 +74,9 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const checkoutHref = `/checkout/${pkg.slug}`;
 
   return (
-    <div className="bg-slate-950 pb-28 lg:pb-0">
+    <div className="bg-graphite-950 pb-28 lg:pb-0">
       {/* Sticky Buy bar — top on desktop, bottom on mobile */}
-      <div className="sticky top-16 z-40 hidden border-b border-slate-800 bg-slate-900/95 backdrop-blur lg:block">
+      <div className="sticky top-16 z-40 hidden border-b border-graphite-800 bg-graphite-900/95 backdrop-blur lg:block">
         <div className="container-custom mx-auto flex items-center justify-between px-4 py-3">
           <span className="font-semibold text-white">{pkg.package_name}</span>
           <div className="flex items-center gap-4">
@@ -84,14 +84,14 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             {owned ? (
               <Link
                 href="/test-platform"
-                className="rounded-lg border border-green-500/40 bg-green-500/10 px-5 py-2 text-sm font-bold text-green-400"
+                className="rounded-lg border border-success-500/40 bg-success-500/10 px-5 py-2 text-sm font-bold text-success-400"
               >
                 Purchased — Go to My Courses
               </Link>
             ) : (
               <Link
                 href={checkoutHref}
-                className="rounded-lg bg-yellow-500 px-6 py-2 text-sm font-bold text-slate-900 hover:bg-yellow-400"
+                className="rounded-lg bg-saffron-400 px-6 py-2 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
               >
                 Buy Now
               </Link>
@@ -100,23 +100,23 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-800 bg-slate-900/95 p-3 backdrop-blur lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-graphite-800 bg-graphite-900/95 p-3 backdrop-blur lg:hidden">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs text-slate-300">कीमत / Price</p>
+            <p className="text-xs text-graphite-300">Price</p>
             <p className="text-lg font-bold text-white">{formatINR(priceInfo.amount)}</p>
           </div>
           {owned ? (
             <Link
               href="/test-platform"
-              className="flex-1 rounded-lg border border-green-500/40 bg-green-500/10 px-4 py-3 text-center text-sm font-bold text-green-400"
+              className="flex-1 rounded-lg border border-success-500/40 bg-success-500/10 px-4 py-3 text-center text-sm font-bold text-success-400"
             >
               Purchased — My Courses
             </Link>
           ) : (
             <Link
               href={checkoutHref}
-              className="flex-1 rounded-lg bg-yellow-500 px-4 py-3 text-center text-sm font-bold text-slate-900"
+              className="flex-1 rounded-lg bg-saffron-400 px-4 py-3 text-center text-sm font-bold text-graphite-900"
             >
               Buy Now
             </Link>
@@ -157,12 +157,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               )}
               {savings && (
                 <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
-                  {savings.savingPercent}% बचत / saving
+                  Save {savings.savingPercent}%
                 </span>
               )}
               {seatsRemaining != null && (
                 <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
-                  {seatsRemaining} सीटें बाकी / seats left
+                  {seatsRemaining} seats left
                 </span>
               )}
             </div>
@@ -178,9 +178,9 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               ) : (
                 <Link
                   href={checkoutHref}
-                  className="inline-block rounded-lg bg-slate-900 px-6 py-3 text-sm font-bold text-white hover:bg-slate-800"
+                  className="inline-block rounded-lg bg-graphite-900 px-6 py-3 text-sm font-bold text-white hover:bg-graphite-800"
                 >
-                  Buy Now / अभी खरीदें
+                  Buy Now
                 </Link>
               )}
             </div>
@@ -193,17 +193,17 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {/* Highlights */}
           {(pkg.highlights.length > 0 || pkg.description) && (
             <section>
-              <h2 className="mb-4 text-lg font-bold text-white">इसमें क्या मिलेगा / What&apos;s Included</h2>
+              <h2 className="mb-4 text-lg font-bold text-white">What&apos;s Included</h2>
               {pkg.description && (
-                <p className="mb-4 whitespace-pre-line text-sm leading-relaxed text-slate-200">{pkg.description}</p>
+                <p className="mb-4 whitespace-pre-line text-sm leading-relaxed text-graphite-200">{pkg.description}</p>
               )}
               <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {pkg.highlights.map((h) => (
                   <li
                     key={h}
-                    className="flex items-start gap-2 rounded-lg border border-slate-800 bg-slate-900/60 p-3 text-sm text-slate-200"
+                    className="flex items-start gap-2 rounded-lg border border-graphite-800 bg-graphite-900/60 p-3 text-sm text-graphite-200"
                   >
-                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-yellow-500" /> {h}
+                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-saffron-400" /> {h}
                   </li>
                 ))}
               </ul>
@@ -216,7 +216,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {videos.length > 0 ? (
             <section>
               <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
-                <PlayCircle className="h-5 w-5 text-yellow-500" /> फ्री डेमो देखें / Watch Free Demo
+                <PlayCircle className="h-5 w-5 text-saffron-400" /> Watch Free Demo
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {videos.map((v) => (
@@ -225,12 +225,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               </div>
             </section>
           ) : (
-            <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
+            <section className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
               <div className="flex items-center gap-3">
-                <PlayCircle className="h-6 w-6 text-yellow-500" />
+                <PlayCircle className="h-6 w-6 text-saffron-400" />
                 <div>
-                  <p className="font-semibold text-white">फ्री डेमो देखें / Watch Free Demo</p>
-                  <p className="text-xs text-slate-300">जल्द आ रहा है / Coming soon</p>
+                  <p className="font-semibold text-white">Watch Free Demo</p>
+                  <p className="text-xs text-graphite-300">Coming soon</p>
                 </div>
               </div>
             </section>
@@ -239,14 +239,14 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {/* Curriculum */}
           {pkg.curriculum.length > 0 && (
             <section>
-              <h2 className="mb-4 text-lg font-bold text-white">पाठ्यक्रम / Curriculum</h2>
+              <h2 className="mb-4 text-lg font-bold text-white">Curriculum</h2>
               <ol className="space-y-2">
                 {pkg.curriculum.map((c, i) => (
                   <li
                     key={i}
-                    className="flex items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/60 px-4 py-2.5 text-sm text-slate-200"
+                    className="flex items-center gap-3 rounded-lg border border-graphite-800 bg-graphite-900/60 px-4 py-2.5 text-sm text-graphite-200"
                   >
-                    <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-800 text-xs font-bold text-yellow-400">
+                    <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-graphite-800 text-xs font-bold text-saffron-300">
                       {i + 1}
                     </span>
                     {c.title}
@@ -260,20 +260,19 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {testList.length > 0 && (
             <section>
               <h2 className="mb-4 text-lg font-bold text-white">
-                टेस्ट लिस्ट / Test List <span className="text-slate-300">({testList.length})</span>
+                Test List <span className="text-graphite-300">({testList.length})</span>
               </h2>
               <TestTabs
                 tabs={testTabs.map((tab) => ({
                   key: tab.key,
                   label: tab.label,
-                  hindi: tab.hindi,
                   count: tab.count,
                   panel: (
                     <div className="space-y-6">
                       {tab.groups.map((g) => (
                         <div key={g.subject}>
                           {tab.groups.length > 1 && (
-                            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-300">
+                            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-graphite-300">
                               {g.subject}
                             </p>
                           )}
@@ -284,19 +283,19 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                               return (
                                 <div
                                   key={t.id}
-                                  className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm"
+                                  className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-graphite-800 bg-graphite-900/60 px-4 py-3 text-sm"
                                 >
-                                  <span className="font-medium text-slate-200">{t.test_name}</span>
-                                  <div className="flex items-center gap-3 text-xs text-slate-300">
-                                    {!!t.total_questions && <span>{t.total_questions} प्रश्न / Q</span>}
+                                  <span className="font-medium text-graphite-200">{t.test_name}</span>
+                                  <div className="flex items-center gap-3 text-xs text-graphite-300">
+                                    {!!t.total_questions && <span>{t.total_questions} Q</span>}
                                     {!!t.duration_minutes && (
                                       <span className="flex items-center gap-1">
                                         <Clock className="h-3 w-3" /> {t.duration_minutes} min
                                       </span>
                                     )}
                                     {releaseLabel && (
-                                      <span className={isReleased ? "text-green-400" : "text-yellow-400"}>
-                                        {isReleased ? "उपलब्ध / Live" : `${releaseLabel} से`}
+                                      <span className={isReleased ? "text-success-400" : "text-saffron-300"}>
+                                        {isReleased ? "Live" : `From ${releaseLabel}`}
                                       </span>
                                     )}
                                   </div>
@@ -316,12 +315,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {/* FAQ */}
           {pkg.faq.length > 0 && (
             <section>
-              <h2 className="mb-4 text-lg font-bold text-white">सामान्य प्रश्न / FAQ</h2>
+              <h2 className="mb-4 text-lg font-bold text-white">FAQ</h2>
               <div className="space-y-3">
                 {pkg.faq.map((f, i) => (
-                  <details key={i} className="rounded-lg border border-slate-800 bg-slate-900/60 p-4">
-                    <summary className="cursor-pointer text-sm font-semibold text-slate-200">{f.question}</summary>
-                    <p className="mt-2 text-sm text-slate-300">{f.answer}</p>
+                  <details key={i} className="rounded-lg border border-graphite-800 bg-graphite-900/60 p-4">
+                    <summary className="cursor-pointer text-sm font-semibold text-graphite-200">{f.question}</summary>
+                    <p className="mt-2 text-sm text-graphite-300">{f.answer}</p>
                   </details>
                 ))}
               </div>
@@ -331,35 +330,35 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
 
         {/* Sidebar */}
         <div className="space-y-4">
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
+          <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
             <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-white">
-              <FileText className="h-4 w-4 text-yellow-500" /> विवरण / Details
+              <FileText className="h-4 w-4 text-saffron-400" /> Details
             </h3>
-            <dl className="space-y-2 text-sm text-slate-300">
+            <dl className="space-y-2 text-sm text-graphite-300">
               {!!pkg.total_tests && (
                 <div className="flex justify-between">
-                  <dt className="text-slate-300">Total Tests</dt>
+                  <dt className="text-graphite-300">Total Tests</dt>
                   <dd>{pkg.total_tests}</dd>
                 </div>
               )}
               {!!pkg.total_questions && (
                 <div className="flex justify-between">
-                  <dt className="text-slate-300">Total Questions</dt>
+                  <dt className="text-graphite-300">Total Questions</dt>
                   <dd>{pkg.total_questions}</dd>
                 </div>
               )}
               {validityLabel && (
                 <div className="flex justify-between">
-                  <dt className="text-slate-300">वैधता / Validity</dt>
+                  <dt className="text-graphite-300">Validity</dt>
                   <dd>{validityLabel}</dd>
                 </div>
               )}
             </dl>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5 text-sm text-slate-300">
+          <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5 text-sm text-graphite-300">
             <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-white">
-              <ShieldCheck className="h-4 w-4 text-yellow-500" /> रिफंड नीति / Refund Policy
+              <ShieldCheck className="h-4 w-4 text-saffron-400" /> Refund Policy
             </h3>
             <p>
               Refund only within 2 days of purchase and if fewer than 3 videos watched (tests attempted, for a test
@@ -368,8 +367,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 Full policy
               </Link>
             </p>
-            <Link href="/terms" className="mt-2 inline-block text-yellow-400 underline">
-              पूरे नियम पढ़ें / Read full terms
+            <Link href="/terms" className="mt-2 inline-block text-saffron-300 underline">
+              Read full terms
             </Link>
           </div>
         </div>

@@ -24,18 +24,18 @@ export default async function TestInstructionsPage({ params }: { params: Promise
   if (!access.ok) {
     if (access.reason === "not_found") notFound();
     const message = {
-      not_released: "यह टेस्ट अभी जारी नहीं हुआ है। / This test isn't released yet.",
-      not_owned: "यह टेस्ट आपके पैकेज में शामिल नहीं है। / This test isn't in any package you own.",
-      no_questions: "इस टेस्ट में अभी प्रश्न नहीं जोड़े गए हैं। / Questions haven't been added to this test yet.",
+      not_released: "This test isn't released yet.",
+      not_owned: "This test isn't in any package you own.",
+      no_questions: "Questions haven't been added to this test yet.",
     }[access.reason];
     return (
-      <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-16">
-        <div className="mx-auto max-w-lg rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center">
-          <Lock className="mx-auto mb-3 h-8 w-8 text-yellow-500" />
-          <p className="text-slate-300">{message}</p>
+      <div className="min-h-screen bg-graphite-950 px-4 py-16">
+        <div className="mx-auto max-w-lg rounded-2xl border border-graphite-800 bg-graphite-900/60 p-8 text-center">
+          <Lock className="mx-auto mb-3 h-8 w-8 text-saffron-400" />
+          <p className="text-graphite-300">{message}</p>
           <Link
             href={access.reason === "not_owned" ? "/test-platform/packages" : "/test-platform"}
-            className="mt-5 inline-block rounded-lg bg-yellow-500 px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-yellow-400"
+            className="mt-5 inline-block rounded-lg bg-saffron-400 px-5 py-2.5 text-sm font-semibold text-graphite-900 hover:bg-saffron-300"
           >
             {access.reason === "not_owned" ? "Browse the Package Store" : "Back to Dashboard"}
           </Link>
@@ -81,15 +81,15 @@ export default async function TestInstructionsPage({ params }: { params: Promise
   ];
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-10">
       <div className="mx-auto max-w-3xl">
-        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
+        <Link href="/test-platform" className="mb-6 inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400">
           <ArrowLeft className="h-4 w-4" /> Dashboard
         </Link>
 
         <h1 className="text-2xl font-bold text-white">{test.test_name}</h1>
         {test.is_free_test && (
-          <span className="mt-2 inline-block rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-semibold text-green-400">
+          <span className="mt-2 inline-block rounded-full bg-success-500/10 px-2.5 py-0.5 text-xs font-semibold text-success-400">
             Free Test
           </span>
         )}
@@ -105,26 +105,26 @@ export default async function TestInstructionsPage({ params }: { params: Promise
               value: negative > 0 ? `−${Math.round(negative * 100) / 100}` : "0",
             },
           ].map((s) => (
-            <div key={s.label} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-              <div className="mb-2 text-yellow-500">{s.icon}</div>
+            <div key={s.label} className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-4">
+              <div className="mb-2 text-saffron-400">{s.icon}</div>
               <div className="text-xl font-bold text-white">{s.value}</div>
-              <div className="text-xs text-slate-300">{s.label}</div>
+              <div className="text-xs text-graphite-300">{s.label}</div>
             </div>
           ))}
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-6">
             <h2 className="mb-3 font-semibold text-white">Instructions</h2>
-            <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-200">
+            <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-graphite-200">
               {instructions.map((i) => (
                 <li key={i.en}>{i.en}</li>
               ))}
             </ul>
           </div>
-          <div lang="hi" className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div lang="hi" className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-6">
             <h2 className="mb-3 font-semibold text-white">निर्देश</h2>
-            <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-200">
+            <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-graphite-200">
               {instructions.map((i) => (
                 <li key={i.hi}>{i.hi}</li>
               ))}
@@ -135,19 +135,19 @@ export default async function TestInstructionsPage({ params }: { params: Promise
         <div className="mt-6">
           <StartTestButton
             testId={test.id}
-            label={resumable ? "Resume Test / जारी रखें" : submitted.length > 0 ? "Reattempt / दोबारा दें" : "Start Test / शुरू करें"}
+            label={resumable ? "Resume Test" : submitted.length > 0 ? "Reattempt" : "Start Test"}
           />
         </div>
 
         {submitted.length > 0 && (
           <div className="mt-10">
             <h2 className="mb-3 font-semibold text-white">
-              पिछले प्रयास <span className="text-slate-300">/ Previous Attempts</span>
+              Previous Attempts
             </h2>
-            <ul className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900/60">
+            <ul className="divide-y divide-graphite-800 rounded-2xl border border-graphite-800 bg-graphite-900/60">
               {submitted.map((a) => (
                 <li key={a.id} className="flex items-center justify-between px-5 py-3 text-sm">
-                  <span className="text-slate-300">
+                  <span className="text-graphite-300">
                     {formatDateLabel(parseUtcTimestamp(a.submitted_at ?? a.start_time).toISOString())}
                   </span>
                   <span className="font-semibold text-white">
@@ -155,7 +155,7 @@ export default async function TestInstructionsPage({ params }: { params: Promise
                   </span>
                   <Link
                     href={`/test-platform/attempts/${a.id}/result`}
-                    className="text-xs font-medium text-yellow-500 hover:text-yellow-400"
+                    className="text-xs font-medium text-saffron-400 hover:text-saffron-300"
                   >
                     View result
                   </Link>

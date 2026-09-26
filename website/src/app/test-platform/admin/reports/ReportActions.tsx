@@ -34,7 +34,7 @@ export default function ReportActions({ questionId }: { questionId: string }) {
           type="button"
           onClick={() => act("resolve")}
           disabled={busy !== null}
-          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-green-500 px-4 text-sm font-semibold text-slate-900 disabled:opacity-50"
+          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-success-500 px-4 text-sm font-semibold text-graphite-900 disabled:opacity-50"
         >
           {busy === "resolve" && <Loader2 className="h-4 w-4 animate-spin" />} Resolve
         </button>
@@ -42,12 +42,12 @@ export default function ReportActions({ questionId }: { questionId: string }) {
           type="button"
           onClick={() => act("deactivate")}
           disabled={busy !== null}
-          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-red-400/60 px-4 text-sm font-semibold text-red-200 hover:bg-red-500/10 disabled:opacity-50"
+          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-danger-400/60 px-4 text-sm font-semibold text-danger-200 hover:bg-danger-500/10 disabled:opacity-50"
         >
           {busy === "deactivate" && <Loader2 className="h-4 w-4 animate-spin" />} Deactivate question
         </button>
       </div>
-      {error && <p className="mt-2 text-xs text-red-300">{error}</p>}
+      {error && <p className="mt-2 text-xs text-danger-300">{error}</p>}
     </div>
   );
 }

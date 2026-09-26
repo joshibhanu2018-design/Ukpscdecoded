@@ -13,9 +13,9 @@ import { CONFIDENCE_LABEL, ERROR_LABEL, errorBreakdown, guessRule, type GuessAna
 
 export const metadata: Metadata = { title: "My Performance", robots: { index: false } };
 
-// Chart bar colour: amber that passes the dark-surface lightness/contrast checks
-// (the brand yellow #eab308 is too light for a data mark on slate-900).
-const BAR = "#d97706";
+// Chart bar colour: saffron-500, the brand accent at a weight that reads as a
+// data mark on the graphite-900 card (8:1 against the page background).
+const BAR = "#f59307";
 
 type AttemptRow = {
   id: string;
@@ -164,31 +164,31 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
   const avg = firsts.length ? firsts.reduce((s, a) => s + Number(a.percentage ?? 0), 0) / firsts.length : null;
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 px-4 py-6 sm:py-10">
+    <div className="min-h-screen bg-graphite-950 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-4xl">
-        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-yellow-500">
-          <ArrowLeft className="h-4 w-4" /> मेरे कोर्स / My Courses
+        <Link href="/test-platform" className="mb-4 inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400">
+          <ArrowLeft className="h-4 w-4" /> My Courses
         </Link>
         <h1 className="text-2xl font-bold text-white">
-          मेरा प्रदर्शन <span className="text-slate-300">/ My Performance</span>
+          My Performance
         </h1>
-        {studentLabel && <p className="mt-1 text-sm text-yellow-400">Viewing student: {studentLabel}</p>}
+        {studentLabel && <p className="mt-1 text-sm text-saffron-300">Viewing student: {studentLabel}</p>}
 
         {firsts.length === 0 ? (
-          <p className="mt-8 rounded-2xl border border-dashed border-slate-700 p-6 text-center text-slate-300">
-            पहला टेस्ट देने के बाद यहाँ विश्लेषण दिखेगा। / Your analysis appears here after your first test.
+          <p className="mt-8 rounded-2xl border border-dashed border-graphite-700 p-6 text-center text-graphite-300">
+            Your analysis appears here after your first test.
           </p>
         ) : (
           <>
             <div className="mt-6 grid grid-cols-3 gap-3">
               {[
-                { label: "टेस्ट / Tests", value: String(firsts.length) },
-                { label: "औसत / Average", value: avg !== null ? `${avg.toFixed(1)}%` : "—" },
-                { label: "नेगेटिव से खोए / Lost to negatives", value: `−${Math.round(negativeLost * 10) / 10}` },
+                { label: "Tests", value: String(firsts.length) },
+                { label: "Average", value: avg !== null ? `${avg.toFixed(1)}%` : "—" },
+                { label: "Lost to negatives", value: `−${Math.round(negativeLost * 10) / 10}` },
               ].map((s) => (
-                <div key={s.label} className="rounded-xl border border-slate-800 bg-slate-900/60 p-3">
+                <div key={s.label} className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-3">
                   <div className="text-lg font-bold text-white">{s.value}</div>
-                  <div className="text-[11px] text-slate-300">{s.label}</div>
+                  <div className="text-[11px] text-graphite-300">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -196,65 +196,62 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
             <section
               className={`mt-6 rounded-2xl border p-5 ${
                 summary?.gap == null
-                  ? "border-slate-800 bg-slate-900/60"
+                  ? "border-graphite-800 bg-graphite-900/60"
                   : summary.gap >= 0
-                    ? "border-green-500/30 bg-green-500/10"
-                    : "border-red-500/30 bg-red-500/10"
+                    ? "border-success-500/30 bg-success-500/10"
+                    : "border-danger-500/30 bg-danger-500/10"
               }`}
             >
               <h2 className="font-semibold text-white">
-                कट-ऑफ से दूरी <span className="text-slate-300">/ Gap to expected cutoff ({cutoff.cutoff}/{cutoff.total})</span>
+                Gap to expected cutoff ({cutoff.cutoff}/{cutoff.total})
               </h2>
               {summary?.projected == null ? (
-                <p className="mt-2 text-sm text-slate-300">
-                  एक फुल मॉक दें — अनुमान उसी से बनेगा। / Take a full-length mock — your projection is based on full mocks.
+                <p className="mt-2 text-sm text-graphite-300">
+                  Take a full-length mock — your projection is based on full mocks.
                 </p>
               ) : (
                 <>
                   <p className="mt-2 text-3xl font-bold text-white">
                     {summary.projected}
-                    <span className="ml-2 text-base font-semibold text-slate-300">
+                    <span className="ml-2 text-base font-semibold text-graphite-300">
                       {summary.gap! >= 0 ? `+${summary.gap} above` : `${Math.abs(summary.gap!)} below`} cutoff
                     </span>
                   </p>
-                  <p className="mt-1 text-xs text-slate-300">
-                    पिछले {Math.min(PROJECTION_MOCKS, summary.fullMocks.length)} फुल मॉक का औसत। / Average of your latest{" "}
+                  <p className="mt-1 text-xs text-graphite-300">
+                    Average of your latest{" "}
                     {Math.min(PROJECTION_MOCKS, summary.fullMocks.length)} full mock(s), scaled to {cutoff.total} marks.
                     {summary.trend !== null && ` Since your first mock: ${summary.trend > 0 ? "+" : ""}${summary.trend}.`}
                   </p>
                   {summary.gap! < 0 && summary.negativeLostPerMock !== null && summary.negativeLostPerMock > 0 && (
-                    <p className="mt-2 text-sm text-slate-300">
-                      आप हर मॉक में नेगेटिव से ~{summary.negativeLostPerMock} अंक खो रहे हैं — अनुमान नियम अपनाने से यह अंतर घटेगा।{" "}
-                      <span className="block text-slate-300">
-                        You lose ~{summary.negativeLostPerMock} marks per mock to negative marking — following your guess rule
-                        below closes part of this gap.
-                      </span>
+                    <p className="mt-2 text-sm text-graphite-300">
+                      You lose ~{summary.negativeLostPerMock} marks per mock to negative marking — following your guess rule
+                      below closes part of this gap.
                     </p>
                   )}
                 </>
               )}
-              <p className="mt-2 text-[11px] text-slate-300">Expected cutoff is an estimate, not an official figure.</p>
+              <p className="mt-2 text-[11px] text-graphite-300">Expected cutoff is an estimate, not an official figure.</p>
             </section>
 
-            <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <section className="mt-8 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
               <h2 className="font-semibold text-white">
-                स्कोर ट्रेंड <span className="text-slate-300">/ Score trend (first attempts, %)</span>
+                Score trend (first attempts, %)
               </h2>
-              <div className="mt-4 flex h-40 items-end gap-1 border-b border-slate-700" role="img" aria-label="Score percentage per test, oldest to newest">
+              <div className="mt-4 flex h-40 items-end gap-1 border-b border-graphite-700" role="img" aria-label="Score percentage per test, oldest to newest">
                 {trend.map((a, i) => {
                   const pct = Math.max(0, Math.min(100, Number(a.percentage ?? 0)));
                   const name = tests.get(a.test_id)?.test_name ?? "Test";
                   const labelled = i === trend.length - 1 || a.id === best?.id;
                   return (
                     <div key={a.id} className="group relative flex h-full min-w-0 flex-1 flex-col justify-end">
-                      {labelled && <span className="mb-1 text-center text-[10px] text-slate-300">{Math.round(pct)}%</span>}
+                      {labelled && <span className="mb-1 text-center text-[10px] text-graphite-300">{Math.round(pct)}%</span>}
                       <div
                         className="w-full rounded-t-[4px] transition-opacity group-hover:opacity-80"
                         style={{ height: `${Math.max(pct, 1)}%`, background: BAR }}
                       />
-                      <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden w-40 -translate-x-1/2 rounded-lg border border-slate-700 bg-slate-950 px-2 py-1.5 text-[11px] text-slate-200 shadow-xl group-hover:block">
+                      <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden w-40 -translate-x-1/2 rounded-lg border border-graphite-700 bg-graphite-950 px-2 py-1.5 text-[11px] text-graphite-200 shadow-xl group-hover:block">
                         <div className="font-semibold">{name}</div>
-                        <div className="text-slate-300">
+                        <div className="text-graphite-300">
                           {Number(a.score)}/{Number(a.total_marks)} · {Number(a.percentage)}%
                         </div>
                       </div>
@@ -262,30 +259,30 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                   );
                 })}
               </div>
-              <p className="mt-1 flex justify-between text-[10px] text-slate-300">
-                <span>पुराना / Oldest</span>
-                <span>नया / Latest</span>
+              <p className="mt-1 flex justify-between text-[10px] text-graphite-300">
+                <span>Oldest</span>
+                <span>Latest</span>
               </p>
             </section>
 
             <section className="mt-8 grid gap-4 lg:grid-cols-2">
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+              <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
                 <h2 className="font-semibold text-white">
-                  कमज़ोर टॉपिक <span className="text-slate-300">/ Weakest topics</span>
+                  Weakest topics
                 </h2>
                 {weakest.length === 0 ? (
-                  <p className="mt-3 text-sm text-slate-300">Needs at least 5 questions per topic — take a few more tests.</p>
+                  <p className="mt-3 text-sm text-graphite-300">Needs at least 5 questions per topic — take a few more tests.</p>
                 ) : (
                   <ul className="mt-3 space-y-2 text-sm">
                     {weakest.map((t) => (
                       <li key={t.name}>
-                        <div className="flex justify-between gap-3 text-slate-300">
+                        <div className="flex justify-between gap-3 text-graphite-300">
                           <span className="min-w-0 truncate">{t.name}</span>
-                          <span className="flex-shrink-0 text-slate-300">
+                          <span className="flex-shrink-0 text-graphite-300">
                             {t.pct}% · {t.correct}/{t.total}
                           </span>
                         </div>
-                        <div className="mt-1 h-1.5 rounded-full bg-slate-800">
+                        <div className="mt-1 h-1.5 rounded-full bg-graphite-800">
                           <div className="h-1.5 rounded-full" style={{ width: `${t.pct}%`, background: BAR }} />
                         </div>
                       </li>
@@ -293,19 +290,19 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                   </ul>
                 )}
                 {strongest.length > 0 && (
-                  <p className="mt-4 text-xs text-slate-300">
-                    सबसे मज़बूत / Strongest: {strongest.map((t) => `${t.name} (${t.pct}%)`).join(", ")}
+                  <p className="mt-4 text-xs text-graphite-300">
+                    Strongest: {strongest.map((t) => `${t.name} (${t.pct}%)`).join(", ")}
                   </p>
                 )}
               </div>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+              <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
                 <h2 className="font-semibold text-white">
-                  गलतियों के प्रकार <span className="text-slate-300">/ Why answers went wrong</span>
+                  Why answers went wrong
                 </h2>
                 {errorTotal === 0 ? (
-                  <p className="mt-3 text-sm text-slate-300">
-                    परिणाम पेज पर गलत उत्तरों को टैग करें। / Tag your wrong answers on each result page to build your error log.
+                  <p className="mt-3 text-sm text-graphite-300">
+                    Tag your wrong answers on each result page to build your error log.
                   </p>
                 ) : (
                   <ul className="mt-3 space-y-2.5 text-sm">
@@ -313,13 +310,13 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                       .sort((a, b) => errors[b] - errors[a])
                       .map((e) => (
                         <li key={e}>
-                          <div className="flex justify-between text-slate-300">
+                          <div className="flex justify-between text-graphite-300">
                             <span>
-                              {ERROR_LABEL[e].hi} / {ERROR_LABEL[e].en}
+                              {ERROR_LABEL[e].en}
                             </span>
-                            <span className="text-slate-300">{errors[e]}</span>
+                            <span className="text-graphite-300">{errors[e]}</span>
                           </div>
-                          <p className="text-xs text-slate-300">{ERROR_LABEL[e].fix}</p>
+                          <p className="text-xs text-graphite-300">{ERROR_LABEL[e].fix}</p>
                         </li>
                       ))}
                   </ul>
@@ -327,19 +324,19 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
               </div>
             </section>
 
-            <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <section className="mt-8 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5">
               <h2 className="font-semibold text-white">
-                अनुमान विश्लेषण <span className="text-slate-300">/ Guess analysis (all tests)</span>
+                Guess analysis (all tests)
               </h2>
               {guess.tagged === 0 ? (
-                <p className="mt-3 text-sm text-slate-300">
-                  टेस्ट में &quot;कितने निश्चित?&quot; टैग करें। / Tag &quot;How sure?&quot; while answering to get your personal attempt rule.
+                <p className="mt-3 text-sm text-graphite-300">
+                  Tag &quot;How sure?&quot; while answering to get your personal attempt rule.
                 </p>
               ) : (
                 <>
                   <div className="mt-3 overflow-x-auto">
                     <table className="w-full text-sm">
-                      <thead className="text-xs text-slate-300">
+                      <thead className="text-xs text-graphite-300">
                         <tr>
                           <th className="py-1 text-left font-medium">When</th>
                           <th className="py-1 text-right font-medium">Attempted</th>
@@ -347,15 +344,15 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                           <th className="py-1 text-right font-medium">Net marks</th>
                         </tr>
                       </thead>
-                      <tbody className="text-slate-300">
+                      <tbody className="text-graphite-300">
                         {guess.buckets
                           .filter((b) => b.attempted > 0)
                           .map((b) => (
-                            <tr key={b.level} className="border-t border-slate-800">
+                            <tr key={b.level} className="border-t border-graphite-800">
                               <td className="py-1.5">{CONFIDENCE_LABEL[b.level]}</td>
                               <td className="py-1.5 text-right">{b.attempted}</td>
                               <td className="py-1.5 text-right">{b.accuracy !== null ? `${b.accuracy}%` : "—"}</td>
-                              <td className={`py-1.5 text-right ${b.net < 0 ? "text-red-400" : "text-green-400"}`}>
+                              <td className={`py-1.5 text-right ${b.net < 0 ? "text-danger-400" : "text-success-400"}`}>
                                 {b.net > 0 ? "+" : ""}
                                 {b.net}
                               </td>
@@ -364,11 +361,10 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-2 text-[11px] text-slate-300">Guessing pays only above {guess.breakEvenAccuracy}% accuracy.</p>
+                  <p className="mt-2 text-[11px] text-graphite-300">Guessing pays only above {guess.breakEvenAccuracy}% accuracy.</p>
                   {rule && (
-                    <p className="mt-3 rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-200">
-                      आपका नियम: {rule.hi}
-                      <span className="block text-sky-300/80">Your rule: {rule.en}</span>
+                    <p className="mt-3 rounded-lg bg-saffron-400/10 px-3 py-2 text-sm text-saffron-100">
+                      Your rule: {rule.en}
                     </p>
                   )}
                 </>
@@ -377,17 +373,17 @@ export default async function PerformancePage({ searchParams }: { searchParams: 
 
             <section className="mt-8">
               <h2 className="mb-3 font-semibold text-white">
-                सभी टेस्ट <span className="text-slate-300">/ All tests</span>
+                All tests
               </h2>
-              <ul className="divide-y divide-slate-800 rounded-2xl border border-slate-800 bg-slate-900/60 text-sm">
+              <ul className="divide-y divide-graphite-800 rounded-2xl border border-graphite-800 bg-graphite-900/60 text-sm">
                 {[...all].reverse().map((a) => (
                   <li key={a.id}>
                     <Link
                       href={`/test-platform/attempts/${a.id}/result`}
-                      className="flex items-center justify-between gap-3 px-4 py-2.5 hover:bg-slate-800/50"
+                      className="flex items-center justify-between gap-3 px-4 py-2.5 hover:bg-graphite-800/50"
                     >
-                      <span className="min-w-0 truncate text-slate-200">{tests.get(a.test_id)?.test_name ?? "Test"}</span>
-                      <span className="flex-shrink-0 text-xs text-slate-300">
+                      <span className="min-w-0 truncate text-graphite-200">{tests.get(a.test_id)?.test_name ?? "Test"}</span>
+                      <span className="flex-shrink-0 text-xs text-graphite-300">
                         {formatDateLabel(parseUtcTimestamp(a.submitted_at).toISOString())} · {Number(a.score)}/{Number(a.total_marks)}
                       </span>
                     </Link>

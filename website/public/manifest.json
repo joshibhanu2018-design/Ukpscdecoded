@@ -4,8 +4,8 @@
   "description": "UKPSC test series, crash course and mentorship — test platform.",
   "start_url": "/test-platform",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#0f0f0e",
+  "theme_color": "#0f0f0e",
   "orientation": "portrait",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

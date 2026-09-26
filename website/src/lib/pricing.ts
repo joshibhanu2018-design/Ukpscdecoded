@@ -56,7 +56,7 @@ export function getPriceInfo(pkg: PricedPackage, now: number = Date.now(), overr
 
 export function formatFoundingLabel(info: PriceInfo): string | null {
   if (!info.isFounding || info.regularPrice == null) return null;
-  return `फाउंडिंग मूल्य ₹${info.foundingPrice} — 1 अक्टूबर से ₹${info.regularPrice} हो जाएगा / Founding price ₹${info.foundingPrice}, becomes ₹${info.regularPrice} on 1 October`;
+  return `Founding price ₹${info.foundingPrice}, becomes ₹${info.regularPrice} on 1 October`;
 }
 
 export const MIN_CHARGE_PAISE = 100; // ₹1 floor so Razorpay never sees a ₹0 order

@@ -36,12 +36,12 @@ export function StatusButton({ questionId, inactive }: { questionId: string; ina
         onClick={act}
         disabled={busy}
         className={`inline-flex min-h-[40px] items-center gap-1.5 rounded-lg px-4 text-sm font-semibold disabled:opacity-50 ${
-          inactive ? "bg-green-500 text-slate-900" : "border border-red-400/60 text-red-200 hover:bg-red-500/10"
+          inactive ? "bg-success-500 text-graphite-900" : "border border-danger-400/60 text-danger-200 hover:bg-danger-500/10"
         }`}
       >
         {busy && <Loader2 className="h-4 w-4 animate-spin" />} {inactive ? "Reactivate question" : "Deactivate question"}
       </button>
-      {error && <p className="mt-2 text-xs text-red-300">{error}</p>}
+      {error && <p className="mt-2 text-xs text-danger-300">{error}</p>}
     </div>
   );
 }
@@ -63,9 +63,9 @@ export function CopyIds({ ids }: { ids: string[] }) {
       type="button"
       onClick={copy}
       disabled={ids.length === 0}
-      className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-slate-700 px-3 text-sm text-slate-200 hover:border-yellow-500/60 disabled:opacity-50"
+      className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-graphite-700 px-3 text-sm text-graphite-200 hover:border-saffron-400/60 disabled:opacity-50"
     >
-      {done ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />} Copy IDs on this page
+      {done ? <Check className="h-4 w-4 text-success-400" /> : <Copy className="h-4 w-4" />} Copy IDs on this page
     </button>
   );
 }

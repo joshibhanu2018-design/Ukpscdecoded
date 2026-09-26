@@ -34,7 +34,7 @@ export function useTestLang(): [Lang, (l: Lang) => void] {
 /** हिंदी / EN switch — 44px tap targets, the active side filled yellow. */
 export default function LangToggle({ lang, onChange }: { lang: Lang; onChange: (l: Lang) => void }) {
   return (
-    <div role="group" aria-label="Question language" className="flex overflow-hidden rounded-lg border-2 border-yellow-500/70">
+    <div role="group" aria-label="Question language" className="flex overflow-hidden rounded-lg border-2 border-saffron-400/70">
       {(["hi", "en"] as const).map((l) => (
         <button
           key={l}
@@ -42,7 +42,7 @@ export default function LangToggle({ lang, onChange }: { lang: Lang; onChange: (
           onClick={() => onChange(l)}
           aria-pressed={lang === l}
           className={`min-h-[44px] min-w-[52px] px-3 text-sm font-semibold transition-colors ${
-            lang === l ? "bg-yellow-500 text-slate-900" : "bg-slate-900 text-slate-200 hover:bg-slate-800"
+            lang === l ? "bg-saffron-400 text-graphite-900" : "bg-graphite-900 text-graphite-200 hover:bg-graphite-800"
           }`}
         >
           {l === "hi" ? "हिंदी" : "EN"}

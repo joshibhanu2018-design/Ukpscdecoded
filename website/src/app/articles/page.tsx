@@ -30,7 +30,7 @@ const categoryColors: Record<string, string> = {
   "Answer Writing": "bg-jade-100 text-jade-700",
   "Book List": "bg-purple-100 text-purple-700",
   "PYQ Analysis": "bg-blue-100 text-blue-700",
-  "Current Affairs": "bg-rose-100 text-rose-700",
+  "Current Affairs": "bg-danger-100 text-danger-700",
 };
 
 export default async function ArticlesPage({

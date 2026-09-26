@@ -42,7 +42,7 @@ collections:
             name: "quickLinks"
             widget: "list"
             summary: "{{fields.title}}"
-            hint: "The 4 shortcut cards shown under the hero (Book, Free Content, Weekly CA, Daily MCQ)."
+            hint: "The shortcut cards right under the course carousel — one per paid product (Crash Course, Test Series, Books, E-Books, Mentorship)."
             fields:
               - { label: "Title", name: "title", widget: "string", hint: "e.g. The Book" }
               - { label: "Label", name: "label", widget: "string", hint: "Short description under the title" }
@@ -50,7 +50,7 @@ collections:
               - label: "Icon"
                 name: "icon"
                 widget: "select"
-                options: ["book", "play", "newspaper", "brain", "chart"]
+                options: ["book", "play", "video", "newspaper", "brain", "chart", "users", "file"]
 
           - label: "Features Section"
             name: "features"

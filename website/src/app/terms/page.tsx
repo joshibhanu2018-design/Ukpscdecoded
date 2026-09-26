@@ -9,14 +9,14 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
       <h1 className="heading-lg mb-2 text-graphite-900">
-        नियम व शर्तें <span className="text-graphite-500">/ Terms of Service</span>
+        Terms of Service
       </h1>
       <p className="mb-10 text-sm text-graphite-500">Last updated: September 2026</p>
 
       <div className="space-y-8 text-sm leading-relaxed text-graphite-700">
         <section>
           <h2 className="mb-2 text-lg font-bold text-graphite-900">
-            खाता साझा करना / Account Sharing
+            Account Sharing
           </h2>
           <p>
             Each test series, crash course or combo package is licensed to one student for their own

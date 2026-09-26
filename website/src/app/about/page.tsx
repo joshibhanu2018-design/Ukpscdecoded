@@ -52,9 +52,9 @@ export default function AboutPage() {
       value: contact.youtubeHandle,
       href: contact.youtube,
       Icon: Video,
-      iconBg: 'bg-red-100 text-red-600',
-      iconHover: 'group-hover:bg-red-500 group-hover:text-white',
-      borderHover: 'hover:border-red-300',
+      iconBg: 'bg-danger-100 text-danger-600',
+      iconHover: 'group-hover:bg-danger-500 group-hover:text-white',
+      borderHover: 'hover:border-danger-300',
       external: true,
     },
     {

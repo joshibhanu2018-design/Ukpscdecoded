@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
-export type TestTab = { key: string; label: string; hindi: string; count: number; panel: ReactNode };
+export type TestTab = { key: string; label: string; count: number; panel: ReactNode };
 
 /**
  * Tab bar for a test series (Full Length · Sectional · Uttarakhand · …).
@@ -49,16 +49,15 @@ export default function TestTabs({ tabs, initialKey }: { tabs: TestTab[]; initia
               tabIndex={selected ? 0 : -1}
               onClick={() => setActive(t.key)}
               onKeyDown={(e) => onKeyDown(e, i)}
-              className={`flex min-h-[44px] flex-shrink-0 flex-col items-center justify-center rounded-lg border px-3 py-1.5 text-center transition-colors ${
+              className={`flex min-h-[44px] flex-shrink-0 items-center justify-center rounded-lg border px-4 py-2 text-center transition-colors ${
                 selected
-                  ? "border-yellow-500 bg-yellow-500 text-slate-900"
-                  : "border-slate-700 bg-slate-900/60 text-slate-200 hover:border-yellow-500/60"
+                  ? "border-saffron-400 bg-saffron-400 text-graphite-900"
+                  : "border-graphite-700 bg-graphite-900/60 text-graphite-200 hover:border-saffron-400/60"
               }`}
             >
               <span className="whitespace-nowrap text-sm font-semibold">
-                {t.label} <span className={selected ? "text-slate-800" : "text-slate-300"}>({t.count})</span>
+                {t.label} <span className={selected ? "text-graphite-800" : "text-graphite-300"}>({t.count})</span>
               </span>
-              <span className={`whitespace-nowrap text-[11px] ${selected ? "text-slate-800" : "text-slate-300"}`}>{t.hindi}</span>
             </button>
           );
         })}

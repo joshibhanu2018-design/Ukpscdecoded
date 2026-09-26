@@ -9,14 +9,14 @@ export async function POST(request: NextRequest) {
   const email = readSignupTicket(body?.ticket);
   if (!email) {
     return NextResponse.json(
-      { error: "सत्र समाप्त — फिर से लॉग इन करें। / Session expired — please log in again.", reason: "ticket" },
+      { error: "Session expired — please log in again.", reason: "ticket" },
       { status: 400 }
     );
   }
 
   const name = typeof body?.full_name === "string" ? body.full_name.trim().replace(/\s+/g, " ") : "";
   if (name.length < 2 || name.length > 100) {
-    return NextResponse.json({ error: "अपना पूरा नाम दर्ज करें / Enter your full name" }, { status: 400 });
+    return NextResponse.json({ error: "Enter your full name" }, { status: 400 });
   }
 
   try {
@@ -43,6 +43,6 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (err) {
     console.error("[otp/complete] failed:", err);
-    return NextResponse.json({ error: "खाता नहीं बन सका — फिर कोशिश करें। / Could not create your account. Please try again." }, { status: 500 });
+    return NextResponse.json({ error: "Could not create your account. Please try again." }, { status: 500 });
   }
 }
