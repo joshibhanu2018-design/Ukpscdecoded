@@ -151,6 +151,8 @@ export default async function MyCoursesPage({
                   ? "/test-platform/mentorship"
                   : pkg.package_type === "test_series" && pkg.slug
                   ? `/test-platform/course/${pkg.slug}`
+                  : pkg.package_type === "video_course" && pkg.slug
+                  ? `/test-platform/lessons/${pkg.slug}`
                   : pkg.slug
                     ? `/courses/${pkg.slug}`
                     : "/courses";
