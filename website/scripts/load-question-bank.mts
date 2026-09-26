@@ -637,7 +637,7 @@ const STATEHOOD_EXCLUDE = /North-Eastern|Nainital was made summer capital/i;
 const POST2000_RE =
   /\b20(0[1-9]|1\d|2\d)\b|UCC|Uniform Civil|Gairsain|Dhami|Trivendra|Tirath|Harish Rawat|Bahuguna|Khanduri|Nishank|N\.?D\.? Tiwari|Koshyari|Nityanand|Governor|Assembly election|Lok Sabha|Chief Minister/i;
 {
-  const s1 = byName("Statehood Movement I");
+  const s1 = byName("Uttarakhand (Post-Independence)");
   const s2 = byName("Statehood Movement II");
   const need = s1.target + s2.target;
   const ch05 = free((q) => q.sec === "UKGK" && q.chap === "CH05");
@@ -699,7 +699,7 @@ fill(byName("Topper Test"), [free((q) => ukStatic(q) && q.chap !== "CH00")], TOP
 const isDirect = (q: Q) => /^Factual recall/.test(q.qtype);
 const SM_TARGET = 0.46;
 const UK_TESTS: [string, (q: Q) => boolean][] = [
-  ["Statehood Movement I", (q) => ukStatic(q) && (q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && !POST2000_RE.test(q.en)],
+  ["Uttarakhand (Post-Independence)", (q) => ukStatic(q) && (q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && !POST2000_RE.test(q.en)],
   ["Statehood Movement II", (q) => ukStatic(q) && (q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && POST2000_RE.test(q.en)],
   ["Ancient & Medieval History", (q) => ukStatic(q) && q.chap === "CH03"],
   ["Gorkha & British rule & Freedom Struggle", (q) => ukStatic(q) && q.chap === "CH04"],
