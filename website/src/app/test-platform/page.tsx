@@ -89,7 +89,7 @@ export default async function MyCoursesPage({
   );
 
   const explore = allPackages.filter((p) => !ownedIds.has(p.id) && p.slug);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ukpscdecoded.in";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in";
   const firstName = user.full_name?.split(" ")[0] || "";
 
   return (

@@ -62,7 +62,7 @@ function buildReceiptHtml(opts: ReceiptRow): string {
     </tr>
   </table>
   <p style="text-align: center; margin: 32px 0;">
-    <a href="${process.env.NEXT_PUBLIC_BASE_URL || "https://ukpscdecoded.in"}/test-platform" style="background: #f59307; color: #1a1a1f; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 14px;">
+    <a href="${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in"}/test-platform" style="background: #f59307; color: #1a1a1f; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 14px;">
       डैशबोर्ड पर जाएं / Go to Dashboard
     </a>
   </p>
@@ -85,7 +85,7 @@ function buildReceiptText(opts: ReceiptRow): string {
     `Total Paid: ${opts.amountLabel}`,
     `Payment ID: ${opts.paymentId}`,
     "",
-    `${process.env.NEXT_PUBLIC_BASE_URL || "https://ukpscdecoded.in"}/test-platform`,
+    `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in"}/test-platform`,
   ].join("\n");
 }
 

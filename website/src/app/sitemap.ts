@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles } from "@/lib/articles";
 
-const baseUrl = "https://ukpscdecoded.vercel.app";
+const baseUrl = "https://www.ukpscdecoded.in";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

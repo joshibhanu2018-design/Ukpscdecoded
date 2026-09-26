@@ -8,7 +8,7 @@ import InstallPrompt from "@/components/InstallPrompt";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 
-const siteUrl = "https://ukpscdecoded.vercel.app";
+const siteUrl = "https://www.ukpscdecoded.in";
 
 export const viewport: Viewport = {
   width: "device-width",

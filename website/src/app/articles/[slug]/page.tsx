@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       name: "UKPSC Decoded",
-      url: "https://ukpscdecoded.vercel.app",
+      url: "https://www.ukpscdecoded.in",
     },
   };
 
