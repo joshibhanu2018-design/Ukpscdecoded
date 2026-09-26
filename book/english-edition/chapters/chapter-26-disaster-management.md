@@ -1,8 +1,8 @@
-# CHAPTER 25
+# CHAPTER 26
 
 # Disaster Management in Uttarakhand
 
-## 25.1 NATURE AND TYPOLOGY OF DISASTERS IN UTTARAKHAND
+## 26.1 NATURE AND TYPOLOGY OF DISASTERS IN UTTARAKHAND
 
 Uttarakhand's young, unstable geological formations shaped by the ongoing Himalayan orogeny, combined with heavy monsoon dynamics and mounting anthropogenic pressures, expose the state to diverse natural hazards. Situated on active tectonic zones, receiving intense monsoonal rainfall, and facing growing developmental pressures, Uttarakhand ranks among India's most disaster-prone regions.
 
@@ -49,7 +49,7 @@ Droughts in Uttarakhand are caused by increasingly erratic winter snowfalls from
 
 Avalanches involve sudden sweeping masses of snow, ice, and rock tumbling down high-altitude slopes. They threaten mountaineering expeditions, border military posts, and high-altitude hydroelectric projects. The most notable recent event was the October 2022 Draupadi Ka Danda II tragedy, in which NIM trainees were killed.
 
-## 25.2 MAJOR LANDMARK DISASTER EVENTS
+## 26.2 MAJOR LANDMARK DISASTER EVENTS
 
 ### A. The 2013 Kedarnath Disaster (The Himalayan Tsunami)
 
@@ -68,7 +68,7 @@ On August 5, 2025, a catastrophic flash flood struck the Dharali and Harsil area
 
 In November 2023, part of a 4.5 km tunnel on the Yamunotri National Highway near Silkyara in Uttarkashi collapsed, trapping 41 workers for 17 days. The collapse occurred in a "shear zone" — a stretch of highly fractured, unstable rock that had not been adequately reinforced. Additionally, no independent escape tunnel had been built, despite this being standard international practice for long tunnels. The rescue operation became a national spectacle when US-made Auger machines failed and traditional "rat-hole miners" were ultimately brought in to complete the extraction. The policy impact was significant: a new mandate now requires all tunnels exceeding 1.5 km to have parallel escape tunnels.
 
-## 25.3 SEISMIC ZONES IN UTTARAKHAND
+## 26.3 SEISMIC ZONES IN UTTARAKHAND
 
 Uttarakhand is located in one of the most seismically active regions globally, sitting squarely across the active tectonic zone where the Indian Plate continuously thrusts beneath the Eurasian Plate.
 
@@ -91,7 +91,7 @@ The Central Himalayan Seismic Gap is an area where historical stress accumulatio
 | **Main Central Thrust (MCT)** | Passes near Joshimath, Kedarnath, Munsiyari | Most active earthquake/landslide zone |
 | **Main Boundary Thrust (MBT)** | Passes near Nainital, Mussoorie | High landslide risk |
 
-## 25.4 ECOLOGICALLY SENSITIVE AREAS (ESAs) AND CONSERVATION FRAMEWORKS
+## 26.4 ECOLOGICALLY SENSITIVE AREAS (ESAs) AND CONSERVATION FRAMEWORKS
 
 Given its fragile topography and rich biodiversity, parts of Uttarakhand are protected under strict environmental governance regimes notified by the Ministry of Environment, Forest and Climate Change (MoEFCC).
 
@@ -120,7 +120,7 @@ Every National Park and Wildlife Sanctuary has a notified ESZ buffer (usually 1�
 
 Uttarakhand has pioneered the Gross Environment Product as an administrative tool that quantifies ecological health by measuring services rendered by forests, water bodies, soil, and clean air. The goal is to balance economic growth with environmental preservation by providing decision-makers with data on the monetary value of natural ecosystems.
 
-## 25.5 ADVANCED EARLY WARNING SYSTEMS (EWS) AND TECHNOLOGY INTERVENTIONS
+## 26.5 ADVANCED EARLY WARNING SYSTEMS (EWS) AND TECHNOLOGY INTERVENTIONS
 
 Uttarakhand has moved from a "reactionary" relief model to a "technology-driven" prediction and prevention system. Modern technology pipelines are deployed to mitigate loss of life from rapid-onset hydro-meteorological and seismic hazards.
 
@@ -158,7 +158,7 @@ The Satellite Integrated Landslide Assessment and Alert System (SILAAS) is opera
 
 The Forest Survey of India's fire detection system uses SNPP-VIIRS and MODIS satellite sensors to detect "heat anomalies" — temperatures exceeding 40°C in forest grids. The Van Agni Geo-Portal automates SMS alerts to registered Beat Officers' phones within 45 minutes of fire detection. The system was highly active during the record fire season of 2026.
 
-## 25.6 CHRONIC ANTHROPOGENIC (MAN-MADE) DISASTERS
+## 26.6 CHRONIC ANTHROPOGENIC (MAN-MADE) DISASTERS
 
 Anthropogenic disasters are man-made crises caused by engineering failures, unplanned urbanization, or ecological neglect. In Uttarakhand, these are often "Compound Disasters" — where human intervention destabilizes fragile Himalayan slopes, turning natural weather variations into destructive events.
 
@@ -188,7 +188,7 @@ The 900 km road-widening project meant to improve pilgrimage transit has trigger
 The root causes of anthropogenic disasters in Uttarakhand include unregulated urbanization and tourism pressure (unscientific real estate booms, encroachment on river floodplains, and violation of local carrying capacities), heavy infrastructure blasting (high-intensity explosives for road widening and tunneling that fracture unstable phyllite and quartzite formations), disruption of natural drainage (blockage of springs, rivulets, and sub-surface channels by debris dumping and concrete expansion, allowing rainwater to seep into vulnerable slopes), and a systemic lack of geological surveys before projects proceed.
 
 
-## 25.7 THE DISASTER MANAGEMENT ACT, 2005
+## 26.7 THE DISASTER MANAGEMENT ACT, 2005
 
 Enacted in response to systemic gaps exposed by mega-disasters (the 1999 Odisha Cyclone and the 2004 Indian Ocean Tsunami), the Disaster Management Act, 2005 provides the overarching legal and institutional architecture for disaster governance in India. The Act represented a paradigm shift from reactive, post-disaster relief and rehabilitation to proactive prevention, mitigation, preparedness, and capacity-building. It replaced ad-hoc response mechanisms with a seamless multi-tiered statutory hierarchy, created the specialized NDRF by statute, and established a two-tier financial architecture comprising both Response and Mitigation funds.
 
@@ -215,7 +215,7 @@ The Act establishes a three-tier institutional framework. At the National Level,
 | **Mitigation Fund** | National Disaster Mitigation Fund (NDMF) | State Disaster Mitigation Fund (SDMF) | Long-term risk-reduction projects (slope stabilization, earthquake-resistant buildings) |
 
 
-## 25.8 NATIONAL DISASTER MANAGEMENT AUTHORITY (NDMA)
+## 26.8 NATIONAL DISASTER MANAGEMENT AUTHORITY (NDMA)
 
 ### Structure and Composition
 
@@ -232,7 +232,7 @@ The NDMA is the supreme statutory apex body for disaster management in India, es
 
 The NEC is headed by the Union Home Secretary and serves as the coordinating executive arm that assists the NDMA. It executes national plans and coordinates inter-ministerial responses during disasters.
 
-## 25.9 STATE DISASTER MANAGEMENT AUTHORITY (SDMA) — UTTARAKHAND
+## 26.9 STATE DISASTER MANAGEMENT AUTHORITY (SDMA) — UTTARAKHAND
 
 ### Structure and Composition (USDMA)
 
@@ -247,7 +247,7 @@ The USDMA approves and reviews the State Disaster Management Plan, reviews risk 
 The State Emergency Operation Centre (SEOC) operates 24×7 for real-time monitoring and is accessible via Helpline 1070. District Emergency Operation Centres (DEOCs) coordinate at the district level via Helpline 1077. Annual pre-monsoon review meetings headed by the Chief Secretary and Chief Minister mandate safety audits of bridges, pilgrim footfall tracking, and carrying-capacity monitoring.
 
 
-## 25.10 ROLE OF NDRF AND SDRF
+## 26.10 ROLE OF NDRF AND SDRF
 
 ### Comparative Framework
 
@@ -271,7 +271,7 @@ The NDRF was established under Section 44 of the DM Act 2005 under the Ministry 
 The SDRF is the state's premier specialized tactical unit and serves as the first responder in disaster situations. Raised from the Uttarakhand State Police, the force is decentralized and stationed at vulnerable nodes across districts including Rudraprayag, Chamoli, Uttarkashi, and Pithoragarh. Its response time is within minutes of disaster reporting, bridging the gap before central reinforcements arrive. The SDRF's specialized skills include vertical cliff rescue, swift-water river rafting recovery, deep-crevice extraction, and snow-avalanche rescue. Key operations include the 2025 Dharali event, seasonal pilgrim rescue on high-altitude Char Dham tracks, and localized forest fire containment. In essence, the SDRF functions as the first responder (local, fast, terrain-expert) while the NDRF serves as heavy reinforcement (central, specialized, for macro-crises).
 
 
-## 25.11 GOVERNMENT MITIGATION INITIATIVES AND INSTITUTIONAL FRAMEWORK
+## 26.11 GOVERNMENT MITIGATION INITIATIVES AND INSTITUTIONAL FRAMEWORK
 
 The government's disaster mitigation strategy has shifted from a "relief-centric" approach to a "technology-first" and "nature-based" defense system.
 
@@ -316,11 +316,11 @@ Following the Silkyara collapse, new reforms mandate that all tunnels exceeding 
 | **InSAR Monitoring** | Satellite radar interferometry tracks millimeter-level ground movement on Char Dham highway |
 | **Glacial Lake Monitoring** | Institutionalized high-altitude surveys via ISRO/NDEM geo-portals; drain/monitor swelling lakes |
 
-## 25.12 OPERATIONAL DIRECTIVES AND ADMINISTRATIVE PROTOCOLS
+## 26.12 OPERATIONAL DIRECTIVES AND ADMINISTRATIVE PROTOCOLS
 
 Annual pre-monsoon review meetings headed by the Chief Secretary and Chief Minister mandate safety audits of bridges, strict tracking of pilgrim footfalls, and carrying-capacity monitoring. Rapid-response administrative orders require heavy clearance machinery (JCBs) to reach landslide blocks within 15 minutes of obstruction reporting. Regular state-wide mandatory mock drills are conducted in schools, hospitals, and flood-prone settlements. Additionally, all hotels in sensitive zones are now required to connect to Sewage Treatment Plants rather than soak pits.
 
-## 25.13 THE WAY FORWARD: STRATEGIC POLICY RECOMMENDATIONS
+## 26.13 THE WAY FORWARD: STRATEGIC POLICY RECOMMENDATIONS
 
 ### Structural Reforms
 
