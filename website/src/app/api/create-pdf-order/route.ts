@@ -12,7 +12,7 @@ const razorpay = new Razorpay({
 const PDF_CONFIG = {
   'polity-decoded': {
     name: 'Polity Decoded: The Complete Visual e-Book for PCS Prelims cum Mains',
-    amount: 12900, // ₹129 in paise
+    amount: 5900, // ₹59 in paise — must match the price shown on /buy-ebooks
     description: 'Visual e-book for PCS aspirants',
   },
 };
