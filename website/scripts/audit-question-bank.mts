@@ -61,7 +61,6 @@ const FILLER = [
   /\(\s*item\s*#\s*\d+\s*\)/i,
   /represents a core [a-z\s-]*principle/i,
   /verified in competitive examination/i,
-  /accurately describes/i,
   /\bas per (?:the )?(?:standard )?syllabus\b/i,
   /\bkey concept (?:in|for) (?:the )?(?:exam|competitive)/i,
   /\bfrequently asked in (?:competitive )?exam/i,
