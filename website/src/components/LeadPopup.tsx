@@ -9,8 +9,9 @@ import { submitLead } from "@/lib/leads";
 const STORAGE_KEY = "ukpsc_lead_popup_seen";
 
 // Logged-in students are already leads, and a modal popping up mid-test
-// (the delay timer or the exit-intent mouseleave) would block the exam.
-const SUPPRESSED_PREFIXES = ["/test-platform", "/student"];
+// (the delay timer or the exit-intent mouseleave) would block the exam. The
+// app home (/app) is the installed app's first screen, so no popup there.
+const SUPPRESSED_PREFIXES = ["/test-platform", "/student", "/app"];
 
 export default function LeadPopup() {
   const [open, setOpen] = useState(false);

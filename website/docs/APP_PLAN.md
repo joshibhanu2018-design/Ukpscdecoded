@@ -16,6 +16,7 @@ two codebases) or iOS (US$99/year, Apple often rejects web wrappers, up to
 30% commission). Revisit iOS once Android works.
 
 ## Phase 1 — make the web app app-ready (code, ~1 day)
+Steps 1 and 2 done 27 Sep (see HANDOFF.md); step 3 still to check.
 1. `public/manifest.json`:
    - `start_url` is `/test-platform` (logged-in students only). Change it
      to `/?source=app`, or a new app home page, so first-time users see
