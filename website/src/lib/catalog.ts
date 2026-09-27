@@ -8,8 +8,8 @@ import {
   type Package,
 } from "./packages";
 
-export const MOST_POPULAR_SLUG = "complete-prelims-pack";
-const FLAGSHIP_TEST_SERIES_SLUG = "premium-test-series";
+export const BEST_BUY_SLUG = "complete-prelims-pack";
+export const FLAGSHIP_TEST_SERIES_SLUG = "premium-test-series";
 
 /**
  * Store packages grouped for the Courses and Test Series pages, in the DB's
@@ -23,6 +23,7 @@ export async function getCatalog() {
 
   const listed = allPackages.filter((p) => p.slug);
   const byType = (type: string) => listed.filter((p) => p.package_type === type);
+  const bestBuyFirst = (a: Package, b: Package) => Number(b.slug === BEST_BUY_SLUG) - Number(a.slug === BEST_BUY_SLUG);
   const testSeries: Package[] = byType("test_series").sort(
     (a, b) => Number(b.slug === FLAGSHIP_TEST_SERIES_SLUG) - Number(a.slug === FLAGSHIP_TEST_SERIES_SLUG),
   );
@@ -30,7 +31,7 @@ export async function getCatalog() {
   return {
     mentorship: byType("mentorship"),
     crashCourses: byType("video_course"),
-    bundles: byType("combo_bundle"),
+    bundles: byType("combo_bundle").sort(bestBuyFirst),
     testSeries,
     ownedIds,
   };

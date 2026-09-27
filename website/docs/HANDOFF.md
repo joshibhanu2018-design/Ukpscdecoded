@@ -11,6 +11,13 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Store order (27 Sep):** Courses and Test Series pages lead with the
+  Complete Prelims Pack ("Best Buy"), then Premium Test Series
+  ("Recommended — includes all test series"), then the individual products.
+  The Standard Test Series + Crash Course bundle is switched off.
+- **Uttarakhand Crash Course** (`uttarakhand-crash-course`, ₹1899, video
+  course): 25 Uttarakhand lectures + 3 Google Meet live sessions, access
+  till 31 Dec 2026. Set up by `supabase/fix-phase23-store-uttarakhand-crash-course.sql`.
 - **Crash course:** tentative plan on the course pages
   (`content/crashCoursePlan.json`), video lessons (Admin → Video Lessons,
   unlisted YouTube links; `/test-platform/lessons/crash-course`), refund check
@@ -40,6 +47,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   their weakest subject.
 
 ## Open items (owner)
+- [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
+      in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
+      ₹1,89,900 / ₹3,99,900, and the Premium Test Series bullet points).
+- [ ] Uttarakhand Crash Course: add its 25 lessons in Admin → Video Lessons
+      (pick the course in the drop-down; the same YouTube links as in the
+      Crash Course) and share the Google Meet links for its 3 live sessions.
 - [ ] **Run the loader `--apply`** if the last Free Sample Mock fixes and
       swaps aren't live yet, then take the free test on a phone with a
       non-buyer account.

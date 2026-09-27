@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import CourseCard from "@/components/CourseCard";
 import FreeSampleTest from "@/components/FreeSampleTest";
 import SectionTitle from "@/components/SectionTitle";
-import { getCatalog, MOST_POPULAR_SLUG } from "@/lib/catalog";
+import { BEST_BUY_SLUG, FLAGSHIP_TEST_SERIES_SLUG, getCatalog } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/test-series" },
@@ -11,9 +11,13 @@ export const metadata: Metadata = {
     "UKPSC 2026 test series: Premium, Basic, Uttarakhand Intensive, Current Affairs and CSAT — plus crash course bundles and mentorship.",
 };
 
-// Test Series tab: every test series, then the bundles and mentorship that include one.
+// Test Series tab, in the order we recommend: the best-buy bundle, the
+// Premium Test Series (includes every other test series), then the
+// individual test series and mentorship.
 export default async function TestSeriesPage() {
   const { testSeries, bundles, mentorship, ownedIds } = await getCatalog();
+  const premium = testSeries.find((p) => p.slug === FLAGSHIP_TEST_SERIES_SLUG);
+  const individual = testSeries.filter((p) => p !== premium);
 
   return (
     <div className="bg-graphite-950 px-4 py-12 sm:py-16">
@@ -26,31 +30,45 @@ export default async function TestSeriesPage() {
           </p>
         </div>
 
-        <FreeSampleTest compact />
-
-        {testSeries.length > 0 && (
-          <section>
-            <SectionTitle title="All Test Series" sub="The Premium Test Series includes every other test series below" />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {testSeries.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} size={pkg.slug === "premium-test-series" ? "lg" : "md"} owned={ownedIds.has(pkg.id)} />
-              ))}
-            </div>
-          </section>
-        )}
-
         {bundles.length > 0 && (
           <section>
-            <SectionTitle title="Test Series + Crash Course Bundles" sub="Practise and learn together — save vs buying separately" />
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <SectionTitle title="Best Buy: Test Series + Crash Course" sub="Everything for Prelims in one pack — practise and learn together, and save vs buying separately" />
+            <div className="grid grid-cols-1 gap-5">
               {bundles.map((pkg) => (
                 <CourseCard
                   key={pkg.id}
                   pkg={pkg}
                   size="lg"
-                  mostPopular={pkg.slug === MOST_POPULAR_SLUG}
+                  wide
+                  badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy — our recommended pack" : undefined}
                   owned={ownedIds.has(pkg.id)}
                 />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {premium && (
+          <section>
+            <SectionTitle title="Test Series Only" sub="Premium includes every test series on this page — no need to buy any other" />
+            <CourseCard
+              pkg={premium}
+              size="lg"
+              wide
+              badge="Recommended — includes all test series"
+              owned={ownedIds.has(premium.id)}
+            />
+          </section>
+        )}
+
+        <FreeSampleTest compact />
+
+        {individual.length > 0 && (
+          <section>
+            <SectionTitle title="Individual Test Series" sub="Only if you need one part — all of these are already inside the Premium Test Series" />
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {individual.map((pkg) => (
+                <CourseCard key={pkg.id} pkg={pkg} owned={ownedIds.has(pkg.id)} />
               ))}
             </div>
           </section>
