@@ -2,6 +2,9 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { supabaseAdmin } from "./supabase";
 
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+// Courses run until 31 Dec 2026, so a login lasts at least until then: each
+// login costs a code email, and students shouldn't need one every month.
+const SESSION_MIN_UNTIL = Date.parse("2026-12-31T23:59:59+05:30");
 const LAST_SEEN_REFRESH_MS = 60 * 60 * 1000; // bump last_seen_at at most hourly
 
 /** Devices a student can stay logged in on at once; a new login beyond this logs out the oldest. */
@@ -77,7 +80,7 @@ export async function createSession(
 ): Promise<{ token: string; expiresAt: Date }> {
   const db = supabaseAdmin();
   const now = Date.now();
-  const expiresAt = new Date(now + SESSION_TTL_MS);
+  const expiresAt = new Date(Math.max(now + SESSION_TTL_MS, SESSION_MIN_UNTIL));
 
   const { data: row, error } = await db
     .from("user_sessions")
