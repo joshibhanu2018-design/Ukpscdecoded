@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import CourseCard from "@/components/CourseCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getCatalog, MOST_POPULAR_SLUG } from "@/lib/catalog";
+import { BEST_BUY_SLUG, getCatalog } from "@/lib/catalog";
 import SectionTitle from "@/components/SectionTitle";
 
 export const metadata: Metadata = {
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description: "UKPSC crash course, crash course + test series bundles and 1-on-1 mentorship with Bhanu Joshi.",
 };
 
-// Courses tab: the taught programmes — mentorship, the crash course and the
-// bundles built around it. Test series alone live on /test-series.
+// Courses tab: the best-buy bundle first, then the crash courses, then
+// mentorship. Test series alone live on /test-series.
 export default async function CoursesPage() {
   const { mentorship, crashCourses, bundles, ownedIds } = await getCatalog();
 
@@ -27,29 +27,30 @@ export default async function CoursesPage() {
           </p>
         </div>
 
-        {crashCourses.length > 0 && (
-          <section>
-            <SectionTitle title="Crash Course" sub="Video lectures + live sessions + PDF notes" />
-            <div className="grid grid-cols-1 gap-5">
-              {crashCourses.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} wide owned={ownedIds.has(pkg.id)} />
-              ))}
-            </div>
-          </section>
-        )}
-
         {bundles.length > 0 && (
           <section>
-            <SectionTitle title="Crash Course + Test Series Bundles" sub="Learn and practise together — save vs buying separately" />
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <SectionTitle title="Best Buy: Crash Course + Test Series" sub="Everything for Prelims in one pack — learn and practise together, and save vs buying separately" />
+            <div className="grid grid-cols-1 gap-5">
               {bundles.map((pkg) => (
                 <CourseCard
                   key={pkg.id}
                   pkg={pkg}
                   size="lg"
-                  mostPopular={pkg.slug === MOST_POPULAR_SLUG}
+                  wide
+                  badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy — our recommended pack" : undefined}
                   owned={ownedIds.has(pkg.id)}
                 />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {crashCourses.length > 0 && (
+          <section>
+            <SectionTitle title="Crash Courses" sub="Video lectures + live sessions + PDF notes. The full Crash Course already includes every Uttarakhand video." />
+            <div className="grid grid-cols-1 gap-5">
+              {crashCourses.map((pkg) => (
+                <CourseCard key={pkg.id} pkg={pkg} wide owned={ownedIds.has(pkg.id)} />
               ))}
             </div>
           </section>

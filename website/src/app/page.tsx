@@ -11,6 +11,7 @@ import FreeSampleTest from "@/components/FreeSampleTest";
 import { getActiveBanners } from "@/lib/banners";
 import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import { BEST_BUY_SLUG } from "@/lib/catalog";
 import quiz from "@content/quiz.json";
 import home from "@content/home.json";
 
@@ -79,7 +80,7 @@ export default async function Home() {
               <CourseCard
                 key={pkg.id}
                 pkg={pkg}
-                mostPopular={pkg.slug === "complete-prelims-pack"}
+                badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy" : undefined}
                 owned={ownedIds.has(pkg.id)}
               />
             ))}
