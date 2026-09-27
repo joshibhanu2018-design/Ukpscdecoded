@@ -70,7 +70,7 @@ const HEDGE = /\b(reportedly|allegedly|is believed to|is said to|may have|might 
 const AI_MODEL = /\b(claude|chatgpt|gpt-?\d|gemini|openai|anthropic|copilot|llama|large language model)\b/i;
 const VAGUE =
   /\b(plays? an? (?:crucial|important|significant|vital|key) role|is (?:very )?important for|is a key aspect|is significant in many ways|has great significance|is widely recognized as important)\b/i;
-const ANSWER_IN_EXPLANATION = /(?:correct answer|answer is|answer:|उत्तर)\s*(?:is\s*)?(?:option\s*)?\(?\s*([A-D])\s*\)?(?![a-z])/i;
+const ANSWER_IN_EXPLANATION = /(?:correct answer|answer is|answer:|उत्तर)\s*(?:is\s*)?(?:option\s*)?\(?\s*([A-D])\s*\)?(?![a-z]|\s*[-–:]\s*\d)/i;
 
 /** Statements "1. …", "2. …" or "I. …", "II. …" found in a question. */
 function statementsOf(text: string): string[] {
@@ -121,7 +121,9 @@ function audit(r: Row) {
 
   if (FILLER.some((re) => re.test(all))) found.push("filler");
 
-  const st = statementsOf(en);
+  // "Match List-I with List-II" items are pairs, not statements to compare.
+  const isMatch = /\bmatch\b|list[\s-]*i\b|सुमेलित|सुमेल/i.test(en);
+  const st = isMatch ? [] : statementsOf(en);
   for (let i = 0; i < st.length; i++)
     for (let j = i + 1; j < st.length; j++) {
       const sim = similarity(st[i], st[j]);

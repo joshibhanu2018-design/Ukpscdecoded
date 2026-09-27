@@ -9,7 +9,7 @@
  *   npx --yes tsx scripts/load-question-bank.mts --apply    # writes to the database
  *
  * Inputs (in "../test series questions/", which is git-ignored — the repo is public):
- *   MERGED_QUESTION_BANK_v2.xlsx     master bank; rows with a Review_Flag are excluded
+ *   MERGED_QUESTION_BANK_v2.xlsx     master bank; rows with a Review_Flag are excluded (GEN too)
  *   GENERATED_QUESTIONS.xlsx         GEN- questions written to cover the shortfalls
  *   COMBINED_QUESTIONS.xlsx          CMB- statement/match questions built from 2-4 spare
  *                                    direct UK questions (scripts/build-combined-questions.ts);
@@ -282,8 +282,11 @@ const NOW_KEY = (() => {
 const futureDated: { qid: string; key: number }[] = [];
 
 const masterRows = readSheet(MASTER_FILE, "Question Bank");
-const flaggedIds = new Set(masterRows.filter((r) => str(r["Review_Flag"])).map((r) => str(r["Question_ID"])));
 const genRows = readSheet(GEN_FILE, "Generated Questions");
+// A Review_Flag drops the row from the bank, in the master bank and GEN alike.
+const flaggedIds = new Set(
+  [...masterRows, ...genRows].filter((r) => str(r["Review_Flag"])).map((r) => str(r["Question_ID"])),
+);
 const cmbRows = optionalSheet(CMB_FILE, "Combined Questions");
 
 const all: Q[] = [];
@@ -291,7 +294,7 @@ const seen = new Set<string>();
 let duplicateIds = 0;
 for (const [rows, gen, file] of [
   [masterRows.filter((r) => !str(r["Review_Flag"])), false, null],
-  [genRows, true, "GENERATED_QUESTIONS.xlsx"],
+  [genRows.filter((r) => !str(r["Review_Flag"])), true, "GENERATED_QUESTIONS.xlsx"],
   [cmbRows, true, "COMBINED_QUESTIONS.xlsx"],
 ] as const) {
   for (const r of rows) {
@@ -438,6 +441,15 @@ for (const q of all) for (const s of q.srcs ?? []) cmbOf.set(s, q);
 let pinSwapCmb = 0;
 let pinSwapOther = 0;
 const pinLost: string[] = [];
+// Section / chapter of every workbook row, including flagged and rejected
+// ones, so a dropped live question can still be replaced like for like.
+const rowMeta = new Map<string, Pick<Q, "sec" | "isCA" | "chap">>();
+for (const r of [...masterRows, ...genRows, ...cmbRows]) {
+  const qid = str(r["Question_ID"]);
+  if (qid && !rowMeta.has(qid)) {
+    rowMeta.set(qid, { sec: str(r["Section_Code"]), isCA: str(r["Static_or_CA"]) !== "Static", chap: str(r["Chapter_Code"]) });
+  }
+}
 for (const t of tests) {
   const live = liveQids.get(t.id);
   if (RECOMPOSE.has(t.id) || !live?.length) continue;
@@ -456,7 +468,7 @@ for (const t of tests) {
       pinSwapCmb++;
       continue;
     }
-    const like = q ?? (cmb ? byId.get(cmb.srcs![0]) : undefined);
+    const like = q ?? (cmb ? byId.get(cmb.srcs![0]) : undefined) ?? rowMeta.get(id);
     const rep = like
       ? [
           free((x) => !/^Factual recall/.test(x.qtype) && x.sec === like.sec && x.isCA === like.isCA && x.chap === like.chap),
@@ -478,7 +490,7 @@ for (const t of tests) {
 }
 if (pinSwapCmb || pinSwapOther) {
   notes.push(
-    `Live questions now used as CMB- sources (or gone from the bank): ${pinSwapCmb} replaced by their CMB- question, ${pinSwapOther} by another question of the same chapter.`
+    `Live questions now used as CMB- sources (or gone from the bank, e.g. Review_Flag): ${pinSwapCmb} replaced by their CMB- question, ${pinSwapOther} by another question of the same chapter (or section).`
   );
 }
 if (pinLost.length) notes.push(`Live questions with no replacement (test is short): ${pinLost.join(", ")}`);
