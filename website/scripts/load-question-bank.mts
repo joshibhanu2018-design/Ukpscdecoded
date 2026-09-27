@@ -191,6 +191,18 @@ function readSheet(file: string, sheet: string): Row[] {
 
 const rejected: { qid: string; reason: string }[] = [];
 
+// Generator filler that slipped into some questions: an "(Item #57)" tag in
+// the stem and a meaningless second statement ("This represents a core
+// physical principle verified in competitive examination syllabi."). Such a
+// question is rejected, so a live test using it gets a like-for-like
+// replacement on the next --apply and it is never picked as a replacement.
+const TEMPLATE_FILLER = [
+  /\(\s*item\s*#\s*\d+\s*\)/i,
+  /represents a core [a-z\s-]*principle/i,
+  /verified in competitive examination/i,
+];
+const isTemplateFiller = (...texts: string[]) => texts.some((t) => TEMPLATE_FILLER.some((re) => re.test(t)));
+
 function toQ(r: Row, gen: boolean, srcFile: string): Q | null {
   const qid = str(r["Question_ID"]);
   const ans = str(r["Correct_Answer"]).toUpperCase();
@@ -205,7 +217,9 @@ function toQ(r: Row, gen: boolean, srcFile: string): Q | null {
         ? "missing English or Hindi question text"
         : !["Easy", "Medium", "Hard"].includes(diff)
           ? "Difficulty not Easy/Medium/Hard"
-          : "";
+          : isTemplateFiller(en, ...["A", "B", "C", "D"].map((l) => str(r[`Option_${l}`])))
+            ? "template filler text (Item # / core principle)"
+            : "";
   const opts = ["A", "B", "C", "D"].map((l) => splitOption(str(r[`Option_${l}`])));
   const longOpt = opts.some((o) => !o.en || o.en.length > 500 || o.hi.length > 500);
   if (reason || longOpt) {

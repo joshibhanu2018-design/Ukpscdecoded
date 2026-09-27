@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Bookmark, ChevronLeft, ChevronRight, Clock, Grid3X3, Loader2, X } from "lucide-react";
 import type { Answers, Confidence, Confidences, OptionKey, PublicQuestion } from "@/lib/tests";
 import LangToggle, { useTestLang } from "./LangToggle";
+import { formatQuestionText } from "@/lib/format";
 
 type SaveState = "idle" | "saving" | "saved" | "error";
 
@@ -332,7 +333,7 @@ export default function TestRunner({
             </div>
 
             <p className="whitespace-pre-line text-base leading-relaxed text-white">
-              {text(q.text_hindi, q.text_english)}
+              {formatQuestionText(text(q.text_hindi, q.text_english))}
             </p>
 
             <div className="mt-5 space-y-3">

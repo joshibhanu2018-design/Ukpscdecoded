@@ -3,6 +3,7 @@
 import type { Answers, ErrorTags, FullQuestion } from "@/lib/tests";
 import ErrorTagger from "./ErrorTagger";
 import LangToggle, { useTestLang } from "./LangToggle";
+import { formatQuestionText } from "@/lib/format";
 import ReportQuestion from "./ReportQuestion";
 
 /**
@@ -49,7 +50,7 @@ export default function AnswerReview({
                   {status === "correct" ? "Correct" : status === "wrong" ? "Wrong" : "Skipped"}
                 </span>
               </div>
-              <p className="whitespace-pre-line text-base leading-relaxed text-white">{text(q.text_hindi, q.text_english)}</p>
+              <p className="whitespace-pre-line text-base leading-relaxed text-white">{formatQuestionText(text(q.text_hindi, q.text_english))}</p>
               <ul className="mt-3 space-y-1.5">
                 {q.options.map((o) => {
                   const label = text(o.hindi, o.english);
