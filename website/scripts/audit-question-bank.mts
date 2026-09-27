@@ -42,6 +42,7 @@ type Check = { id: string; weight: number; label: string };
 
 const CHECKS: Record<string, Check> = {
   filler: { id: "filler", weight: 5, label: "Template / filler text" },
+  optionInStem: { id: "optionInStem", weight: 5, label: "Option text pasted into the question (e.g. '… is Both I and II.')" },
   nearDup: { id: "nearDup", weight: 5, label: "Two statements say almost the same thing" },
   countMismatch: { id: "countMismatch", weight: 5, label: "Options refer to a statement the question doesn't have" },
   dupOptions: { id: "dupOptions", weight: 5, label: "Two options are identical" },
@@ -120,6 +121,9 @@ function audit(r: Row) {
   const all = [en, ...opts.map((o) => o.en)].join(" \n ");
 
   if (FILLER.some((re) => re.test(all))) found.push("filler");
+  // A statement ending in an option ("…stationed in a halo orbit around the Both I and II.")
+  if (/\b(?:is|in|of|at|the|a|an|by|to|from|around|have|has|was|are)\s+(?:both|neither)\s+(?:I|1)\s+(?:and|nor)\s+(?:II|2)\b/i.test(en))
+    found.push("optionInStem");
 
   // "Match List-I with List-II" items are pairs, not statements to compare.
   const isMatch = /\bmatch\b|list[\s-]*i\b|सुमेलित|सुमेल/i.test(en);

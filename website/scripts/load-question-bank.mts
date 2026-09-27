@@ -23,6 +23,9 @@
  * phase 6 seed files to have been run before --apply. Credentials come from
  * .env.local and are never printed.
  *
+ * Hand-picked swaps: TEST_OVERRIDES.xlsx (sheet "Overrides": Test, Remove_ID,
+ * Add_ID) in the same folder, e.g. to curate the Free Sample Mock.
+ *
  * Every test keeps the questions it has in the database now (so fixing one
  * test never reshuffles the others); only a test with no questions yet, or
  * one named in --recompose="Name,Name", is built afresh. The allocation is deterministic (seeded shuffle), so a dry run and a
@@ -58,6 +61,7 @@ const UK_FILE = path.join(DATA_DIR, "UTTARAKHAND_TEST_STRUCTURE.xlsx");
 const SEED_FILE = path.join(WEBSITE, "supabase", "seed-phase6-tests.sql");
 const ENV_FILE = path.join(WEBSITE, ".env.local");
 const PLAN_FILE = path.join(DATA_DIR, "TEST_ALLOCATION_PLAN.xlsx");
+const OVERRIDES_FILE = path.join(DATA_DIR, "TEST_OVERRIDES.xlsx");
 
 // UKPSC Prelims: a quarter of the question's marks is deducted per wrong answer.
 const NEGATIVE_FRACTION = 0.25;
@@ -1067,6 +1071,42 @@ for (const t of tests) {
 
 const replacements: string[] = [];
 
+// Hand-picked swaps, e.g. to curate the Free Sample Mock: TEST_OVERRIDES.xlsx,
+// sheet "Overrides", columns Test (name or id), Remove_ID, Add_ID. Applied on
+// every run, so a swap sticks. A swap is skipped (with a warning) if the test
+// or Remove_ID isn't found, or Add_ID isn't in the bank or is already used.
+const overrideLog: string[] = [];
+function applyOverrides() {
+  if (!fs.existsSync(OVERRIDES_FILE)) return;
+  const rows = readSheet(OVERRIDES_FILE, "Overrides");
+  for (const r of rows) {
+    const testKey = str(r["Test"]);
+    const removeId = str(r["Remove_ID"]);
+    const addId = str(r["Add_ID"]);
+    if (!testKey && !removeId && !addId) continue;
+    const t = tests.find((x) => x.id === testKey || x.name === testKey || newNames.get(x.id) === testKey);
+    const label = `${testKey}: ${removeId} -> ${addId}`;
+    if (!t) {
+      overrideLog.push(`SKIPPED ${label} (no such test)`);
+      continue;
+    }
+    const qs = assigned.get(t.id)!;
+    const i = qs.findIndex((q) => q.qid === removeId);
+    const add = byId.get(addId);
+    if (i < 0 && qs.some((q) => q.qid === addId)) continue; // applied on an earlier run
+    if (i < 0) overrideLog.push(`SKIPPED ${label} (${removeId} is not in this test)`);
+    else if (!add) overrideLog.push(`SKIPPED ${label} (${addId} is not in the bank: flagged, rejected or unknown)`);
+    else if (used.has(addId)) overrideLog.push(`SKIPPED ${label} (${addId} is already used in a test)`);
+    else if (inactiveIds.has(addId)) overrideLog.push(`SKIPPED ${label} (${addId} is inactive in the database)`);
+    else {
+      used.delete(removeId);
+      used.add(addId);
+      qs[i] = add;
+      overrideLog.push(`${label} (${add.chap}, ${add.diff})`);
+    }
+  }
+}
+
 function replaceInactive() {
   replacements.push(...liveWarnings);
   for (const t of tests) {
@@ -1209,6 +1249,10 @@ for (const q of all) {
 }
 console.log(`Options whose English and Hindi numbers differ: ${numberMismatch.length}`);
 numberMismatch.forEach((m) => console.log(`  ${m}`));
+if (overrideLog.length) {
+  console.log(`Hand-picked swaps (TEST_OVERRIDES.xlsx): ${overrideLog.filter((l) => !l.startsWith("SKIPPED")).length} applied`);
+  overrideLog.forEach((l) => console.log(`  ${l}`));
+}
 console.log(`Inactive in the database: ${inactiveIds.size}; replaced in tests: ${replacements.filter((r) => r.includes("->")).length}`);
 replacements.forEach((r) => console.log(`  ${r}`));
 console.log("\nNotes:");
@@ -1346,6 +1390,7 @@ async function apply() {
 }
 
 async function main() {
+  applyOverrides();
   replaceInactive();
   report();
   if (APPLY) await apply();
