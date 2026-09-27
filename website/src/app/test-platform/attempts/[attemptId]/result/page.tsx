@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, CheckCircle2, Clock, MinusCircle, Target, Trophy, XCircle, Zap } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock, MinusCircle, Target, Trophy, XCircle, Zap } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import {
   computePercentile,
+  FREE_SAMPLE_TEST_ID,
   formatDuration,
   getAttempt,
   getAttemptById,
@@ -23,6 +24,7 @@ import { getCutoff, isFullMock, scaleToPaper } from "@/lib/performance";
 import { supabaseAdmin } from "@/lib/supabase";
 import { xpForAttempt } from "@/lib/gamification";
 import { parseUtcTimestamp } from "@/lib/timestamps";
+import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
 
 export const metadata: Metadata = {
   title: "Test Result",
@@ -86,6 +88,23 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
     .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
     .slice(0, 8);
 
+  // Free Sample Mock: the moment a student is most likely to buy — point them
+  // at the full series unless they already own it.
+  let showUpsell = false;
+  if (test.id === FREE_SAMPLE_TEST_ID && isOwner) {
+    const [allPackages, includes, enrollments] = await Promise.all([
+      getActivePackages(),
+      getPackageIncludes(),
+      getUserActiveEnrollments(user.id),
+    ]);
+    const owned = getOwnedPackageIds(enrollments, includes, allPackages);
+    const premium = allPackages.find((p) => p.slug === "premium-test-series");
+    showUpsell = !premium || !owned.has(premium.id);
+  }
+  const weakestSubject = subjects
+    .filter(([, s]) => s.total >= 3)
+    .sort((a, b) => a[1].correct / a[1].total - b[1].correct / b[1].total)[0]?.[0];
+
   return (
     <div className="min-h-screen bg-graphite-950 px-4 py-10">
       <div className="mx-auto max-w-4xl">
@@ -118,6 +137,35 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
             </p>
           )}
         </div>
+
+        {showUpsell && (
+          <div className="mt-6 rounded-2xl border border-saffron-400/40 bg-graphite-900 p-5 sm:p-6">
+            <p className="text-lg font-bold text-white">This was 1 free test. The full series has 62.</p>
+            <p className="mt-2 text-sm text-graphite-300">
+              {weakestSubject ? (
+                <>
+                  Your weakest area here was <span className="font-semibold text-saffron-300">{weakestSubject}</span>.{" "}
+                </>
+              ) : null}
+              The Premium Test Series gives you 12 full mocks, 12 sectional, 20 Uttarakhand and 12 Current Affairs tests —
+              with this same analysis after every test, gap to cutoff and your weak topics over time.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href="/courses/premium-test-series"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-saffron-400 px-5 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
+              >
+                See Premium Test Series <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/test-series"
+                className="inline-flex min-h-[44px] items-center rounded-lg border border-graphite-700 px-5 text-sm font-semibold text-graphite-200 hover:border-saffron-400"
+              >
+                All test series
+              </Link>
+            </div>
+          </div>
+        )}
 
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <Stat icon={<CheckCircle2 className="h-5 w-5" />} label="Correct" value={String(r.correct)} tone="text-success-400" />
