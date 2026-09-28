@@ -60,7 +60,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Site sometimes froze (no scrolling on any page until a full reload).
       Likely Razorpay checkout leaving `overflow:hidden` on the page;
       `ScrollUnlock` now clears it on every page change. Report if it recurs.
-- [ ] Android app Phase 2: Play Console personal account in progress.
+- [ ] Android app: Phase 1 done, Play Console account created. Next is Phase 2 (pwabuilder.com build). Owner is moving to a new laptop; see `NEW_LAPTOP.md`.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
       ₹1,89,900 / ₹3,99,900, and the Premium Test Series bullet points).

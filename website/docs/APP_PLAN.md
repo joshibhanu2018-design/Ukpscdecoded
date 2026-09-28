@@ -15,7 +15,7 @@ Not recommended now: a separate React Native / Flutter app (months of work,
 two codebases) or iOS (US$99/year, Apple often rejects web wrappers, up to
 30% commission). Revisit iOS once Android works.
 
-## Phase 1 — make the web app app-ready (code, ~1 day)
+## Phase 1 — make the web app app-ready (DONE 27–28 Sep 2026)
 1. `public/manifest.json`:
    - `start_url` is `/test-platform` (logged-in students only). Change it
      to `/?source=app`, or a new app home page, so first-time users see
@@ -82,6 +82,6 @@ The **print book** is a physical good, so Razorpay is allowed for it in any case
 
 ## Owner checklist
 - [ ] Decide on the payments option (A/B/C) after checking Play's policy.
-- [ ] Play developer account + verification.
+- [x] Play developer account created (personal account, 28 Sep 2026). Identity verification may still be pending.
 - [ ] 12 testers (Telegram) for 14 days, if a personal account.
 - [ ] Screenshots, feature graphic and descriptions (Claude can draft the text).

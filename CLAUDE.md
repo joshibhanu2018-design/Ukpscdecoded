@@ -11,6 +11,7 @@ commands in it.
 1. `website/docs/HANDOFF.md` — where everything stands, open items, how-tos.
 2. `website/docs/PROGRESS.md` — how the platform works, every SQL phase, env vars.
 3. `website/docs/APP_PLAN.md` — the Android app plan (next big task).
+4. `website/docs/NEW_LAPTOP.md` — moving to a new laptop (private files to copy, setup steps).
 
 ## Rules (the repo is PUBLIC)
 - Never commit `.xlsx`, `.csv`, `.env*`, API keys or question data. The
