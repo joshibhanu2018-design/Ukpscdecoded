@@ -1,18 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import { getEbook } from '@/lib/ebooks';
-
-// Initialize Razorpay
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || '',
-  key_secret: process.env.RAZORPAY_KEY_SECRET || '',
-});
-
-// Verify environment variables
-if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-  console.error('❌ Missing Razorpay credentials in .env.local');
-}
+import { getPublicKeyId, getRazorpayClient } from '@/lib/razorpay';
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,7 +37,7 @@ export async function POST(request: NextRequest) {
     const receiptId = `UKPSC_PDF_${Date.now()}_${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 
     // Create Razorpay order with customer data in notes
-    const order = await razorpay.orders.create({
+    const order = await getRazorpayClient().orders.create({
       amount: pdf.amount,
       currency: 'INR',
       receipt: receiptId,
@@ -66,7 +55,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       orderId: order.id,
-      key: process.env.RAZORPAY_KEY_ID,
+      key: getPublicKeyId(),
       amount: pdf.amount,
       email: email || '',
       phone: phoneDigitsOnly,

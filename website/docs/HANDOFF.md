@@ -47,6 +47,14 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   their weakest subject.
 
 ## Open items (owner)
+- [ ] **Razorpay keys (28 Sep):** book / e-book payments failed with 401
+      because they read a different, stale key pair. Now every payment reads
+      `RAZORPAY_TEST_KEY_ID` + `RAZORPAY_TEST_KEY_SECRET` (live keys despite
+      the name). Put the current live keys there in `.env.local` **and** in
+      Vercel → Settings → Environment Variables, redeploy, then delete the old
+      `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` from Vercel. Deactivate the
+      old Razorpay key once a real payment succeeds.
+- [ ] Android app Phase 2: Play Console personal account in progress.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
       ₹1,89,900 / ₹3,99,900, and the Premium Test Series bullet points).

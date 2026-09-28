@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
-
-// Verify environment variables
-if (!process.env.RAZORPAY_KEY_SECRET) {
-  console.error('❌ Missing RAZORPAY_KEY_SECRET in .env.local');
-}
+import { verifyPaymentSignature } from '@/lib/razorpay';
 
 // Function to submit order to Google Sheets
 async function submitToGoogleSheet(orderData: any): Promise<void> {
@@ -44,14 +39,10 @@ export async function POST(request: NextRequest) {
       language,
     } = body;
 
-    // Verify signature
-    const body_string = razorpay_order_id + '|' + razorpay_payment_id;
-    const generated_signature = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || '')
-      .update(body_string)
-      .digest('hex');
-
-    if (generated_signature !== razorpay_signature) {
+    if (
+      !razorpay_order_id || !razorpay_payment_id || !razorpay_signature ||
+      !verifyPaymentSignature(razorpay_order_id, razorpay_payment_id, razorpay_signature)
+    ) {
       console.error('❌ Invalid payment signature');
       return NextResponse.json(
         { error: 'Payment verification failed: Invalid signature' },
