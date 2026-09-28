@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import LeadPopup from "@/components/LeadPopup";
 import InstallPrompt from "@/components/InstallPrompt";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import ScrollUnlock from "@/components/ScrollUnlock";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 
 const siteUrl = "https://www.ukpscdecoded.in";
@@ -157,6 +158,7 @@ export default async function RootLayout({
         <LeadPopup />
         <InstallPrompt />
         <ServiceWorkerRegister />
+        <ScrollUnlock />
       </body>
     </html>
   );

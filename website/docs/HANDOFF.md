@@ -57,6 +57,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Print book page (`/buy-book`) had an old key typed into its code; it now
       creates the order through `/api/create-book-order` (keys from Vercel).
       Test one real book payment after merging.
+- [ ] Site sometimes froze (no scrolling on any page until a full reload).
+      Likely Razorpay checkout leaving `overflow:hidden` on the page;
+      `ScrollUnlock` now clears it on every page change. Report if it recurs.
 - [ ] Android app Phase 2: Play Console personal account in progress.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
