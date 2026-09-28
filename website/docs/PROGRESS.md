@@ -708,7 +708,6 @@ access, so Vercel's actual configured state should be spot-checked
 against this list.
 
 **Site (pre-existing, not part of the test platform):**
-`RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` (live — book orders),
 `NEXT_PUBLIC_BASE_URL`, `NEXT_PUBLIC_GOOGLE_FORM_ID`,
 `NEXT_PUBLIC_INSTAMOJO_API_KEY`, `INSTAMOJO_AUTH_TOKEN`,
 `INSTAMOJO_API_URL`, `NEXT_PUBLIC_CURRENT_AFFAIRS_SHEET_ID`,
@@ -731,7 +730,10 @@ redeploy.
 `RESEND_API_KEY`
 
 **Test platform — payments (Razorpay):**
-`RAZORPAY_TEST_KEY_ID`, `RAZORPAY_TEST_KEY_SECRET`,
+`RAZORPAY_TEST_KEY_ID`, `RAZORPAY_TEST_KEY_SECRET` (despite the name,
+these hold the **live** keys; since 28 Sep 2026 every payment — courses,
+test series, print book, e-book — uses this one pair; the old
+`RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` are no longer read),
 `RAZORPAY_WEBHOOK_SECRET`, `PAYMENTS_ENABLED`
 
 **Test platform — cron:**

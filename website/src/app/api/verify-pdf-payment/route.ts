@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
-import Razorpay from 'razorpay';
 import { createDownloadToken, DOWNLOAD_LINK_TTL_MS, getEbook } from '@/lib/ebooks';
+import { getRazorpayClient, verifyPaymentSignature } from '@/lib/razorpay';
 
 /**
  * ============================================================================
@@ -23,32 +22,6 @@ const GOOGLE_FORM_FIELDS = {
   pdfName: 'entry.1129932094',   // E-BOOK NAME field
   paymentId: 'entry.717333877'   // PAYMENT ID field
 };
-
-// ============================================================================
-// UTILITY: Verify Razorpay Signature
-// ============================================================================
-function verifyRazorpaySignature(
-  orderId: string,
-  paymentId: string,
-  signature: string,
-  secret: string
-): boolean {
-  try {
-    const shasum = crypto.createHmac('sha256', secret);
-    shasum.update(`${orderId}|${paymentId}`);
-    const digest = shasum.digest('hex');
-    const isValid = digest === signature;
-    
-    if (!isValid) {
-      console.error('❌ Signature mismatch:', { provided: signature, expected: digest });
-    }
-    
-    return isValid;
-  } catch (error) {
-    console.error('❌ Signature verification error:', error);
-    return false;
-  }
-}
 
 // ============================================================================
 // MAIN: Submit to Google Form
@@ -184,11 +157,10 @@ export async function POST(request: NextRequest) {
 
     // ========== STEP 2: Verify Razorpay Signature ==========
     console.log('🔐 Verifying Razorpay signature...');
-    const isSignatureValid = verifyRazorpaySignature(
+    const isSignatureValid = verifyPaymentSignature(
       razorpay_order_id,
       razorpay_payment_id,
-      razorpay_signature,
-      process.env.RAZORPAY_KEY_SECRET || ''
+      razorpay_signature
     );
 
     if (!isSignatureValid) {
@@ -214,11 +186,7 @@ export async function POST(request: NextRequest) {
     // The signature only proves Razorpay created the order with our key — the
     // course store shares that key, so a cheap course order must not unlock this.
     try {
-      const razorpay = new Razorpay({
-        key_id: process.env.RAZORPAY_KEY_ID || '',
-        key_secret: process.env.RAZORPAY_KEY_SECRET || '',
-      });
-      const order = await razorpay.orders.fetch(razorpay_order_id);
+      const order = await getRazorpayClient().orders.fetch(razorpay_order_id);
       if (Number(order.amount) !== pdfConfig.amount || order.notes?.pdfId !== pdfConfig.id) {
         console.error(`❌ [SECURITY] Order ${razorpay_order_id} is not a ${pdfConfig.id} order`);
         return NextResponse.json(
