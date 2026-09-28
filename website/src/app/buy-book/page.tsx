@@ -22,7 +22,6 @@ interface LanguageChapters {
   hi: ChapterBook;
 }
 
-const RAZORPAY_KEY = 'rzp_live_TXb0nhqyo9LhkM';
 const ORDERS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBqI-RudL7s4H1oDedmLzgAeBsimEm0gt6WJyOPVzivTCjYxjtLAFgMsp-W3pmPaKTkA/exec';
 
 export default function BuyBookPage() {
@@ -399,9 +398,30 @@ export default function BuyBookPage() {
 
       const Razorpay = (window as any).Razorpay;
 
+      const orderRes = await fetch('/api/create-book-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: cleanPhone,
+          address: formData.address.trim(),
+          city: formData.city.trim(),
+          pincode: formData.pincode.trim(),
+          state: formData.state.trim(),
+          landmark: formData.landmark.trim(),
+          language: selectedLanguage,
+        }),
+      });
+      const order = await orderRes.json().catch(() => ({}));
+      if (!orderRes.ok || !order.orderId || !order.key) {
+        throw new Error(order.error || 'Could not start the payment. Please try again.');
+      }
+
       const options = {
-        key: RAZORPAY_KEY,
-        amount: 49900, // ₹499 in paise
+        key: order.key,
+        order_id: order.orderId,
+        amount: order.amount,
         currency: 'INR',
         name: 'UKPSC Decoded',
         description: selectedLanguage === 'en' 
