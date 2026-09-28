@@ -54,6 +54,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
       Vercel → Settings → Environment Variables, redeploy, then delete the old
       `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` from Vercel. Deactivate the
       old Razorpay key once a real payment succeeds.
+- [ ] Print book page (`/buy-book`) had an old key typed into its code; it now
+      creates the order through `/api/create-book-order` (keys from Vercel).
+      Test one real book payment after merging.
 - [ ] Android app Phase 2: Play Console personal account in progress.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
