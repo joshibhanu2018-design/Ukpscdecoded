@@ -9,4 +9,5 @@ ASSETS/
 music/
 work/
 export/
+tools/
 !video-edit/*.csv

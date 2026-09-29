@@ -14,7 +14,7 @@ git pull
 ```
 powershell -ExecutionPolicy Bypass -File video-edit\1_setup.ps1
 ```
-Close PowerShell and open it again, then `cd` back into the folder.
+It downloads FFmpeg (about 200 MB) into `tools\` the first time.
 Put 1–2 music tracks in `music\`. For the "selected" moment, add a short win sound named `win.mp3` to `music\`.
 
 ## Step 2 — convert, join and cut the pauses (runs for a few hours, so start it at night)

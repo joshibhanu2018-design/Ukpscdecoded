@@ -10,9 +10,13 @@ New-Item -ItemType Directory -Force $Work, $Export | Out-Null
 $Utf8 = New-Object System.Text.UTF8Encoding($false)
 $Inv  = [Globalization.CultureInfo]::InvariantCulture
 
+# FFmpeg downloaded by 1_setup.ps1 lives here; use it if present.
+$FFBin = Join-Path $Root 'tools\ffmpeg\bin'
+if (Test-Path (Join-Path $FFBin 'ffmpeg.exe')) { $env:PATH = "$FFBin;$env:PATH" }
+
 function Assert-FFmpeg {
   if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
-    throw 'FFmpeg not found. Run 1_setup.ps1, then close and reopen PowerShell.'
+    throw 'FFmpeg not found. Run video-edit\1_setup.ps1 first.'
   }
 }
 
