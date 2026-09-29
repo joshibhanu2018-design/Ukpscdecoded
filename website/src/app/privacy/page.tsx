@@ -72,7 +72,7 @@ export default function PrivacyPage() {
         <p>
           You can ask to see, correct or delete your personal data, or withdraw consent, by emailing{" "}
           <a href={`mailto:${email}`}>{email}</a> from your registered email. We respond within 7 working days. Deleting your
-          account ends access to purchased courses. This policy follows India&apos;s Digital Personal Data Protection Act, 2023
+          account ends access to purchased courses; see <a href="/delete-account">Delete Your Account</a>. This policy follows India&apos;s Digital Personal Data Protection Act, 2023
           and the IT Rules, 2011.
         </p>
       </section>

@@ -43,7 +43,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   * Terms page: Added Varun Joshi's contact (email + Telegram)
   * Privacy & Refund policy: Auto-pull Varun's name from settings
 - **Crash course date shift (5 Oct):** Shifted all course videos, live sessions, and early-bird pricing from 2 Oct to 5 Oct (`crashCoursePlan.json`, `seed-phase5-pricing-update.sql`)
-- **Branch:** `claude/wizardly-cannon-rkvbbd` with 2 commits; ready for PR merge
+- **PR #66 merged:** All website changes deployed live. Pricing now correctly shows "till 5 October" for founding price.
+- **Website live:** All pages verified working, pricing labels correct, ownership split visible on About page.
+- **Android Phase 1 + 2 prep:** the `android-app-phase1` work (logo icons, maskable
+  icons, `/app` home, shortcuts) merged in; `/delete-account`
+  page (footer, privacy, sitemap), Play Store feature graphic and listing text
+  (English + Hindi) in `docs/play-store/`.
 
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
@@ -58,6 +63,21 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   `FREE_MOCK_REVIEW.xlsx`, `AUDIT_FIXES_REVIEW.xlsx`.
 - After a free mock, students who don't own Premium see a buy card with
   their weakest subject.
+- Confirmed 27 Sep (local): loader dry run shows 0 changed questions in
+  every test and all 7 swaps already applied, so the bank is live.
+
+## Android app — Phase 1 done (27 Sep, branch `android-app-phase1`)
+- `public/manifest.json`: `start_url` is now `/app?source=app`; `id` stays
+  `/test-platform` so existing installs keep the same app; shortcuts for
+  Test Series, My Courses, Free Resources, Books.
+- New icons from the logo (saffron BookOpen on graphite), including real
+  maskable icons with padding: `scripts/make-app-icons.mts` redraws them.
+  Service worker cache bumped to `ukpsc-shell-v2` so phones pick them up.
+- `/app` (app home, noindex): My Courses (when logged in), Test Series,
+  Video Courses, Books & E-book, Free Sample Mock, and free resources
+  (PYQ Tracker, 60-Day Plan PDF, Current Affairs). No lead popup there.
+- Still to do from Phase 1: check the key flows inside the installed app
+  (APP_PLAN step 3). `assetlinks.json` comes in Phase 2.
 
 ## Open items (owner)
 - [ ] **Razorpay keys (28 Sep):** book / e-book payments failed with 401
@@ -73,7 +93,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Site sometimes froze (no scrolling on any page until a full reload).
       Likely Razorpay checkout leaving `overflow:hidden` on the page;
       `ScrollUnlock` now clears it on every page change. Report if it recurs.
-- [ ] Android app: Phase 1 done, Play Console account created. Next is Phase 2 (pwabuilder.com build). Owner is moving to a new laptop; see `NEW_LAPTOP.md`.
+- [ ] Android app Phase 2: follow `docs/play-store/PLAY_STORE.md` (PWABuilder →
+      Play Console). Then send Claude the Play "App signing" SHA-256 and the
+      zip's `assetlinks.json` so `public/.well-known/assetlinks.json` gets the
+      real fingerprints (it still has a placeholder). Decide the payments option.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
       ₹1,89,900 / ₹3,99,900, and the Premium Test Series bullet points).
@@ -97,7 +120,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Turn off the 100% test coupon if still active.
 
 ## Open items (code / content)
-- [ ] **Android app** — see `APP_PLAN.md`.
+- [ ] **Android app** — Phase 1 code done (above); next: flow checks in
+      the installed app, then Phase 2 in `APP_PLAN.md`.
 - [ ] SEO content pages (syllabus 2026, previous-year papers, exam date,
       cutoff analysis) as articles — needs official facts from the owner.
 - [ ] Audit re-flags rows already reviewed as OK; add an "Audit_Note = OK"
