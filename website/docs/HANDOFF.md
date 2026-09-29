@@ -119,4 +119,4 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **New lesson video:** Admin → Video Lessons (YouTube link must be Unlisted,
   embedding allowed).
 - **Prices / course text:** SQL on the `packages` table (see the seed-phase
-  files for examples); the founding price ends on 1 Oct 2026 (`packages.founding_ends_at`).
+  files for examples); the founding price ends on 5 Oct 2026 (`packages.founding_ends_at`); the "till 5 October" label on price cards reads that date, so changing it in SQL is enough.
