@@ -33,6 +33,7 @@ const columns = [
       { href: "/terms", label: "Terms" },
       { href: "/privacy", label: "Privacy Policy" },
       { href: "/refund-policy", label: "Refund Policy" },
+      { href: "/delete-account", label: "Delete Account" },
     ],
   },
 ];

@@ -37,6 +37,11 @@ two codebases) or iOS (US$99/year, Apple often rejects web wrappers, up to
    Phase 2, so add it then.
 
 ## Phase 2 — Play Store package (~half a day + owner's account setup)
+**Step-by-step guide and store listing text: `docs/play-store/PLAY_STORE.md`.**
+Code side done 29 Sep: new UD icons + separate maskable icons, `/delete-account`
+page (required by Play), feature graphic. Waiting on the owner: PWABuilder build,
+Play upload, then the two SHA-256 fingerprints for `assetlinks.json`.
+
 1. **Owner:** create a Google Play developer account
    (play.google.com/console), a one-time US$25 fee plus ID verification. Use
    an organisation account if possible; a personal account must run a

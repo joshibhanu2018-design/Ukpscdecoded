@@ -4,8 +4,8 @@
 // (dashboard, store, checkout), so caching HTML would risk showing stale
 // prices or another user's data on a shared device. Only truly static,
 // content-free assets (icons) are cached.
-const CACHE_NAME = "ukpsc-shell-v1";
-const PRECACHE_URLS = ["/icons/icon-192.png", "/icons/icon-512.png"];
+const CACHE_NAME = "ukpsc-shell-v2";
+const PRECACHE_URLS = ["/icons/icon-192.png", "/icons/icon-512.png", "/icons/icon-maskable-192.png", "/icons/icon-maskable-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

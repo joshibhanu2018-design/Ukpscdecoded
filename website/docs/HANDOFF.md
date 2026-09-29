@@ -45,6 +45,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Crash course date shift (5 Oct):** Shifted all course videos, live sessions, and early-bird pricing from 2 Oct to 5 Oct (`crashCoursePlan.json`, `seed-phase5-pricing-update.sql`)
 - **PR #66 merged:** All website changes deployed live. Pricing now correctly shows "till 5 October" for founding price.
 - **Website live:** All pages verified working, pricing labels correct, ownership split visible on About page.
+- **Android Phase 2 prep:** new "UD" app icons (+ maskable versions), `/delete-account`
+  page (footer, privacy, sitemap), Play Store feature graphic and listing text
+  (English + Hindi) in `docs/play-store/`.
 
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
@@ -74,7 +77,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Site sometimes froze (no scrolling on any page until a full reload).
       Likely Razorpay checkout leaving `overflow:hidden` on the page;
       `ScrollUnlock` now clears it on every page change. Report if it recurs.
-- [ ] Android app: Phase 1 done, Play Console account created. Next is Phase 2 (pwabuilder.com build). Owner is moving to a new laptop; see `NEW_LAPTOP.md`.
+- [ ] Android app Phase 2: follow `docs/play-store/PLAY_STORE.md` (PWABuilder →
+      Play Console). Then send Claude the Play "App signing" SHA-256 and the
+      zip's `assetlinks.json` so `public/.well-known/assetlinks.json` gets the
+      real fingerprints (it still has a placeholder). Decide the payments option.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
       ₹1,89,900 / ₹3,99,900, and the Premium Test Series bullet points).
