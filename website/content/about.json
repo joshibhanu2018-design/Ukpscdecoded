@@ -6,18 +6,34 @@
     "quote": "Making quality Uttarakhand exam preparation accessible to every aspirant, regardless of geography or budget.",
     "body": "Uttarakhand aspirants often struggle to find quality, structured preparation material — especially for the state-specific portions. Coaching centers are concentrated in Dehradun and Haldwani, leaving thousands of aspirants in remote areas without access. UKPSC Decoded bridges that gap through digital content, comprehensive guidebooks, and an engaged community."
   },
+  "founderStory": {
+    "heading": "About UKPSC Decoded",
+    "name": "Bhanu Joshi",
+    "role": "Founder & Content Creator",
+    "bio": "UKPSC Decoded was started by Bhanu Joshi, an aspirant who spent nine years preparing for UPSC and UKPSC: seven mains, four UPSC interviews, and finally selection in UKPSC Lower PCS. Along the way, he saw that content was never the real gap. What aspirants lacked was exam-oriented practice and honest feedback.\n\nThat idea became Uttarakhand Decoded, the test series, and the crash course."
+  },
+  "operatedBy": {
+    "heading": "Who Runs It Now",
+    "name": "Varun Joshi",
+    "role": "Owner & Operator",
+    "bio": "Since 10 October 2026, UKPSC Decoded is owned and operated by Varun Joshi. He handles admissions, payments, access and all student support. For any query about tests, courses or orders, contact him at +91 96326 62418."
+  },
+  "aboutContent": {
+    "heading": "About the Content",
+    "bio": "The book and course material were developed by Bhanu Joshi before he joined government service. He continues to share free guidance on the UKPSC Decoded YouTube channel.\n\nNo shortcuts, no guaranteed results. Just the right direction, so your hard work goes to the right place."
+  },
   "founder": {
-    "heading": "Founder & Guide",
-    "name": "Varun Joshi (Founder) & Bhanu Joshi (Test Prep Guide)",
-    "role": "Founded by Varun Joshi, with test preparation strategy & mentorship by Bhanu Joshi",
-    "bio": "UKPSC Decoded is founded by Varun Joshi and guided by Bhanu Joshi — a serious UPSC/UKPSC aspirant turned educator. After coming agonisingly close in UPSC twice and clearing multiple UKPSC stages (including the Upper PCS 2024 interview), Bhanu channelled 5+ years of teaching experience at UPSC coaching institutes into shaping the test preparation strategy, content, and mentorship approach that makes UKPSC Decoded the single, updated, Uttarakhand-focused resource many aspirants were searching for. Through the YouTube channel, the Telegram community and this platform, Bhanu mentors aspirants one-on-one — from strategy and answer writing to interview preparation.",
+    "heading": "Bhanu Joshi's Journey",
+    "name": "Bhanu Joshi",
+    "role": "Founder & Content Creator",
+    "bio": "UPSC aspirant turned educator with 9 years of preparation experience, developing exam-oriented practice and feedback systems for UKPSC preparation.",
     "credentialsHeading": "Credentials",
     "credentials": [
       { "area": "UPSC", "credential": "Missed the final list twice — by 11 marks & 5 marks" },
       { "area": "UKPSC Mains", "credential": "Written Mains across multiple UKPSC exams" },
       { "area": "UKPSC Interview", "credential": "Cleared to Interview — Upper PCS 2024" },
+      { "area": "UKPSC Lower PCS", "credential": "Cleared Lower PCS 2024" },
       { "area": "UKPSC Mains 2025", "credential": "Appeared — result awaited" },
-      { "area": "Lower PCS", "credential": "Mains written — interview awaited" },
       { "area": "DEO 2024", "credential": "Cleared Deputy Education Officer cut-off (Upper PCS)" },
       { "area": "Teaching", "credential": "5+ years at UPSC coaching institutes" },
       { "area": "Network", "credential": "Close friends cleared UPSC and State PCS" }
