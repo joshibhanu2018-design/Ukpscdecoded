@@ -106,7 +106,7 @@ export default function Footer() {
 
         <div className="mt-10 border-t border-graphite-800 pt-8 text-center text-sm text-graphite-400">
           <p>
-            &copy; {new Date().getFullYear()} {settings.brandName1} {settings.brandName2}. All rights reserved.
+            &copy; {new Date().getFullYear()} {settings.brandName1} {settings.brandName2}. Owned and operated by Varun Joshi.
           </p>
         </div>
       </div>

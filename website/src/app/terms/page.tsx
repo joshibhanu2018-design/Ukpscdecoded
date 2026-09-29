@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import settings from "@content/settings.json";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/terms" },
@@ -7,6 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
+  const { email } = settings.footer;
+  const { ownerName, phone } = settings.legal;
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
       <h1 className="heading-lg mb-2 text-graphite-900">
@@ -54,16 +57,14 @@ export default function TermsPage() {
         <section>
           <h2 className="mb-2 text-lg font-bold text-graphite-900">Contact</h2>
           <p>
-            Questions about these terms, a payment, or your account can be sent to us on{" "}
-            <a
-              href="https://t.me/ukpscdecoded"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-saffron-600 underline hover:text-saffron-700"
-            >
-              Telegram
-            </a>
-            .
+            Questions about these terms, a payment, or your account can be sent to{" "}
+            <strong>{ownerName}</strong> at{" "}
+            <a href={`mailto:${email}`} className="text-saffron-600 underline hover:text-saffron-700">
+              {email}
+            </a>{" "}
+            or <a href="https://t.me/ukpscdecoded" target="_blank" rel="noopener noreferrer" className="text-saffron-600 underline hover:text-saffron-700">
+              Telegram (@ukpscdecoded)
+            </a>.
           </p>
         </section>
       </div>

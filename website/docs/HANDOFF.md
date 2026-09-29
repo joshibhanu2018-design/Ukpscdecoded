@@ -1,4 +1,4 @@
-# Handoff — state of UKPSC Decoded (27 Sep 2026)
+# Handoff — state of UKPSC Decoded (29 Sep 2026)
 
 Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
@@ -31,6 +31,19 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   course pages, JSON-LD (organisation, courses, FAQs), share image,
   `public/llms.txt`. Google Search Console and Bing Webmaster verified;
   sitemap submitted; 8 main pages submitted for indexing (27 Sep).
+
+## Done (29 Sep)
+- **Ownership & operator split:** Updated About page with separate profiles:
+  * **Founder:** Bhanu Joshi (9-year UPSC/UKPSC prep journey, created platform)
+  * **Operator:** Varun Joshi (Owner since 10 Oct 2026, 4+ years business experience: Sr. Executive at Tecgenome, Trader/Market Analyst at RPG Trading Dubai, Manager at Brillify Global)
+  * **Content clarification:** Bhanu developed the book/course material, continues free YouTube guidance
+- **Settings update:** `settings.legal.ownerName` changed to "Varun Joshi" for legal pages
+- **Legal pages updated:**
+  * Footer: "© [year] UKPSC Decoded. Owned and operated by Varun Joshi."
+  * Terms page: Added Varun Joshi's contact (email + Telegram)
+  * Privacy & Refund policy: Auto-pull Varun's name from settings
+- **Crash course date shift (5 Oct):** Shifted all course videos, live sessions, and early-bird pricing from 2 Oct to 5 Oct (`crashCoursePlan.json`, `seed-phase5-pricing-update.sql`)
+- **Branch:** `claude/wizardly-cannon-rkvbbd` with 2 commits; ready for PR merge
 
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
