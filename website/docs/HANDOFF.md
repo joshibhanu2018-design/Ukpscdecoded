@@ -50,6 +50,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   page (footer, privacy, sitemap), Play Store feature graphic and listing text
   (English + Hindi) in `docs/play-store/`.
 
+## YouTube video editing (30 Sep)
+- `video-edit/` = FFmpeg scripts to edit Video 1 on the laptop (steps in `video-edit/README.md`).
+  Footage in `raw/`, `ASSETS/`, `music/`, output in `work/` + `export/` (all git-ignored).
+
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
   in the workbook and back live; the loader rejects that filler pattern.
