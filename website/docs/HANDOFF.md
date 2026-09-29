@@ -43,7 +43,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   * Terms page: Added Varun Joshi's contact (email + Telegram)
   * Privacy & Refund policy: Auto-pull Varun's name from settings
 - **Crash course date shift (5 Oct):** Shifted all course videos, live sessions, and early-bird pricing from 2 Oct to 5 Oct (`crashCoursePlan.json`, `seed-phase5-pricing-update.sql`)
-- **Branch:** `claude/wizardly-cannon-rkvbbd` with 2 commits; ready for PR merge
+- **PR #66 merged:** All website changes deployed live. Pricing now correctly shows "till 5 October" for founding price.
+- **Website live:** All pages verified working, pricing labels correct, ownership split visible on About page.
 
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
