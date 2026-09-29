@@ -11,7 +11,16 @@ if (Get-Command ffmpeg -ErrorAction SilentlyContinue) {
   $zip = Join-Path $tools 'ffmpeg.zip'
   Write-Host 'Downloading FFmpeg (about 200 MB, a few minutes)...' -ForegroundColor Cyan
   $ProgressPreference = 'SilentlyContinue'
-  Invoke-WebRequest 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.zip' -OutFile $zip -UseBasicParsing
+  $urls = @(
+    'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip',
+    'https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.zip'
+  )
+  $ok = $false
+  foreach ($u in $urls) {
+    try { Invoke-WebRequest $u -OutFile $zip -UseBasicParsing; $ok = $true; break }
+    catch { Write-Host "Could not download from $u, trying the next link..." -ForegroundColor Yellow }
+  }
+  if (-not $ok) { throw 'FFmpeg download failed. Check the internet connection and run step 1 again.' }
   Write-Host 'Unzipping...' -ForegroundColor Cyan
   $tmp = Join-Path $tools 'unzip'
   if (Test-Path $tmp) { Remove-Item $tmp -Recurse -Force }
