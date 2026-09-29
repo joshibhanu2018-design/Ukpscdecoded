@@ -1,44 +1,40 @@
 {
+  "id": "/test-platform",
   "name": "UKPSC Decoded",
   "short_name": "UKPSC Decoded",
-  "description": "UKPSC test series, crash course and mentorship — test platform.",
-  "start_url": "/?source=app",
+  "description": "UKPSC test series, video courses, books and free resources — PYQ tracker, 60-day plan and daily current affairs.",
+  "start_url": "/app?source=app",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0f0f0e",
   "theme_color": "#0f0f0e",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
+  "lang": "en-IN",
+  "categories": ["education"],
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
     {
       "name": "Test Series",
-      "short_name": "Tests",
-      "description": "Take mock tests and practice problems",
       "url": "/test-series?source=app",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "My Courses",
-      "short_name": "Courses",
-      "description": "Video courses and crash course",
       "url": "/test-platform?source=app",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Free Resources",
-      "short_name": "Free",
-      "description": "PYQ tracker, study plans, current affairs",
       "url": "/free-content?source=app",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Books",
-      "short_name": "Books",
-      "description": "Print book and e-book",
       "url": "/buy-book?source=app",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }

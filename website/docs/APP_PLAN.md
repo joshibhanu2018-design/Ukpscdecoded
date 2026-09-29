@@ -15,7 +15,9 @@ Not recommended now: a separate React Native / Flutter app (months of work,
 two codebases) or iOS (US$99/year, Apple often rejects web wrappers, up to
 30% commission). Revisit iOS once Android works.
 
-## Phase 1 — make the web app app-ready (DONE 27–28 Sep 2026)
+## Phase 1 — make the web app app-ready (DONE 27–29 Sep 2026)
+Steps 1 and 2 done (merged from the `android-app-phase1` branch on 29 Sep);
+step 3 is checked while testing the PWABuilder app on a phone.
 1. `public/manifest.json`:
    - `start_url` is `/test-platform` (logged-in students only). Change it
      to `/?source=app`, or a new app home page, so first-time users see
@@ -38,7 +40,7 @@ two codebases) or iOS (US$99/year, Apple often rejects web wrappers, up to
 
 ## Phase 2 — Play Store package (~half a day + owner's account setup)
 **Step-by-step guide and store listing text: `docs/play-store/PLAY_STORE.md`.**
-Code side done 29 Sep: new UD icons + separate maskable icons, `/delete-account`
+Code side done 29 Sep: logo icons + maskable icons, `/app` home, `/delete-account`
 page (required by Play), feature graphic. Waiting on the owner: PWABuilder build,
 Play upload, then the two SHA-256 fingerprints for `assetlinks.json`.
 

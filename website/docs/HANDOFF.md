@@ -45,7 +45,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Crash course date shift (5 Oct):** Shifted all course videos, live sessions, and early-bird pricing from 2 Oct to 5 Oct (`crashCoursePlan.json`, `seed-phase5-pricing-update.sql`)
 - **PR #66 merged:** All website changes deployed live. Pricing now correctly shows "till 5 October" for founding price.
 - **Website live:** All pages verified working, pricing labels correct, ownership split visible on About page.
-- **Android Phase 2 prep:** new "UD" app icons (+ maskable versions), `/delete-account`
+- **Android Phase 1 + 2 prep:** the `android-app-phase1` work (logo icons, maskable
+  icons, `/app` home, shortcuts) merged in; `/delete-account`
   page (footer, privacy, sitemap), Play Store feature graphic and listing text
   (English + Hindi) in `docs/play-store/`.
 
@@ -62,6 +63,21 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   `FREE_MOCK_REVIEW.xlsx`, `AUDIT_FIXES_REVIEW.xlsx`.
 - After a free mock, students who don't own Premium see a buy card with
   their weakest subject.
+- Confirmed 27 Sep (local): loader dry run shows 0 changed questions in
+  every test and all 7 swaps already applied, so the bank is live.
+
+## Android app — Phase 1 done (27 Sep, branch `android-app-phase1`)
+- `public/manifest.json`: `start_url` is now `/app?source=app`; `id` stays
+  `/test-platform` so existing installs keep the same app; shortcuts for
+  Test Series, My Courses, Free Resources, Books.
+- New icons from the logo (saffron BookOpen on graphite), including real
+  maskable icons with padding: `scripts/make-app-icons.mts` redraws them.
+  Service worker cache bumped to `ukpsc-shell-v2` so phones pick them up.
+- `/app` (app home, noindex): My Courses (when logged in), Test Series,
+  Video Courses, Books & E-book, Free Sample Mock, and free resources
+  (PYQ Tracker, 60-Day Plan PDF, Current Affairs). No lead popup there.
+- Still to do from Phase 1: check the key flows inside the installed app
+  (APP_PLAN step 3). `assetlinks.json` comes in Phase 2.
 
 ## Open items (owner)
 - [ ] **Razorpay keys (28 Sep):** book / e-book payments failed with 401
@@ -104,7 +120,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Turn off the 100% test coupon if still active.
 
 ## Open items (code / content)
-- [ ] **Android app** — see `APP_PLAN.md`.
+- [ ] **Android app** — Phase 1 code done (above); next: flow checks in
+      the installed app, then Phase 2 in `APP_PLAN.md`.
 - [ ] SEO content pages (syllabus 2026, previous-year papers, exam date,
       cutoff analysis) as articles — needs official facts from the owner.
 - [ ] Audit re-flags rows already reviewed as OK; add an "Audit_Note = OK"

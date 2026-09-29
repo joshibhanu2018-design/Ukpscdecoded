@@ -19,7 +19,7 @@ live site.
    - App name: `UKPSC Decoded`
    - Short name: `UKPSC Decoded`
    - App version: `1.0.0`, App version code: `1`
-   - Host: `www.ukpscdecoded.in`, Start URL: `/?source=app`
+   - Host: `www.ukpscdecoded.in`, Start URL: `/app?source=app`
    - Display mode: Standalone
    - Google Play billing: **off** (see "Payments" below)
    - Signing key: **Create new**. Fill in your name, "UKPSC Decoded",
