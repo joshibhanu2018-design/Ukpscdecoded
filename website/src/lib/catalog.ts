@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import { unstable_noStore } from "next/cache";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "./auth-utils";
 import {
   getActivePackages,
@@ -17,7 +16,6 @@ export const FLAGSHIP_TEST_SERIES_SLUG = "premium-test-series";
  * sort_order, plus what the visitor already owns.
  */
 export async function getCatalog() {
-  unstable_noStore();
   const user = await getUserFromSession((await cookies()).get(SESSION_COOKIE_NAME)?.value);
   const [allPackages, includes] = await Promise.all([getActivePackages(), getPackageIncludes()]);
   const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
