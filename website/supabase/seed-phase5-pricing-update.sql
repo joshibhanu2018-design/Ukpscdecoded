@@ -8,7 +8,7 @@
 -- UPDATE targets a specific known id; the mentorship INSERT uses
 -- ON CONFLICT (id) DO UPDATE so re-running this file is safe.
 --
--- Global founding cutoff: 30 Sep 2026 23:59:59 IST.
+-- Global founding cutoff: 5 Oct 2026 23:59:59 IST (extended for video launch on 5 Oct).
 
 -- ========== Rename the existing combo -> Complete Prelims Pack ==========
 -- Same id, same package_includes rows (Premium Bundle + Crash Course) —
@@ -19,7 +19,7 @@ update packages set
 Plus the full Crash Course (50 video lectures including 8-10 live sessions + PDF notes)',
   founding_price = 3999,
   regular_price = 4499,
-  founding_ends_at = '2026-09-30 23:59:59+05:30',
+  founding_ends_at = '2026-10-05 23:59:59+05:30',
   updated_at = now()
 where id = '47519f69-eb7b-42cd-8e85-1b3f28e980f7'; -- was "Premium Test Series + Crash Course"
 
@@ -27,18 +27,18 @@ where id = '47519f69-eb7b-42cd-8e85-1b3f28e980f7'; -- was "Premium Test Series +
 update packages set
   founding_price = 1599,
   regular_price = 1999,
-  founding_ends_at = '2026-09-30 23:59:59+05:30',
+  founding_ends_at = '2026-10-05 23:59:59+05:30',
   updated_at = now()
 where id = 'fa2c4a38-d430-42ce-905d-375bd8af5ca9';
 
 -- ========== Crash Course ==========
 update packages set
   description = '50 video lectures including 8-10 live sessions + PDF notes
-Classes: 2 October - 2 November 2026
+Classes: 5 October - 5 November 2026
 Recordings available till 31 December 2026',
   founding_price = 2999,
   regular_price = 3499,
-  founding_ends_at = '2026-09-30 23:59:59+05:30',
+  founding_ends_at = '2026-10-05 23:59:59+05:30',
   updated_at = now()
 where id = 'aa67a65e-9e92-47ac-bdbd-ebef3c81d2f4';
 
@@ -46,7 +46,7 @@ where id = 'aa67a65e-9e92-47ac-bdbd-ebef3c81d2f4';
 update packages set
   founding_price = 499,
   regular_price = 566,
-  founding_ends_at = '2026-09-30 23:59:59+05:30',
+  founding_ends_at = '2026-10-05 23:59:59+05:30',
   updated_at = now()
 where id = '6e868c4b-08a2-4bbe-a78a-2144a69a4288';
 
@@ -54,7 +54,7 @@ where id = '6e868c4b-08a2-4bbe-a78a-2144a69a4288';
 update packages set
   founding_price = 599,
   regular_price = 699,
-  founding_ends_at = '2026-09-30 23:59:59+05:30',
+  founding_ends_at = '2026-10-05 23:59:59+05:30',
   updated_at = now()
 where id = '368ea0df-d24c-4857-a3c3-66ba5858f1d2';
 
@@ -62,7 +62,7 @@ where id = '368ea0df-d24c-4857-a3c3-66ba5858f1d2';
 update packages set
   founding_price = 399,
   regular_price = 499,
-  founding_ends_at = '2026-09-30 23:59:59+05:30',
+  founding_ends_at = '2026-10-05 23:59:59+05:30',
   updated_at = now()
 where id = 'c100e8b1-0929-429d-9e16-d2255f1bddad';
 
@@ -70,7 +70,7 @@ where id = 'c100e8b1-0929-429d-9e16-d2255f1bddad';
 update packages set
   founding_price = 249,
   regular_price = 299,
-  founding_ends_at = '2026-09-30 23:59:59+05:30',
+  founding_ends_at = '2026-10-05 23:59:59+05:30',
   updated_at = now()
 where id = 'fb0bccf7-9649-4161-9e5c-c441c743f6a8';
 
@@ -101,7 +101,7 @@ values (
 3 one-on-one calls with Bhanu Joshi
 Personal test review',
   8999, 'mentorship',
-  8999, 8999, '2026-09-30 23:59:59+05:30', 25,
+  8999, 8999, '2026-10-05 23:59:59+05:30', 25,
   62, 4600, '2026-12-31', 20, true
 )
 on conflict (id) do update set
