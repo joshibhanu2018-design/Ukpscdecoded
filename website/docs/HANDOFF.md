@@ -45,6 +45,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Crash course date shift (5 Oct):** Shifted all course videos, live sessions, and early-bird pricing from 2 Oct to 5 Oct (`crashCoursePlan.json`, `seed-phase5-pricing-update.sql`)
 - **Branch:** `claude/wizardly-cannon-rkvbbd` with 2 commits; ready for PR merge
 
+## YouTube video editing (30 Sep)
+- `video-edit/` = FFmpeg scripts to edit Video 1 on the laptop (steps in `video-edit/README.md`).
+  Footage in `raw/`, `ASSETS/`, `music/`, output in `work/` + `export/` (all git-ignored).
+
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
   in the workbook and back live; the loader rejects that filler pattern.

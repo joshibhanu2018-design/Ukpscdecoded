@@ -2,3 +2,11 @@
 test series questions/
 *.xlsx
 *.csv
+
+# Video editing (private footage, marksheets, big files)
+raw/
+ASSETS/
+music/
+work/
+export/
+!video-edit/*.csv
