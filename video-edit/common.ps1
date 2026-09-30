@@ -57,15 +57,35 @@ function Find-Asset([string]$name) {
   throw "Asset not found: '$name' (looked in ASSETS\ and music\)"
 }
 
-# Re-encode $in to $out, leaving out the given [start,end] ranges (seconds).
+# Re-encode $in to $out, leaving out the given [start,end] ranges (seconds, sorted).
+# Works in batches so a long video with thousands of pauses doesn't run out of memory.
 function Remove-Ranges([string]$in, [string]$out, $ranges) {
   if (-not $ranges -or $ranges.Count -eq 0) { Copy-Item $in $out -Force; return }
-  $expr = ($ranges | ForEach-Object { "between(t,$(F $_[0]),$(F $_[1]))" }) -join '+'
-  $graph = "[0:v]select='not($expr)',setpts=N/FRAME_RATE/TB[v];" +
-           "[0:a]aselect='not($expr)',asetpts=N/SR/TB[a]"
-  $script = Join-Path $Work 'cut_filter.txt'
-  [IO.File]::WriteAllText($script, $graph, $Utf8)
-  Invoke-FF @('-i', $in, '-/filter_complex', $script, '-map', '[v]', '-map', '[a]',
-    '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-g', '30', '-r', '30',
-    '-c:a', 'aac', '-b:a', '192k', $out)
+  $batch = 40
+  $parts = @()
+  $nb = [math]::Ceiling($ranges.Count / $batch)
+  for ($b = 0; $b -lt $nb; $b++) {
+    $from = if ($b -eq 0) { 0.0 } else { $ranges[$b * $batch][0] }
+    $last = [math]::Min($ranges.Count, ($b + 1) * $batch) - 1
+    $to   = if ($b -lt $nb - 1) { $ranges[($b + 1) * $batch][0] } else { $null }
+    $mine = @($ranges[($b * $batch)..$last] | ForEach-Object { , @(($_[0] - $from), ($_[1] - $from)) })
+    $expr = ($mine | ForEach-Object { "between(t,$(F $_[0]),$(F $_[1]))" }) -join '+'
+    $graph = "[0:v]select='not($expr)',setpts=N/FRAME_RATE/TB[v];" +
+             "[0:a]aselect='not($expr)',asetpts=N/SR/TB[a]"
+    $script = Join-Path $Work 'cut_filter.txt'
+    [IO.File]::WriteAllText($script, $graph, $Utf8)
+    $part = Join-Path $Work ('part_{0:D4}.mp4' -f $b)
+    Write-Host ("Part {0} of {1}" -f ($b + 1), $nb) -ForegroundColor Cyan
+    $a = @('-ss', (F $from))
+    if ($null -ne $to) { $a += @('-to', (F $to)) }
+    $a += @('-i', $in, '-/filter_complex', $script, '-map', '[v]', '-map', '[a]',
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-g', '30', '-r', '30',
+      '-c:a', 'pcm_s16le', ($part -replace '\.mp4$', '.mov'))
+    Invoke-FF $a
+    $parts += "file '$(Split-Path ($part -replace '\.mp4$', '.mov') -Leaf)'"
+  }
+  $list = Join-Path $Work 'parts.txt'
+  [IO.File]::WriteAllText($list, ($parts -join "`n"), $Utf8)
+  Invoke-FF @('-f', 'concat', '-safe', '0', '-i', $list, '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', $out)
+  Get-ChildItem $Work -Filter 'part_*.mov' | Remove-Item -Force
 }
