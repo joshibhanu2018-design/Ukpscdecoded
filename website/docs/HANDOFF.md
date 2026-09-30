@@ -49,6 +49,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   icons, `/app` home, shortcuts) merged in; `/delete-account`
   page (footer, privacy, sitemap), Play Store feature graphic and listing text
   (English + Hindi) in `docs/play-store/`.
+- **Student mobile numbers (30 Sep):** before this, a mobile number was saved
+  only at checkout. Now sign-up asks name + mobile (required); students without
+  one see an "Add your mobile number" card on My Courses. **Admin → Students**
+  lists every account (search, filters, call / WhatsApp buttons, CSV). Privacy
+  Policy says we may call or WhatsApp. Numbers are in `users.phone`.
 
 ## YouTube video editing (30 Sep)
 - `video-edit/` = FFmpeg scripts to edit Video 1 on the laptop (steps in `video-edit/README.md`).

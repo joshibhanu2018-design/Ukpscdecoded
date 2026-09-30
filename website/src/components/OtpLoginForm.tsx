@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Loader2, Mail } from "lucide-react";
+import { PHONE_ERROR, PHONE_RE } from "@/lib/phone";
 
 type Step = "email" | "code" | "name";
 
@@ -19,6 +20,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [ticket, setTicket] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,9 +98,13 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
   const complete = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (!PHONE_RE.test(phone)) {
+      setError(PHONE_ERROR);
+      return;
+    }
     setLoading(true);
     try {
-      const { ok, data } = await post("/api/auth/otp/complete", { ticket, full_name: name });
+      const { ok, data } = await post("/api/auth/otp/complete", { ticket, full_name: name, phone });
       if (!ok) {
         setError(data.error || "Could not create your account.");
         if (data.reason === "ticket") setStep("email");
@@ -213,7 +219,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
   return (
     <form onSubmit={complete} className="space-y-4">
       <p className="text-sm text-graphite-300">
-        Welcome! What&apos;s your name?
+        Welcome! Tell us your name and mobile number.
       </p>
       <input
         type="text"
@@ -225,8 +231,25 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Full name"
+        aria-label="Full name"
         className={inputClass}
       />
+      <div>
+        <input
+          type="tel"
+          inputMode="numeric"
+          autoComplete="tel-national"
+          required
+          value={phone}
+          onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
+          placeholder="10-digit mobile number"
+          aria-label="Mobile number"
+          className={inputClass}
+        />
+        <p className="mt-1.5 text-xs text-graphite-400">
+          For course updates and doubt support on call or WhatsApp. We never share it.
+        </p>
+      </div>
       {errorBox}
       <button type="submit" disabled={loading} className={buttonClass}>
         {loading && <Loader2 className="h-5 w-5 animate-spin" />}
