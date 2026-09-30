@@ -59,7 +59,7 @@ if (-not (Test-Path $wav)) {
 # 4. transcribe
 $threads = [Math]::Max(1, [Environment]::ProcessorCount)
 Write-Host "Transcribing (a few hours for a long video; leave it running)..." -ForegroundColor Cyan
-# -mc 0: don't feed the previous line back in; stops Whisper repeating one sentence forever
-& $exe.FullName -m $modelFile -f $wav -l hi -t $threads -mc 0 -osrt -of (Join-Path $Work 'transcript') -pp
+# -mc 0: stops Whisper repeating one sentence forever; -bs 1 -bo 1: fast mode for a slow laptop
+& $exe.FullName -m $modelFile -f $wav -l hi -t $threads -mc 0 -bs 1 -bo 1 -osrt -of (Join-Path $Work 'transcript') -pp
 if ($LASTEXITCODE -ne 0) { throw "Whisper failed (exit $LASTEXITCODE). Scroll up for the error." }
 Write-Host 'Done: work\transcript.srt - attach it in the chat with Claude.' -ForegroundColor Green
