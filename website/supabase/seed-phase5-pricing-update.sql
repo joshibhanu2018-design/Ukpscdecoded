@@ -16,7 +16,7 @@
 update packages set
   package_name = 'Complete Prelims Pack',
   description = 'Everything in Premium Test Series (62 tests across Full Mock, Sectional, Uttarakhand GK, Current Affairs and CSAT)
-Plus the full Crash Course (50 video lectures including 8-10 live sessions + PDF notes)',
+Plus the full Crash Course (50 video lectures + 6 live sessions + PDF notes)',
   founding_price = 3999,
   regular_price = 4499,
   founding_ends_at = '2026-10-05 23:59:59+05:30',
@@ -33,8 +33,8 @@ where id = 'fa2c4a38-d430-42ce-905d-375bd8af5ca9';
 
 -- ========== Crash Course ==========
 update packages set
-  description = '50 video lectures including 8-10 live sessions + PDF notes
-Classes: 5 October - 5 November 2026
+  description = '50 video lectures + 6 live sessions + PDF notes
+Videos: 5 October - 18 November 2026 (tentative plan, see below)
 Recordings available till 31 December 2026',
   founding_price = 2999,
   regular_price = 3499,

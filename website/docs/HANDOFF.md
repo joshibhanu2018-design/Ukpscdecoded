@@ -62,6 +62,13 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   link). Needs `supabase/schema-phase24-offer-emails.sql` run once. A universal
   code is a `coupons` row with type `single_use_percent` and max_uses 1,000,000.
   Resend free plan = 100 emails/day including login codes.
+- **Crash course text check (30 Sep):** video numbers now follow release order
+  (old 34/35, 39-41, 47-49 renumbered); live-session video references fixed (28
+  Oct = UK Polity 18-19, 22-23 only); live sessions are Wednesdays (the +3 day
+  shift moved them off Sundays); revision 19-29 Nov; book name "Uttarakhand
+  Decoded" everywhere (as on the cover). Store text in the database needs
+  `supabase/fix-phase25-crash-course-dates.sql` (old dates, "8-10 live
+  sessions", "TRI Exam").
 
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
@@ -126,7 +133,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] **Delete the old Netlify project** (app.netlify.com → ukpscdecoded →
       Project configuration → Delete). Its old deploy previews still contain
       the e-book PDF.
-- [ ] **2 Oct:** upload the strategy video (Unlisted) and add it as Lesson 1.
+- [ ] **By 5 Oct:** upload the strategy video (Unlisted) and add it as Lesson 1.
 - [ ] YouTube: website link on the channel and in the top 10 video
       descriptions; Search Console → Pages check around 4 Oct.
 - [ ] Mentorship: add the Google Meet link in Admin → Mentorship.

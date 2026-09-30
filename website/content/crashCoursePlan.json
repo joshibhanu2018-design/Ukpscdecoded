@@ -203,13 +203,13 @@
     },
     {
       "date": "2026-10-19",
-      "number": 35,
+      "number": 34,
       "module": "National Geography",
       "title": "Agriculture Revolutions, Mineral/Energy Resources, Transport, Industrial Regions"
     },
     {
       "date": "2026-10-21",
-      "number": 34,
+      "number": 35,
       "module": "Current Affairs",
       "title": "National CA - Flagship Schemes, Awards, Summits (12-18 mo window)"
     },
@@ -233,19 +233,19 @@
     },
     {
       "date": "2026-10-29",
-      "number": 41,
+      "number": 39,
       "module": "Science & Tech",
       "title": "Physics/Chemistry + Biology/Human Body/Diseases (Foundation)"
     },
     {
       "date": "2026-10-31",
-      "number": 39,
+      "number": 40,
       "module": "Current Affairs",
       "title": "UK CA - State Schemes, Disaster Management, UK Awards"
     },
     {
       "date": "2026-11-02",
-      "number": 40,
+      "number": 41,
       "module": "UK Budget",
       "title": "State Budget Highlights + Economic Survey"
     },
@@ -281,19 +281,19 @@
     },
     {
       "date": "2026-11-13",
-      "number": 48,
+      "number": 47,
       "module": "CSAT",
       "title": "Reading Comprehension + Logical Reasoning"
     },
     {
       "date": "2026-11-15",
-      "number": 49,
+      "number": 48,
       "module": "CSAT",
       "title": "Quantitative Aptitude + Data Interpretation + Decision Making"
     },
     {
       "date": "2026-11-16",
-      "number": 47,
+      "number": 49,
       "module": "Current Affairs",
       "title": "National CA Update - Science/Defence Developments, Sports"
     },
@@ -308,7 +308,7 @@
     {
       "date": "2026-10-14",
       "theme": "UK Geography + History - Doubt Clearing & Extra Content",
-      "focus": "Doubt-clearing on Videos 2-15 (UK Geography, UK History dynasties/movements) plus extra high-yield content on those themes."
+      "focus": "Doubt-clearing on Videos 2-6 and 9-15 (UK Geography, UK History dynasties/movements) plus extra high-yield content on those themes."
     },
     {
       "date": "2026-10-21",
@@ -318,23 +318,23 @@
     {
       "date": "2026-10-28",
       "theme": "Uttarakhand Polity - Doubt Clearing & Extra Content",
-      "focus": "Doubt-clearing on Videos 18-23 (UK Polity) plus extra content on state governance/administrative topics."
+      "focus": "Doubt-clearing on Videos 18-19 and 22-23 (UK Polity) plus extra content on state governance/administrative topics."
     },
     {
       "date": "2026-11-04",
       "theme": "National Polity + Economy - Doubt Clearing & Extra Content",
-      "focus": "Doubt-clearing on Videos 12-13, 20-21 (National Polity) and 36-38 (National Economy) plus extra content."
+      "focus": "Doubt-clearing on Videos 12-13 and 20-21 (National Polity) and 36-38 (National Economy) plus extra content."
     },
     {
       "date": "2026-11-11",
       "theme": "Science & Tech + Environment - Doubt Clearing & Extra Content",
-      "focus": "Doubt-clearing on Videos 41-44 (Sci-Tech, Environment) plus extra content on those themes."
+      "focus": "Doubt-clearing on Videos 39 and 42-44 (Sci-Tech, Environment) plus extra content on those themes."
     },
     {
       "date": "2026-11-18",
       "theme": "Current Affairs + Final Wrap-up Strategy",
-      "focus": "Final doubt-clearing on all 4 CA videos, plus last-mile revision strategy for the final 2 weeks before Nov 29 exam."
+      "focus": "Final doubt-clearing on the Current Affairs videos (35, 40, 49 and 50), plus last-mile revision strategy for the final days before the 29 November exam."
     }
   ],
-  "revision": "16–29 November: no new videos — pure revision and full mock tests before the Upper PCS Prelims on 29 November."
+  "revision": "19–29 November: no new videos — pure revision and full mock tests before the Upper PCS Prelims on 29 November."
 }
