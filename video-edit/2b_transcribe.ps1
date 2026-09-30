@@ -28,7 +28,10 @@ function Get-File($urls, $dest, $what, $manual) {
 $exe = Get-ChildItem $wdir -Recurse -Include 'whisper-cli.exe', 'main.exe' -ErrorAction SilentlyContinue |
   Sort-Object { $_.Name -ne 'whisper-cli.exe' } | Select-Object -First 1
 if (-not $exe) {
-  $zip = Join-Path $wdir 'whisper.zip'
+  # Use a zip the owner downloaded by hand (any name, in tools\whisper or tools), else download.
+  $zip = Get-ChildItem $wdir, (Join-Path $Root 'tools') -Filter '*.zip' -File -ErrorAction SilentlyContinue |
+    Where-Object { $_.Name -match 'whisper' -or $_.DirectoryName -eq $wdir } | Select-Object -First 1
+  $zip = if ($zip) { $zip.FullName } else { Join-Path $wdir 'whisper.zip' }
   Get-File @(
     'https://github.com/ggml-org/whisper.cpp/releases/latest/download/whisper-bin-x64.zip',
     'https://github.com/ggerganov/whisper.cpp/releases/latest/download/whisper-bin-x64.zip'
