@@ -213,3 +213,118 @@ export async function sendLoginCodeEmail(to: string, code: string): Promise<bool
     return false;
   }
 }
+
+export type OfferEmail = { to: string; name: string; unsubscribeUrl: string };
+export type OfferDetails = { code: string; percentOff: number; expiresAt: string };
+
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+}
+
+function offerDeadline(iso: string): string {
+  return new Date(iso).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "numeric",
+    month: "long",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+export function offerSubject(o: OfferDetails): string {
+  return `${o.percentOff}% off every course & test series — ends ${offerDeadline(o.expiresAt)} | UKPSC Decoded`;
+}
+
+export function buildOfferHtml(o: OfferDetails, r: Pick<OfferEmail, "name" | "unsubscribeUrl">): string {
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in";
+  const first = escapeHtml(r.name.split(" ")[0] || "");
+  const deadline = offerDeadline(o.expiresAt);
+  const button = (href: string, label: string, primary: boolean) =>
+    `<a href="${base}${href}" style="display:inline-block;margin:4px;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;${
+      primary ? "background:#f59307;color:#1a1a1f;" : "background:#ffffff;color:#1a1a1f;border:1px solid #d6d3d1;"
+    }">${label}</a>`;
+
+  return `
+<div style="font-family: Arial, Helvetica, sans-serif; max-width: 520px; margin: 0 auto; padding: 28px 22px; color: #1a1a1f; line-height: 1.6; font-size: 14px;">
+  <p style="margin:0 0 6px;font-size:12px;letter-spacing:2px;color:#b45309;font-weight:bold;">UKPSC DECODED</p>
+  <h2 style="margin:0 0 14px;font-size:22px;">${first ? `${first}, ` : ""}${o.percentOff}% off — ends ${deadline}</h2>
+  <p style="margin:0 0 12px;">
+    UKPSC 2026 की तैयारी में सबसे बड़ा फ़र्क़ सही दिशा से आता है — क्या पढ़ना है, कितना पढ़ना है, और परीक्षा जैसा अभ्यास।
+    ${deadline} तक हर कोर्स और टेस्ट सीरीज़ पर <b>${o.percentOff}% की छूट</b>।
+  </p>
+  <p style="margin:0 0 16px;">
+    The biggest difference in UKPSC preparation is direction: what to study, how much, and practice in the real exam pattern.
+    Until ${deadline}, get <b>${o.percentOff}% off every course and test series</b>.
+  </p>
+  <div style="margin:20px 0;padding:18px;border:2px dashed #f59307;border-radius:10px;text-align:center;background:#fffbeb;">
+    <div style="font-size:12px;color:#555;">Your code / आपका कोड</div>
+    <div style="font-size:28px;font-weight:bold;letter-spacing:3px;margin:4px 0;">${escapeHtml(o.code)}</div>
+    <div style="font-size:12px;color:#b45309;">Valid till ${deadline} · one use per student</div>
+  </div>
+  <ul style="margin:0 0 16px;padding-left:18px;">
+    <li><b>Test Series</b> — full mocks in the real pattern, Hindi + English, detailed solutions and weak-topic analysis.</li>
+    <li><b>Crash Course</b> — video lectures, live sessions and PDF notes, including complete Uttarakhand GK.</li>
+    <li><b>Complete Prelims Pack</b> — crash course + test series together, our best value.</li>
+  </ul>
+  <p style="text-align:center;margin:22px 0;">
+    ${button("/courses", "View courses / कोर्स देखें", true)}
+    ${button("/test-series", "View test series", false)}
+  </p>
+  <p style="margin:0 0 12px;font-size:13px;color:#555;">
+    How to use: open any course or test series → Buy → the code is already filled in at checkout (or type it in the coupon box).
+    <br/>कैसे इस्तेमाल करें: कोई भी कोर्स चुनें → Buy → चेकआउट पर कोड अपने-आप लग जाएगा।
+  </p>
+  <p style="margin:0 0 20px;font-size:13px;color:#555;">Questions? Reply on Telegram: t.me/ukpscdecoded</p>
+  <p style="margin:0;font-size:11px;color:#999;border-top:1px solid #eee;padding-top:12px;">
+    You got this email because you have an account on www.ukpscdecoded.in.
+    <a href="${r.unsubscribeUrl}" style="color:#999;">Unsubscribe from offers</a>
+  </p>
+</div>`.trim();
+}
+
+function buildOfferText(o: OfferDetails, r: Pick<OfferEmail, "name" | "unsubscribeUrl">): string {
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in";
+  return [
+    `${r.name.split(" ")[0] || "Hello"}, ${o.percentOff}% off every UKPSC Decoded course and test series until ${offerDeadline(o.expiresAt)}.`,
+    `${offerDeadline(o.expiresAt)} तक हर कोर्स और टेस्ट सीरीज़ पर ${o.percentOff}% की छूट।`,
+    "",
+    `Code: ${o.code} (valid till ${offerDeadline(o.expiresAt)}, one use per student)`,
+    "",
+    `Courses: ${base}/courses`,
+    `Test series: ${base}/test-series`,
+    "",
+    `Unsubscribe from offers: ${r.unsubscribeUrl}`,
+  ].join("\n");
+}
+
+/** Sends up to 100 offer emails in one Resend batch call. Returns the addresses that were accepted. */
+export async function sendOfferBatch(o: OfferDetails, recipients: OfferEmail[]): Promise<{ sent: string[]; error: string | null }> {
+  const resend = getClient();
+  if (!resend) return { sent: [], error: "RESEND_API_KEY is not set." };
+  if (recipients.length === 0) return { sent: [], error: null };
+
+  try {
+    const { error } = await resend.batch.send(
+      recipients.slice(0, 100).map((r) => ({
+        from: FROM,
+        to: r.to,
+        subject: offerSubject(o),
+        html: buildOfferHtml(o, r),
+        text: buildOfferText(o, r),
+        headers: {
+          "List-Unsubscribe": `<${r.unsubscribeUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
+      }))
+    );
+    if (error) {
+      console.error("[email] Resend failed to send offer batch:", describeResendError(error));
+      const e = describeResendError(error) as { message?: unknown };
+      return { sent: [], error: typeof e?.message === "string" ? e.message : "Resend rejected the batch." };
+    }
+    return { sent: recipients.slice(0, 100).map((r) => r.to), error: null };
+  } catch (err) {
+    console.error("[email] Unexpected error sending offer batch:", err);
+    return { sent: [], error: "Unexpected error while sending." };
+  }
+}

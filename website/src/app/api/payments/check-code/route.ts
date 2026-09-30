@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Package not found" }, { status: 404 });
   }
 
-  const couponResult = await checkCoupon(rawCode);
+  const couponResult = await checkCoupon(rawCode, user.id);
   if (couponResult) {
     if (!couponResult.ok) {
       return NextResponse.json({ error: couponResult.error }, { status: 400 });

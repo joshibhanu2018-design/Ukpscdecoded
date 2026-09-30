@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin";
 import { supabaseAdmin } from "@/lib/supabase";
-import { generateCouponCode } from "@/lib/coupons";
+import { generateCouponCode, isUniversalOffer, UNIVERSAL_MAX_USES } from "@/lib/coupons";
 import { toCsv } from "@/lib/csv";
 
 type CouponRow = {
@@ -47,6 +47,7 @@ async function buildCouponsView() {
 
     let status: string;
     if (c.expires_at && new Date(c.expires_at).getTime() < now) status = "expired";
+    else if (isUniversalOffer(c)) status = "active";
     else if (c.type === "single_use_percent") {
       status = consumed.length > 0 ? "used" : activeReservation ? "reserved" : "unused";
     } else {
@@ -101,8 +102,36 @@ export async function POST(request: NextRequest) {
   if ("response" in auth) return auth.response;
 
   const body = await request.json().catch(() => null);
-  const mode = body?.mode === "price_lock" ? "price_lock" : "generate";
+  const mode = body?.mode === "price_lock" ? "price_lock" : body?.mode === "offer" ? "offer" : "generate";
   const db = supabaseAdmin();
+
+  if (mode === "offer") {
+    const code = typeof body?.code === "string" ? body.code.trim().toUpperCase() : "";
+    const percentOff = typeof body?.percent_off === "number" ? Math.round(body.percent_off) : 0;
+    const hours = typeof body?.hours === "number" ? Math.round(body.hours) : 48;
+    if (!/^[A-Z0-9-]{4,20}$/.test(code)) {
+      return NextResponse.json({ error: "Code: 4–20 letters, numbers or dashes (e.g. DIWALI20)." }, { status: 400 });
+    }
+    if (percentOff < 1 || percentOff > 90) {
+      return NextResponse.json({ error: "% off must be between 1 and 90." }, { status: 400 });
+    }
+    if (hours < 1 || hours > 24 * 14) {
+      return NextResponse.json({ error: "Duration must be between 1 hour and 14 days." }, { status: 400 });
+    }
+    const expiresAt = new Date(Date.now() + hours * 3600 * 1000).toISOString();
+    const { error } = await db.from("coupons").insert({
+      code,
+      type: "single_use_percent",
+      percent_off: percentOff,
+      max_uses: UNIVERSAL_MAX_USES,
+      expires_at: expiresAt,
+    });
+    if (error) {
+      const message = error.code === "23505" ? "That code already exists." : `Could not create code: ${error.message}`;
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+    return NextResponse.json({ ok: true, code, expires_at: expiresAt });
+  }
 
   if (mode === "price_lock") {
     const code = typeof body?.code === "string" ? body.code.trim().toUpperCase() : "";

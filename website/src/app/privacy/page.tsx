@@ -47,6 +47,7 @@ export default function PrivacyPage() {
         <ul>
           <li>To give you access to what you bought and to run tests, results and analysis.</li>
           <li>To send login codes, receipts and important course updates by email.</li>
+          <li>To email you occasional offers. Every offer email has an unsubscribe link.</li>
           <li>To call or WhatsApp you about your preparation, doubts and our courses. Ask us to stop at any time.</li>
           <li>For mentorship students: your mentor reviews your test performance to plan sessions.</li>
           <li>To prevent account sharing and misuse.</li>

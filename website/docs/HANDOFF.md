@@ -54,6 +54,14 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   one see an "Add your mobile number" card on My Courses. **Admin → Students**
   lists every account (search, filters, call / WhatsApp buttons, CSV). Privacy
   Policy says we may call or WhatsApp. Numbers are in `users.phone`.
+- **Universal offer + offer emails (30 Sep):** Admin → Coupons → "Universal
+  offer": one code, % off any package, once per student, runs N hours (default
+  48). While it runs, a bar at the top of the site shows the code + countdown and
+  checkout applies it automatically. "Email this offer" sends a bilingual email
+  (test to yourself first, then batches of up to 100; nobody twice; unsubscribe
+  link). Needs `supabase/schema-phase24-offer-emails.sql` run once. A universal
+  code is a `coupons` row with type `single_use_percent` and max_uses 1,000,000.
+  Resend free plan = 100 emails/day including login codes.
 
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected

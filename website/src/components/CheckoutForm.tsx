@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Tag } from "lucide-react";
@@ -16,18 +16,20 @@ export default function CheckoutForm({
   userEmail,
   userPhone,
   storeCreditPaise = 0,
+  offerCode = null,
 }: {
   pkg: { id: string; package_name: string; basePrice: number };
   userName: string;
   userEmail: string;
   userPhone: string | null;
   storeCreditPaise?: number;
+  offerCode?: string | null;
 }) {
   const router = useRouter();
   const [phone, setPhone] = useState(userPhone ?? "");
   const [phoneError, setPhoneError] = useState<string | null>(null);
 
-  const [codeInput, setCodeInput] = useState("");
+  const [codeInput, setCodeInput] = useState(offerCode ?? "");
   const [codeStatus, setCodeStatus] = useState<"idle" | "checking">("idle");
   const [codeMessage, setCodeMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const [appliedCode, setAppliedCode] = useState<string | null>(null);
@@ -42,8 +44,8 @@ export default function CheckoutForm({
   const [status, setStatus] = useState<"idle" | "loading">("idle");
   const [error, setError] = useState<string | null>(null);
 
-  const handleApplyCode = async () => {
-    if (!codeInput.trim()) return;
+  const handleApplyCode = async (value = codeInput) => {
+    if (!value.trim()) return;
     setCodeStatus("checking");
     setCodeMessage(null);
 
@@ -51,7 +53,7 @@ export default function CheckoutForm({
       const res = await fetch("/api/payments/check-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ package_id: pkg.id, code: codeInput.trim() }),
+        body: JSON.stringify({ package_id: pkg.id, code: value.trim() }),
       });
       const data = await res.json();
 
@@ -61,7 +63,7 @@ export default function CheckoutForm({
         setCodePreview(null);
       } else {
         setCodeMessage({ ok: true, text: data.message || "Code applied" });
-        setAppliedCode(codeInput.trim());
+        setAppliedCode(value.trim());
         setCodePreview({
           basePaise: Number(data.basePaise ?? Math.round(pkg.basePrice * 100)),
           discountPaise: Number(data.discountAmount ?? 0),
@@ -74,6 +76,15 @@ export default function CheckoutForm({
       setCodeStatus("idle");
     }
   };
+
+  // The running offer's code is filled in and applied automatically.
+  const offerApplied = useRef(false);
+  useEffect(() => {
+    if (!offerCode || offerApplied.current) return;
+    offerApplied.current = true;
+    void handleApplyCode(offerCode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offerCode]);
 
   const handlePay = async () => {
     setError(null);
@@ -218,7 +229,7 @@ export default function CheckoutForm({
             className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2.5 text-sm text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400"
           />
           <button
-            onClick={handleApplyCode}
+            onClick={() => void handleApplyCode()}
             disabled={codeStatus === "checking" || !codeInput.trim()}
             className="flex-shrink-0 rounded-lg border border-graphite-700 px-4 py-2.5 text-sm font-semibold text-graphite-300 hover:border-saffron-400 hover:text-saffron-300 disabled:opacity-50"
           >
