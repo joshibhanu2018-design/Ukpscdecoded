@@ -25,7 +25,8 @@ function Get-File($urls, $dest, $what, $manual) {
 }
 
 # 1. the Whisper program
-$exe = Get-ChildItem $wdir -Recurse -Include 'whisper-cli.exe', 'main.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+$exe = Get-ChildItem $wdir -Recurse -Include 'whisper-cli.exe', 'main.exe' -ErrorAction SilentlyContinue |
+  Sort-Object { $_.Name -ne 'whisper-cli.exe' } | Select-Object -First 1
 if (-not $exe) {
   $zip = Join-Path $wdir 'whisper.zip'
   Get-File @(
@@ -34,7 +35,8 @@ if (-not $exe) {
   ) $zip 'Whisper program' ("Open https://github.com/ggml-org/whisper.cpp/releases in the browser, " +
     "download whisper-bin-x64.zip and save it as $zip, then run this step again.")
   Expand-Archive $zip $wdir -Force
-  $exe = Get-ChildItem $wdir -Recurse -Include 'whisper-cli.exe', 'main.exe' | Select-Object -First 1
+  $exe = Get-ChildItem $wdir -Recurse -Include 'whisper-cli.exe', 'main.exe' |
+    Sort-Object { $_.Name -ne 'whisper-cli.exe' } | Select-Object -First 1
   if (-not $exe) { throw 'whisper-cli.exe not found inside the download.' }
 }
 
