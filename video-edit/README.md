@@ -23,6 +23,13 @@ powershell -ExecutionPolicy Bypass -File video-edit\2_prepare.ps1
 ```
 This joins 1514 → 1515 → 1516 into 1080p and removes the pauses automatically. Result: `work\main_cut.mp4`.
 
+## Step 2b — AI transcript (optional, finds bad takes for you)
+```
+powershell -ExecutionPolicy Bypass -File video-edit\2b_transcribe.ps1
+```
+Writes `work\transcript.srt` (everything you said, with times). Send it to Claude; Claude
+compares it with the script and writes `work\remove_takes.csv` for you. Check the list, then do step 3.
+
 ## Step 3 — remove bad takes
 Watch `work\main_cut.mp4` in VLC. Wherever you said a line twice or made a mistake, open
 `work\remove_takes.csv` in **Notepad** and add a line:
