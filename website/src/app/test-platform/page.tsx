@@ -28,6 +28,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 import LogoutButton from "@/components/LogoutButton";
 import ReferralCard from "@/components/ReferralCard";
 import CourseThumb from "@/components/CourseThumb";
+import AddPhoneCard from "@/components/AddPhoneCard";
 
 export const metadata: Metadata = {
   title: "My Courses",
@@ -122,6 +123,7 @@ export default async function MyCoursesPage({
             </span>
           </div>
         )}
+        {!user.phone && <AddPhoneCard />}
         {already === "owned" && (
           <div className="mb-6 rounded-lg border border-saffron-400/30 bg-saffron-400/10 px-4 py-2.5 text-sm text-saffron-100">
             You already own this course.

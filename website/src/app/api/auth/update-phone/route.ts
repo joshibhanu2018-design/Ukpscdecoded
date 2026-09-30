@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
-
-const PHONE_RE = /^[6-9]\d{9}$/; // 10-digit Indian mobile
+import { cleanPhone, PHONE_ERROR, PHONE_RE } from "@/lib/phone";
 
 export async function POST(request: NextRequest) {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
@@ -13,9 +12,9 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json().catch(() => null);
-  const phone = typeof body?.phone === "string" ? body.phone.trim() : "";
+  const phone = cleanPhone(body?.phone);
   if (!PHONE_RE.test(phone)) {
-    return NextResponse.json({ error: "Enter a valid 10-digit Indian mobile number" }, { status: 400 });
+    return NextResponse.json({ error: PHONE_ERROR }, { status: 400 });
   }
 
   const { error } = await supabaseAdmin().from("users").update({ phone }).eq("id", user.id);

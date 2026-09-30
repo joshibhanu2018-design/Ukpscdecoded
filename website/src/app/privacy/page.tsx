@@ -23,8 +23,10 @@ export default function PrivacyPage() {
       <section>
         <h2>What we collect</h2>
         <ul>
-          <li><strong>Account:</strong> your name and email address (used to log in with a one-time code).</li>
-          <li><strong>Checkout:</strong> your mobile number and order details.</li>
+          <li>
+            <strong>Account:</strong> your name, email address (used to log in with a one-time code) and mobile number.
+          </li>
+          <li><strong>Checkout:</strong> your order details.</li>
           <li>
             <strong>Payments:</strong> handled by Razorpay. We never see or store your card, UPI or bank details — only the
             payment ID and status.
@@ -45,6 +47,7 @@ export default function PrivacyPage() {
         <ul>
           <li>To give you access to what you bought and to run tests, results and analysis.</li>
           <li>To send login codes, receipts and important course updates by email.</li>
+          <li>To call or WhatsApp you about your preparation, doubts and our courses. Ask us to stop at any time.</li>
           <li>For mentorship students: your mentor reviews your test performance to plan sessions.</li>
           <li>To prevent account sharing and misuse.</li>
         </ul>

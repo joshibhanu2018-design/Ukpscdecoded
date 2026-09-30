@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSession, sessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
 import { findUserIdByEmail, readSignupTicket } from "@/lib/otp";
+import { cleanPhone, PHONE_ERROR, PHONE_RE } from "@/lib/phone";
 
-/** Step 3 (first login only): create the account with the student's name. */
+/** Step 3 (first login only): create the account with the student's name and mobile. */
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const email = readSignupTicket(body?.ticket);
@@ -18,6 +19,10 @@ export async function POST(request: NextRequest) {
   if (name.length < 2 || name.length > 100) {
     return NextResponse.json({ error: "Enter your full name" }, { status: 400 });
   }
+  const phone = cleanPhone(body?.phone);
+  if (!PHONE_RE.test(phone)) {
+    return NextResponse.json({ error: PHONE_ERROR }, { status: 400 });
+  }
 
   try {
     // Double-submit or two tabs: the account may already exist — just log in.
@@ -25,7 +30,7 @@ export async function POST(request: NextRequest) {
     if (!userId) {
       const { data, error } = await supabaseAdmin()
         .from("users")
-        .insert({ email, full_name: name, password_hash: null, role: "student" })
+        .insert({ email, full_name: name, phone, password_hash: null, role: "student" })
         .select("id")
         .single();
       if (error || !data) {
