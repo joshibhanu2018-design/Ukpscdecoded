@@ -7,6 +7,7 @@
  *   npx --yes tsx scripts/load-question-bank.mts            # dry run (default): writes nothing
  *   npx --yes tsx scripts/load-question-bank.mts --plan     # dry run + writes TEST_ALLOCATION_PLAN.xlsx
  *   npx --yes tsx scripts/load-question-bank.mts --apply    # writes to the database
+ *   add --harden (with the dry run AND --apply) to make the topic tests harder: see section 5d
  *
  * Inputs (in "../test series questions/", which is git-ignored — the repo is public):
  *   MERGED_QUESTION_BANK_v2.xlsx     master bank; rows with a Review_Flag are excluded (GEN too)
@@ -287,11 +288,11 @@ const futureDated: { qid: string; key: number }[] = [];
 
 const masterRows = readSheet(MASTER_FILE, "Question Bank");
 const genRows = readSheet(GEN_FILE, "Generated Questions");
-// A Review_Flag drops the row from the bank, in the master bank and GEN alike.
-const flaggedIds = new Set(
-  [...masterRows, ...genRows].filter((r) => str(r["Review_Flag"])).map((r) => str(r["Question_ID"])),
-);
 const cmbRows = optionalSheet(CMB_FILE, "Combined Questions");
+// A Review_Flag drops the row from the bank, in the master bank, GEN and CMB alike.
+const flaggedIds = new Set(
+  [...masterRows, ...genRows, ...cmbRows].filter((r) => str(r["Review_Flag"])).map((r) => str(r["Question_ID"])),
+);
 
 const all: Q[] = [];
 const seen = new Set<string>();
@@ -299,7 +300,7 @@ let duplicateIds = 0;
 for (const [rows, gen, file] of [
   [masterRows.filter((r) => !str(r["Review_Flag"])), false, null],
   [genRows.filter((r) => !str(r["Review_Flag"])), true, "GENERATED_QUESTIONS.xlsx"],
-  [cmbRows, true, "COMBINED_QUESTIONS.xlsx"],
+  [cmbRows.filter((r) => !str(r["Review_Flag"])), true, "COMBINED_QUESTIONS.xlsx"],
 ] as const) {
   for (const r of rows) {
     const q = toQ(r, gen, file ?? sourceFileOf(r));
@@ -1076,6 +1077,7 @@ const replacements: string[] = [];
 // every run, so a swap sticks. A swap is skipped (with a warning) if the test
 // or Remove_ID isn't found, or Add_ID isn't in the bank or is already used.
 const overrideLog: string[] = [];
+const handPicked = new Set<string>(); // Add_IDs of applied swaps: --harden leaves them in place
 function applyOverrides() {
   if (!fs.existsSync(OVERRIDES_FILE)) return;
   const rows = readSheet(OVERRIDES_FILE, "Overrides");
@@ -1093,7 +1095,10 @@ function applyOverrides() {
     const qs = assigned.get(t.id)!;
     const i = qs.findIndex((q) => q.qid === removeId);
     const add = byId.get(addId);
-    if (i < 0 && qs.some((q) => q.qid === addId)) continue; // applied on an earlier run
+    if (i < 0 && qs.some((q) => q.qid === addId)) {
+      handPicked.add(addId); // applied on an earlier run
+      continue;
+    }
     if (i < 0) overrideLog.push(`SKIPPED ${label} (${removeId} is not in this test)`);
     else if (!add) overrideLog.push(`SKIPPED ${label} (${addId} is not in the bank: flagged, rejected or unknown)`);
     else if (used.has(addId)) overrideLog.push(`SKIPPED ${label} (${addId} is already used in a test)`);
@@ -1102,6 +1107,7 @@ function applyOverrides() {
       used.delete(removeId);
       used.add(addId);
       qs[i] = add;
+      handPicked.add(addId);
       overrideLog.push(`${label} (${add.chap}, ${add.diff})`);
     }
   }
@@ -1141,6 +1147,90 @@ function replaceInactive() {
       replacements.push(`${name}: ${q.qid} (inactive) -> ${rep.qid} (${rep.chap}, ${rep.diff})`);
     });
   }
+}
+
+// ---------- 5d. Harder topic tests (--harden) ----------
+// Owner review (Oct 2026): students found the sectional and topic tests too
+// easy ("very basic Uttarakhand questions"). With --harden, each test except
+// the 12 Full Mocks and the Free Sample Mock (which keep the exam-like mix)
+// swaps its Easy questions, one-line recall first, for unused Medium / Hard
+// questions on the same topic until it is at most 20% Easy and, where the
+// bank has them, 30% Hard. Statement/match questions are only replaced by
+// statement/match ones, and hand-picked swaps (TEST_OVERRIDES.xlsx) stay.
+// --harden="Name,Name" hardens only those tests. Use the same flag for the
+// dry run and --apply; once applied, the tests keep their questions, so later
+// runs without the flag don't undo it.
+const hardenArg = process.argv.find((a) => a === "--harden" || a.startsWith("--harden="));
+const HARDEN_NAMES = (hardenArg?.startsWith("--harden=") ? hardenArg.slice("--harden=".length) : "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const HARDER_MIX: Mix = { Easy: 10, Medium: 25, Hard: 15 }; // per 50: 20% / 50% / 30%
+const hardenLog: string[] = [];
+
+/** Which unused questions suit a test, beyond "same section as the question replaced". */
+function topicOf(t: TestDef): (q: Q) => boolean {
+  const uk = UK_TESTS.find(([n]) => byName(n).id === t.id);
+  if (uk) return uk[1];
+  const theme = CA_THEMES.find(([seed]) => byName(seed).id === t.id);
+  if (theme) return (q) => caQ(q) && theme[2].includes(caTheme(q));
+  const rev = CA_REVISIONS.find(([seed]) => byName(seed).id === t.id);
+  if (rev) return (q) => caQ(q) && dateKey(q) >= rev[2] && dateKey(q) <= rev[3];
+  return () => true;
+}
+
+function harden() {
+  if (!hardenArg) return;
+  const targets = HARDEN_NAMES.length
+    ? HARDEN_NAMES.map((n) => {
+        const t = tests.find((x) => x.name === n || newNames.get(x.id) === n || liveNames.get(x.id) === n);
+        if (!t) throw new Error(`--harden: no test named "${n}"`);
+        return t;
+      })
+    : tests.filter((t) => t.subject !== "Full Mock" && t.id !== FREE_SAMPLE.id);
+  // one-line recall first, then short statement questions
+  const easiness = (q: Q) => (isDirect(q) ? 0 : 10000) + q.en.length;
+  let total = 0;
+  for (const t of targets) {
+    const qs = assigned.get(t.id)!;
+    if (!qs.length) continue;
+    const want = mixCounts(qs.length, HARDER_MIX);
+    const count = (d: Diff) => qs.filter((q) => q.diff === d).length;
+    const before = `E${count("Easy")}/M${count("Medium")}/H${count("Hard")}`;
+    let excess = count("Easy") - want.Easy;
+    if (excess <= 0) continue;
+    const fits = topicOf(t);
+    const pool = free((x) => x.diff !== "Easy" && !inactiveIds.has(x.qid) && fits(x));
+    const outs = qs.filter((q) => q.diff === "Easy" && !handPicked.has(q.qid)).sort((a, b) => easiness(a) - easiness(b));
+    let swapped = 0;
+    for (const out of outs) {
+      if (excess <= 0) break;
+      const i = qs.indexOf(out);
+      const others = qs.filter((_, j) => j !== i);
+      const prefer: Diff = count("Hard") < want.Hard ? "Hard" : "Medium";
+      const ok = (x: Q) =>
+        !used.has(x.qid) && x.sec === out.sec && x.isCA === out.isCA && (isDirect(out) || !isDirect(x)) && !clashes(x, others);
+      const rep =
+        pool.find((x) => x.chap === out.chap && x.diff === prefer && ok(x)) ??
+        pool.find((x) => x.chap === out.chap && ok(x)) ??
+        pool.find((x) => x.diff === prefer && ok(x)) ??
+        pool.find(ok);
+      if (!rep) continue;
+      used.delete(out.qid);
+      used.add(rep.qid);
+      qs[i] = rep;
+      excess--;
+      swapped++;
+    }
+    total += swapped;
+    const name = newNames.get(t.id) ?? t.name;
+    hardenLog.push(
+      `${name}: ${swapped} Easy swapped out, ${before} -> E${count("Easy")}/M${count("Medium")}/H${count("Hard")}` +
+        (excess > 0 ? `  — ${excess} more Easy to go: no unused Medium/Hard question on this topic (add some to the bank)` : "") +
+        (count("Hard") < want.Hard ? `  — Hard short of ${want.Hard} by ${want.Hard - count("Hard")}` : ""),
+    );
+  }
+  hardenLog.unshift(`--harden: ${total} Easy questions swapped for harder ones in ${targets.length} tests (target per test: at most 20% Easy, 30% Hard)`);
 }
 
 // ---------- 6. Report ----------
@@ -1253,6 +1343,7 @@ if (overrideLog.length) {
   console.log(`Hand-picked swaps (TEST_OVERRIDES.xlsx): ${overrideLog.filter((l) => !l.startsWith("SKIPPED")).length} applied`);
   overrideLog.forEach((l) => console.log(`  ${l}`));
 }
+if (hardenLog.length) hardenLog.forEach((l, i) => console.log(i ? `  ${l}` : l));
 console.log(`Inactive in the database: ${inactiveIds.size}; replaced in tests: ${replacements.filter((r) => r.includes("->")).length}`);
 replacements.forEach((r) => console.log(`  ${r}`));
 console.log("\nNotes:");
@@ -1392,6 +1483,7 @@ async function apply() {
 async function main() {
   applyOverrides();
   replaceInactive();
+  harden();
   report();
   if (APPLY) await apply();
   else console.log("\nDry run only. Re-run with --apply to write to the database.");

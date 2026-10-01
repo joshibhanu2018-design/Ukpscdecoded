@@ -25,6 +25,8 @@ commands in it.
   `npx.cmd --yes tsx scripts/load-question-bank.mts` (dry run) in `website/`,
   show the summary, and only then `--apply`. "Tests below target size" must
   be "none". `scripts/audit-question-bank.mts` finds suspicious questions.
+- Test-by-test review (export → decision CSVs → apply → loader `--harden`):
+  `website/docs/TEST_REVIEW.md`.
 - Bad or doubtful question: fix it in the workbook, or give it a
   Review_Flag (the loader replaces it); never leave a wrong question live.
 - Before finishing code changes: `npx.cmd tsc --noEmit` in `website/` must

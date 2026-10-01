@@ -1,4 +1,4 @@
-# Handoff — state of UKPSC Decoded (29 Sep 2026)
+# Handoff — state of UKPSC Decoded (1 Oct 2026)
 
 Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
@@ -55,6 +55,22 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   lists every account (search, filters, call / WhatsApp buttons, CSV). Privacy
   Policy says we may call or WhatsApp. Numbers are in `users.phone`.
 
+## Test series quality review (1 Oct) — run it on the laptop
+- A student found the sectional tests below UKPSC standard: basic Uttarakhand
+  questions asked again and again, missing statements, wrong answers, and
+  doubtful current affairs. **`docs/TEST_REVIEW.md`** has the steps and a
+  prompt to paste into Claude Code on the laptop (the question files are only
+  there).
+- New scripts: `export-tests-for-review.mts` (one review file per test, with
+  automatic flags, open student reports and the same fact in other tests),
+  `apply-review-decisions.mts` (decision CSVs → workbooks, dry run first,
+  backups), and loader `--harden` (each topic test at most 20% Easy / 30% Hard;
+  Full Mocks and the Free Sample Mock untouched). Shared checks in
+  `question-checks.mts`. The audit now also flags missing statements, Hindi
+  with fewer statements, explanation/answer-key disagreements on statements,
+  and one-line Easy questions.
+- A `Review_Flag` now drops CMB- (combined) questions too.
+
 ## YouTube video editing (30 Sep)
 - `video-edit/` = FFmpeg scripts to edit Video 1 on the laptop (steps in `video-edit/README.md`).
   Footage in `raw/`, `ASSETS/`, `music/`, output in `work/` + `export/` (all git-ignored).
@@ -89,6 +105,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   (APP_PLAN step 3). `assetlinks.json` comes in Phase 2.
 
 ## Open items (owner)
+- [ ] **Test series review:** follow `docs/TEST_REVIEW.md` (Claude Code on the
+      laptop), approve the `--harden` dry run, then resolve the fixed reports
+      in Admin → Reports. Supply Medium/Hard questions for topics the dry run
+      says are short.
 - [ ] **Razorpay keys (28 Sep):** book / e-book payments failed with 401
       because they read a different, stale key pair. Now every payment reads
       `RAZORPAY_TEST_KEY_ID` + `RAZORPAY_TEST_KEY_SECRET` (live keys despite
