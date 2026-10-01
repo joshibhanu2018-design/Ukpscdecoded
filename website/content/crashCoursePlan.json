@@ -13,196 +13,218 @@
       "date": "2026-10-05",
       "number": 2,
       "module": "UK Geography",
-      "title": "Physical Geography - Glaciers, Rivers, Prayags"
+      "title": "Physical Geography - Glaciers, Rivers, Prayags",
+      "book": "Ch 15, Ch 16"
     },
     {
       "date": "2026-10-05",
       "number": 3,
       "module": "UK Geography",
-      "title": "Passes, Valleys, Bugyals, Doons/Tarai/Bhabar, Physiographic Divisions"
+      "title": "Passes, Valleys, Bugyals, Doons/Tarai/Bhabar, Physiographic Divisions",
+      "book": "Ch 15"
     },
     {
-      "date": "2026-10-05",
+      "date": "2026-10-06",
       "number": 4,
       "module": "UK Geography",
-      "title": "Protected Areas I - National Parks & Wildlife Sanctuaries"
+      "title": "Protected Areas I - National Parks & Wildlife Sanctuaries",
+      "book": "Ch 19"
     },
     {
-      "date": "2026-10-05",
+      "date": "2026-10-06",
       "number": 5,
       "module": "UK Geography",
-      "title": "Protected Areas II - Biosphere Reserves, Ramsar Sites, Lakes"
+      "title": "Protected Areas II - Biosphere Reserves, Ramsar Sites, Lakes",
+      "book": "Ch 19"
     },
     {
-      "date": "2026-10-05",
+      "date": "2026-10-07",
       "number": 6,
       "module": "UK Geography",
-      "title": "District Data - Population, Literacy, Sex Ratio, Forest Cover, SC/ST, Drainage"
+      "title": "District Data - Population, Literacy, Sex Ratio, Forest Cover, SC/ST, Drainage",
+      "book": "Ch 20, Appendix B"
     },
     {
-      "date": "2026-10-05",
+      "date": "2026-10-07",
       "number": 7,
       "module": "National History",
       "title": "Ancient India - Indus Valley, Vedic, Mauryan, Gupta"
     },
     {
-      "date": "2026-10-06",
+      "date": "2026-10-08",
       "number": 8,
       "module": "National History",
       "title": "Medieval India - Delhi Sultanate, Mughal, Bhakti-Sufi, Vijayanagara, Maratha"
     },
     {
-      "date": "2026-10-06",
+      "date": "2026-10-08",
       "number": 9,
       "module": "UK History",
-      "title": "Katyuri & Parmar Dynasties"
+      "title": "Katyuri & Parmar Dynasties",
+      "book": "Ch 1, Ch 2"
     },
     {
-      "date": "2026-10-07",
+      "date": "2026-10-09",
       "number": 10,
       "module": "UK History",
-      "title": "Chand & Panwar Dynasties + Inscriptions"
+      "title": "Chand & Panwar Dynasties + Inscriptions",
+      "book": "Ch 3, Ch 5"
     },
     {
-      "date": "2026-10-07",
+      "date": "2026-10-09",
       "number": 11,
       "module": "UK History",
-      "title": "British Period - Gorkha Invasion, Sugauli Treaty, British Admin"
+      "title": "British Period - Gorkha Invasion, Sugauli Treaty, British Admin",
+      "book": "Ch 3, Ch 4"
     },
     {
-      "date": "2026-10-08",
+      "date": "2026-10-10",
       "number": 12,
       "module": "National Polity",
       "title": "Fundamental Rights, DPSP, Fundamental Duties"
     },
     {
-      "date": "2026-10-08",
+      "date": "2026-10-10",
       "number": 13,
       "module": "National Polity",
       "title": "Constitutional Amendments, Preamble, Schedules"
     },
     {
-      "date": "2026-10-09",
+      "date": "2026-10-11",
       "number": 14,
       "module": "UK History",
-      "title": "Movements I - Chipko, Maiti, Doodhatoli, Anti-Alcohol"
+      "title": "Movements I - Chipko, Maiti, Doodhatoli, Anti-Alcohol",
+      "book": "Ch 7"
     },
     {
-      "date": "2026-10-09",
+      "date": "2026-10-11",
       "number": 15,
       "module": "UK History",
-      "title": "Movements II - Tehri Anti-Dam, Statehood Movement, Coolie-Begar"
+      "title": "Movements II - Tehri Anti-Dam, Statehood Movement, Coolie-Begar",
+      "book": "Ch 7"
     },
     {
-      "date": "2026-10-10",
+      "date": "2026-10-12",
       "number": 16,
       "module": "National History",
-      "title": "Modern India I - 1857 Revolt (incl. UK's role), INC, Gandhi's Movements"
+      "title": "Modern India I - 1857 Revolt (incl. UK's role), INC, Gandhi's Movements",
+      "book": "Ch 6"
     },
     {
-      "date": "2026-10-10",
+      "date": "2026-10-12",
       "number": 17,
       "module": "National History",
       "title": "Modern India II - Constitutional Acts, Reform Movements, Partition, Tribal Movements"
     },
     {
-      "date": "2026-10-11",
+      "date": "2026-10-13",
       "number": 18,
       "module": "UK Polity",
-      "title": "Statehood Facts, First Officials, Governors & CMs"
+      "title": "Statehood Facts, First Officials, Governors & CMs",
+      "book": "Ch 11"
     },
     {
-      "date": "2026-10-11",
+      "date": "2026-10-13",
       "number": 19,
       "module": "UK Polity",
-      "title": "State Symbols & Legislature"
+      "title": "State Symbols & Legislature",
+      "book": "Ch 11"
     },
     {
-      "date": "2026-10-12",
+      "date": "2026-10-14",
       "number": 20,
       "module": "National Polity",
       "title": "Parliament, President & Governor Powers, Judiciary"
     },
     {
-      "date": "2026-10-12",
+      "date": "2026-10-14",
       "number": 21,
       "module": "National Polity",
-      "title": "Panchayati Raj, Election Commission, Emergency Provisions, Centre-State"
+      "title": "Panchayati Raj, Election Commission, Emergency Provisions, Centre-State",
+      "book": "Ch 13"
     },
     {
-      "date": "2026-10-13",
+      "date": "2026-10-15",
       "number": 22,
       "module": "UK Polity",
-      "title": "Administrative Divisions - 13 Districts"
+      "title": "Administrative Divisions - 13 Districts",
+      "book": "Ch 12"
     },
     {
-      "date": "2026-10-13",
+      "date": "2026-10-15",
       "number": 23,
       "module": "UK Polity",
-      "title": "Important Commissions & Committees"
+      "title": "Important Commissions & Committees",
+      "book": "Ch 12, Ch 14"
     },
     {
-      "date": "2026-10-14",
+      "date": "2026-10-16",
       "number": 24,
       "module": "UK Culture",
-      "title": "Major Tribes & PVTG Status, Fairs & Festivals"
+      "title": "Major Tribes & PVTG Status, Fairs & Festivals",
+      "book": "Ch 8, Ch 10"
     },
     {
-      "date": "2026-10-14",
+      "date": "2026-10-16",
       "number": 25,
       "module": "UK Culture",
-      "title": "Folk Dances, Art Forms, Religious Sites (Char Dham, Panch Prayag, Panch Kedar)"
+      "title": "Folk Dances, Art Forms, Religious Sites (Char Dham, Panch Prayag, Panch Kedar)",
+      "book": "Ch 9, Ch 10"
     },
     {
-      "date": "2026-10-15",
+      "date": "2026-10-17",
       "number": 26,
       "module": "UK Culture",
-      "title": "Literary Figures, Freedom Fighters, Social Reformers, Languages"
+      "title": "Literary Figures, Freedom Fighters, Social Reformers, Languages",
+      "book": "Ch 6, Ch 9"
     },
     {
-      "date": "2026-10-15",
+      "date": "2026-10-17",
       "number": 27,
       "module": "National Geography",
       "title": "Plate Tectonics & Earthquakes, Himalayan Seismic Zones"
     },
     {
-      "date": "2026-10-16",
+      "date": "2026-10-18",
       "number": 28,
       "module": "National Geography",
       "title": "Indian Monsoon, Climate Zones & Vegetation"
     },
     {
-      "date": "2026-10-16",
+      "date": "2026-10-18",
       "number": 29,
       "module": "UK Economy",
-      "title": "Major Dams & Hydro Projects, State GDP & Sector Contribution"
+      "title": "Major Dams & Hydro Projects, State GDP & Sector Contribution",
+      "book": "Ch 18, Ch 21, Ch 23"
     },
     {
-      "date": "2026-10-17",
+      "date": "2026-10-19",
       "number": 30,
       "module": "UK Economy",
-      "title": "Tourism Circuits & Pilgrimages, Major Crops & Agri Zones"
+      "title": "Tourism Circuits & Pilgrimages, Major Crops & Agri Zones",
+      "book": "Ch 17, Ch 19"
     },
     {
-      "date": "2026-10-17",
+      "date": "2026-10-19",
       "number": 31,
       "module": "National Geography",
       "title": "Rivers of India, Himalayan Physiography"
     },
     {
-      "date": "2026-10-18",
+      "date": "2026-10-20",
       "number": 32,
       "module": "National Geography",
       "title": "Census 2011 (National), World Geography Basics"
     },
     {
-      "date": "2026-10-18",
+      "date": "2026-10-20",
       "number": 33,
       "module": "UK Economy",
-      "title": "Industrial Areas & SEZs, Mineral Resources & Mining"
+      "title": "Industrial Areas & SEZs, Mineral Resources & Mining",
+      "book": "Ch 17, Ch 18, Ch 22, Ch 23"
     },
     {
-      "date": "2026-10-19",
+      "date": "2026-10-21",
       "number": 34,
       "module": "National Geography",
       "title": "Agriculture Revolutions, Mineral/Energy Resources, Transport, Industrial Regions"
@@ -241,13 +263,15 @@
       "date": "2026-10-31",
       "number": 40,
       "module": "Current Affairs",
-      "title": "UK CA - State Schemes, Disaster Management, UK Awards"
+      "title": "UK CA - State Schemes, Disaster Management, UK Awards",
+      "book": "Ch 25, Ch 26, Appendix A"
     },
     {
       "date": "2026-11-02",
       "number": 41,
       "module": "UK Budget",
-      "title": "State Budget Highlights + Economic Survey"
+      "title": "State Budget Highlights + Economic Survey",
+      "book": "Ch 24, Ch 25"
     },
     {
       "date": "2026-11-04",
@@ -301,7 +325,8 @@
       "date": "2026-11-18",
       "number": 50,
       "module": "Current Affairs",
-      "title": "Final Integrated CA - Uttarakhand + National Combined"
+      "title": "Final Integrated CA - Uttarakhand + National Combined",
+      "book": "Appendix A"
     }
   ],
   "liveSessions": [

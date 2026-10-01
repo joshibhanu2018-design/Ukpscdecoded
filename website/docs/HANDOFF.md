@@ -69,6 +69,14 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   Decoded" everywhere (as on the cover). Store text in the database needs
   `supabase/fix-phase25-crash-course-dates.sql` (old dates, "8-10 live
   sessions", "TRI Exam").
+- **60-Day Master Plan (1 Oct):** spreadsheet for students (1 Oct → 29 Nov exam):
+  book chapter (EN + HI) + crash course video + national self-study + PYQ
+  clusters + test of the day, all 62 tests + Free Sample Mock scheduled,
+  progress sheet. Kept out of git (repo is public); the owner has the .xlsx.
+  The crash course calendar now releases videos on the plan's watch days (2-3
+  a day, 5 Oct – 18 Nov; videos 4-34 moved 1-2 days later) and the plan page
+  shows the matching book chapter per Uttarakhand video (`book` field in
+  `content/crashCoursePlan.json`).
 
 ## Question bank (27 Sep clean-up)
 - 79 generator-filler questions ("(Item #N)" + fake statement 2) corrected
