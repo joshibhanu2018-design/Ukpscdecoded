@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
   let referrer: ReferrerInfo | null = null;
 
   if (rawCode) {
-    const couponResult = await checkCoupon(rawCode);
+    const couponResult = await checkCoupon(rawCode, user.id);
     if (couponResult) {
       if (!couponResult.ok) {
         return NextResponse.json({ error: couponResult.error }, { status: 400 });

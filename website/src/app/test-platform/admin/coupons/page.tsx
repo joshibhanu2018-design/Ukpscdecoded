@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Copy, Download } from "lucide-react";
+import OfferPanel from "@/components/OfferPanel";
 
 type CouponRow = {
   code: string;
@@ -148,6 +149,8 @@ function Dashboard() {
       <div className="mx-auto max-w-5xl">
         <h1 className="mb-1 text-2xl font-bold text-white">Coupons &amp; Referrals</h1>
         <p className="mb-6 text-sm text-graphite-300">Generate discount codes and review referral activity.</p>
+
+        <OfferPanel onCreated={loadData} />
 
         <div className="mb-6 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-6 shadow-xl">
           <h2 className="mb-4 text-lg font-semibold text-white">Generate single-use codes</h2>
@@ -296,7 +299,7 @@ function Dashboard() {
                         </button>
                       </td>
                       <td className="py-2 pr-4">
-                        {c.type === "single_use_percent" ? `${c.percent_off}% off` : "Price lock"}
+                        {c.type === "single_use_percent" ? `${c.percent_off}% off${(c.max_uses ?? 1) > 1 ? " · universal" : ""}` : "Price lock"}
                       </td>
                       <td className="py-2 pr-4">
                         <span

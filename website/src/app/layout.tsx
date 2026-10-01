@@ -8,6 +8,8 @@ import InstallPrompt from "@/components/InstallPrompt";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import ScrollUnlock from "@/components/ScrollUnlock";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import { getActiveOffer } from "@/lib/coupons";
+import OfferBar from "@/components/OfferBar";
 
 const siteUrl = "https://www.ukpscdecoded.in";
 
@@ -137,7 +139,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const navbarUser = await getNavbarUser();
+  const [navbarUser, offer] = await Promise.all([getNavbarUser(), getActiveOffer().catch(() => null)]);
 
   return (
     <html lang="en">
@@ -152,6 +154,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        {offer && <OfferBar code={offer.code} percentOff={offer.percent_off} expiresAt={offer.expires_at} />}
         <Navbar user={navbarUser} />
         <main className="min-h-screen">{children}</main>
         <Footer />

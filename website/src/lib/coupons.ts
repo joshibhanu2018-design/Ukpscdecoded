@@ -24,6 +24,32 @@ export type CouponLookup = {
 
 export type CodeCheckResult = { ok: true; coupon: CouponLookup } | { ok: false; error: string };
 
+/** max_uses given to universal offer codes: effectively unlimited, but still a number so the usage cap logic is unchanged. */
+export const UNIVERSAL_MAX_USES = 1_000_000;
+
+/** A public percent-off code anyone can use once (as opposed to one-person single-use codes). */
+export function isUniversalOffer(c: { type: string; max_uses: number | null }): boolean {
+  return c.type === "single_use_percent" && (c.max_uses ?? 1) > 1;
+}
+
+export type ActiveOffer = { id: string; code: string; percent_off: number; expires_at: string };
+
+/** The newest universal offer code that hasn't expired, shown in the site-wide offer bar and prefilled at checkout. */
+export async function getActiveOffer(): Promise<ActiveOffer | null> {
+  const { data, error } = await supabaseAdmin()
+    .from("coupons")
+    .select("id, code, percent_off, expires_at")
+    .eq("type", "single_use_percent")
+    .gt("max_uses", 1)
+    .lte("percent_off", 90) // never advertise an internal 100% test code
+    .gt("expires_at", new Date().toISOString())
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error || !data || data.percent_off == null || !data.expires_at) return null;
+  return { id: data.id, code: data.code, percent_off: Number(data.percent_off), expires_at: data.expires_at };
+}
+
 /**
  * Looks up a coupon and checks it's currently usable: not expired, and
  * under its usage cap counting both permanent used_count AND any other
@@ -32,7 +58,7 @@ export type CodeCheckResult = { ok: true; coupon: CouponLookup } | { ok: false; 
  * window, without needing a cleanup job (an expired reservation simply
  * stops counting from that moment on).
  */
-export async function checkCoupon(code: string): Promise<CodeCheckResult | null> {
+export async function checkCoupon(code: string, userId?: string): Promise<CodeCheckResult | null> {
   const db = supabaseAdmin();
   const { data: coupon, error } = await db
     .from("coupons")
@@ -58,6 +84,18 @@ export async function checkCoupon(code: string): Promise<CodeCheckResult | null>
     if (coupon.used_count + (count ?? 0) >= cap) {
       return { ok: false, error: "This code has reached its usage limit." };
     }
+  }
+
+  // Universal offer codes: once per student. Only paid (consumed) uses count,
+  // so a student who closed the payment window can simply try again.
+  if (userId && isUniversalOffer(coupon)) {
+    const { count } = await db
+      .from("coupon_redemptions")
+      .select("id", { count: "exact", head: true })
+      .eq("coupon_id", coupon.id)
+      .eq("user_id", userId)
+      .eq("status", "consumed");
+    if ((count ?? 0) > 0) return { ok: false, error: "You have already used this code." };
   }
 
   return { ok: true, coupon };

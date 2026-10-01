@@ -13,6 +13,7 @@ import {
 import { getPriceInfo, formatFoundingLabel } from "@/lib/pricing";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import CheckoutForm from "@/components/CheckoutForm";
+import { getActiveOffer } from "@/lib/coupons";
 import { supabaseAdmin } from "@/lib/supabase";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -86,6 +87,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
             userEmail={user.email}
             userPhone={user.phone}
             storeCreditPaise={storeCreditPaise}
+            offerCode={(await getActiveOffer().catch(() => null))?.code ?? null}
           />
         </div>
       </div>

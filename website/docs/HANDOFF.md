@@ -54,6 +54,29 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   one see an "Add your mobile number" card on My Courses. **Admin → Students**
   lists every account (search, filters, call / WhatsApp buttons, CSV). Privacy
   Policy says we may call or WhatsApp. Numbers are in `users.phone`.
+- **Universal offer + offer emails (30 Sep):** Admin → Coupons → "Universal
+  offer": one code, % off any package, once per student, runs N hours (default
+  48). While it runs, a bar at the top of the site shows the code + countdown and
+  checkout applies it automatically. "Email this offer" sends a bilingual email
+  (test to yourself first, then batches of up to 100; nobody twice; unsubscribe
+  link). Needs `supabase/schema-phase24-offer-emails.sql` run once. A universal
+  code is a `coupons` row with type `single_use_percent` and max_uses 1,000,000.
+  Resend free plan = 100 emails/day including login codes.
+- **Crash course text check (30 Sep):** video numbers now follow release order
+  (old 34/35, 39-41, 47-49 renumbered); live-session video references fixed (28
+  Oct = UK Polity 18-19, 22-23 only); live sessions are Wednesdays (the +3 day
+  shift moved them off Sundays); revision 19-29 Nov; book name "Uttarakhand
+  Decoded" everywhere (as on the cover). Store text in the database needs
+  `supabase/fix-phase25-crash-course-dates.sql` (old dates, "8-10 live
+  sessions", "TRI Exam").
+- **60-Day Master Plan (1 Oct):** spreadsheet for students (1 Oct → 29 Nov exam):
+  book chapter (EN + HI) + crash course video + national self-study + PYQ
+  clusters + test of the day, all 62 tests + Free Sample Mock scheduled,
+  progress sheet. Kept out of git (repo is public); the owner has the .xlsx.
+  The crash course calendar now releases videos on the plan's watch days (2-3
+  a day, 5 Oct – 18 Nov; videos 4-34 moved 1-2 days later) and the plan page
+  shows the matching book chapter per Uttarakhand video (`book` field in
+  `content/crashCoursePlan.json`).
 
 ## YouTube video editing (30 Sep)
 - `video-edit/` = FFmpeg scripts to edit Video 1 on the laptop (steps in `video-edit/README.md`).
@@ -122,7 +145,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] **Delete the old Netlify project** (app.netlify.com → ukpscdecoded →
       Project configuration → Delete). Its old deploy previews still contain
       the e-book PDF.
-- [ ] **2 Oct:** upload the strategy video (Unlisted) and add it as Lesson 1.
+- [ ] **By 5 Oct:** upload the strategy video (Unlisted) and add it as Lesson 1.
 - [ ] YouTube: website link on the channel and in the top 10 video
       descriptions; Search Console → Pages check around 4 Oct.
 - [ ] Mentorship: add the Google Meet link in Admin → Mentorship.

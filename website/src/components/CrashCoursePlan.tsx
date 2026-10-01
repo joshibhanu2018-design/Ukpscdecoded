@@ -1,7 +1,7 @@
 import { CalendarDays, Radio } from "lucide-react";
 import plan from "@content/crashCoursePlan.json";
 
-type PlanVideo = { date: string; number: number; module: string; title: string };
+type PlanVideo = { date: string; number: number; module: string; title: string; book?: string };
 type LiveSession = { date: string; theme: string; focus: string };
 
 function dayLabel(iso: string, withWeekday = true): string {
@@ -15,7 +15,7 @@ function dayLabel(iso: string, withWeekday = true): string {
 
 /**
  * The crash course's tentative release calendar (content/crashCoursePlan.json):
- * 50 videos, 6 Sunday live sessions and the revision window before the exam.
+ * the videos, the weekly live sessions and the revision window before the exam.
  * Shown on the crash course / combo pages and inside the lessons page.
  */
 export default function CrashCoursePlan({ collapsed = false }: { collapsed?: boolean }) {
@@ -26,6 +26,8 @@ export default function CrashCoursePlan({ collapsed = false }: { collapsed?: boo
   for (const v of videos) byDate.set(v.date, [...(byDate.get(v.date) ?? []), v]);
   for (const s of live) if (!byDate.has(s.date)) byDate.set(s.date, []);
   const days = [...byDate.entries()].sort(([a], [b]) => a.localeCompare(b));
+  const liveDays = [...new Set(live.map((s) => new Date(`${s.date}T00:00:00Z`).toLocaleDateString("en-IN", { weekday: "long", timeZone: "UTC" })))];
+  const liveWhen = liveDays.length === 1 ? `${liveDays[0]}s` : "Weekly";
   const revisionStart = new Date(Date.parse(`${plan.lastVideo}T00:00:00Z`) + 86400000).toISOString().slice(0, 10);
 
   const schedule = (
@@ -39,6 +41,7 @@ export default function CrashCoursePlan({ collapsed = false }: { collapsed?: boo
               {vs.map((v) => (
                 <li key={v.number} className="text-sm text-graphite-200">
                   <span className="text-graphite-300">Video {v.number} · {v.module} —</span> {v.title}
+                  {v.book && <span className="text-xs text-saffron-300"> · Read: {v.book} (Uttarakhand Decoded)</span>}
                 </li>
               ))}
               {session && (
@@ -63,12 +66,13 @@ export default function CrashCoursePlan({ collapsed = false }: { collapsed?: boo
       </h2>
       <p className="mb-4 text-xs text-graphite-300">
         This is a tentative plan — dates and topic order may change. New lessons appear in your course as they are released.
+        Uttarakhand videos show the matching chapter of the Uttarakhand Decoded book to read the same day.
       </p>
 
       <div className="mb-4 grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
         {[
           [`${videos.length} videos`, `${dayLabel(plan.firstVideo, false)} – ${dayLabel(plan.lastVideo, false)}`],
-          [`${live.length} live sessions`, "Sundays: doubts + extra content"],
+          [`${live.length} live sessions`, `${liveWhen}: doubts + extra content`],
           ["Revision + mocks", `${dayLabel(revisionStart, false)} – ${dayLabel(plan.examDate, false)}`],
           ["Upper PCS Prelims", dayLabel(plan.examDate, false)],
         ].map(([title, sub]) => (
