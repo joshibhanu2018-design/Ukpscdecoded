@@ -15,7 +15,7 @@ runs in **Claude Code on the laptop**, not in a cloud session.
 |---|---|---|
 | `export-tests-for-review.mts` | One readable file per test: every question with the automatic flags, open student reports, and the same fact asked in other tests | `test series questions/review/` |
 | `apply-review-decisions.mts` | Applies the fixes listed in `review/decisions/*.csv` to the workbooks. It does a dry run first; `--apply` backs up the workbooks, then writes | the workbooks + `backups/` |
-| `load-question-bank.mts --harden` | Swaps Easy questions in each test for unused Medium/Hard ones on the same topic, up to at most 20% Easy and 30% Hard per test. Full Mocks and the Free Sample Mock are left alone | database (only with `--apply`) |
+| `load-question-bank.mts --harden` | Swaps Easy questions in each test for unused Medium/Hard ones on the same topic, up to at most 20% Easy and 30% Hard per test. Every test except the Free Sample Mock (already hand-checked), Full Mocks included | database (only with `--apply`) |
 | `audit-question-bank.mts` | Same checks over the whole bank, including spare questions | `QUESTION_AUDIT.xlsx` |
 
 New automatic checks:
@@ -65,8 +65,9 @@ keys are wrong.
 
 1. In website/: npx.cmd --yes tsx scripts/export-tests-for-review.mts
    This writes "test series questions/review/" (INDEX.md + one file per test).
-2. Review EVERY question in EVERY test file, Full Mocks included (correctness
-   matters everywhere; only the difficulty change skips the mocks). Use
+2. Review EVERY question in EVERY test file, Full Mocks and the Free Sample
+   Mock included (the Free Sample Mock was hand-checked before; check it again,
+   but it keeps its difficulty mix). Use
    subagents in parallel: give each a group of test files and its own
    decisions file, review/decisions/batch-NN-<group>.csv (UTF-8, header
    Question_ID,Column,New_Value,Reason). Subagents only write decision files,

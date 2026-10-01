@@ -65,7 +65,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   automatic flags, open student reports and the same fact in other tests),
   `apply-review-decisions.mts` (decision CSVs → workbooks, dry run first,
   backups), and loader `--harden` (each topic test at most 20% Easy / 30% Hard;
-  Full Mocks and the Free Sample Mock untouched). Shared checks in
+  every test except the Free Sample Mock, Full Mocks included). Shared checks in
   `question-checks.mts`. The audit now also flags missing statements, Hindi
   with fewer statements, explanation/answer-key disagreements on statements,
   and one-line Easy questions.

@@ -7,7 +7,7 @@
  *   npx --yes tsx scripts/load-question-bank.mts            # dry run (default): writes nothing
  *   npx --yes tsx scripts/load-question-bank.mts --plan     # dry run + writes TEST_ALLOCATION_PLAN.xlsx
  *   npx --yes tsx scripts/load-question-bank.mts --apply    # writes to the database
- *   add --harden (with the dry run AND --apply) to make the topic tests harder: see section 5d
+ *   add --harden (with the dry run AND --apply) to make the tests harder: see section 5d
  *
  * Inputs (in "../test series questions/", which is git-ignored — the repo is public):
  *   MERGED_QUESTION_BANK_v2.xlsx     master bank; rows with a Review_Flag are excluded (GEN too)
@@ -1149,11 +1149,11 @@ function replaceInactive() {
   }
 }
 
-// ---------- 5d. Harder topic tests (--harden) ----------
+// ---------- 5d. Harder tests (--harden) ----------
 // Owner review (Oct 2026): students found the sectional and topic tests too
-// easy ("very basic Uttarakhand questions"). With --harden, each test except
-// the 12 Full Mocks and the Free Sample Mock (which keep the exam-like mix)
-// swaps its Easy questions, one-line recall first, for unused Medium / Hard
+// easy ("very basic Uttarakhand questions"). With --harden, every test except
+// the Free Sample Mock (hand-curated, see TEST_OVERRIDES.xlsx) swaps its Easy
+// questions, one-line recall first, for unused Medium / Hard
 // questions on the same topic until it is at most 20% Easy and, where the
 // bank has them, 30% Hard. Statement/match questions are only replaced by
 // statement/match ones, and hand-picked swaps (TEST_OVERRIDES.xlsx) stay.
@@ -1187,7 +1187,7 @@ function harden() {
         if (!t) throw new Error(`--harden: no test named "${n}"`);
         return t;
       })
-    : tests.filter((t) => t.subject !== "Full Mock" && t.id !== FREE_SAMPLE.id);
+    : tests.filter((t) => t.id !== FREE_SAMPLE.id);
   // one-line recall first, then short statement questions
   const easiness = (q: Q) => (isDirect(q) ? 0 : 10000) + q.en.length;
   let total = 0;
