@@ -200,7 +200,7 @@ on conflict (id) do update set
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('e53ec218-2462-4fbd-b306-98c3787dc0ac', 'Demography & Census', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
+values ('e53ec218-2462-4fbd-b306-98c3787dc0ac', 'Demography, Society & Tribes', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
@@ -212,7 +212,7 @@ on conflict (id) do update set
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('fca7e5c8-393f-4b3d-a3c7-4ab2f5303ea6', 'Economy Development & Budget', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
+values ('fca7e5c8-393f-4b3d-a3c7-4ab2f5303ea6', 'Economy, Budget & State Schemes', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();

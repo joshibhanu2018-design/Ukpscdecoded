@@ -598,17 +598,20 @@ const ukStatic = (q: Q) => q.sec === "UKGK" && !q.isCA;
 // CH04 questions on the 20th-century freedom struggle (1900-1947 and the princely-state merger):
 // they belong to "Freedom Struggle to Statehood (1900-2000)", not to "Gorkha & British Rule (to 1900)".
 const FREEDOM_1900_RE =
-  /\b19\d\d\b|Coolie[- ]?Be?gar|Kumaon Parishad|Praja Mandal|Sridev Suman|Quit India|Salt Satyagraha|Civil Disobedience|Non-Cooperation|Peshawar|Chandra Singh Garhwali|Azad Hind|\bINA\b|Home Rule|Badri ?Dutt Pandey|Gandhi|Indian National Congress|Swadeshi|Tilari|Saklana|Kirtinagar|Dola[- ]Palki|Rowlatt|Simon Commission|Jallianwala|freedom fighter/i;
+  /\b19\d\d\b|Coolie[- ]?Be?gar|Kumaon Parishad|Praja Mandal|Sridev Suman|Quit India|Salt Satyagraha|Civil Disobedience|Non-Cooperation|Peshawar|Chandra Singh Garhwali|Azad Hind|\bINA\b|Home Rule|Badri ?Dutt Pandey|Gandhi|Indian National Congress|Swadeshi|Tilari|Saklana|Kirtinagar|Dola[- ]Palki|Rowlatt|Simon Commission|Jallianwala|freedom fighter|Dudhatoli|Kasturba|Bishni Devi|Lakshmi Ashram|Sarla Beh?n|Chipko|Maiti|Pani Rakho|Gaura Devi|Sundarlal Bahuguna|Chandi Prasad Bhatt|Shilpkar|Kumaon Kesari|Tehri (State )?merger/i;
 const isFreedom1900 = (q: Q) => q.chap === "CH04" && FREEDOM_1900_RE.test([q.en, ...q.opts.map((o) => o.en), q.exEn].join(" "));
+// CH11 questions on tribes, castes and society also belong to "Demography, Society & Tribes" (owner, Oct 2026).
+const SOCIETY_RE =
+  /tribe|tribal|janjati|Tharu|Buksa|Boksa|Bhotia|Bhotiya|Raji|Jaunsari|Jaunsar|caste|Shilpkar|polyandry|marriage|kinship|social|society|population|migration|census|literacy/i;
 const ukCA = (q: Q) => q.sec === "UKGK" && q.isCA;
 
 const REUSE: [string, [number, number][]][] = [
   ["Ancient & Medieval History", [[1, 50]]],
   ["Physical Geography", [[3, 50]]],
   ["Forests Flora-Fauna & National Parks", [[4, 50]]],
-  ["Demography & Census", [[5, 50]]],
+  ["Demography, Society & Tribes", [[5, 50]]],
   ["Polity & Administration", [[6, 50]]],
-  ["Economy Development & Budget", [[7, 50]]],
+  ["Economy, Budget & State Schemes", [[7, 50]]],
   ["Agriculture Energy & Infrastructure", [[9, 25], [10, 25]]],
   ["Festivals Fairs Folk Music & Dance", [[11, 50]]],
   ["Tourism & Sacred Sites", [[12, 50]]],
@@ -755,9 +758,9 @@ const UK_TESTS: [string, (q: Q) => boolean][] = [
   ["Gorkha & British Rule (to 1900)", (q) => ukStatic(q) && q.chap === "CH04" && !isFreedom1900(q)],
   ["Physical Geography", (q) => ukStatic(q) && q.chap === "CH01"],
   ["Forests Flora-Fauna & National Parks", (q) => ukStatic(q) && q.chap === "CH02"],
-  ["Demography & Census", (q) => ukStatic(q) && q.chap === "CH07"],
+  ["Demography, Society & Tribes", (q) => ukStatic(q) && (q.chap === "CH07" || (q.chap === "CH11" && SOCIETY_RE.test(q.en)))],
   ["Polity & Administration", (q) => ukStatic(q) && q.chap === "CH06"],
-  ["Economy Development & Budget", (q) => ukStatic(q) && q.chap === "CH09"],
+  ["Economy, Budget & State Schemes", (q) => ukStatic(q) && (q.chap === "CH09" || q.chap === "CH10")],
   ["Agriculture Energy & Infrastructure", (q) => ukStatic(q) && (q.chap === "CH08" || q.chap === "CH13")],
   ["Festivals Fairs Folk Music & Dance", (q) => ukStatic(q) && q.chap === "CH11" && !ART_RE.test(q.en)],
   ["Art Crafts Language & Literature", (q) => ukStatic(q) && (q.chap === "CH11" || q.chap === "CH14") && ART_RE.test(q.en)],
@@ -807,6 +810,30 @@ function boostFormats(name: string, fits: (q: Q) => boolean) {
   if (need > 0) smShort.push(`${name} (${need} short)`);
 }
 for (const [name, fits] of UK_TESTS.slice(0, -1)) boostFormats(name, fits);
+
+// Owner, Oct 2026: a UK topic test whose own chapters ran dry was topped up from
+// any UK chapter. Put an unused on-topic question in place of each such question
+// (a question that is live in the test now stays).
+let retopicked = 0;
+for (const [name, fits] of UK_TESTS) {
+  if (/^(Mixed Mock|Topper Test|Grand Uttarakhand Mock)/.test(name)) continue;
+  const t = byName(name);
+  const qs = assigned.get(t.id)!;
+  const live = new Set(pinned(t) ? (liveQids.get(t.id) ?? []) : []);
+  for (let i = 0; i < qs.length; i++) {
+    const out = qs[i];
+    if (fits(out) || live.has(out.qid)) continue;
+    const others = qs.filter((_, j) => j !== i);
+    const cands = free((x) => fits(x) && !inactiveIds.has(x.qid) && !clashes(x, others));
+    const rep = cands.find((x) => x.diff === out.diff) ?? cands.find((x) => x.diff !== "Easy") ?? cands[0];
+    if (!rep) continue;
+    used.delete(out.qid);
+    used.add(rep.qid);
+    qs[i] = rep;
+    retopicked++;
+  }
+}
+if (retopicked) notes.push(`UK topic tests: ${retopicked} questions from other chapters replaced by unused on-topic ones.`);
 const boostNote = () =>
   notes.push(
   `UK statement/match boost (target ${Math.round(SM_TARGET * 100)}% per test): swapped in ${smCombined} CMB- and ${smBank} bank statement/match questions for direct ones.` +
