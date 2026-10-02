@@ -164,7 +164,7 @@ on conflict (id) do update set
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('d5169d3e-b814-4696-9059-24eaf75227df', 'Uttarakhand (Post-Independence)', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
+values ('d5169d3e-b814-4696-9059-24eaf75227df', 'Uttarakhand: Freedom Struggle to Statehood (1900-2000)', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
@@ -182,7 +182,7 @@ on conflict (id) do update set
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('8a47502f-2bf2-4c4a-855b-d5f82ed3fc27', 'Gorkha & British rule & Freedom Struggle', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
+values ('8a47502f-2bf2-4c4a-855b-d5f82ed3fc27', 'Gorkha & British Rule (to 1900)', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'Uttarakhand GK', 50, 40, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
