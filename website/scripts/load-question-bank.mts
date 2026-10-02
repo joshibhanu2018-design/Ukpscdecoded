@@ -599,7 +599,7 @@ const ukStatic = (q: Q) => q.sec === "UKGK" && !q.isCA;
 // they belong to "Freedom Struggle to Statehood (1900-2000)", not to "Gorkha & British Rule (to 1900)".
 const FREEDOM_1900_RE =
   /\b19\d\d\b|Coolie[- ]?Be?gar|Kumaon Parishad|Praja Mandal|Sridev Suman|Quit India|Salt Satyagraha|Civil Disobedience|Non-Cooperation|Peshawar|Chandra Singh Garhwali|Azad Hind|\bINA\b|Home Rule|Badri ?Dutt Pandey|Gandhi|Indian National Congress|Swadeshi|Tilari|Saklana|Kirtinagar|Dola[- ]Palki|Rowlatt|Simon Commission|Jallianwala|freedom fighter/i;
-const isFreedom1900 = (q: Q) => q.chap === "CH04" && FREEDOM_1900_RE.test(q.en);
+const isFreedom1900 = (q: Q) => q.chap === "CH04" && FREEDOM_1900_RE.test([q.en, ...q.opts.map((o) => o.en), q.exEn].join(" "));
 const ukCA = (q: Q) => q.sec === "UKGK" && q.isCA;
 
 const REUSE: [string, [number, number][]][] = [
@@ -744,7 +744,12 @@ fill(byName("Topper Test"), [free((q) => ukStatic(q) && q.chap !== "CH00")], TOP
 const isDirect = (q: Q) => /^Factual recall/.test(q.qtype);
 const SM_TARGET = 0.46;
 const UK_TESTS: [string, (q: Q) => boolean][] = [
-  ["Uttarakhand: Freedom Struggle to Statehood (1900-2000)", (q) => ukStatic(q) && (((q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && !POST2000_RE.test(q.en)) || isFreedom1900(q))],
+  [
+    "Uttarakhand: Freedom Struggle to Statehood (1900-2000)",
+    (q) =>
+      ukStatic(q) &&
+      ((["CH04", "CH05", "CH06"].includes(q.chap) && (q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && !POST2000_RE.test(q.en)) || isFreedom1900(q)),
+  ],
   ["Uttarakhand Polity (Post-2000)", (q) => ukStatic(q) && (q.chap === "CH05" || STATEHOOD_RE.test(q.en)) && POST2000_RE.test(q.en)],
   ["Ancient & Medieval History", (q) => ukStatic(q) && q.chap === "CH03"],
   ["Gorkha & British Rule (to 1900)", (q) => ukStatic(q) && q.chap === "CH04" && !isFreedom1900(q)],
