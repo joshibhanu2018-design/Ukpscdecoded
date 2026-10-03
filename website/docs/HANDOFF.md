@@ -1,4 +1,4 @@
-# Handoff — state of UKPSC Decoded (1 Oct 2026)
+# Handoff — state of UKPSC Decoded (3 Oct 2026)
 
 Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
@@ -94,6 +94,54 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   and one-line Easy questions.
 - A `Review_Flag` now drops CMB- (combined) questions too.
 
+## Test series review done on the laptop (1-3 Oct) — waiting for the owner's OK
+- **All 4,050 live questions reviewed** (21 subagent batches), then every
+  replacement the loader brought in, in rounds, until each incoming question
+  had been checked. Decisions: `test series questions/review/decisions/`
+  (batch-01 … batch-44, git-ignored), applied to the workbooks with backups in
+  `test series questions/backups/`. Roughly 800 questions dropped (too easy,
+  repeats, doubtful, outdated, incomplete), ~1,000 fixed (answer keys, missing
+  statements, Hindi), many relabelled.
+- **Web search ran out** (200 per session) part-way: some 2025-26 current
+  affairs and Uttarakhand budget figures were kept from memory (CH04-0052,
+  Lala Lajpat Rai's 1913 sacred-thread ceremony place, was dropped as doubtful). Raise
+  `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` before the next review.
+- **Student reports (6, all open):** UKD date (2 reports, valid — the wrong
+  question is dropped), Mukandi Lal's paper "Tarun Kumaon" (valid — key fixed),
+  "Neither I nor II" pasted into a UMM statement (valid — fixed), Hill
+  Development Council matching (valid — dropped, two wrong pairs), red litmus
+  pH (not valid). Resolve all 6 in Admin → Reports after the loader `--apply`.
+- **Loader fixes:** a replacement for a dropped live question no longer takes
+  a question that is live in another test (later tests were emptied, e.g.
+  Geography Sectional II); UK topic tests swap questions from other chapters for
+  unused on-topic ones.
+- **Bank ran dry** in History / Geography / Polity / Science: 163 questions
+  flagged "too easy" or cross-test "repeat" were restored (as Easy) to keep the
+  tests full (`batch-22-restore-to-fill.csv`), plus 15 Uttarakhand current
+  affairs ones (`batch-35`, `batch-36`). **Add Medium/Hard questions** for these
+  subjects and for UK current affairs, then re-run the loader.
+- **New test headings (owner):** Uttarakhand (Post-Independence) → Uttarakhand:
+  Freedom Struggle to Statehood (1900-2000) (adds CH04 20th-century questions);
+  Gorkha & British rule & Freedom Struggle → Gorkha & British Rule (to 1900)
+  (rebuilt with `--recompose`); Demography & Census → Demography, Society &
+  Tribes (adds CH11 tribes/society); Economy Development & Budget → Economy,
+  Budget & State Schemes (adds CH10). Database names: run
+  `supabase/seed-phase26-rename-uk-topic-tests.sql`.
+- **Part 2 (spare facts → statement questions):** only 3 new CMB- questions so
+  far (Demography, post-2000) — most spare facts could not be checked without
+  web search. CMB- edits live in the decision files: after re-running
+  `build-combined-questions.mts`, re-run `apply-review-decisions.mts --apply`.
+- **Telegram quiz CSV** (`QUESTION_BANK_FOR_TELEGRAM.csv`, row 12 Garv-Bhanjan
+  = Mahipati Shah; row 59 order of zones) is wrong but left alone on the
+  owner's instruction.
+- **To go live (owner):**
+  ```
+  cd website
+  npx.cmd --yes tsx scripts/load-question-bank.mts --harden "--recompose=Gorkha & British Rule (to 1900)" --apply
+  ```
+  Use exactly the same flags as the approved dry run. Then run the phase-26
+  SQL, then resolve the reports.
+
 ## YouTube video editing (30 Sep)
 - `video-edit/` = FFmpeg scripts to edit Video 1 on the laptop (steps in `video-edit/README.md`).
   Footage in `raw/`, `ASSETS/`, `music/`, output in `work/` + `export/` (all git-ignored).
@@ -128,10 +176,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   (APP_PLAN step 3). `assetlinks.json` comes in Phase 2.
 
 ## Open items (owner)
-- [ ] **Test series review:** follow `docs/TEST_REVIEW.md` (Claude Code on the
-      laptop), approve the `--harden` dry run, then resolve the fixed reports
-      in Admin → Reports. Supply Medium/Hard questions for topics the dry run
-      says are short.
+- [ ] **Test series review (3 Oct):** review done (see "Test series review
+      done on the laptop"). Approve the dry run, run the loader `--apply` with
+      the same flags, run `seed-phase26-rename-uk-topic-tests.sql`, resolve the
+      6 reports in Admin → Reports. Supply Medium/Hard questions for History,
+      Geography, Polity, Science and Uttarakhand current affairs.
 - [ ] **Razorpay keys (28 Sep):** book / e-book payments failed with 401
       because they read a different, stale key pair. Now every payment reads
       `RAZORPAY_TEST_KEY_ID` + `RAZORPAY_TEST_KEY_SECRET` (live keys despite
