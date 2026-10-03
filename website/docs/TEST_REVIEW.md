@@ -125,3 +125,20 @@ keys are wrong.
 - If a topic runs out of Medium/Hard questions, the dry run says so ("more
   Easy to go" / "Hard short"). New questions for that topic go in the
   workbook, and the review steps are run again.
+
+Lessons from the October 2026 run:
+- Web search allows 200 searches per session. Before a big review, start
+  Claude Code with `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` raised, or many
+  facts get checked from memory only.
+- Every flag removes a question. When a subject has no spare questions left
+  (it happened for History, Geography, Polity and Science), relabel to Easy
+  instead of flagging "too easy", or the tests come out short.
+- Don't flag a good question "off-topic": that deletes it. Fix the test's
+  topic filter in `load-question-bank.mts` instead.
+- `build-combined-questions.mts` rebuilds the CMB- questions and loses their
+  review edits: re-run `apply-review-decisions.mts --apply` after it.
+- For an option cell with no Hindi part (digits only), change the whole
+  `Option_A` cell, not `Option_A_EN`, or the text doubles on every re-apply.
+- Replacements bring in questions nobody has reviewed: export with
+  `--plan --only-new` and review only the IDs not seen in an earlier round,
+  until a round adds none that need fixing.
