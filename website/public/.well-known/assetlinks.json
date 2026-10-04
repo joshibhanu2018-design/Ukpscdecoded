@@ -4,7 +4,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "in.ukpscdecoded.app",
-      "sha256_cert_fingerprints": ["PLACEHOLDER_SHA256_FROM_PLAY_CONSOLE"]
+      "sha256_cert_fingerprints": [
+        "52:52:48:A0:FF:45:D0:A9:96:F4:C5:A6:0D:AB:3E:93:D1:7D:A3:8F:DF:6B:0D:70:16:06:46:8C:DB:DE:DD:B9"
+      ]
     }
   }
 ]
