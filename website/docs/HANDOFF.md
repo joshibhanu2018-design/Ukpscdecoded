@@ -194,10 +194,13 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Site sometimes froze (no scrolling on any page until a full reload).
       Likely Razorpay checkout leaving `overflow:hidden` on the page;
       `ScrollUnlock` now clears it on every page change. Report if it recurs.
-- [ ] Android app Phase 2: follow `docs/play-store/PLAY_STORE.md` (PWABuilder →
-      Play Console). Then send Claude the Play "App signing" SHA-256 and the
-      zip's `assetlinks.json` so `public/.well-known/assetlinks.json` gets the
-      real fingerprints (it still has a placeholder). Decide the payments option.
+- [ ] Android app Phase 2: PWABuilder package built (4 Oct); its upload-key
+      fingerprint is in `public/.well-known/assetlinks.json`. Play Console
+      "Create app" is locked until account verification (ID, phone/email,
+      Android device) finishes. After the first upload, send Claude Play's
+      "App signing key" SHA-256 so it is added as a second fingerprint (the
+      app shows an address bar until then). Keep the PWABuilder zip (signing
+      key) in two safe places, never in the repo. Decide the payments option.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
       ₹1,89,900 / ₹3,99,900, and the Premium Test Series bullet points).
