@@ -1,5 +1,7 @@
 # Question bank source data and generated files (public repo: never commit)
 test series questions/
+content-output/
+national sources/
 *.xlsx
 *.csv
 

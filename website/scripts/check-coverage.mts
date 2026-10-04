@@ -1,120 +1,75 @@
 /**
- * Check crash course coverage — identifies which UKGK question IDs are NOT cited
- * in any master notes file.
+ * Crash-course coverage check — READ ONLY.
  *
- * Usage:
  *   cd website
- *   npx.cmd --yes tsx scripts/check-coverage.mts
+ *   npx.cmd --yes tsx scripts/check-coverage.mts CH01 CH02
  *
- * Output: Lists uncovered questions per chapter, grouped by video
+ * For the chapters named, lists every question that is neither cited in a
+ * master notes file (crash-course/video-NN.md) nor listed in deferred.md for
+ * a later video. "Not covered: none" means every question's fact is placed.
+ * Also reports: notes with format errors, IDs cited that don't exist (typos or
+ * flagged questions), and deferred questions whose target video file exists
+ * but doesn't cite them yet.
  */
-import * as fs from "fs";
-import * as path from "path";
+import { listVideoFiles, loadDeferred, loadSourceIds, parseVideo } from "./crash-course-lib.mjs";
 
-const REPO_ROOT = path.join(process.cwd(), "..");
-const ONE_LINER_DIR = path.join(REPO_ROOT, "test series questions", "one-liner-source");
-const CRASH_COURSE_DIR = path.join(REPO_ROOT, "test series questions", "crash-course");
-
-type CoverageMap = Map<string, Set<string>>; // chapter -> set of cited QIDs
-
-// Parse master notes files and extract all cited question IDs
-function extractCitedQuestions(): CoverageMap {
-  const cited = new Map<string, Set<string>>();
-
-  if (!fs.existsSync(CRASH_COURSE_DIR)) {
-    console.log("No crash course directory found");
-    return cited;
-  }
-
-  const files = fs.readdirSync(CRASH_COURSE_DIR).filter((f) => f.endsWith(".md"));
-  for (const file of files) {
-    const content = fs.readFileSync(path.join(CRASH_COURSE_DIR, file), "utf-8");
-    // Extract all [UKPCS-UKGK-CHxx-xxxx] patterns
-    const qidPattern = /\[UKPCS-UKGK-CH(\d+)-(\d+)\]/g;
-    let match;
-    while ((match = qidPattern.exec(content)) !== null) {
-      const chapter = `CH${match[1].padStart(2, "0")}`;
-      if (!cited.has(chapter)) cited.set(chapter, new Set());
-      cited.get(chapter)!.add(`UKPCS-UKGK-${match[1].padStart(2, "0")}-${match[2].padStart(4, "0")}`);
-    }
-  }
-  return cited;
+const chapters = process.argv.slice(2).map((c) => c.toUpperCase());
+const source = loadSourceIds();
+if (source.size === 0) {
+  console.log("No one-liner source found. Run export-one-liner-source.mts first.");
+  process.exit(1);
 }
 
-// Parse one-liner source files and extract all question IDs
-function extractAllQuestions(): CoverageMap {
-  const all = new Map<string, Set<string>>();
-
-  if (!fs.existsSync(ONE_LINER_DIR)) {
-    console.log(`One-liner source directory not found: ${ONE_LINER_DIR}`);
-    return all;
+const cited = new Map<string, number[]>();
+const videos = new Map<number, Set<string>>();
+let problems = 0;
+for (const file of listVideoFiles()) {
+  const v = parseVideo(file);
+  const ids = new Set<string>();
+  for (const f of v.facts) f.ids.forEach((id) => ids.add(id));
+  for (const t of v.verify) t.ids.forEach((id) => ids.add(id));
+  videos.set(v.number, ids);
+  for (const id of ids) cited.set(id, [...(cited.get(id) ?? []), v.number]);
+  if (v.errors.length) {
+    problems += v.errors.length;
+    console.log(`\nVideo ${v.number}: ${v.errors.length} format problem(s)`);
+    v.errors.forEach((e) => console.log("  " + e));
   }
-
-  const files = fs.readdirSync(ONE_LINER_DIR).filter((f) => f.endsWith(".md"));
-  for (const file of files) {
-    const chapter = path.basename(file, ".md"); // e.g., CH01
-    const content = fs.readFileSync(path.join(ONE_LINER_DIR, file), "utf-8");
-
-    // Extract all [UKPCS-UKGK-CHxx-xxxx] patterns
-    const qidPattern = /\[UKPCS-UKGK-CH\d+-(\d+)\]/g;
-    const qids = new Set<string>();
-    let match;
-    while ((match = qidPattern.exec(content)) !== null) {
-      // Extract the full QID from the line
-      const lineMatch = content.slice(match.index, match.index + 100).match(/\[UKPCS-UKGK-CH\d+-\d+\]/);
-      if (lineMatch) qids.add(lineMatch[0].slice(1, -1)); // Remove brackets
-    }
-    all.set(chapter, qids);
+  const unknown = [...ids].filter((id) => !source.has(id));
+  if (unknown.length) {
+    problems += unknown.length;
+    console.log(`\nVideo ${v.number}: IDs not in the question bank export (typo or flagged): ${unknown.join(" ")}`);
   }
-
-  return all;
 }
 
-// Report coverage
-function reportCoverage() {
-  console.log("Checking crash course coverage...\n");
-
-  const allQuestions = extractAllQuestions();
-  const citedQuestions = extractCitedQuestions();
-
-  if (allQuestions.size === 0) {
-    console.log("ERROR: No one-liner source files found. Run export-one-liner-source.mts first.\n");
-    return;
-  }
-
-  if (citedQuestions.size === 0) {
-    console.log("WARNING: No master notes files found in crash-course/.\n");
-  }
-
-  let totalUncovered = 0;
-  const chapterSummary: Record<string, { total: number; cited: number; uncovered: number }> = {};
-
-  for (const [chapter, allQids] of Array.from(allQuestions.entries()).sort()) {
-    const citedQids = citedQuestions.get(chapter) || new Set();
-    const uncoveredQids = Array.from(allQids).filter((qid) => !citedQids.has(qid));
-
-    chapterSummary[chapter] = {
-      total: allQids.size,
-      cited: citedQids.size,
-      uncovered: uncoveredQids.length,
-    };
-
-    totalUncovered += uncoveredQids.length;
-
-    // Only print chapters with uncovered questions
-    if (uncoveredQids.length > 0 && uncoveredQids.length <= 10) {
-      console.log(`${chapter}: ${citedQids.size}/${allQids.size} cited`);
-      console.log(`  Uncovered: ${uncoveredQids.slice(0, 5).join(", ")}${uncoveredQids.length > 5 ? `... (+${uncoveredQids.length - 5} more)` : ""}`);
-    } else if (uncoveredQids.length > 10) {
-      console.log(`${chapter}: ${citedQids.size}/${allQids.size} cited (${uncoveredQids.length} uncovered)`);
-    } else {
-      console.log(`${chapter}: ${citedQids.size}/${allQids.size} cited ✓`);
-    }
-  }
-
-  console.log(`\nTotal Uncovered Questions: ${totalUncovered}`);
-  console.log("\nChapter Summary:");
-  console.table(chapterSummary);
+const deferred = loadDeferred();
+const unknownDeferred = [...deferred.keys()].filter((id) => !source.has(id));
+if (unknownDeferred.length) {
+  problems += unknownDeferred.length;
+  console.log(`\ndeferred.md IDs not in the export: ${unknownDeferred.join(" ")}`);
 }
 
-reportCoverage();
+const pending: string[] = [];
+for (const [id, targets] of deferred) {
+  for (const v of targets) if (videos.has(v) && !videos.get(v)!.has(id)) pending.push(`${id} -> V${v}`);
+}
+if (pending.length) console.log(`\nDeferred to a video that exists but doesn't cite them yet:\n  ${pending.join("\n  ")}`);
+
+if (chapters.length === 0) {
+  console.log("\nName the chapters to check, e.g.: npx.cmd --yes tsx scripts/check-coverage.mts CH01 CH02");
+} else {
+  console.log("");
+  let missing = 0;
+  for (const ch of chapters) {
+    const all = [...source].filter(([, c]) => c === ch).map(([id]) => id);
+    const notCovered = all.filter((id) => !cited.has(id) && !deferred.has(id));
+    const inNotes = all.filter((id) => cited.has(id)).length;
+    const later = all.filter((id) => !cited.has(id) && deferred.has(id)).length;
+    missing += notCovered.length;
+    console.log(`${ch}: ${all.length} questions — ${inNotes} in notes, ${later} deferred to later videos, ${notCovered.length} not covered`);
+    if (notCovered.length) console.log("  " + notCovered.join("\n  "));
+  }
+  console.log(`\nNot covered: ${missing === 0 ? "none" : missing}`);
+  if (problems) console.log(`Other problems: ${problems} (see above)`);
+  if (missing || problems) process.exit(1);
+}

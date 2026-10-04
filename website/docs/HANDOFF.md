@@ -142,6 +142,22 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   Use exactly the same flags as the approved dry run. Then run the phase-26
   SQL, then resolve the reports.
 
+## Crash course content (4 Oct) — Video 2 sample done, Videos 1, 3–5 next
+- Master notes (one per video, facts tagged core/extra, Uttarakhand facts
+  cite their question IDs, Hindi line per fact) live in
+  `test series questions/crash-course/video-NN.md` (git-ignored). Questions
+  whose facts belong to a later video are listed in `deferred.md`; Hindi
+  terms for slides in `glossary-hi.tsv`. Old draft notes: `crash-course/old-draft/`.
+- Scripts in `website/` (all read-only on the question bank):
+  `npx.cmd --yes tsx scripts/export-one-liner-source.mts` (bank → chapter files),
+  `npx.cmd --yes tsx scripts/check-coverage.mts CH01` (must say "Not covered: none"),
+  `npx.cmd --yes tsx scripts/render-crash-course.mts 2` (slides, Hindi PDF,
+  book entries → `content-output/crash-course/video-02/`, git-ignored; PDFs
+  printed with Chrome), `python scripts/national-pdf-to-text.py` (national
+  eBooks → searchable text; needs `pip install --user pymupdf`).
+- CH01 fully placed: 185 questions in Video 2, 245 deferred (mostly V3, V5).
+  Each video's `to-verify.md` lists bank conflicts for the owner.
+
 ## YouTube video editing (30 Sep)
 - `video-edit/` = FFmpeg scripts to edit Video 1 on the laptop (steps in `video-edit/README.md`).
   Footage in `raw/`, `ASSETS/`, `music/`, output in `work/` + `export/` (all git-ignored).
