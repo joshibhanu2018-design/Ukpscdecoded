@@ -18,10 +18,15 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Uttarakhand Crash Course** (`uttarakhand-crash-course`, ₹1899, video
   course): 25 Uttarakhand lectures + 3 Google Meet live sessions, access
   till 31 Dec 2026. Set up by `supabase/fix-phase23-store-uttarakhand-crash-course.sql`.
-- **Crash course:** tentative plan on the course pages
+- **Crash course:** 50 videos (5 Oct – 18 Nov 2026), 6 live sessions
   (`content/crashCoursePlan.json`), video lessons (Admin → Video Lessons,
   unlisted YouTube links; `/test-platform/lessons/crash-course`), refund check
-  (fewer than 3 lessons watched).
+  (fewer than 3 lessons watched). **First 5 lessons (confirmed 4 Oct):**
+  1. Video 1: Course Roadmap & PYQ Weightage Strategy (Orientation)
+  2. Video 2: Physical Geography - Glaciers, Rivers, Prayags (UK Geography)
+  3. Video 3: Passes, Valleys, Bugyals, Doons/Tarai/Bhabar (UK Geography)
+  4. Video 4: Protected Areas I - National Parks & Wildlife Sanctuaries (UK Geography)
+  5. Video 5: Protected Areas II - Biosphere Reserves, Ramsar Sites, Lakes (UK Geography)
 - **Books:** `/buy-book` (print book) and `/buy-ebooks` (Polity Decoded
   ₹59). The e-book PDF is in the private Supabase bucket `ebooks`; buyers get
   a 24-hour signed link (`src/lib/ebooks.ts`).
