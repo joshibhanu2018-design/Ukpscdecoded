@@ -9,7 +9,7 @@
  * Reads  ../test series questions/crash-course/video-NN.md (+ glossary-hi.tsv)
  * Writes ../content-output/crash-course/video-NN/  (git-ignored)
  *   slides.html / slides.pdf   16:9, core facts, English with Hindi key terms
- *   notes-hi.html / notes-hi.pdf  A4 Hindi notes, core + extra
+ *   notes-hi.pdf / notes-en.pdf   A4 notes (Hindi medium / English medium), core + extra
  *   book.md / book.tsv         one-liners: Uttarakhand by book chapter, then National by subject
  *   to-verify.md               conflicts for the owner (never shown to students)
  * PDFs are printed with Chrome (set CHROME_PATH if it is not in the usual place).
@@ -145,7 +145,7 @@ function slidesHtml(v: Video, glossary: [string, string][]): { html: string; cou
       const texts = addHindiTerms(page.map((f) => f.en), glossary).map((t) =>
         bold(esc(t)).replace(/\u0000(.*?)\u0001/g, ` <span class="term">($1)</span>`),
       );
-      const nat = page.every((f) => f.origin === "nat");
+      const nat = page.every((f) => f.origin === "nat" && f.subject !== "strategy");
       slides.push(`<section class="slide">
         <header><h2>${esc(t.topic)}${pages.length > 1 ? ` <span class="contd">${i + 1}/${pages.length}</span>` : ""}</h2>
         <div class="hi">${esc(t.topicHi)}</div>${nat ? `<span class="tag">National</span>` : ""}</header>
@@ -197,8 +197,12 @@ ${slides.join("\n")}
   return { html, count: slides.length };
 }
 
-function notesHtml(v: Video): string {
-  const title = v.meta.title_hi || v.meta.title || `वीडियो ${v.number}`;
+function notesHtml(v: Video, lang: "hi" | "en"): string {
+  const hi = lang === "hi";
+  const L = hi
+    ? { video: "वीडियो", read: "पढ़ें: उत्तराखंड डिकोडेड", book: v.meta.book_hi || v.meta.book, legend: "● मुख्य तथ्य (स्लाइड में) &nbsp; ○ अतिरिक्त तथ्य", foot: "निःशुल्क अभ्यास टेस्ट वेबसाइट पर" }
+    : { video: "Video", read: "Read: Uttarakhand Decoded", book: v.meta.book, legend: "● Core fact (on slides) &nbsp; ○ Extra fact", foot: "free practice tests on the website" };
+  const title = (hi ? v.meta.title_hi : v.meta.title) || v.meta.title || `${L.video} ${v.number}`;
   const parts: string[] = [];
   let section = "", topic = "";
   for (const f of v.facts) {
@@ -206,17 +210,17 @@ function notesHtml(v: Video): string {
       if (topic) parts.push("</ul>");
       section = f.section;
       topic = "";
-      parts.push(`<h2>${esc(f.sectionHi || f.section)}</h2>`);
+      parts.push(`<h2>${esc((hi && f.sectionHi) || f.section)}</h2>`);
     }
     if (f.topic !== topic) {
       if (topic) parts.push("</ul>");
       topic = f.topic;
-      parts.push(`<h3>${esc(f.topicHi || f.topic)}</h3><ul>`);
+      parts.push(`<h3>${esc((hi && f.topicHi) || f.topic)}</h3><ul>`);
     }
-    parts.push(`<li class="${f.level}${f.origin === "nat" ? " nat" : ""}">${bold(esc(f.hi || f.en))}</li>`);
+    parts.push(`<li class="${f.level}${f.origin === "nat" ? " nat" : ""}">${bold(esc((hi && f.hi) || f.en))}</li>`);
   }
   if (topic) parts.push("</ul>");
-  return `<!doctype html><html lang="hi"><head><meta charset="utf-8"><title>वीडियो ${v.number} — ${esc(title)}</title>
+  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><title>${L.video} ${v.number} — ${esc(title)}</title>
 <style>
 @page { size: A4; margin: 15mm 15mm 16mm; }
 body { font-family: "Nirmala UI", ${FONT}; font-size: 11pt; line-height: 1.55; color: #1b1a19; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -234,16 +238,16 @@ li.nat { }
 strong { color: #92390c; }
 .foot { margin-top: 18px; font-size: 9pt; color: #7a7771; border-top: 1px solid #e2e1de; padding-top: 6px; }
 </style></head><body>
-<div class="top"><div class="k">UKPSC DECODED · वीडियो ${v.number}${v.meta.book ? ` · पढ़ें: उत्तराखंड डिकोडेड ${esc(v.meta.book_hi || v.meta.book)}` : ""}</div><h1>${esc(title)}</h1>
-<div class="legend">● मुख्य तथ्य (स्लाइड में) &nbsp; ○ अतिरिक्त तथ्य</div></div>
+<div class="top"><div class="k">UKPSC DECODED · ${L.video} ${v.number}${L.book ? ` · ${L.read} ${esc(L.book)}` : ""}</div><h1>${esc(title)}</h1>
+<div class="legend">${L.legend}</div></div>
 ${parts.join("\n")}
-<div class="foot">UKPSC Decoded · ukpscdecoded.in · निःशुल्क अभ्यास टेस्ट वेबसाइट पर</div>
+<div class="foot">UKPSC Decoded · ukpscdecoded.in · ${L.foot}</div>
 </body></html>`;
 }
 
 function bookOutputs(v: Video): { md: string; tsv: string } {
   const uk = v.facts.filter((f) => f.origin === "uk").sort((a, b) => (a.bookChapter! - b.bookChapter!) || a.line - b.line);
-  const nat = v.facts.filter((f) => f.origin === "nat");
+  const nat = v.facts.filter((f) => f.origin === "nat" && f.subject !== "strategy");
   const md: string[] = [`# One-liners — Video ${v.number}: ${v.meta.title ?? ""}`, ""];
   const tsv: string[] = [["part", "chapter_or_subject", "section", "topic", "level", "english", "hindi", "question_ids", "source"].join("\t")];
   const emit = (facts: Fact[], heading: (f: Fact) => string, part: string, key: (f: Fact) => string) => {
@@ -313,10 +317,13 @@ for (const file of listVideoFiles()) {
   fs.mkdirSync(dir, { recursive: true });
   const slides = slidesHtml(v, glossary);
   fs.writeFileSync(path.join(dir, "slides.html"), slides.html);
-  fs.writeFileSync(path.join(dir, "notes-hi.html"), notesHtml(v));
+  fs.writeFileSync(path.join(dir, "notes-hi.html"), notesHtml(v, "hi"));
+  fs.writeFileSync(path.join(dir, "notes-en.html"), notesHtml(v, "en"));
   const book = bookOutputs(v);
-  fs.writeFileSync(path.join(dir, "book.md"), book.md);
-  fs.writeFileSync(path.join(dir, "book.tsv"), "\ufeff" + book.tsv);
+  if (book.tsv.split("\n").length > 2) {
+    fs.writeFileSync(path.join(dir, "book.md"), book.md);
+    fs.writeFileSync(path.join(dir, "book.tsv"), "\ufeff" + book.tsv);
+  }
   fs.writeFileSync(
     path.join(dir, "to-verify.md"),
     `# Video ${v.number} — to verify\n\n` + (v.verify.length ? v.verify.map((t) => `- ${t.text} (${t.ids.join(", ")})`).join("\n") : "Nothing.") + "\n",
@@ -324,6 +331,7 @@ for (const file of listVideoFiles()) {
   if (chrome) {
     printPdf(chrome, path.join(dir, "slides.html"), path.join(dir, "slides.pdf"));
     printPdf(chrome, path.join(dir, "notes-hi.html"), path.join(dir, "notes-hi.pdf"));
+    printPdf(chrome, path.join(dir, "notes-en.html"), path.join(dir, "notes-en.pdf"));
   }
   const c = (pred: (f: Fact) => boolean) => v.facts.filter(pred).length;
   console.log(

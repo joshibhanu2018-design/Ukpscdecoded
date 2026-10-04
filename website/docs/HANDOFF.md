@@ -142,7 +142,16 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   Use exactly the same flags as the approved dry run. Then run the phase-26
   SQL, then resolve the reports.
 
-## Crash course content (4 Oct) — Video 2 sample done, Videos 1, 3–5 next
+## Crash course content (4 Oct) — Videos 1–5 done; next V6
+- Uttarakhand videos carry Uttarakhand facts only (separate ₹1,899 product);
+  national material written for them was moved to draft `video-31/43/44.md`.
+- Each video renders slides + notes-hi.pdf + notes-en.pdf + book entries.
+- Live-session structure: `crash-course/live-sessions.md`.
+- Website PYQ tracker (`src/lib/pyqData.ts`) says Govind NP 1989; the bank says
+  1990 — waiting for the owner before changing it.
+- Owner decided (4 Oct): Asi Ganga–Dodital, Kosi rises in Almora, 'Sursari' =
+  Bhagirathi, Chorabari = Gandhi Sarovar = Sharwadi Tal, Yamuna source on
+  Bandarpunch. Workbook keys still to fix: CH01-0396, 0376, 0479, 0182, 0457.
 - Master notes (one per video, facts tagged core/extra, Uttarakhand facts
   cite their question IDs, Hindi line per fact) live in
   `test series questions/crash-course/video-NN.md` (git-ignored). Questions
