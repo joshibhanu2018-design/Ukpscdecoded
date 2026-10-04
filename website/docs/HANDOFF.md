@@ -142,15 +142,15 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   Use exactly the same flags as the approved dry run. Then run the phase-26
   SQL, then resolve the reports.
 
-## Crash course content (4 Oct) — Videos 1–6 done
+## Crash course content (4 Oct) — Videos 1–6, 29–30, 33 done (4 Oct restructure)
 - Owner re-planned Uttarakhand geography (4 Oct): V4 = protected areas
   (old V4 + V5) + forests + tourism geography [Ch 19]; V5 = resources,
   agriculture, minerals, energy, industry, transport [Ch 17, 18]; V6 =
   population, census, migration, urbanisation [Ch 20]. crashCoursePlan.json
   on the website still shows the old titles for V4–V6 (not changed).
+- **Video restructure completed (4 Oct 2026):** New V5 = Char Dham temples & pilgrimage sites (206 CH12 questions from deferred); V29 = agriculture + minerals + sports; V30 = energy + industry + transport + national geography; V33 = education + research + GI + national economics. All rendered to slides + PDFs.
 - Bank chapters fully placed (in notes or deferred.md): CH01, CH02, CH07,
-  CH08, CH12, CH13. Material for V29/V30/V33 moved into V4/V5 — those
-  later videos need a new scope.
+  CH08, CH12, CH13. Material for V29/V30/V33 successfully placed and rendered.
 - Uttarakhand videos carry Uttarakhand facts only (separate ₹1,899 product);
   national material written for them was moved to draft `video-31/43/44.md`.
 - Each video renders slides + notes-hi.pdf + notes-en.pdf + book entries.
