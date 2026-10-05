@@ -1,17 +1,66 @@
+import { createHash } from "crypto";
 import { supabaseAdmin } from "./supabase";
+import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "./packages";
 
 export type Lesson = {
   id: string;
   package_id: string;
   title: string;
   description: string | null;
-  youtube_id: string;
+  youtube_id: string | null;
+  bunny_video_id: string | null;
+  pdf_en_path: string | null;
+  pdf_hi_path: string | null;
   sort_order: number;
   release_at: string | null;
   is_active: boolean;
 };
 
-const LESSON_COLUMNS = "id, package_id, title, description, youtube_id, sort_order, release_at, is_active";
+export const LESSON_COLUMNS =
+  "id, package_id, title, description, youtube_id, bunny_video_id, pdf_en_path, pdf_hi_path, sort_order, release_at, is_active";
+
+/** Private storage bucket for lesson PDFs (see supabase/schema-phase27-protected-lessons.sql). */
+export const LESSON_NOTES_BUCKET = "lesson-notes";
+
+export type NotesLang = "en" | "hi";
+export const isNotesLang = (v: unknown): v is NotesLang => v === "en" || v === "hi";
+
+const GUID_RE = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+
+/** A Bunny Stream video id (GUID), from the bare id or any Bunny play/embed URL containing it. */
+export function parseBunnyVideoId(input: string): string | null {
+  return input.trim().match(GUID_RE)?.[0].toLowerCase() ?? null;
+}
+
+const BUNNY_LINK_TTL_S = 6 * 60 * 60;
+
+/**
+ * Bunny embed URL with token authentication: valid for a few hours and only
+ * from the referrers allowed in the Bunny library, so a copied link stops
+ * working. The lesson itself stays available; a fresh link is made per view.
+ */
+export function bunnyEmbedUrl(videoId: string): string | null {
+  const library = process.env.BUNNY_STREAM_LIBRARY_ID;
+  const key = process.env.BUNNY_STREAM_TOKEN_KEY;
+  if (!library || !key) {
+    console.error("[lessons] BUNNY_STREAM_LIBRARY_ID / BUNNY_STREAM_TOKEN_KEY not set; Bunny lessons cannot play.");
+    return null;
+  }
+  const expires = Math.floor(Date.now() / 1000) + BUNNY_LINK_TTL_S;
+  const token = createHash("sha256").update(key + videoId + expires).digest("hex");
+  return `https://iframe.mediadelivery.net/embed/${library}/${videoId}?token=${token}&expires=${expires}&autoplay=false&preload=true&responsive=true`;
+}
+
+/** Whether a student owns the package (directly or through a bundle). Admins always can. */
+export async function canAccessPackage(user: { id: string; role: string }, packageId: string): Promise<boolean> {
+  if (user.role === "admin") return true;
+  const [allPackages, includes, enrollments] = await Promise.all([
+    getActivePackages(),
+    getPackageIncludes(),
+    getUserActiveEnrollments(user.id),
+  ]);
+  return getOwnedPackageIds(enrollments, includes, allPackages).has(packageId);
+}
 
 /**
  * Accepts any YouTube link the admin is likely to paste (watch?v=, youtu.be/,

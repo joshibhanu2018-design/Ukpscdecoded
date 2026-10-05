@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin";
 import { supabaseAdmin } from "@/lib/supabase";
-import { parseYouTubeId } from "@/lib/lessons";
+import { LESSON_COLUMNS, parseBunnyVideoId, parseYouTubeId } from "@/lib/lessons";
 import { findUserIdByEmail, normalizeEmail } from "@/lib/otp";
 
 /**
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 
   const { data: lessons, error } = await db
     .from("lessons")
-    .select("id, package_id, title, description, youtube_id, sort_order, release_at, is_active")
+    .select(LESSON_COLUMNS)
     .order("sort_order")
     .order("created_at");
   if (error) return NextResponse.json({ error: `Could not load lessons: ${error.message}` }, { status: 500 });
@@ -54,7 +54,8 @@ type LessonInput = {
   package_id?: string;
   title?: string;
   description?: string | null;
-  youtube?: string;
+  /** A YouTube link, or a Bunny Stream video id / URL. */
+  video?: string;
   sort_order?: number;
   release_at?: string | null;
   is_active?: boolean;
@@ -68,10 +69,12 @@ function buildFields(body: LessonInput): { fields: Record<string, unknown> } | {
     fields.title = title;
   }
   if (body.description !== undefined) fields.description = body.description?.trim() || null;
-  if (body.youtube !== undefined) {
-    const id = parseYouTubeId(body.youtube);
-    if (!id) return { error: "That doesn't look like a YouTube link" };
-    fields.youtube_id = id;
+  if (body.video !== undefined) {
+    const youtube = parseYouTubeId(body.video);
+    const bunny = youtube ? null : parseBunnyVideoId(body.video);
+    if (!youtube && !bunny) return { error: "Paste a YouTube link or a Bunny video ID" };
+    fields.youtube_id = youtube;
+    fields.bunny_video_id = bunny;
   }
   if (body.sort_order !== undefined) {
     if (!Number.isInteger(body.sort_order)) return { error: "Order must be a whole number" };
@@ -89,8 +92,8 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin();
   if ("response" in auth) return auth.response;
   const body = (await req.json().catch(() => ({}))) as LessonInput;
-  if (!body.package_id || !body.title || !body.youtube) {
-    return NextResponse.json({ error: "Course, title and YouTube link are required" }, { status: 400 });
+  if (!body.package_id || !body.title || !body.video) {
+    return NextResponse.json({ error: "Course, title and video are required" }, { status: 400 });
   }
   const built = buildFields(body);
   if ("error" in built) return NextResponse.json({ error: built.error }, { status: 400 });

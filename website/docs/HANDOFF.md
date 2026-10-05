@@ -188,6 +188,18 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   the installed app (`display-mode: standalone`, `src/components/AppTabBar.tsx`);
   hidden during tests and checkout. The website is unchanged.
 
+- **Protected lessons (5 Oct, needs `supabase/schema-phase27-protected-lessons.sql`
+  run BEFORE merging):** a lesson's video can be a Bunny Stream video ID
+  (signed embed link valid 6 h, made per view; Bunny library allows only
+  ukpscdecoded.in as referrer) or an unlisted YouTube link (title bar/logo
+  covered). Both show a drifting watermark of the student's email/phone and
+  use our own full-screen button so it stays visible. Admin → Video Lessons
+  has EN PDF / HI PDF upload per lesson (private bucket `lesson-notes`,
+  direct signed upload, 50 MB max); students download a copy stamped with
+  their email/phone (`/api/lessons/[id]/notes?lang=en|hi`, stamped copy
+  cached under `stamped/<user>/`). Env: `BUNNY_STREAM_LIBRARY_ID`,
+  `BUNNY_STREAM_TOKEN_KEY`.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
