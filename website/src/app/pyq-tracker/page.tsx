@@ -245,7 +245,7 @@ export default function PYQTrackerPage() {
                 </p>
               </div>
               <a
-                href="/uploads/UKPSC-60-Day-Prep-Tracker.pdf"
+                href="/uploads/UKPSC-60-Day-Master-Plan-2026.pdf"
                 className="inline-flex items-center gap-2 rounded-lg bg-saffron-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-saffron-600"
               >
                 <Download className="w-4 h-4" /> Download printable PDF (tick-box planner)

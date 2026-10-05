@@ -179,8 +179,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   tab now shows the new plan (`src/lib/masterPlan.ts`, generated from the
   planner source: video, book EN/HI, self-study, PYQ, tests, live), opens on
   today's phase and highlights today. The free PDF
-  `public/uploads/UKPSC-60-Day-Prep-Tracker.pdf` is replaced by the new
-  printable planner (same link). Old `prepPlan` removed from `pyqData.ts`.
+  `public/uploads/UKPSC-60-Day-Master-Plan-2026.pdf` is the new printable
+  planner (new name so phones don't reopen a cached copy); the old
+  `UKPSC-60-Day-Prep-Tracker.pdf` path holds the same file for old links. Old `prepPlan` removed from `pyqData.ts`.
 - **Android app (5 Oct):** PWABuilder APK installed on the owner's phone and
   opens full-screen (assetlinks upload-key fingerprint works).
 
