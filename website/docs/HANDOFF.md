@@ -175,6 +175,15 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - Still to do from Phase 1: check the key flows inside the installed app
   (APP_PLAN step 3). `assetlinks.json` comes in Phase 2.
 
+- **60-Day Master Plan on the website (5 Oct):** `/pyq-tracker` → "60-Day Plan"
+  tab now shows the new plan (`src/lib/masterPlan.ts`, generated from the
+  planner source: video, book EN/HI, self-study, PYQ, tests, live), opens on
+  today's phase and highlights today. The free PDF
+  `public/uploads/UKPSC-60-Day-Prep-Tracker.pdf` is replaced by the new
+  printable planner (same link). Old `prepPlan` removed from `pyqData.ts`.
+- **Android app (5 Oct):** PWABuilder APK installed on the owner's phone and
+  opens full-screen (assetlinks upload-key fingerprint works).
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
