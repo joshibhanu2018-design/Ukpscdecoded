@@ -208,6 +208,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   stamped copies cached under `stamped/v2/`). The installed app's home-screen
   icon changes only with the next PWABuilder build — rebuild with the SAME
   signing key (upload `signing.keystore`, never "Create new").
+  The home carousel shows the badge too: top-left corner on picture banners,
+  centred above the title on text (gradient) banners (`HomeCarousel.tsx`).
 
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
