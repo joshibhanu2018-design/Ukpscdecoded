@@ -121,14 +121,6 @@ export default function HomeCarousel({ banners }: { banners: (Banner & { href: s
                   decoding="async"
                   className={`block w-full object-cover ${b.image_url_mobile ? "aspect-square sm:aspect-[16/5]" : "aspect-[16/5]"}`}
                 />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logo-badge.png"
-                  alt=""
-                  width={56}
-                  height={56}
-                  className="absolute left-3 top-3 h-10 w-10 drop-shadow-lg sm:left-5 sm:top-5 sm:h-14 sm:w-14"
-                />
               </picture>
             ) : (
               <div
