@@ -427,7 +427,7 @@ export default function BuyBookPage() {
         description: selectedLanguage === 'en' 
           ? 'UKPSC Book - English Edition' 
           : 'UKPSC पुस्तक - हिंदी संस्करण',
-        image: 'https://www.ukpscdecoded.in/logo.png',
+        image: 'https://www.ukpscdecoded.in/logo-badge.png',
         
         // FIX: Include address in prefill object
         prefill: {
