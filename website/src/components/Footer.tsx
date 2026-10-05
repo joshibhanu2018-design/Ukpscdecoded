@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, Video, Send, Camera } from "lucide-react";
+import { Video, Send, Camera } from "lucide-react";
 import settings from "@content/settings.json";
 
 // Every public page is reachable from here or the navbar.
@@ -48,7 +48,8 @@ export default function Footer() {
           {/* Brand + connect */}
           <div>
             <div className="mb-4 flex items-center gap-2">
-              <BookOpen className="h-7 w-7 text-saffron-400" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-badge.png" alt="" width={40} height={40} className="h-10 w-10" />
               <span className="font-display text-xl font-bold text-white">
                 {settings.brandName1} <span className="text-saffron-400">{settings.brandName2}</span>
               </span>

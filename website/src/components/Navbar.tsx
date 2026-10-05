@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, BookOpen, ChevronDown, LogIn } from "lucide-react";
+import { Menu, X, ChevronDown, LogIn } from "lucide-react";
 import settings from "@content/settings.json";
 
 const primaryLinks = [
@@ -64,7 +64,8 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
       <div className="container-custom mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="group flex items-center gap-2">
-            <BookOpen className="h-7 w-7 text-saffron-400 transition-colors group-hover:text-saffron-300" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-badge.png" alt="" width={36} height={36} className="h-9 w-9 flex-shrink-0" />
             <span className="whitespace-nowrap font-display text-lg font-bold text-white sm:text-xl">
               {settings.brandName1} <span className="text-saffron-400">{settings.brandName2}</span>
             </span>

@@ -200,6 +200,15 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   cached under `stamped/<user>/`). Env: `BUNNY_STREAM_LIBRARY_ID`,
   `BUNNY_STREAM_TOKEN_KEY`.
 
+- **New logo (5 Oct):** round UKPSC Decoded badge (source
+  `scripts/assets/logo-source.webp`; `npx.cmd --yes tsx scripts/make-app-icons.mts`
+  rebuilds `public/logo-badge.png`, all `public/icons/*` incl. maskable, and
+  `docs/play-store/app-icon-512.png`). Used in the navbar, footer, Razorpay
+  book checkout and the lesson-PDF stamp (faint centred badge + email/phone;
+  stamped copies cached under `stamped/v2/`). The installed app's home-screen
+  icon changes only with the next PWABuilder build — rebuild with the SAME
+  signing key (upload `signing.keystore`, never "Create new").
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with

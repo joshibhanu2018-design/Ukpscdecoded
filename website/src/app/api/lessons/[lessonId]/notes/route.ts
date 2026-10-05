@@ -7,13 +7,21 @@ import { canAccessPackage, isLessonReleased, isNotesLang, LESSON_COLUMNS, LESSON
 
 export const maxDuration = 60;
 
-async function stamp(pdfBytes: ArrayBuffer, label: string): Promise<Uint8Array> {
+// Bump when the stamp's look changes, so students get freshly stamped copies.
+const STAMP_VERSION = "v2";
+
+async function stamp(pdfBytes: ArrayBuffer, label: string, logoPng: ArrayBuffer | null): Promise<Uint8Array> {
   // The standard PDF font only covers basic Latin; anything else becomes "?".
   const text = label.replace(/[^\x20-\x7E]/g, "?");
   const doc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
   const font = await doc.embedFont(StandardFonts.Helvetica);
+  const logo = logoPng ? await doc.embedPng(logoPng) : null;
   for (const page of doc.getPages()) {
     const { width, height } = page.getSize();
+    if (logo) {
+      const side = Math.min(width, height) * 0.5;
+      page.drawImage(logo, { x: (width - side) / 2, y: (height - side) / 2, width: side, height: side, opacity: 0.07 });
+    }
     page.drawText(`Licensed to ${text} - UKPSC Decoded - do not share`, {
       x: 24,
       y: 12,
@@ -62,7 +70,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ less
 
   const bucket = db.storage.from(LESSON_NOTES_BUCKET);
   // The source path carries its upload time, so replacing a PDF makes new stamped copies.
-  const stampedPath = `stamped/${user.id}/${source.replaceAll("/", "_")}`;
+  const stampedPath = `stamped/${STAMP_VERSION}/${user.id}/${source.replaceAll("/", "_")}`;
   const fileName = `${lesson.title.replace(/[^\w\s-]/g, "").trim().slice(0, 60) || "notes"} - ${lang === "en" ? "English" : "Hindi"}.pdf`;
   const sign = () => bucket.createSignedUrl(stampedPath, 300, { download: fileName });
 
@@ -76,7 +84,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ less
     const label = [user.email, user.phone].filter(Boolean).join("  ");
     let bytes: Uint8Array;
     try {
-      bytes = await stamp(await original.arrayBuffer(), label);
+      const logoRes = await fetch(new URL("/logo-badge.png", req.nextUrl.origin)).catch(() => null);
+      const logo = logoRes?.ok ? await logoRes.arrayBuffer() : null;
+      bytes = await stamp(await original.arrayBuffer(), label, logo);
     } catch (err) {
       console.error("[lesson-notes] Could not stamp", source, err);
       return NextResponse.json({ error: "Notes are not available right now" }, { status: 500 });
