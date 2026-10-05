@@ -121,6 +121,14 @@ export default function HomeCarousel({ banners }: { banners: (Banner & { href: s
                   decoding="async"
                   className={`block w-full object-cover ${b.image_url_mobile ? "aspect-square sm:aspect-[16/5]" : "aspect-[16/5]"}`}
                 />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo-badge.png"
+                  alt=""
+                  width={56}
+                  height={56}
+                  className="absolute left-3 top-3 h-10 w-10 drop-shadow-lg sm:left-5 sm:top-5 sm:h-14 sm:w-14"
+                />
               </picture>
             ) : (
               <div
@@ -128,6 +136,14 @@ export default function HomeCarousel({ banners }: { banners: (Banner & { href: s
                 style={{ background: `linear-gradient(135deg, ${b.gradient_from}, ${b.gradient_to})` }}
               >
                 <div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/logo-badge.png"
+                    alt=""
+                    width={80}
+                    height={80}
+                    className="mx-auto mb-4 h-16 w-16 drop-shadow-lg sm:h-20 sm:w-20"
+                  />
                   <h2 className="font-display text-2xl font-bold text-white sm:text-4xl">{b.title}</h2>
                   {b.subtitle && <p className="mx-auto mt-3 max-w-xl text-sm text-white/90 sm:text-lg">{b.subtitle}</p>}
                   <span className="mt-6 inline-block rounded-lg bg-white/15 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/25">
