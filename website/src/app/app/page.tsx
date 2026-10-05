@@ -35,7 +35,7 @@ const products: Tile[] = [
 
 const freeResources: Tile[] = [
   { href: "/pyq-tracker", title: "PYQ Tracker", sub: "Topic trends from past papers", icon: <Target className="h-5 w-5" /> },
-  { href: "/uploads/UKPSC-60-Day-Prep-Tracker.pdf", title: "60-Day Plan", sub: "Day-by-day study plan (PDF)", icon: <CalendarDays className="h-5 w-5" /> },
+  { href: "/uploads/UKPSC-60-Day-Master-Plan-2026.pdf", title: "60-Day Plan", sub: "60-Day Master Plan 2026 (PDF)", icon: <CalendarDays className="h-5 w-5" /> },
   { href: "/current-affairs", title: "Current Affairs", sub: "Daily news & MCQs", icon: <Newspaper className="h-5 w-5" /> },
 ];
 

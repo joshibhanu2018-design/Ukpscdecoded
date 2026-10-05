@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AppTabBar from "@/components/AppTabBar";
 import LeadPopup from "@/components/LeadPopup";
 import InstallPrompt from "@/components/InstallPrompt";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
@@ -158,6 +159,7 @@ export default async function RootLayout({
         <Navbar user={navbarUser} />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <AppTabBar loggedIn={!!navbarUser} />
         <LeadPopup />
         <InstallPrompt />
         <ServiceWorkerRegister />
