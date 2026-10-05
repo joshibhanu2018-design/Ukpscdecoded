@@ -729,6 +729,11 @@ redeploy.
 **Test platform — email (Resend):**
 `RESEND_API_KEY`
 
+**Test platform — protected video lessons (Bunny Stream):**
+`BUNNY_STREAM_LIBRARY_ID` (the library's numeric ID), `BUNNY_STREAM_TOKEN_KEY`
+(library → Security → token authentication key). Only Bunny lessons need
+them; YouTube lessons play without.
+
 **Test platform — payments (Razorpay):**
 `RAZORPAY_TEST_KEY_ID`, `RAZORPAY_TEST_KEY_SECRET` (despite the name,
 these hold the **live** keys; since 28 Sep 2026 every payment — courses,

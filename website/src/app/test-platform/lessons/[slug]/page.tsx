@@ -2,18 +2,34 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, CheckCircle2, Lock, PlayCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, FileDown, Lock, PlayCircle } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
-import {
-  formatDateLabel,
-  getActivePackages,
-  getOwnedPackageIds,
-  getPackageBySlug,
-  getPackageIncludes,
-  getUserActiveEnrollments,
-} from "@/lib/packages";
+import { formatDateLabel, getPackageBySlug } from "@/lib/packages";
 import CrashCoursePlan from "@/components/CrashCoursePlan";
-import { getPackageLessons, getWatchedLessonIds, isLessonReleased, recordLessonView } from "@/lib/lessons";
+import ProtectedPlayer from "@/components/ProtectedPlayer";
+import {
+  bunnyEmbedUrl,
+  canAccessPackage,
+  getPackageLessons,
+  getWatchedLessonIds,
+  isLessonReleased,
+  recordLessonView,
+  type Lesson,
+} from "@/lib/lessons";
+
+function playerSource(lesson: Lesson): { src: string; kind: "youtube" | "bunny" } | null {
+  if (lesson.bunny_video_id) {
+    const src = bunnyEmbedUrl(lesson.bunny_video_id);
+    return src ? { src, kind: "bunny" } : null;
+  }
+  if (lesson.youtube_id) {
+    return {
+      src: `https://www.youtube-nocookie.com/embed/${lesson.youtube_id}?rel=0&modestbranding=1&fs=0&iv_load_policy=3`,
+      kind: "youtube",
+    };
+  }
+  return null;
+}
 
 export const metadata: Metadata = {
   title: "My Lessons",
@@ -38,14 +54,7 @@ export default async function LessonsPage({
   if (!pkg) notFound();
 
   const isAdmin = user.role === "admin";
-  if (!isAdmin) {
-    const [allPackages, includes, enrollments] = await Promise.all([
-      getActivePackages(),
-      getPackageIncludes(),
-      getUserActiveEnrollments(user.id),
-    ]);
-    if (!getOwnedPackageIds(enrollments, includes, allPackages).has(pkg.id)) redirect(`/courses/${slug}`);
-  }
+  if (!(await canAccessPackage(user, pkg.id))) redirect(`/courses/${slug}`);
 
   const lessons = await getPackageLessons(pkg.id);
   const released = lessons.filter(isLessonReleased);
@@ -58,6 +67,8 @@ export default async function LessonsPage({
     user.id,
     lessons.map((l) => l.id),
   );
+  const source = current ? playerSource(current) : null;
+  const watermark = [user.email, user.phone].filter(Boolean).join(" · ");
   const nextUp = !current ? released.find((l) => !watched.has(l.id)) : undefined;
   const classStart = formatDateLabel((pkg.metadata?.class_start as string | undefined) ?? undefined);
 
@@ -77,18 +88,37 @@ export default async function LessonsPage({
 
         {current && (
           <div className="mt-5">
-            <div className="relative aspect-video overflow-hidden rounded-2xl border border-graphite-800 bg-black">
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${current.youtube_id}?rel=0&modestbranding=1`}
-                title={current.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 h-full w-full"
-              />
-            </div>
+            {source ? (
+              <ProtectedPlayer src={source.src} kind={source.kind} title={current.title} watermark={watermark} />
+            ) : (
+              <p className="rounded-2xl border border-dashed border-graphite-700 p-6 text-center text-sm text-graphite-300">
+                This video can&apos;t play right now. Please try again later or contact us on Telegram.
+              </p>
+            )}
             <h2 className="mt-3 text-lg font-semibold text-white">{current.title}</h2>
             {current.description && (
               <p className="mt-1 whitespace-pre-line text-sm text-graphite-300">{current.description}</p>
+            )}
+            {(current.pdf_en_path || current.pdf_hi_path) && (
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="text-sm text-graphite-300">Notes (PDF):</span>
+                {current.pdf_en_path && (
+                  <a
+                    href={`/api/lessons/${current.id}/notes?lang=en`}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-saffron-400/50 px-3 py-1.5 text-sm font-medium text-saffron-300 hover:bg-saffron-400/10"
+                  >
+                    <FileDown className="h-4 w-4" /> English
+                  </a>
+                )}
+                {current.pdf_hi_path && (
+                  <a
+                    href={`/api/lessons/${current.id}/notes?lang=hi`}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-saffron-400/50 px-3 py-1.5 text-sm font-medium text-saffron-300 hover:bg-saffron-400/10"
+                  >
+                    <FileDown className="h-4 w-4" /> हिंदी
+                  </a>
+                )}
+              </div>
             )}
           </div>
         )}
