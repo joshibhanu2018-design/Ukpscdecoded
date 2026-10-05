@@ -1,15 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { BarChart3, Search, Flame, Calendar, ChevronDown, MapPin, Globe } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { BarChart3, Search, Flame, Calendar, ChevronDown, MapPin, Globe, Download, PlayCircle, BookOpen, ClipboardCheck, Radio } from 'lucide-react';
 import {
   uttarakhandClusters,
   nationalClusters,
-  prepPlan,
   PYQ_YEARS,
   type PYQCluster,
   type Priority,
 } from '@/lib/pyqData';
+import { masterPlan } from '@/lib/masterPlan';
 import {
   MarksDistribution,
   ExamStages,
@@ -92,42 +92,53 @@ function ClusterCard({ cluster, forceOpen }: { cluster: PYQCluster; forceOpen?: 
 }
 
 
-function PhaseAccordion({ phaseIndex }: { phaseIndex: number }) {
-  const [open, setOpen] = useState(phaseIndex === 0);
-  const phase = prepPlan[phaseIndex];
+function dayLabel(iso: string) {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
+
+function PhaseAccordion({ phaseIndex, open, onToggle, today }: { phaseIndex: number; open: boolean; onToggle: () => void; today: string | null }) {
+  const phase = masterPlan[phaseIndex];
   return (
     <div className="card bg-white border border-graphite-100 p-0 overflow-hidden">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={onToggle}
         className="w-full flex items-center justify-between gap-3 p-4 sm:p-5 text-left hover:bg-ivory-50 transition-colors"
       >
-        <span className="font-display font-semibold text-graphite-900 text-sm sm:text-base">
-          {phase.phase}
-        </span>
-        <ChevronDown
-          className={`w-5 h-5 text-graphite-400 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
-        />
+        <span className="font-display font-semibold text-graphite-900 text-sm sm:text-base">{phase.phase}</span>
+        <ChevronDown className={`w-5 h-5 text-graphite-400 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
         <div className="divide-y divide-graphite-50 border-t border-graphite-100">
-          {phase.days.map((d) => (
-            <div key={d.day} className="p-4 hover:bg-saffron-50/40 transition-colors">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-graphite-800 text-white text-xs font-bold flex-shrink-0">
-                  {d.day}
-                </span>
-                <span className="font-semibold text-graphite-800 text-sm">{d.theme}</span>
+          {phase.days.map((d) => {
+            const isToday = d.date === today;
+            const isMock = d.tests.some((t) => t.startsWith('Full Mock') || t === 'Grand Uttarakhand Mock' || t === 'Free Sample Mock');
+            return (
+              <div key={d.day} className={`p-4 transition-colors ${isToday ? 'bg-saffron-50 ring-2 ring-inset ring-saffron-300' : isMock ? 'bg-ivory-50' : 'hover:bg-saffron-50/40'}`}>
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-graphite-800 text-white text-xs font-bold flex-shrink-0">{d.day}</span>
+                  <span className="font-semibold text-graphite-800 text-sm">{dayLabel(d.date)}</span>
+                  {isToday && <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-saffron-500 text-white">Today</span>}
+                </div>
+                <div className="space-y-1.5 text-xs text-graphite-600 sm:ml-10">
+                  {d.watch && d.watch !== '—' && (
+                    <p className="flex gap-1.5"><PlayCircle className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-saffron-600" /><span><span className="font-semibold text-graphite-800">Watch:</span> {d.watch}</span></p>
+                  )}
+                  {d.bookEn && (
+                    <p className="flex gap-1.5"><BookOpen className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-saffron-600" /><span><span className="font-semibold text-graphite-800">Book:</span> {d.bookEn}<span className="block text-graphite-500">{d.bookHi}</span></span></p>
+                  )}
+                  <p><span className="font-semibold text-jade-600">Self-study:</span> {d.selfStudy}</p>
+                  <p><span className="font-semibold text-graphite-500">📝 PYQ clusters:</span> {d.pyq}</p>
+                  {d.tests.length > 0 && (
+                    <p className="flex gap-1.5"><ClipboardCheck className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-saffron-600" /><span><span className="font-semibold text-graphite-800">Test:</span> {d.tests.join(' + ')}</span></p>
+                  )}
+                  {d.live && (
+                    <p className="flex gap-1.5 text-jade-700 font-medium"><Radio className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />{d.live}</p>
+                  )}
+                  <p className="text-graphite-500">{d.evening}</p>
+                </div>
               </div>
-              <div className="grid sm:grid-cols-3 gap-2 text-xs text-graphite-600 ml-10">
-                <div><span className="font-semibold text-saffron-600">Morning:</span> {d.morning}</div>
-                <div><span className="font-semibold text-jade-600">Afternoon:</span> {d.afternoon}</div>
-                <div><span className="font-semibold text-graphite-500">Evening:</span> {d.evening}</div>
-              </div>
-              <p className="text-xs text-graphite-500 mt-2 ml-10">
-                <span className="font-semibold">📝 PYQ Practice:</span> {d.pyq}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
@@ -139,6 +150,16 @@ export default function PYQTrackerPage() {
   const [activeTab, setActiveTab] = useState<Tab>('uttarakhand');
   const [search, setSearch] = useState('');
   const [priorityFilter, setPriorityFilter] = useState<Priority | 'ALL'>('ALL');
+  const [openPhase, setOpenPhase] = useState<number | null>(0);
+  const [today, setToday] = useState<string | null>(null);
+
+  // Open the phase holding today's date (IST), after mount so server and client render the same.
+  useEffect(() => {
+    const iso = new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+    setToday(iso);
+    const idx = masterPlan.findIndex((p) => p.days.some((d) => d.date === iso));
+    if (idx >= 0) setOpenPhase(idx);
+  }, []);
 
   const sourceClusters = activeTab === 'uttarakhand' ? uttarakhandClusters : nationalClusters;
 
@@ -169,7 +190,7 @@ export default function PYQTrackerPage() {
           <BarChart3 className="w-10 h-10 text-saffron-400 mx-auto mb-6" />
           <h1 className="heading-xl text-white mb-4">Previous Year Question Tracker</h1>
           <p className="text-lg text-graphite-300 max-w-2xl mx-auto">
-            Cluster-wise analysis of UKPSC Prelims (2016, 2021, 2024, 2025). Uttarakhand tracker covers ~35% of the paper; National tracker covers ~65%. Plus a ready-to-use 60-day study plan.
+            Cluster-wise analysis of UKPSC Prelims (2016, 2021, 2024, 2025). Uttarakhand tracker covers ~35% of the paper; National tracker covers ~65%. Plus the day-by-day 60-Day Master Plan to the 29 November exam.
           </p>
         </div>
       </section>
@@ -212,11 +233,25 @@ export default function PYQTrackerPage() {
         <div className="container-custom">
           {activeTab === 'plan' ? (
             <div className="space-y-4 max-w-4xl mx-auto">
-              <div className="bg-jade-50 border border-jade-200 rounded-xl p-4 mb-6 text-sm text-jade-800">
-                <strong>Built from actual PYQ weightage.</strong> UK topics get 16 days (27% of plan) because they deliver 33%+ of marks — the highest ROI. Attempt order on exam day: UK GK first → Polity → History → Economy → Science.
+              <div className="bg-jade-50 border border-jade-200 rounded-xl p-4 mb-2 text-sm text-jade-800 space-y-2">
+                <p>
+                  <strong>60-Day Master Plan 2026:</strong> 1 October → 29 November (Day 60 = exam day). Every day: one crash course
+                  video, one chapter of <em>Uttarakhand Decoded / उत्तराखंड डिकोडेड</em>, the national topic from your own books, that
+                  topic&apos;s PYQ cluster, and a test within 0–2 days.
+                </p>
+                <p>
+                  Sunday = full mock · Wednesday = live session · last 9 days = revision + mocks only. Started late? Begin from
+                  today&apos;s row.
+                </p>
               </div>
-              {prepPlan.map((_, i) => (
-                <PhaseAccordion key={i} phaseIndex={i} />
+              <a
+                href="/uploads/UKPSC-60-Day-Prep-Tracker.pdf"
+                className="inline-flex items-center gap-2 rounded-lg bg-saffron-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-saffron-600"
+              >
+                <Download className="w-4 h-4" /> Download printable PDF (tick-box planner)
+              </a>
+              {masterPlan.map((_, i) => (
+                <PhaseAccordion key={i} phaseIndex={i} open={openPhase === i} onToggle={() => setOpenPhase(openPhase === i ? null : i)} today={today} />
               ))}
             </div>
           ) : (
