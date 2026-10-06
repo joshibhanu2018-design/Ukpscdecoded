@@ -6,7 +6,7 @@ import { ArrowLeft, Clock, FileQuestion, Lock, MinusCircle, PlusCircle } from "l
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { formatDateLabel } from "@/lib/packages";
 import { parseUtcTimestamp } from "@/lib/timestamps";
-import { getTestAccess, getUserAttemptsForTest, isPastGrace } from "@/lib/tests";
+import { attemptsLeft, getTestAccess, getUserAttemptsForTest, isPastGrace, MAX_ATTEMPTS_PER_TEST } from "@/lib/tests";
 import StartTestButton from "@/components/StartTestButton";
 
 export const metadata: Metadata = {
@@ -48,6 +48,8 @@ export default async function TestInstructionsPage({ params }: { params: Promise
   const attempts = await getUserAttemptsForTest(user.id, test.id);
   const resumable = attempts.find((a) => a.status === "in_progress" && !isPastGrace(a, test));
   const submitted = attempts.filter((a) => a.status === "submitted");
+  // Admins test freely; students get the test plus two retests.
+  const left = user.role === "admin" ? Infinity : attemptsLeft(attempts.length);
   const negative = test.negative_marking_enabled ? test.marks_per_question * test.negative_marking_value : 0;
   const perWrong = Math.round(negative * 100) / 100;
   const quarter = test.negative_marking_value === 0.25;
@@ -133,21 +135,40 @@ export default async function TestInstructionsPage({ params }: { params: Promise
         </div>
 
         <div className="mt-6">
-          <StartTestButton
-            testId={test.id}
-            label={resumable ? "Resume Test" : submitted.length > 0 ? "Reattempt" : "Start Test"}
-          />
+          {resumable || left > 0 ? (
+            <StartTestButton
+              testId={test.id}
+              label={
+                resumable
+                  ? "Resume Test"
+                  : submitted.length > 0
+                    ? `Retest${Number.isFinite(left) ? ` (${left} left)` : ""}`
+                    : "Start Test"
+              }
+            />
+          ) : (
+            <p className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 text-sm text-graphite-300">
+              You&apos;ve used all {MAX_ATTEMPTS_PER_TEST} attempts for this test (1 test + {MAX_ATTEMPTS_PER_TEST - 1} retests). Your
+              results are below.
+            </p>
+          )}
+          {!resumable && submitted.length === 0 && (
+            <p className="mt-3 text-xs text-graphite-300">
+              You can retake this test {MAX_ATTEMPTS_PER_TEST - 1} more times after your first attempt.
+            </p>
+          )}
         </div>
 
         {submitted.length > 0 && (
           <div className="mt-10">
-            <h2 className="mb-3 font-semibold text-white">
+            <h2 id="attempts" className="mb-3 scroll-mt-20 font-semibold text-white">
               Previous Attempts
             </h2>
             <ul className="divide-y divide-graphite-800 rounded-2xl border border-graphite-800 bg-graphite-900/60">
-              {submitted.map((a) => (
-                <li key={a.id} className="flex items-center justify-between px-5 py-3 text-sm">
+              {submitted.map((a, i) => (
+                <li key={a.id} className="flex items-center justify-between gap-3 px-5 py-3 text-sm">
                   <span className="text-graphite-300">
+                    <span className="font-medium text-graphite-200">Attempt {submitted.length - i}</span> ·{" "}
                     {formatDateLabel(parseUtcTimestamp(a.submitted_at ?? a.start_time).toISOString())}
                   </span>
                   <span className="font-semibold text-white">

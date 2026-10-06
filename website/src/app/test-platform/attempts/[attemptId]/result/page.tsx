@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, ArrowRight, CheckCircle2, Clock, MinusCircle, Target, Trophy, XCircle, Zap } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock, History, MinusCircle, RotateCcw, Target, Trophy, XCircle, Zap } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import {
+  attemptsLeft,
   computePercentile,
   FREE_SAMPLE_TEST_ID,
   formatDuration,
@@ -12,6 +13,7 @@ import {
   getAttemptById,
   getAttemptTest,
   getTestQuestions,
+  getUserAttemptsForTest,
   hasEarlierSubmittedAttempt,
   sanitizeAnswers,
   scoreAttempt,
@@ -66,6 +68,12 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   // so the page is correct even if the analytics insert ever failed.
   const r = scoreAttempt(questions, answers, test);
   const percentile = await computePercentile(test.id, r.score, attempt.id);
+  // Retests left for the owner (admins aren't limited); timed-out attempts count too.
+  const retestsLeft = !isOwner
+    ? 0
+    : user.role === "admin"
+      ? Infinity
+      : attemptsLeft((await getUserAttemptsForTest(user.id, test.id)).length);
   const isFirst = !(await hasEarlierSubmittedAttempt(
     attempt.user_id,
     test.id,
@@ -137,6 +145,25 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
             </p>
           )}
         </div>
+
+        {isOwner && (
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
+            {retestsLeft > 0 && (
+              <Link
+                href={`/test-platform/tests/${test.id}`}
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-saffron-400 px-5 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
+              >
+                <RotateCcw className="h-4 w-4" /> Retest{Number.isFinite(retestsLeft) ? ` (${retestsLeft} left)` : ""}
+              </Link>
+            )}
+            <Link
+              href={`/test-platform/tests/${test.id}#attempts`}
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-graphite-700 px-5 text-sm font-semibold text-graphite-200 hover:border-saffron-400"
+            >
+              <History className="h-4 w-4" /> Results of all attempts
+            </Link>
+          </div>
+        )}
 
         {showUpsell && (
           <div className="mt-6 rounded-2xl border border-saffron-400/40 bg-graphite-900 p-5 sm:p-6">

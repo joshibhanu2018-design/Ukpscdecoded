@@ -310,23 +310,34 @@ export async function getUserAttemptsForTest(userId: string, testId: string): Pr
   return data as Attempt[];
 }
 
+/** Each test can be taken once plus two retests (owner, Oct 2026). Admins are not limited. */
+export const MAX_ATTEMPTS_PER_TEST = 3;
+
+/** Attempts still allowed after `taken` attempts (submitted or timed out). */
+export function attemptsLeft(taken: number): number {
+  return Math.max(0, MAX_ATTEMPTS_PER_TEST - taken);
+}
+
 /**
  * Resumes the user's unfinished attempt at this test if there is one
  * still inside its time limit, otherwise starts a fresh one. An expired
  * in-progress attempt (student closed the tab and never came back) is
- * finalized with whatever was saved before a new one starts.
+ * finalized with whatever was saved before a new one starts. A new
+ * attempt is refused once MAX_ATTEMPTS_PER_TEST are used, unless `unlimited`.
  */
 export async function startOrResumeAttempt(
   userId: string,
   test: Test,
-  enrollmentId: string | null
-): Promise<{ attemptId: string; resumed: boolean }> {
-  const inProgress = (await getUserAttemptsForTest(userId, test.id)).filter((a) => a.status === "in_progress");
+  enrollmentId: string | null,
+  unlimited = false
+): Promise<{ attemptId: string; resumed: boolean } | { limitReached: true }> {
+  const attempts = await getUserAttemptsForTest(userId, test.id);
 
-  for (const attempt of inProgress) {
+  for (const attempt of attempts.filter((a) => a.status === "in_progress")) {
     if (!isPastGrace(attempt, test)) return { attemptId: attempt.id, resumed: true };
     await finalizeAttempt(attempt, test);
   }
+  if (!unlimited && attemptsLeft(attempts.length) === 0) return { limitReached: true };
 
   const { data, error } = await supabaseAdmin()
     .from("attempts")

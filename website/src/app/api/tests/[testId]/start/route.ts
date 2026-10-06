@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
-import { getTestAccess, startOrResumeAttempt } from "@/lib/tests";
+import { getTestAccess, MAX_ATTEMPTS_PER_TEST, startOrResumeAttempt } from "@/lib/tests";
 
 const ACCESS_ERRORS = {
   not_found: { status: 404, error: "Test not found" },
@@ -25,8 +25,14 @@ export async function POST(_request: NextRequest, { params }: { params: Promise<
   }
 
   try {
-    const { attemptId, resumed } = await startOrResumeAttempt(user.id, access.test, access.enrollmentId);
-    return NextResponse.json({ attempt_id: attemptId, resumed });
+    const started = await startOrResumeAttempt(user.id, access.test, access.enrollmentId, user.role === "admin");
+    if ("limitReached" in started) {
+      return NextResponse.json(
+        { error: `You've used all ${MAX_ATTEMPTS_PER_TEST} attempts for this test (1 test + ${MAX_ATTEMPTS_PER_TEST - 1} retests).` },
+        { status: 409 },
+      );
+    }
+    return NextResponse.json({ attempt_id: started.attemptId, resumed: started.resumed });
   } catch (err) {
     console.error("[tests/start] failed:", err);
     return NextResponse.json({ error: "Could not start the test. Please try again." }, { status: 500 });

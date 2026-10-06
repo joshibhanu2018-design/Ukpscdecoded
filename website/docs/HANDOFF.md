@@ -213,6 +213,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   AI prompts for the product banners (1920x600 + 1080x1080 mobile):
   `docs/CAROUSEL_PROMPTS.md`.
 
+- **Retests (6 Oct):** each test can be taken once plus 2 retests
+  (`MAX_ATTEMPTS_PER_TEST = 3` in `src/lib/tests.ts`, enforced in
+  `/api/tests/[testId]/start`; a timed-out attempt counts; admins unlimited).
+  The result page shows "Retest (n left)" and "Results of all attempts"; the
+  student's course list shows View/Latest result, All n attempts and Retest.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
