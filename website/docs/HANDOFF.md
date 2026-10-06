@@ -208,8 +208,16 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   stamped copies cached under `stamped/v2/`). The installed app's home-screen
   icon changes only with the next PWABuilder build — rebuild with the SAME
   signing key (upload `signing.keystore`, never "Create new").
-  The home carousel shows the badge too: top-left corner on picture banners,
-  centred above the title on text (gradient) banners (`HomeCarousel.tsx`).
+  The home carousel shows the badge above the title on text (gradient)
+  banners only; picture banners carry the logo inside the designed image.
+  AI prompts for the product banners (1920x600 + 1080x1080 mobile):
+  `docs/CAROUSEL_PROMPTS.md`.
+
+- **Retests (6 Oct):** each test can be taken once plus 2 retests
+  (`MAX_ATTEMPTS_PER_TEST = 3` in `src/lib/tests.ts`, enforced in
+  `/api/tests/[testId]/start`; a timed-out attempt counts; admins unlimited).
+  The result page shows "Retest (n left)" and "Results of all attempts"; the
+  student's course list shows View/Latest result, All n attempts and Retest.
 
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review

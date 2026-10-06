@@ -13,7 +13,7 @@ import {
   getUserActiveEnrollments,
 } from "@/lib/packages";
 import { supabaseAdmin } from "@/lib/supabase";
-import { getUserTestSummaries, isTestReleased } from "@/lib/tests";
+import { attemptsLeft, getUserTestSummaries, isTestReleased } from "@/lib/tests";
 import { groupTestsByTab, testTabOf } from "@/lib/course-display";
 import TestTabs from "@/components/TestTabs";
 
@@ -156,25 +156,61 @@ export default async function MyCourseTestsPage({ params }: { params: Promise<{ 
                         );
                       }
 
+                      if (s) {
+                        // Taken: latest score, its result, and the retest while any are left.
+                        const left = user.role === "admin" ? Infinity : attemptsLeft(s.attempts);
+                        return (
+                          <li key={t.id} className="px-4 py-3">
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="min-w-0">
+                                <p className="truncate text-sm font-medium text-white">{t.test_name}</p>
+                                {meta}
+                              </div>
+                              <span className="flex flex-shrink-0 items-center gap-1 text-xs font-semibold text-success-400">
+                                <CheckCircle2 className="h-4 w-4" /> {s.score}/{s.totalMarks}
+                              </span>
+                            </div>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                              <Link
+                                href={`/test-platform/attempts/${s.attemptId}/result`}
+                                className="rounded-lg border border-graphite-700 px-3 py-1.5 text-xs font-semibold text-graphite-200 hover:border-saffron-400/60"
+                              >
+                                {s.attempts > 1 ? "Latest result" : "View result"}
+                              </Link>
+                              {s.attempts > 1 && (
+                                <Link
+                                  href={`/test-platform/tests/${t.id}#attempts`}
+                                  className="rounded-lg border border-graphite-700 px-3 py-1.5 text-xs font-semibold text-graphite-200 hover:border-saffron-400/60"
+                                >
+                                  All {s.attempts} attempts
+                                </Link>
+                              )}
+                              {left > 0 && (
+                                <Link
+                                  href={`/test-platform/tests/${t.id}`}
+                                  className="rounded-lg bg-saffron-400 px-3 py-1.5 text-xs font-bold text-graphite-900 hover:bg-saffron-300"
+                                >
+                                  Retest{Number.isFinite(left) ? ` (${left} left)` : ""}
+                                </Link>
+                              )}
+                            </div>
+                          </li>
+                        );
+                      }
+
                       return (
                         <li key={t.id}>
                           <Link
-                            href={s ? `/test-platform/attempts/${s.attemptId}/result` : `/test-platform/tests/${t.id}`}
+                            href={`/test-platform/tests/${t.id}`}
                             className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-graphite-800/50"
                           >
                             <div className="min-w-0">
                               <p className="truncate text-sm font-medium text-white">{t.test_name}</p>
                               {meta}
                             </div>
-                            {s ? (
-                              <span className="flex flex-shrink-0 items-center gap-1 text-xs font-semibold text-success-400">
-                                <CheckCircle2 className="h-4 w-4" /> {s.score}/{s.totalMarks}
-                              </span>
-                            ) : (
-                              <span className="flex-shrink-0 rounded-lg bg-saffron-400 px-3 py-1.5 text-xs font-bold text-graphite-900">
-                                Start
-                              </span>
-                            )}
+                            <span className="flex-shrink-0 rounded-lg bg-saffron-400 px-3 py-1.5 text-xs font-bold text-graphite-900">
+                              Start
+                            </span>
                           </Link>
                         </li>
                       );
