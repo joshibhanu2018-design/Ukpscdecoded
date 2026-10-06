@@ -40,8 +40,9 @@ const BUNNY_LINK_TTL_S = 6 * 60 * 60;
  * working. The lesson itself stays available; a fresh link is made per view.
  */
 export function bunnyEmbedUrl(videoId: string): string | null {
-  const library = process.env.BUNNY_STREAM_LIBRARY_ID;
-  const key = process.env.BUNNY_STREAM_TOKEN_KEY;
+  // Trimmed: a space or line break pasted into Vercel would break every token.
+  const library = process.env.BUNNY_STREAM_LIBRARY_ID?.trim();
+  const key = process.env.BUNNY_STREAM_TOKEN_KEY?.trim();
   if (!library || !key) {
     console.error("[lessons] BUNNY_STREAM_LIBRARY_ID / BUNNY_STREAM_TOKEN_KEY not set; Bunny lessons cannot play.");
     return null;
