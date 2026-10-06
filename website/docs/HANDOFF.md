@@ -262,6 +262,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Turn off the 100% test coupon if still active.
 
 ## Open items (code / content)
+- [ ] Crash-course calendar (`content/crashCoursePlan.json`) titles synced
+      with `VIDEO_STATUS.md` on 5 Oct; keep it in step when slots change.
 - [ ] **Android app** — Phase 1 code done (above); next: flow checks in
       the installed app, then Phase 2 in `APP_PLAN.md`.
 - [ ] SEO content pages (syllabus 2026, previous-year papers, exam date,
