@@ -7,8 +7,10 @@ import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { formatDateLabel, getPackageBySlug } from "@/lib/packages";
 import CrashCoursePlan from "@/components/CrashCoursePlan";
 import ProtectedPlayer from "@/components/ProtectedPlayer";
+import VideoThumb from "@/components/VideoThumb";
 import {
   bunnyEmbedUrl,
+  bunnyThumbnailUrl,
   canAccessPackage,
   getPackageLessons,
   getWatchedLessonIds,
@@ -149,6 +151,9 @@ export default async function LessonsPage({
               const body = (
                 <>
                   <span className="w-6 flex-shrink-0 text-xs text-graphite-300">{i + 1}</span>
+                  {l.bunny_video_id && (
+                    <VideoThumb src={bunnyThumbnailUrl(l.bunny_video_id)} label={`${i + 1}`} className="w-20 sm:w-24" />
+                  )}
                   <span className="min-w-0 flex-1">
                     <span className={`block truncate text-sm ${isCurrent ? "font-semibold text-saffron-300" : "text-white"}`}>
                       {l.title}
@@ -186,7 +191,7 @@ export default async function LessonsPage({
         )}
 
         <div className="mt-10">
-          <CrashCoursePlan collapsed />
+          <CrashCoursePlan viewer={user} lessonsSlug={slug} />
         </div>
       </div>
     </div>

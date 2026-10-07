@@ -732,7 +732,9 @@ redeploy.
 **Test platform — protected video lessons (Bunny Stream):**
 `BUNNY_STREAM_LIBRARY_ID` (the library's numeric ID), `BUNNY_STREAM_TOKEN_KEY`
 (library → Security → token authentication key). Only Bunny lessons need
-them; YouTube lessons play without.
+them; YouTube lessons play without. `BUNNY_STREAM_CDN_HOST` (library → API →
+CDN Hostname, e.g. vz-1234abcd-567.b-cdn.net; not secret) shows each Bunny
+video's thumbnail in the crash course plan and lesson list; unset → no images.
 
 **Google Play reviewer login (optional):**
 `REVIEWER_EMAIL` and `REVIEWER_CODE` (6 digits). That one email logs in with
