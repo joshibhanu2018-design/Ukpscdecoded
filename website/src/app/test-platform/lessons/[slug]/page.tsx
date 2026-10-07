@@ -70,6 +70,9 @@ export default async function LessonsPage({
     lessons.map((l) => l.id),
   );
   const source = current ? playerSource(current) : null;
+  const thumbs = new Map(
+    await Promise.all(lessons.map(async (l) => [l.id, await bunnyThumbnailUrl(l.bunny_video_id)] as const)),
+  );
   const watermark = [user.email, user.phone].filter(Boolean).join(" · ");
   const nextUp = !current ? released.find((l) => !watched.has(l.id)) : undefined;
   const classStart = formatDateLabel((pkg.metadata?.class_start as string | undefined) ?? undefined);
@@ -152,7 +155,7 @@ export default async function LessonsPage({
                 <>
                   <span className="w-6 flex-shrink-0 text-xs text-graphite-300">{i + 1}</span>
                   {l.bunny_video_id && (
-                    <VideoThumb src={bunnyThumbnailUrl(l.bunny_video_id)} label={`${i + 1}`} className="w-20 sm:w-24" />
+                    <VideoThumb src={thumbs.get(l.id) ?? null} label={`${i + 1}`} className="w-20 sm:w-24" />
                   )}
                   <span className="min-w-0 flex-1">
                     <span className={`block truncate text-sm ${isCurrent ? "font-semibold text-saffron-300" : "text-white"}`}>

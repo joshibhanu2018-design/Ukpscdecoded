@@ -33,9 +33,12 @@ function dayLabel(iso: string, withWeekday = true): string {
 export default async function CrashCoursePlan({
   viewer,
   lessonsSlug = "crash-course",
+  freeVideos = [],
 }: {
   viewer: { id: string; role: string } | null;
   lessonsSlug?: string;
+  /** The page's free demo videos (YouTube); one titled "Video N" — or named like plan video N — fills that slot. */
+  freeVideos?: { title: string; youtubeId: string }[];
 }) {
   const videos = plan.videos as PlanVideo[];
   const live = plan.liveSessions as LiveSession[];
@@ -53,6 +56,21 @@ export default async function CrashCoursePlan({
     if (n !== null && !lessonByNumber.has(n)) lessonByNumber.set(n, l);
   }
 
+  const thumbs = new Map(
+    await Promise.all(
+      [...lessonByNumber.values()].map(async (l) => [l.id, await bunnyThumbnailUrl(l.bunny_video_id)] as const),
+    ),
+  );
+  const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const freeFor = (v: PlanVideo) =>
+    freeVideos.find((f) => {
+      const n = lessonVideoNumber(f.title);
+      if (n !== null) return n === v.number;
+      const a = norm(f.title);
+      const b = norm(v.title);
+      return a.length > 3 && (a.includes(b) || b.includes(a));
+    });
+
   const liveByDate = new Map(live.map((s) => [s.date, s]));
   const byDate = new Map<string, PlanVideo[]>();
   for (const v of videos) byDate.set(v.date, [...(byDate.get(v.date) ?? []), v]);
@@ -61,13 +79,18 @@ export default async function CrashCoursePlan({
   const liveDays = [...new Set(live.map((s) => new Date(`${s.date}T00:00:00Z`).toLocaleDateString("en-IN", { weekday: "long", timeZone: "UTC" })))];
   const liveWhen = liveDays.length === 1 ? `${liveDays[0]}s` : "Weekly";
   const revisionStart = new Date(Date.parse(`${plan.lastVideo}T00:00:00Z`) + 86400000).toISOString().slice(0, 10);
-  const uploaded = videos.filter((v) => lessonByNumber.has(v.number)).length;
+  const uploaded = videos.filter((v) => lessonByNumber.has(v.number) || freeFor(v)).length;
 
   const videoRow = (v: PlanVideo) => {
     const lesson = lessonByNumber.get(v.number);
+    const free = freeFor(v);
     const open = !!lesson && isLessonReleased(lesson);
     const playable = open && canWatch;
-    const status = playable ? (
+    const status = free && !playable ? (
+      <span className="inline-flex items-center gap-1 text-xs font-semibold text-success-300">
+        <PlayCircle className="h-3.5 w-3.5" /> Free · Watch now
+      </span>
+    ) : playable ? (
       <span className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-300">
         <PlayCircle className="h-3.5 w-3.5" /> Watch now
       </span>
@@ -83,7 +106,7 @@ export default async function CrashCoursePlan({
     const body = (
       <>
         <VideoThumb
-          src={lesson ? bunnyThumbnailUrl(lesson.bunny_video_id) : null}
+          src={lesson ? (thumbs.get(lesson.id) ?? null) : free ? `https://i.ytimg.com/vi/${free.youtubeId}/hqdefault.jpg` : null}
           label={`Video ${v.number}`}
           className="w-28 sm:w-40"
         />
@@ -99,7 +122,11 @@ export default async function CrashCoursePlan({
     );
     return (
       <li key={v.number}>
-        {playable ? (
+        {free && !playable ? (
+          <a href="#free-demo" className="flex items-start gap-3 rounded-xl p-2 hover:bg-graphite-800/60">
+            {body}
+          </a>
+        ) : playable ? (
           <Link
             href={`/test-platform/lessons/${lessonsSlug}?v=${lesson!.id}`}
             prefetch={false}

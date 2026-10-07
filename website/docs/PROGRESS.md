@@ -735,6 +735,9 @@ redeploy.
 them; YouTube lessons play without. `BUNNY_STREAM_CDN_HOST` (library → API →
 CDN Hostname, e.g. vz-1234abcd-567.b-cdn.net; not secret) shows each Bunny
 video's thumbnail in the crash course plan and lesson list; unset → no images.
+`BUNNY_STREAM_API_KEY` (library → API → "API Key"; **secret**) lets the site
+ask Bunny for a thumbnail uploaded in Bunny (it gets a new file name);
+without it Bunny's automatic frame is shown.
 
 **Google Play reviewer login (optional):**
 `REVIEWER_EMAIL` and `REVIEWER_CODE` (6 digits). That one email logs in with
