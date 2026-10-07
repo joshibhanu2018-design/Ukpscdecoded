@@ -14,10 +14,12 @@ export type Lesson = {
   sort_order: number;
   release_at: string | null;
   is_active: boolean;
+  /** Free sample: any logged-in student may watch it and get its notes (schema-phase29). */
+  is_free?: boolean | null;
 };
 
-export const LESSON_COLUMNS =
-  "id, package_id, title, description, youtube_id, bunny_video_id, pdf_en_path, pdf_hi_path, sort_order, release_at, is_active";
+// "*" so pages keep working before supabase/schema-phase29-free-sample-lessons.sql adds is_free.
+export const LESSON_COLUMNS = "*";
 
 /** Private storage bucket for lesson PDFs (see supabase/schema-phase27-protected-lessons.sql). */
 export const LESSON_NOTES_BUCKET = "lesson-notes";

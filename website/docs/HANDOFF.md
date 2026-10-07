@@ -228,6 +228,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   demo video (course metadata `demo_videos`) titled "Video N …" (or named like
   plan video N) fills that slot as "Free · Watch now" (links to #free-demo).
 
+- **Free sample lessons (7 Oct):** Admin → Lessons → "Make free" on a lesson
+  (needs `supabase/schema-phase29-free-sample-lessons.sql`). Any logged-in
+  student can then watch it and download its stamped PDFs; the plan shows
+  "Free sample · Watch now". Non-owners opening any other lesson are sent to
+  the course page. Video 4 is the first sample (owner, 7 Oct).
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with

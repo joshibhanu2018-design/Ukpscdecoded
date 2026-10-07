@@ -85,8 +85,13 @@ export default async function CrashCoursePlan({
     const lesson = lessonByNumber.get(v.number);
     const free = freeFor(v);
     const open = !!lesson && isLessonReleased(lesson);
-    const playable = open && canWatch;
-    const status = free && !playable ? (
+    const sampleLesson = open && !canWatch && !!lesson?.is_free;
+    const playable = open && (canWatch || sampleLesson);
+    const status = sampleLesson ? (
+      <span className="inline-flex items-center gap-1 text-xs font-semibold text-success-300">
+        <PlayCircle className="h-3.5 w-3.5" /> Free sample · Watch now + PDF notes
+      </span>
+    ) : free && !playable ? (
       <span className="inline-flex items-center gap-1 text-xs font-semibold text-success-300">
         <PlayCircle className="h-3.5 w-3.5" /> Free · Watch now
       </span>

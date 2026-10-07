@@ -59,6 +59,7 @@ type LessonInput = {
   sort_order?: number;
   release_at?: string | null;
   is_active?: boolean;
+  is_free?: boolean;
 };
 
 function buildFields(body: LessonInput): { fields: Record<string, unknown> } | { error: string } {
@@ -85,6 +86,7 @@ function buildFields(body: LessonInput): { fields: Record<string, unknown> } | {
     fields.release_at = body.release_at || null;
   }
   if (body.is_active !== undefined) fields.is_active = Boolean(body.is_active);
+  if (body.is_free !== undefined) fields.is_free = Boolean(body.is_free);
   return { fields };
 }
 
