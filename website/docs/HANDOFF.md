@@ -243,7 +243,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
       (7 Oct). `public/.well-known/assetlinks.json` now has both fingerprints:
       Play app signing key (B5:6A:…) and the upload key (52:52:…).
       Next: store listing (add the "not affiliated with UKPSC" line), app
-      content forms, reviewer login for App access (to build), closed test
+      content forms, App access = the reviewer login (`REVIEWER_EMAIL` +
+      `REVIEWER_CODE` in Vercel, see PROGRESS env vars), closed test
       with 12+ testers for 14 days (personal account), then production.
       Payments: no in-app buying at first (buy on the website). Keep the
       PWABuilder zips (signing key) in two safe places, never in the repo.

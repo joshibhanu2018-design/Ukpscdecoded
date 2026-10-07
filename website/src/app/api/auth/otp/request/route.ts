@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendLoginCodeEmail } from "@/lib/email";
-import { checkRateLimits, EMAIL_RE, getClientIp, issueCode, normalizeEmail } from "@/lib/otp";
+import { checkRateLimits, EMAIL_RE, getClientIp, issueCode, normalizeEmail, reviewerCodeFor } from "@/lib/otp";
 
 /**
  * Step 1: email a 6-digit code. Same response whether or not an account
@@ -30,8 +30,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const code = await issueCode(email, ip);
-    const sent = await sendLoginCodeEmail(email, code);
+    // The Play Store reviewer can't read an inbox: their fixed code is stored and no email is sent.
+    const reviewerCode = reviewerCodeFor(email);
+    const code = await issueCode(email, ip, reviewerCode ?? undefined);
+    const sent = reviewerCode ? true : await sendLoginCodeEmail(email, code);
     if (!sent) {
       return NextResponse.json(
         { error: "Could not send the email. Please try again." },

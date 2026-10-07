@@ -94,9 +94,21 @@ export async function checkRateLimits(email: string, ip: string): Promise<RateLi
   return { ok: true };
 }
 
+/**
+ * The Google Play reviewer's fixed login code, when `email` is the
+ * reviewer account. Both come from env (REVIEWER_EMAIL, REVIEWER_CODE: 6
+ * digits), never from the repo; unset → no reviewer login. The code still
+ * goes through the normal rate limits and 5-attempt rule.
+ */
+export function reviewerCodeFor(email: string): string | null {
+  const reviewer = normalizeEmail(process.env.REVIEWER_EMAIL);
+  const code = process.env.REVIEWER_CODE?.trim() ?? "";
+  return reviewer && email === reviewer && /^\d{6}$/.test(code) ? code : null;
+}
+
 /** Stores a new code and returns the plain code (to email — never stored). */
-export async function issueCode(email: string, ip: string): Promise<string> {
-  const code = generateCode();
+export async function issueCode(email: string, ip: string, fixedCode?: string): Promise<string> {
+  const code = fixedCode ?? generateCode();
   const { error } = await supabaseAdmin()
     .from("login_codes")
     .insert({
