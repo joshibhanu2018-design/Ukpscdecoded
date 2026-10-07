@@ -53,14 +53,34 @@ export function bunnyEmbedUrl(videoId: string): string | null {
 }
 
 /**
- * A Bunny Stream video's thumbnail (the one set in Bunny), from the
+ * A Bunny Stream video's current thumbnail, shown to everyone. Needs the
  * library's CDN hostname (Bunny → Stream → library → API → "CDN Hostname",
- * e.g. vz-1234abcd-567.b-cdn.net) in BUNNY_STREAM_CDN_HOST. Not secret:
- * thumbnails are shown to everyone. Unset → no thumbnails.
+ * e.g. vz-1234abcd-567.b-cdn.net) in BUNNY_STREAM_CDN_HOST; unset → null.
+ * A thumbnail uploaded in Bunny gets a new file name, so with the library API
+ * key (BUNNY_STREAM_API_KEY) we ask Bunny for it (cached 10 minutes);
+ * without the key, Bunny's automatic frame (thumbnail.jpg) is used.
  */
-export function bunnyThumbnailUrl(videoId: string | null): string | null {
+export async function bunnyThumbnailUrl(videoId: string | null): Promise<string | null> {
   const host = process.env.BUNNY_STREAM_CDN_HOST?.trim().replace(/^https?:\/\//, "").replace(/\/+$/, "");
-  return host && videoId ? `https://${host}/${videoId}/thumbnail.jpg` : null;
+  if (!host || !videoId) return null;
+  let file = "thumbnail.jpg";
+  const library = process.env.BUNNY_STREAM_LIBRARY_ID?.trim();
+  const apiKey = process.env.BUNNY_STREAM_API_KEY?.trim();
+  if (library && apiKey) {
+    try {
+      const res = await fetch(`https://video.bunnycdn.com/library/${library}/videos/${videoId}`, {
+        headers: { AccessKey: apiKey, accept: "application/json" },
+        next: { revalidate: 600 },
+      });
+      if (res.ok) {
+        const info = (await res.json()) as { thumbnailFileName?: unknown };
+        if (typeof info.thumbnailFileName === "string" && /^[\w.-]+$/.test(info.thumbnailFileName)) file = info.thumbnailFileName;
+      }
+    } catch {
+      // Bunny API unreachable: fall back to the automatic frame.
+    }
+  }
+  return `https://${host}/${videoId}/${file}`;
 }
 
 /** "Video 12: …" → 12: links an uploaded lesson to its slot in the crash course plan. */

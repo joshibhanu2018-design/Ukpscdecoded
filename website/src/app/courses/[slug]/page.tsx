@@ -261,7 +261,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
 
           {/* Free demo videos — packages.metadata.demo_videos (YouTube until Bunny is set up) */}
           {videos.length > 0 ? (
-            <section>
+            <section id="free-demo" className="scroll-mt-24">
               <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
                 <PlayCircle className="h-5 w-5 text-saffron-400" /> Watch Free Demo
               </h2>
@@ -288,6 +288,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {hasCrashCourse && (
             <CrashCoursePlan
               viewer={user}
+              freeVideos={videos}
               lessonsSlug={pkg.package_type === "video_course" && pkg.slug ? pkg.slug : "crash-course"}
             />
           )}

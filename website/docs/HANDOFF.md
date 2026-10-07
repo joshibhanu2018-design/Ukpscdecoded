@@ -224,7 +224,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   titled "Video N …" in that course fills slot N: its Bunny thumbnail shows to
   everyone (needs `BUNNY_STREAM_CDN_HOST` in Vercel); only owners can click
   through to watch, others see "For enrolled students". The lesson list also
-  shows thumbnails.
+  shows thumbnails. Custom thumbnails need `BUNNY_STREAM_API_KEY` too. A free
+  demo video (course metadata `demo_videos`) titled "Video N …" (or named like
+  plan video N) fills that slot as "Free · Watch now" (links to #free-demo).
 
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
