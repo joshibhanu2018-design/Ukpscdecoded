@@ -30,7 +30,7 @@ export default function OfferBar({ code, percentOff, expiresAt }: { code: string
   if (HIDDEN_PREFIXES.some((p) => pathname?.startsWith(p)) || (now !== null && remaining <= 0)) return null;
 
   return (
-    <div className="bg-saffron-400 px-3 py-2 text-center text-xs font-semibold text-graphite-950 sm:text-sm">
+    <div className="web-only bg-saffron-400 px-3 py-2 text-center text-xs font-semibold text-graphite-950 sm:text-sm">
       <span>{percentOff}% off every course &amp; test series with code </span>
       <button
         type="button"

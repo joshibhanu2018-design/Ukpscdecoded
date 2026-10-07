@@ -734,6 +734,11 @@ redeploy.
 (library → Security → token authentication key). Only Bunny lessons need
 them; YouTube lessons play without.
 
+**Google Play reviewer login (optional):**
+`REVIEWER_EMAIL` and `REVIEWER_CODE` (6 digits). That one email logs in with
+the fixed code and no email is sent; normal rate limits still apply. Give
+both to Google in Play Console → App content → App access. Unset → off.
+
 **Test platform — payments (Razorpay):**
 `RAZORPAY_TEST_KEY_ID`, `RAZORPAY_TEST_KEY_SECRET` (despite the name,
 these hold the **live** keys; since 28 Sep 2026 every payment — courses,
