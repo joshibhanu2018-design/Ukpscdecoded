@@ -56,14 +56,17 @@ export default async function LessonsPage({
   if (!pkg) notFound();
 
   const isAdmin = user.role === "admin";
-  if (!(await canAccessPackage(user, pkg.id))) redirect(`/courses/${slug}`);
-
+  const owns = await canAccessPackage(user, pkg.id);
   const lessons = await getPackageLessons(pkg.id);
   const released = lessons.filter(isLessonReleased);
-  // Only a lesson the student explicitly opened counts as watched (refund rule),
-  // so the page never auto-plays one. Admin previews are not recorded.
   const current = v ? released.find((l) => l.id === v) : undefined;
-  if (current && !isAdmin) await recordLessonView(user.id, current.id);
+  // Without the course, only a free sample lesson can be opened (and nothing else on the page plays).
+  const sample = !owns;
+  if (sample && !current?.is_free) redirect(`/courses/${slug}`);
+  const canOpen = (l: Lesson) => owns || !!l.is_free;
+  // Only a lesson the student explicitly opened counts as watched (refund rule),
+  // so the page never auto-plays one. Admin previews and free samples are not recorded.
+  if (current && owns && !isAdmin) await recordLessonView(user.id, current.id);
 
   const watched = await getWatchedLessonIds(
     user.id,
@@ -74,22 +77,28 @@ export default async function LessonsPage({
     await Promise.all(lessons.map(async (l) => [l.id, await bunnyThumbnailUrl(l.bunny_video_id)] as const)),
   );
   const watermark = [user.email, user.phone].filter(Boolean).join(" · ");
-  const nextUp = !current ? released.find((l) => !watched.has(l.id)) : undefined;
+  const nextUp = !current && owns ? released.find((l) => !watched.has(l.id)) : undefined;
   const classStart = formatDateLabel((pkg.metadata?.class_start as string | undefined) ?? undefined);
 
   return (
     <div className="min-h-screen bg-graphite-950 px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-3xl">
         <Link
-          href="/test-platform"
+          href={sample ? `/courses/${slug}` : "/test-platform"}
           className="mb-4 inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400"
         >
-          <ArrowLeft className="h-4 w-4" /> My Courses
+          <ArrowLeft className="h-4 w-4" /> {sample ? "Course details" : "My Courses"}
         </Link>
         <h1 className="text-2xl font-bold text-white">{pkg.package_name}</h1>
-        <p className="mt-1 text-sm text-graphite-300">
-          {watched.size} / {released.length} lessons watched
-        </p>
+        {sample ? (
+          <p className="mt-2 rounded-lg border border-success-500/30 bg-success-500/10 px-3 py-2 text-sm text-success-300">
+            Free sample lesson: watch it and download its notes. The other lessons are for enrolled students.
+          </p>
+        ) : (
+          <p className="mt-1 text-sm text-graphite-300">
+            {watched.size} / {released.length} lessons watched
+          </p>
+        )}
 
         {current && (
           <div className="mt-5">
@@ -149,7 +158,7 @@ export default async function LessonsPage({
         ) : (
           <ul className="mt-8 divide-y divide-graphite-800 overflow-hidden rounded-2xl border border-graphite-800 bg-graphite-900/60">
             {lessons.map((l, i) => {
-              const open = isLessonReleased(l);
+              const open = isLessonReleased(l) && canOpen(l);
               const isCurrent = current?.id === l.id;
               const body = (
                 <>
@@ -161,9 +170,13 @@ export default async function LessonsPage({
                     <span className={`block truncate text-sm ${isCurrent ? "font-semibold text-saffron-300" : "text-white"}`}>
                       {l.title}
                     </span>
-                    {!open && l.release_at && (
+                    {!isLessonReleased(l) && l.release_at ? (
                       <span className="text-xs text-graphite-300">Available {formatDateLabel(l.release_at)}</span>
-                    )}
+                    ) : !canOpen(l) ? (
+                      <span className="text-xs text-graphite-300">For enrolled students</span>
+                    ) : l.is_free && sample ? (
+                      <span className="text-xs text-success-300">Free sample</span>
+                    ) : null}
                   </span>
                   {!open ? (
                     <Lock className="h-4 w-4 flex-shrink-0 text-graphite-300" />

@@ -17,6 +17,7 @@ type AdminLesson = {
   sort_order: number;
   release_at: string | null;
   is_active: boolean;
+  is_free?: boolean | null;
   views: number;
 };
 type Student = { email: string; watched: number } | { email: string; notFound: true } | null;
@@ -143,6 +144,17 @@ export default function AdminLessonsPage() {
         return l.sort_order === i + 1 ? null : send("PATCH", { id, sort_order: i + 1 });
       }),
     );
+    void load();
+  };
+
+  const toggleFree = async (l: AdminLesson) => {
+    const error = await send("PATCH", { id: l.id, is_free: !l.is_free });
+    if (error) {
+      setMessage({
+        ok: false,
+        text: error.includes("is_free") ? "Run supabase/schema-phase29-free-sample-lessons.sql in Supabase first." : error,
+      });
+    }
     void load();
   };
 
@@ -309,6 +321,7 @@ export default function AdminLessonsPage() {
                         <span className="block truncate text-white">
                           {l.title}
                           {!l.is_active && <span className="ml-2 text-xs text-danger-300">Hidden</span>}
+                          {l.is_free && <span className="ml-2 rounded-full bg-success-500/15 px-2 py-0.5 text-xs text-success-300">Free sample</span>}
                         </span>
                         <span className="text-xs text-graphite-300">
                           <span className={l.bunny_video_id ? "text-success-300" : "text-graphite-300"}>
@@ -330,6 +343,14 @@ export default function AdminLessonsPage() {
                         </button>
                         <button type="button" onClick={() => edit(l)} className="rounded px-2 py-1 text-xs text-saffron-300 hover:bg-graphite-800">
                           Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => toggleFree(l)}
+                          title="A free sample can be watched (with its PDFs) by any logged-in student"
+                          className="rounded px-2 py-1 text-xs text-success-300 hover:bg-graphite-800"
+                        >
+                          {l.is_free ? "Make paid" : "Make free"}
                         </button>
                         <button type="button" onClick={() => toggle(l)} className="rounded px-2 py-1 text-xs text-graphite-300 hover:bg-graphite-800">
                           {l.is_active ? "Hide" : "Show"}

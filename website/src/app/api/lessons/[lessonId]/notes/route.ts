@@ -58,7 +58,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ less
   const { data } = await db.from("lessons").select(LESSON_COLUMNS).eq("id", lessonId).eq("is_active", true).maybeSingle();
   const lesson = data as Lesson | null;
   if (!lesson) return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
-  if (!(await canAccessPackage(user, lesson.package_id))) {
+  if (!lesson.is_free && !(await canAccessPackage(user, lesson.package_id))) {
     return NextResponse.json({ error: "Buy the course to download its notes" }, { status: 403 });
   }
   if (user.role !== "admin" && !isLessonReleased(lesson)) {
