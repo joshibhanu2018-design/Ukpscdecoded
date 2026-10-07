@@ -52,6 +52,23 @@ export function bunnyEmbedUrl(videoId: string): string | null {
   return `https://iframe.mediadelivery.net/embed/${library}/${videoId}?token=${token}&expires=${expires}&autoplay=false&preload=true&responsive=true`;
 }
 
+/**
+ * A Bunny Stream video's thumbnail (the one set in Bunny), from the
+ * library's CDN hostname (Bunny → Stream → library → API → "CDN Hostname",
+ * e.g. vz-1234abcd-567.b-cdn.net) in BUNNY_STREAM_CDN_HOST. Not secret:
+ * thumbnails are shown to everyone. Unset → no thumbnails.
+ */
+export function bunnyThumbnailUrl(videoId: string | null): string | null {
+  const host = process.env.BUNNY_STREAM_CDN_HOST?.trim().replace(/^https?:\/\//, "").replace(/\/+$/, "");
+  return host && videoId ? `https://${host}/${videoId}/thumbnail.jpg` : null;
+}
+
+/** "Video 12: …" → 12: links an uploaded lesson to its slot in the crash course plan. */
+export function lessonVideoNumber(title: string): number | null {
+  const m = title.match(/\bvideo\s*(\d{1,3})\b/i);
+  return m ? Number(m[1]) : null;
+}
+
 /** Whether a student owns the package (directly or through a bundle). Admins always can. */
 export async function canAccessPackage(user: { id: string; role: string }, packageId: string): Promise<boolean> {
   if (user.role === "admin") return true;

@@ -219,6 +219,13 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   The result page shows "Retest (n left)" and "Results of all attempts"; the
   student's course list shows View/Latest result, All n attempts and Retest.
 
+- **Crash course plan with thumbnails (7 Oct):** `CrashCoursePlan` shows the
+  video schedule first (always open, bigger), then live sessions. A lesson
+  titled "Video N …" in that course fills slot N: its Bunny thumbnail shows to
+  everyone (needs `BUNNY_STREAM_CDN_HOST` in Vercel); only owners can click
+  through to watch, others see "For enrolled students". The lesson list also
+  shows thumbnails.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with

@@ -285,7 +285,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
 
           {/* Crash course (on its own page and on combos that include it): tentative calendar
               replaces the placeholder "Lecture N" curriculum. */}
-          {hasCrashCourse && <CrashCoursePlan collapsed />}
+          {hasCrashCourse && (
+            <CrashCoursePlan
+              viewer={user}
+              lessonsSlug={pkg.package_type === "video_course" && pkg.slug ? pkg.slug : "crash-course"}
+            />
+          )}
 
           {/* Curriculum */}
           {pkg.curriculum.length > 0 && pkg.package_type !== "video_course" && (
