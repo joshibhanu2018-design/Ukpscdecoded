@@ -11,3 +11,10 @@ work/
 export/
 tools/
 !video-edit/*.csv
+
+# Lesson videos (uploaded to Bunny Stream; never commit)
+videos/
+*.mp4
+*.mov
+*.mkv
+*.webm
