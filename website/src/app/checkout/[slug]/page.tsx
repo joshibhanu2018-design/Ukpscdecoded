@@ -15,6 +15,7 @@ import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import CheckoutForm from "@/components/CheckoutForm";
 import { getActiveOffer } from "@/lib/coupons";
 import { supabaseAdmin } from "@/lib/supabase";
+import AppPurchaseNote from "@/components/AppPurchaseNote";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -80,7 +81,8 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
           )}
         </div>
 
-        <div className="mt-6">
+        <AppPurchaseNote className="mt-6" />
+        <div className="web-only mt-6">
           <CheckoutForm
             pkg={{ id: pkg.id, package_name: pkg.package_name, basePrice: priceInfo.amount }}
             userName={user.full_name}

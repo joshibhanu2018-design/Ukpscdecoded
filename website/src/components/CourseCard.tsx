@@ -3,6 +3,7 @@ import { Check, Star } from "lucide-react";
 import { formatINR, type Package } from "@/lib/packages";
 import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
 import CourseHeader from "./CourseHeader";
+import AppPurchaseNote from "./AppPurchaseNote";
 
 export default function CourseCard({
   pkg,
@@ -68,11 +69,12 @@ export default function CourseCard({
             ) : (
               <Link
                 href={checkoutHref}
-                className="block min-h-[44px] rounded-lg bg-saffron-400 px-4 py-2.5 text-center text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300"
+                className="web-only block min-h-[44px] rounded-lg bg-saffron-400 px-4 py-2.5 text-center text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300"
               >
                 Buy Now
               </Link>
             )}
+            {!owned && <AppPurchaseNote />}
           </div>
         </div>
       </div>

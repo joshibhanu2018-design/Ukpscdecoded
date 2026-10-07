@@ -143,12 +143,20 @@ export default async function RootLayout({
   const [navbarUser, offer] = await Promise.all([getNavbarUser(), getActiveOffer().catch(() => null)]);
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png" />
         <link rel="apple-touch-icon" href="/icons/icon-180.png" />
         <link rel="manifest" href="/manifest.json" />
+        {/* Android app: it opens /app?source=app and sends an android-app:// referrer; the flag lives
+            in sessionStorage (the app's own tab), so the normal browser never gets it. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var s=sessionStorage;if(/[?&]source=app\\b/.test(location.search)||document.referrer.indexOf("android-app://in.ukpscdecoded.app")===0)s.setItem("ukd-app","1");if(s.getItem("ukd-app")==="1")document.documentElement.setAttribute("data-app","")}catch(e){}',
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

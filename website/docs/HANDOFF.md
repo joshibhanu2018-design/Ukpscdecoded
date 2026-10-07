@@ -248,7 +248,13 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
       login run `supabase/seed-phase28-play-reviewer-access.sql` so it sees
       all paid content), closed test
       with 12+ testers for 14 days (personal account), then production.
-      Payments: no in-app buying at first (buy on the website). Keep the
+      Payments: consumption-only (Google Play India): inside the app every
+      Buy button, the checkout form, the e-book buy form and the offer bar
+      are hidden and a neutral "Purchases aren't available in the app" note
+      shows (no link to the website: Play forbids steering). App detection:
+      inline script in layout.tsx sets <html data-app> from `?source=app` or
+      the android-app:// referrer (sessionStorage); CSS `.web-only` /
+      `.app-only` in globals.css. The print book stays buyable (physical). Keep the
       PWABuilder zips (signing key) in two safe places, never in the repo.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices

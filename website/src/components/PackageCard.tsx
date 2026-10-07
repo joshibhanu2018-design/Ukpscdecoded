@@ -8,6 +8,7 @@ import { formatINR } from "@/lib/format";
 import type { Package, Savings } from "@/lib/packages";
 import { formatFoundingLabel, type PriceInfo } from "@/lib/pricing";
 import { loadRazorpayScript } from "@/lib/razorpay-client";
+import AppPurchaseNote from "./AppPurchaseNote";
 
 export default function PackageCard({
   pkg,
@@ -218,6 +219,8 @@ export default function PackageCard({
           </div>
         ) : (
           <>
+            <AppPurchaseNote />
+            <div className="web-only">
             {error && (
               <div className="mb-3 rounded-lg border border-danger-500/30 bg-danger-500/10 px-3 py-2 text-xs text-danger-300">
                 {error}
@@ -274,6 +277,7 @@ export default function PackageCard({
                 Terms
               </Link>
             </p>
+            </div>
           </>
         )}
       </div>

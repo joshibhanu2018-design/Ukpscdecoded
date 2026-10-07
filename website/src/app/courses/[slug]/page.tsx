@@ -21,6 +21,7 @@ import FreeSampleTest from "@/components/FreeSampleTest";
 import { courseTone } from "@/components/CourseHeader";
 import DemoVideo from "@/components/DemoVideo";
 import TestTabs from "@/components/TestTabs";
+import AppPurchaseNote from "@/components/AppPurchaseNote";
 import CrashCoursePlan from "@/components/CrashCoursePlan";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 
@@ -133,7 +134,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             ) : (
               <Link
                 href={checkoutHref}
-                className="rounded-lg bg-saffron-400 px-6 py-2 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
+                className="web-only rounded-lg bg-saffron-400 px-6 py-2 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
               >
                 Buy Now
               </Link>
@@ -142,7 +143,9 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-graphite-800 bg-graphite-900/95 p-3 backdrop-blur lg:hidden">
+      <div
+        className={`fixed bottom-0 left-0 right-0 z-40 border-t border-graphite-800 bg-graphite-900/95 p-3 backdrop-blur lg:hidden ${owned ? "" : "web-only"}`}
+      >
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs text-graphite-300">Price</p>
@@ -209,7 +212,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               )}
             </div>
             {foundingLabel && <p className="mt-2 text-xs font-medium text-white/90">{foundingLabel}</p>}
-            <div className="mt-6 hidden sm:block">
+            {!owned && <AppPurchaseNote className="mt-6 max-w-sm" />}
+            <div className={`mt-6 hidden sm:block ${owned ? "" : "web-only"}`}>
               {owned ? (
                 <Link
                   href="/test-platform"

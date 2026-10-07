@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import AppPurchaseNote from '@/components/AppPurchaseNote';
 
 interface PaymentResponse {
   orderId: string;
@@ -301,7 +302,8 @@ export default function BuyPDFPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleGetPaymentLink} className="space-y-5">
+          <AppPurchaseNote />
+          <form onSubmit={handleGetPaymentLink} className="web-only space-y-5">
             {error && (
               <div className="bg-danger-50 border border-danger-300 rounded-lg p-4">
                 <p className="text-danger-700 text-sm font-medium">
