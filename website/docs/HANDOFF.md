@@ -238,13 +238,15 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - [ ] Site sometimes froze (no scrolling on any page until a full reload).
       Likely Razorpay checkout leaving `overflow:hidden` on the page;
       `ScrollUnlock` now clears it on every page change. Report if it recurs.
-- [ ] Android app Phase 2: PWABuilder package built (4 Oct); its upload-key
-      fingerprint is in `public/.well-known/assetlinks.json`. Play Console
-      "Create app" is locked until account verification (ID, phone/email,
-      Android device) finishes. After the first upload, send Claude Play's
-      "App signing key" SHA-256 so it is added as a second fingerprint (the
-      app shows an address bar until then). Keep the PWABuilder zip (signing
-      key) in two safe places, never in the repo. Decide the payments option.
+- [ ] Android app Phase 2: account verified, app created and v1.0.0 (new
+      logo, rebuilt with the SAME keystore) uploaded to Internal testing
+      (7 Oct). `public/.well-known/assetlinks.json` now has both fingerprints:
+      Play app signing key (B5:6A:…) and the upload key (52:52:…).
+      Next: store listing (add the "not affiliated with UKPSC" line), app
+      content forms, reviewer login for App access (to build), closed test
+      with 12+ testers for 14 days (personal account), then production.
+      Payments: no in-app buying at first (buy on the website). Keep the
+      PWABuilder zips (signing key) in two safe places, never in the repo.
 - [ ] **Run `supabase/fix-phase23-store-uttarakhand-crash-course.sql`**
       in the Supabase SQL Editor (repairs the hand-added rows: wrong prices
       ₹1,89,900 / ₹3,99,900, and the Premium Test Series bullet points).
