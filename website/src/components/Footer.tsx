@@ -38,6 +38,12 @@ const columns = [
   },
 ];
 
+const OFFICIAL_SOURCES = [
+  { label: "UKPSC (psc.uk.gov.in)", href: "https://psc.uk.gov.in" },
+  { label: "UKSSSC (sssc.uk.gov.in)", href: "https://sssc.uk.gov.in" },
+  { label: "Government of Uttarakhand (uk.gov.in)", href: "https://uk.gov.in" },
+];
+
 export default function Footer() {
   const { footer, social } = settings;
 
@@ -106,7 +112,27 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 border-t border-graphite-800 pt-8 text-center text-sm text-graphite-400">
+        {/* Required by Google Play (Misleading Claims policy): not a government body + official sources. */}
+        <div className="mt-10 rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 text-xs leading-relaxed text-graphite-300">
+          <p>
+            <span className="font-semibold text-white">Disclaimer:</span> UKPSC Decoded is an independent education platform. It is
+            not affiliated with, endorsed by or representing the Uttarakhand Public Service Commission (UKPSC), the Uttarakhand
+            Subordinate Service Selection Commission (UKSSSC), the Government of Uttarakhand or any government body.
+          </p>
+          <p className="mt-2">
+            Official sources for exam notices, syllabus and results:{" "}
+            {OFFICIAL_SOURCES.map((s, i) => (
+              <span key={s.href}>
+                {i > 0 && " · "}
+                <a href={s.href} target="_blank" rel="noopener noreferrer" className="text-saffron-300 underline hover:text-saffron-200">
+                  {s.label}
+                </a>
+              </span>
+            ))}
+          </p>
+        </div>
+
+        <div className="mt-6 border-t border-graphite-800 pt-8 text-center text-sm text-graphite-400">
           <p>
             &copy; {new Date().getFullYear()} {settings.brandName1} {settings.brandName2}. Owned and operated by Varun Joshi.
           </p>
