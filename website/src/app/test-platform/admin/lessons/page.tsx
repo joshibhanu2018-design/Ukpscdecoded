@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, CheckCircle2, FileUp, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { SUBSET_COURSES } from "@/lib/course-subsets";
 
 type VideoPackage = { id: string; package_name: string; slug: string | null };
 type AdminLesson = {
@@ -254,6 +255,12 @@ export default function AdminLessonsPage() {
               </select>
             )}
 
+            {pkg?.slug && SUBSET_COURSES[pkg.slug] && (
+              <p className="mb-4 rounded-xl border border-saffron-400/40 bg-saffron-400/10 p-4 text-sm text-saffron-200">
+                {pkg.package_name} shares the lessons of the main course automatically (only its own videos). Don&apos;t add
+                lessons here: add them to the main course with a &quot;Video N&quot; title and they appear here too.
+              </p>
+            )}
             <form onSubmit={save} className="space-y-4 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-6">
               <p className="text-sm font-semibold text-white">
                 {editingId ? "Edit lesson" : "Add lesson"} · <span className="text-graphite-300">{pkg?.package_name}</span>

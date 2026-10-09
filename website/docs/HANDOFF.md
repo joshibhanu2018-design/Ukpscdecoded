@@ -241,6 +241,14 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   site footer (`Footer.tsx`, shows in the app). Then Publishing overview →
   Send changes for review.
 
+- **National Crash Course (9 Oct, ₹1899):** `supabase/seed-phase30-national-crash-course.sql`
+  creates `national-crash-course`. It has no lessons of its own: `src/lib/course-subsets.ts`
+  maps it to the Crash Course's national "Video N" lessons (27 videos: no "UK …" modules,
+  no videos 40/50) and 4 live sessions (no Uttarakhand ones). Owning it or the Crash
+  Course opens those lessons and PDFs (`getCourseLessons`, `canAccessLesson`). Admin →
+  Lessons shows a "don't add lessons here" note for it. Live-session Meet links are
+  shared the usual way.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
