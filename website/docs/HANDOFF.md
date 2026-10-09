@@ -234,6 +234,13 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   "Free sample · Watch now". Non-owners opening any other lesson are sent to
   the course page. Video 4 is the first sample (owner, 7 Oct).
 
+- **Play rejection: Misleading Claims (8 Oct):** "Missing source link for
+  government information". Fixed by (1) a store description with official
+  sources (psc.uk.gov.in, sssc.uk.gov.in, uk.gov.in) and a "not a government
+  entity" disclaimer at the top, and (2) the same disclaimer + links in the
+  site footer (`Footer.tsx`, shows in the app). Then Publishing overview →
+  Send changes for review.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
