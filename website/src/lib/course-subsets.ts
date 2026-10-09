@@ -5,8 +5,8 @@ import plan from "@content/crashCoursePlan.json";
  * a lesson is uploaded once (to the Crash Course) and appears in each:
  * - National Crash Course: the national videos and live sessions.
  * - Uttarakhand Crash Course: the Uttarakhand videos and live sessions.
- * Video 1 (orientation) and Video 50 (combined UK + national current
- * affairs) are in both. Owning the source course also opens them.
+ * Video 1 (orientation), the CSAT videos and Video 50 (combined UK +
+ * national current affairs) are in both. Owning the source course also opens them.
  */
 export type PlanVariant = "national" | "uttarakhand";
 
@@ -18,8 +18,9 @@ export const SUBSET_COURSES: Record<string, { source: string; variant: PlanVaria
 type PlanVideo = { number: number; module: string };
 type LiveSession = { date: string; theme: string };
 
-/** Videos in both subsets: orientation and the combined UK + national current affairs. */
+/** Videos in both subsets: orientation, CSAT and the combined UK + national current affairs. */
 const SHARED_VIDEOS = new Set([1, 50]);
+const isSharedVideo = (v: PlanVideo) => SHARED_VIDEOS.has(v.number) || v.module === "CSAT";
 /** Uttarakhand current affairs (its module is "Current Affairs", not "UK …"). */
 const UK_CA_VIDEOS = new Set([40]);
 const isUttarakhandVideo = (v: PlanVideo) => v.module.startsWith("UK ") || UK_CA_VIDEOS.has(v.number);
@@ -28,7 +29,7 @@ const isUttarakhandSession = (s: LiveSession) => /\b(UK|Uttarakhand)\b/.test(s.t
 const isSharedSession = (s: LiveSession) => /current affairs/i.test(s.theme);
 
 function inVariant(v: PlanVideo, variant: PlanVariant | null): boolean {
-  if (!variant || SHARED_VIDEOS.has(v.number)) return true;
+  if (!variant || isSharedVideo(v)) return true;
   return variant === "uttarakhand" ? isUttarakhandVideo(v) : !isUttarakhandVideo(v);
 }
 
