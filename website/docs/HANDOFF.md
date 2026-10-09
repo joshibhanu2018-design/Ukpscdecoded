@@ -249,6 +249,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   Lessons shows a "don't add lessons here" note for it. Live-session Meet links are
   shared the usual way.
 
+- **Uttarakhand Crash Course shares lessons too (9 Oct):** `course-subsets.ts` now maps
+  `uttarakhand-crash-course` to the Crash Course's Uttarakhand videos (26: "UK …"
+  modules + 40 + 1 + CSAT 47-48 + 50; live 14 Oct, 28 Oct, 18 Nov). National = 28 videos (now
+  incl. 50), 4 live. Upload every video once, to the Crash Course. The Uttarakhand
+  course's own old lessons are ignored. Course text: `supabase/fix-phase31-crash-course-subsets.sql`.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
