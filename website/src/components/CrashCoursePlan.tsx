@@ -1,15 +1,14 @@
 import Link from "next/link";
 import { CalendarDays, CheckCircle2, Lock, PlayCircle, Radio } from "lucide-react";
 import plan from "@content/crashCoursePlan.json";
-import { getPackageBySlug } from "@/lib/packages";
 import {
   bunnyThumbnailUrl,
-  canAccessPackage,
-  getPackageLessons,
+  getCourseLessons,
   isLessonReleased,
   lessonVideoNumber,
   type Lesson,
 } from "@/lib/lessons";
+import { planLiveSessionDates, planVideoNumbers, SUBSET_COURSES } from "@/lib/course-subsets";
 import VideoThumb from "./VideoThumb";
 
 type PlanVideo = { date: string; number: number; module: string; title: string; book?: string };
@@ -40,16 +39,18 @@ export default async function CrashCoursePlan({
   /** The page's free demo videos (YouTube); one titled "Video N" — or named like plan video N — fills that slot. */
   freeVideos?: { title: string; youtubeId: string }[];
 }) {
-  const videos = plan.videos as PlanVideo[];
-  const live = plan.liveSessions as LiveSession[];
+  // A subset course (e.g. National Crash Course) shows only its part of the plan.
+  const variant = SUBSET_COURSES[lessonsSlug]?.variant ?? null;
+  const videoNumbers = planVideoNumbers(variant);
+  const liveDates = planLiveSessionDates(variant);
+  const videos = (plan.videos as PlanVideo[]).filter((v) => videoNumbers.has(v.number));
+  const live = (plan.liveSessions as LiveSession[]).filter((s) => liveDates.has(s.date));
 
-  const pkg = await getPackageBySlug(lessonsSlug).catch(() => null);
-  const [lessons, canWatch] = pkg
-    ? await Promise.all([
-        getPackageLessons(pkg.id).catch(() => [] as Lesson[]),
-        viewer ? canAccessPackage(viewer, pkg.id).catch(() => false) : Promise.resolve(false),
-      ])
-    : [[] as Lesson[], false];
+  const { lessons, canWatch } = await getCourseLessons(lessonsSlug, viewer).catch(() => ({
+    pkg: null,
+    lessons: [] as Lesson[],
+    canWatch: false,
+  }));
   const lessonByNumber = new Map<number, Lesson>();
   for (const l of lessons) {
     const n = lessonVideoNumber(l.title);
@@ -156,8 +157,10 @@ export default async function CrashCoursePlan({
       </h2>
       <p className="mb-4 text-xs text-graphite-300">
         Dates and topic order may change. Videos appear here with their thumbnail as they are uploaded
-        {uploaded > 0 ? ` (${uploaded} of ${videos.length} so far)` : ""}. Uttarakhand videos show the matching chapter of the
-        Uttarakhand Decoded book to read the same day.
+        {uploaded > 0 ? ` (${uploaded} of ${videos.length} so far)` : ""}.
+        {variant === "national"
+          ? " National topics only: no Uttarakhand GK or Uttarakhand current affairs."
+          : " Uttarakhand videos show the matching chapter of the Uttarakhand Decoded book to read the same day."}
       </p>
 
       <div className="mb-5 grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">

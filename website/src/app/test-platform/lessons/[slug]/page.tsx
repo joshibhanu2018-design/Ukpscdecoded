@@ -4,15 +4,14 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, CheckCircle2, FileDown, Lock, PlayCircle } from "lucide-react";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
-import { formatDateLabel, getPackageBySlug } from "@/lib/packages";
+import { formatDateLabel } from "@/lib/packages";
 import CrashCoursePlan from "@/components/CrashCoursePlan";
 import ProtectedPlayer from "@/components/ProtectedPlayer";
 import VideoThumb from "@/components/VideoThumb";
 import {
   bunnyEmbedUrl,
   bunnyThumbnailUrl,
-  canAccessPackage,
-  getPackageLessons,
+  getCourseLessons,
   getWatchedLessonIds,
   isLessonReleased,
   recordLessonView,
@@ -52,12 +51,10 @@ export default async function LessonsPage({
   const user = await getUserFromSession(token);
   if (!user) redirect(`/student/login?next=${encodeURIComponent(here)}`);
 
-  const pkg = await getPackageBySlug(slug);
+  const { pkg, lessons, canWatch: owns } = await getCourseLessons(slug, user);
   if (!pkg) notFound();
 
   const isAdmin = user.role === "admin";
-  const owns = await canAccessPackage(user, pkg.id);
-  const lessons = await getPackageLessons(pkg.id);
   const released = lessons.filter(isLessonReleased);
   const current = v ? released.find((l) => l.id === v) : undefined;
   // Without the course, only a free sample lesson can be opened (and nothing else on the page plays).

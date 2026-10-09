@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
 import { supabaseAdmin } from "./supabase";
-import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "./packages";
+import { getActivePackages, getOwnedPackageIds, getPackageBySlug, getPackageIncludes, getUserActiveEnrollments, type Package } from "./packages";
+import { planVideoNumbers, SUBSET_COURSES } from "./course-subsets";
 
 export type Lesson = {
   id: string;
@@ -156,4 +157,46 @@ export async function recordLessonView(userId: string, lessonId: string): Promis
   await supabaseAdmin()
     .from("lesson_views")
     .upsert({ user_id: userId, lesson_id: lessonId }, { onConflict: "user_id,lesson_id", ignoreDuplicates: true });
+}
+
+/**
+ * A video course's lessons and whether this viewer may open them. For a
+ * subset course (SUBSET_COURSES) the lessons come from its source course,
+ * filtered to the subset's plan videos, and owning either course opens them.
+ */
+export async function getCourseLessons(
+  slug: string,
+  viewer: { id: string; role: string } | null,
+): Promise<{ pkg: Package | null; lessons: Lesson[]; canWatch: boolean }> {
+  const pkg = await getPackageBySlug(slug);
+  if (!pkg) return { pkg: null, lessons: [], canWatch: false };
+  const subset = SUBSET_COURSES[slug];
+  const source = subset ? await getPackageBySlug(subset.source) : pkg;
+  if (!source) return { pkg, lessons: [], canWatch: false };
+  const numbers = subset ? planVideoNumbers(subset.variant) : null;
+  const [all, ownsPkg, ownsSource] = await Promise.all([
+    getPackageLessons(source.id),
+    viewer ? canAccessPackage(viewer, pkg.id) : Promise.resolve(false),
+    viewer && source.id !== pkg.id ? canAccessPackage(viewer, source.id) : Promise.resolve(false),
+  ]);
+  const lessons = numbers
+    ? all.filter((l) => {
+        const n = lessonVideoNumber(l.title);
+        return n !== null && numbers.has(n);
+      })
+    : all;
+  return { pkg, lessons, canWatch: ownsPkg || ownsSource };
+}
+
+/** Whether a viewer may open this lesson: its own course, or a subset course that includes it. */
+export async function canAccessLesson(user: { id: string; role: string }, lesson: Lesson): Promise<boolean> {
+  if (await canAccessPackage(user, lesson.package_id)) return true;
+  const n = lessonVideoNumber(lesson.title);
+  if (n === null) return false;
+  for (const [slug, subset] of Object.entries(SUBSET_COURSES)) {
+    if (!planVideoNumbers(subset.variant).has(n)) continue;
+    const [pkg, source] = await Promise.all([getPackageBySlug(slug), getPackageBySlug(subset.source)]);
+    if (pkg && source?.id === lesson.package_id && (await canAccessPackage(user, pkg.id))) return true;
+  }
+  return false;
 }
