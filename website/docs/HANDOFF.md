@@ -255,6 +255,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   incl. 50), 4 live. Upload every video once, to the Crash Course. The Uttarakhand
   course's own old lessons are ignored. Course text: `supabase/fix-phase31-crash-course-subsets.sql`.
 
+- **Launch prices back (10 Oct):** `supabase/fix-phase32-restore-launch-prices.sql`
+  extends `founding_ends_at` to 29 Nov 2026 for every active package with a lower
+  founding price (they had ended 5 Oct). Weekend offer: universal code WEEKEND12 (12%).
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
