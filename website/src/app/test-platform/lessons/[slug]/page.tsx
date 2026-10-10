@@ -14,9 +14,21 @@ import {
   getCourseLessons,
   getWatchedLessonIds,
   isLessonReleased,
+  lessonVideoNumber,
   recordLessonView,
   type Lesson,
 } from "@/lib/lessons";
+import { planVideoNumbers, SUBSET_COURSES } from "@/lib/course-subsets";
+
+/** Shown on a subset course's lesson list: numbers follow the full Crash Course, so gaps aren't missing videos. */
+function subsetNote(slug: string): string | null {
+  const subset = SUBSET_COURSES[slug];
+  if (!subset) return null;
+  const count = planVideoNumbers(subset.variant).size;
+  return subset.variant === "uttarakhand"
+    ? `This course has ${count} of the Crash Course's 50 videos: Uttarakhand GK, Uttarakhand current affairs, CSAT, Video 1 and Video 50. Video numbers follow the full Crash Course schedule, so gaps (for example Videos 7 and 8) are National topics that aren't part of this course. Nothing is missing.`
+    : `This course has ${count} of the Crash Course's 50 videos: national GS topics, CSAT, Video 1 and Video 50. Video numbers follow the full Crash Course schedule, so gaps (for example Videos 2 to 6) are Uttarakhand topics that aren't part of this course. Nothing is missing.`;
+}
 
 function playerSource(lesson: Lesson): { src: string; kind: "youtube" | "bunny" } | null {
   if (lesson.bunny_video_id) {
@@ -153,15 +165,23 @@ export default async function LessonsPage({
             {classStart ? `Classes start ${classStart}. ` : ""}Lessons will appear here as they are uploaded.
           </p>
         ) : (
-          <ul className="mt-8 divide-y divide-graphite-800 overflow-hidden rounded-2xl border border-graphite-800 bg-graphite-900/60">
+          <>
+          {subsetNote(slug) && (
+            <p className="mt-8 rounded-xl border border-saffron-400/30 bg-saffron-400/5 px-4 py-3 text-xs leading-relaxed text-graphite-200">
+              {subsetNote(slug)}
+            </p>
+          )}
+          <ul className="mt-4 divide-y divide-graphite-800 overflow-hidden rounded-2xl border border-graphite-800 bg-graphite-900/60">
             {lessons.map((l, i) => {
               const open = isLessonReleased(l) && canOpen(l);
               const isCurrent = current?.id === l.id;
+              // The Crash Course video number ("Video 9 …"), so numbering matches the schedule in every course.
+              const num = lessonVideoNumber(l.title) ?? i + 1;
               const body = (
                 <>
-                  <span className="w-6 flex-shrink-0 text-xs text-graphite-300">{i + 1}</span>
+                  <span className="w-6 flex-shrink-0 text-xs text-graphite-300">{num}</span>
                   {l.bunny_video_id && (
-                    <VideoThumb src={thumbs.get(l.id) ?? null} label={`${i + 1}`} className="w-20 sm:w-24" />
+                    <VideoThumb src={thumbs.get(l.id) ?? null} label={`Video ${num}`} className="w-20 sm:w-24" />
                   )}
                   <span className="min-w-0 flex-1">
                     <span className={`block truncate text-sm ${isCurrent ? "font-semibold text-saffron-300" : "text-white"}`}>
@@ -201,6 +221,7 @@ export default async function LessonsPage({
               );
             })}
           </ul>
+          </>
         )}
 
         <div className="mt-10">

@@ -259,6 +259,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   extends `founding_ends_at` to 29 Nov 2026 for every active package with a lower
   founding price (they had ended 5 Oct). Weekend offer: universal code WEEKEND12 (12%).
 
+- **Subset courses (10 Oct):** Uttarakhand + National Crash Course now ₹1699
+  (`supabase/fix-phase33-subset-course-price.sql`). Their lesson lists show the
+  Crash Course video number (not the position) plus a note that gaps are the
+  other part's videos, so students don't think videos are missing.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
