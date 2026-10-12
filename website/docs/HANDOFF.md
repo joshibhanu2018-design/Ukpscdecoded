@@ -277,6 +277,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   no invented scarcity), links /courses and /test-series (`src/lib/telegramMcq.ts`).
   After 29 Nov the countdown reads 0: switch the texts to Lower PCS then.
 
+- **Big thumbnail cards (12 Oct):** in the Crash Course Plan, uploaded videos are large
+  cards (full-width 16:9 thumbnail, "Video N" badge, play/lock icon; 1 per row on phones,
+  2 on desktop), shown to everyone; not-uploaded videos stay compact rows. Thumbnails:
+  brand-led Canva template (no face, owner joining government service).
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
