@@ -95,21 +95,70 @@ export async function pickDailyPolls(count = DAILY_COUNT): Promise<{ polls: Quiz
   return { polls, remaining: Math.max(0, (total ?? rows.length) - polls.length) };
 }
 
-/** The closing message after the daily polls (Telegram legacy Markdown: *bold*). */
-const PROMO = [
-  "🎯 *Choose your plan for UKPSC Prelims (29 Nov)*",
-  "",
-  "📚 *Weak in Uttarakhand GK or National GS?* Pick the crash course you need — Uttarakhand, National or the full Crash Course — with detailed notes and quick, complete revision PDFs.",
-  "",
-  "🏆 *Want it all?* The *Complete Prelims Pack* = full Crash Course + aligned Test Series, covering the whole Prelims syllabus.",
-  "👉 Courses: https://www.ukpscdecoded.in/courses",
-  "",
-  "📝 *Only need tests?* Take the *Premium Test Series* — it includes every test: full mocks, sectional, Uttarakhand, current affairs and CSAT.",
-  "👉 Test series: https://www.ukpscdecoded.in/test-series",
-].join("\n");
+const UPPER_PCS_PRELIMS = "2026-11-29";
+const COURSES = "👉 Courses: https://www.ukpscdecoded.in/courses";
+const TESTS = "👉 Test series: https://www.ukpscdecoded.in/test-series";
 
-export function promoFor(_date?: Date): string {
-  return PROMO;
+/** Whole days from today (IST) to the Upper PCS Prelims, never negative. */
+export function daysToPrelims(now = new Date()): number {
+  const istToday = new Date(now.getTime() + 5.5 * 3_600_000).toISOString().slice(0, 10);
+  return Math.max(0, Math.round((Date.parse(UPPER_PCS_PRELIMS) - Date.parse(istToday)) / 86_400_000));
+}
+
+/**
+ * The closing message after the daily polls: four versions in rotation, each
+ * with the real countdown to the exam (no invented scarcity). Telegram legacy
+ * Markdown: *bold*.
+ */
+function promos(days: number): string[] {
+  const left = days === 1 ? "1 day" : `${days} days`;
+  return [
+    [
+      `⏳ *Only ${left} left for UKPSC Upper PCS Prelims (29 Nov)* — and Lower PCS follows in December.`,
+      "Toppers aren't the ones who studied most — they're the ones who *finished the syllabus and revised it*. Is your plan on track?",
+      "",
+      "📚 Weak in *Uttarakhand GK* or *National GS*? Pick your crash course — detailed notes + quick revision PDFs.",
+      "🏆 Want it all? *Complete Prelims Pack* = Crash Course + aligned Test Series.",
+      COURSES,
+      "📝 Only tests? *Premium Test Series* includes every test.",
+      TESTS,
+    ],
+    [
+      `📅 *${left} to Prelims.* Our Crash Course schedule finishes the full syllabus by *18 November*, leaving 10 days only for revision and mocks.`,
+      "Every day you start late is a topic you'll have to rush. Start today and stay on schedule.",
+      "",
+      "🎯 Crash Course (Uttarakhand / National / Full) with detailed notes:",
+      COURSES,
+      "📝 Mock tests in the real exam pattern, Hindi + English:",
+      TESTS,
+    ],
+    [
+      "🤔 *Got some of today's questions wrong?* That's exactly what happens in the exam hall without enough mock practice.",
+      `With *${left} left* for Upper PCS and Lower PCS in December, the students who practise full mocks now are the ones who don't panic on exam day.`,
+      "",
+      "📝 *Premium Test Series* — full mocks, sectional, Uttarakhand, current affairs, CSAT, with solutions & rank:",
+      TESTS,
+      "🏆 Need classes too? *Complete Prelims Pack*:",
+      COURSES,
+    ],
+    [
+      `🔥 *${left} left. Where do you stand?*`,
+      "✅ Syllabus finished? ✅ Uttarakhand GK revised? ✅ 10+ full mocks done?",
+      "If any box is empty, close the gap now — not in the last week.",
+      "",
+      "📚 Crash Course + notes, or the *Complete Prelims Pack* (course + test series):",
+      COURSES,
+      "📝 Tests only — *Premium Test Series*:",
+      TESTS,
+    ],
+  ].map((lines) => lines.join("\n"));
+}
+
+/** Today's closing message (rotates daily). */
+export function promoFor(date: Date = new Date()): string {
+  const list = promos(daysToPrelims(date));
+  const day = Math.floor((date.getTime() + 5.5 * 3_600_000) / 86_400_000);
+  return list[day % list.length];
 }
 
 async function telegram(method: string, body: Record<string, unknown>): Promise<void> {
@@ -131,7 +180,7 @@ export async function postDailyQuiz(polls: QuizPoll[], now = new Date()): Promis
   const date = now.toLocaleDateString("en-IN", { day: "numeric", month: "long", timeZone: "Asia/Kolkata" });
   await telegram("sendMessage", {
     chat_id,
-    text: `🧠 *Daily UKPSC MCQ Challenge — ${date}*\n${polls.length} questions for Upper & Lower PCS. Tap your answer, then see the explanation 👇`,
+    text: `🧠 *Daily UKPSC MCQ Challenge — ${date}*\nFor *Upper PCS Prelims (29 Nov 2026)* & *Lower PCS (Dec 2026)* · ${daysToPrelims(now)} days to go.\n${polls.length} questions — tap your answer, then see the explanation 👇`,
     parse_mode: "Markdown",
   });
   const db = supabaseAdmin();

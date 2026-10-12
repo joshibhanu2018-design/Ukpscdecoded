@@ -272,6 +272,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   SQL phase 34 + env TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID. The old Apps Script
   bot (Google Sheet) is separate; turn its trigger off to avoid double posts.
 
+- **Telegram quiz text (12 Oct):** intro names Upper PCS (29 Nov 2026) + Lower PCS
+  (Dec 2026) with a live day countdown; 4 closing messages rotate daily (real countdown,
+  no invented scarcity), links /courses and /test-series (`src/lib/telegramMcq.ts`).
+  After 29 Nov the countdown reads 0: switch the texts to Lower PCS then.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
