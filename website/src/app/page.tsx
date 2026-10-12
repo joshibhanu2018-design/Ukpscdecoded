@@ -31,9 +31,11 @@ export default async function Home() {
     getPackageIncludes(),
   ]);
   const bannerById = new Map(allPackages.map((p) => [p.id, p]));
-  const carouselItems = banners
-    .filter((b) => b.package_id && bannerById.get(b.package_id)?.slug)
-    .map((b) => ({ ...b, href: `/courses/${bannerById.get(b.package_id!)!.slug}` }));
+  const carouselItems = banners.flatMap((b) => {
+    const slug = b.package_id ? bannerById.get(b.package_id)?.slug : null;
+    const href = b.link_url ?? (slug ? `/courses/${slug}` : null);
+    return href ? [{ ...b, href }] : [];
+  });
 
   const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
