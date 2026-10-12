@@ -43,7 +43,7 @@ const BOOKS = {
 const TABS = [
   { id: 'en' as const, label: 'English Book', sub: '₹499', icon: BookOpen },
   { id: 'hi' as const, label: 'हिंदी पुस्तक', sub: '₹499', icon: BookOpen },
-  { id: 'ebooks' as const, label: 'E-Books', sub: 'from ₹59', icon: Tablet },
+  { id: 'ebooks' as const, label: 'E-Books', sub: 'PDF', icon: Tablet },
 ];
 
 /**
@@ -152,13 +152,13 @@ export default function BuyBookPage() {
                 Ultimate visual e-book for Indian Polity: short yet comprehensive, made for quick revision before Prelims.
               </p>
               <ul className="mt-5 space-y-2">
-                {['Instant access after payment', 'Read on phone, tablet or laptop', 'Visual tables and timelines'].map((f) => (
+                {['Instant PDF access', 'Read on phone, tablet or laptop', 'Visual tables and timelines'].map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm text-graphite-200">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-saffron-400" /> {f}
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 flex items-baseline gap-3">
+              <div className="web-only mt-6 flex items-baseline gap-3">
                 <span className="text-4xl font-bold text-white">₹59</span>
                 <span className="text-lg text-graphite-400 line-through">₹129</span>
               </div>
@@ -166,7 +166,9 @@ export default function BuyBookPage() {
                 href="/buy-ebooks"
                 className="mt-6 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-saffron-400 px-8 py-3.5 text-lg font-bold text-graphite-900 shadow-lg shadow-saffron-500/20 transition-colors hover:bg-saffron-300 sm:w-auto"
               >
-                View Samples & Buy <ArrowRight className="h-5 w-5" />
+                <span className="web-only">View Samples & Buy</span>
+                <span className="app-only">View E-Book</span>
+                <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
           </section>

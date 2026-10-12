@@ -222,6 +222,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   course-page link; a banner with a link needs no package. Owner runs
   `supabase/fix-phase35-designed-banners.sql`. To change a banner later,
   edit the picture in Canva at the same size and replace the file.
+- **App: no prices or buy banners (12 Oct):** inside the Android app
+  (`html[data-app]`) prices, savings, founding labels, the home carousel and
+  the store-page Buy Now banners are hidden (`web-only`). The app note now
+  says "Already purchased? Log in with the same email you used, and your
+  courses will appear in My Courses." Never mention buying on the website
+  inside the app (Play payments policy); say it on WhatsApp/Telegram/YouTube.
 - **Store page tops + Books redesign (12 Oct):** `/courses` opens with the
   Complete Prelims Pack banner and `/test-series` with the Premium Test
   Series banner (`src/components/PageHeroBanner.tsx`): price + Buy Now

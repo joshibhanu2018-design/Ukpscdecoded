@@ -55,10 +55,10 @@ export default function CourseCard({
                 ))}
               </ul>
             )}
-            <div className="mt-4 flex items-baseline gap-2">
+            <div className="web-only mt-4 flex items-baseline gap-2">
               <span className={`font-bold text-white ${size === "lg" ? "text-2xl" : "text-xl"}`}>{formatINR(priceInfo.amount)}</span>
             </div>
-            {foundingLabel && <p className="mt-1 text-[11px] font-medium text-saffron-300">{foundingLabel}</p>}
+            {foundingLabel && <p className="web-only mt-1 text-[11px] font-medium text-saffron-300">{foundingLabel}</p>}
           </Link>
 
           <div className="px-5 pb-5">

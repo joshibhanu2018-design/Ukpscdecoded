@@ -44,7 +44,9 @@ export default async function Home() {
   return (
     <div>
       {/* Course Carousel — DB-driven, editable without a redeploy */}
-      <HomeCarousel banners={carouselItems} />
+      <div className="web-only">
+        <HomeCarousel banners={carouselItems} />
+      </div>
 
       {/* Quick links — one per paid product, right under the carousel */}
       <nav aria-label="Products" className="border-b border-graphite-800 bg-graphite-950 px-4 py-6 sm:py-8">

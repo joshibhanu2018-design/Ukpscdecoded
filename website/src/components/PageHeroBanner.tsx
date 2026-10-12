@@ -2,13 +2,11 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { formatINR, type Package } from "@/lib/packages";
 import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
-import AppPurchaseNote from "./AppPurchaseNote";
 
 /**
  * The product's designed carousel banner (public/banners/) at the top of a
  * store page, with its price and a Buy Now button straight to checkout.
- * Inside the Android app the picture opens the course page instead and the
- * buy button is replaced by the app note (no purchases in the app).
+ * Hidden inside the Android app (no purchases or prices there).
  */
 export default function PageHeroBanner({
   pkg,
@@ -44,11 +42,8 @@ export default function PageHeroBanner({
   );
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-saffron-400/40 bg-graphite-900 shadow-2xl shadow-black/40">
-      <Link href={buyHref} className="web-only block">
-        {picture}
-      </Link>
-      <Link href={detailHref} className="app-only block">
+    <section className="web-only overflow-hidden rounded-2xl border border-saffron-400/40 bg-graphite-900 shadow-2xl shadow-black/40">
+      <Link href={buyHref} className="block">
         {picture}
       </Link>
       <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
@@ -74,11 +69,10 @@ export default function PageHeroBanner({
             <>
               <Link
                 href={buyHref}
-                className="web-only inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-saffron-400 px-6 py-2.5 text-sm font-bold text-graphite-900 shadow-lg shadow-saffron-500/20 transition-colors hover:bg-saffron-300"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-saffron-400 px-6 py-2.5 text-sm font-bold text-graphite-900 shadow-lg shadow-saffron-500/20 transition-colors hover:bg-saffron-300"
               >
                 Buy Now <ArrowRight className="h-4 w-4" />
               </Link>
-              <AppPurchaseNote />
             </>
           )}
         </div>
