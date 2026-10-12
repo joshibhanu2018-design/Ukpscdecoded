@@ -12,6 +12,8 @@ export type Banner = {
   image_url: string | null;
   /** Designed banner, phones: 1080×1080. Empty → `image_url` is used on phones too. */
   image_url_mobile: string | null;
+  /** Where the banner leads, e.g. "/buy-book". Empty → the banner's course page. */
+  link_url: string | null;
 };
 
 function text(v: unknown): string | null {
@@ -41,5 +43,6 @@ export async function getActiveBanners(): Promise<Banner[]> {
     sort_order: Number(b.sort_order ?? 0),
     image_url: text(b.image_url),
     image_url_mobile: text(b.image_url_mobile),
+    link_url: text(b.link_url),
   }));
 }

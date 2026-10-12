@@ -213,6 +213,16 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   AI prompts for the product banners (1920x600 + 1080x1080 mobile):
   `docs/CAROUSEL_PROMPTS.md`.
 
+- **Designed carousel banners (12 Oct):** five picture banners, desktop
+  1920x600 + phone 1080x1080 WebP, in `public/banners/` (shipped with the
+  site, nothing to upload): Complete Prelims Pack (gold), Premium Test Series
+  (crimson), Crash Courses — Uttarakhand + National (teal, links to
+  `/courses`), Mentorship (violet), the book (navy, links to `/buy-book`).
+  No prices or dates on them. New `banners.link_url` column overrides the
+  course-page link; a banner with a link needs no package. Owner runs
+  `supabase/fix-phase35-designed-banners.sql`. To change a banner later,
+  edit the picture in Canva at the same size and replace the file.
+
 - **Retests (6 Oct):** each test can be taken once plus 2 retests
   (`MAX_ATTEMPTS_PER_TEST = 3` in `src/lib/tests.ts`, enforced in
   `/api/tests/[testId]/start`; a timed-out attempt counts; admins unlimited).
@@ -276,6 +286,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   (Dec 2026) with a live day countdown; 4 closing messages rotate daily (real countdown,
   no invented scarcity), links /courses and /test-series (`src/lib/telegramMcq.ts`).
   After 29 Nov the countdown reads 0: switch the texts to Lower PCS then.
+
+- **Big thumbnail cards (12 Oct):** in the Crash Course Plan, uploaded videos are large
+  cards (full-width 16:9 thumbnail, "Video N" badge, play/lock icon; 1 per row on phones,
+  2 on desktop), shown to everyone; not-uploaded videos stay compact rows. Thumbnails:
+  brand-led Canva template (no face, owner joining government service).
 
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
