@@ -222,6 +222,16 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   course-page link; a banner with a link needs no package. Owner runs
   `supabase/fix-phase35-designed-banners.sql`. To change a banner later,
   edit the picture in Canva at the same size and replace the file.
+- **Store page tops + Books redesign (12 Oct):** `/courses` opens with the
+  Complete Prelims Pack banner and `/test-series` with the Premium Test
+  Series banner (`src/components/PageHeroBanner.tsx`): price + Buy Now
+  straight to `/checkout/<slug>` (app: opens the course page, no buying).
+  `/buy-book` is now an overview with three tabs (English Book, Hindi Book,
+  E-Books → `/buy-ebooks`); "Read Samples & Order" opens
+  `/buy-book/order?lang=en|hi` with the sample PDFs (step 1), the address
+  form and Razorpay payment (step 2). Order logging to the Google Sheet and
+  `/api/create-book-order` are unchanged. Fixed the Hindi Chapter 27 sample
+  link (the file name has a space before ".pdf").
 
 - **Retests (6 Oct):** each test can be taken once plus 2 retests
   (`MAX_ATTEMPTS_PER_TEST = 3` in `src/lib/tests.ts`, enforced in

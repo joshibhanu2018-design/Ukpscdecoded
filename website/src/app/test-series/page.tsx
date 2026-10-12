@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import CourseCard from "@/components/CourseCard";
 import FreeSampleTest from "@/components/FreeSampleTest";
 import SectionTitle from "@/components/SectionTitle";
+import PageHeroBanner from "@/components/PageHeroBanner";
 import { BEST_BUY_SLUG, FLAGSHIP_TEST_SERIES_SLUG, getCatalog } from "@/lib/catalog";
 
 export const metadata: Metadata = {
@@ -29,6 +30,16 @@ export default async function TestSeriesPage() {
             Full mocks, sectional, Uttarakhand, Current Affairs and CSAT tests with analysis after every test
           </p>
         </div>
+
+        {premium && (
+          <PageHeroBanner
+            pkg={premium}
+            owned={ownedIds.has(premium.id)}
+            desktop="/banners/test-series-desktop.webp"
+            mobile="/banners/test-series-mobile.webp"
+            alt="Premium Test Series: 62 tests on the real UKPSC pattern"
+          />
+        )}
 
         {bundles.length > 0 && (
           <section>
