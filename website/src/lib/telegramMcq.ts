@@ -95,16 +95,21 @@ export async function pickDailyPolls(count = DAILY_COUNT): Promise<{ polls: Quiz
   return { polls, remaining: Math.max(0, (total ?? rows.length) - polls.length) };
 }
 
-const PROMOS = [
-  "🎯 *UPPER PCS Prelims — 29 November.* Practice like the real exam with our *Premium Test Series* (Hindi + English, detailed solutions, rank) and finish the syllabus with the *Crash Course* — videos, live sessions & PDF notes.\n👉 https://www.ukpscdecoded.in/courses/complete-prelims-pack",
-  "📚 Crash Course + Test Series = *Complete Prelims Pack*: 50 videos, live doubt sessions, PDF notes (EN + HI) and full mock tests with analysis — one plan till 29 Nov.\n👉 https://www.ukpscdecoded.in/courses/complete-prelims-pack",
-  "🏔️ Weak in Uttarakhand GK? The *Uttarakhand Crash Course* covers it topic by topic with book chapters and PDFs. National GS? Take the *National Crash Course*.\n👉 https://www.ukpscdecoded.in/courses",
-  "📝 Today's 7 questions done? Take a *full mock* in the real UKPSC pattern — Premium Test Series with Hindi + English, solutions, weak-topic analysis and 2 retests per test.\n👉 https://www.ukpscdecoded.in/courses/premium-test-series",
-];
+/** The closing message after the daily polls (Telegram legacy Markdown: *bold*). */
+const PROMO = [
+  "🎯 *Choose your plan for UKPSC Prelims (29 Nov)*",
+  "",
+  "📚 *Weak in Uttarakhand GK or National GS?* Pick the crash course you need — Uttarakhand, National or the full Crash Course — with detailed notes and quick, complete revision PDFs.",
+  "",
+  "🏆 *Want it all?* The *Complete Prelims Pack* = full Crash Course + aligned Test Series, covering the whole Prelims syllabus.",
+  "👉 Courses: https://www.ukpscdecoded.in/courses",
+  "",
+  "📝 *Only need tests?* Take the *Premium Test Series* — it includes every test: full mocks, sectional, Uttarakhand, current affairs and CSAT.",
+  "👉 Test series: https://www.ukpscdecoded.in/test-series",
+].join("\n");
 
-export function promoFor(date: Date): string {
-  const day = Math.floor(date.getTime() / 86_400_000);
-  return PROMOS[day % PROMOS.length];
+export function promoFor(_date?: Date): string {
+  return PROMO;
 }
 
 async function telegram(method: string, body: Record<string, unknown>): Promise<void> {
