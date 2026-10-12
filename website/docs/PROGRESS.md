@@ -744,6 +744,11 @@ without it Bunny's automatic frame is shown.
 the fixed code and no email is sent; normal rate limits still apply. Give
 both to Google in Play Console → App content → App access. Unset → off.
 
+**Telegram daily quiz (optional):** `TELEGRAM_BOT_TOKEN` (BotFather, **secret**),
+`TELEGRAM_CHANNEL_ID` (e.g. `@UKPSCDECODED`; the bot must be a channel admin).
+`/api/cron/telegram-mcq` (Vercel Cron 08:00 IST) posts 7 quiz polls from unused
+bank questions + a promo; needs `supabase/schema-phase34-telegram-daily-mcq.sql`.
+
 **Test platform — payments (Razorpay):**
 `RAZORPAY_TEST_KEY_ID`, `RAZORPAY_TEST_KEY_SECRET` (despite the name,
 these hold the **live** keys; since 28 Sep 2026 every payment — courses,

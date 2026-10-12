@@ -264,6 +264,14 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   Crash Course video number (not the position) plus a note that gaps are the
   other part's videos, so students don't think videos are missing.
 
+- **Telegram daily quiz (12 Oct):** `/api/cron/telegram-mcq` runs 08:00 IST
+  (vercel.json): 7 Telegram quiz polls (bilingual, with explanation) from the view
+  `telegram_unused_questions` (active, in no test, never posted), then a rotating
+  promo. Posted ids go to `telegram_posted_questions` (no repeats; one run per IST
+  day). Admin: `/api/cron/telegram-mcq?preview=1` (dry run) or `?send=1`. Needs
+  SQL phase 34 + env TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID. The old Apps Script
+  bot (Google Sheet) is separate; turn its trigger off to avoid double posts.
+
 ## Open items (owner)
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
