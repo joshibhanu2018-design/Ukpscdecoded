@@ -10,10 +10,10 @@ import ProtectedPlayer from "@/components/ProtectedPlayer";
 import VideoThumb from "@/components/VideoThumb";
 import {
   bunnyEmbedUrl,
-  bunnyThumbnailUrl,
   getCourseLessons,
   getWatchedLessonIds,
   isLessonReleased,
+  lessonThumbnailUrl,
   lessonVideoNumber,
   recordLessonView,
   type Lesson,
@@ -83,7 +83,7 @@ export default async function LessonsPage({
   );
   const source = current ? playerSource(current) : null;
   const thumbs = new Map(
-    await Promise.all(lessons.map(async (l) => [l.id, await bunnyThumbnailUrl(l.bunny_video_id)] as const)),
+    await Promise.all(lessons.map(async (l) => [l.id, await lessonThumbnailUrl(l)] as const)),
   );
   const watermark = [user.email, user.phone].filter(Boolean).join(" · ");
   const nextUp = !current && owns ? released.find((l) => !watched.has(l.id)) : undefined;

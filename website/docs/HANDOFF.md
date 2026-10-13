@@ -222,6 +222,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   course-page link; a banner with a link needs no package. Owner runs
   `supabase/fix-phase35-designed-banners.sql`. To change a banner later,
   edit the picture in Canva at the same size and replace the file.
+- **YouTube lesson thumbnails (13 Oct):** lessons stored as YouTube videos
+  (e.g. Videos 1 and 9) now show YouTube's thumbnail on the plan and lessons
+  page (`lessonThumbnailUrl` in `src/lib/lessons.ts`; Bunny first, then
+  YouTube).
 - **App: no prices or buy banners (12 Oct):** inside the Android app
   (`html[data-app]`) prices, savings, founding labels, the home carousel and
   the store-page Buy Now banners are hidden (`web-only`). The app note now
