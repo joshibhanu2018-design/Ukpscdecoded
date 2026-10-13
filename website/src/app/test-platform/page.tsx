@@ -315,7 +315,7 @@ export default async function MyCoursesPage({
                   className="flex items-center justify-between gap-3 rounded-xl border border-graphite-800 bg-graphite-900/60 p-4 hover:border-saffron-400/50"
                 >
                   <span className="min-w-0 truncate text-sm font-semibold text-white">{pkg.package_name}</span>
-                  <span className="flex-shrink-0 text-sm font-bold text-saffron-400">{formatINR(getPriceInfo(pkg).amount)}</span>
+                  <span className="web-only flex-shrink-0 text-sm font-bold text-saffron-400">{formatINR(getPriceInfo(pkg).amount)}</span>
                 </Link>
               ))}
             </div>

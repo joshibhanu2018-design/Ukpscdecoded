@@ -161,17 +161,17 @@ export default function PackageCard({
         </p>
       )}
 
-      <div className="mt-3 flex items-baseline gap-2">
+      <div className="web-only mt-3 flex items-baseline gap-2">
         <span className="text-2xl font-bold text-white">{formatINR(priceInfo.amount)}</span>
         {savings && (
           <span className="text-sm text-graphite-300 line-through">{formatINR(savings.componentTotal)}</span>
         )}
       </div>
 
-      {foundingLabel && <p className="mt-1 text-xs font-medium text-saffron-300">{foundingLabel}</p>}
+      {foundingLabel && <p className="web-only mt-1 text-xs font-medium text-saffron-300">{foundingLabel}</p>}
 
       {savings && (
-        <p className="mt-1 text-sm font-medium text-success-400">
+        <p className="web-only mt-1 text-sm font-medium text-success-400">
           Save {formatINR(savings.saving)} ({savings.savingPercent}%) vs buying separately
         </p>
       )}

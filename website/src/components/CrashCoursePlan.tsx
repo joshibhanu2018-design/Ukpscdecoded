@@ -2,9 +2,9 @@ import Link from "next/link";
 import { CalendarDays, CheckCircle2, Lock, PlayCircle, Radio } from "lucide-react";
 import plan from "@content/crashCoursePlan.json";
 import {
-  bunnyThumbnailUrl,
   getCourseLessons,
   isLessonReleased,
+  lessonThumbnailUrl,
   lessonVideoNumber,
   type Lesson,
 } from "@/lib/lessons";
@@ -59,7 +59,7 @@ export default async function CrashCoursePlan({
 
   const thumbs = new Map(
     await Promise.all(
-      [...lessonByNumber.values()].map(async (l) => [l.id, await bunnyThumbnailUrl(l.bunny_video_id)] as const),
+      [...lessonByNumber.values()].map(async (l) => [l.id, await lessonThumbnailUrl(l)] as const),
     ),
   );
   const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();

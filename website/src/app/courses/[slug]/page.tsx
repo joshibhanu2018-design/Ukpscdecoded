@@ -123,7 +123,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         <div className="container-custom mx-auto flex items-center justify-between px-4 py-3">
           <span className="font-semibold text-white">{pkg.package_name}</span>
           <div className="flex items-center gap-4">
-            <span className="text-lg font-bold text-white">{formatINR(priceInfo.amount)}</span>
+            <span className="web-only text-lg font-bold text-white">{formatINR(priceInfo.amount)}</span>
             {owned ? (
               <Link
                 href="/test-platform"
@@ -147,7 +147,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         className={`fixed bottom-0 left-0 right-0 z-40 border-t border-graphite-800 bg-graphite-900/95 p-3 backdrop-blur lg:hidden ${owned ? "" : "web-only"}`}
       >
         <div className="flex items-center justify-between gap-3">
-          <div>
+          <div className="web-only">
             <p className="text-xs text-graphite-300">Price</p>
             <p className="text-lg font-bold text-white">{formatINR(priceInfo.amount)}</p>
           </div>
@@ -196,12 +196,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <p className="mt-2 text-sm text-white/90">{pkg.package_name}</p>
             )}
             <div className="mt-5 flex flex-wrap items-center gap-4">
-              <span className="text-3xl font-extrabold text-white">{formatINR(priceInfo.amount)}</span>
+              <span className="web-only text-3xl font-extrabold text-white">{formatINR(priceInfo.amount)}</span>
               {priceInfo.isFounding && priceInfo.regularPrice && (
-                <span className="text-sm text-white/70 line-through">{formatINR(priceInfo.regularPrice)}</span>
+                <span className="web-only text-sm text-white/70 line-through">{formatINR(priceInfo.regularPrice)}</span>
               )}
               {savings && (
-                <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+                <span className="web-only rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
                   Save {savings.savingPercent}%
                 </span>
               )}
@@ -211,7 +211,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 </span>
               )}
             </div>
-            {foundingLabel && <p className="mt-2 text-xs font-medium text-white/90">{foundingLabel}</p>}
+            {foundingLabel && <p className="web-only mt-2 text-xs font-medium text-white/90">{foundingLabel}</p>}
             {!owned && <AppPurchaseNote className="mt-6 max-w-sm" />}
             <div className={`mt-6 hidden sm:block ${owned ? "" : "web-only"}`}>
               {owned ? (
