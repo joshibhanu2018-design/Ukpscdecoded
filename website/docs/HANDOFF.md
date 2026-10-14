@@ -225,9 +225,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Speed (14 Oct):** fonts are self-hosted with `next/font` (Inter +
   Poppins, no Google Fonts request), the navbar/footer logo is a 10 KB
   `logo-badge-160.webp` (was the 238 KB PNG on every page), and the e-book
-  page uses WebP images (~4.6 MB → ~250 KB). Biggest remaining factor: the
-  Vercel function region should match the Supabase region (Vercel →
-  Settings → Functions → Function Region).
+  page uses WebP images (~4.6 MB → ~250 KB). Supabase is in Singapore
+  (ap-southeast-1), so `vercel.json` pins the server functions to Singapore
+  (`"regions": ["sin1"]`) instead of Vercel's US default.
 - **YouTube lesson thumbnails (13 Oct):** lessons stored as YouTube videos
   (e.g. Videos 1 and 9) now show YouTube's thumbnail on the plan and lessons
   page (`lessonThumbnailUrl` in `src/lib/lessons.ts`; Bunny first, then
