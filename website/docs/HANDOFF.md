@@ -222,6 +222,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   course-page link; a banner with a link needs no package. Owner runs
   `supabase/fix-phase35-designed-banners.sql`. To change a banner later,
   edit the picture in Canva at the same size and replace the file.
+- **Speed (14 Oct):** fonts are self-hosted with `next/font` (Inter +
+  Poppins, no Google Fonts request), the navbar/footer logo is a 10 KB
+  `logo-badge-160.webp` (was the 238 KB PNG on every page), and the e-book
+  page uses WebP images (~4.6 MB → ~250 KB). Biggest remaining factor: the
+  Vercel function region should match the Supabase region (Vercel →
+  Settings → Functions → Function Region).
 - **YouTube lesson thumbnails (13 Oct):** lessons stored as YouTube videos
   (e.g. Videos 1 and 9) now show YouTube's thumbnail on the plan and lessons
   page (`lessonThumbnailUrl` in `src/lib/lessons.ts`; Bunny first, then

@@ -143,7 +143,7 @@ export default function BuyBookPage() {
         ) : (
           <section className="grid gap-6 rounded-2xl border border-graphite-800 bg-graphite-900 p-5 sm:p-8 md:grid-cols-[minmax(0,260px)_1fr] md:items-center md:gap-10">
             <Link href="/buy-ebooks" className="relative mx-auto block aspect-[3/4] w-48 overflow-hidden rounded-xl shadow-2xl shadow-black/50 md:w-full">
-              <Image src="/IMG_5845.png" alt="Polity Decoded e-book cover" fill className="object-cover" sizes="260px" />
+              <Image src="/IMG_5845.webp" alt="Polity Decoded e-book cover" fill className="object-cover" sizes="260px" />
             </Link>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron-400">E-Book · PDF</p>
