@@ -219,7 +219,7 @@ export default function BuyPDFPage() {
             {/* Book Cover Image */}
             <div className="rounded-lg mb-6 overflow-hidden shadow-md">
               <img 
-                src="/IMG_5845.png" 
+                src="/IMG_5845.webp" 
                 alt="Polity Decoded Book Cover" 
                 className="w-full h-auto object-cover"
               />
@@ -261,9 +261,9 @@ export default function BuyPDFPage() {
             <div className="mt-8 pt-6 border-t border-graphite-200">
               <h3 className="font-bold text-graphite-900 mb-3">Preview Sample Pages</h3>
               <div className="grid grid-cols-3 gap-3">
-                <img src="/IMG_5835.png" alt="Sample Page 1" className="w-full h-auto rounded-md border border-graphite-200" />
-                <img src="/IMG_5837.png" alt="Sample Page 2" className="w-full h-auto rounded-md border border-graphite-200" />
-                <img src="/IMG_5838.png" alt="Sample Page 3" className="w-full h-auto rounded-md border border-graphite-200" />
+                <img src="/IMG_5835.webp" alt="Sample Page 1" className="w-full h-auto rounded-md border border-graphite-200" />
+                <img src="/IMG_5837.webp" alt="Sample Page 2" className="w-full h-auto rounded-md border border-graphite-200" />
+                <img src="/IMG_5838.webp" alt="Sample Page 3" className="w-full h-auto rounded-md border border-graphite-200" />
               </div>
             </div>
 

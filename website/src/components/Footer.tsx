@@ -55,7 +55,7 @@ export default function Footer() {
           <div>
             <div className="mb-4 flex items-center gap-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo-badge.png" alt="" width={40} height={40} className="h-10 w-10" />
+              <img src="/logo-badge-160.webp" alt="" width={40} height={40} className="h-10 w-10" />
               <span className="font-display text-xl font-bold text-white">
                 {settings.brandName1} <span className="text-saffron-400">{settings.brandName2}</span>
               </span>
