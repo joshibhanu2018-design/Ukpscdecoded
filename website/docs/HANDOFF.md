@@ -286,8 +286,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   edit the generator, rebuild (output is reproducible), dry run, `--apply`.
 
 ## Open items (owner)
-- [ ] **CSAT go-live (18 Oct):** `npx.cmd --yes tsx scripts/load-csat-tests.mts --apply`
-      in `website/`, then run `supabase/fix-phase35-csat-test-series.sql`, then
+- [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
+      filled). Still to do: run `supabase/fix-phase35-csat-test-series.sql`, then
       merge the CSAT pull request. Take CSAT 1 with a test account on a phone.
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
