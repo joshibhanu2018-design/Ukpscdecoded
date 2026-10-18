@@ -637,10 +637,10 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **CSAT pack is hidden** (`is_active = false`, after phase 17) until CSAT
-  questions exist; set it back to `true` then. The Premium Test Series page
-  shows the CSAT tab as "Coming soon" automatically while its tests are empty.
-- CSAT tests have no questions (none in the bank).
+- **CSAT pack** (`csat-test-series`, ₹299): `fix-phase36-csat-test-series.sql`
+  (18 Oct) switches it on once CSAT 1-6 have 100 questions each. While a tab's
+  tests are empty, the course page shows it as "Coming soon" automatically.
+- CSAT tests: filled by `scripts/load-csat-tests.mts` (18 Oct, see HANDOFF).
 - **UK Current Affairs and Statehood II statement share** stays low (12% /
   34%) until verified statement-type UK CA / post-2000 statehood questions are
   added to the bank.

@@ -65,7 +65,7 @@ export function testTabOf(subject: string | null | undefined, testName?: string 
  * Tests split into tabs (empty tabs dropped), each tab keeping its subjects
  * as sub-groups in first-appearance order — so "Sectional" still shows
  * Polity / History / … and "Current Affairs" shows CA vs CA Revision.
- * `comingSoon`: no test in the tab has questions yet (CSAT today), so the
+ * `comingSoon`: no test in the tab has questions yet, so the
  * page shows "Coming soon" instead of a list of empty tests.
  */
 export function groupTestsByTab<T extends { subject: string | null; test_name: string }>(

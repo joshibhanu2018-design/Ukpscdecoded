@@ -318,7 +318,23 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   2 on desktop), shown to everyone; not-uploaded videos stay compact rows. Thumbnails:
   brand-led Canva template (no face, owner joining government service).
 
+- **CSAT tests + CSAT Test Series ₹299 (18 Oct):** 6 original CSAT mocks (100 Q,
+  bilingual, UKPSC pattern; tests 1-2 at 2025 level, 3-4 between, 5-6 at 2024
+  level) built by `test series questions/csat-tests/generator/build.py`
+  (git-ignored; also writes the paper/solution PDFs and `csat-questions.json`).
+  `scripts/load-csat-tests.mts` (dry run, then `--apply`) loads them into CSAT 1-6:
+  120 min, 1.5 marks each, 1/4 negative. Premium, Complete Prelims Pack and
+  Mentorship buyers get them through Premium. `supabase/fix-phase36-csat-test-series.sql`
+  links CSAT 1-6 to `csat-test-series`, sets ₹299 flat and switches it on only when
+  all 6 tests have 100 questions; removes "coming soon" from Premium. The result
+  page shows "CSAT is qualifying (33% = 49.5)" for CSAT tests. The main loader
+  still skips CSAT tests. Question ids `CSAT-T01-Q001` …; to change a question,
+  edit the generator, rebuild (output is reproducible), dry run, `--apply`.
+
 ## Open items (owner)
+- [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
+      filled). Still to do: run `supabase/fix-phase36-csat-test-series.sql`, then
+      merge the CSAT pull request. Take CSAT 1 with a test account on a phone.
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with
       the same flags, run `seed-phase26-rename-uk-topic-tests.sql`, resolve the

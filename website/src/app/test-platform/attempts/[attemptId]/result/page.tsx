@@ -86,6 +86,8 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   const { data: testMeta } = await supabaseAdmin().from("tests").select("subject, total_questions").eq("id", test.id).maybeSingle();
   const cutoff = testMeta && isFullMock(testMeta) ? await getCutoff() : null;
   const scaled = cutoff ? scaleToPaper(r.score, r.totalMarks, cutoff.total) : null;
+  // CSAT (Paper II) is only qualifying: 33% of the marks.
+  const csatPass = (testMeta?.subject ?? "").toLowerCase() === "csat" ? Math.round(r.totalMarks * 0.33 * 10) / 10 : null;
   const confidence = sanitizeConfidence(attempt.confidence, test.question_ids);
   const errorTags = sanitizeErrorTags(attempt.error_tags, test.question_ids);
   const guesses = guessAnalysis(questions.map((question) => ({ question, answers, confidence, test })));
@@ -137,6 +139,12 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
             <p className={`mt-2 text-sm font-semibold ${scaled >= cutoff.cutoff ? "text-success-400" : "text-danger-400"}`}>
               Expected cutoff {cutoff.cutoff}: you&apos;re {Math.round(Math.abs(scaled - cutoff.cutoff) * 10) / 10}{" "}
               {scaled >= cutoff.cutoff ? "above" : "below"}
+            </p>
+          )}
+          {csatPass !== null && (
+            <p className={`mt-2 text-sm font-semibold ${r.score >= csatPass ? "text-success-400" : "text-danger-400"}`}>
+              CSAT is qualifying (33% = {csatPass}):{" "}
+              {r.score >= csatPass ? "you cleared it" : `${Math.round((csatPass - r.score) * 10) / 10} more marks needed`}
             </p>
           )}
           {percentile !== null && (
