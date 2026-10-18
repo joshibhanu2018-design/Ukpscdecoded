@@ -356,37 +356,37 @@ on conflict (id) do update set
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('45dbca03-8184-46e1-a241-10e7c0983388', 'CSAT 1', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 80, true, 0.25, 1.0, '{}'::uuid[])
+values ('45dbca03-8184-46e1-a241-10e7c0983388', 'CSAT 1', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 120, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('04b45cb8-9a4d-409c-a6c1-48094d5d41ae', 'CSAT 2', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 80, true, 0.25, 1.0, '{}'::uuid[])
+values ('04b45cb8-9a4d-409c-a6c1-48094d5d41ae', 'CSAT 2', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 120, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('827f78a8-5641-4490-b941-eb6b3c557263', 'CSAT 3', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 80, true, 0.25, 1.0, '{}'::uuid[])
+values ('827f78a8-5641-4490-b941-eb6b3c557263', 'CSAT 3', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 120, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('fa49bf3b-ebe2-4566-967e-57b1b7854085', 'CSAT 4', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 80, true, 0.25, 1.0, '{}'::uuid[])
+values ('fa49bf3b-ebe2-4566-967e-57b1b7854085', 'CSAT 4', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 120, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('f49e0e05-f2cd-434b-94bb-aec89ff0597f', 'CSAT 5', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 80, true, 0.25, 1.0, '{}'::uuid[])
+values ('f49e0e05-f2cd-434b-94bb-aec89ff0597f', 'CSAT 5', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 120, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
 
 insert into tests (id, test_name, package_id, subject, total_questions, duration_minutes, negative_marking_enabled, negative_marking_value, marks_per_question, question_ids)
-values ('bb8b9620-e13c-4854-a774-c584a6e41820', 'CSAT 6', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 80, true, 0.25, 1.0, '{}'::uuid[])
+values ('bb8b9620-e13c-4854-a774-c584a6e41820', 'CSAT 6', 'fa2c4a38-d430-42ce-905d-375bd8af5ca9', 'CSAT', 100, 120, true, 0.25, 1.0, '{}'::uuid[])
 on conflict (id) do update set
   test_name = excluded.test_name, package_id = excluded.package_id, subject = excluded.subject,
   total_questions = excluded.total_questions, duration_minutes = excluded.duration_minutes, updated_at = now();
