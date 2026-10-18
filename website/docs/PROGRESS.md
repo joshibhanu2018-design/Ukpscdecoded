@@ -637,7 +637,7 @@ entitlement chain unlocks Complete Prelims Pack + Premium Bundle + Crash Course)
 
 - **Rotate/scrub the exposed Razorpay live key** from git history (see
   above) — flagged repeatedly, not yet actioned.
-- **CSAT pack** (`csat-test-series`, ₹299): `fix-phase35-csat-test-series.sql`
+- **CSAT pack** (`csat-test-series`, ₹299): `fix-phase36-csat-test-series.sql`
   (18 Oct) switches it on once CSAT 1-6 have 100 questions each. While a tab's
   tests are empty, the course page shows it as "Coming soon" automatically.
 - CSAT tests: filled by `scripts/load-csat-tests.mts` (18 Oct, see HANDOFF).

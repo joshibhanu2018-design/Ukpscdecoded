@@ -213,6 +213,42 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   AI prompts for the product banners (1920x600 + 1080x1080 mobile):
   `docs/CAROUSEL_PROMPTS.md`.
 
+- **Designed carousel banners (12 Oct):** five picture banners, desktop
+  1920x600 + phone 1080x1080 WebP, in `public/banners/` (shipped with the
+  site, nothing to upload): Complete Prelims Pack (gold), Premium Test Series
+  (crimson), Crash Courses — Uttarakhand + National (teal, links to
+  `/courses`), Mentorship (violet), the book (navy, links to `/buy-book`).
+  No prices or dates on them. New `banners.link_url` column overrides the
+  course-page link; a banner with a link needs no package. Owner runs
+  `supabase/fix-phase35-designed-banners.sql`. To change a banner later,
+  edit the picture in Canva at the same size and replace the file.
+- **Speed (14 Oct):** fonts are self-hosted with `next/font` (Inter +
+  Poppins, no Google Fonts request), the navbar/footer logo is a 10 KB
+  `logo-badge-160.webp` (was the 238 KB PNG on every page), and the e-book
+  page uses WebP images (~4.6 MB → ~250 KB). Supabase is in Singapore
+  (ap-southeast-1), so `vercel.json` pins the server functions to Singapore
+  (`"regions": ["sin1"]`) instead of Vercel's US default.
+- **YouTube lesson thumbnails (13 Oct):** lessons stored as YouTube videos
+  (e.g. Videos 1 and 9) now show YouTube's thumbnail on the plan and lessons
+  page (`lessonThumbnailUrl` in `src/lib/lessons.ts`; Bunny first, then
+  YouTube).
+- **App: no prices or buy banners (12 Oct):** inside the Android app
+  (`html[data-app]`) prices, savings, founding labels, the home carousel and
+  the store-page Buy Now banners are hidden (`web-only`). The app note now
+  says "Already purchased? Log in with the same email you used, and your
+  courses will appear in My Courses." Never mention buying on the website
+  inside the app (Play payments policy); say it on WhatsApp/Telegram/YouTube.
+- **Store page tops + Books redesign (12 Oct):** `/courses` opens with the
+  Complete Prelims Pack banner and `/test-series` with the Premium Test
+  Series banner (`src/components/PageHeroBanner.tsx`): price + Buy Now
+  straight to `/checkout/<slug>` (app: opens the course page, no buying).
+  `/buy-book` is now an overview with three tabs (English Book, Hindi Book,
+  E-Books → `/buy-ebooks`); "Read Samples & Order" opens
+  `/buy-book/order?lang=en|hi` with the sample PDFs (step 1), the address
+  form and Razorpay payment (step 2). Order logging to the Google Sheet and
+  `/api/create-book-order` are unchanged. Fixed the Hindi Chapter 27 sample
+  link (the file name has a space before ".pdf").
+
 - **Retests (6 Oct):** each test can be taken once plus 2 retests
   (`MAX_ATTEMPTS_PER_TEST = 3` in `src/lib/tests.ts`, enforced in
   `/api/tests/[testId]/start`; a timed-out attempt counts; admins unlimited).
@@ -272,13 +308,23 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   SQL phase 34 + env TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID. The old Apps Script
   bot (Google Sheet) is separate; turn its trigger off to avoid double posts.
 
+- **Telegram quiz text (12 Oct):** intro names Upper PCS (29 Nov 2026) + Lower PCS
+  (Dec 2026) with a live day countdown; 4 closing messages rotate daily (real countdown,
+  no invented scarcity), links /courses and /test-series (`src/lib/telegramMcq.ts`).
+  After 29 Nov the countdown reads 0: switch the texts to Lower PCS then.
+
+- **Big thumbnail cards (12 Oct):** in the Crash Course Plan, uploaded videos are large
+  cards (full-width 16:9 thumbnail, "Video N" badge, play/lock icon; 1 per row on phones,
+  2 on desktop), shown to everyone; not-uploaded videos stay compact rows. Thumbnails:
+  brand-led Canva template (no face, owner joining government service).
+
 - **CSAT tests + CSAT Test Series ₹299 (18 Oct):** 6 original CSAT mocks (100 Q,
   bilingual, UKPSC pattern; tests 1-2 at 2025 level, 3-4 between, 5-6 at 2024
   level) built by `test series questions/csat-tests/generator/build.py`
   (git-ignored; also writes the paper/solution PDFs and `csat-questions.json`).
   `scripts/load-csat-tests.mts` (dry run, then `--apply`) loads them into CSAT 1-6:
   120 min, 1.5 marks each, 1/4 negative. Premium, Complete Prelims Pack and
-  Mentorship buyers get them through Premium. `supabase/fix-phase35-csat-test-series.sql`
+  Mentorship buyers get them through Premium. `supabase/fix-phase36-csat-test-series.sql`
   links CSAT 1-6 to `csat-test-series`, sets ₹299 flat and switches it on only when
   all 6 tests have 100 questions; removes "coming soon" from Premium. The result
   page shows "CSAT is qualifying (33% = 49.5)" for CSAT tests. The main loader
@@ -287,7 +333,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
-      filled). Still to do: run `supabase/fix-phase35-csat-test-series.sql`, then
+      filled). Still to do: run `supabase/fix-phase36-csat-test-series.sql`, then
       merge the CSAT pull request. Take CSAT 1 with a test account on a phone.
 - [ ] **Test series review (3 Oct):** review done (see "Test series review
       done on the laptop"). Approve the dry run, run the loader `--apply` with

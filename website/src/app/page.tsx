@@ -31,9 +31,11 @@ export default async function Home() {
     getPackageIncludes(),
   ]);
   const bannerById = new Map(allPackages.map((p) => [p.id, p]));
-  const carouselItems = banners
-    .filter((b) => b.package_id && bannerById.get(b.package_id)?.slug)
-    .map((b) => ({ ...b, href: `/courses/${bannerById.get(b.package_id!)!.slug}` }));
+  const carouselItems = banners.flatMap((b) => {
+    const slug = b.package_id ? bannerById.get(b.package_id)?.slug : null;
+    const href = b.link_url ?? (slug ? `/courses/${slug}` : null);
+    return href ? [{ ...b, href }] : [];
+  });
 
   const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
@@ -42,7 +44,9 @@ export default async function Home() {
   return (
     <div>
       {/* Course Carousel — DB-driven, editable without a redeploy */}
-      <HomeCarousel banners={carouselItems} />
+      <div className="web-only">
+        <HomeCarousel banners={carouselItems} />
+      </div>
 
       {/* Quick links — one per paid product, right under the carousel */}
       <nav aria-label="Products" className="border-b border-graphite-800 bg-graphite-950 px-4 py-6 sm:py-8">

@@ -1,4 +1,4 @@
--- UKPSC Test Platform — Phase 35: CSAT tests live + CSAT Test Series at ₹299
+-- UKPSC Test Platform — Phase 36: CSAT tests live + CSAT Test Series at ₹299
 -- Run in the Supabase SQL Editor AFTER `npx.cmd --yes tsx scripts/load-csat-tests.mts --apply`
 -- (that fills CSAT 1-6 with 100 questions each). Safe to re-run.
 -- No DROP / DELETE / TRUNCATE.

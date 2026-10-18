@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Poppins } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -129,6 +130,15 @@ const jsonLd = {
   ],
 };
 
+// Self-hosted by Next.js (no render-blocking request to Google Fonts on each visit).
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
 async function getNavbarUser() {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
   const user = await getUserFromSession(token);
@@ -143,7 +153,7 @@ export default async function RootLayout({
   const [navbarUser, offer] = await Promise.all([getNavbarUser(), getActiveOffer().catch(() => null)]);
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png" />

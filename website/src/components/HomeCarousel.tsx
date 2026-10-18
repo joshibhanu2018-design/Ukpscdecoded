@@ -130,7 +130,7 @@ export default function HomeCarousel({ banners }: { banners: (Banner & { href: s
                 <div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/logo-badge.png"
+                    src="/logo-badge-160.webp"
                     alt=""
                     width={80}
                     height={80}

@@ -65,7 +65,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="group flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-badge.png" alt="" width={36} height={36} className="h-9 w-9 flex-shrink-0" />
+            <img src="/logo-badge-160.webp" alt="" width={36} height={36} className="h-9 w-9 flex-shrink-0" />
             <span className="whitespace-nowrap font-display text-lg font-bold text-white sm:text-xl">
               {settings.brandName1} <span className="text-saffron-400">{settings.brandName2}</span>
             </span>

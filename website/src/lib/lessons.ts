@@ -86,6 +86,14 @@ export async function bunnyThumbnailUrl(videoId: string | null): Promise<string 
   return `https://${host}/${videoId}/${file}`;
 }
 
+/** The lesson's thumbnail: its Bunny thumbnail, else YouTube's for a YouTube lesson. */
+export async function lessonThumbnailUrl(lesson: Pick<Lesson, "bunny_video_id" | "youtube_id">): Promise<string | null> {
+  const bunny = await bunnyThumbnailUrl(lesson.bunny_video_id);
+  if (bunny) return bunny;
+  const yt = lesson.youtube_id?.trim();
+  return yt && /^[\w-]{6,20}$/.test(yt) ? `https://i.ytimg.com/vi/${yt}/hqdefault.jpg` : null;
+}
+
 /** "Video 12: …" → 12: links an uploaded lesson to its slot in the crash course plan. */
 export function lessonVideoNumber(title: string): number | null {
   const m = title.match(/\bvideo\s*(\d{1,3})\b/i);

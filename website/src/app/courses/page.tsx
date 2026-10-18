@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { BEST_BUY_SLUG, getCatalog } from "@/lib/catalog";
 import SectionTitle from "@/components/SectionTitle";
+import PageHeroBanner from "@/components/PageHeroBanner";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/courses" },
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 // mentorship. Test series alone live on /test-series.
 export default async function CoursesPage() {
   const { mentorship, crashCourses, bundles, ownedIds } = await getCatalog();
+  const pack = bundles.find((p) => p.slug === BEST_BUY_SLUG);
 
   return (
     <div className="bg-graphite-950 px-4 py-12 sm:py-16">
@@ -26,6 +28,16 @@ export default async function CoursesPage() {
             Crash course, bundles and 1-on-1 mentorship for UKPSC PCS, Lower PCS, RO/ARO and UKSSSC
           </p>
         </div>
+
+        {pack && (
+          <PageHeroBanner
+            pkg={pack}
+            owned={ownedIds.has(pack.id)}
+            desktop="/banners/complete-pack-desktop.webp"
+            mobile="/banners/complete-pack-mobile.webp"
+            alt="Complete Prelims Pack: Test Series + Crash Course + PDF notes"
+          />
+        )}
 
         {bundles.length > 0 && (
           <section>

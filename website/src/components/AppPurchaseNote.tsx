@@ -8,7 +8,7 @@ export default function AppPurchaseNote({ className = "" }: { className?: string
     <p
       className={`app-only rounded-lg border border-graphite-700 bg-graphite-800 px-4 py-2.5 text-center text-xs leading-relaxed text-graphite-200 ${className}`}
     >
-      Purchases aren&apos;t available in the app. Courses you already have are in My Courses.
+      Already purchased? Log in with the same email you used, and your courses will appear in My Courses.
     </p>
   );
 }
