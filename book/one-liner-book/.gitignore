@@ -1,0 +1,6 @@
+# Only the build scripts are tracked. Content, question data, Negi OCR and PDFs stay local (public repo).
+*
+!.gitignore
+!scripts/
+!scripts/*.py
+scripts/__pycache__/
