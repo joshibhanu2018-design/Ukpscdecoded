@@ -1,4 +1,4 @@
-"""Build the Uttarakhand One-Liner book (Hindi + English) as A4 PDFs.
+"""Build the Uttarakhand One-Liner book (Hindi + English) as B5 (176 x 250 mm) PDFs.
 
     python -I scripts/build_book.py                 # all chapters listed in book.yaml
     python -I scripts/build_book.py geo-water       # only these chapter ids (sample)
@@ -31,7 +31,8 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT, OUT, FONTS = (os.path.join(HERE, d) for d in ("content", "out", "fonts"))
 ORANGE = "#F59307"
 MM = 72 / 25.4
-MARGIN_TOP, MARGIN_BOTTOM = 15 * MM, 13 * MM
+MARGIN_TOP, MARGIN_BOTTOM = 14 * MM, 12 * MM
+MARGIN_SIDE = 10 * MM  # B5 page: 176 x 250 mm
 MIN_UNITS_UNDER_OPENER = 3  # heading + 2 items must fit under a chapter opener, else it starts a new page
 GAP_REPORT_MM = 18   # space audit: report a column ending this far above the bottom margin
 UNIT = re.compile(r"@@U:([\w-]+):(\d+)@@")
@@ -162,7 +163,7 @@ def css(lang):
     )
     return f"""{fonts}
 @page {{
-  size: A4; margin: 15mm 11mm 13mm 11mm;
+  size: 176mm 250mm; margin: 14mm 10mm 12mm 10mm;
   @bottom-center {{ content: counter(page); font: 600 8pt Poppins; color: #444; }}
 }}
 @page front {{ @bottom-center {{ content: none; }} }}
@@ -179,7 +180,7 @@ b {{ font-weight: 600; color: #000; }}
 .toc td.n {{ width: 22mm; font: 600 9pt Poppins; color: {ORANGE}; }}
 .toc td.p {{ width: 14mm; text-align: right; font: 600 9.5pt Poppins; }}
 .toc tr.part td {{ font: 700 9pt Poppins; color: #fff; background: {ORANGE}; padding: 1mm 2mm; border: none; }}
-.cols {{ column-count: 2; column-gap: 5.5mm; column-rule: 0.4pt solid #e6e6e6; }}
+.cols {{ column-count: 2; column-gap: 4.5mm; column-rule: 0.4pt solid #e6e6e6; }}
 .opener {{ background: {ORANGE}; color: #fff; padding: 2mm 4mm 2mm; border-radius: 1.6mm; margin: 4mm 0 2.4mm; position: relative; break-inside: avoid; break-after: avoid; display: flex; align-items: baseline; gap: 3mm; }}
 .opener.newpage {{ break-before: page; }}
 main > .opener:first-child {{ margin-top: 0; }}
@@ -266,14 +267,14 @@ def stamp_headers(pdf, lang, chapters, openers):
         top = [m for m in openers if m[1] == i and m[2] < MARGIN_TOP + 25]
         before = [m for m in openers if m[1] < i]
         cur = (top or before or openers[:1])[-1][0]
-        y = 9.5 * MM
-        page.insert_htmlbox(pymupdf.Rect(11 * MM, y, w / 2, y + 12),
+        y = 8.6 * MM
+        page.insert_htmlbox(pymupdf.Rect(MARGIN_SIDE, y, w / 2, y + 12),
                             f"<div style='font-family:PS;color:{ORANGE}'>{html.escape(ui['brand'] + ' · ' + ui['book'])}</div>",
                             css=base, archive=arch)
-        page.insert_htmlbox(pymupdf.Rect(w / 2, y, w - 11 * MM, y + 12),
+        page.insert_htmlbox(pymupdf.Rect(w / 2, y, w - MARGIN_SIDE, y + 12),
                             f"<div style='font-family:P;color:#555;text-align:right'>{html.escape(title[cur])}</div>",
                             css=base, archive=arch)
-        page.draw_line((11 * MM, 13 * MM), (w - 11 * MM, 13 * MM), color=(0.95, 0.79, 0.54), width=0.6)
+        page.draw_line((MARGIN_SIDE, 12 * MM), (w - MARGIN_SIDE, 12 * MM), color=(0.95, 0.79, 0.54), width=0.6)
 
 
 def audit(pdf, openers, newpage):
@@ -301,7 +302,7 @@ def render(page, doc, path, pdf_path):
     open(path, "w", encoding="utf-8").write(doc)
     page.goto("file:///" + path.replace(os.sep, "/"), wait_until="load", timeout=300000)
     page.evaluate("document.fonts.ready")
-    page.pdf(path=pdf_path, format="A4", print_background=True, prefer_css_page_size=True)  # noqa
+    page.pdf(path=pdf_path, width="176mm", height="250mm", print_background=True, prefer_css_page_size=True)  # noqa
     return pymupdf.open(pdf_path)
 
 
