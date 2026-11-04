@@ -11,7 +11,8 @@
 --      3 eba11ee4-7602-412e-b61a-758daa43d122   4 2f4fdf1a-90a2-424d-aece-e828f9854dda
 --      5 13ee29fd-b35d-4a96-bc1e-ce289cfba6bf   6 8a975a03-4438-4633-bc11-8b31366821da
 --    Run it again after the laptop question fixes, so the warm-up gets the fixed questions.
--- 2. All Uttarakhand Rank Challenge (mock-mahasangram): ₹399 till 11 Nov 11:59 pm,
+-- 2. Only the Warm-up is free: all 6 Rank Challenge mocks are paid (Mock 1 was free).
+-- 3. All Uttarakhand Rank Challenge (mock-mahasangram): ₹399 till 11 Nov 11:59 pm,
 --    then ₹499. The site shows ₹499 struck through and "till 11 November".
 --    Revision Test Series stays ₹999; the ₹500 upgrade is unchanged.
 
@@ -41,7 +42,16 @@ where w.id = '5d1a7c3e-2b8f-4e61-9a0d-7f3c2e8b4a15'
   and s.id = '059f628c-4507-4a9b-8982-2534a0d8730b'   -- << the Basic mock to copy (Full Mock 1)
   and cardinality(s.question_ids) > 0;
 
--- ========== 2. Early-bird price ==========
+-- ========== 2. Only the Warm-up is free: Rank Challenge Mock 1 (Full Mock 7) becomes paid ==========
+update tests set is_free_test = false, updated_at = now()
+where id = '7a976496-51a7-48b2-8142-2a559a734982';
+
+update packages set
+  description = replace(description, 'Mock 1 free for everyone', 'free Warm-up Mock to try first'),
+  updated_at = now()
+where slug = 'mock-mahasangram';
+
+-- ========== 3. Early-bird price ==========
 update packages set
   founding_price = 399,
   regular_price = 499,

@@ -6,7 +6,7 @@
     { "date": "2026-11-09", "kind": "uk", "name": "Uttarakhand Revision 2", "testId": "f3fa0eb7-f12a-4fd4-9c00-0df0915759c5" },
     { "date": "2026-11-10", "kind": "ca", "name": "CA Revision 2", "testId": "aaf001ed-e922-4bad-918c-6feace56a11e" },
     { "date": "2026-11-11", "kind": "uk", "name": "Uttarakhand Revision 3", "testId": "1d55c840-4723-4b11-be73-ee026b325135" },
-    { "date": "2026-11-12", "kind": "mock", "name": "Mahasangram Mock 1 (free for all)", "testId": "7a976496-51a7-48b2-8142-2a559a734982" },
+    { "date": "2026-11-12", "kind": "mock", "name": "Mahasangram Mock 1", "testId": "7a976496-51a7-48b2-8142-2a559a734982" },
     { "date": "2026-11-13", "kind": "ca", "name": "CA Revision 3", "testId": "12cef989-ab3a-4a0d-8540-5ec5f6c29671" },
     { "date": "2026-11-14", "kind": "uk", "name": "Uttarakhand Revision 4", "testId": "c28b9cc5-0f01-4c56-be24-636e82b833c6" },
     { "date": "2026-11-15", "kind": "mock", "name": "Mahasangram Mock 2", "testId": "aa6a23d2-3297-4452-8434-5cf1bd00e648" },

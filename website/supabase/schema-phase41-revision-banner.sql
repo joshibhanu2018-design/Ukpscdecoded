@@ -14,7 +14,7 @@ select null, 'Final Revision Test Series', '6 live-ranked mocks + 800 Uttarakhan
 where not exists (select 1 from banners where link_url = '/revision');
 
 insert into banners (package_id, title, subtitle, gradient_from, gradient_to, sort_order, is_active, image_url, image_url_mobile, link_url)
-select null, 'All Uttarakhand Rank Challenge', 'Are you the next topper? Mock 1 free on 12 Nov',
+select null, 'All Uttarakhand Rank Challenge', 'Are you the next topper? Free Warm-up Mock open now',
   '#2a1205', '#120804', -1, true, '/banners/mahasangram-desktop.webp', '/banners/mahasangram-mobile.webp', '/mahasangram'
 where not exists (select 1 from banners where link_url = '/mahasangram');
 

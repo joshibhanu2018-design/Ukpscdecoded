@@ -51,7 +51,7 @@ export default async function MahasangramPage() {
           <p className="mt-2 font-display text-xl font-bold text-saffron-300 sm:text-2xl">Are you the next topper?</p>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-graphite-300 sm:text-base">
             6 full-length mocks before the 29 Nov exam. Everyone writes the same mock on the same day, and at 8 pm the
-            rank list for the whole of Uttarakhand goes live. <span className="font-semibold text-saffron-300">Mock 1 is free for everyone.</span>
+            rank list for the whole of Uttarakhand goes live. <span className="font-semibold text-saffron-300">Try the free Warm-up Mock today.</span>
           </p>
         </div>
 
@@ -118,7 +118,7 @@ export default async function MahasangramPage() {
             </div>
           )}
           <div className="rounded-2xl border border-saffron-400/50 bg-graphite-900 p-5 sm:p-6">
-            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400">Step 2 · All 6 mocks</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400">Join · All 6 live mocks</p>
             <h2 className="mt-1 font-display text-xl font-bold text-white">All Uttarakhand Rank Challenge</h2>
             <p className="mt-1 text-sm text-graphite-300">
               6 full mocks (150 Q each) with live ranks. Different tests from the Basic Test Series.
