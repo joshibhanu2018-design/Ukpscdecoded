@@ -29,7 +29,7 @@ export default async function TestInstructionsPage({ params }: { params: Promise
         ? `This Mock Mahasangram test opens on ${formatIst(live.release_at)}. Start any time until ${formatIst(live.rank_until)} to be ranked.`
         : "This test isn't released yet.",
       not_owned: live
-        ? "This mock is part of Mock Mahasangram and the Revision Test Series."
+        ? "This mock is part of Mock Mahasangram (₹400) and the Revision Test Series."
         : "This test isn't in any package you own.",
       no_questions: "Questions haven't been added to this test yet.",
     }[access.reason];

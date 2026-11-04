@@ -76,13 +76,14 @@ export default async function MahasangramPage() {
           <h2 className="text-xl font-bold text-white">Schedule</h2>
           <div className="mt-3 overflow-hidden rounded-xl border border-graphite-800">
             {tests.length === 0 && <p className="p-4 text-sm text-graphite-300">Dates coming soon.</p>}
-            {tests.map((t) => {
+            {tests.map((t, i) => {
               const published = !!t.result_at && !isResultHidden(t);
               return (
                 <div key={t.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-graphite-800 p-4 last:border-0">
                   <div>
                     <p className="font-semibold text-white">
-                      <Link href={`/test-platform/tests/${t.id}`} className="hover:text-saffron-300">{t.test_name}</Link>{" "}
+                      <Link href={`/test-platform/tests/${t.id}`} className="hover:text-saffron-300">Mock {i + 1}</Link>{" "}
+                      <span className="text-xs font-normal text-graphite-400">({t.test_name})</span>{" "}
                       {t.is_free_test && <span className="ml-1 rounded bg-success-500/20 px-2 py-0.5 text-xs text-success-400">FREE</span>}
                     </p>
                     <p className="text-xs text-graphite-400">
@@ -101,8 +102,9 @@ export default async function MahasangramPage() {
         <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5 text-sm text-graphite-300 sm:p-6">
           <p className="font-semibold text-white">Mocks 2 to 6</p>
           <p className="mt-1">
-            Part of the Mock Mahasangram and the Revision Test Series. Free for Premium Test Series, Complete Prelims
-            Pack, Mentorship and crash course students: they appear in your dashboard.
+            Mock Mahasangram (all 6 mocks): ₹400. Revision Test Series (6 mocks + 6 Current Affairs + 8 Uttarakhand + 2
+            CSAT tests): ₹999, or ₹500 if you already bought any course or test series from us. Premium Test Series and
+            Complete Prelims Pack students already have every mock in their dashboard.
           </p>
           <Link href="/test-series" className="mt-3 inline-flex items-center gap-1 font-semibold text-saffron-300 hover:underline">
             See the test series <ArrowRight className="h-4 w-4" />
