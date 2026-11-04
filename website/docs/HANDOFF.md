@@ -331,6 +331,20 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   still skips CSAT tests. Question ids `CSAT-T01-Q001` …; to change a question,
   edit the generator, rebuild (output is reproducible), dry run, `--apply`.
 
+- **Mock Mahasangram + Revision Test Series (4 Nov, PR open):** Mock Mahasangram (₹499, different from Basic,
+  `mock-mahasangram`) = Premium's Full Mock 7-12 as live mocks on 12, 15, 18, 21, 24, 27 Nov
+  (`tests.live_series = 'mahasangram'`; opens `release_at` 12 noon, only first attempts
+  started by `rank_until` 6 pm are ranked, result + solutions + ranks at `result_at` 8 pm).
+  Full Mock 7 is free for all. Public pages `/mahasangram` (free Mock 1 sign-up: a NEW
+  email is logged in with no email code; an existing email must log in) and
+  `/mahasangram/[testId]/ranks` (name + district, stars for top 20). Revision Test Series
+  (₹999, `revision-test-series`) = those 6 mocks + CA Revision 1-6 and Uttarakhand
+  Revision 1-8 (100 Q each, existing 50-Q tests joined in pairs) + CSAT 5-6; also added
+  to Premium. `packages.metadata.returning_percent_off` (20) gives 20% off both at checkout
+  to logged-in students owning another paid package (not Premium/Complete/Mentorship). `coupons.package_slugs`
+  locks a code to packages. SQL: `supabase/schema-phase37-mock-mahasangram.sql` (times in
+  UTC). Note: Full Mock 7-12 now open for Premium students only on their mock dates.
+
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
       filled). Still to do: run `supabase/fix-phase36-csat-test-series.sql`, then

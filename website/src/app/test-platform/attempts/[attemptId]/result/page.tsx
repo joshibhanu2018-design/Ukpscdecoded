@@ -27,6 +27,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 import { xpForAttempt } from "@/lib/gamification";
 import { parseUtcTimestamp } from "@/lib/timestamps";
 import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
+import { formatIst, getLiveTest, isResultHidden, rankForAttempt } from "@/lib/liveMock";
 
 export const metadata: Metadata = {
   title: "Test Result",
@@ -62,12 +63,46 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
   const test = await getAttemptTest(attempt);
   if (!test) notFound();
 
+  // Mock Mahasangram: score, solutions and rank stay hidden until result time (8 pm).
+  const live = await getLiveTest(test.id);
+  if (live && isResultHidden(live) && user.role !== "admin") {
+    return (
+      <div className="min-h-screen bg-graphite-950 px-4 py-10">
+        <div className="mx-auto max-w-xl text-center">
+          <Trophy className="mx-auto h-10 w-10 text-saffron-400" />
+          <h1 className="mt-4 text-2xl font-bold text-white">{test.test_name}: submitted</h1>
+          <p className="mt-3 text-graphite-300">
+            Your answers are saved. The result, solutions and the live rank list come out on{" "}
+            <span className="font-semibold text-saffron-300">{formatIst(live.result_at)}</span>.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link
+              href={`/mahasangram/${test.id}/ranks`}
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-saffron-400 px-5 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
+            >
+              Rank list <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/mahasangram"
+              className="inline-flex min-h-[44px] items-center rounded-lg border border-graphite-700 px-5 text-sm font-semibold text-graphite-200 hover:border-saffron-400"
+            >
+              All mocks
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const questions = await getTestQuestions(test, attempt.start_time);
   const answers = sanitizeAnswers(attempt.answers, test.question_ids);
   // Recomputed from the stored answers rather than read from `results`,
   // so the page is correct even if the analytics insert ever failed.
   const r = scoreAttempt(questions, answers, test);
   const percentile = await computePercentile(test.id, r.score, attempt.id);
+  const liveRank = live?.rank_until
+    ? await rankForAttempt(live, { id: attempt.id, score: r.score, time_taken_seconds: Number(attempt.time_taken_seconds ?? 0) })
+    : null;
   // Retests left for the owner (admins aren't limited); timed-out attempts count too.
   const retestsLeft = !isOwner
     ? 0
@@ -145,6 +180,19 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
             <p className={`mt-2 text-sm font-semibold ${r.score >= csatPass ? "text-success-400" : "text-danger-400"}`}>
               CSAT is qualifying (33% = {csatPass}):{" "}
               {r.score >= csatPass ? "you cleared it" : `${Math.round((csatPass - r.score) * 10) / 10} more marks needed`}
+            </p>
+          )}
+          {liveRank && liveRank.total > 0 && (
+            <p className="mt-3 text-base font-semibold text-white">
+              {liveRank.official ? "Your rank" : "Your rank would have been"}: {liveRank.rank} of {liveRank.total}
+              {!liveRank.official && (
+                <span className="block text-xs font-normal text-graphite-300">
+                  Only the first attempt started during the live window enters the rank list.
+                </span>
+              )}
+              <Link href={`/mahasangram/${test.id}/ranks`} className="mt-1 block text-sm font-normal text-saffron-300 hover:underline">
+                See the full rank list
+              </Link>
             </p>
           )}
           {percentile !== null && (
