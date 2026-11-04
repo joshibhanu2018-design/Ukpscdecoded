@@ -375,6 +375,24 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   active package. Codes with `package_slugs` set are never shown in the site-wide offer
   bar or prefilled at checkout (`getActiveOffer` in `src/lib/coupons.ts`).
 
+## Student report fixes (4 Nov)
+- All 31 open reports (29 questions) reviewed: `test series questions/review/decisions/batch-45-student-reports-nov.csv`
+  (git-ignored). Full Mock 7-12 and CSAT 5-6 had none. Loader `--apply` DONE (no flags; 4050 placed, none below target).
+- **Owner still to do:** run `supabase/fix-phase43-report-fixes-sync.sql`, then resolve the 31 reports in Admin -> Reports.
+  Phase 43 copies the loader's replacements into Uttarakhand Revision 2, 3, 5, 7, 8, copies Full Mock 6 into the Warm-up Mock
+  (only while it has no attempts; delete section 2 to keep Full Mock 1) and sets 12 dropped questions inactive.
+- **The loader does not update copied tests.** Revision tests and the Warm-up Mock are outside its 57 tests: a replacement
+  needs an `array_replace` like phase 43 (text and answer-key fixes reach them by themselves, same question row).
+- **The export hides CSAT reports** (CSAT questions are not in the workbooks): read `question_reports` directly too.
+- **`apply-review-decisions` counts old flag-then-restore pairs as changes** (358 of them, no net effect): diff the workbooks
+  against a backup to see the real changes.
+- **Not done, waiting for the owner's answer:** 17 broken Hindi explanations (option text pasted in, or a verdict that
+  contradicts the English; 6 in Full Mock 7-9, 1 in Full Mock 6); `UKPCS-UKGK-CH09-0161` is inactive but still shown in CA
+  Revision 6 and Uttarakhand CA + Budget (no replacement available); 980 flagged questions are still active in the database,
+  so the Telegram quiz can post them.
+- Could not verify outside the bank: first State Finance Commission chairman, the "Surat Kavi" pen name, Man Shah and Tibet.
+  fsi.nic.in has a revoked certificate; ISFR 2023 district figures came from a public transcription that matches the bank.
+
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
       filled). Still to do: run `supabase/fix-phase36-csat-test-series.sql`, then
