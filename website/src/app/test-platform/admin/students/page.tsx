@@ -40,12 +40,20 @@ export default async function StudentsPage({ searchParams }: { searchParams: Pro
               {withPhone} with a mobile number. Newest first.
             </p>
           </div>
-          <a
-            href="/api/admin/students"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-graphite-700 px-3 py-2 text-sm text-graphite-200 hover:border-saffron-400/60"
-          >
-            <Download className="h-4 w-4" /> Download CSV
-          </a>
+          <div className="flex flex-wrap gap-2">
+            <a
+              href="/api/admin/students/rank-challenge"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-saffron-400/60 px-3 py-2 text-sm font-semibold text-saffron-300 hover:bg-saffron-400/10"
+            >
+              <Download className="h-4 w-4" /> Rank Challenge list
+            </a>
+            <a
+              href="/api/admin/students"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-graphite-700 px-3 py-2 text-sm text-graphite-200 hover:border-saffron-400/60"
+            >
+              <Download className="h-4 w-4" /> Download CSV
+            </a>
+          </div>
         </div>
 
         <form className="mt-4 flex gap-2">

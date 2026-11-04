@@ -370,6 +370,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   till 11 Nov 11:59 pm with an instant, tentative rank list (`getWarmupTest` in `src/lib/liveMock.ts`;
   card on `/mahasangram`, no-OTP sign-up). Rank Challenge ₹399 till 11 Nov (founding price), then ₹499. Only the warm-up is free: all 6 live mocks are paid (Mock 1 was free before phase 42).
   Re-run phase 42 after question fixes so the warm-up copy picks them up.
+- **Rank Challenge contact list (4 Nov):** Admin → Students → "Rank Challenge list" downloads a CSV (name, mobile, email, district, warm-up status and score, live mocks taken, purchases) of everyone who signed up through the free form or took the warm-up or a live mock (`/api/admin/students/rank-challenge`).
 - **BOOK10 (4 Nov, phase 39):** `supabase/schema-phase39-book10-code.sql` creates a private
   10% code for book buyers (WhatsApp broadcast), once per student, till 29 Nov, on every
   active package. Codes with `package_slugs` set are never shown in the site-wide offer

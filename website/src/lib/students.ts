@@ -11,7 +11,7 @@ export type StudentRow = {
 
 const PAGE = 1000;
 
-async function fetchAll<T>(query: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>) {
+export async function fetchAll<T>(query: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>) {
   const rows: T[] = [];
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await query(from, from + PAGE - 1);
