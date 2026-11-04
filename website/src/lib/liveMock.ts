@@ -14,6 +14,8 @@ import { parseUtcTimestamp } from "./timestamps";
 
 export const LIVE_SERIES = "mahasangram";
 export const LIVE_SERIES_NAME = "All Uttarakhand Rank Challenge";
+/** Free Warm-up Mock (schema-phase42): open for days, with a tentative rank list that changes as more students take it. */
+export const WARMUP_SERIES = "warmup";
 
 export type LiveTest = {
   id: string;
@@ -25,6 +27,8 @@ export type LiveTest = {
   rank_until: string | null;
   result_at: string | null;
   question_count: number;
+  /** True for the free Warm-up Mock: its rank list is live and changes till rank_until. */
+  warmup: boolean;
 };
 
 export type RankRow = {
@@ -60,11 +64,21 @@ export function isLiveTest(test: { rank_until?: string | null }): boolean {
   return !!test.rank_until;
 }
 
+/** The 6 live mocks of the Rank Challenge (not the warm-up). */
 export async function getLiveTests(): Promise<LiveTest[]> {
+  return fetchLiveTests([LIVE_SERIES]);
+}
+
+/** The free Warm-up Mock, if one is set up. */
+export async function getWarmupTest(): Promise<LiveTest | null> {
+  return (await fetchLiveTests([WARMUP_SERIES]))[0] ?? null;
+}
+
+async function fetchLiveTests(series: string[]): Promise<LiveTest[]> {
   const { data, error } = await supabaseAdmin()
     .from("tests")
-    .select("id, test_name, is_free_test, total_questions, duration_minutes, release_at, rank_until, result_at, question_ids")
-    .eq("live_series", LIVE_SERIES)
+    .select("id, test_name, is_free_test, total_questions, duration_minutes, release_at, rank_until, result_at, question_ids, live_series")
+    .in("live_series", series)
     .order("release_at", { ascending: true });
   if (error || !data) return [];
   return data.map((t) => ({
@@ -77,11 +91,12 @@ export async function getLiveTests(): Promise<LiveTest[]> {
     rank_until: (t.rank_until as string | null) ?? null,
     result_at: (t.result_at as string | null) ?? null,
     question_count: Array.isArray(t.question_ids) ? t.question_ids.length : 0,
+    warmup: t.live_series === WARMUP_SERIES,
   }));
 }
 
 export async function getLiveTest(testId: string): Promise<LiveTest | null> {
-  return (await getLiveTests()).find((t) => t.id === testId) ?? null;
+  return (await fetchLiveTests([LIVE_SERIES, WARMUP_SERIES])).find((t) => t.id === testId) ?? null;
 }
 
 type RankedAttempt = { id: string; user_id: string; score: number; total_marks: number; time_taken_seconds: number; start: number };

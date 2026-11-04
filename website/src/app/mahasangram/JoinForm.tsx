@@ -8,7 +8,15 @@ const input =
   "min-h-[44px] w-full rounded-lg border border-graphite-700 bg-graphite-950 px-3 text-sm text-white placeholder:text-graphite-500 focus:border-saffron-400 focus:outline-none";
 
 /** Free Mock 1 sign-up: name, mobile, email, district. Logged-in students only pick a district. */
-export default function JoinForm({ freeTestId, loggedIn }: { freeTestId: string; loggedIn: boolean }) {
+export default function JoinForm({
+  freeTestId,
+  loggedIn,
+  buttonLabel = "Join free Mock 1",
+}: {
+  freeTestId: string;
+  loggedIn: boolean;
+  buttonLabel?: string;
+}) {
   const router = useRouter();
   const [form, setForm] = useState({ full_name: "", phone: "", email: "", district: "" });
   const [error, setError] = useState("");
@@ -75,7 +83,7 @@ export default function JoinForm({ freeTestId, loggedIn }: { freeTestId: string;
         disabled={busy}
         className="min-h-[44px] w-full rounded-lg bg-saffron-400 px-5 text-sm font-bold text-graphite-900 hover:bg-saffron-300 disabled:opacity-60"
       >
-        {busy ? "Please wait…" : "Join free Mock 1"}
+        {busy ? "Please wait…" : buttonLabel}
       </button>
       {!loggedIn && (
         <p className="text-xs text-graphite-400">

@@ -42,6 +42,9 @@ export default async function RankListPage({
           <ArrowLeft className="h-4 w-4" /> All Uttarakhand Rank Challenge
         </Link>
         <h1 className="text-2xl font-bold text-white">{test.test_name}: rank list</h1>
+        {test.warmup && (
+          <p className="mt-1 text-sm text-saffron-300">Live warm-up rank list: it changes as more students take the mock, till {formatIst(test.rank_until)}.</p>
+        )}
 
         {hidden ? (
           <p className="mt-4 text-graphite-300">

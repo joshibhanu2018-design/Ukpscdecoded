@@ -26,7 +26,7 @@ export default async function TestInstructionsPage({ params }: { params: Promise
     if (access.reason === "not_found") notFound();
     const message = {
       not_released: live
-        ? `This Mock Mahasangram test opens on ${formatIst(live.release_at)}. Start any time until ${formatIst(live.rank_until)} to be ranked.`
+        ? `This Rank Challenge mock opens on ${formatIst(live.release_at)}. Start any time until ${formatIst(live.rank_until)} to be ranked.`
         : "This test isn't released yet.",
       not_owned: live
         ? "This mock is part of Mock Mahasangram (₹499) and the Revision Test Series."
@@ -42,7 +42,7 @@ export default async function TestInstructionsPage({ params }: { params: Promise
             href={live ? "/mahasangram" : access.reason === "not_owned" ? "/test-platform/packages" : "/test-platform"}
             className="mt-5 inline-block rounded-lg bg-saffron-400 px-5 py-2.5 text-sm font-semibold text-graphite-900 hover:bg-saffron-300"
           >
-            {live ? "Mock Mahasangram" : access.reason === "not_owned" ? "Browse the Package Store" : "Back to Dashboard"}
+            {live ? "All Uttarakhand Rank Challenge" : access.reason === "not_owned" ? "Browse the Package Store" : "Back to Dashboard"}
           </Link>
         </div>
       </div>
@@ -61,7 +61,14 @@ export default async function TestInstructionsPage({ params }: { params: Promise
   // All points in English as one list, then all in Hindi — not mixed line by line.
   const resultHidden = !!live && isResultHidden(live) && user.role !== "admin";
   const instructions = [
-    ...(live
+    ...(live?.warmup
+      ? [
+          {
+            en: `Warm-up rank: only your first attempt counts. You see your rank straight after submitting; it changes as more students take this mock, till ${formatIst(live.rank_until)}.`,
+            hi: `वार्म-अप रैंक: केवल आपका पहला प्रयास गिना जाएगा। जमा करते ही रैंक दिखेगी; ${formatIst(live.rank_until)} तक और छात्रों के टेस्ट देने पर यह बदलती रहेगी।`,
+          },
+        ]
+      : live
       ? [
           {
             en: `Live rank: only your first attempt, started by ${formatIst(live.rank_until)}, enters the rank list. Result, solutions and ranks: ${formatIst(live.result_at)}.`,

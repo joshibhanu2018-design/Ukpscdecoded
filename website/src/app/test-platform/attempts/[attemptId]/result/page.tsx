@@ -184,7 +184,12 @@ export default async function ResultPage({ params }: { params: Promise<{ attempt
           )}
           {liveRank && liveRank.total > 0 && (
             <p className="mt-3 text-base font-semibold text-white">
-              {liveRank.official ? "Your rank" : "Your rank would have been"}: {liveRank.rank} of {liveRank.total}
+              {liveRank.official ? (live?.warmup ? "Your rank right now" : "Your rank") : "Your rank would have been"}: {liveRank.rank} of {liveRank.total}
+              {live?.warmup && liveRank.official && (
+                <span className="block text-xs font-normal text-graphite-300">
+                  Warm-up rank: it changes as more students take this mock, till {formatIst(live.rank_until)}. The real Rank Challenge starts 12 Nov.
+                </span>
+              )}
               {!liveRank.official && (
                 <span className="block text-xs font-normal text-graphite-300">
                   Only the first attempt started during the live window enters the rank list.

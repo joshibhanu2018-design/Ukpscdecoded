@@ -11,7 +11,7 @@ const logo = readFileSync("public/logo-badge.png").toString("base64");
 // Prices printed on the PDF (keep in step with supabase/schema-phase37/38).
 const PRICES = {
   revision: "₹999",
-  maha: "₹499",
+  maha: "₹399 till 11 Nov (then ₹499)",
   upgrade: "₹500",
   crash: { now: "₹2,222", was: "₹2,999" },
   ukNat: { now: "₹1,188", was: "₹1,699" },
@@ -105,7 +105,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
   <div class="head"><img src="data:image/png;base64,${logo}"><div class="brand">UKPSC <span>Decoded</span></div>
     <div class="right">www.ukpscdecoded.in/mahasangram</div></div>
   <h1>All Uttarakhand <span>Rank Challenge</span></h1>
-  <p class="lead"><b>Mock Mahasangram · Are you the next topper?</b></p>
+  <p class="lead"><b>Mock Mahasangram · Are you the next topper?</b> Free Warm-up Mock open now till 11 Nov, with a live rank list.</p>
   <p class="lead">6 full-length mocks. Everyone writes the same mock on the same day; at 8 pm the rank list for all of Uttarakhand goes live. <span class="hi">एक ही दिन, एक ही मॉक, रात 8 बजे लाइव रैंक।</span></p>
   <div class="big">${mocks.map((t, i) => { const d = fmt(t.date); return `<div class="bd ${i === 0 ? "free" : ""}"><div class="n">Mock ${i + 1}${i === 0 ? " · FREE" : ""}</div><div class="d">${d.day} ${d.mon}</div><div class="w">${d.wd}</div></div>`; }).join("")}</div>
   <div class="rules">
@@ -114,7 +114,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
     <div class="rule"><b>Top 20 ★</b>Stars on the rank list. Top 3 win 30% off a course.</div>
   </div>
   <div class="cards">
-    <div class="card gold"><b>Mock Mahasangram ${PRICES.maha}</b>All 6 mocks. Different tests from the Basic Test Series. Mock 1 free for everyone.</div>
+    <div class="card gold"><b>${PRICES.maha}</b>All 6 Rank Challenge mocks (Mock Mahasangram). Different tests from the Basic Test Series. Mock 1 free for everyone.</div>
     <div class="card"><b>Upgrade ${PRICES.upgrade}</b>Add complete Uttarakhand GK (800 Q), Current Affairs (600 Q) and 2 CSAT: the Revision Test Series.</div>
     <div class="card"><b>Already our student?</b>20% off when logged in. Premium & Complete Prelims Pack: included free.</div>
   </div>
