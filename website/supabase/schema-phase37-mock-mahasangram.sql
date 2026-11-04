@@ -8,7 +8,7 @@
 --   2. users.district (shown on the rank list), users.signup_source.
 --   3. coupons.package_slugs: lock a code to some packages (null = any package).
 --   4. Mock Mahasangram = Premium's Full Mock 7-12 (not in Basic), on
---      12, 15, 18, 21, 22, 25 Nov. Full Mock 7 (Mock 1) is free for all.
+--      12, 15, 18, 21, 22, 25 Nov. All 6 are paid (the free try-out is the Warm-up Mock, phase 42).
 --      Package mock-mahasangram, ₹499 (different tests from Basic).
 --   5. Revision Test Series, ₹999.
 --   Existing students: anyone who owns another paid package (Basic, any crash
@@ -40,7 +40,7 @@ alter table coupons add column if not exists package_slugs text[];
 -- ========== 1. Mock Mahasangram: Full Mock 7-12 become live mocks ==========
 update tests t set
   live_series = 'mahasangram',
-  is_free_test = (v.mock = 1),
+  is_free_test = false,
   release_at = v.opens::timestamptz,
   rank_until = v.last_start::timestamptz,
   result_at  = v.result::timestamptz,
@@ -61,7 +61,7 @@ values ('82a4acf8-95f4-4922-a135-dd7a97a211c9', 'Mock Mahasangram - All Uttarakh
   '6 full-length mocks (150 Questions each), UKPSC Prelims pattern' || chr(10) ||
   'Different tests from the Basic Test Series (Basic has Full Mock 1-6; these are Full Mock 7-12)' || chr(10) ||
   'Same mock, same day: opens 12 noon, last start 6 pm, result and live rank list at 8 pm' || chr(10) ||
-  'Mocks on 12, 15, 18, 21, 22 and 25 November; Mock 1 free for everyone' || chr(10) ||
+  'Mocks on 12, 15, 18, 21, 22 and 25 November; free Warm-up Mock to try first' || chr(10) ||
   'Ranks for everyone, stars for the top 20, 30% off for the top 3' || chr(10) ||
   'Already bought Basic, a crash course or any other test series? 20% off when you log in',
   499, 'test_series', 6, 900, '2026-12-31', 15, true, 'mock-mahasangram')

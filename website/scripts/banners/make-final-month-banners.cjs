@@ -51,7 +51,7 @@ const revision = (m) => `<div class="grid"></div><div class="mtn"></div>
  <div class="card"><div class="ic">⛰️</div><div><b>Uttarakhand GK</b><small>8 tests · 800 questions</small></div></div>
  <div class="card"><div class="ic">📰</div><div><b>Current Affairs</b><small>6 tests · 600 questions + 2 CSAT</small></div></div>
 </div>
-<div class="free"><div>MOCK 1<br>FREE<small>for everyone</small></div></div>`;
+<div class="free"><div>FREE<br>WARM-UP<small>mock · open now</small></div></div>`;
 const maha = (m) => `<div class="grid"></div><div class="mtn"></div>
 <div class="left">
  <div class="brand"><img src="${logo}"><div><b>UKPSC <span>DECODED</span></b><i>Prepare smarter · Rank higher</i></div></div>
@@ -59,7 +59,7 @@ const maha = (m) => `<div class="grid"></div><div class="mtn"></div>
  <h1>Are you the<span>next topper?</span></h1>
  <p class="sub">Same mock, same day, live Uttarakhand rank at 8 pm</p>
  <div class="chips"><div class="chip">6 full mocks · 150 Q</div><div class="chip">Rank with name + district</div><div class="chip">Top 3 win 30% off</div></div>
- <div class="cta">Take Mock 1 Free →</div>
+ <div class="cta">Take the Free Warm-up →</div>
 </div>
 <div class="right board">
  <div class="bh">🏆 Live rank list · 8 pm</div>
@@ -68,7 +68,7 @@ const maha = (m) => `<div class="grid"></div><div class="mtn"></div>
  <div class="row"><span class="rk">#3</span><span class="nm">Your name?<small>Your district</small></span><span class="st">★★★</span></div>
  <div class="row dim"><span class="rk">#4–20</span><span class="nm">Stars for the top 20</span><span class="st">★</span></div>
 </div>
-<div class="free"><div>MOCK 1<br>FREE<small>12 Nov</small></div></div>`;
+<div class="free"><div>LIVE<br>12 NOV<small>first mock</small></div></div>`;
 // Run in website/: node scripts/banners/make-final-month-banners.cjs  (needs Playwright)
 (async () => {
   const b = await chromium.launch();

@@ -365,6 +365,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Final-month carousel banners (4 Nov, phase 41):** Revision (first, /revision) and All Uttarakhand Rank Challenge (second, /mahasangram), `public/banners/revision-*.webp` + `mahasangram-*.webp`
   (rebuild: `scripts/banners/make-final-month-banners.cjs`). Mock Mahasangram is sold as "All Uttarakhand Rank Challenge · Are you the next topper?".
   Test Series page: single test series are shown openly (no dropdown).
+- **Warm-up Mock + early-bird (4 Nov, phase 42):** `supabase/schema-phase42-warmup-earlybird.sql`
+  adds a free "Warm-up Mock" (copy of a Basic full mock, `tests.live_series = 'warmup'`), open
+  till 11 Nov 11:59 pm with an instant, tentative rank list (`getWarmupTest` in `src/lib/liveMock.ts`;
+  card on `/mahasangram`, no-OTP sign-up). Rank Challenge ₹399 till 11 Nov (founding price), then ₹499. Only the warm-up is free: all 6 live mocks are paid (Mock 1 was free before phase 42).
+  Re-run phase 42 after question fixes so the warm-up copy picks them up.
 - **BOOK10 (4 Nov, phase 39):** `supabase/schema-phase39-book10-code.sql` creates a private
   10% code for book buyers (WhatsApp broadcast), once per student, till 29 Nov, on every
   active package. Codes with `package_slugs` set are never shown in the site-wide offer

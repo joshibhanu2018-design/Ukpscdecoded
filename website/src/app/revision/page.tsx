@@ -34,7 +34,7 @@ const FAQ = [
   },
   {
     q: "Is there a free test?",
-    a: "Yes. All Uttarakhand Rank Challenge (Mock Mahasangram) Mock 1 on Thu 12 Nov is free for everyone, with the live rank list at 8 pm.",
+    a: "Yes. The Warm-up Mock (150 questions) is free for everyone till 11 Nov, with a live rank list. The 6 Rank Challenge mocks start 12 Nov.",
   },
 ];
 
@@ -119,7 +119,7 @@ export default async function RevisionPage() {
             </p>
             <p className="mt-1 text-sm text-graphite-300">
               Are you the next topper? Mock Mahasangram: the 6 full mocks with the live rank list
-              <span className="web-only">{maha.pkg ? `, ${formatINR(maha.price ?? maha.pkg.price)}` : ""}</span>. Mock 1 on 12 Nov is free.
+              <span className="web-only">{maha.pkg ? `, ${formatINR(maha.price ?? maha.pkg.price)}` : ""}</span>. Try the free Warm-up Mock first.
               You can upgrade to this full Revision Series later for ₹500.
             </p>
           </div>

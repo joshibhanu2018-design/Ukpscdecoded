@@ -8,7 +8,7 @@ import { FINAL_SCHEDULE, getFinalMonthState, MAHASANGRAM_SLUG, REVISION_SLUG } f
 import { formatINR } from "@/lib/format";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
-import { formatIst, getLiveTests, isResultHidden, LIVE_SERIES_NAME } from "@/lib/liveMock";
+import { formatIst, getLiveTests, getWarmupTest, isResultHidden, LIVE_SERIES_NAME } from "@/lib/liveMock";
 import JoinForm from "./JoinForm";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 
 export default async function MahasangramPage() {
   const user = await getUserFromSession((await cookies()).get(SESSION_COOKIE_NAME)?.value);
-  const tests = await getLiveTests();
+  const [tests, warmup] = await Promise.all([getLiveTests(), getWarmupTest()]);
+  const warmupOpen = !!warmup?.rank_until && Date.now() < new Date(warmup.rank_until).getTime();
   const free = tests.find((t) => t.is_free_test);
 
   const state = await getFinalMonthState(user?.id ?? null);
@@ -50,7 +51,7 @@ export default async function MahasangramPage() {
           <p className="mt-2 font-display text-xl font-bold text-saffron-300 sm:text-2xl">Are you the next topper?</p>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-graphite-300 sm:text-base">
             6 full-length mocks before the 29 Nov exam. Everyone writes the same mock on the same day, and at 8 pm the
-            rank list for the whole of Uttarakhand goes live. <span className="font-semibold text-saffron-300">Mock 1 is free for everyone.</span>
+            rank list for the whole of Uttarakhand goes live. <span className="font-semibold text-saffron-300">Try the free Warm-up Mock today.</span>
           </p>
         </div>
 
@@ -67,6 +68,34 @@ export default async function MahasangramPage() {
             </div>
           ))}
         </div>
+
+        {warmup && warmupOpen && (
+          <div className="flex flex-col gap-4 rounded-2xl border border-jade-500/50 bg-gradient-to-br from-jade-500/15 to-transparent p-5 sm:flex-row sm:items-start sm:justify-between sm:p-6">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-jade-400">Free now · till {formatIst(warmup.rank_until)}</p>
+              <h2 className="mt-1 font-display text-xl font-bold text-white">Warm-up Mock: try it today</h2>
+              <p className="mt-1 text-sm text-graphite-300">
+                A full 150-question mock, free for everyone. See your rank as soon as you submit. The rank list stays live and
+                changes as more students take it, till 11 Nov.
+              </p>
+            </div>
+            <div className="flex flex-shrink-0 flex-col gap-2 sm:w-72">
+              {user && hasDistrict ? (
+                <Link
+                  href={`/test-platform/tests/${warmup.id}`}
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-jade-500 px-5 text-sm font-bold text-graphite-950 hover:bg-jade-400"
+                >
+                  Take the Warm-up Mock <ArrowRight className="h-4 w-4" />
+                </Link>
+              ) : (
+                <JoinForm freeTestId={warmup.id} loggedIn={!!user} buttonLabel="Start the free Warm-up Mock" />
+              )}
+              <Link href={`/mahasangram/${warmup.id}/ranks`} className="text-center text-sm font-semibold text-jade-300 hover:underline">
+                See the live rank list
+              </Link>
+            </div>
+          </div>
+        )}
 
         <div className="grid gap-4 md:grid-cols-2">
           {free && (
@@ -89,7 +118,7 @@ export default async function MahasangramPage() {
             </div>
           )}
           <div className="rounded-2xl border border-saffron-400/50 bg-graphite-900 p-5 sm:p-6">
-            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400">Step 2 · All 6 mocks</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400">Join · All 6 live mocks</p>
             <h2 className="mt-1 font-display text-xl font-bold text-white">All Uttarakhand Rank Challenge</h2>
             <p className="mt-1 text-sm text-graphite-300">
               6 full mocks (150 Q each) with live ranks. Different tests from the Basic Test Series.
