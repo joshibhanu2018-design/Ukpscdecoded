@@ -22,6 +22,7 @@ import {
   getUserTestsTaken,
 } from "@/lib/dashboard";
 import { getFreeTests, isTestReleased } from "@/lib/tests";
+import { getLiveTests } from "@/lib/liveMock";
 import { getPriceInfo } from "@/lib/pricing";
 import { xpForLevel } from "@/lib/gamification";
 import { supabaseAdmin } from "@/lib/supabase";
@@ -74,6 +75,7 @@ export default async function MyCoursesPage({
     supabaseAdmin().from("users").select("referral_code, store_credit_paise").eq("id", user.id).maybeSingle(),
   ]);
   const referralInfo = referralRes.data;
+  const hasLiveMocks = (await getLiveTests()).length > 0;
   const releasedFreeTests = freeTests.filter((t) => isTestReleased(t) && t.question_ids.length > 0);
 
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
@@ -259,6 +261,20 @@ export default async function MyCoursesPage({
               <span className="block text-xs text-saffron-200/80">Weak topics, error log, guess rule</span>
             </span>
             <ArrowRight className="h-4 w-4 flex-shrink-0" />
+          </Link>
+        )}
+
+        {hasLiveMocks && (
+          <Link
+            href="/mahasangram"
+            className="mb-8 flex items-center gap-3 rounded-2xl border border-saffron-400/40 bg-saffron-400/5 p-4 hover:border-saffron-400 sm:p-5"
+          >
+            <Trophy className="h-8 w-8 flex-shrink-0 text-saffron-400" />
+            <div className="min-w-0 flex-1">
+              <h2 className="font-bold text-white">Mock Mahasangram - Rank Challenge</h2>
+              <p className="text-sm text-graphite-300">Same mock, same day, live rank list at 8 pm. Mock 1 is free.</p>
+            </div>
+            <ArrowRight className="h-5 w-5 flex-shrink-0 text-saffron-400" />
           </Link>
         )}
 

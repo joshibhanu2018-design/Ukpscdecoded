@@ -5,8 +5,9 @@ import { supabaseAdmin } from "@/lib/supabase";
 import { getPublicKeyId, getRazorpayClient } from "@/lib/razorpay";
 import { isPackageOwned } from "@/lib/orders";
 import { getSeatsRemaining } from "@/lib/packages";
-import { computeOrderTotal, getPriceInfo } from "@/lib/pricing";
-import { checkCoupon, computePercentDiscount, reserveCoupon, type CouponLookup } from "@/lib/coupons";
+import { computeOrderTotal } from "@/lib/pricing";
+import { checkCoupon, computePercentDiscount, couponAllowsPackage, reserveCoupon, type CouponLookup } from "@/lib/coupons";
+import { getBuyerPriceInfo } from "@/lib/returningPrice";
 import { findReferrer, isSelfReferral, reserveReferral, type ReferrerInfo } from "@/lib/referrals";
 
 
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
   const { data: pkg, error } = await db
     .from("packages")
     .select(
-      "id, package_name, price, is_active, package_type, seats_total, founding_price, regular_price, founding_ends_at"
+      "id, slug, package_name, price, is_active, package_type, seats_total, founding_price, regular_price, founding_ends_at, metadata"
     )
     .eq("id", packageId)
     .maybeSingle();
@@ -71,6 +72,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: couponResult.error }, { status: 400 });
       }
       couponMatch = couponResult.coupon;
+      if (!(await couponAllowsPackage(couponMatch.id, pkg.slug))) {
+        return NextResponse.json({ error: "This code isn't valid for this course." }, { status: 400 });
+      }
     } else {
       const found = await findReferrer(rawCode);
       if (!found) {
@@ -86,7 +90,7 @@ export async function POST(request: NextRequest) {
   // A multi_use_price_lock coupon extends founding-price eligibility for
   // this one order, even past the package's own founding_ends_at.
   const priceLockOverride = couponMatch?.type === "multi_use_price_lock" ? couponMatch.price_lock_until : null;
-  const priceInfo = getPriceInfo(pkg, Date.now(), priceLockOverride);
+  const priceInfo = await getBuyerPriceInfo(user.id, pkg, priceLockOverride);
   const basePaise = Math.round(priceInfo.amount * 100);
 
   let codeDiscountPaise = 0;

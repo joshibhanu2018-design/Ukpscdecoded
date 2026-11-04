@@ -10,7 +10,8 @@ import {
   getSeatsRemaining,
   getUserActiveEnrollments,
 } from "@/lib/packages";
-import { getPriceInfo, formatFoundingLabel } from "@/lib/pricing";
+import { formatFoundingLabel } from "@/lib/pricing";
+import { getBuyerPriceInfo } from "@/lib/returningPrice";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import CheckoutForm from "@/components/CheckoutForm";
 import { getActiveOffer } from "@/lib/coupons";
@@ -50,7 +51,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
     redirect(`/courses/${slug}`);
   }
 
-  const priceInfo = getPriceInfo(pkg);
+  const priceInfo = await getBuyerPriceInfo(user.id, pkg);
   const { data: creditRow } = await supabaseAdmin()
     .from("users")
     .select("store_credit_paise")
@@ -75,6 +76,9 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
               <span className="text-sm text-graphite-300 line-through">{formatINR(priceInfo.regularPrice)}</span>
             )}
           </div>
+          {priceInfo.returning && (
+            <p className="mt-1 text-xs font-medium text-saffron-300">Special price for our existing students</p>
+          )}
           {foundingLabel && <p className="mt-1 text-xs font-medium text-saffron-300">{foundingLabel}</p>}
           {seatsRemaining != null && (
             <p className="mt-1 text-xs text-graphite-300">{seatsRemaining} seats left</p>

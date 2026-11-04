@@ -101,6 +101,19 @@ export async function checkCoupon(code: string, userId?: string): Promise<CodeCh
   return { ok: true, coupon };
 }
 
+/**
+ * Whether a coupon may be used on this package. coupons.package_slugs
+ * (schema-phase37) locks a code to some packages; null = any package.
+ * Read separately so codes keep working before the column exists.
+ */
+export async function couponAllowsPackage(couponId: string, packageSlug: string | null): Promise<boolean> {
+  const { data, error } = await supabaseAdmin().from("coupons").select("package_slugs").eq("id", couponId).maybeSingle();
+  if (error || !data) return true;
+  const slugs = data.package_slugs as string[] | null;
+  if (!slugs || slugs.length === 0) return true;
+  return !!packageSlug && slugs.includes(packageSlug);
+}
+
 /** Percent-off discount in paise for a single_use_percent coupon. */
 export function computePercentDiscount(coupon: CouponLookup, basePaise: number): number {
   if (coupon.type !== "single_use_percent" || coupon.percent_off == null) return 0;

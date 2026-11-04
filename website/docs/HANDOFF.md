@@ -331,6 +331,21 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   still skips CSAT tests. Question ids `CSAT-T01-Q001` …; to change a question,
   edit the generator, rebuild (output is reproducible), dry run, `--apply`.
 
+- **Mock Mahasangram - Rank Challenge (4 Nov, PR open):** 6 live-ranked full mocks
+  (`tests.live_series = 'mahasangram'`). Each opens at `release_at` (12 noon); only a
+  student's first attempt started by `rank_until` (6 pm) is ranked; score, solutions and
+  the rank list appear at `result_at` (8 pm). Public pages `/mahasangram` (free Mock 1
+  sign-up form: a NEW email is logged straight in with no email code; an existing email
+  must log in) and `/mahasangram/[testId]/ranks` (name + district, stars for top 20).
+  Late takers see "your rank would have been X". Free for Premium, Complete Pack,
+  Mentorship and the three crash courses (`LIVE_FREE_FOR_SLUGS` in `src/lib/tests.ts`).
+  Package `mock-mahasangram` ₹500 switches on when all 6 mocks have 150 Q.
+  Also: `coupons.package_slugs` locks a code to packages; `packages.metadata.returning_price`
+  gives a lower price to students who own another paid package (not Premium/Complete/
+  Mentorship), checked at checkout. SQL: `supabase/schema-phase37-mock-mahasangram.sql`
+  (times in UTC). Plan: project file `test-series-bundle/final-month-plan-v2.md`.
+  Still to do: load the 6 mocks' questions, Revision Test Series (₹999) package + tests.
+
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
       filled). Still to do: run `supabase/fix-phase36-csat-test-series.sql`, then

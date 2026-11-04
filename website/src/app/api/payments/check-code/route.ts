@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
-import { getPriceInfo } from "@/lib/pricing";
-import { checkCoupon, computePercentDiscount } from "@/lib/coupons";
+import { checkCoupon, computePercentDiscount, couponAllowsPackage } from "@/lib/coupons";
+import { getBuyerPriceInfo } from "@/lib/returningPrice";
 import { findReferrer, isSelfReferral } from "@/lib/referrals";
 
 // Read-only preview for the "Apply" button on the store — validates the
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   const db = supabaseAdmin();
   const { data: pkg } = await db
     .from("packages")
-    .select("price, founding_price, regular_price, founding_ends_at")
+    .select("id, slug, price, founding_price, regular_price, founding_ends_at, metadata")
     .eq("id", packageId)
     .maybeSingle();
 
@@ -41,8 +41,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: couponResult.error }, { status: 400 });
     }
     const coupon = couponResult.coupon;
+    if (!(await couponAllowsPackage(coupon.id, pkg.slug))) {
+      return NextResponse.json({ error: "This code isn't valid for this course." }, { status: 400 });
+    }
     const priceLockOverride = coupon.type === "multi_use_price_lock" ? coupon.price_lock_until : null;
-    const basePaise = Math.round(getPriceInfo(pkg, Date.now(), priceLockOverride).amount * 100);
+    const basePaise = Math.round((await getBuyerPriceInfo(user.id, pkg, priceLockOverride)).amount * 100);
     const discountPaise = coupon.type === "single_use_percent" ? computePercentDiscount(coupon, basePaise) : 0;
 
     return NextResponse.json({
@@ -65,7 +68,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       valid: true,
       type: "referral",
-      basePaise: Math.round(getPriceInfo(pkg).amount * 100),
+      basePaise: Math.round((await getBuyerPriceInfo(user.id, pkg)).amount * 100),
       discountAmount: 20000,
       message: "₹200 off applied",
     });

@@ -8,6 +8,7 @@ import { formatDateLabel } from "@/lib/packages";
 import { parseUtcTimestamp } from "@/lib/timestamps";
 import { attemptsLeft, getTestAccess, getUserAttemptsForTest, isPastGrace, MAX_ATTEMPTS_PER_TEST } from "@/lib/tests";
 import StartTestButton from "@/components/StartTestButton";
+import { formatIst, getLiveTest, isResultHidden } from "@/lib/liveMock";
 
 export const metadata: Metadata = {
   title: "Test Instructions",
@@ -19,13 +20,17 @@ export default async function TestInstructionsPage({ params }: { params: Promise
   const { testId } = await params;
   if (!user) redirect(`/student/login?next=${encodeURIComponent(`/test-platform/tests/${testId}`)}`);
 
-  const access = await getTestAccess(user.id, testId);
+  const [access, live] = await Promise.all([getTestAccess(user.id, testId), getLiveTest(testId)]);
 
   if (!access.ok) {
     if (access.reason === "not_found") notFound();
     const message = {
-      not_released: "This test isn't released yet.",
-      not_owned: "This test isn't in any package you own.",
+      not_released: live
+        ? `This Mock Mahasangram test opens on ${formatIst(live.release_at)}. Start any time until ${formatIst(live.rank_until)} to be ranked.`
+        : "This test isn't released yet.",
+      not_owned: live
+        ? "This mock is part of Mock Mahasangram and the Revision Test Series."
+        : "This test isn't in any package you own.",
       no_questions: "Questions haven't been added to this test yet.",
     }[access.reason];
     return (
@@ -34,10 +39,10 @@ export default async function TestInstructionsPage({ params }: { params: Promise
           <Lock className="mx-auto mb-3 h-8 w-8 text-saffron-400" />
           <p className="text-graphite-300">{message}</p>
           <Link
-            href={access.reason === "not_owned" ? "/test-platform/packages" : "/test-platform"}
+            href={live ? "/mahasangram" : access.reason === "not_owned" ? "/test-platform/packages" : "/test-platform"}
             className="mt-5 inline-block rounded-lg bg-saffron-400 px-5 py-2.5 text-sm font-semibold text-graphite-900 hover:bg-saffron-300"
           >
-            {access.reason === "not_owned" ? "Browse the Package Store" : "Back to Dashboard"}
+            {live ? "Mock Mahasangram" : access.reason === "not_owned" ? "Browse the Package Store" : "Back to Dashboard"}
           </Link>
         </div>
       </div>
@@ -54,7 +59,16 @@ export default async function TestInstructionsPage({ params }: { params: Promise
   const perWrong = Math.round(negative * 100) / 100;
   const quarter = test.negative_marking_value === 0.25;
   // All points in English as one list, then all in Hindi — not mixed line by line.
+  const resultHidden = !!live && isResultHidden(live) && user.role !== "admin";
   const instructions = [
+    ...(live
+      ? [
+          {
+            en: `Live rank: only your first attempt, started by ${formatIst(live.rank_until)}, enters the rank list. Result, solutions and ranks: ${formatIst(live.result_at)}.`,
+            hi: `लाइव रैंक: केवल ${formatIst(live.rank_until)} तक शुरू किया गया आपका पहला प्रयास रैंक सूची में आएगा। परिणाम, हल और रैंक: ${formatIst(live.result_at)}।`,
+          },
+        ]
+      : []),
     {
       en: "The timer starts when you press Start and keeps running even if you close the tab.",
       hi: "टाइमर \"Start\" दबाते ही शुरू हो जाएगा और टैब बंद करने पर भी चलता रहेगा।",
@@ -172,7 +186,7 @@ export default async function TestInstructionsPage({ params }: { params: Promise
                     {formatDateLabel(parseUtcTimestamp(a.submitted_at ?? a.start_time).toISOString())}
                   </span>
                   <span className="font-semibold text-white">
-                    {Number(a.score)} / {Number(a.total_marks)}
+                    {resultHidden ? "Result at 8 pm" : `${Number(a.score)} / ${Number(a.total_marks)}`}
                   </span>
                   <Link
                     href={`/test-platform/attempts/${a.id}/result`}

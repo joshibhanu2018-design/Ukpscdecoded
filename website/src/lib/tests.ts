@@ -172,9 +172,32 @@ export async function getTestAccess(userId: string, testId: string): Promise<Tes
 
   const owned = getOwnedPackageIds(enrollments, includes, allPackages);
   const packageId = [...containingPackageIds].find((id) => owned.has(id));
-  if (!packageId) return { ok: false, reason: "not_owned" };
+  if (!packageId) {
+    // Mock Mahasangram is free for Premium, Complete Pack, Mentorship and crash course students.
+    const freeFor = allPackages.find((p) => p.slug && LIVE_FREE_FOR_SLUGS.includes(p.slug) && owned.has(p.id));
+    if (freeFor && (await isLiveSeriesTest(testId))) {
+      return { ok: true, test, enrollmentId: getPackageAccessSource(freeFor.id, enrollments, includes)?.id ?? null };
+    }
+    return { ok: false, reason: "not_owned" };
+  }
 
   return { ok: true, test, enrollmentId: getPackageAccessSource(packageId, enrollments, includes)?.id ?? null };
+}
+
+/** Packages whose owners get Mock Mahasangram free (src/lib/liveMock.ts). */
+const LIVE_FREE_FOR_SLUGS = [
+  "premium-test-series",
+  "complete-prelims-pack",
+  "prelims-mentorship",
+  "crash-course",
+  "uttarakhand-crash-course",
+  "national-crash-course",
+];
+
+/** Separate query so tests keep working before schema-phase37 adds tests.live_series. */
+async function isLiveSeriesTest(testId: string): Promise<boolean> {
+  const { data, error } = await supabaseAdmin().from("tests").select("live_series").eq("id", testId).maybeSingle();
+  return !error && data?.live_series === "mahasangram";
 }
 
 /**
