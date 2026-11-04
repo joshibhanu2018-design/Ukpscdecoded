@@ -9,9 +9,13 @@
 --   3. coupons.package_slugs: lock a code to some packages (null = any package).
 --   4. Mock Mahasangram = Premium's Full Mock 7-12 (not in Basic), one every
 --      3 days: 12, 15, 18, 21, 24, 27 Nov. Full Mock 7 (Mock 1) is free for all.
---      Package mock-mahasangram, ₹400.
---   5. Revision Test Series (₹999; ₹500 for students who own another paid
---      package, through metadata.returning_price, checked at checkout):
+--      Package mock-mahasangram, ₹499 (different tests from Basic).
+--   5. Revision Test Series, ₹999.
+--   Existing students: anyone who owns another paid package (Basic, any crash
+--   course, Uttarakhand/CA Intensive, CSAT …; not Premium / Complete Pack /
+--   Mentorship) automatically gets 20% off both products when logged in
+--   (metadata.returning_percent_off, checked at checkout): ₹399 and ₹799.
+--   Revision Test Series contents:
 --      Full Mock 7-12 + 6 CA tests of 100 Q + 8 Uttarakhand tests of 100 Q +
 --      CSAT 5 and 6. The 100-Q tests are made by joining existing 50-Q tests in
 --      pairs (CA Intensive tests 1+2, 3+4 … 11+12; Uttarakhand Intensive tests
@@ -55,19 +59,22 @@ where t.id = v.id::uuid;
 insert into packages (id, package_name, description, price, package_type, total_tests, total_questions,
                       access_valid_till, sort_order, is_active, slug)
 values ('82a4acf8-95f4-4922-a135-dd7a97a211c9', 'Mock Mahasangram - Rank Challenge',
-  '6 full-length mocks (150 Questions each), UKPSC Prelims pattern, not in the Basic Test Series' || chr(10) ||
+  '6 full-length mocks (150 Questions each), UKPSC Prelims pattern' || chr(10) ||
+  'Different tests from the Basic Test Series (Basic has Full Mock 1-6; these are Full Mock 7-12)' || chr(10) ||
   'Same mock, same day: opens 12 noon, last start 6 pm, result and live rank list at 8 pm' || chr(10) ||
   'Mocks on 12, 15, 18, 21, 24 and 27 November; Mock 1 free for everyone' || chr(10) ||
-  'Ranks for everyone, stars for the top 20, 30% off for the top 3',
-  400, 'test_series', 6, 900, '2026-12-31', 15, true, 'mock-mahasangram')
+  'Ranks for everyone, stars for the top 20, 30% off for the top 3' || chr(10) ||
+  'Already bought Basic, a crash course or any other test series? 20% off when you log in',
+  499, 'test_series', 6, 900, '2026-12-31', 15, true, 'mock-mahasangram')
 on conflict (id) do update set
   package_name = excluded.package_name, description = excluded.description, price = excluded.price,
   total_tests = excluded.total_tests, total_questions = excluded.total_questions, updated_at = now();
 
 update packages set
   founding_price = null, regular_price = null, founding_ends_at = null,
-  highlights = '["6 full-length mocks, 150 questions each", "Live rank list at 8 pm on each mock day", "Stars for the top 20, 30% off for the top 3", "Valid till 31 December 2026"]'::jsonb,
+  highlights = '["6 full-length mocks, 150 questions each, different from Basic", "Live rank list at 8 pm on each mock day", "Stars for the top 20, 30% off for the top 3", "Valid till 31 December 2026"]'::jsonb,
   metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
+    'returning_percent_off', 20,
     'card_title', 'Mock Mahasangram',
     'card_tagline', '6 live-ranked full mocks before 29 Nov'),
   updated_at = now()
@@ -141,7 +148,7 @@ update tests t set
 from target join pairs on pairs.slug = target.slug and pairs.k = target.k
 where t.id = target.id::uuid and cardinality(t.question_ids) = 0;
 
--- ========== 3. Revision Test Series package (₹999 / ₹500 for past buyers) ==========
+-- ========== 3. Revision Test Series package (₹999; 20% off for existing students) ==========
 insert into packages (id, package_name, description, price, package_type, total_tests, total_questions,
                       access_valid_till, sort_order, is_active, slug, metadata)
 values ('fbaf64da-9c7e-46b5-99fa-aef458a1954b', 'Revision Test Series',
@@ -149,22 +156,26 @@ values ('fbaf64da-9c7e-46b5-99fa-aef458a1954b', 'Revision Test Series',
   '6 Current Affairs tests - 100 Questions each' || chr(10) ||
   '8 Uttarakhand tests - 100 Questions each' || chr(10) ||
   '2 CSAT tests (2024 level) - 100 Questions each' || chr(10) ||
-  'Students who bought any other course or test series: ₹500',
+  'Already bought Basic, a crash course or any other test series? 20% off when you log in',
   999, 'test_series', 22, 2500, '2026-12-31', 14, true, 'revision-test-series',
-  '{"returning_price": 500}'::jsonb)
+  '{"returning_percent_off": 20}'::jsonb)
 on conflict (id) do update set
   package_name = excluded.package_name, description = excluded.description, price = excluded.price,
   total_tests = excluded.total_tests, total_questions = excluded.total_questions, updated_at = now();
 
 update packages set
   founding_price = null, regular_price = null, founding_ends_at = null,
-  highlights = '["22 tests for the last month: 6 full mocks, 6 CA, 8 Uttarakhand, 2 CSAT", "Live rank list for the 6 full mocks", "₹500 if you already bought any course or test series", "Valid till 31 December 2026"]'::jsonb,
+  highlights = '["22 tests for the last month: 6 full mocks, 6 CA, 8 Uttarakhand, 2 CSAT", "Live rank list for the 6 full mocks", "20% off if you already bought any course or test series", "Valid till 31 December 2026"]'::jsonb,
   metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
-    'returning_price', 500,
+    'returning_percent_off', 20,
     'card_title', 'Revision Test Series',
     'card_tagline', '22 tests for the last month, with live ranks'),
   updated_at = now()
 where slug = 'revision-test-series';
+
+-- An earlier draft used a fixed ₹500 returning price; the 20% rule replaces it.
+update packages set metadata = metadata - 'returning_price'
+where slug in ('mock-mahasangram', 'revision-test-series') and metadata ? 'returning_price';
 
 insert into package_tests (package_id, test_id, test_order)
 select 'fbaf64da-9c7e-46b5-99fa-aef458a1954b'::uuid, v.id::uuid, v.ord

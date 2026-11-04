@@ -102,9 +102,10 @@ export default async function MahasangramPage() {
         <div className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5 text-sm text-graphite-300 sm:p-6">
           <p className="font-semibold text-white">Mocks 2 to 6</p>
           <p className="mt-1">
-            Mock Mahasangram (all 6 mocks): ₹400. Revision Test Series (6 mocks + 6 Current Affairs + 8 Uttarakhand + 2
-            CSAT tests): ₹999, or ₹500 if you already bought any course or test series from us. Premium Test Series and
-            Complete Prelims Pack students already have every mock in their dashboard.
+            Mock Mahasangram (all 6 mocks, different from the Basic Test Series): ₹499. Revision Test Series (6 mocks +
+            6 Current Affairs + 8 Uttarakhand + 2 CSAT tests): ₹999. Already bought Basic, a crash course or any other test
+            series? Log in and you get 20% off both. Premium Test Series and Complete Prelims Pack students already have
+            every mock in their dashboard.
           </p>
           <Link href="/test-series" className="mt-3 inline-flex items-center gap-1 font-semibold text-saffron-300 hover:underline">
             See the test series <ArrowRight className="h-4 w-4" />

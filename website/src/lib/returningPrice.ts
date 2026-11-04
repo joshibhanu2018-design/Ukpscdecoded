@@ -3,7 +3,8 @@ import { getPriceInfo, type PriceInfo, type PricedPackage } from "./pricing";
 
 /**
  * Returning-buyer price (schema-phase37). A package can carry
- * metadata.returning_price (e.g. 500): students who already own any other
+ * metadata.returning_percent_off (e.g. 20) or metadata.returning_price
+ * (a fixed price): students who already own any other
  * paid package, except the ones in metadata.returning_excludes (or, by
  * default, Premium / Complete Prelims Pack / Mentorship, which already
  * include these tests), pay that price instead. Applied on the server at
@@ -11,11 +12,19 @@ import { getPriceInfo, type PriceInfo, type PricedPackage } from "./pricing";
  */
 const DEFAULT_EXCLUDES = ["premium-test-series", "complete-prelims-pack", "prelims-mentorship"];
 
-type Meta = { returning_price?: unknown; returning_excludes?: unknown } | null | undefined;
+type Meta = { returning_price?: unknown; returning_percent_off?: unknown; returning_excludes?: unknown } | null | undefined;
+
+/** The returning-buyer price for a base price, or null when the package has none. */
+function returningAmount(base: number, metadata: Meta): number | null {
+  const pct = Number(metadata?.returning_percent_off);
+  if (Number.isFinite(pct) && pct > 0 && pct < 100) return Math.round(base * (1 - pct / 100));
+  const fixed = Number(metadata?.returning_price);
+  if (Number.isFinite(fixed) && fixed > 0) return fixed;
+  return null;
+}
 
 export async function qualifiesForReturningPrice(userId: string, packageId: string, metadata: Meta): Promise<boolean> {
-  const price = Number(metadata?.returning_price);
-  if (!Number.isFinite(price) || price <= 0) return false;
+  if (returningAmount(100, metadata) === null) return false;
   const excludes = Array.isArray(metadata?.returning_excludes)
     ? (metadata!.returning_excludes as string[])
     : DEFAULT_EXCLUDES;
@@ -41,8 +50,8 @@ export async function getBuyerPriceInfo(
   overrideEndsAt?: string | null
 ): Promise<PriceInfo & { returning: boolean }> {
   const base = getPriceInfo(pkg, Date.now(), overrideEndsAt);
-  const returningPrice = Number(pkg.metadata?.returning_price);
-  if (Number.isFinite(returningPrice) && returningPrice > 0 && returningPrice < base.amount) {
+  const returningPrice = returningAmount(base.amount, pkg.metadata);
+  if (returningPrice !== null && returningPrice < base.amount) {
     if (await qualifiesForReturningPrice(userId, pkg.id, pkg.metadata)) {
       return { ...base, amount: returningPrice, isFounding: false, regularPrice: base.amount, returning: true };
     }

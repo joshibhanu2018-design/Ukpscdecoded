@@ -77,7 +77,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
             )}
           </div>
           {priceInfo.returning && (
-            <p className="mt-1 text-xs font-medium text-saffron-300">Special price for our existing students</p>
+            <p className="mt-1 text-xs font-medium text-saffron-300">Existing student discount applied</p>
           )}
           {foundingLabel && <p className="mt-1 text-xs font-medium text-saffron-300">{foundingLabel}</p>}
           {seatsRemaining != null && (
