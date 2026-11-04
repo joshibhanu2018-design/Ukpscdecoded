@@ -75,7 +75,9 @@ export default async function LessonsPage({
   const canOpen = (l: Lesson) => owns || !!l.is_free;
   // Only a lesson the student explicitly opened counts as watched (refund rule),
   // so the page never auto-plays one. Admin previews and free samples are not recorded.
-  if (current && owns && !isAdmin) await recordLessonView(user.id, current.id);
+  // A notes-only lesson (video not uploaded yet) is not a watched video.
+  const hasVideo = (l: Lesson) => !!(l.bunny_video_id || l.youtube_id);
+  if (current && owns && !isAdmin && hasVideo(current)) await recordLessonView(user.id, current.id);
 
   const watched = await getWatchedLessonIds(
     user.id,
@@ -113,6 +115,12 @@ export default async function LessonsPage({
           <div className="mt-5">
             {source ? (
               <ProtectedPlayer src={source.src} kind={source.kind} title={current.title} watermark={watermark} />
+            ) : !hasVideo(current) ? (
+              <p className="rounded-2xl border border-dashed border-saffron-400/40 bg-saffron-400/5 p-6 text-center text-sm text-saffron-200">
+                {current.pdf_en_path || current.pdf_hi_path
+                  ? "Video coming soon. The notes for this lesson are ready: download them below."
+                  : "Video and notes coming soon."}
+              </p>
             ) : (
               <p className="rounded-2xl border border-dashed border-graphite-700 p-6 text-center text-sm text-graphite-300">
                 This video can&apos;t play right now. Please try again later or contact us on Telegram.
@@ -193,6 +201,10 @@ export default async function LessonsPage({
                       <span className="text-xs text-graphite-300">For enrolled students</span>
                     ) : l.is_free && sample ? (
                       <span className="text-xs text-success-300">Free sample</span>
+                    ) : !hasVideo(l) ? (
+                      <span className="text-xs text-saffron-300">
+                        {l.pdf_en_path || l.pdf_hi_path ? "Notes ready · video coming soon" : "Coming soon"}
+                      </span>
                     ) : null}
                   </span>
                   {!open ? (

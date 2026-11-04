@@ -121,6 +121,15 @@ export function getOwnedPackageIds(
     }
   }
 
+  // A package can be "included with" others (metadata.included_with = slugs):
+  // e.g. Premium / Complete Pack owners get the Revision Test Series and
+  // Mock Mahasangram as products of their own (schema-phase38).
+  const ownedSlugs = new Set(allPackages.filter((p) => owned.has(p.id) && p.slug).map((p) => p.slug as string));
+  for (const p of allPackages) {
+    const withSlugs = p.metadata?.included_with;
+    if (Array.isArray(withSlugs) && withSlugs.some((slug) => ownedSlugs.has(String(slug)))) owned.add(p.id);
+  }
+
   return owned;
 }
 

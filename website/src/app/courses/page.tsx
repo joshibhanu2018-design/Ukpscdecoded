@@ -3,6 +3,7 @@ import CourseCard from "@/components/CourseCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { BEST_BUY_SLUG, getCatalog } from "@/lib/catalog";
+import WhichOne from "@/components/final-month/WhichOne";
 import SectionTitle from "@/components/SectionTitle";
 import PageHeroBanner from "@/components/PageHeroBanner";
 
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 // Courses tab: the best-buy bundle first, then the crash courses, then
 // mentorship. Test series alone live on /test-series.
 export default async function CoursesPage() {
-  const { mentorship, crashCourses, bundles, ownedIds } = await getCatalog();
+  const { mentorship, crashCourses, bundles, ownedIds, allPackages } = await getCatalog();
   const pack = bundles.find((p) => p.slug === BEST_BUY_SLUG);
 
   return (
@@ -28,6 +29,8 @@ export default async function CoursesPage() {
             Crash course, bundles and 1-on-1 mentorship for UKPSC PCS, Lower PCS, RO/ARO and UKSSSC
           </p>
         </div>
+
+        <WhichOne packages={allPackages} />
 
         {pack && (
           <PageHeroBanner

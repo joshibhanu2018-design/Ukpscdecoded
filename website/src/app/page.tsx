@@ -57,8 +57,13 @@ export default async function Home() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="group flex flex-col rounded-xl border border-graphite-800 bg-graphite-900 p-4 transition-colors hover:border-saffron-400/50 hover:bg-graphite-800/70"
+                className={`group relative flex flex-col rounded-xl border p-4 transition-colors hover:border-saffron-400/50 hover:bg-graphite-800/70 ${
+                  "featured" in link && link.featured ? "border-saffron-400/60 bg-saffron-400/5" : "border-graphite-800 bg-graphite-900"
+                }`}
               >
+                {"featured" in link && link.featured && (
+                  <span className="absolute right-3 top-3 rounded-full bg-saffron-400 px-2 py-0.5 text-[10px] font-bold uppercase text-graphite-950">New</span>
+                )}
                 <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
                   <Icon className="h-5 w-5" />
                 </span>

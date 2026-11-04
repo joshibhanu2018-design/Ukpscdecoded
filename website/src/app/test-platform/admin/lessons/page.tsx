@@ -4,6 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, CheckCircle2, FileUp, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { SUBSET_COURSES } from "@/lib/course-subsets";
+import crashPlan from "@content/crashCoursePlan.json";
+
+const videoNumber = (title: string): number | null => {
+  const m = title.match(/\bvideo\s*(\d{1,3})\b/i);
+  return m ? Number(m[1]) : null;
+};
 
 type VideoPackage = { id: string; package_name: string; slug: string | null };
 type AdminLesson = {
@@ -46,6 +52,7 @@ export default function AdminLessonsPage() {
   const [description, setDescription] = useState("");
   const [releaseAt, setReleaseAt] = useState("");
   const [saving, setSaving] = useState(false);
+  const [bulkBusy, setBulkBusy] = useState(false);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
 
   const [lookupEmail, setLookupEmail] = useState("");
@@ -79,6 +86,31 @@ export default function AdminLessonsPage() {
 
   const courseLessons = lessons.filter((l) => l.package_id === packageId);
   const pkg = packages.find((p) => p.id === packageId);
+
+  // Crash course plan videos (1-50) that have no lesson yet, matched by "Video N" in the title.
+  const haveNumbers = new Set(courseLessons.map((l) => videoNumber(l.title)).filter((n): n is number => n !== null));
+  const missingPlanVideos = (crashPlan.videos as { number: number; title: string }[]).filter((v) => !haveNumbers.has(v.number));
+  const addPlanPlaceholders = async () => {
+    setBulkBusy(true);
+    setMessage(null);
+    let added = 0;
+    for (const v of missingPlanVideos) {
+      const error = await send("POST", {
+        package_id: packageId,
+        title: `Video ${v.number}: ${v.title}`,
+        video: "",
+        sort_order: v.number,
+      });
+      if (error) {
+        setMessage({ ok: false, text: `Stopped at Video ${v.number}: ${error}` });
+        break;
+      }
+      added++;
+    }
+    setBulkBusy(false);
+    if (added === missingPlanVideos.length) setMessage({ ok: true, text: `Added ${added} notes-only lessons.` });
+    await load();
+  };
 
   const resetForm = () => {
     setEditingId(null);
@@ -270,8 +302,10 @@ export default function AdminLessonsPage() {
                 <input required value={title} onChange={(e) => setTitle(e.target.value)} className={inputClass} placeholder="Day 1 — Uttarakhand History" />
               </div>
               <div>
-                <label className="mb-1 block text-sm text-graphite-300">Video: Bunny video ID or YouTube link</label>
-                <input required value={video} onChange={(e) => setVideo(e.target.value)} className={inputClass} placeholder="e.g. 3f2b9c1e-… (Bunny) or https://youtu.be/…" />
+                <label className="mb-1 block text-sm text-graphite-300">
+                  Video: Bunny video ID or YouTube link (leave empty to add notes PDFs now and the video later)
+                </label>
+                <input value={video} onChange={(e) => setVideo(e.target.value)} className={inputClass} placeholder="e.g. 3f2b9c1e-… (Bunny) or https://youtu.be/…" />
               </div>
               <div>
                 <label className="mb-1 block text-sm text-graphite-300">Notes (optional)</label>
@@ -305,6 +339,24 @@ export default function AdminLessonsPage() {
                 )}
               </div>
             </form>
+
+            {pkg?.slug && !SUBSET_COURSES[pkg.slug] && missingPlanVideos.length > 0 && (
+              <div className="mt-6 rounded-2xl border border-saffron-400/40 bg-saffron-400/5 p-4 text-sm text-graphite-200">
+                <p>
+                  {missingPlanVideos.length} plan videos have no lesson yet. Add them as notes-only lessons (&quot;Video N:
+                  title&quot;) so you can upload their PDFs now; paste the video link later with Edit.
+                </p>
+                <button
+                  type="button"
+                  disabled={bulkBusy}
+                  onClick={addPlanPlaceholders}
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg bg-saffron-400 px-4 py-2 text-sm font-semibold text-graphite-900 hover:bg-saffron-300 disabled:opacity-60"
+                >
+                  {bulkBusy && <Loader2 className="h-4 w-4 animate-spin" />}
+                  Add {missingPlanVideos.length} notes-only lessons
+                </button>
+              </div>
+            )}
 
             <div className="mt-8">
               <div className="mb-3 flex items-center justify-between">

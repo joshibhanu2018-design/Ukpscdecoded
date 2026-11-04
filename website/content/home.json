@@ -26,6 +26,20 @@
   },
   "quickLinks": [
     {
+      "title": "Revision Test Series",
+      "label": "Final month: 6 full mocks + 800 UK GK + 600 CA questions",
+      "icon": "rocket",
+      "href": "/revision",
+      "featured": true
+    },
+    {
+      "title": "Mock Mahasangram",
+      "label": "6 full mocks, live ranks · Mock 1 free on 12 Nov",
+      "icon": "trophy",
+      "href": "/mahasangram",
+      "featured": true
+    },
+    {
       "title": "Crash Course",
       "label": "50 video lectures + live sessions + PDF notes",
       "icon": "video",
@@ -48,18 +62,6 @@
       "label": "हिंदी संस्करण · Hindi edition",
       "icon": "book",
       "href": "/buy-book?lang=hi"
-    },
-    {
-      "title": "E-Books",
-      "label": "Subject guides: Polity, GK & more",
-      "icon": "file",
-      "href": "/buy-ebooks"
-    },
-    {
-      "title": "Mentorship",
-      "label": "Weekly 1-on-1 with Bhanu Joshi",
-      "icon": "users",
-      "href": "/courses/prelims-mentorship"
     }
   ],
   "features": {

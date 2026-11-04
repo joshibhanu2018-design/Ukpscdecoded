@@ -70,7 +70,11 @@ function buildFields(body: LessonInput): { fields: Record<string, unknown> } | {
     fields.title = title;
   }
   if (body.description !== undefined) fields.description = body.description?.trim() || null;
-  if (body.video !== undefined) {
+  if (body.video !== undefined && !body.video.trim()) {
+    // Notes only: the video is added later.
+    fields.youtube_id = null;
+    fields.bunny_video_id = null;
+  } else if (body.video !== undefined) {
     const youtube = parseYouTubeId(body.video);
     const bunny = youtube ? null : parseBunnyVideoId(body.video);
     if (!youtube && !bunny) return { error: "Paste a YouTube link or a Bunny video ID" };
@@ -94,8 +98,8 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin();
   if ("response" in auth) return auth.response;
   const body = (await req.json().catch(() => ({}))) as LessonInput;
-  if (!body.package_id || !body.title || !body.video) {
-    return NextResponse.json({ error: "Course, title and video are required" }, { status: 400 });
+  if (!body.package_id || !body.title) {
+    return NextResponse.json({ error: "Course and title are required" }, { status: 400 });
   }
   const built = buildFields(body);
   if ("error" in built) return NextResponse.json({ error: built.error }, { status: 400 });

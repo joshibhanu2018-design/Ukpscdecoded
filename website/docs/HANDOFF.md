@@ -331,7 +331,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   still skips CSAT tests. Question ids `CSAT-T01-Q001` …; to change a question,
   edit the generator, rebuild (output is reproducible), dry run, `--apply`.
 
-- **Mock Mahasangram + Revision Test Series (4 Nov, PR open):** Mock Mahasangram (₹499, different from Basic,
+- **Mock Mahasangram + Revision Test Series (4 Nov, PR #101 merged):** Mock Mahasangram (₹499, different from Basic,
   `mock-mahasangram`) = Premium's Full Mock 7-12 as live mocks on 12, 15, 18, 21, 24, 27 Nov
   (`tests.live_series = 'mahasangram'`; opens `release_at` 12 noon, only first attempts
   started by `rank_until` 6 pm are ranked, result + solutions + ranks at `result_at` 8 pm).
@@ -339,11 +339,26 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   email is logged in with no email code; an existing email must log in) and
   `/mahasangram/[testId]/ranks` (name + district, stars for top 20). Revision Test Series
   (₹999, `revision-test-series`) = those 6 mocks + CA Revision 1-6 and Uttarakhand
-  Revision 1-8 (100 Q each, existing 50-Q tests joined in pairs) + CSAT 5-6; also added
-  to Premium. `packages.metadata.returning_percent_off` (20) gives 20% off both at checkout
+  Revision 1-8 (100 Q each, existing 50-Q tests joined in pairs) + CSAT 5-6. `packages.metadata.returning_percent_off` (20) gives 20% off both at checkout
   to logged-in students owning another paid package (not Premium/Complete/Mentorship). `coupons.package_slugs`
   locks a code to packages. SQL: `supabase/schema-phase37-mock-mahasangram.sql` (times in
   UTC). Note: Full Mock 7-12 now open for Premium students only on their mock dates.
+- **Final-month store (4 Nov, phase 38):** `supabase/schema-phase38-final-month-prices.sql`
+  cuts prices till 29 Nov 11:59 pm (Crash Course ₹2,222, UK/National Crash Course ₹1,188,
+  Complete Prelims Pack ₹3,299, Premium ₹1,399; old price shown struck through), gives
+  Premium/Complete/Mentorship owners Revision + Mahasangram as separate products
+  (`packages.metadata.included_with`, read by `getOwnedPackageIds`), sets the ₹500 upgrade
+  (`metadata.upgrade_from`, priced in `src/lib/returningPrice.ts`) and removes the 14 revision
+  tests from Premium (one targeted DELETE, on the owner's request). Pages: `/revision` (main,
+  highlighted first in the navbar and app tab bar), `/mahasangram`; "Which one is for me?"
+  (`src/components/final-month/WhichOne.tsx`) on Courses and Test Series; banner
+  `src/components/FinalMonthBar.tsx` (shows only while a struck price exists, before 29 Nov).
+  Dates live in `content/finalMonthSchedule.json`; timetable PDF
+  `public/uploads/final-month-timetable.pdf` is rebuilt with
+  `node scripts/make-final-month-timetable.mjs` (needs Playwright; prices printed are set
+  at the top of the script). Admin → Lessons: video is optional, and an "Add notes-only
+  lessons" button creates Video 1-50 lessons from the crash course plan so notes PDFs can be
+  uploaded before the videos.
 
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6

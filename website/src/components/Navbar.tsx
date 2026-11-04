@@ -7,6 +7,7 @@ import settings from "@content/settings.json";
 
 const primaryLinks = [
   { href: "/", label: "Home" },
+  { href: "/revision", label: "Revision Series", highlight: true },
   { href: "/courses", label: "Courses" },
   { href: "/test-series", label: "Test Series" },
   { href: "/buy-book", label: "Books" },
@@ -78,9 +79,16 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                 key={link.href}
                 href={link.href}
                 aria-current={isActive(pathname, link.href) ? "page" : undefined}
-                className={linkClass(isActive(pathname, link.href))}
+                className={
+                  "highlight" in link && link.highlight
+                    ? "flex items-center gap-1.5 rounded-full border border-saffron-400/70 bg-saffron-400/10 px-3 py-1.5 text-sm font-semibold text-saffron-300 transition-colors hover:bg-saffron-400/20"
+                    : linkClass(isActive(pathname, link.href))
+                }
               >
                 {link.label}
+                {"highlight" in link && link.highlight && (
+                  <span className="rounded-full bg-saffron-400 px-1.5 text-[10px] font-bold uppercase leading-4 text-graphite-950">New</span>
+                )}
               </Link>
             ))}
 
@@ -156,10 +164,13 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                 href={link.href}
                 onClick={() => setIsOpen(false)}
                 className={`block rounded-md px-4 py-3 text-base font-medium transition-colors hover:bg-graphite-800 hover:text-saffron-300 ${
-                  isActive(pathname, link.href) ? "text-saffron-400" : "text-graphite-200"
+                  isActive(pathname, link.href) || ("highlight" in link && link.highlight) ? "text-saffron-400" : "text-graphite-200"
                 }`}
               >
                 {link.label}
+                {"highlight" in link && link.highlight && (
+                  <span className="ml-2 rounded-full bg-saffron-400 px-1.5 text-[10px] font-bold uppercase text-graphite-950">New</span>
+                )}
               </Link>
             ))}
             <p className="mt-3 px-4 pb-1 text-xs font-semibold uppercase tracking-wider text-graphite-400">More</p>

@@ -77,7 +77,9 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
             )}
           </div>
           {priceInfo.returning && (
-            <p className="mt-1 text-xs font-medium text-saffron-300">Existing student discount applied</p>
+            <p className="mt-1 text-xs font-medium text-saffron-300">
+              {priceInfo.kind === "upgrade" ? "Upgrade price for Mock Mahasangram students" : "Existing student discount (20%) applied"}
+            </p>
           )}
           {foundingLabel && <p className="mt-1 text-xs font-medium text-saffron-300">{foundingLabel}</p>}
           {seatsRemaining != null && (
