@@ -34,7 +34,7 @@ const FAQ = [
   },
   {
     q: "Is there a free test?",
-    a: "Yes. Mock Mahasangram Mock 1 on Thu 12 Nov is free for everyone, with the live rank list at 8 pm.",
+    a: "Yes. All Uttarakhand Rank Challenge (Mock Mahasangram) Mock 1 on Thu 12 Nov is free for everyone, with the live rank list at 8 pm.",
   },
 ];
 
@@ -64,7 +64,7 @@ export default async function RevisionPage() {
               Everything to revise in the last month, in one timetable: one test a day, finished before the exam.
             </p>
             <ul className="mt-5 space-y-2 text-sm text-graphite-200 sm:text-base">
-              <li className="flex gap-2"><Trophy className="mt-0.5 h-5 w-5 flex-shrink-0 text-saffron-400" /> 6 full mocks with a live Uttarakhand rank (Mock Mahasangram)</li>
+              <li className="flex gap-2"><Trophy className="mt-0.5 h-5 w-5 flex-shrink-0 text-saffron-400" /> 6 full mocks in the All Uttarakhand Rank Challenge (Mock Mahasangram)</li>
               <li className="flex gap-2"><Mountain className="mt-0.5 h-5 w-5 flex-shrink-0 text-jade-400" /> Complete Uttarakhand GK: 8 tests, 800 questions</li>
               <li className="flex gap-2"><Newspaper className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" /> Complete Current Affairs: 6 tests, 600 questions</li>
               <li className="flex gap-2"><BookOpenCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-graphite-300" /> 2 CSAT papers at the 2024 level</li>
@@ -115,10 +115,10 @@ export default async function RevisionPage() {
         <section className="flex flex-col gap-4 rounded-2xl border border-graphite-800 bg-graphite-900/60 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div>
             <p className="flex items-center gap-2 font-display text-lg font-bold text-white">
-              <Trophy className="h-5 w-5 text-saffron-400" /> Only want the rank challenge on full mocks?
+              <Trophy className="h-5 w-5 text-saffron-400" /> Only want the All Uttarakhand Rank Challenge?
             </p>
             <p className="mt-1 text-sm text-graphite-300">
-              Mock Mahasangram: the 6 full mocks with the live rank list
+              Are you the next topper? Mock Mahasangram: the 6 full mocks with the live rank list
               <span className="web-only">{maha.pkg ? `, ${formatINR(maha.price ?? maha.pkg.price)}` : ""}</span>. Mock 1 on 12 Nov is free.
               You can upgrade to this full Revision Series later for ₹500.
             </p>
@@ -127,7 +127,7 @@ export default async function RevisionPage() {
             href="/mahasangram"
             className="inline-flex min-h-[44px] flex-shrink-0 items-center justify-center gap-2 rounded-xl border border-saffron-400 px-5 text-sm font-bold text-saffron-300 hover:bg-saffron-400/10"
           >
-            See Mock Mahasangram <ArrowRight className="h-4 w-4" />
+            See the Rank Challenge <ArrowRight className="h-4 w-4" />
           </Link>
         </section>
 

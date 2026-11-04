@@ -57,7 +57,7 @@ where t.id = v.id::uuid;
 
 insert into packages (id, package_name, description, price, package_type, total_tests, total_questions,
                       access_valid_till, sort_order, is_active, slug)
-values ('82a4acf8-95f4-4922-a135-dd7a97a211c9', 'Mock Mahasangram - Rank Challenge',
+values ('82a4acf8-95f4-4922-a135-dd7a97a211c9', 'Mock Mahasangram - All Uttarakhand Rank Challenge',
   '6 full-length mocks (150 Questions each), UKPSC Prelims pattern' || chr(10) ||
   'Different tests from the Basic Test Series (Basic has Full Mock 1-6; these are Full Mock 7-12)' || chr(10) ||
   'Same mock, same day: opens 12 noon, last start 6 pm, result and live rank list at 8 pm' || chr(10) ||

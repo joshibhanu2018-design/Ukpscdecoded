@@ -13,7 +13,7 @@ import { parseUtcTimestamp } from "./timestamps";
  */
 
 export const LIVE_SERIES = "mahasangram";
-export const LIVE_SERIES_NAME = "UKPSC Prelims Mock Mahasangram - Rank Challenge";
+export const LIVE_SERIES_NAME = "All Uttarakhand Rank Challenge";
 
 export type LiveTest = {
   id: string;

@@ -10,7 +10,7 @@ import { formatIst, getLiveTest, getRankList, isResultHidden } from "@/lib/liveM
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Mock Mahasangram Rank List",
+  title: "All Uttarakhand Rank List - Mock Mahasangram",
   robots: { index: false },
 };
 
@@ -39,7 +39,7 @@ export default async function RankListPage({
     <div className="min-h-screen bg-graphite-950 px-4 py-10">
       <div className="mx-auto max-w-3xl">
         <Link href="/mahasangram" className="mb-6 inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400">
-          <ArrowLeft className="h-4 w-4" /> Mock Mahasangram
+          <ArrowLeft className="h-4 w-4" /> All Uttarakhand Rank Challenge
         </Link>
         <h1 className="text-2xl font-bold text-white">{test.test_name}: rank list</h1>
 

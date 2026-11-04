@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
-const logo = 'data:image/png;base64,' + fs.readFileSync('logo-badge.png').toString('base64');
+const logo = 'data:image/png;base64,' + fs.readFileSync('public/logo-badge.png').toString('base64');
 const css = (m) => `
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -28,8 +28,16 @@ h1 span{display:block;background:linear-gradient(90deg,#ffd34d,#ff8a1f);-webkit-
 .card b{display:block;font-size:${m?22:26}px;font-weight:700}.card small{font-size:${m?16:18}px;color:#6b5a48;font-weight:500}
 .free{position:absolute;${m?'right:40px;top:56px':'right:56px;bottom:42px'};width:${m?190:180}px;height:${m?190:180}px;border-radius:50%;display:grid;place-items:center;text-align:center;background:radial-gradient(circle at 35% 30%,#3df0a6,#0d9b62);border:5px solid rgba(255,255,255,.85);transform:rotate(-10deg);box-shadow:0 12px 40px rgba(0,0,0,.45);font-weight:900;line-height:1.05;font-size:${m?30:28}px;color:#05301e}
 .free small{display:block;font-size:${m?20:18}px;font-weight:700}
+.board{gap:${m?10:12}px!important;background:rgba(255,250,242,.97);border-radius:22px;padding:${m?18:22}px;color:#1a0d05;box-shadow:0 20px 60px rgba(0,0,0,.5);transform:rotate(-1.5deg)}
+.bh{font-weight:800;font-size:${m?22:24}px;padding-bottom:6px;border-bottom:2px solid #f5b301}
+.row{display:flex;align-items:center;gap:14px;padding:${m?8:10}px ${m?12:14}px;border-radius:12px;background:#fff;border:1px solid #eadfcf}
+.row.r1{background:linear-gradient(90deg,#fff1c2,#ffe08a);border-color:#f5b301}
+.row.dim{opacity:.8}
+.rk{font-weight:900;font-size:${m?22:24}px;width:${m?70:80}px;color:#c25e00}
+.nm{flex:1;font-weight:700;font-size:${m?20:22}px}.nm small{display:block;font-size:${m?14:15}px;color:#7a6855;font-weight:500}
+.st{color:#f5a300;font-size:${m?22:24}px;letter-spacing:2px}
 `;
-const body = (m) => `<div class="grid"></div><div class="mtn"></div>
+const revision = (m) => `<div class="grid"></div><div class="mtn"></div>
 <div class="left">
  <div class="brand"><img src="${logo}"><div><b>UKPSC <span>DECODED</span></b><i>Prepare smarter · Rank higher</i></div></div>
  <div class="tag">LAST MONTH · UKPSC PRELIMS 2026</div>
@@ -39,18 +47,38 @@ const body = (m) => `<div class="grid"></div><div class="mtn"></div>
  <div class="cta">Start Revision →</div>
 </div>
 <div class="right">
- <div class="card"><div class="ic">🏆</div><div><b>Mock Mahasangram</b><small>6 full mocks · live Uttarakhand rank</small></div></div>
+ <div class="card"><div class="ic">🏆</div><div><b>Rank Challenge</b><small>All Uttarakhand · 6 full mocks · live rank</small></div></div>
  <div class="card"><div class="ic">⛰️</div><div><b>Uttarakhand GK</b><small>8 tests · 800 questions</small></div></div>
  <div class="card"><div class="ic">📰</div><div><b>Current Affairs</b><small>6 tests · 600 questions + 2 CSAT</small></div></div>
 </div>
 <div class="free"><div>MOCK 1<br>FREE<small>for everyone</small></div></div>`;
+const maha = (m) => `<div class="grid"></div><div class="mtn"></div>
+<div class="left">
+ <div class="brand"><img src="${logo}"><div><b>UKPSC <span>DECODED</span></b><i>Prepare smarter · Rank higher</i></div></div>
+ <div class="tag">MOCK MAHASANGRAM · ALL UTTARAKHAND RANK CHALLENGE</div>
+ <h1>Are you the<span>next topper?</span></h1>
+ <p class="sub">Same mock, same day, live Uttarakhand rank at 8 pm</p>
+ <div class="chips"><div class="chip">6 full mocks · 150 Q</div><div class="chip">Rank with name + district</div><div class="chip">Top 3 win 30% off</div></div>
+ <div class="cta">Take Mock 1 Free →</div>
+</div>
+<div class="right board">
+ <div class="bh">🏆 Live rank list · 8 pm</div>
+ <div class="row r1"><span class="rk">#1</span><span class="nm">Your name?<small>Your district</small></span><span class="st">★★★</span></div>
+ <div class="row"><span class="rk">#2</span><span class="nm">Your name?<small>Your district</small></span><span class="st">★★★</span></div>
+ <div class="row"><span class="rk">#3</span><span class="nm">Your name?<small>Your district</small></span><span class="st">★★★</span></div>
+ <div class="row dim"><span class="rk">#4–20</span><span class="nm">Stars for the top 20</span><span class="st">★</span></div>
+</div>
+<div class="free"><div>MOCK 1<br>FREE<small>12 Nov</small></div></div>`;
+// Run in website/: node scripts/banners/make-final-month-banners.cjs  (needs Playwright)
 (async () => {
   const b = await chromium.launch();
-  for (const m of [false, true]) {
-    const p = await b.newPage({ viewport: { width: m ? 1080 : 1920, height: m ? 1080 : 600 } });
-    await p.setContent(`<html><head><style>${css(m)}</style></head><body>${body(m)}</body></html>`, { waitUntil: 'networkidle' });
-    await p.waitForTimeout(500);
-    await p.screenshot({ path: m ? 'revision-mobile.png' : 'revision-desktop.png' });
+  for (const [name, body] of [['revision', revision], ['mahasangram', maha]]) {
+    for (const m of [false, true]) {
+      const p = await b.newPage({ viewport: { width: m ? 1080 : 1920, height: m ? 1080 : 600 } });
+      await p.setContent(`<html><head><style>${css(m)}</style></head><body>${body(m)}</body></html>`, { waitUntil: 'networkidle' });
+      await p.waitForTimeout(500);
+      await p.screenshot({ path: `public/banners/${name}-${m ? 'mobile' : 'desktop'}.png` });
+    }
   }
   await b.close();
 })();
