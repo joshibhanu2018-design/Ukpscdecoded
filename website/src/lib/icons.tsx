@@ -15,6 +15,7 @@ import {
   RotateCcw,
   CheckCircle2,
   FileText,
+  Trophy,
   type LucideIcon,
 } from "lucide-react";
 
@@ -33,6 +34,7 @@ const iconMap: Record<string, LucideIcon> = {
   award: Award,
   send: Send,
   rocket: Rocket,
+  trophy: Trophy,
   file: FileText,
 
   // Features

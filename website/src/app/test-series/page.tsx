@@ -4,6 +4,7 @@ import FreeSampleTest from "@/components/FreeSampleTest";
 import SectionTitle from "@/components/SectionTitle";
 import PageHeroBanner from "@/components/PageHeroBanner";
 import { BEST_BUY_SLUG, FLAGSHIP_TEST_SERIES_SLUG, getCatalog } from "@/lib/catalog";
+import WhichOne from "@/components/final-month/WhichOne";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/test-series" },
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 // Premium Test Series (includes every other test series), then the
 // individual test series and mentorship.
 export default async function TestSeriesPage() {
-  const { testSeries, bundles, mentorship, ownedIds } = await getCatalog();
+  const { testSeries, bundles, mentorship, ownedIds, allPackages } = await getCatalog();
   const premium = testSeries.find((p) => p.slug === FLAGSHIP_TEST_SERIES_SLUG);
   const individual = testSeries.filter((p) => p !== premium);
 
@@ -30,6 +31,8 @@ export default async function TestSeriesPage() {
             Full mocks, sectional, Uttarakhand, Current Affairs and CSAT tests with analysis after every test
           </p>
         </div>
+
+        <WhichOne packages={allPackages} />
 
         {premium && (
           <PageHeroBanner
@@ -75,14 +78,18 @@ export default async function TestSeriesPage() {
         <FreeSampleTest compact />
 
         {individual.length > 0 && (
-          <section>
-            <SectionTitle title="Individual Test Series" sub="Only if you need one part — all of these are already inside the Premium Test Series" />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <details className="group rounded-2xl border border-graphite-800 bg-graphite-900/40 p-4 sm:p-6">
+            <summary className="cursor-pointer list-none text-center font-semibold text-graphite-200 marker:hidden">
+              All other test series ({individual.length}) <span className="text-saffron-400 group-open:hidden">· show</span>
+              <span className="hidden text-saffron-400 group-open:inline">· hide</span>
+            </summary>
+            <p className="mt-2 text-center text-sm text-graphite-400">Only if you need one part: all of these are already inside the Premium Test Series.</p>
+            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {individual.map((pkg) => (
                 <CourseCard key={pkg.id} pkg={pkg} owned={ownedIds.has(pkg.id)} />
               ))}
             </div>
-          </section>
+          </details>
         )}
 
         {mentorship.length > 0 && (

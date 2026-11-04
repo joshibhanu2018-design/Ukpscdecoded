@@ -2,17 +2,31 @@ import { supabaseAdmin } from "./supabase";
 import { getPriceInfo, type PriceInfo, type PricedPackage } from "./pricing";
 
 /**
- * Returning-buyer price (schema-phase37). A package can carry
- * metadata.returning_percent_off (e.g. 20) or metadata.returning_price
- * (a fixed price): students who already own any other
- * paid package, except the ones in metadata.returning_excludes (or, by
- * default, Premium / Complete Prelims Pack / Mentorship, which already
- * include these tests), pay that price instead. Applied on the server at
- * checkout, so it can't be faked from the browser.
+ * Lower prices for students who already bought from us (schema-phase37/38),
+ * applied on the server at checkout so they can't be faked from the browser.
+ *
+ *  - metadata.upgrade_from = { "<slug>": price }: owners of that package pay
+ *    that price (e.g. Mock Mahasangram owners upgrade to the Revision Test
+ *    Series for ₹500).
+ *  - metadata.returning_percent_off (e.g. 20) or metadata.returning_price:
+ *    owners of any other paid package, except metadata.returning_excludes
+ *    (default Premium / Complete Prelims Pack / Mentorship, which include
+ *    these products anyway), get that discount.
+ * The lowest price that applies wins.
  */
 const DEFAULT_EXCLUDES = ["premium-test-series", "complete-prelims-pack", "prelims-mentorship"];
 
-type Meta = { returning_price?: unknown; returning_percent_off?: unknown; returning_excludes?: unknown } | null | undefined;
+type Meta =
+  | {
+      returning_price?: unknown;
+      returning_percent_off?: unknown;
+      returning_excludes?: unknown;
+      upgrade_from?: unknown;
+    }
+  | null
+  | undefined;
+
+export type BuyerPriceKind = "upgrade" | "returning" | null;
 
 /** The returning-buyer price for a base price, or null when the package has none. */
 function returningAmount(base: number, metadata: Meta): number | null {
@@ -23,12 +37,19 @@ function returningAmount(base: number, metadata: Meta): number | null {
   return null;
 }
 
-export async function qualifiesForReturningPrice(userId: string, packageId: string, metadata: Meta): Promise<boolean> {
-  if (returningAmount(100, metadata) === null) return false;
-  const excludes = Array.isArray(metadata?.returning_excludes)
-    ? (metadata!.returning_excludes as string[])
-    : DEFAULT_EXCLUDES;
+function upgradePrices(metadata: Meta): Record<string, number> {
+  const raw = metadata?.upgrade_from;
+  if (!raw || typeof raw !== "object") return {};
+  const out: Record<string, number> = {};
+  for (const [slug, v] of Object.entries(raw as Record<string, unknown>)) {
+    const n = Number(v);
+    if (Number.isFinite(n) && n > 0) out[slug] = n;
+  }
+  return out;
+}
 
+/** Slugs and prices of the paid packages this user directly owns (active enrollments), excluding one package. */
+async function ownedPaidPackages(userId: string, excludePackageId: string): Promise<{ slug: string | null; price: number }[]> {
   const today = new Date().toISOString().slice(0, 10);
   const { data: rows } = await supabaseAdmin()
     .from("enrollments")
@@ -36,25 +57,42 @@ export async function qualifiesForReturningPrice(userId: string, packageId: stri
     .eq("user_id", userId)
     .eq("status", "active")
     .or(`access_valid_till.is.null,access_valid_till.gte.${today}`);
-  const ids = [...new Set((rows ?? []).map((r) => r.package_id as string))].filter((id) => id !== packageId);
-  if (ids.length === 0) return false;
-
+  const ids = [...new Set((rows ?? []).map((r) => r.package_id as string))].filter((id) => id !== excludePackageId);
+  if (ids.length === 0) return [];
   const { data: pkgs } = await supabaseAdmin().from("packages").select("slug, price").in("id", ids);
-  return (pkgs ?? []).some((p) => !(p.slug && excludes.includes(p.slug as string)) && Number(p.price) > 0);
+  return (pkgs ?? []).map((p) => ({ slug: (p.slug as string | null) ?? null, price: Number(p.price) }));
 }
 
-/** The price this user pays: the returning price if they qualify and it is lower. */
+/** The price this user pays: an upgrade or returning-buyer price if one applies and is lower. */
 export async function getBuyerPriceInfo(
   userId: string,
   pkg: PricedPackage & { id: string; metadata?: Meta },
   overrideEndsAt?: string | null
-): Promise<PriceInfo & { returning: boolean }> {
+): Promise<PriceInfo & { returning: boolean; kind: BuyerPriceKind }> {
   const base = getPriceInfo(pkg, Date.now(), overrideEndsAt);
-  const returningPrice = returningAmount(base.amount, pkg.metadata);
-  if (returningPrice !== null && returningPrice < base.amount) {
-    if (await qualifiesForReturningPrice(userId, pkg.id, pkg.metadata)) {
-      return { ...base, amount: returningPrice, isFounding: false, regularPrice: base.amount, returning: true };
+  const upgrades = upgradePrices(pkg.metadata);
+  const returning = returningAmount(base.amount, pkg.metadata);
+  if (Object.keys(upgrades).length === 0 && returning === null) return { ...base, returning: false, kind: null };
+
+  const owned = await ownedPaidPackages(userId, pkg.id);
+  let best: { amount: number; kind: BuyerPriceKind } | null = null;
+
+  for (const p of owned) {
+    if (p.slug && upgrades[p.slug] !== undefined && (!best || upgrades[p.slug] < best.amount)) {
+      best = { amount: upgrades[p.slug], kind: "upgrade" };
     }
   }
-  return { ...base, returning: false };
+
+  if (returning !== null) {
+    const excludes = Array.isArray(pkg.metadata?.returning_excludes)
+      ? (pkg.metadata!.returning_excludes as string[])
+      : DEFAULT_EXCLUDES;
+    const qualifies = owned.some((p) => !(p.slug && excludes.includes(p.slug)) && p.price > 0);
+    if (qualifies && (!best || returning < best.amount)) best = { amount: returning, kind: "returning" };
+  }
+
+  if (best && best.amount < base.amount) {
+    return { ...base, amount: best.amount, isFounding: false, regularPrice: base.amount, returning: true, kind: best.kind };
+  }
+  return { ...base, returning: false, kind: null };
 }

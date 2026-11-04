@@ -20,8 +20,7 @@
 --      CSAT 5 and 6. The 100-Q tests are made by joining existing 50-Q tests in
 --      pairs (CA Intensive tests 1+2, 3+4 … 11+12; Uttarakhand Intensive tests
 --      1+2 … 15+16, in their store order). No new questions.
---   Premium and Complete Prelims Pack buyers already own all of these: Full
---   Mock 7-12 and CSAT are in Premium, and the new 100-Q tests are added to Premium.
+--   Premium and Complete Prelims Pack buyers get both products free (phase 38).
 --
 -- Times are written in UTC (IST minus 5:30): 06:30 = 12 noon IST, 12:30 = 6 pm,
 -- 14:30 = 8 pm. To move a mock, change its three times and re-run.
@@ -194,21 +193,8 @@ from (values
 ) as v(id, ord)
 on conflict (package_id, test_id) do nothing;
 
--- Premium (and so Complete Prelims Pack / Mentorship) also get the 14 new tests free.
-insert into package_tests (package_id, test_id, test_order)
-select p.id, v.id::uuid, 100 + v.ord
-from packages p
-join (values
-  ('e8446598-df2a-4fb6-aa33-8bc271376667', 1), ('aaf001ed-e922-4bad-918c-6feace56a11e', 2),
-  ('12cef989-ab3a-4a0d-8540-5ec5f6c29671', 3), ('0d8959a3-b922-4ecf-9707-5fc364a73520', 4),
-  ('38bd7e4f-ad97-445e-83ca-412c10eedf5e', 5), ('368edd53-4d4c-4fde-bcbb-43fab1ff7a19', 6),
-  ('613f6a29-49ba-44ec-8e56-dd5c9b005930', 7), ('f3fa0eb7-f12a-4fd4-9c00-0df0915759c5', 8),
-  ('1d55c840-4723-4b11-be73-ee026b325135', 9), ('c28b9cc5-0f01-4c56-be24-636e82b833c6', 10),
-  ('3cfb5eb4-02e6-41e3-b25c-f5fa44b8cb27', 11), ('0f1796d0-b73d-4c09-8519-d6202e6c460f', 12),
-  ('aa095382-57d9-4530-8275-f4f8bbe893db', 13), ('07597287-d65e-424b-ae0d-216c5e1ec056', 14)
-) as v(id, ord) on true
-where p.slug = 'premium-test-series'
-on conflict (package_id, test_id) do nothing;
+-- (Premium / Complete Pack / Mentorship owners get the Revision Test Series as its own
+-- product through packages.metadata.included_with; see schema-phase38.)
 
 -- ========== Checks ==========
 -- select test_name, release_at, rank_until, result_at, is_free_test, cardinality(question_ids)

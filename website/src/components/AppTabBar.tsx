@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ClipboardList, Gift, Home, UserRound } from "lucide-react";
+import { BookOpen, ClipboardList, Home, Rocket, UserRound } from "lucide-react";
 
 // While a test is running the bar would cover the question navigator and submit button.
 const HIDDEN_PREFIXES = ["/test-platform/attempts", "/test-platform/tests/", "/checkout"];
@@ -18,9 +18,9 @@ export default function AppTabBar({ loggedIn }: { loggedIn: boolean }) {
 
   const tabs = [
     { href: "/app", label: "Home", icon: Home, active: pathname === "/app" || pathname === "/" },
+    { href: "/revision", label: "Revision", icon: Rocket, active: ["/revision", "/mahasangram"].some((p) => pathname.startsWith(p)) },
     { href: "/courses", label: "Courses", icon: BookOpen, active: pathname.startsWith("/courses") },
     { href: "/test-series", label: "Tests", icon: ClipboardList, active: pathname.startsWith("/test-series") },
-    { href: "/free-content", label: "Free", icon: Gift, active: ["/free-content", "/pyq-tracker", "/current-affairs"].some((p) => pathname.startsWith(p)) },
     {
       href: loggedIn ? "/test-platform" : "/student/login",
       label: loggedIn ? "My Courses" : "Login",

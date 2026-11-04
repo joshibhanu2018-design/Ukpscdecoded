@@ -12,6 +12,9 @@ import ScrollUnlock from "@/components/ScrollUnlock";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { getActiveOffer } from "@/lib/coupons";
 import OfferBar from "@/components/OfferBar";
+import FinalMonthBar, { type FinalMonthItem } from "@/components/FinalMonthBar";
+import { getActivePackages, formatINR } from "@/lib/packages";
+import { getPriceInfo } from "@/lib/pricing";
 
 const siteUrl = "https://www.ukpscdecoded.in";
 
@@ -139,6 +142,30 @@ const poppins = Poppins({
   display: "swap",
 });
 
+/** Prices for the last-month bar: the cut prices running now, with what each sold for before. */
+async function getFinalMonthItems(): Promise<FinalMonthItem[]> {
+  if (Date.now() > new Date("2026-11-29T23:59:59+05:30").getTime()) return [];
+  const show: [string, string][] = [
+    ["revision-test-series", "Revision Test Series"],
+    ["mock-mahasangram", "Mock Mahasangram"],
+    ["crash-course", "Crash Course"],
+    ["complete-prelims-pack", "Complete Prelims Pack"],
+    ["premium-test-series", "Premium Test Series"],
+    ["uttarakhand-crash-course", "Uttarakhand Crash Course"],
+    ["national-crash-course", "National Crash Course"],
+  ];
+  const pkgs = await getActivePackages();
+  const items = show.flatMap(([slug, label]) => {
+    const p = pkgs.find((x) => x.slug === slug);
+    if (!p) return [];
+    const info = getPriceInfo(p);
+    const href = slug === "revision-test-series" ? "/revision" : slug === "mock-mahasangram" ? "/mahasangram" : `/courses/${slug}`;
+    return [{ label, price: formatINR(info.amount), was: info.isFounding && info.regularPrice ? formatINR(info.regularPrice) : null, href }];
+  });
+  // Only show the bar once the cut prices are in (phase 38 run).
+  return items.some((i) => i.was) ? items : [];
+}
+
 async function getNavbarUser() {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
   const user = await getUserFromSession(token);
@@ -150,7 +177,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [navbarUser, offer] = await Promise.all([getNavbarUser(), getActiveOffer().catch(() => null)]);
+  const [navbarUser, offer, finalMonth] = await Promise.all([
+    getNavbarUser(),
+    getActiveOffer().catch(() => null),
+    getFinalMonthItems().catch(() => []),
+  ]);
 
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
@@ -174,6 +205,7 @@ export default async function RootLayout({
       </head>
       <body>
         {offer && <OfferBar code={offer.code} percentOff={offer.percent_off} expiresAt={offer.expires_at} />}
+        {!offer && finalMonth.length > 0 && <FinalMonthBar items={finalMonth} />}
         <Navbar user={navbarUser} />
         <main className="min-h-screen">{children}</main>
         <Footer />
