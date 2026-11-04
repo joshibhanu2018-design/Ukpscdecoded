@@ -93,7 +93,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
     <div class="card"><b>Current Affairs</b>6 tests · 600 questions · + 2 CSAT</div>
   </div>
   <table>${schedule.tests.map(row).join("")}
-    <tr><td class="date"><b>28 Nov</b><span>Sat</span></td><td><b>No new test</b><div class="sub">Retake your 2 weakest tests · read your wrong-answer list</div></td><td class="tick"></td></tr>
+    <tr><td class="date"><b>27–28 Nov</b><span>Fri–Sat</span></td><td><b>No new test</b><div class="sub">Retake your 2 weakest tests · read your wrong-answer list</div></td><td class="tick"></td></tr>
   </table>
   <div class="foot">
     <b>Revision Test Series ${PRICES.revision}</b> · Mock Mahasangram students upgrade for ${PRICES.upgrade} · Crash Course / Basic / other test series buyers: 20% off when logged in · Premium & Complete Prelims Pack: included free.

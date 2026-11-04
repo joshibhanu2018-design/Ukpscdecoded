@@ -147,7 +147,7 @@ export default async function RevisionPage() {
           <div className="mt-5">
             <Timetable items={upcoming.length > 0 ? upcoming : FINAL_SCHEDULE} today={today} />
           </div>
-          <p className="mt-3 text-xs text-graphite-400">28 Nov: no new test. Retake your two weakest tests and read your wrong-answer list.</p>
+          <p className="mt-3 text-xs text-graphite-400">27 and 28 Nov: no new test. Retake your two weakest tests and read your wrong-answer list.</p>
         </section>
 
         {/* Other courses */}

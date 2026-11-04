@@ -332,7 +332,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   edit the generator, rebuild (output is reproducible), dry run, `--apply`.
 
 - **Mock Mahasangram + Revision Test Series (4 Nov, PR #101 merged):** Mock Mahasangram (₹499, different from Basic,
-  `mock-mahasangram`) = Premium's Full Mock 7-12 as live mocks on 12, 15, 18, 21, 24, 27 Nov
+  `mock-mahasangram`) = Premium's Full Mock 7-12 as live mocks on 12, 15, 18, 21, 22, 25 Nov (moved from 24/27 by phase 40)
   (`tests.live_series = 'mahasangram'`; opens `release_at` 12 noon, only first attempts
   started by `rank_until` 6 pm are ranked, result + solutions + ranks at `result_at` 8 pm).
   Full Mock 7 is free for all. Public pages `/mahasangram` (free Mock 1 sign-up: a NEW
@@ -359,6 +359,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   at the top of the script). Admin → Lessons: video is optional, and an "Add notes-only
   lessons" button creates Video 1-50 lessons from the crash course plan so notes PDFs can be
   uploaded before the videos.
+- **New dates (4 Nov, phase 40):** Revision Series runs 6-26 Nov (no test on 8 Nov Diwali or
+  27-28 Nov); CSAT 5 and 6 share 20 and 24 Nov with a UK test. Mocks 5 and 6 moved to 22 and 25 Nov
+  by `supabase/schema-phase40-mock-dates.sql`.
 - **BOOK10 (4 Nov, phase 39):** `supabase/schema-phase39-book10-code.sql` creates a private
   10% code for book buyers (WhatsApp broadcast), once per student, till 29 Nov, on every
   active package. Codes with `package_slugs` set are never shown in the site-wide offer
