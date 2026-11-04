@@ -359,6 +359,10 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   at the top of the script). Admin → Lessons: video is optional, and an "Add notes-only
   lessons" button creates Video 1-50 lessons from the crash course plan so notes PDFs can be
   uploaded before the videos.
+- **BOOK10 (4 Nov, phase 39):** `supabase/schema-phase39-book10-code.sql` creates a private
+  10% code for book buyers (WhatsApp broadcast), once per student, till 29 Nov, on every
+  active package. Codes with `package_slugs` set are never shown in the site-wide offer
+  bar or prefilled at checkout (`getActiveOffer` in `src/lib/coupons.ts`).
 
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
