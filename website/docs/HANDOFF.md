@@ -362,6 +362,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **New dates (4 Nov, phase 40):** Revision Series runs 6-26 Nov (no test on 8 Nov Diwali or
   27-28 Nov); CSAT 5 and 6 share 20 and 24 Nov with a UK test. Mocks 5 and 6 moved to 22 and 25 Nov
   by `supabase/schema-phase40-mock-dates.sql`.
+- **Revision carousel banner (4 Nov, phase 41):** first home banner, `public/banners/revision-*.webp`
+  (rebuild: `scripts/banners/make-revision-banner.cjs` with Playwright), links to `/revision`.
+  Test Series page: single test series are shown openly (no dropdown).
 - **BOOK10 (4 Nov, phase 39):** `supabase/schema-phase39-book10-code.sql` creates a private
   10% code for book buyers (WhatsApp broadcast), once per student, till 29 Nov, on every
   active package. Codes with `package_slugs` set are never shown in the site-wide offer
