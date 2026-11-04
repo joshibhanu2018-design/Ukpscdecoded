@@ -5,7 +5,7 @@
 -- 1. Warm-up Mock: a free 150-question full mock, open now till 11 Nov 11:59 pm.
 --    Students see their rank straight after submitting; the rank list stays live
 --    and changes as more students take it (first attempt only). It is a copy of
---    one Basic full mock (default Full Mock 1). To use another one, put its id
+--    one Basic full mock (Full Mock 6, the strongest after the 4 Nov question review). To use another one, put its id
 --    in section 1b and run this file again. Basic Full Mock ids:
 --      1 059f628c-4507-4a9b-8982-2534a0d8730b   2 dec69639-4eda-49f6-a32f-19511c9b4ba4
 --      3 eba11ee4-7602-412e-b61a-758daa43d122   4 2f4fdf1a-90a2-424d-aece-e828f9854dda
@@ -39,7 +39,8 @@ update tests w set
   updated_at = now()
 from tests s
 where w.id = '5d1a7c3e-2b8f-4e61-9a0d-7f3c2e8b4a15'
-  and s.id = '059f628c-4507-4a9b-8982-2534a0d8730b'   -- << the Basic mock to copy (Full Mock 1)
+  and s.id = '8a975a03-4438-4633-bc11-8b31366821da'   -- << the Basic mock to copy (Full Mock 6, picked by the 4 Nov question review)
+  and not exists (select 1 from attempts a where a.test_id = w.id)   -- never swap once students have taken it
   and cardinality(s.question_ids) > 0;
 
 -- ========== 2. Only the Warm-up is free: Rank Challenge Mock 1 (Full Mock 7) becomes paid ==========
