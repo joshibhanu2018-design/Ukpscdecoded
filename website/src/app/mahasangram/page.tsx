@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/mahasangram" },
-  title: "Mock Mahasangram - UKPSC Prelims Rank Challenge",
+  title: "All Uttarakhand Rank Challenge (Mock Mahasangram) - UKPSC Prelims",
   description:
     "Free UKPSC Prelims 2026 full-length mock with a live rank list across Uttarakhand. 6 mocks, same test same day, results at 8 pm.",
 };
@@ -45,7 +45,9 @@ export default async function MahasangramPage() {
         </Link>
         <div className="text-center">
           <Trophy className="mx-auto h-10 w-10 text-saffron-400" />
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-saffron-400">Mock Mahasangram</p>
           <h1 className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">{LIVE_SERIES_NAME}</h1>
+          <p className="mt-2 font-display text-xl font-bold text-saffron-300 sm:text-2xl">Are you the next topper?</p>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-graphite-300 sm:text-base">
             6 full-length mocks before the 29 Nov exam. Everyone writes the same mock on the same day, and at 8 pm the
             rank list for the whole of Uttarakhand goes live. <span className="font-semibold text-saffron-300">Mock 1 is free for everyone.</span>
@@ -88,14 +90,14 @@ export default async function MahasangramPage() {
           )}
           <div className="rounded-2xl border border-saffron-400/50 bg-graphite-900 p-5 sm:p-6">
             <p className="text-xs font-bold uppercase tracking-wider text-saffron-400">Step 2 · All 6 mocks</p>
-            <h2 className="mt-1 font-display text-xl font-bold text-white">Mock Mahasangram</h2>
+            <h2 className="mt-1 font-display text-xl font-bold text-white">All Uttarakhand Rank Challenge</h2>
             <p className="mt-1 text-sm text-graphite-300">
               6 full mocks (150 Q each) with live ranks. Different tests from the Basic Test Series.
             </p>
             <div className="mt-4">
               <BuyBox
                 state={maha}
-                buyLabel="Join Mahasangram"
+                buyLabel="Join the Rank Challenge"
                 loggedIn={!!user}
                 includedNote="Included with your Premium Test Series / Complete Prelims Pack."
               />

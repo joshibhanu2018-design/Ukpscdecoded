@@ -34,9 +34,13 @@ export function isUniversalOffer(c: { type: string; max_uses: number | null }): 
 
 export type ActiveOffer = { id: string; code: string; percent_off: number; expires_at: string };
 
-/** The newest universal offer code that hasn't expired, shown in the site-wide offer bar and prefilled at checkout. */
+/**
+ * The newest universal offer code that hasn't expired, shown in the site-wide offer bar and prefilled at checkout.
+ * Codes locked to packages (coupons.package_slugs, e.g. BOOK10 for book buyers) are private: never advertised.
+ */
 export async function getActiveOffer(): Promise<ActiveOffer | null> {
-  const { data, error } = await supabaseAdmin()
+  const db = supabaseAdmin();
+  const { data, error } = await db
     .from("coupons")
     .select("id, code, percent_off, expires_at")
     .eq("type", "single_use_percent")
@@ -44,10 +48,16 @@ export async function getActiveOffer(): Promise<ActiveOffer | null> {
     .lte("percent_off", 90) // never advertise an internal 100% test code
     .gt("expires_at", new Date().toISOString())
     .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  if (error || !data || data.percent_off == null || !data.expires_at) return null;
-  return { id: data.id, code: data.code, percent_off: Number(data.percent_off), expires_at: data.expires_at };
+    .limit(10);
+  if (error || !data || data.length === 0) return null;
+  // Read separately so offers keep working before the package_slugs column exists.
+  const { data: locks, error: lockError } = await db.from("coupons").select("id, package_slugs").in("id", data.map((c) => c.id));
+  const locked = new Set(
+    lockError ? [] : (locks ?? []).filter((l) => Array.isArray(l.package_slugs) && l.package_slugs.length > 0).map((l) => l.id),
+  );
+  const offer = data.find((c) => !locked.has(c.id) && c.percent_off != null && c.expires_at);
+  if (!offer) return null;
+  return { id: offer.id, code: offer.code, percent_off: Number(offer.percent_off), expires_at: offer.expires_at };
 }
 
 /**

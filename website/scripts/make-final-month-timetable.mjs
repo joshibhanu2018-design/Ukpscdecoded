@@ -88,12 +88,12 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
   <h1>Final Revision <span>Test Series</span></h1>
   <p class="lead">22 tests · 2,500 questions · one test a day, finished before the exam. <span class="hi">अंतिम महीने की पूरी रिवीज़न टेस्ट सीरीज़।</span></p>
   <div class="cards">
-    <div class="card gold"><b>6 full mocks</b>Mock Mahasangram, 150 Q each, live Uttarakhand rank</div>
+    <div class="card gold"><b>6 full mocks</b>All Uttarakhand Rank Challenge, 150 Q each, live rank</div>
     <div class="card"><b>Uttarakhand GK</b>8 tests · 800 questions</div>
     <div class="card"><b>Current Affairs</b>6 tests · 600 questions · + 2 CSAT</div>
   </div>
   <table>${schedule.tests.map(row).join("")}
-    <tr><td class="date"><b>28 Nov</b><span>Sat</span></td><td><b>No new test</b><div class="sub">Retake your 2 weakest tests · read your wrong-answer list</div></td><td class="tick"></td></tr>
+    <tr><td class="date"><b>27–28 Nov</b><span>Fri–Sat</span></td><td><b>No new test</b><div class="sub">Retake your 2 weakest tests · read your wrong-answer list</div></td><td class="tick"></td></tr>
   </table>
   <div class="foot">
     <b>Revision Test Series ${PRICES.revision}</b> · Mock Mahasangram students upgrade for ${PRICES.upgrade} · Crash Course / Basic / other test series buyers: 20% off when logged in · Premium & Complete Prelims Pack: included free.
@@ -104,7 +104,8 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
 <section class="page">
   <div class="head"><img src="data:image/png;base64,${logo}"><div class="brand">UKPSC <span>Decoded</span></div>
     <div class="right">www.ukpscdecoded.in/mahasangram</div></div>
-  <h1>Mock <span>Mahasangram</span> · Rank Challenge</h1>
+  <h1>All Uttarakhand <span>Rank Challenge</span></h1>
+  <p class="lead"><b>Mock Mahasangram · Are you the next topper?</b></p>
   <p class="lead">6 full-length mocks. Everyone writes the same mock on the same day; at 8 pm the rank list for all of Uttarakhand goes live. <span class="hi">एक ही दिन, एक ही मॉक, रात 8 बजे लाइव रैंक।</span></p>
   <div class="big">${mocks.map((t, i) => { const d = fmt(t.date); return `<div class="bd ${i === 0 ? "free" : ""}"><div class="n">Mock ${i + 1}${i === 0 ? " · FREE" : ""}</div><div class="d">${d.day} ${d.mon}</div><div class="w">${d.wd}</div></div>`; }).join("")}</div>
   <div class="rules">

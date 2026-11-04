@@ -271,8 +271,8 @@ export default async function MyCoursesPage({
           >
             <Trophy className="h-8 w-8 flex-shrink-0 text-saffron-400" />
             <div className="min-w-0 flex-1">
-              <h2 className="font-bold text-white">Mock Mahasangram - Rank Challenge</h2>
-              <p className="text-sm text-graphite-300">Same mock, same day, live rank list at 8 pm. Mock 1 is free.</p>
+              <h2 className="font-bold text-white">All Uttarakhand Rank Challenge</h2>
+              <p className="text-sm text-graphite-300">Are you the next topper? Same mock, same day, live rank list at 8 pm. Mock 1 is free.</p>
             </div>
             <ArrowRight className="h-5 w-5 flex-shrink-0 text-saffron-400" />
           </Link>

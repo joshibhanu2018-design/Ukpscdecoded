@@ -78,18 +78,15 @@ export default async function TestSeriesPage() {
         <FreeSampleTest compact />
 
         {individual.length > 0 && (
-          <details className="group rounded-2xl border border-graphite-800 bg-graphite-900/40 p-4 sm:p-6">
-            <summary className="cursor-pointer list-none text-center font-semibold text-graphite-200 marker:hidden">
-              All other test series ({individual.length}) <span className="text-saffron-400 group-open:hidden">· show</span>
-              <span className="hidden text-saffron-400 group-open:inline">· hide</span>
-            </summary>
+          <section>
+            <h2 className="text-center font-display text-2xl font-bold text-white">Single test series</h2>
             <p className="mt-2 text-center text-sm text-graphite-400">Only if you need one part: all of these are already inside the Premium Test Series.</p>
             <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {individual.map((pkg) => (
                 <CourseCard key={pkg.id} pkg={pkg} owned={ownedIds.has(pkg.id)} />
               ))}
             </div>
-          </details>
+          </section>
         )}
 
         {mentorship.length > 0 && (

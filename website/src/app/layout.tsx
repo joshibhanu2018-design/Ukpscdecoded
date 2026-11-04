@@ -147,7 +147,7 @@ async function getFinalMonthItems(): Promise<FinalMonthItem[]> {
   if (Date.now() > new Date("2026-11-29T23:59:59+05:30").getTime()) return [];
   const show: [string, string][] = [
     ["revision-test-series", "Revision Test Series"],
-    ["mock-mahasangram", "Mock Mahasangram"],
+    ["mock-mahasangram", "Rank Challenge"],
     ["crash-course", "Crash Course"],
     ["complete-prelims-pack", "Complete Prelims Pack"],
     ["premium-test-series", "Premium Test Series"],

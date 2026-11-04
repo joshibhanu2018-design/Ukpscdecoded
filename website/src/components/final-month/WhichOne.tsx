@@ -18,8 +18,8 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
     {
       icon: Trophy,
       want: "I want to test myself with live ranks",
-      name: "Mock Mahasangram",
-      what: "6 full mocks, live Uttarakhand rank · Mock 1 free",
+      name: "All Uttarakhand Rank Challenge",
+      what: "Mock Mahasangram: 6 full mocks, live rank · Mock 1 free",
       price: price("mock-mahasangram"),
       href: "/mahasangram",
       highlight: false,
