@@ -59,8 +59,9 @@ export function formatFoundingLabel(info: PriceInfo): string | null {
   const lastDay = info.foundingEndsAt
     ? new Date(info.foundingEndsAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", timeZone: "Asia/Kolkata" })
     : null;
-  if (!lastDay) return `Founding price ₹${info.foundingPrice}, regular price ₹${info.regularPrice}`;
-  return `Founding price ₹${info.foundingPrice} till ${lastDay}, then ₹${info.regularPrice}`;
+  const inr = (n: number | null) => `₹${(n ?? 0).toLocaleString("en-IN")}`;
+  if (!lastDay) return `⚡ Last-minute sale · one-time offer ${inr(info.foundingPrice)} (regular ${inr(info.regularPrice)})`;
+  return `⚡ Last-minute sale · one-time offer ${inr(info.foundingPrice)} till ${lastDay}, then ${inr(info.regularPrice)}`;
 }
 
 export const MIN_CHARGE_PAISE = 100; // ₹1 floor so Razorpay never sees a ₹0 order

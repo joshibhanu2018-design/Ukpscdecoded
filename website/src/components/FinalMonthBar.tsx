@@ -48,7 +48,7 @@ export default function FinalMonthBar({ items }: { items: FinalMonthItem[] }) {
       <div className="mx-auto flex h-10 max-w-7xl items-center gap-3 px-4">
         <span className="flex flex-shrink-0 items-center gap-1.5 font-semibold text-white">
           <Flame className="h-4 w-4 text-saffron-400" aria-hidden />
-          <span className="hidden sm:inline">Last-month prices</span>
+          <span className="hidden sm:inline">Last-minute sale</span>
           <span className="rounded-full bg-saffron-400/15 px-2 py-0.5 text-[11px] font-bold text-saffron-300">till 29 Nov</span>
         </span>
 
