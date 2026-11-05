@@ -399,6 +399,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   `src/components/WhatsAppButton.tsx`. It opens WhatsApp to the AiSensy number
   +91 83684 57598 with a ready message that names the page the visitor was on;
   chats arrive in AiSensy Live Chat. Plain wa.me link, no AiSensy script.
+- Top menu button renamed "Revision Series" → "Buy Revision Test Series" (Navbar.tsx).
 - Hidden during tests, at checkout and in admin pages. In the installed app it
   sits above the bottom tab bar. To change the number, edit `WHATSAPP_NUMBER`.
 

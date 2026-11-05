@@ -7,7 +7,7 @@ import settings from "@content/settings.json";
 
 const primaryLinks = [
   { href: "/", label: "Home" },
-  { href: "/revision", label: "Revision Series", highlight: true },
+  { href: "/revision", label: "Buy Revision Test Series", highlight: true },
   { href: "/courses", label: "Courses" },
   { href: "/test-series", label: "Test Series" },
   { href: "/buy-book", label: "Books" },
