@@ -30,7 +30,7 @@ const FAQ = [
   },
   {
     q: "What if I miss a date?",
-    a: "Every test stays open till 31 December 2026, so it also helps for Lower PCS. Only the full mocks have a live rank on their day; you still see the rank you would have had if you take one later.",
+    a: "Every test stays open till 15 January 2027, so it also helps for Lower PCS. Only the full mocks have a live rank on their day; you still see the rank you would have had if you take one later.",
   },
   {
     q: "Is there a free test?",
@@ -71,7 +71,7 @@ export default async function RevisionPage() {
             </ul>
           </div>
           <div className="rounded-2xl border border-saffron-400/40 bg-graphite-900 p-5 shadow-2xl shadow-black/40 sm:p-6">
-            <p className="text-sm font-semibold text-graphite-300">22 tests · 2,500 questions · valid till 31 Dec</p>
+            <p className="text-sm font-semibold text-graphite-300">22 tests · 2,500 questions · valid till 15 Jan</p>
             <div className="mt-3">
               <BuyBox
                 state={revision}

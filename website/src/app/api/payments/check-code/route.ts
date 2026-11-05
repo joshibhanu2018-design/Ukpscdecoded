@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       discountAmount: discountPaise,
       message:
         coupon.type === "multi_use_price_lock"
-          ? "Founding price applied"
+          ? "Sale price applied"
           : `${coupon.percent_off}% off applied`,
     });
   }
