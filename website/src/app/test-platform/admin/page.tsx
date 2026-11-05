@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { CalendarClock, Database, Flag, Users, FileSpreadsheet, ListChecks, Loader2, Shield, Ticket, Video } from "lucide-react";
+import { CalendarClock, ClipboardList, Database, Flag, Users, FileSpreadsheet, ListChecks, Loader2, Shield, Ticket, Video } from "lucide-react";
 
 type Admin = { id: string; full_name: string | null; email: string };
 
 const TOOLS = [
   { href: "/test-platform/admin/students", icon: Users, title: "Students", sub: "Everyone who signed up: mobile, call, WhatsApp, CSV" },
+  { href: "/test-platform/admin/registrations", icon: ClipboardList, title: "Free Mock Registrations", sub: "Website popup sign-ups: call, WhatsApp, CSV" },
   { href: "/test-platform/admin/questions", icon: FileSpreadsheet, title: "Import Questions", sub: "Excel/CSV into the question bank" },
   { href: "/test-platform/admin/tests", icon: ListChecks, title: "Create Tests", sub: "Build a test from question IDs" },
   { href: "/test-platform/admin/lessons", icon: Video, title: "Video Lessons", sub: "Crash course videos, refund check" },

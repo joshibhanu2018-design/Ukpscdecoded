@@ -5,7 +5,9 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppTabBar from "@/components/AppTabBar";
-import LeadPopup from "@/components/LeadPopup";
+import FreeMockPopup from "@/components/FreeMockPopup";
+import { getWarmupTest } from "@/lib/liveMock";
+import { parseUtcTimestamp } from "@/lib/timestamps";
 import InstallPrompt from "@/components/InstallPrompt";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import ScrollUnlock from "@/components/ScrollUnlock";
@@ -177,11 +179,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [navbarUser, offer, finalMonth] = await Promise.all([
+  const [navbarUser, offer, finalMonth, warmup] = await Promise.all([
     getNavbarUser(),
     getActiveOffer().catch(() => null),
     getFinalMonthItems().catch(() => []),
+    getWarmupTest().catch(() => null),
   ]);
+  const warmupOpen = !!warmup?.rank_until && Date.now() < parseUtcTimestamp(warmup.rank_until).getTime();
 
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
@@ -210,7 +214,9 @@ export default async function RootLayout({
         <main className="min-h-screen">{children}</main>
         <Footer />
         <AppTabBar loggedIn={!!navbarUser} />
-        <LeadPopup />
+        {!navbarUser && warmup && warmupOpen && (
+          <FreeMockPopup testId={warmup.id} closesAt={warmup.rank_until!} totalQuestions={warmup.question_count || warmup.total_questions} />
+        )}
         <InstallPrompt />
         <ServiceWorkerRegister />
         <ScrollUnlock />
