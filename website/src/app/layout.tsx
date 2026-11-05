@@ -9,6 +9,7 @@ import FreeMockPopup from "@/components/FreeMockPopup";
 import { getWarmupTest } from "@/lib/liveMock";
 import { parseUtcTimestamp } from "@/lib/timestamps";
 import InstallPrompt from "@/components/InstallPrompt";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import ScrollUnlock from "@/components/ScrollUnlock";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
@@ -217,6 +218,7 @@ export default async function RootLayout({
         {!navbarUser && warmup && warmupOpen && (
           <FreeMockPopup testId={warmup.id} closesAt={warmup.rank_until!} totalQuestions={warmup.question_count || warmup.total_questions} />
         )}
+        <WhatsAppButton />
         <InstallPrompt />
         <ServiceWorkerRegister />
         <ScrollUnlock />

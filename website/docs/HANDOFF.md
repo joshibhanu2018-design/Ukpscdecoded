@@ -394,6 +394,14 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - Could not verify outside the bank: first State Finance Commission chairman, the "Surat Kavi" pen name, Man Shah and Tibet.
   fsi.nic.in has a revoked certificate; ISFR 2023 district figures came from a public transcription that matches the bank.
 
+## WhatsApp chat button (5 Nov)
+- Green "Chat with us" button bottom-right on every page (icon only on phones),
+  `src/components/WhatsAppButton.tsx`. It opens WhatsApp to the AiSensy number
+  +91 83684 57598 with a ready message that names the page the visitor was on;
+  chats arrive in AiSensy Live Chat. Plain wa.me link, no AiSensy script.
+- Hidden during tests, at checkout and in admin pages. In the installed app it
+  sits above the bottom tab bar. To change the number, edit `WHATSAPP_NUMBER`.
+
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
       filled). Still to do: run `supabase/fix-phase36-csat-test-series.sql`, then
