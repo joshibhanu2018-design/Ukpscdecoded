@@ -403,6 +403,17 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - Hidden during tests, at checkout and in admin pages. In the installed app it
   sits above the bottom tab bar. To change the number, edit `WHATSAPP_NUMBER`.
 
+## Vercel free-tier usage (6 Nov)
+- Vercel warned at 75% of the free plan's 1M function invocations. The owner
+  chose to stay on the free plan for now (Pro, about $20/month, is the
+  fallback if usage keeps climbing). Don't move hosting/DNS before 29 Nov.
+- Test answers now save every 2 minutes (`AUTOSAVE_INTERVAL_MS` in
+  `src/components/TestRunner.tsx`) instead of 0.8 s after every tap, plus on
+  submit, tab hide/close and leaving the test page. Worst case a crashed
+  phone loses up to 2 minutes of answers.
+- Other big driver: the root layout reads the login cookie, so every page
+  view is a server function call. Making public pages static is post-exam work.
+
 ## Open items (owner)
 - [ ] **CSAT go-live (18 Oct):** loader `--apply` DONE (600 questions, CSAT 1-6
       filled). Still to do: run `supabase/fix-phase36-csat-test-series.sql`, then
