@@ -9,7 +9,11 @@ import { formatQuestionText } from "@/lib/format";
 
 type SaveState = "idle" | "saving" | "saved" | "error";
 
-const AUTOSAVE_DELAY_MS = 800;
+// Answers are kept in the browser and sent to the server at most once every
+// two minutes (plus on submit, tab close/hide and leaving the page). Saving
+// after every tap used ~1 server call per question and ate the Vercel
+// function-invocation quota during live mocks.
+const AUTOSAVE_INTERVAL_MS = 120_000;
 
 const CONFIDENCE_OPTIONS: { key: Confidence; en: string }[] = [
   { key: "sure", en: "Sure" },
@@ -137,27 +141,20 @@ export default function TestRunner({
       if (!res.ok) throw new Error("save failed");
       setSaveState("saved");
     } catch {
-      dirty.current = true; // retried on the next change or the interval below
+      dirty.current = true; // retried by the interval below or on tab hide/close
       setSaveState("error");
     }
   }, [attemptId, submit]);
 
-  // Debounced autosave on every change.
-  useEffect(() => {
-    if (!dirty.current) return;
-    const t = setTimeout(save, AUTOSAVE_DELAY_MS);
-    return () => clearTimeout(t);
-  }, [answers, marked, confidence, save]);
-
-  // Retry failed saves periodically (e.g. flaky mobile data).
+  // Periodic autosave; also retries a failed save (e.g. flaky mobile data).
   useEffect(() => {
     const t = setInterval(() => {
       if (dirty.current) void save();
-    }, 15000);
+    }, AUTOSAVE_INTERVAL_MS);
     return () => clearInterval(t);
   }, [save]);
 
-  // Best-effort flush when the tab is closed/hidden.
+  // Best-effort flush when the tab is closed/hidden or the student leaves the page.
   useEffect(() => {
     const flush = () => {
       if (!dirty.current || submittedRef.current) return;
@@ -177,6 +174,7 @@ export default function TestRunner({
     return () => {
       window.removeEventListener("pagehide", flush);
       document.removeEventListener("visibilitychange", onVisibility);
+      flush(); // in-app navigation away from the test (no pagehide)
     };
   }, [attemptId]);
 
