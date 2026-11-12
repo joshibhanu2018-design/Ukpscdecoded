@@ -67,12 +67,20 @@ export default function CourseCard({
                 Purchased
               </div>
             ) : (
-              <Link
-                href={checkoutHref}
-                className="web-only block min-h-[44px] rounded-lg bg-saffron-400 px-4 py-2.5 text-center text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300"
-              >
-                Buy Now
-              </Link>
+              <div className="flex gap-2">
+                <Link
+                  href={checkoutHref}
+                  className="web-only flex min-h-[44px] flex-1 items-center justify-center rounded-lg bg-saffron-400 px-4 py-2.5 text-center text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300"
+                >
+                  Buy Now
+                </Link>
+                <Link
+                  href={detailHref}
+                  className="flex min-h-[44px] flex-1 items-center justify-center rounded-lg border border-graphite-600 px-3 py-2.5 text-center text-sm font-semibold text-graphite-200 transition-colors hover:border-saffron-400 hover:text-saffron-300"
+                >
+                  Know more
+                </Link>
+              </div>
             )}
             {!owned && <AppPurchaseNote />}
           </div>

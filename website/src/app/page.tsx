@@ -39,7 +39,12 @@ export default async function Home() {
 
   const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
   const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
-  const featuredCourses = allPackages.slice(0, 8);
+  // The final-month products first: they are what most students come for now.
+  const PINNED = ["revision-test-series", "mock-mahasangram", "crash-course"];
+  const featuredCourses = [
+    ...PINNED.flatMap((slug) => allPackages.filter((p) => p.slug === slug)),
+    ...allPackages.filter((p) => !PINNED.includes(p.slug ?? "")),
+  ].slice(0, 8);
 
   return (
     <div>
@@ -53,26 +58,37 @@ export default async function Home() {
         <div className="container-custom mx-auto grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {quickLinks.map((link) => {
             const Icon = getIcon(link.icon);
+            const featured = "featured" in link && link.featured;
+            const buy = "buy" in link ? link.buy : null;
             return (
-              <Link
+              <div
                 key={link.href}
-                href={link.href}
-                className={`group relative flex flex-col rounded-xl border p-4 transition-colors hover:border-saffron-400/50 hover:bg-graphite-800/70 ${
-                  "featured" in link && link.featured ? "border-saffron-400/60 bg-saffron-400/5" : "border-graphite-800 bg-graphite-900"
+                className={`relative flex flex-col rounded-xl border transition-colors hover:border-saffron-400/50 ${
+                  featured ? "border-saffron-400/60 bg-saffron-400/5" : "border-graphite-800 bg-graphite-900"
                 }`}
               >
-                {"featured" in link && link.featured && (
-                  <span className="absolute right-3 top-3 rounded-full bg-saffron-400 px-2 py-0.5 text-[10px] font-bold uppercase text-graphite-950">New</span>
+                <Link href={link.href} className="group flex flex-1 flex-col p-4 pb-3">
+                  {featured && (
+                    <span className="absolute right-3 top-3 rounded-full bg-saffron-400 px-2 py-0.5 text-[10px] font-bold uppercase text-graphite-950">New</span>
+                  )}
+                  <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span className="flex items-center gap-1 font-display text-sm font-semibold text-white sm:text-base">
+                    {link.title}
+                    <ArrowRight className="h-3.5 w-3.5 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
+                  </span>
+                  <span className="mt-1 text-xs leading-snug text-graphite-400">{link.label}</span>
+                </Link>
+                {buy && (
+                  <Link
+                    href={`/checkout/${buy}`}
+                    className="web-only mx-4 mb-4 flex min-h-[40px] items-center justify-center rounded-lg bg-saffron-400 px-3 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
+                  >
+                    Buy Now
+                  </Link>
                 )}
-                <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="flex items-center gap-1 font-display text-sm font-semibold text-white sm:text-base">
-                  {link.title}
-                  <ArrowRight className="h-3.5 w-3.5 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
-                </span>
-                <span className="mt-1 text-xs leading-snug text-graphite-400">{link.label}</span>
-              </Link>
+              </div>
             );
           })}
         </div>

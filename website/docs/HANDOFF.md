@@ -11,6 +11,12 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Buy Now everywhere (12 Nov):** every product tile and card has a
+  Buy Now button (straight to `/checkout/<slug>`) next to Know more: home
+  quick-link tiles (`buy` slug in `content/home.json`), home "Our Courses"
+  cards (Revision, Mahasangram, Crash Course pinned first), the "Which one
+  is for me?" tiles, and the Revision step on `/mahasangram`. Buy buttons
+  stay `web-only` (hidden in the Android app, Play policy).
 - **Store order (27 Sep):** Courses and Test Series pages lead with the
   Complete Prelims Pack ("Best Buy"), then Premium Test Series
   ("Recommended — includes all test series"), then the individual products.
