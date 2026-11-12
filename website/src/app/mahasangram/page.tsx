@@ -174,12 +174,20 @@ export default async function MahasangramPage() {
                   : `${revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹999"}, or buy Mahasangram now and upgrade later for ₹500.`}
               </span>
             </p>
-            <Link
-              href="/revision"
-              className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-saffron-400 px-5 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
-            >
-              See the Revision Test Series <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link
+                href="/checkout/revision-test-series"
+                className="web-only inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-saffron-400 px-5 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
+              >
+                {maha.owned ? "Upgrade now" : "Buy Revision Test Series"} <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/revision"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-graphite-600 px-5 text-sm font-semibold text-graphite-200 hover:border-saffron-400 hover:text-saffron-300"
+              >
+                Know more
+              </Link>
+            </div>
           </div>
         )}
       </div>

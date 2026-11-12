@@ -19,9 +19,10 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
       icon: Trophy,
       want: "I want to test myself with live ranks",
       name: "All Uttarakhand Rank Challenge",
-      what: "Mock Mahasangram: 6 full mocks, live rank · free Warm-up Mock",
+      what: "Mock Mahasangram: 6 full mocks, all-Uttarakhand rank at 8 pm",
       price: price("mock-mahasangram"),
       href: "/mahasangram",
+      slug: "mock-mahasangram",
       highlight: false,
     },
     {
@@ -31,6 +32,7 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
       what: "6 mocks + 800 UK GK + 600 CA questions + 2 CSAT",
       price: price("revision-test-series"),
       href: "/revision",
+      slug: "revision-test-series",
       highlight: true,
     },
     {
@@ -40,6 +42,7 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
       what: "Crash Course + Premium Test Series + Revision Series",
       price: price("complete-prelims-pack"),
       href: "/courses/complete-prelims-pack",
+      slug: "complete-prelims-pack",
       highlight: false,
     },
   ];
@@ -52,10 +55,9 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
       <p className="mt-1 text-center text-sm text-graphite-300">Exam on 29 Nov. Pick the one line that sounds like you.</p>
       <div className="mt-5 grid gap-3 md:grid-cols-3">
         {choices.map((c) => (
-          <Link
+          <div
             key={c.name}
-            href={c.href}
-            className={`group relative flex flex-col rounded-xl border p-4 transition-colors ${
+            className={`relative flex flex-col rounded-xl border p-4 transition-colors ${
               c.highlight ? "border-saffron-400 bg-saffron-400/10" : "border-graphite-700 bg-graphite-950 hover:border-saffron-400/60"
             }`}
           >
@@ -64,16 +66,29 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
                 Most popular
               </span>
             )}
-            <p className="text-sm italic text-graphite-300">&ldquo;{c.want}&rdquo;</p>
-            <p className="mt-2 flex items-center gap-2 font-display text-lg font-bold text-white">
-              <c.icon className="h-5 w-5 text-saffron-400" /> {c.name}
-            </p>
-            <p className="mt-1 text-sm text-graphite-300">{c.what}</p>
-            <p className="mt-3 flex items-center justify-between">
-              <span className="web-only font-display text-xl font-bold text-saffron-300">{c.price}</span>
-              <ArrowRight className="h-5 w-5 text-saffron-400 transition-transform group-hover:translate-x-1" />
-            </p>
-          </Link>
+            <Link href={c.href} className="group flex flex-1 flex-col">
+              <p className="text-sm italic text-graphite-300">&ldquo;{c.want}&rdquo;</p>
+              <p className="mt-2 flex items-center gap-2 font-display text-lg font-bold text-white">
+                <c.icon className="h-5 w-5 text-saffron-400" /> {c.name}
+              </p>
+              <p className="mt-1 flex-1 text-sm text-graphite-300">{c.what}</p>
+              <span className="web-only mt-3 font-display text-xl font-bold text-saffron-300">{c.price}</span>
+            </Link>
+            <div className="mt-3 flex gap-2">
+              <Link
+                href={`/checkout/${c.slug}`}
+                className="web-only flex min-h-[44px] flex-1 items-center justify-center rounded-lg bg-saffron-400 px-3 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
+              >
+                Buy Now
+              </Link>
+              <Link
+                href={c.href}
+                className="flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-lg border border-graphite-600 px-3 text-sm font-semibold text-graphite-200 hover:border-saffron-400 hover:text-saffron-300"
+              >
+                Know more <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
         ))}
       </div>
     </section>

@@ -30,26 +30,30 @@
       "label": "Final month: 6 full mocks + 800 UK GK + 600 CA questions",
       "icon": "rocket",
       "href": "/revision",
-      "featured": true
+      "featured": true,
+      "buy": "revision-test-series"
     },
     {
       "title": "All Uttarakhand Rank Challenge",
-      "label": "Are you the next topper? Free Warm-up Mock open now",
+      "label": "6 live mocks, all-Uttarakhand rank at 8 pm",
       "icon": "trophy",
       "href": "/mahasangram",
-      "featured": true
+      "featured": true,
+      "buy": "mock-mahasangram"
     },
     {
       "title": "Crash Course",
       "label": "50 video lectures + live sessions + PDF notes",
       "icon": "video",
-      "href": "/courses/crash-course"
+      "href": "/courses/crash-course",
+      "buy": "crash-course"
     },
     {
       "title": "Test Series",
       "label": "62 tests: mocks, sectional, Uttarakhand, CA, CSAT",
       "icon": "chart",
-      "href": "/courses/premium-test-series"
+      "href": "/courses/premium-test-series",
+      "buy": "premium-test-series"
     },
     {
       "title": "Book — English",
