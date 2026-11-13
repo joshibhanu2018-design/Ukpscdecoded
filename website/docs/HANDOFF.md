@@ -17,6 +17,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   cards (Revision, Mahasangram, Crash Course pinned first), the "Which one
   is for me?" tiles, and the Revision step on `/mahasangram`. Buy buttons
   stay `web-only` (hidden in the Android app, Play policy).
+- **Video order (13 Nov):** course lesson lists show "Video N" lessons in
+  number order (1, 2, 3 …) whatever order they were uploaded in
+  (`src/lib/lesson-order.ts`, used by `getPackageLessons` and the admin
+  Lessons page). Lessons without "Video N" in the title keep their admin
+  position. No database change.
 - **Store order (27 Sep):** Courses and Test Series pages lead with the
   Complete Prelims Pack ("Best Buy"), then Premium Test Series
   ("Recommended — includes all test series"), then the individual products.

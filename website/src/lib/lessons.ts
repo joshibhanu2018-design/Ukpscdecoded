@@ -2,6 +2,9 @@ import { createHash } from "crypto";
 import { supabaseAdmin } from "./supabase";
 import { getActivePackages, getOwnedPackageIds, getPackageBySlug, getPackageIncludes, getUserActiveEnrollments, type Package } from "./packages";
 import { planVideoNumbers, SUBSET_COURSES } from "./course-subsets";
+import { lessonVideoNumber, sortLessonsByVideoNumber } from "./lesson-order";
+
+export { lessonVideoNumber };
 
 export type Lesson = {
   id: string;
@@ -94,12 +97,6 @@ export async function lessonThumbnailUrl(lesson: Pick<Lesson, "bunny_video_id" |
   return yt && /^[\w-]{6,20}$/.test(yt) ? `https://i.ytimg.com/vi/${yt}/hqdefault.jpg` : null;
 }
 
-/** "Video 12: …" → 12: links an uploaded lesson to its slot in the crash course plan. */
-export function lessonVideoNumber(title: string): number | null {
-  const m = title.match(/\bvideo\s*(\d{1,3})\b/i);
-  return m ? Number(m[1]) : null;
-}
-
 /** Whether a student owns the package (directly or through a bundle). Admins always can. */
 export async function canAccessPackage(user: { id: string; role: string }, packageId: string): Promise<boolean> {
   if (user.role === "admin") return true;
@@ -137,7 +134,7 @@ export function isLessonReleased(lesson: Pick<Lesson, "release_at">): boolean {
   return !lesson.release_at || new Date(lesson.release_at).getTime() <= Date.now();
 }
 
-/** Active lessons of a package in display order (released and upcoming). */
+/** Active lessons of a package in display order (released and upcoming): "Video N" lessons by number. */
 export async function getPackageLessons(packageId: string): Promise<Lesson[]> {
   const { data } = await supabaseAdmin()
     .from("lessons")
@@ -146,7 +143,7 @@ export async function getPackageLessons(packageId: string): Promise<Lesson[]> {
     .eq("is_active", true)
     .order("sort_order")
     .order("created_at");
-  return (data ?? []) as Lesson[];
+  return sortLessonsByVideoNumber((data ?? []) as Lesson[]);
 }
 
 /** Lesson ids this student has opened at least once. */

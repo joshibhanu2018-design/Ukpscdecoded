@@ -4,12 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, CheckCircle2, FileUp, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { SUBSET_COURSES } from "@/lib/course-subsets";
+import { lessonVideoNumber as videoNumber, sortLessonsByVideoNumber } from "@/lib/lesson-order";
 import crashPlan from "@content/crashCoursePlan.json";
-
-const videoNumber = (title: string): number | null => {
-  const m = title.match(/\bvideo\s*(\d{1,3})\b/i);
-  return m ? Number(m[1]) : null;
-};
 
 type VideoPackage = { id: string; package_name: string; slug: string | null };
 type AdminLesson = {
@@ -84,7 +80,8 @@ export default function AdminLessonsPage() {
     );
   }
 
-  const courseLessons = lessons.filter((l) => l.package_id === packageId);
+  // Same order students see: "Video N" lessons always by number.
+  const courseLessons = sortLessonsByVideoNumber(lessons.filter((l) => l.package_id === packageId));
   const pkg = packages.find((p) => p.id === packageId);
 
   // Crash course plan videos (1-50) that have no lesson yet, matched by "Video N" in the title.
@@ -367,6 +364,9 @@ export default function AdminLessonsPage() {
                   </a>
                 )}
               </div>
+              <p className="mb-3 text-xs text-graphite-400">
+                Lessons with &quot;Video N&quot; in the title always show in number order; the arrows move the other lessons.
+              </p>
               {courseLessons.length === 0 ? (
                 <p className="rounded-2xl border border-dashed border-graphite-700 p-6 text-center text-sm text-graphite-300">
                   No lessons yet.
