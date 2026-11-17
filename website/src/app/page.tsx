@@ -10,8 +10,11 @@ import FreeSampleTest from "@/components/FreeSampleTest";
 import WhichOne from "@/components/final-month/WhichOne";
 import HomeToppers from "@/components/HomeToppers";
 import { getActiveBanners } from "@/lib/banners";
-import { getActivePackages, isListed } from "@/lib/packages";
-import { LOWER_COMPLETE_SLUG } from "@/lib/catalog";
+import { formatINR, getActivePackages, isListed, type ExamTab } from "@/lib/packages";
+import { getPriceInfo } from "@/lib/pricing";
+import { LOWER_COMPLETE_SLUG, examProducts, productHref } from "@/lib/catalog";
+import { courseHeader } from "@/lib/course-display";
+import QuickLinkMenu, { type QuickMenuItem } from "@/components/QuickLinkMenu";
 import { EXAM_BADGES } from "@/components/ExamCatalog";
 import LowerPcsHero from "@/components/LowerPcsHero";
 import quiz from "@content/quiz.json";
@@ -43,6 +46,14 @@ export default async function Home() {
     ...listed.filter((p) => !PINNED.includes(p.slug ?? "")),
   ].slice(0, 8);
   const lowerComplete = listed.find((p) => p.slug === LOWER_COMPLETE_SLUG);
+
+  // The "Choose a course" list on each exam card: that page's products, in store order.
+  const menuFor = (tab: ExamTab): QuickMenuItem[] =>
+    examProducts(allPackages, tab).map((p) => ({
+      href: productHref(p),
+      title: courseHeader(p).title,
+      price: formatINR(getPriceInfo(p).amount),
+    }));
 
   const showChooser = Date.now() <= new Date("2026-11-29T23:59:59+05:30").getTime();
 
@@ -76,6 +87,10 @@ export default async function Home() {
             const featured = "featured" in link && link.featured;
             const buy = "buy" in link ? link.buy : null;
             const labelHi = "labelHi" in link ? link.labelHi : null;
+            const cover = "cover" in link ? link.cover : null;
+            const buyLink = "buyLink" in link ? link.buyLink : buy ? `/checkout/${buy}` : null;
+            const price = "price" in link ? link.price : null;
+            const menu = "menu" in link ? menuFor(link.menu as ExamTab) : [];
             return (
               <div
                 key={link.href}
@@ -83,29 +98,55 @@ export default async function Home() {
                   featured ? "border-saffron-400/60 bg-saffron-400/5" : "border-graphite-800 bg-graphite-900"
                 }`}
               >
-                <Link href={link.href} className="group flex flex-1 flex-col p-4 pb-3">
+                <Link href={link.href} className={`group flex flex-1 p-4 pb-3 ${cover ? "flex-col gap-3 sm:flex-row sm:items-start" : "flex-col"}`}>
                   {featured && (
                     <span className="absolute right-3 top-3 rounded-full bg-saffron-400 px-2 py-0.5 text-[10px] font-bold uppercase text-graphite-950">New</span>
                   )}
-                  <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="flex items-center gap-1 font-display text-sm font-semibold text-white sm:text-base">
-                    {link.title}
-                    <ArrowRight className="h-3.5 w-3.5 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
-                  </span>
-                  <span className="mt-1 text-[13px] leading-snug text-graphite-300">
-                    {labelHi ? <T en={link.label} hi={labelHi} /> : link.label}
+                  {cover ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- small static cover, already sized
+                    <img
+                      src={cover}
+                      alt={`${link.title} cover`}
+                      width={50}
+                      height={64}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-16 w-[50px] flex-shrink-0 rounded-md object-cover shadow-md shadow-black/30 ring-1 ring-black/10 transition-transform group-hover:-translate-y-0.5"
+                    />
+                  ) : (
+                    <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                  )}
+                  <span className="min-w-0">
+                    <span className={`flex items-center gap-1 font-display text-sm font-semibold text-white ${cover ? "" : "sm:text-base"}`}>
+                      {link.title}
+                      <ArrowRight className="h-3.5 w-3.5 flex-shrink-0 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
+                    </span>
+                    <span className="mt-1 block text-[13px] leading-snug text-graphite-300">
+                      {labelHi ? <T en={link.label} hi={labelHi} /> : link.label}
+                    </span>
                   </span>
                 </Link>
-                {buy && (
+                {buyLink && (
                   <Link
-                    href={`/checkout/${buy}`}
-                    className="web-only mx-4 mb-4 flex min-h-[40px] items-center justify-center rounded-lg bg-saffron-400 px-3 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
+                    href={buyLink}
+                    className={`web-only mx-3 flex min-h-[40px] items-center justify-center gap-1.5 whitespace-nowrap rounded-lg bg-saffron-400 px-2 text-sm font-bold text-[#1c1917] hover:bg-saffron-300 sm:mx-4 ${
+                      menu.length > 0 ? "mb-2" : "mb-4"
+                    }`}
                   >
-                    <T en="Buy Now" hi="अभी खरीदें" />
+                    {price ? (
+                      <>
+                        <span className="sm:hidden"><T en="Buy" hi="खरीदें" /></span>
+                        <span className="hidden sm:inline"><T en="Buy Now" hi="अभी खरीदें" /></span>
+                        <span className="font-semibold opacity-80">· {price}</span>
+                      </>
+                    ) : (
+                      <T en="Buy Now" hi="अभी खरीदें" />
+                    )}
                   </Link>
                 )}
+                {menu.length > 0 && <QuickLinkMenu items={menu} primary={!buyLink} />}
               </div>
             );
           })}

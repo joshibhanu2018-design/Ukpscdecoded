@@ -51,6 +51,10 @@ collections:
                 name: "icon"
                 widget: "select"
                 options: ["book", "play", "video", "newspaper", "brain", "chart", "users", "file"]
+              - { label: "Cover image (books)", name: "cover", widget: "string", required: false, hint: "e.g. /covers/uttarakhand-decoded-en.webp — shown instead of the icon" }
+              - { label: "Buy Now link", name: "buyLink", widget: "string", required: false, hint: "e.g. /buy-book/order?lang=en" }
+              - { label: "Price on the Buy Now button", name: "price", widget: "string", required: false, hint: "e.g. ₹499" }
+              - { label: "Course menu (exam tab)", name: "menu", widget: "select", required: false, options: ["lower", "tri", "upper", "individual"], hint: "Adds a 'Choose a course' dropdown with that exam page's courses" }
 
           - label: "Features Section"
             name: "features"

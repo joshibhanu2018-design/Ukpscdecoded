@@ -13,7 +13,7 @@ export type NavMenus = { lower: MenuItem[]; tri: MenuItem[]; upper: MenuItem[]; 
 
 type NavLink = { href: string; label: string; hi: string; highlight?: boolean; children?: MenuItem[] };
 
-/** Top menu: one entry per exam (Lower PCS & RO/ARO, TRI, Upper PCS) + Subject Packs, each opening its products. */
+/** Top menu: one entry per exam (Lower PCS & RO/ARO, TRI, Upper PCS) + Solo Packs, each opening its products. */
 function buildLinks(menus: NavMenus): NavLink[] {
   const exam = (href: string, label: string, hi: string, all: string, allHi: string, items: MenuItem[]): NavLink =>
     items.length ? { href, label, hi, children: [{ href, label: all, hi: allHi }, ...items] } : { href, label, hi };
@@ -22,7 +22,7 @@ function buildLinks(menus: NavMenus): NavLink[] {
     exam("/lower-pcs", "Lower PCS & RO/ARO", "लोअर PCS और RO/ARO", "All Lower PCS & RO/ARO courses", "सभी लोअर PCS और RO/ARO कोर्स", menus.lower),
     exam("/tri", "TRI", "TRI", "All TRI courses", "सभी TRI कोर्स", menus.tri),
     exam("/upper-pcs", "Upper PCS", "अपर PCS", "All Upper PCS courses", "सभी अपर PCS कोर्स", menus.upper),
-    exam("/subject-packs", "Subject Packs", "विषय पैक", "All subject packs", "सभी विषय पैक", menus.individual),
+    exam("/solo-packs", "Solo Packs", "सोलो पैक", "All solo packs", "सभी सोलो पैक", menus.individual),
     {
       href: "/buy-book",
       label: "Books",
