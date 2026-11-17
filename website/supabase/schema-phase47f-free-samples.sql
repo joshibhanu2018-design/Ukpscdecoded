@@ -10,7 +10,7 @@
 -- 2. Tests: the first ready topic test of the Uttarakhand Intensive Test Series and
 --    the first ready test of the Current Affairs Test Series. Never a Revision test
 --    (those belong only to the Revision Test Series). The course page shows "Free · Try now".
--- (The Lower PCS 2025 actual paper is already free: lower-pcs-2025-paper.sql.)
+-- (The free Lower PCS mock is set up by lower-pcs-free-mock.sql.)
 
 -- ========== 1. Free sample video ==========
 update lessons set is_free = true, updated_at = now()

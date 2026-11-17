@@ -16,7 +16,7 @@ import {
   examTab,
   isOnSale,
 } from "@/lib/packages";
-import { EXAM_PAGES, PAPER_2025_TEST_ID } from "@/lib/catalog";
+import { EXAM_PAGES, FREE_MOCK_TEST_ID } from "@/lib/catalog";
 import { followsCrashCoursePlan } from "@/lib/course-subsets";
 import CourseOutline from "@/components/CourseOutline";
 import CourseHero from "@/components/CourseHero";
@@ -224,10 +224,10 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </section>
           )}
 
-          {/* Lower PCS / TRI / Solo Packs: the free 2025 actual paper (every course, it shows the platform).
+          {/* Lower PCS / TRI / Solo Packs: the free Lower PCS mock (every course, it shows the platform).
               Others: the free mock advertises the test series, so not on a video-only course page. */}
           {tab === "lower" || tab === "tri" || tab === "individual" ? (
-            <FreeSampleTest compact testId={PAPER_2025_TEST_ID} title="Free: Lower PCS 2025 actual paper (150 Q, 2 h)" />
+            <FreeSampleTest compact testId={FREE_MOCK_TEST_ID} title="Free Lower PCS Mock Test (150 Q, 2 h)" />
           ) : (
             pkg.package_type !== "video_course" && <FreeSampleTest compact />
           )}

@@ -1,7 +1,7 @@
 import { formatQuestionText } from "@/lib/format";
 
 // A line "[[img:/path.png]]" in a question shows that figure (e.g. the
-// previous-year papers' reasoning figures in public/pyq/). Only site-relative
+// reasoning figures in public/mock-figures/). Only site-relative
 // paths are allowed, so a question can never load an outside image.
 const FIGURE = /^\[\[img:(\/[A-Za-z0-9/_.-]+\.(?:png|webp|jpe?g))\]\]$/;
 

@@ -13,7 +13,7 @@ export default async function FreeSampleTest({
   title = "Free Sample Mock",
 }: {
   compact?: boolean;
-  /** Another free test instead, e.g. the Lower PCS 2025 actual paper on Lower PCS course pages. */
+  /** Another free test instead, e.g. the free Lower PCS mock on Lower PCS course pages. */
   testId?: string;
   title?: string;
 }) {
