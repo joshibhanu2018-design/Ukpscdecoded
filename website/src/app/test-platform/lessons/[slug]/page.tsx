@@ -170,7 +170,7 @@ export default async function LessonsPage({
 
         {lessons.length === 0 ? (
           <p className="mt-8 rounded-2xl border border-dashed border-graphite-700 p-6 text-center text-graphite-300">
-            {classStart ? `Classes start ${classStart}. ` : ""}Lessons will appear here as they are uploaded.
+            Lessons will appear here as they are uploaded.
           </p>
         ) : (
           <>
@@ -196,7 +196,7 @@ export default async function LessonsPage({
                       {l.title}
                     </span>
                     {!isLessonReleased(l) && l.release_at ? (
-                      <span className="text-xs text-graphite-300">Available {formatDateLabel(l.release_at)}</span>
+                      <span className="text-xs text-graphite-300">Coming soon</span>
                     ) : !canOpen(l) ? (
                       <span className="text-xs text-graphite-300">For enrolled students</span>
                     ) : l.is_free && sample ? (

@@ -359,7 +359,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                                     )}
                                     {releaseLabel && (
                                       <span className={isReleased ? "text-success-400" : "text-saffron-300"}>
-                                        {isReleased ? "Live" : `From ${releaseLabel}`}
+                                        {isReleased ? "Live" : "Coming soon"}
                                       </span>
                                     )}
                                   </div>
