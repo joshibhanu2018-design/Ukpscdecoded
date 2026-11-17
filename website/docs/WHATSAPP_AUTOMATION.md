@@ -77,6 +77,30 @@ AiSensy → Live Chat → Settings → Auto reply / Keyword reply. Suggested rep
 
 Check each price against the website before saving the replies.
 
+## Login with a code on WhatsApp (optional, built 17 Nov)
+
+Students can log in with their mobile number and a 6-digit code on WhatsApp
+instead of email. It stays off until you do these three steps. Do them
+outside a mock window, and test with your own number first.
+
+1. In AiSensy, create a template with category **Authentication**, name
+   `login_code`. Choose the "Copy code" button. WhatsApp writes the text
+   itself ("123456 is your verification code."). Submit and wait for approval.
+2. Create an **API campaign** on that template, name it `login_code`, set it Live.
+3. In Vercel > Settings > Environment Variables add
+   `AISENSY_CAMPAIGN_OTP` = `login_code` (the API key from Step 3 above must
+   already be there), then Redeploy.
+
+After that the login page shows "WhatsApp" first and "Email" second.
+- A student who already has an account must type the mobile number saved on
+  that account; otherwise the site offers to make a new account. If that
+  happens they should use the Email tab.
+- To switch it off again, delete `AISENSY_CAMPAIGN_OTP` in Vercel and redeploy.
+- Each code is a paid WhatsApp authentication message (a small charge per
+  message, see your AiSensy wallet).
+- This has not been tested against a real AiSensy account. If codes do not
+  arrive, check AiSensy > Campaigns > API campaign logs for the reason.
+
 ## Not built yet
 - Login with a WhatsApp code instead of email (planned after 25 Nov).
 - Reminder for an unfinished checkout, and the 8 pm "your rank is out" message

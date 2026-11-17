@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
-import { cookies } from "next/headers";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Navbar, { type NavMenus } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppTabBar from "@/components/AppTabBar";
 import FreeMockPopup from "@/components/FreeMockPopup";
@@ -13,11 +12,10 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import ScrollUnlock from "@/components/ScrollUnlock";
 import Clarity from "@/components/Clarity";
-import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { getActiveOffer } from "@/lib/coupons";
 import OfferBar from "@/components/OfferBar";
 import FinalMonthBar, { type FinalMonthItem } from "@/components/FinalMonthBar";
-import { getActivePackages, formatINR } from "@/lib/packages";
+import { getActivePackages, formatINR, type Package } from "@/lib/packages";
 import { getPriceInfo } from "@/lib/pricing";
 
 const siteUrl = "https://www.ukpscdecoded.in";
@@ -146,8 +144,18 @@ const poppins = Poppins({
   display: "swap",
 });
 
+/**
+ * The layout reads no cookies, so every public page can be built once and
+ * served from Vercel's cache to all visitors (re-built in the background at
+ * most every 5 minutes, which is how price or banner changes appear).
+ * Who is logged in is worked out in the browser (src/lib/session-client.ts).
+ * Pages that read the login cookie themselves (student area, checkout,
+ * /revision, /mahasangram, /courses/[slug]) still run on every visit.
+ */
+export const revalidate = 300;
+
 /** Prices for the last-month bar: the cut prices running now, with what each sold for before. */
-async function getFinalMonthItems(): Promise<FinalMonthItem[]> {
+function getFinalMonthItems(pkgs: Package[]): FinalMonthItem[] {
   if (Date.now() > new Date("2026-11-29T23:59:59+05:30").getTime()) return [];
   const show: [string, string][] = [
     ["revision-test-series", "Revision Test Series"],
@@ -158,7 +166,6 @@ async function getFinalMonthItems(): Promise<FinalMonthItem[]> {
     ["uttarakhand-crash-course", "Uttarakhand Crash Course"],
     ["national-crash-course", "National Crash Course"],
   ];
-  const pkgs = await getActivePackages();
   const items = show.flatMap(([slug, label]) => {
     const p = pkgs.find((x) => x.slug === slug);
     if (!p) return [];
@@ -170,10 +177,22 @@ async function getFinalMonthItems(): Promise<FinalMonthItem[]> {
   return items.some((i) => i.was) ? items : [];
 }
 
-async function getNavbarUser() {
-  const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
-  const user = await getUserFromSession(token);
-  return user ? { fullName: user.full_name } : null;
+/** Products listed under Courses and Test Series in the top menu, in the store's own order. */
+function getNavMenus(pkgs: Package[]): NavMenus {
+  const item = (p: Package) => ({
+    href: p.slug === "revision-test-series" ? "/revision" : p.slug === "mock-mahasangram" ? "/mahasangram" : `/courses/${p.slug}`,
+    label: p.slug === "mock-mahasangram" ? "All Uttarakhand Rank Challenge" : p.package_name,
+  });
+  const listed = pkgs.filter((p) => p.slug);
+  const tests = listed.filter((p) => p.package_type === "test_series");
+  const finalMonth = ["revision-test-series", "mock-mahasangram"];
+  return {
+    courses: listed.filter((p) => p.package_type !== "test_series").map(item),
+    tests: [
+      ...finalMonth.flatMap((slug) => tests.filter((p) => p.slug === slug)),
+      ...tests.filter((p) => !finalMonth.includes(p.slug ?? "")),
+    ].map(item),
+  };
 }
 
 export default async function RootLayout({
@@ -181,12 +200,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [navbarUser, offer, finalMonth, warmup] = await Promise.all([
-    getNavbarUser(),
+  const [packages, offer, warmup] = await Promise.all([
+    getActivePackages().catch(() => [] as Package[]),
     getActiveOffer().catch(() => null),
-    getFinalMonthItems().catch(() => []),
     getWarmupTest().catch(() => null),
   ]);
+  const finalMonth = getFinalMonthItems(packages);
   const warmupOpen = !!warmup?.rank_until && Date.now() < parseUtcTimestamp(warmup.rank_until).getTime();
 
   return (
@@ -219,11 +238,11 @@ export default async function RootLayout({
       <body>
         {offer && <OfferBar code={offer.code} percentOff={offer.percent_off} expiresAt={offer.expires_at} />}
         {!offer && finalMonth.length > 0 && <FinalMonthBar items={finalMonth} />}
-        <Navbar user={navbarUser} />
+        <Navbar menus={getNavMenus(packages)} />
         <main className="min-h-screen">{children}</main>
         <Footer />
-        <AppTabBar loggedIn={!!navbarUser} />
-        {!navbarUser && warmup && warmupOpen && (
+        <AppTabBar />
+        {warmup && warmupOpen && (
           <FreeMockPopup testId={warmup.id} closesAt={warmup.rank_until!} totalQuestions={warmup.question_count || warmup.total_questions} />
         )}
         <WhatsAppButton />

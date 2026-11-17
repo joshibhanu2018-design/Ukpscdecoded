@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLoggedIn } from "@/lib/session-client";
 import { BookOpen, ClipboardList, Home, Rocket, UserRound } from "lucide-react";
 
 // While a test is running the bar would cover the question navigator and submit button.
@@ -12,7 +13,8 @@ const HIDDEN_PREFIXES = ["/test-platform/attempts", "/test-platform/tests/", "/c
  * app (CSS display-mode: standalone). In a normal browser it never renders
  * visibly, so the website is unchanged.
  */
-export default function AppTabBar({ loggedIn }: { loggedIn: boolean }) {
+export default function AppTabBar() {
+  const loggedIn = useLoggedIn();
   const pathname = usePathname() ?? "/";
   if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 

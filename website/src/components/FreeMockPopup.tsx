@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { CheckCircle2, Loader2, Trophy, X } from "lucide-react";
 import { UK_DISTRICTS } from "@/lib/districts";
 import { parseUtcTimestamp } from "@/lib/timestamps";
+import { useClientSession } from "@/lib/session-client";
 
 const STORAGE_KEY = "ukd_free_mock_popup";
 const SHOW_AFTER_MS = 12_000;
@@ -44,7 +45,9 @@ function remember(value: string) {
 export default function FreeMockPopup({ testId, closesAt, totalQuestions }: { testId: string; closesAt: string; totalQuestions: number }) {
   const router = useRouter();
   const pathname = usePathname();
-  const suppressed = SUPPRESSED_PREFIXES.some((p) => pathname?.startsWith(p));
+  // Only for visitors known to be logged out (the page itself is the same for everyone).
+  const session = useClientSession();
+  const suppressed = SUPPRESSED_PREFIXES.some((p) => pathname?.startsWith(p)) || !session || session.loggedIn;
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ full_name: "", phone: "", email: "", district: "" });
   const [busy, setBusy] = useState(false);

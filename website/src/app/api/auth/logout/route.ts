@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { revokeSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import { SESSION_HINT_COOKIE } from "@/lib/session-hint";
 
 // Revokes this device's session row (frees a slot under the device limit), then clears the cookie.
 export async function POST() {
@@ -11,5 +12,6 @@ export async function POST() {
   }
   const response = NextResponse.json({ ok: true });
   response.cookies.set(SESSION_COOKIE_NAME, "", { path: "/", maxAge: 0 });
+  response.cookies.set(SESSION_HINT_COOKIE, "", { path: "/", maxAge: 0 });
   return response;
 }

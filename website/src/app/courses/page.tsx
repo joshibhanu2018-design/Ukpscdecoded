@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 // Courses tab: the best-buy bundle first, then the crash courses, then
 // mentorship. Test series alone live on /test-series.
 export default async function CoursesPage() {
-  const { mentorship, crashCourses, bundles, ownedIds, allPackages } = await getCatalog();
+  const { mentorship, crashCourses, bundles, allPackages } = await getCatalog();
   const pack = bundles.find((p) => p.slug === BEST_BUY_SLUG);
 
   return (
@@ -35,7 +35,6 @@ export default async function CoursesPage() {
         {pack && (
           <PageHeroBanner
             pkg={pack}
-            owned={ownedIds.has(pack.id)}
             desktop="/banners/complete-pack-desktop.webp"
             mobile="/banners/complete-pack-mobile.webp"
             alt="Complete Prelims Pack: Test Series + Crash Course + PDF notes"
@@ -53,7 +52,6 @@ export default async function CoursesPage() {
                   size="lg"
                   wide
                   badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy — our recommended pack" : undefined}
-                  owned={ownedIds.has(pkg.id)}
                 />
               ))}
             </div>
@@ -65,7 +63,7 @@ export default async function CoursesPage() {
             <SectionTitle title="Crash Courses" sub="Video lectures + live sessions + PDF notes. The full Crash Course already includes every Uttarakhand video." />
             <div className="grid grid-cols-1 gap-5">
               {crashCourses.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} wide owned={ownedIds.has(pkg.id)} />
+                <CourseCard key={pkg.id} pkg={pkg} wide />
               ))}
             </div>
           </section>
@@ -76,7 +74,7 @@ export default async function CoursesPage() {
             <SectionTitle title="Mentorship Program" sub="Weekly 1-on-1 guidance with Bhanu Joshi — everything included" />
             <div className="grid grid-cols-1 gap-5">
               {mentorship.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} wide owned={ownedIds.has(pkg.id)} />
+                <CourseCard key={pkg.id} pkg={pkg} wide />
               ))}
             </div>
           </section>

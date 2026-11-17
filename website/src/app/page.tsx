@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import { BookOpen, ArrowRight, Star, BookMarked, Video, Send } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { getAllArticles } from "@/lib/articles";
@@ -11,8 +10,7 @@ import FreeSampleTest from "@/components/FreeSampleTest";
 import WhichOne from "@/components/final-month/WhichOne";
 import HomeToppers from "@/components/HomeToppers";
 import { getActiveBanners } from "@/lib/banners";
-import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
-import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import { getActivePackages } from "@/lib/packages";
 import { BEST_BUY_SLUG } from "@/lib/catalog";
 import quiz from "@content/quiz.json";
 import home from "@content/home.json";
@@ -25,14 +23,9 @@ export const metadata: Metadata = {
 export default async function Home() {
   const { hero, quickLinks, features, bookPreview, testimonials, finalCta } = home;
 
-  const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
-  const user = await getUserFromSession(token);
-
-  const [banners, allPackages, includes] = await Promise.all([
-    getActiveBanners(),
-    getActivePackages(),
-    getPackageIncludes(),
-  ]);
+  // No login cookie is read here: the page is the same for everyone and is
+  // served from cache. "Purchased" on the cards is filled in by the browser.
+  const [banners, allPackages] = await Promise.all([getActiveBanners(), getActivePackages()]);
   const bannerById = new Map(allPackages.map((p) => [p.id, p]));
   const carouselItems = banners.flatMap((b) => {
     const slug = b.package_id ? bannerById.get(b.package_id)?.slug : null;
@@ -40,8 +33,6 @@ export default async function Home() {
     return href ? [{ ...b, href }] : [];
   });
 
-  const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
-  const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
   // The final-month products first: they are what most students come for now.
   const PINNED = ["revision-test-series", "mock-mahasangram", "crash-course"];
   const featuredCourses = [
@@ -66,9 +57,6 @@ export default async function Home() {
           </div>
         </div>
       )}
-
-      {/* Real results: the latest Rank Challenge toppers (nothing shows until a result is out). */}
-      <HomeToppers />
 
       {/* Quick links — one per paid product, right under the carousel */}
       <nav aria-label="Products" className="border-b border-graphite-800 bg-graphite-950 px-4 py-6 sm:py-8">
@@ -128,7 +116,6 @@ export default async function Home() {
                 key={pkg.id}
                 pkg={pkg}
                 badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy" : undefined}
-                owned={ownedIds.has(pkg.id)}
               />
             ))}
           </div>
@@ -143,6 +130,9 @@ export default async function Home() {
         </div>
       </section>
 
+
+      {/* Our toppers, after the products (nothing shows until a result is out). */}
+      <HomeToppers />
 
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-br from-graphite-950 via-graphite-900 to-graphite-800 text-white relative overflow-hidden">
