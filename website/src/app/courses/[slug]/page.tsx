@@ -24,6 +24,7 @@ import { getPriceInfo } from "@/lib/pricing";
 import { getPackageTestList, type TestListItem } from "@/lib/tests";
 import { courseHeader, demoVideos, groupTestsByTab } from "@/lib/course-display";
 import FreeSampleTest from "@/components/FreeSampleTest";
+import FreeSampleLessons, { getSampleLessons } from "@/components/FreeSampleLessons";
 import DemoVideo from "@/components/DemoVideo";
 import TestTabs from "@/components/TestTabs";
 import CrashCoursePlan from "@/components/CrashCoursePlan";
@@ -72,6 +73,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const outlineShown = outlineCourses.filter(
     (p) => !(outlineCourses.some((o) => o.slug === "lower-pcs-crash-course") && (p.slug === "lower-pcs-csat-classes" || p.slug === "ca-2026-videos")),
   );
+  // Free sample classes (lessons.is_free) of the video courses shown here, for the "Free Demo" area.
+  const samples = await getSampleLessons([planCourse, ...outlineShown].flatMap((c) => (c?.slug ? [c.slug] : [])));
   const header = courseHeader(pkg);
   const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
   const owned = getOwnedPackageIds(enrollments, includes, allPackages).has(pkg.id);
@@ -233,16 +236,19 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           )}
 
           {/* Free demo videos — packages.metadata.demo_videos (YouTube until Bunny is set up) */}
-          {videos.length > 0 ? (
-            <section id="free-demo" className="scroll-mt-24">
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+          {videos.length > 0 || samples.length > 0 ? (
+            <section id="free-demo" className="scroll-mt-24 space-y-4">
+              <h2 className="flex items-center gap-2 text-lg font-bold text-white">
                 <PlayCircle className="h-5 w-5 text-saffron-400" /> Watch Free Demo
               </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {videos.map((v) => (
-                  <DemoVideo key={v.youtubeId} title={v.title} youtubeId={v.youtubeId} />
-                ))}
-              </div>
+              <FreeSampleLessons samples={samples} fromUpper={tab !== "upper"} />
+              {videos.length > 0 && (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {videos.map((v) => (
+                    <DemoVideo key={v.youtubeId} title={v.title} youtubeId={v.youtubeId} />
+                  ))}
+                </div>
+              )}
             </section>
           ) : (
             <section className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
