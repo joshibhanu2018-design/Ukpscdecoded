@@ -19,6 +19,7 @@ import {
 import { EXAM_PAGES } from "@/lib/catalog";
 import { followsCrashCoursePlan } from "@/lib/course-subsets";
 import CourseOutline from "@/components/CourseOutline";
+import CourseEnquiryButton from "@/components/CourseEnquiryButton";
 import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
 import { getPackageTestList, type TestListItem } from "@/lib/tests";
 import { courseHeader, demoVideos, groupTestsByTab } from "@/lib/course-display";
@@ -232,7 +233,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </div>
             {foundingLabel && <p className="web-only mt-2 text-xs font-medium text-white/90">{foundingLabel}</p>}
             {!owned && <AppPurchaseNote className="mt-6 max-w-sm" />}
-            <div className={`mt-6 hidden sm:block ${owned ? "" : "web-only"}`}>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className={`hidden sm:block ${owned ? "" : "web-only"}`}>
               {owned ? (
                 <Link
                   href="/test-platform"
@@ -248,6 +250,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   {buyLabel}
                 </Link>
               )}
+            </div>
+            {!owned && <CourseEnquiryButton courseName={pkg.package_name} slug={pkg.slug} />}
             </div>
           </div>
         </div>

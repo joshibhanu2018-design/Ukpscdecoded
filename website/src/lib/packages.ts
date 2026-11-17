@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { supabaseAdmin } from "./supabase";
 import { getPriceInfo } from "./pricing";
 
@@ -88,7 +89,8 @@ export type Enrollment = {
 const PACKAGE_COLUMNS =
   "id, package_name, description, price, package_type, total_tests, total_questions, access_valid_till, validity_days, metadata, sort_order, is_active, founding_price, regular_price, founding_ends_at, seats_total, slug, image_url, highlights, curriculum, faq";
 
-export async function getActivePackages(): Promise<Package[]> {
+// React cache: one database read per page render, however many components ask.
+export const getActivePackages = cache(async (): Promise<Package[]> => {
   const { data, error } = await supabaseAdmin()
     .from("packages")
     .select(PACKAGE_COLUMNS)
@@ -97,9 +99,10 @@ export async function getActivePackages(): Promise<Package[]> {
 
   if (error) throw new Error(`Could not load packages: ${error.message}`);
   return data ?? [];
-}
+});
 
-export async function getPackageBySlug(slug: string): Promise<Package | null> {
+// React cache: one database read per page render, however many components ask.
+export const getPackageBySlug = cache(async (slug: string): Promise<Package | null> => {
   const { data, error } = await supabaseAdmin()
     .from("packages")
     .select(PACKAGE_COLUMNS)
@@ -109,18 +112,20 @@ export async function getPackageBySlug(slug: string): Promise<Package | null> {
 
   if (error || !data) return null;
   return data;
-}
+});
 
-export async function getPackageIncludes(): Promise<PackageInclude[]> {
+// React cache: one database read per page render, however many components ask.
+export const getPackageIncludes = cache(async (): Promise<PackageInclude[]> => {
   const { data, error } = await supabaseAdmin()
     .from("package_includes")
     .select("combo_package_id, included_package_id");
 
   if (error) throw new Error(`Could not load package_includes: ${error.message}`);
   return data ?? [];
-}
+});
 
-export async function getUserActiveEnrollments(userId: string): Promise<Enrollment[]> {
+// React cache: one database read per page render, however many components ask.
+export const getUserActiveEnrollments = cache(async (userId: string): Promise<Enrollment[]> => {
   const today = new Date().toISOString().slice(0, 10);
 
   const { data, error } = await supabaseAdmin()
@@ -132,7 +137,7 @@ export async function getUserActiveEnrollments(userId: string): Promise<Enrollme
 
   if (error) throw new Error(`Could not load enrollments: ${error.message}`);
   return data ?? [];
-}
+});
 
 /**
  * Package IDs the user has access to — direct enrollments, plus (for a
