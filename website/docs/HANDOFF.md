@@ -17,6 +17,10 @@ product grouped by exam.
   with 0 questions). `supabase/schema-phase47b-upper-2027.sql` runs on **30 Nov**:
   Crash Course → Upper PCS Video Revision Program ₹2,499, Complete Prelims Pack →
   Upper PCS 2027 Complete ₹3,599, Premium → Upper PCS 2027 Test Series ₹1,499.
+- **Phase 47c** (`supabase/schema-phase47c-revision-tests-only-in-revision.sql`, 17 Nov):
+  Uttarakhand / CA Revision tests belong ONLY to the Revision Test Series (made from
+  Premium questions, so they'd repeat elsewhere); Basic Test Series off the store;
+  Lower PCS Test Series is 67 tests (44 live day one).
 - **Store listing lives in `packages.metadata`:** `exam_tab` (lower / tri / upper /
   individual), `listed` (false = hidden from lists, page + access still work),
   `sale_ends_at` (hidden and not buyable after it), `card_label` (chip on the card),

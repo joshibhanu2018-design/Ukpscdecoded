@@ -17,7 +17,7 @@ export default function LowerPcsHero({ pkg }: { pkg: Package }) {
       : null;
   const points = [
     { en: "65+ video lectures with PDF notes", hi: "65+ वीडियो लेक्चर, PDF नोट्स के साथ" },
-    { en: "81 tests incl. 10 Lower PCS full length tests", hi: "81 टेस्ट, 10 लोअर PCS फुल लेंथ टेस्ट सहित" },
+    { en: "67 tests incl. 10 Lower PCS full length tests", hi: "67 टेस्ट, 10 लोअर PCS फुल लेंथ टेस्ट सहित" },
     { en: "General Aptitude (CSAT) classes + 12 sectionals", hi: "सामान्य बुद्धि (CSAT) क्लास + 12 सेक्शनल" },
     { en: "Valid till 30 April 2027", hi: "30 अप्रैल 2027 तक मान्य" },
   ];

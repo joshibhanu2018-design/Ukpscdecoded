@@ -11,7 +11,7 @@
 --     + RO/ARO Prelims in April, same syllabus as Lower PCS):
 --       lower-pcs-complete     ₹3,599, offer ₹3,299 till 6 Dec   (Course + Tests)
 --       lower-pcs-crash-course ₹2,799                             (videos)
---       lower-pcs-test-series  ₹1,299                             (81 tests)
+--       lower-pcs-test-series  ₹1,299                             (67 tests)
 --       tri-addon              ₹599                               (TRI GS, no Hindi)
 --       three-exam-complete    ₹3,899, offer ₹3,599 till 6 Dec   (Complete + TRI)
 --       lower-pcs-csat         ₹799 (₹499 for Upper buyers)       (Individual)
@@ -27,7 +27,7 @@
 --  4. Placeholder tests (0 questions = "Soon" for students) with fixed ids:
 --     Lower PCS 2025 paper, Lower PCS FLT 1-10, CSAT Sectional 1-12, TRI Mock 1-3.
 --  5. Test links: Lower PCS Test Series = Premium's tests except Full Mock 1-12
---     and CSAT 1-6, + Uttarakhand Revision 1-8 + CA Revision 1-6 + placeholders.
+--     and CSAT 1-6, + placeholders.
 --  6. Store listing (packages.metadata):
 --       exam_tab  = 'lower' | 'tri' | 'upper' | 'individual' (which page/menu)
 --       listed    = false → not shown in any list (direct links + access still work)
@@ -86,14 +86,14 @@ update packages set
   sort_order = 1,
   description = 'UKPSC Lower PCS (27 Dec 2026) + RO/ARO Prelims (April 2027, same syllabus)
 Lower PCS Crash Course: 65+ video lectures with PDF notes, incl. General Aptitude (CSAT) classes
-Lower PCS & RO/ARO Test Series: 81 tests, 58 live from day one
+Lower PCS & RO/ARO Test Series: 67 tests, 44 live from day one
 Valid till 30 April 2027',
-  highlights = '["65+ video lectures with PDF notes (English + Hindi)", "81 tests: 58 live from day one, 23 being added", "10 Full Length Tests on the Lower PCS pattern (100 GS + 50 Aptitude)", "12 CSAT (General Aptitude) sectional tests", "Lower PCS 2025 actual paper as a timed test", "Valid till 30 April 2027: Lower PCS + RO/ARO Prelims"]'::jsonb,
-  faq = '[{"question":"Is RO/ARO Prelims really covered?","answer":"Yes. The UKPSC RO/ARO Prelims has the same pattern and syllabus as Lower PCS Prelims: 150 questions in 2 hours, 100 General Studies + 50 General Aptitude. The course stays valid till 30 April 2027."},{"question":"I bought the Upper PCS Crash Course or Premium Test Series. Do I need this?","answer":"No. You already have the GS videos and most of the tests. Add only the CSAT for Lower PCS / RO-ARO (₹499 for you) and, for TRI, the TRI Add-on."},{"question":"Are all videos and tests available now?","answer":"All existing videos and 58 tests open the day you buy. The new videos (orientation, land revenue, computer, CSAT classes) and the Lower PCS full length tests are added before the exam; you can see each one marked Coming soon."}]'::jsonb,
+  highlights = '["65+ video lectures with PDF notes (English + Hindi)", "67 tests: 44 live from day one, 23 being added", "10 Full Length Tests on the Lower PCS pattern (100 GS + 50 Aptitude)", "12 CSAT (General Aptitude) sectional tests", "Lower PCS 2025 actual paper as a timed test", "Valid till 30 April 2027: Lower PCS + RO/ARO Prelims"]'::jsonb,
+  faq = '[{"question":"Is RO/ARO Prelims really covered?","answer":"Yes. The UKPSC RO/ARO Prelims has the same pattern and syllabus as Lower PCS Prelims: 150 questions in 2 hours, 100 General Studies + 50 General Aptitude. The course stays valid till 30 April 2027."},{"question":"I bought the Upper PCS Crash Course or Premium Test Series. Do I need this?","answer":"No. You already have the GS videos and most of the tests. Add only the CSAT for Lower PCS / RO-ARO (₹499 for you) and, for TRI, the TRI Add-on."},{"question":"Are all videos and tests available now?","answer":"All existing videos and 44 tests open the day you buy. The new videos (orientation, land revenue, computer, CSAT classes) and the Lower PCS full length tests are added before the exam; you can see each one marked Coming soon."}]'::jsonb,
   metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
     'exam_tab', 'lower', 'listed', true,
     'card_title', 'Lower PCS + RO/ARO Complete',
-    'card_tagline', 'Crash Course (65+ videos + notes) + Test Series (81 tests). One course, two exams.',
+    'card_tagline', 'Crash Course (65+ videos + notes) + Test Series (67 tests). One course, two exams.',
     'separate_total', 4098)
 where slug = 'lower-pcs-complete';
 
@@ -121,17 +121,17 @@ update packages set
   package_type = 'test_series',
   price = 1299, regular_price = null, founding_price = null, founding_ends_at = null,
   sort_order = 3,
-  total_tests = 81,
-  description = '81 tests for UKPSC Lower PCS (27 Dec 2026) and RO/ARO Prelims
-58 tests live from day one: 20 Uttarakhand, 12 subject sectionals, 12 current affairs, 8 Uttarakhand revision, 6 CA revision
+  total_tests = 67,
+  description = '67 tests for UKPSC Lower PCS (27 Dec 2026) and RO/ARO Prelims
+44 tests live from day one: 20 Uttarakhand, 12 subject sectionals, 12 current affairs
 Being added: Lower PCS 2025 actual paper, 10 Full Length Tests (100 GS + 50 Aptitude), 12 CSAT sectionals
 Valid till 30 April 2027',
-  highlights = '["58 tests live from day one", "10 Full Length Tests on the Lower PCS pattern", "12 CSAT (General Aptitude) sectional tests", "Lower PCS 2025 actual paper (timed)", "Analysis after every test", "Valid till 30 April 2027"]'::jsonb,
+  highlights = '["44 tests live from day one", "10 Full Length Tests on the Lower PCS pattern", "12 CSAT (General Aptitude) sectional tests", "Lower PCS 2025 actual paper (timed)", "Analysis after every test", "Valid till 30 April 2027"]'::jsonb,
   faq = '[]'::jsonb,
   metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
     'exam_tab', 'lower', 'listed', true,
     'card_title', 'Lower PCS & RO/ARO Test Series',
-    'card_tagline', '81 tests: 58 live today + 10 Lower PCS Full Length Tests + 12 CSAT sectionals')
+    'card_tagline', '67 tests: 44 live today + 10 Lower PCS Full Length Tests + 12 CSAT sectionals')
 where slug = 'lower-pcs-test-series';
 
 -- TRI Add-on (bundle of its videos + mocks)
@@ -210,12 +210,12 @@ update packages set
   sort_order = 21,
   description = 'Uttarakhand Crash Course (Uttarakhand videos + PDF notes) + Uttarakhand tests
 For every UKPSC exam: Lower PCS, RO/ARO, TRI and Upper PCS',
-  highlights = '["Uttarakhand Crash Course videos + PDF notes", "20 Uttarakhand GK tests", "8 Uttarakhand revision tests", "Valid till 30 April 2027"]'::jsonb,
+  highlights = '["Uttarakhand Crash Course videos + PDF notes", "20 Uttarakhand GK tests", "Valid till 30 April 2027"]'::jsonb,
   faq = '[]'::jsonb,
   metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
     'exam_tab', 'individual', 'listed', true,
     'card_title', 'Uttarakhand GK Pack',
-    'card_tagline', 'Uttarakhand videos + notes + 28 Uttarakhand tests')
+    'card_tagline', 'Uttarakhand videos + notes + 20 Uttarakhand tests')
 where slug = 'uttarakhand-gk-pack';
 
 -- Current Affairs 2026 (Individual)
@@ -225,12 +225,12 @@ update packages set
   price = 699, regular_price = null, founding_price = null, founding_ends_at = null,
   sort_order = 22,
   description = 'Current affairs videos (national, international, sports, Uttarakhand) + current affairs tests',
-  highlights = '["Current affairs videos, new ones added", "12 current affairs tests", "6 CA revision tests", "Valid till 30 April 2027"]'::jsonb,
+  highlights = '["Current affairs videos, new ones added", "12 current affairs tests", "Valid till 30 April 2027"]'::jsonb,
   faq = '[]'::jsonb,
   metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
     'exam_tab', 'individual', 'listed', true,
     'card_title', 'Current Affairs 2026',
-    'card_tagline', 'CA videos + 18 current affairs tests')
+    'card_tagline', 'CA videos + 12 current affairs tests')
 where slug = 'current-affairs-2026';
 
 update packages set package_name = 'Current Affairs 2026: Videos', package_type = 'video_course', price = 699, sort_order = 94,
@@ -470,9 +470,8 @@ with picks as (
   join packages p on p.id = pt.package_id and p.slug = 'premium-test-series'
   join tests t on t.id = pt.test_id
   where coalesce(t.subject, '') not in ('Full Mock', 'CSAT') and t.test_name !~* '^(full mock|csat)\s*\d'
-  union all
-  -- Uttarakhand Revision 1-8 and CA Revision 1-6 (Revision Test Series)
-  select t.id, 3, t.test_name from tests t where t.test_name ~* '^(uttarakhand|ca) revision \d+$'
+  -- (Uttarakhand / CA Revision tests stay only in the Revision Test Series: their
+  --  questions come from Premium, so they would repeat. See phase 47c.)
 ),
 target as (select id from packages where slug = 'lower-pcs-test-series'),
 ordered as (
@@ -504,22 +503,13 @@ from packages p join tests t on t.test_name like 'TRI Pattern Mock %'
 where p.slug = 'tri-addon-tests'
   and not exists (select 1 from package_tests x where x.package_id = p.id and x.test_id = t.id);
 
--- 5d. Free bonus for existing packs that now sit inside the Individual products:
---     Uttarakhand Intensive gets Uttarakhand Revision 1-8; CA Intensive gets CA Revision 1-6.
-insert into package_tests (package_id, test_id, test_order)
-select p.id, t.id, 1000 + row_number() over (partition by p.id order by length(t.test_name), t.test_name)
-from packages p
-join tests t on (p.slug = 'uttarakhand-intensive' and t.test_name ~* '^uttarakhand revision \d+$')
-             or (p.slug = 'current-affairs-intensive' and t.test_name ~* '^ca revision \d+$')
-where not exists (select 1 from package_tests x where x.package_id = p.id and x.test_id = t.id);
-
 -- ===================================================================
 -- 6. Store listing for the old products
 -- ===================================================================
 -- Upper PCS 29 Nov products: Upper tab, label, automatic end of sale.
 update packages set metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
   'exam_tab', 'upper', 'listed', true, 'card_label', 'Upper PCS · 29 Nov', 'sale_ends_at', '2026-11-29T23:59:59+05:30')
-where slug in ('revision-test-series', 'basic-test-series');
+where slug = 'revision-test-series';
 
 update packages set metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object(
   'exam_tab', 'upper', 'listed', true, 'card_label', 'Upper PCS · 29 Nov', 'sale_ends_at', '2026-11-25T23:59:59+05:30')
@@ -533,7 +523,7 @@ where slug = 'premium-test-series';
 -- Hidden from every list now (pages + access keep working).
 update packages set metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object('exam_tab', 'upper', 'listed', false)
 where slug in ('crash-course', 'national-crash-course', 'current-affairs-intensive', 'prelims-mentorship', 'csat-test-series',
-               'uttarakhand-crash-course', 'uttarakhand-intensive', 'complete-prelims-combo');
+               'uttarakhand-crash-course', 'uttarakhand-intensive', 'complete-prelims-combo', 'basic-test-series');
 
 -- ===================================================================
 -- Check (should list the new products with their prices and counts):
