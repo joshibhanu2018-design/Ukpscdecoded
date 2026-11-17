@@ -12,6 +12,7 @@ import InstallPrompt from "@/components/InstallPrompt";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import ScrollUnlock from "@/components/ScrollUnlock";
+import Clarity from "@/components/Clarity";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { getActiveOffer } from "@/lib/coupons";
 import OfferBar from "@/components/OfferBar";
@@ -229,6 +230,7 @@ export default async function RootLayout({
         <InstallPrompt />
         <ServiceWorkerRegister />
         <ScrollUnlock />
+        <Clarity />
       </body>
     </html>
   );

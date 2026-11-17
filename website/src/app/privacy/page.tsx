@@ -39,6 +39,10 @@ export default function PrivacyPage() {
             <strong>Technical:</strong> a login cookie, your device/browser type for the 2-device limit, and your IP address for
             security rate limits. Your language choice is stored on your own device.
           </li>
+          <li>
+            <strong>How the site is used:</strong> we may use Microsoft Clarity to see, without your name, how visitors
+            scroll and tap on our pages, so we can make them easier to use. What you type into forms is hidden from it.
+          </li>
         </ul>
       </section>
 
@@ -58,7 +62,7 @@ export default function PrivacyPage() {
       <section>
         <h2>Who processes it for us</h2>
         <p>
-          Supabase (database), Vercel (website hosting), Razorpay (payments), Resend (email) and our video host. Each only
+          Supabase (database), Vercel (website hosting), Razorpay (payments), Resend (email), Microsoft Clarity (site usage) and our video host. Each only
           receives what it needs to provide its service.
         </p>
       </section>

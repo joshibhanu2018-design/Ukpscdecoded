@@ -9,6 +9,7 @@ import HomeCarousel from "@/components/HomeCarousel";
 import CourseCard from "@/components/CourseCard";
 import FreeSampleTest from "@/components/FreeSampleTest";
 import WhichOne from "@/components/final-month/WhichOne";
+import HomeToppers from "@/components/HomeToppers";
 import { getActiveBanners } from "@/lib/banners";
 import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
@@ -65,6 +66,9 @@ export default async function Home() {
           </div>
         </div>
       )}
+
+      {/* Real results: the latest Rank Challenge toppers (nothing shows until a result is out). */}
+      <HomeToppers />
 
       {/* Quick links — one per paid product, right under the carousel */}
       <nav aria-label="Products" className="border-b border-graphite-800 bg-graphite-950 px-4 py-6 sm:py-8">
