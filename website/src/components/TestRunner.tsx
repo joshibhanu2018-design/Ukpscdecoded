@@ -450,7 +450,7 @@ export default function TestRunner({
 
       {/* Mobile palette drawer */}
       {paletteOpen && (
-        <div className="fixed inset-0 z-30 flex justify-end bg-black/60 lg:hidden" onClick={() => setPaletteOpen(false)}>
+        <div className="fixed inset-0 z-[60] flex justify-end bg-black/60 lg:hidden" onClick={() => setPaletteOpen(false)}>
           <div className="h-full w-72 max-w-[85vw] overflow-y-auto bg-graphite-900 p-4" onClick={(e) => e.stopPropagation()}>
             <div className="mb-4 flex items-center justify-between">
               <span className="font-semibold text-white">Questions</span>
@@ -474,7 +474,7 @@ export default function TestRunner({
 
       {/* Submit confirmation (also shown while an auto-submit is in flight) */}
       {(confirmOpen || submitting || submitError) && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 px-4">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 px-4">
           <div className="w-full max-w-sm rounded-2xl border border-graphite-800 bg-graphite-900 p-6">
             <h2 className="text-lg font-bold text-white">Submit test?</h2>
             <dl className="mt-4 grid grid-cols-3 gap-2 text-center">

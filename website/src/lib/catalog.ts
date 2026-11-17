@@ -1,12 +1,4 @@
-import { cookies } from "next/headers";
-import { getUserFromSession, SESSION_COOKIE_NAME } from "./auth-utils";
-import {
-  getActivePackages,
-  getOwnedPackageIds,
-  getPackageIncludes,
-  getUserActiveEnrollments,
-  type Package,
-} from "./packages";
+import { getActivePackages, type Package } from "./packages";
 
 export const BEST_BUY_SLUG = "complete-prelims-pack";
 export const FLAGSHIP_TEST_SERIES_SLUG = "premium-test-series";
@@ -15,13 +7,11 @@ export const FINAL_MONTH_SLUGS = ["revision-test-series", "mock-mahasangram"];
 
 /**
  * Store packages grouped for the Courses and Test Series pages, in the DB's
- * sort_order, plus what the visitor already owns.
+ * sort_order. It reads no login cookie, so these pages are cached; what
+ * the visitor already owns is filled in by the browser on each card.
  */
 export async function getCatalog() {
-  const user = await getUserFromSession((await cookies()).get(SESSION_COOKIE_NAME)?.value);
-  const [allPackages, includes] = await Promise.all([getActivePackages(), getPackageIncludes()]);
-  const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
-  const ownedIds = getOwnedPackageIds(enrollments, includes, allPackages);
+  const allPackages = await getActivePackages();
 
   const listed = allPackages.filter((p) => p.slug);
   const byType = (type: string) => listed.filter((p) => p.package_type === type);
@@ -36,6 +26,5 @@ export async function getCatalog() {
     bundles: byType("combo_bundle").sort(bestBuyFirst),
     testSeries,
     allPackages,
-    ownedIds,
   };
 }

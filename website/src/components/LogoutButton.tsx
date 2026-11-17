@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
+import { resetClientSession } from "@/lib/session-client";
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function LogoutButton() {
   const handleLogout = async () => {
     setLoading(true);
     await fetch("/api/auth/logout", { method: "POST" });
+    resetClientSession();
     router.push("/student/login");
     router.refresh();
   };

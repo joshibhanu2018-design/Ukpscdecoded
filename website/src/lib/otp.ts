@@ -14,6 +14,37 @@ export function normalizeEmail(raw: unknown): string {
   return typeof raw === "string" ? raw.trim().toLowerCase() : "";
 }
 
+/**
+ * WhatsApp login reuses the login_codes table: the `email` column holds
+ * "wa:91XXXXXXXXXX" instead of an email, so the same expiry, 5-attempt and
+ * rate-limit rules apply and no database change is needed.
+ */
+const WA_PREFIX = "wa:91";
+
+export function whatsappIdentity(phone: string): string {
+  return `${WA_PREFIX}${phone}`;
+}
+
+/** The 10-digit mobile inside a WhatsApp identity, or null for an email. */
+export function phoneOfIdentity(identity: string): string | null {
+  return identity.startsWith(WA_PREFIX) && /^[6-9]\d{9}$/.test(identity.slice(WA_PREFIX.length)) ? identity.slice(WA_PREFIX.length) : null;
+}
+
+/**
+ * Accounts whose saved mobile is this number (stored as 10 digits; older
+ * rows may carry 91 or +91). Returns at most two ids: the caller only
+ * needs to know whether there is none, exactly one, or more than one.
+ */
+export async function findUserIdsByPhone(phone: string): Promise<string[]> {
+  const { data, error } = await supabaseAdmin()
+    .from("users")
+    .select("id")
+    .in("phone", [phone, `91${phone}`, `+91${phone}`, `0${phone}`])
+    .limit(2);
+  if (error) throw new Error(`user lookup failed: ${error.message}`);
+  return (data ?? []).map((r) => r.id as string);
+}
+
 function hashCode(email: string, code: string): string {
   const secret = process.env.SESSION_SECRET;
   if (!secret) throw new Error("SESSION_SECRET is not set.");

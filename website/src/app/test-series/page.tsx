@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 // Premium Test Series (includes every other test series), then the
 // individual test series and mentorship.
 export default async function TestSeriesPage() {
-  const { testSeries, bundles, mentorship, ownedIds, allPackages } = await getCatalog();
+  const { testSeries, bundles, mentorship, allPackages } = await getCatalog();
   const premium = testSeries.find((p) => p.slug === FLAGSHIP_TEST_SERIES_SLUG);
   const individual = testSeries.filter((p) => p !== premium);
 
@@ -37,7 +37,6 @@ export default async function TestSeriesPage() {
         {premium && (
           <PageHeroBanner
             pkg={premium}
-            owned={ownedIds.has(premium.id)}
             desktop="/banners/test-series-desktop.webp"
             mobile="/banners/test-series-mobile.webp"
             alt="Premium Test Series: 62 tests on the real UKPSC pattern"
@@ -55,7 +54,6 @@ export default async function TestSeriesPage() {
                   size="lg"
                   wide
                   badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy — our recommended pack" : undefined}
-                  owned={ownedIds.has(pkg.id)}
                 />
               ))}
             </div>
@@ -70,7 +68,6 @@ export default async function TestSeriesPage() {
               size="lg"
               wide
               badge="Recommended — includes all test series"
-              owned={ownedIds.has(premium.id)}
             />
           </section>
         )}
@@ -83,7 +80,7 @@ export default async function TestSeriesPage() {
             <p className="mt-2 text-center text-sm text-graphite-400">Only if you need one part: all of these are already inside the Premium Test Series.</p>
             <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {individual.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} owned={ownedIds.has(pkg.id)} />
+                <CourseCard key={pkg.id} pkg={pkg} />
               ))}
             </div>
           </section>
@@ -94,7 +91,7 @@ export default async function TestSeriesPage() {
             <SectionTitle title="Mentorship Program" sub="Everything above + weekly 1-on-1 guidance with Bhanu Joshi" />
             <div className="grid grid-cols-1 gap-5">
               {mentorship.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} wide owned={ownedIds.has(pkg.id)} />
+                <CourseCard key={pkg.id} pkg={pkg} wide />
               ))}
             </div>
           </section>

@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSession, sessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
-import { consumeCode, createSignupTicket, findUserIdByEmail, normalizeEmail, verifyCode } from "@/lib/otp";
+import { SESSION_HINT_COOKIE, sessionHintOptions } from "@/lib/session-hint";
+import {
+  consumeCode,
+  createSignupTicket,
+  findUserIdByEmail,
+  findUserIdsByPhone,
+  normalizeEmail,
+  verifyCode,
+  whatsappIdentity,
+} from "@/lib/otp";
+import { cleanPhone, PHONE_RE } from "@/lib/phone";
 
 const MESSAGES = {
   no_code: "No active code — request a new one.",
@@ -10,13 +20,17 @@ const MESSAGES = {
 } as const;
 
 /**
- * Step 2: check the code. Existing account → logged in. New email → the
+ * Step 2: check the code. Existing account → logged in (for WhatsApp: the
+ * one account whose saved mobile is this number). New email or number → the
  * code is consumed and a short-lived signup ticket is returned; the
  * client asks for a name and finishes at /api/auth/otp/complete.
  */
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
-  const email = normalizeEmail(body?.email);
+  // WhatsApp login sends `phone`; the code was stored under its WhatsApp identity.
+  const phone = typeof body?.phone === "string" ? cleanPhone(body.phone) : "";
+  const byWhatsApp = PHONE_RE.test(phone);
+  const email = byWhatsApp ? whatsappIdentity(phone) : normalizeEmail(body?.email);
   const code = typeof body?.code === "string" ? body.code.replace(/\s/g, "") : "";
   if (!email || !code) {
     return NextResponse.json({ error: "Email and code are required" }, { status: 400 });
@@ -37,7 +51,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: MESSAGES.no_code, reason: "no_code" }, { status: 400 });
     }
 
-    const userId = await findUserIdByEmail(email);
+    let userId: string | null;
+    if (byWhatsApp) {
+      const ids = await findUserIdsByPhone(phone);
+      if (ids.length > 1) {
+        // Two accounts carry this number: we cannot tell whose it is, so the email decides.
+        return NextResponse.json(
+          { error: "This mobile number is saved on more than one account. Please log in with your email.", reason: "use_email" },
+          { status: 409 }
+        );
+      }
+      userId = ids[0] ?? null;
+    } else {
+      userId = await findUserIdByEmail(email);
+    }
     if (!userId) {
       return NextResponse.json({ needs_name: true, ticket: createSignupTicket(email) });
     }
@@ -45,6 +72,7 @@ export async function POST(request: NextRequest) {
     const { token, expiresAt } = await createSession(userId, request.headers.get("user-agent"));
     const response = NextResponse.json({ ok: true });
     response.cookies.set(SESSION_COOKIE_NAME, token, sessionCookieOptions(expiresAt));
+    response.cookies.set(SESSION_HINT_COOKIE, "1", sessionHintOptions(expiresAt));
     return response;
   } catch (err) {
     console.error("[otp/verify] failed:", err);

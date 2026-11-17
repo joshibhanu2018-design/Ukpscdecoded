@@ -1,11 +1,25 @@
 import Link from "next/link";
-import { Check, Star } from "lucide-react";
+import { BookOpen, Check, ClipboardList, Layers, Star, UserRound, type LucideIcon } from "lucide-react";
 import { formatINR, type Package } from "@/lib/packages";
-import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
-import CourseHeader from "./CourseHeader";
-import AppPurchaseNote from "./AppPurchaseNote";
+import { getPriceInfo } from "@/lib/pricing";
+import { courseHeader } from "@/lib/course-display";
+import CourseCardActions from "./CourseCardActions";
 import T from "@/components/T";
 
+// One colour per kind of product: a thin strip on top, the label and its icon.
+const KINDS: Record<string, { color: string; en: string; hi: string; icon: LucideIcon }> = {
+  test_series: { color: "#9f1d3a", en: "Test Series", hi: "टेस्ट सीरीज़", icon: ClipboardList },
+  video_course: { color: "#0f766e", en: "Video Course", hi: "वीडियो कोर्स", icon: BookOpen },
+  combo_bundle: { color: "#9a6a0c", en: "Course + Tests", hi: "कोर्स + टेस्ट", icon: Layers },
+  mentorship: { color: "#6d28d9", en: "Mentorship", hi: "मेंटरशिप", icon: UserRound },
+};
+
+/**
+ * A product card for the white theme: coloured strip and kind label, the
+ * name in dark text, what you get, the price (with the old price struck
+ * out during an offer) and the buttons. `owned` may be passed by a page
+ * that already knows; otherwise the buttons check in the browser.
+ */
 export default function CourseCard({
   pkg,
   badge,
@@ -19,71 +33,83 @@ export default function CourseCard({
   owned?: boolean;
   /** "lg" for the three premium plans, "sm" for the standalone packs. */
   size?: "sm" | "md" | "lg";
-  /** Header beside the details from 768px (a single course on its own row). */
+  /** Name and price beside the details from 768px (a single course on its own row). */
   wide?: boolean;
 }) {
   const priceInfo = getPriceInfo(pkg);
-  const foundingLabel = formatFoundingLabel(priceInfo);
+  const offerTill =
+    priceInfo.isFounding && priceInfo.foundingEndsAt
+      ? new Date(priceInfo.foundingEndsAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" })
+      : null;
   const detailHref = `/courses/${pkg.slug}`;
-  const checkoutHref = `/checkout/${pkg.slug}`;
+  const { title, tagline } = courseHeader(pkg);
+  const kind = KINDS[pkg.package_type] ?? KINDS.combo_bundle;
+  const KindIcon = kind.icon;
+  const was = priceInfo.isFounding && priceInfo.regularPrice && priceInfo.regularPrice > priceInfo.amount ? priceInfo.regularPrice : null;
+  const offPercent = was ? Math.round(((was - priceInfo.amount) / was) * 100) : 0;
+  const titleSize = size === "lg" ? "text-2xl" : size === "sm" ? "text-lg" : "text-xl";
 
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-2xl border bg-graphite-900 shadow-xl shadow-black/30 ${
+      className={`relative flex flex-col overflow-hidden rounded-2xl border bg-graphite-900 shadow-sm transition-shadow hover:shadow-lg ${
         badge ? "border-saffron-400 ring-2 ring-saffron-400/60" : "border-graphite-800"
       }`}
     >
-      {badge && (
+      {badge ? (
         <p className="flex items-center justify-center gap-1.5 bg-saffron-400 px-3 py-1.5 text-center text-xs font-bold text-graphite-900">
           <Star className="h-3.5 w-3.5 flex-shrink-0 fill-current" /> {badge}
         </p>
+      ) : (
+        <div aria-hidden className="h-1.5" style={{ background: kind.color }} />
       )}
 
       <div className={`flex flex-1 flex-col ${wide ? "md:flex-row" : ""}`}>
-        <Link href={detailHref} className={`block ${wide ? "md:w-2/5 md:flex-shrink-0" : ""}`}>
-          <CourseHeader pkg={pkg} size={size} titleAs="h3" className={`w-full ${wide ? "h-full min-h-[8rem]" : "min-h-[8rem]"}`} />
+        <Link href={detailHref} className={`block p-5 pb-0 ${wide ? "md:w-2/5 md:flex-shrink-0 md:pb-5" : ""}`}>
+          {pkg.image_url && (
+            // eslint-disable-next-line @next/next/no-img-element -- admin-supplied URL from any host
+            <img src={pkg.image_url} alt="" loading="lazy" decoding="async" className="mb-4 aspect-[16/9] w-full rounded-xl object-cover" />
+          )}
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+            style={{ color: kind.color, background: `${kind.color}14` }}
+          >
+            <KindIcon className="h-3.5 w-3.5" /> <T en={kind.en} hi={kind.hi} />
+          </span>
+          <h3 className={`mt-3 font-display ${titleSize} font-bold leading-snug text-white`}>{title}</h3>
+          {tagline && <p className="mt-1.5 text-sm font-medium leading-snug text-graphite-300">{tagline}</p>}
         </Link>
 
         <div className="flex flex-1 flex-col">
-          <Link href={detailHref} className="block flex-1 p-5">
-            {pkg.image_url && <h3 className="font-bold text-white">{pkg.package_name}</h3>}
+          <Link href={detailHref} className="block flex-1 px-5 pt-4">
             {pkg.highlights.length > 0 && (
-              <ul className={`space-y-1.5 ${pkg.image_url ? "mt-2" : ""}`}>
+              <ul className="space-y-1.5">
                 {pkg.highlights.slice(0, 4).map((h) => (
-                  <li key={h} className={`flex items-start gap-1.5 text-graphite-300 ${size === "lg" ? "text-sm" : "text-xs"}`}>
-                    <Check className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-saffron-400" /> {h}
+                  <li key={h} className="flex items-start gap-2 text-sm text-graphite-300">
+                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: kind.color }} /> {h}
                   </li>
                 ))}
               </ul>
             )}
-            <div className="web-only mt-4 flex items-baseline gap-2">
-              <span className={`font-bold text-white ${size === "lg" ? "text-2xl" : "text-xl"}`}>{formatINR(priceInfo.amount)}</span>
-            </div>
-            {foundingLabel && <p className="web-only mt-1 text-[11px] font-medium text-saffron-300">{foundingLabel}</p>}
           </Link>
 
-          <div className="px-5 pb-5">
-            {owned ? (
-              <div className="rounded-lg border border-success-500/30 bg-success-500/10 px-4 py-2.5 text-center text-sm font-semibold text-success-400">
-                Purchased
+          <div className="mt-4 border-t border-graphite-800 px-5 pb-5 pt-4">
+            <div className="web-only mb-3">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span className={`font-display font-bold text-white ${size === "lg" ? "text-3xl" : "text-2xl"}`}>{formatINR(priceInfo.amount)}</span>
+                {was && <span className="text-sm text-graphite-400 line-through">{formatINR(was)}</span>}
+                {offPercent >= 5 && (
+                  <span className="rounded-full bg-success-500/10 px-2 py-0.5 text-xs font-bold text-success-400">
+                    {offPercent}% <T en="off" hi="छूट" />
+                  </span>
+                )}
               </div>
-            ) : (
-              <div className="flex gap-2">
-                <Link
-                  href={checkoutHref}
-                  className="web-only flex min-h-[44px] flex-1 items-center justify-center rounded-lg bg-saffron-400 px-4 py-2.5 text-center text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300"
-                >
-                  <T en="Buy Now" hi="अभी खरीदें" />
-                </Link>
-                <Link
-                  href={detailHref}
-                  className="flex min-h-[44px] flex-1 items-center justify-center rounded-lg border border-graphite-600 px-3 py-2.5 text-center text-sm font-semibold text-graphite-200 transition-colors hover:border-saffron-400 hover:text-saffron-300"
-                >
-                  <T en="Know more" hi="और जानें" />
-                </Link>
-              </div>
-            )}
-            {!owned && <AppPurchaseNote />}
+              {was && offerTill && (
+                <p className="mt-1 text-xs font-medium leading-snug text-saffron-300">
+                  <T en={<>Offer price till {offerTill}</>} hi={<>ऑफ़र कीमत {offerTill} तक</>} />
+                </p>
+              )}
+            </div>
+            <CourseCardActions packageId={pkg.id} slug={pkg.slug} owned={owned} />
           </div>
         </div>
       </div>

@@ -11,6 +11,41 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Second round, 17 Nov (white student area, new cards, menus, WhatsApp
+  login, cached pages):**
+  - **Whole site white.** `src/app/test-platform/layout.tsx` no longer has
+    `theme-dark`, so My Courses, the test screen, results and Admin are
+    white too (only the footer stays dark). To go back, add `theme-dark` to
+    that div. The test screen's question drawer and submit box now sit above
+    the top menu (they were partly hidden behind it on phones).
+  - **Home toppers** (`HomeToppers.tsx`): only the top 3 names and districts
+    of the latest Rank Challenge mock, no scores, no student count, no link
+    to the full list; shown after "Our Courses".
+  - **Product cards** (`CourseCard.tsx` + `CourseCardActions.tsx`): white
+    card, coloured strip and kind label, price with the old price struck out
+    and "% off", Buy Now + Details.
+  - **Menu** (`Navbar.tsx`): Courses, Test Series and Books open a list.
+    Courses and Test Series are filled from the active packages (the layout
+    passes them in); Books lists the guidebook and the Polity Decoded e-book.
+    The desktop menu now starts at 1280 px; smaller screens get the phone menu.
+  - **WhatsApp login** (off until set up): with `AISENSY_API_KEY` and
+    `AISENSY_CAMPAIGN_OTP` in Vercel, the login page shows a WhatsApp tab
+    first and Email second. The code is stored in `login_codes` with
+    `wa:91XXXXXXXXXX` in the email column (no SQL needed). A number saved on
+    exactly one account logs into it; a new number asks for name + email and
+    makes an account; a number on two accounts, or an email that already has
+    an account, is told to use email login. Steps: `docs/WHATSAPP_AUTOMATION.md`.
+    Not tested against a real AiSensy account.
+  - **Cached public pages.** The root layout reads no cookies and has
+    `revalidate = 300`, so home, /courses, /test-series, books, articles,
+    answer key etc. are served from Vercel's cache (rebuilt at most every
+    5 minutes: a price or banner change can take 5 minutes to show). The
+    browser works out login state: readable cookie `ukd_in` (set at login,
+    no identity in it) plus `/api/me` (logged in? owned package ids),
+    see `src/lib/session-client.ts`. Still run on every visit: student
+    area, checkout, /revision, /mahasangram, /courses/[slug] (they show
+    personal prices or "Purchased").
+
 - **Toppers, answer key, WhatsApp, Clarity (17 Nov):**
   * Home shows the top 5 of the latest published Rank Challenge mock
     (`HomeToppers.tsx`, cached 10 min; hidden until a result is out).
