@@ -149,7 +149,6 @@ export default async function MyCoursesPage({
                 progress && progress.totalTests > 0
                   ? Math.min(100, Math.round((progress.testsDone / progress.totalTests) * 100))
                   : 0;
-              const classStart = formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined);
               const continueHref =
                 pkg.package_type === "mentorship"
                   ? "/test-platform/mentorship"
@@ -184,7 +183,7 @@ export default async function MyCoursesPage({
                     {pkg.package_type === "video_course" && (
                       <p className="mt-3 flex items-center gap-1.5 text-xs text-graphite-300">
                         <Video className="h-3.5 w-3.5 text-saffron-400" />
-                        {classStart ? `Classes start ${classStart}` : "Videos coming soon"}
+                        Video lectures + PDF notes
                       </p>
                     )}
 

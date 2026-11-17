@@ -59,10 +59,6 @@ function Section({
       </h2>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {packages.map((pkg) => {
-          const classStart =
-            pkg.package_type === "video_course"
-              ? formatClassDate((pkg.metadata?.class_start as string | undefined) ?? undefined)
-              : null;
           const seatsRemaining = seatsByPackage.get(pkg.id) ?? null;
 
           return (
@@ -73,7 +69,6 @@ function Section({
               savings={computeSavings(pkg, includes, allPackages)}
               owned={ownedIds.has(pkg.id)}
               isBestValue={pkg.id === bestValueId}
-              classStartLabel={classStart}
               userEmail={userEmail}
               userName={userName}
               paymentsEnabled={paymentsEnabled}

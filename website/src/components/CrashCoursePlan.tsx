@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, CheckCircle2, Lock, PlayCircle, Radio } from "lucide-react";
+import { CheckCircle2, ListVideo, Lock, PlayCircle } from "lucide-react";
 import plan from "@content/crashCoursePlan.json";
 import {
   getCourseLessons,
@@ -14,18 +14,11 @@ import VideoThumb from "./VideoThumb";
 type PlanVideo = { date: string; number: number; module: string; title: string; book?: string };
 type LiveSession = { date: string; theme: string; focus: string };
 
-function dayLabel(iso: string, withWeekday = true): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    ...(withWeekday ? { weekday: "short" } : {}),
-    timeZone: "UTC",
-  });
-}
-
 /**
- * The crash course's tentative release calendar (content/crashCoursePlan.json),
- * shown to everyone on the course pages and inside the lessons page. Uploaded
+ * The crash course's video list (content/crashCoursePlan.json), in study
+ * order and grouped by subject, shown to everyone on the course pages and
+ * inside the lessons page. No dates are shown: the course is sold all year,
+ * so the dates in the JSON only keep the order. Uploaded
  * videos (lessons titled "Video N …" in `lessonsSlug`) show their Bunny
  * thumbnail; only students who own that course can open them.
  */
@@ -72,14 +65,14 @@ export default async function CrashCoursePlan({
       return a.length > 3 && (a.includes(b) || b.includes(a));
     });
 
-  const liveByDate = new Map(live.map((s) => [s.date, s]));
-  const byDate = new Map<string, PlanVideo[]>();
-  for (const v of videos) byDate.set(v.date, [...(byDate.get(v.date) ?? []), v]);
-  for (const s of live) if (!byDate.has(s.date)) byDate.set(s.date, []);
-  const days = [...byDate.entries()].sort(([a], [b]) => a.localeCompare(b));
-  const liveDays = [...new Set(live.map((s) => new Date(`${s.date}T00:00:00Z`).toLocaleDateString("en-IN", { weekday: "long", timeZone: "UTC" })))];
-  const liveWhen = liveDays.length === 1 ? `${liveDays[0]}s` : "Weekly";
-  const revisionStart = new Date(Date.parse(`${plan.lastVideo}T00:00:00Z`) + 86400000).toISOString().slice(0, 10);
+  // Study order: by video number, grouped under each subject as it first appears.
+  const ordered = [...videos].sort((a, b) => a.number - b.number);
+  const groups: { module: string; videos: PlanVideo[] }[] = [];
+  for (const v of ordered) {
+    const last = groups[groups.length - 1];
+    if (last && last.module === v.module) last.videos.push(v);
+    else groups.push({ module: v.module, videos: [v] });
+  }
   const uploaded = videos.filter((v) => lessonByNumber.has(v.number) || freeFor(v)).length;
 
   const videoRow = (v: PlanVideo) => {
@@ -106,7 +99,7 @@ export default async function CrashCoursePlan({
       </span>
     ) : lesson ? (
       <span className="inline-flex items-center gap-1 text-xs text-success-300">
-        <CheckCircle2 className="h-3.5 w-3.5" /> Uploaded · releases {dayLabel(v.date)}
+        <CheckCircle2 className="h-3.5 w-3.5" /> Coming soon
       </span>
     ) : null;
     const thumbSrc = lesson ? (thumbs.get(lesson.id) ?? null) : free ? `https://i.ytimg.com/vi/${free.youtubeId}/hqdefault.jpg` : null;
@@ -169,25 +162,21 @@ export default async function CrashCoursePlan({
   return (
     <section>
       <h2 className="mb-1 flex items-center gap-2 text-lg font-bold text-white">
-        <CalendarDays className="h-5 w-5 text-saffron-400" /> Crash Course Plan
-        <span className="rounded-full border border-saffron-400/40 px-2 py-0.5 text-[11px] font-medium text-saffron-300">
-          Tentative
-        </span>
+        <ListVideo className="h-5 w-5 text-saffron-400" /> Crash Course Plan
       </h2>
       <p className="mb-4 text-xs text-graphite-300">
-        Dates and topic order may change. Videos appear here with their thumbnail as they are uploaded
-        {uploaded > 0 ? ` (${uploaded} of ${videos.length} so far)` : ""}.
+        Watch the videos in this order, at your own pace
+        {uploaded > 0 ? ` (${uploaded} of ${videos.length} uploaded)` : ""}.
         {variant === "national"
           ? " National topics only: no Uttarakhand GK or Uttarakhand current affairs."
-          : " Uttarakhand videos show the matching chapter of the Uttarakhand Decoded book to read the same day."}
+          : " Uttarakhand videos show the matching chapter of the Uttarakhand Decoded book to read alongside."}
       </p>
 
-      <div className="mb-5 grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
+      <div className="mb-5 grid grid-cols-2 gap-2 text-sm sm:grid-cols-3">
         {[
-          [`${videos.length} videos`, `${dayLabel(plan.firstVideo, false)} – ${dayLabel(plan.lastVideo, false)}`],
-          [`${live.length} live sessions`, `${liveWhen}: doubts + extra content`],
-          ["Revision + mocks", `${dayLabel(revisionStart, false)} – ${dayLabel(plan.examDate, false)}`],
-          ["Upper PCS Prelims", dayLabel(plan.examDate, false)],
+          [`${videos.length} videos`, "Start any day, watch any time"],
+          [`${live.length} live sessions`, "Doubts + extra content"],
+          ["PDF notes", "With the video lectures"],
         ].map(([title, sub]) => (
           <div key={title} className="rounded-lg border border-graphite-800 bg-graphite-900/60 p-3">
             <p className="font-semibold text-white">{title}</p>
@@ -196,38 +185,31 @@ export default async function CrashCoursePlan({
         ))}
       </div>
 
-      <h3 className="mb-3 text-base font-bold text-white">Video schedule</h3>
+      <h3 className="mb-3 text-base font-bold text-white">Videos</h3>
       <ol className="space-y-3">
-        {days.map(([date, vs]) => {
-          const session = liveByDate.get(date);
-          return (
-            <li key={date} className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-2 sm:p-3">
-              <p className="px-2 pb-1 pt-1 text-sm font-bold text-saffron-300">{dayLabel(date)}</p>
-              <ul className="grid gap-3 sm:grid-cols-2">
-                {vs.map(videoRow)}
-                {session && (
-                  <li className="mx-2 mb-1 flex items-start gap-2 rounded-lg bg-success-500/10 px-3 py-2 text-sm text-success-300 sm:col-span-2">
-                    <Radio className="mt-0.5 h-4 w-4 flex-shrink-0" /> Live session: {session.theme}
-                  </li>
-                )}
-              </ul>
-            </li>
-          );
-        })}
-      </ol>
-
-      <h3 className="mb-3 mt-8 text-base font-bold text-white">Live sessions</h3>
-      <ul className="space-y-2">
-        {live.map((s, i) => (
-          <li key={s.date} className="rounded-lg border border-graphite-800 bg-graphite-900/60 px-4 py-3 text-sm">
-            <p className="font-medium text-white">
-              {i + 1}. {s.theme} <span className="text-xs font-normal text-saffron-300">· {dayLabel(s.date)}</span>
-            </p>
-            <p className="mt-0.5 text-xs text-graphite-300">{s.focus}</p>
+        {groups.map((g) => (
+          <li key={`${g.module}-${g.videos[0].number}`} className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-2 sm:p-3">
+            <p className="px-2 pb-1 pt-1 text-sm font-bold text-saffron-300">{g.module}</p>
+            <ul className="grid gap-3 sm:grid-cols-2">{g.videos.map(videoRow)}</ul>
           </li>
         ))}
-      </ul>
-      <p className="mt-3 text-xs text-graphite-300">{plan.revision}</p>
+      </ol>
+
+      {live.length > 0 && (
+        <>
+          <h3 className="mb-3 mt-8 text-base font-bold text-white">Live sessions</h3>
+          <ul className="space-y-2">
+            {live.map((s, i) => (
+              <li key={s.date} className="rounded-lg border border-graphite-800 bg-graphite-900/60 px-4 py-3 text-sm">
+                <p className="font-medium text-white">
+                  {i + 1}. {s.theme}
+                </p>
+                <p className="mt-0.5 text-xs text-graphite-300">{s.focus}</p>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </section>
   );
 }

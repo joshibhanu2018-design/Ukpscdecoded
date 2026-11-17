@@ -150,7 +150,7 @@ export default async function MyCourseTestsPage({ params }: { params: Promise<{ 
                             </div>
                             <span className="flex flex-shrink-0 items-center gap-1 text-right text-[11px] text-graphite-300">
                               <Lock className="h-3 w-3" />
-                              {!released ? formatDateLabel(t.release_at) : "Soon"}
+                              Soon
                             </span>
                           </li>
                         );

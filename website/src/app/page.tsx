@@ -66,6 +66,7 @@ export default async function Home() {
             const featured = "featured" in link && link.featured;
             const buy = "buy" in link ? link.buy : null;
             const labelHi = "labelHi" in link ? link.labelHi : null;
+            const image = "image" in link ? link.image : null;
             return (
               <div
                 key={link.href}
@@ -77,9 +78,22 @@ export default async function Home() {
                   {featured && (
                     <span className="absolute right-3 top-3 rounded-full bg-saffron-400 px-2 py-0.5 text-[10px] font-bold uppercase text-graphite-950">New</span>
                   )}
-                  <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
-                    <Icon className="h-5 w-5" />
-                  </span>
+                  {image ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- pre-sized WebP in public/books
+                    <img
+                      src={image}
+                      alt={`${link.title} cover`}
+                      width={640}
+                      height={800}
+                      loading="lazy"
+                      decoding="async"
+                      className="mb-3 aspect-[4/5] w-full rounded-lg border border-graphite-800 object-cover shadow-sm"
+                    />
+                  ) : (
+                    <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-saffron-400/10 text-saffron-400 transition-colors group-hover:bg-saffron-400/20">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                  )}
                   <span className="flex items-center gap-1 font-display text-sm font-semibold text-white sm:text-base">
                     {link.title}
                     <ArrowRight className="h-3.5 w-3.5 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -88,6 +102,14 @@ export default async function Home() {
                     {labelHi ? <T en={link.label} hi={labelHi} /> : link.label}
                   </span>
                 </Link>
+                {image && (
+                  <Link
+                    href={link.href}
+                    className="mx-4 mb-4 flex min-h-[40px] items-center justify-center rounded-lg bg-saffron-400 px-3 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
+                  >
+                    <T en="Buy Book" hi="किताब खरीदें" />
+                  </Link>
+                )}
                 {buy && (
                   <Link
                     href={`/checkout/${buy}`}
@@ -313,22 +335,12 @@ export default async function Home() {
 
             {/* Right - Book Cover */}
             <div className="flex justify-center lg:justify-end">
-              <div className="relative w-72 h-96 md:w-80 md:h-[28rem] rounded-2xl overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-saffron-500 via-saffron-600 to-graphite-900" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                  <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-4">
-                    <BookOpen className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-white mb-2">
-                    {bookPreview.coverTitle}
-                  </h3>
-                  <p className="text-white/80 text-sm mb-4">
-                    {bookPreview.coverSubtitle}
-                  </p>
-                  <div className="w-16 h-0.5 bg-white/30 mb-4" />
-                  <p className="text-white/60 text-xs">{bookPreview.coverFooter}</p>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              {/* The real covers, English in front and Hindi behind it. */}
+              <div className="relative h-[22rem] w-72 md:h-[26rem] md:w-80">
+                {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized WebP in public/books */}
+                <img src="/books/uttarakhand-decoded-hindi.webp" alt="उत्तराखंड डिकोडेड, Hindi edition cover" width={640} height={793} loading="lazy" decoding="async" className="absolute right-0 top-0 w-[62%] rotate-3 rounded-lg shadow-xl" />
+                {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized WebP in public/books */}
+                <img src="/books/uttarakhand-decoded-english.webp" alt="Uttarakhand Decoded, English edition cover" width={640} height={803} loading="lazy" decoding="async" className="absolute bottom-0 left-0 w-[68%] -rotate-2 rounded-lg shadow-2xl" />
               </div>
             </div>
           </div>

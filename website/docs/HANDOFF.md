@@ -11,6 +11,20 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Year-round selling (17 Nov, third round):** no dates are shown on crash
+  course videos or on tests any more. `CrashCoursePlan.tsx` lists the videos
+  in number order grouped by subject (the dates in
+  `content/crashCoursePlan.json` only keep the order; live sessions are
+  listed without dates). A video or test that is not released yet says
+  "Coming soon" instead of a date (course page, My Courses, lessons page,
+  test list). "Classes start ..." is gone. Still dated on purpose: the
+  Revision / Rank Challenge timetables (live mocks till 25 Nov), the offer
+  deadline on prices, and "Access valid till". Any date typed inside a
+  package's description or highlights lives in the database (Admin).
+  Home page: the two book tiles show the real covers
+  (`public/books/*.webp`, made from IMG_5855 / IMG_5854) with a Buy Book
+  button, and the book section shows both covers instead of the orange box.
+
 - **Second round, 17 Nov (white student area, new cards, menus, WhatsApp
   login, cached pages):**
   - **Whole site white.** `src/app/test-platform/layout.tsx` no longer has
