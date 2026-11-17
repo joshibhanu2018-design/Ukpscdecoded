@@ -31,10 +31,9 @@ export async function getSampleLessons(slugs: string[]): Promise<SampleLesson[]>
 
 /**
  * Free sample class card(s) in the course page's "Watch Free Demo" area: video + PDF notes,
- * for any logged-in student. `fromUpper`: the class was recorded for the Upper PCS
- * Crash Course, so say so on other exams' pages.
+ * for any logged-in student.
  */
-export default function FreeSampleLessons({ samples, fromUpper }: { samples: SampleLesson[]; fromUpper: boolean }) {
+export default function FreeSampleLessons({ samples }: { samples: SampleLesson[] }) {
   if (samples.length === 0) return null;
   return (
     <div className="space-y-3">
@@ -46,16 +45,8 @@ export default function FreeSampleLessons({ samples, fromUpper }: { samples: Sam
           <p className="mt-1 font-semibold leading-snug text-white">{s.title}</p>
           <p className="mt-1.5 text-sm text-graphite-300">
             <T
-              en={
-                fromUpper
-                  ? "Check our teaching quality before you buy. This class is from our Upper PCS Crash Course, and the same lessons are part of this course."
-                  : "Check our teaching quality before you buy: the full class with its PDF notes, free."
-              }
-              hi={
-                fromUpper
-                  ? "खरीदने से पहले हमारी पढ़ाई की क्वालिटी खुद देखें। यह क्लास हमारे Upper PCS क्रैश कोर्स से है, और यही लेसन इस कोर्स में भी हैं।"
-                  : "खरीदने से पहले हमारी पढ़ाई की क्वालिटी खुद देखें: पूरी क्लास और उसके PDF नोट्स, फ्री।"
-              }
+              en="Check our teaching quality before you buy: a sample class from our courses, with its PDF notes, free."
+              hi="खरीदने से पहले हमारी पढ़ाई की क्वालिटी खुद देखें: हमारे कोर्स की एक सैंपल क्लास, PDF नोट्स के साथ, फ्री।"
             />
           </p>
           <Link
