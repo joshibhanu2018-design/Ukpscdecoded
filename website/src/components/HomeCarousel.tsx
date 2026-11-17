@@ -124,7 +124,7 @@ export default function HomeCarousel({ banners }: { banners: (Banner & { href: s
               </picture>
             ) : (
               <div
-                className="flex h-full min-h-[220px] items-center justify-center px-12 py-14 text-center sm:min-h-[280px] sm:py-20"
+                className="on-color flex h-full min-h-[220px] items-center justify-center px-12 py-14 text-center sm:min-h-[280px] sm:py-20"
                 style={{ background: `linear-gradient(135deg, ${b.gradient_from}, ${b.gradient_to})` }}
               >
                 <div>

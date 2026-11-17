@@ -24,6 +24,7 @@ import TestTabs from "@/components/TestTabs";
 import AppPurchaseNote from "@/components/AppPurchaseNote";
 import CrashCoursePlan from "@/components/CrashCoursePlan";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
+import T from "@/components/T";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -136,7 +137,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 href={checkoutHref}
                 className="web-only rounded-lg bg-saffron-400 px-6 py-2 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
               >
-                Buy Now
+                <T en="Buy Now" hi="अभी खरीदें" />
               </Link>
             )}
           </div>
@@ -163,14 +164,14 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               href={checkoutHref}
               className="flex-1 rounded-lg bg-saffron-400 px-4 py-3 text-center text-sm font-bold text-graphite-900"
             >
-              Buy Now
+              <T en="Buy Now" hi="अभी खरीदें" />
             </Link>
           )}
         </div>
       </div>
 
       {/* Header */}
-      <div className="px-4 py-8 sm:py-12" style={{ background: courseTone(pkg) }}>
+      <div className="on-color px-4 py-8 sm:py-12" style={{ background: courseTone(pkg) }}>
         <div
           className={`container-custom mx-auto ${pkg.image_url ? "grid grid-cols-1 items-center gap-6 lg:grid-cols-2" : ""}`}
         >
@@ -226,7 +227,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   href={checkoutHref}
                   className="inline-block rounded-lg bg-graphite-900 px-6 py-3 text-sm font-bold text-white hover:bg-graphite-800"
                 >
-                  Buy Now
+                  <T en="Buy Now" hi="अभी खरीदें" />
                 </Link>
               )}
             </div>

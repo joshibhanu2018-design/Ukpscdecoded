@@ -1,0 +1,17 @@
+{
+  "_help": "Answer key page (/answer-key). On exam evening: paste each set's answers as one string of A/B/C/D, one letter per question in order (use X for a question to be ignored), then set published to true. Check questions, marksPerQuestion and negativePerWrong against the official paper first.",
+  "examName": "UKPSC Upper PCS Prelims 2026",
+  "examDate": "2026-11-29",
+  "published": false,
+  "papers": [
+    {
+      "id": "gs",
+      "name": "General Studies (Paper I)",
+      "nameHi": "सामान्य अध्ययन (प्रश्नपत्र I)",
+      "questions": 150,
+      "marksPerQuestion": 1,
+      "negativePerWrong": 0.25,
+      "sets": { "A": "", "B": "", "C": "", "D": "" }
+    }
+  ]
+}

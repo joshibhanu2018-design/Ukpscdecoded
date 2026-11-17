@@ -1,4 +1,5 @@
-import { KIND_LABEL, shortDate, type ScheduleItem, type ScheduleKind } from "@/lib/finalMonth";
+import { KIND_LABEL, KIND_LABEL_HI, shortDate, type ScheduleItem, type ScheduleKind } from "@/lib/finalMonth";
+import T from "@/components/T";
 
 const KIND_STYLE: Record<ScheduleKind, string> = {
   mock: "border-saffron-400/70 bg-saffron-400/10",
@@ -37,8 +38,8 @@ export default function Timetable({ items, today }: { items: ScheduleItem[]; tod
               <p className="font-semibold leading-snug text-white">{t.name}</p>
               <p className="mt-0.5 flex items-center gap-1.5 text-xs text-graphite-300">
                 <span className={`h-2 w-2 rounded-full ${KIND_DOT[t.kind]}`} />
-                {KIND_LABEL[t.kind]}
-                {isToday && <span className="font-bold text-saffron-300"> · today</span>}
+                <T en={KIND_LABEL[t.kind]} hi={KIND_LABEL_HI[t.kind]} />
+                {isToday && <span className="font-bold text-saffron-300"> · <T en="today" hi="आज" /></span>}
               </p>
             </div>
           </li>

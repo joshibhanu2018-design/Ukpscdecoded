@@ -12,6 +12,7 @@ import InstallPrompt from "@/components/InstallPrompt";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import ScrollUnlock from "@/components/ScrollUnlock";
+import Clarity from "@/components/Clarity";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { getActiveOffer } from "@/lib/coupons";
 import OfferBar from "@/components/OfferBar";
@@ -25,7 +26,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0f0f0e",
+  themeColor: "#f8f7f3",
 };
 
 export const metadata: Metadata = {
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "UKPSC Decoded", url: siteUrl }],
   // iPhone "Add to Home Screen": open full-screen with the app's own name.
-  appleWebApp: { capable: true, title: "UKPSC Decoded", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "UKPSC Decoded", statusBarStyle: "default" },
   creator: "UKPSC Decoded",
   publisher: "UKPSC Decoded",
   robots: {
@@ -203,6 +204,13 @@ export default async function RootLayout({
               'try{var s=sessionStorage;if(/[?&]source=app\\b/.test(location.search)||document.referrer.indexOf("android-app://in.ukpscdecoded.app")===0)s.setItem("ukd-app","1");if(s.getItem("ukd-app")==="1")document.documentElement.setAttribute("data-app","")}catch(e){}',
           }}
         />
+        {/* Site language: the visitor's saved choice, else Hindi when the phone is set to Hindi. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var l=localStorage.getItem("ukd-site-lang");if(!l&&/^hi/i.test(navigator.language||""))l="hi";if(l==="hi")document.documentElement.setAttribute("data-lang","hi")}catch(e){}',
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -222,6 +230,7 @@ export default async function RootLayout({
         <InstallPrompt />
         <ServiceWorkerRegister />
         <ScrollUnlock />
+        <Clarity />
       </body>
     </html>
   );

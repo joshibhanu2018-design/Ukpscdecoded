@@ -101,7 +101,7 @@ export default function VideoGrid({ videos }: { videos: YouTubeVideo[] }) {
               </div>
               {/* Duration Badge */}
               {video.duration && (
-                <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
+                <div className="on-color absolute bottom-2 right-2 bg-black/80 text-white text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
                   <Clock className="w-3 h-3" />
                   {video.duration}
                 </div>

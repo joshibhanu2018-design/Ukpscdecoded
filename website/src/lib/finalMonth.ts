@@ -20,6 +20,13 @@ export const KIND_LABEL: Record<ScheduleKind, string> = {
   csat: "CSAT · 100 Q",
 };
 
+export const KIND_LABEL_HI: Record<ScheduleKind, string> = {
+  mock: "फुल मॉक · लाइव रैंक",
+  uk: "उत्तराखंड GK · 100 प्रश्न",
+  ca: "करेंट अफेयर्स · 100 प्रश्न",
+  csat: "CSAT · 100 प्रश्न",
+};
+
 export type ProductState = {
   pkg: Package | null;
   owned: boolean;

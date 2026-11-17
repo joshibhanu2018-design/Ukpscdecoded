@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import { PHONE_ERROR, PHONE_RE } from "@/lib/phone";
+import T from "@/components/T";
 
 type Step = "email" | "code" | "name";
 
@@ -129,7 +130,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
       <form onSubmit={sendCode} className="space-y-4">
         <div>
           <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-graphite-300">
-            Email
+            <T en="Email" hi="ईमेल" />
           </label>
           <input
             id="email"
@@ -147,10 +148,10 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         {errorBox}
         <button type="submit" disabled={loading} className={buttonClass}>
           {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Mail className="h-5 w-5" />}
-          Send code
+          <T en="Send code" hi="कोड भेजें" />
         </button>
         <p className="text-center text-xs text-graphite-300">
-          New here? Your account is created automatically.
+          <T en="New here? Your account is created automatically." hi="पहली बार आए हैं? आपका अकाउंट अपने आप बन जाएगा।" />
         </p>
       </form>
     );
@@ -166,8 +167,10 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         className="space-y-4"
       >
         <p className="text-sm text-graphite-300">
-          We sent a 6-digit code to <span className="font-semibold text-white">{email}</span>. It&apos;s valid for 10
-          minutes — check spam too.
+          <T
+            en={<>We sent a 6-digit code to <span className="font-semibold text-white">{email}</span>. It&apos;s valid for 10 minutes — check spam too.</>}
+            hi={<>हमने <span className="font-semibold text-white">{email}</span> पर 6 अंकों का कोड भेजा है। यह 10 मिनट तक चलेगा — स्पैम फ़ोल्डर भी देखें।</>}
+          />
         </p>
         <input
           ref={codeRef}
@@ -190,7 +193,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
         {errorBox}
         <button type="submit" disabled={loading || code.length !== 6} className={buttonClass}>
           {loading && <Loader2 className="h-5 w-5 animate-spin" />}
-          Log in
+          <T en="Log in" hi="लॉगिन करें" />
         </button>
         <div className="flex items-center justify-between text-sm">
           <button
@@ -201,7 +204,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
             }}
             className="flex items-center gap-1 text-graphite-300 hover:text-graphite-200"
           >
-            <ArrowLeft className="h-4 w-4" /> Change email
+            <ArrowLeft className="h-4 w-4" /> <T en="Change email" hi="ईमेल बदलें" />
           </button>
           <button
             type="button"
@@ -209,7 +212,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
             onClick={() => void sendCode()}
             className="font-medium text-saffron-400 hover:text-saffron-300 disabled:text-graphite-500"
           >
-            {cooldown > 0 ? `Resend (${cooldown}s)` : "Resend"}
+            {cooldown > 0 ? <T en={<>Resend ({cooldown}s)</>} hi={<>दोबारा भेजें ({cooldown}s)</>} /> : <T en="Resend" hi="दोबारा भेजें" />}
           </button>
         </div>
       </form>
@@ -219,7 +222,7 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
   return (
     <form onSubmit={complete} className="space-y-4">
       <p className="text-sm text-graphite-300">
-        Welcome! Tell us your name and mobile number.
+        <T en="Welcome! Tell us your name and mobile number." hi="स्वागत है! अपना नाम और मोबाइल नंबर बताएं।" />
       </p>
       <input
         type="text"
@@ -247,13 +250,13 @@ export default function OtpLoginForm({ next = "/test-platform" }: { next?: strin
           className={inputClass}
         />
         <p className="mt-1.5 text-xs text-graphite-400">
-          For course updates and doubt support on call or WhatsApp. We never share it.
+          <T en="For course updates and doubt support on call or WhatsApp. We never share it." hi="कोर्स की जानकारी और कॉल या WhatsApp पर डाउट सपोर्ट के लिए। हम इसे किसी से साझा नहीं करते।" />
         </p>
       </div>
       {errorBox}
       <button type="submit" disabled={loading} className={buttonClass}>
         {loading && <Loader2 className="h-5 w-5 animate-spin" />}
-        Get started
+        <T en="Get started" hi="शुरू करें" />
       </button>
     </form>
   );

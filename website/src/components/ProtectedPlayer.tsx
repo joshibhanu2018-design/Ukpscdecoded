@@ -76,7 +76,7 @@ export default function ProtectedPlayer({
         <p
           aria-hidden
           style={POSITIONS[pos]}
-          className="pointer-events-none absolute select-none whitespace-nowrap text-[11px] font-semibold text-white/40 transition-all duration-1000 [text-shadow:0_0_3px_rgba(0,0,0,0.8)] sm:text-sm"
+          className="on-color pointer-events-none absolute select-none whitespace-nowrap text-[11px] font-semibold text-white/40 transition-all duration-1000 [text-shadow:0_0_3px_rgba(0,0,0,0.8)] sm:text-sm"
         >
           {watermark}
         </p>
@@ -84,7 +84,7 @@ export default function ProtectedPlayer({
           <button
             type="button"
             onClick={() => void toggleFull()}
-            className="absolute right-2 top-2 inline-flex items-center gap-1.5 rounded-lg bg-black/60 px-3 py-1.5 text-xs text-white"
+            className="on-color absolute right-2 top-2 inline-flex items-center gap-1.5 rounded-lg bg-black/60 px-3 py-1.5 text-xs text-white"
           >
             <Minimize className="h-3.5 w-3.5" /> Exit full screen
           </button>

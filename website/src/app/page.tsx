@@ -9,12 +9,14 @@ import HomeCarousel from "@/components/HomeCarousel";
 import CourseCard from "@/components/CourseCard";
 import FreeSampleTest from "@/components/FreeSampleTest";
 import WhichOne from "@/components/final-month/WhichOne";
+import HomeToppers from "@/components/HomeToppers";
 import { getActiveBanners } from "@/lib/banners";
 import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { BEST_BUY_SLUG } from "@/lib/catalog";
 import quiz from "@content/quiz.json";
 import home from "@content/home.json";
+import T from "@/components/T";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -65,6 +67,9 @@ export default async function Home() {
         </div>
       )}
 
+      {/* Real results: the latest Rank Challenge toppers (nothing shows until a result is out). */}
+      <HomeToppers />
+
       {/* Quick links — one per paid product, right under the carousel */}
       <nav aria-label="Products" className="border-b border-graphite-800 bg-graphite-950 px-4 py-6 sm:py-8">
         <div className="container-custom mx-auto grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -91,15 +96,16 @@ export default async function Home() {
                     {link.title}
                     <ArrowRight className="h-3.5 w-3.5 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
                   </span>
-                  <span className="mt-1 text-[13px] leading-snug text-graphite-300">{link.label}</span>
-                  {labelHi && <span lang="hi" className="mt-1 text-[13px] leading-snug text-graphite-300">{labelHi}</span>}
+                  <span className="mt-1 text-[13px] leading-snug text-graphite-300">
+                    {labelHi ? <T en={link.label} hi={labelHi} /> : link.label}
+                  </span>
                 </Link>
                 {buy && (
                   <Link
                     href={`/checkout/${buy}`}
                     className="web-only mx-4 mb-4 flex min-h-[40px] items-center justify-center rounded-lg bg-saffron-400 px-3 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
                   >
-                    Buy Now
+                    <T en="Buy Now" hi="अभी खरीदें" />
                   </Link>
                 )}
               </div>
@@ -114,7 +120,7 @@ export default async function Home() {
       <section className="bg-graphite-950 px-4 py-14 sm:py-16">
         <div className="container-custom mx-auto">
           <div className="mb-8 text-center">
-            <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">Our Courses</h2>
+            <h2 className="font-display text-2xl font-bold text-white sm:text-3xl"><T en="Our Courses" hi="हमारे कोर्स" /></h2>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredCourses.map((pkg) => (
@@ -131,7 +137,7 @@ export default async function Home() {
               href="/courses"
               className="inline-flex items-center gap-2 rounded-lg border border-graphite-700 px-5 py-2.5 text-sm font-semibold text-graphite-200 hover:border-saffron-400 hover:text-saffron-300"
             >
-              View All Courses <ArrowRight className="h-4 w-4" />
+              <T en="View All Courses" hi="सभी कोर्स देखें" /> <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -158,7 +164,7 @@ export default async function Home() {
                   <Link
                     key={idx}
                     href={edition.buttonLink}
-                    className="group relative w-full inline-flex items-center justify-center gap-2 px-6 py-5 text-lg sm:text-xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+                    className="on-color group relative w-full inline-flex items-center justify-center gap-2 px-6 py-5 text-lg sm:text-xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
                     style={{
                       background: edition.languageCode === 'en' 
                         ? "linear-gradient(135deg, #f59307 0%, #e67e22 50%, #d35400 100%)"
@@ -190,7 +196,7 @@ export default async function Home() {
               <div className="w-full max-w-3xl mx-auto mb-16">
                 <Link
                   href={hero.primaryButtonLink}
-                  className="group relative w-full inline-flex items-center justify-center gap-3 px-8 py-6 text-2xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+                  className="on-color group relative w-full inline-flex items-center justify-center gap-3 px-8 py-6 text-2xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
                   style={{
                     background: "linear-gradient(135deg, #f59307 0%, #e67e22 50%, #d35400 100%)",
                     boxShadow: "0 10px 40px rgba(245, 147, 7, 0.4)"

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin";
+import { sendMockDayReminders } from "@/lib/mockReminders";
 import { pickDailyPolls, postDailyQuiz, postedToday, promoFor } from "@/lib/telegramMcq";
 
 export const maxDuration = 60;
@@ -21,15 +22,25 @@ export async function GET(request: NextRequest) {
     if (!preview && !send) return NextResponse.json({ error: "Add ?preview=1 or ?send=1" }, { status: 400 });
   }
 
+  // Mock-day WhatsApp reminder rides on this 8 am cron (Vercel's free plan has no spare cron).
+  // Cron runs only, so an admin's manual ?send=1 never messages students twice.
+  let whatsapp: Awaited<ReturnType<typeof sendMockDayReminders>> | { error: string } | null = null;
+  if (isCron) {
+    whatsapp = await sendMockDayReminders().catch((err) => {
+      console.error("[mock-reminders] failed:", err);
+      return { error: String(err instanceof Error ? err.message : err) };
+    });
+  }
+
   try {
     if (!preview && (await postedToday())) {
-      return NextResponse.json({ ok: true, skipped: "Today's quiz was already posted" });
+      return NextResponse.json({ ok: true, skipped: "Today's quiz was already posted", whatsapp });
     }
     const { polls, remaining } = await pickDailyPolls();
     if (preview) return NextResponse.json({ polls, promo: promoFor(new Date()), unusedLeft: remaining });
     if (polls.length === 0) return NextResponse.json({ error: "No unused questions left" }, { status: 409 });
     const sent = await postDailyQuiz(polls);
-    return NextResponse.json({ ok: true, sent, unusedLeft: remaining });
+    return NextResponse.json({ ok: true, sent, unusedLeft: remaining, whatsapp });
   } catch (err) {
     console.error("[telegram-mcq] failed:", err);
     return NextResponse.json({ error: String(err instanceof Error ? err.message : err) }, { status: 500 });

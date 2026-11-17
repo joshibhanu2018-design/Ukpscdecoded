@@ -1,4 +1,6 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
+import T from "@/components/T";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { formatINR } from "@/lib/format";
 import type { ProductState } from "@/lib/finalMonth";
@@ -15,26 +17,26 @@ export default function BuyBox({
   includedNote,
 }: {
   state: ProductState;
-  buyLabel: string;
+  buyLabel: ReactNode;
   loggedIn: boolean;
-  includedNote?: string;
+  includedNote?: ReactNode;
 }) {
   const { pkg } = state;
   if (!pkg) {
-    return <p className="text-sm text-graphite-300">Opening soon.</p>;
+    return <p className="text-sm text-graphite-300"><T en="Opening soon." hi="जल्द शुरू होगा।" /></p>;
   }
   if (state.owned) {
     return (
       <div>
         <p className="flex items-center gap-2 text-sm font-semibold text-success-300">
-          <CheckCircle2 className="h-5 w-5" /> You&apos;re enrolled
+          <CheckCircle2 className="h-5 w-5" /> <T en="You're enrolled" hi="आप जुड़ चुके हैं" />
         </p>
         {includedNote && <p className="mt-1 text-xs text-graphite-300">{includedNote}</p>}
         <Link
           href={`/test-platform/course/${pkg.slug}`}
           className="mt-3 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-success-500 px-5 text-sm font-bold text-graphite-950 hover:bg-success-400 sm:w-auto"
         >
-          Go to my tests <ArrowRight className="h-4 w-4" />
+          <T en="Go to my tests" hi="मेरे टेस्ट खोलें" /> <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     );
@@ -49,10 +51,10 @@ export default function BuyBox({
         {state.wasPrice && <span className="text-lg text-graphite-400 line-through">{formatINR(state.wasPrice)}</span>}
       </div>
       {state.kind === "upgrade" && (
-        <p className="web-only mt-1 text-sm font-semibold text-saffron-300">Upgrade price for Mock Mahasangram students</p>
+        <p className="web-only mt-1 text-sm font-semibold text-saffron-300"><T en="Upgrade price for Mock Mahasangram students" hi="मॉक महासंग्राम के छात्रों के लिए अपग्रेड कीमत" /></p>
       )}
       {state.kind === "returning" && (
-        <p className="web-only mt-1 text-sm font-semibold text-saffron-300">20% off: you&apos;re already our student</p>
+        <p className="web-only mt-1 text-sm font-semibold text-saffron-300"><T en="20% off: you're already our student" hi="20% छूट: आप पहले से हमारे छात्र हैं" /></p>
       )}
       <Link
         href={href}
@@ -62,7 +64,10 @@ export default function BuyBox({
       </Link>
       {!loggedIn && (
         <p className="web-only mt-2 text-xs text-graphite-300">
-          Bought from us before? <Link href={`/student/login?next=${encodeURIComponent("/revision")}`} className="text-saffron-300 underline">Log in</Link> to see your 20% / upgrade price.
+          <T
+            en={<>Bought from us before? <Link href={`/student/login?next=${encodeURIComponent("/revision")}`} className="text-saffron-300 underline">Log in</Link> to see your 20% / upgrade price.</>}
+            hi={<>पहले हमसे कुछ खरीदा है? अपनी 20% छूट / अपग्रेड कीमत देखने के लिए <Link href={`/student/login?next=${encodeURIComponent("/revision")}`} className="text-saffron-300 underline">लॉगिन करें</Link>।</>}
+          />
         </p>
       )}
     </div>

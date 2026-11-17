@@ -48,7 +48,7 @@ export default function Footer() {
   const { footer, social } = settings;
 
   return (
-    <footer className="border-t border-graphite-800 bg-graphite-950 text-graphite-300">
+    <footer className="theme-dark border-t border-graphite-800 bg-graphite-950 text-graphite-300">
       <div className="container-custom mx-auto section-padding pb-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand + connect */}

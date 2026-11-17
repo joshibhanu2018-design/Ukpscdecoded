@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 
 // The AiSensy (WhatsApp Business API) number. Chats started here land in AiSensy Live Chat.
-const WHATSAPP_NUMBER = "918368457598";
+export const WHATSAPP_NUMBER = "918368457598";
 
 // Not during a running test, at payment, or in the admin pages.
 const HIDDEN_PREFIXES = ["/test-platform/attempts", "/test-platform/tests/", "/test-platform/admin", "/checkout"];

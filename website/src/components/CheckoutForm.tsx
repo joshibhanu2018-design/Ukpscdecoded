@@ -7,6 +7,8 @@ import { Loader2, Tag } from "lucide-react";
 import { formatINR } from "@/lib/format";
 import { loadRazorpayScript } from "@/lib/razorpay-client";
 import { computeOrderTotal } from "@/lib/pricing";
+import T from "@/components/T";
+import { WHATSAPP_NUMBER as SUPPORT_WHATSAPP } from "@/components/WhatsAppButton";
 
 const PHONE_RE = /^[6-9]\d{9}$/;
 
@@ -175,11 +177,11 @@ export default function CheckoutForm({
   return (
     <div className="space-y-5">
       <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
-        <h2 className="mb-4 text-sm font-bold text-white">Your details</h2>
+        <h2 className="mb-4 text-sm font-bold text-white"><T en="Your details" hi="आपकी जानकारी" /></h2>
 
         <div className="space-y-3">
           <div>
-            <label className="mb-1 block text-xs font-medium text-graphite-300">Name</label>
+            <label className="mb-1 block text-xs font-medium text-graphite-300"><T en="Name" hi="नाम" /></label>
             <input
               value={userName}
               readOnly
@@ -187,7 +189,7 @@ export default function CheckoutForm({
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-graphite-300">Email</label>
+            <label className="mb-1 block text-xs font-medium text-graphite-300"><T en="Email" hi="ईमेल" /></label>
             <input
               value={userEmail}
               readOnly
@@ -196,7 +198,7 @@ export default function CheckoutForm({
           </div>
           <div>
             <label htmlFor="phone" className="mb-1 block text-xs font-medium text-graphite-300">
-              Mobile number <span className="text-danger-400">*</span>
+              <T en="Mobile number" hi="मोबाइल नंबर" /> <span className="text-danger-400">*</span>
             </label>
             <input
               id="phone"
@@ -214,7 +216,7 @@ export default function CheckoutForm({
 
       <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
         <h2 className="mb-3 flex items-center gap-1.5 text-sm font-bold text-white">
-          <Tag className="h-4 w-4 text-saffron-400" /> Coupon or referral code
+          <Tag className="h-4 w-4 text-saffron-400" /> <T en="Coupon or referral code" hi="कूपन या रेफरल कोड" />
         </h2>
         <div className="flex gap-2">
           <input
@@ -233,7 +235,7 @@ export default function CheckoutForm({
             disabled={codeStatus === "checking" || !codeInput.trim()}
             className="flex-shrink-0 rounded-lg border border-graphite-700 px-4 py-2.5 text-sm font-semibold text-graphite-300 hover:border-saffron-400 hover:text-saffron-300 disabled:opacity-50"
           >
-            {codeStatus === "checking" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply"}
+            {codeStatus === "checking" ? <Loader2 className="h-4 w-4 animate-spin" /> : <T en="Apply" hi="लगाएं" />}
           </button>
         </div>
         {codeMessage && (
@@ -242,26 +244,26 @@ export default function CheckoutForm({
       </div>
 
       <div className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-5">
-        <h2 className="mb-3 text-sm font-bold text-white">Price breakdown</h2>
+        <h2 className="mb-3 text-sm font-bold text-white"><T en="Price breakdown" hi="कीमत का ब्योरा" /></h2>
         <dl className="space-y-1.5 text-sm">
           <div className="flex justify-between text-graphite-300">
-            <dt>Price</dt>
+            <dt><T en="Price" hi="कीमत" /></dt>
             <dd>{formatINR(total.basePaise / 100)}</dd>
           </div>
           {total.codeDiscountPaise > 0 && (
             <div className="flex justify-between text-success-400">
-              <dt>Discount</dt>
+              <dt><T en="Discount" hi="छूट" /></dt>
               <dd>−{formatINR(total.codeDiscountPaise / 100)}</dd>
             </div>
           )}
           {total.creditAppliedPaise > 0 && (
             <div className="flex justify-between text-success-400">
-              <dt>Store credit</dt>
+              <dt><T en="Store credit" hi="स्टोर क्रेडिट" /></dt>
               <dd>−{formatINR(total.creditAppliedPaise / 100)}</dd>
             </div>
           )}
           <div className="flex justify-between border-t border-graphite-800 pt-1.5 font-bold text-white">
-            <dt>Total</dt>
+            <dt><T en="Total" hi="कुल" /></dt>
             <dd>{formatINR(total.finalPaise / 100)}</dd>
           </div>
         </dl>
@@ -279,11 +281,28 @@ export default function CheckoutForm({
         className="flex w-full items-center justify-center gap-2 rounded-lg bg-saffron-400 px-4 py-3 text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300 disabled:opacity-60"
       >
         {status === "loading" && <Loader2 className="h-4 w-4 animate-spin" />}
-        Pay {formatINR(total.finalPaise / 100)}
+        <T en={<>Pay {formatINR(total.finalPaise / 100)}</>} hi={<>{formatINR(total.finalPaise / 100)} का भुगतान करें</>} />
       </button>
 
+      <div className="rounded-lg border border-graphite-800 bg-graphite-900/60 px-4 py-3 text-center text-xs leading-relaxed text-graphite-300">
+        <p className="font-semibold text-graphite-200">
+          <T en="Pay by UPI, card or net banking · secure payment by Razorpay" hi="UPI, कार्ड या नेट बैंकिंग से भुगतान करें · Razorpay से सुरक्षित भुगतान" />
+        </p>
+        <p className="mt-1">
+          <T en="Payment problem? " hi="भुगतान में दिक्कत? " />
+          <a
+            href={`https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent("Hi UKPSC Decoded, I need help with payment.")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-saffron-300 underline"
+          >
+            <T en="Message us on WhatsApp" hi="WhatsApp पर मैसेज करें" />
+          </a>
+        </p>
+      </div>
+
       <p className="text-center text-[11px] leading-snug text-graphite-300">
-        Account sharing leads to suspension without refund.{" "}
+        <T en="Account sharing leads to suspension without refund." hi="अकाउंट शेयर करने पर बिना रिफंड के अकाउंट बंद हो जाएगा।" />{" "}
         <Link href="/terms" className="underline hover:text-graphite-300">
           Terms
         </Link> ·{" "}

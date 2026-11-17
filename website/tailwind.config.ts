@@ -6,6 +6,9 @@ import type { Config } from "tailwindcss";
 // right/owned/saved, danger for wrong/errors. Use these, not Tailwind's
 // built-in slate/gray/yellow/green/red.
 
+// NOTE (17 Nov 2026): the public site is light now. The dark-surface classes
+// below are remapped in src/app/globals.css (--ui-* variables); `.theme-dark`
+// brings these dark values back (student area, footer).
 // True graphite, no blue tint. Dark theme: 950 page background, 900 card
 // surface, 800 borders and raised surfaces, 300-400 body/secondary text.
 const graphite = {
