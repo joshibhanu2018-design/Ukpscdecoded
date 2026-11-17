@@ -21,6 +21,9 @@ product grouped by exam.
   Uttarakhand / CA Revision tests belong ONLY to the Revision Test Series (made from
   Premium questions, so they'd repeat elsewhere); Basic Test Series off the store;
   Lower PCS Test Series is 67 tests (44 live day one).
+- **Phase 47d** (17 Nov): "2026" kept in Revision Test Series 2026 and All Uttarakhand Rank
+  Challenge 2026 (owner's wish: shows they are for the 2026 exam). `separate_total` also
+  drives "Save X%" on course pages; `false` = no saving shown (bundles of unsold parts).
 - **Store listing lives in `packages.metadata`:** `exam_tab` (lower / tri / upper /
   individual), `listed` (false = hidden from lists, page + access still work),
   `sale_ends_at` (hidden and not buyable after it), `card_label` (chip on the card),

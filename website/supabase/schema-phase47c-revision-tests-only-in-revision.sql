@@ -8,8 +8,7 @@
 --    Phase 47 had also put them in the Lower PCS Test Series, Uttarakhand
 --    Intensive and Current Affairs Intensive: those links are removed.
 -- 2. Basic Test Series: taken off the store (its buyers keep access).
--- 3. Revision Test Series and All Uttarakhand Rank Challenge (Mock Mahasangram):
---    no "2026" in their names and no "Upper PCS · 29 Nov" label on their cards.
+-- 3. (Removed: see phase 47d, which puts "2026" in the Revision and Rank Challenge names.)
 -- 4. Test counts in the Lower PCS products, Uttarakhand GK Pack and Current
 --    Affairs 2026 updated (Lower PCS Test Series: 67 tests, 44 live from day one).
 
@@ -25,15 +24,7 @@ where pt.package_id = p.id
 update packages set metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object('listed', false), updated_at = now()
 where slug = 'basic-test-series';
 
--- ========== 3. Revision + Rank Challenge: no 2026, no label ==========
-update packages set
-  package_name = btrim(regexp_replace(regexp_replace(package_name, '\m2026\M', '', 'g'), '\s{2,}', ' ', 'g')),
-  metadata = (coalesce(metadata, '{}'::jsonb) - 'card_label')
-    || case when metadata ? 'card_title'
-            then jsonb_build_object('card_title', btrim(regexp_replace(regexp_replace(metadata->>'card_title', '\m2026\M', '', 'g'), '\s{2,}', ' ', 'g')))
-            else '{}'::jsonb end,
-  updated_at = now()
-where slug in ('revision-test-series', 'mock-mahasangram');
+-- ========== 3. (replaced by phase 47d: the owner wants "2026" kept in these names) ==========
 
 -- ========== 4. Test counts ==========
 update packages set

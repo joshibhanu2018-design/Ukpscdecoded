@@ -159,8 +159,8 @@ export const revalidate = 300;
 function getFinalMonthItems(pkgs: Package[]): FinalMonthItem[] {
   if (Date.now() > new Date("2026-11-29T23:59:59+05:30").getTime()) return [];
   const show: [string, string][] = [
-    ["revision-test-series", "Revision Test Series"],
-    ["mock-mahasangram", "Rank Challenge"],
+    ["revision-test-series", "Revision Test Series 2026"],
+    ["mock-mahasangram", "Rank Challenge 2026"],
     ["crash-course", "Crash Course"],
     ["complete-prelims-pack", "Complete Prelims Pack"],
     ["premium-test-series", "Premium Test Series"],
@@ -182,7 +182,7 @@ function getFinalMonthItems(pkgs: Package[]): FinalMonthItem[] {
 function getNavMenus(pkgs: Package[]): NavMenus {
   const item = (p: Package) => ({
     href: productHref(p),
-    label: p.slug === "mock-mahasangram" ? "All Uttarakhand Rank Challenge" : p.package_name,
+    label: p.slug === "mock-mahasangram" ? "All Uttarakhand Rank Challenge 2026" : p.package_name,
   });
   return {
     lower: examProducts(pkgs, "lower").map(item),
