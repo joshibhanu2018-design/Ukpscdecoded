@@ -6,7 +6,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 
 ## Lower PCS + RO/ARO relaunch (17 Nov 2026, branch `lower-pcs-relaunch`)
 The site is now organised by exam: **Lower PCS & RO/ARO** (`/lower-pcs`, main),
-**TRI** (`/tri`), **Upper PCS** (`/upper-pcs`) and **Individual** (`/individual`).
+**TRI** (`/tri`), **Upper PCS** (`/upper-pcs`) and **Subject Packs** (`/subject-packs`, metadata tab key still `individual`).
 The top menu has one entry per exam; `/courses` and `/test-series` list every
 product grouped by exam.
 

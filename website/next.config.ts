@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       })),
       { source: "/paid-courses", destination: "/courses", permanent: true },
+      { source: "/individual", destination: "/subject-packs", permanent: true },
       { source: "/paid-course", destination: "/courses/crash-course", permanent: true },
     ];
   },
