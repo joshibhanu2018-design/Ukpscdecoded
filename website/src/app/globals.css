@@ -195,3 +195,11 @@ html[data-app] .web-only {
 html[data-app] .app-only {
   display: revert !important;
 }
+
+/* Site language (T.tsx): English unless <html data-lang="hi">. */
+html:not([data-lang="hi"]) .lang-hi {
+  display: none !important;
+}
+html[data-lang="hi"] .lang-en {
+  display: none !important;
+}

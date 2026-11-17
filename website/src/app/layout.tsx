@@ -203,6 +203,13 @@ export default async function RootLayout({
               'try{var s=sessionStorage;if(/[?&]source=app\\b/.test(location.search)||document.referrer.indexOf("android-app://in.ukpscdecoded.app")===0)s.setItem("ukd-app","1");if(s.getItem("ukd-app")==="1")document.documentElement.setAttribute("data-app","")}catch(e){}',
           }}
         />
+        {/* Site language: the visitor's saved choice, else Hindi when the phone is set to Hindi. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var l=localStorage.getItem("ukd-site-lang");if(!l&&/^hi/i.test(navigator.language||""))l="hi";if(l==="hi")document.documentElement.setAttribute("data-lang","hi")}catch(e){}',
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

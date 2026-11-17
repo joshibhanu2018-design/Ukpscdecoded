@@ -3,6 +3,7 @@ import { ArrowRight, Package as PackageIcon, Rocket, Trophy } from "lucide-react
 import { formatINR } from "@/lib/format";
 import { getPriceInfo } from "@/lib/pricing";
 import type { Package } from "@/lib/packages";
+import T from "@/components/T";
 
 /**
  * "Which one is for me?" — the three choices we recommend in the last month,
@@ -21,6 +22,7 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
       wantHi: "मुझे लाइव रैंक के साथ खुद को परखना है",
       whatHi: "6 फुल मॉक, रात 8 बजे पूरे उत्तराखंड की रैंक",
       name: "All Uttarakhand Rank Challenge",
+      nameHi: "ऑल उत्तराखंड रैंक चैलेंज",
       what: "Mock Mahasangram: 6 full mocks, all-Uttarakhand rank at 8 pm",
       price: price("mock-mahasangram"),
       href: "/mahasangram",
@@ -33,6 +35,7 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
       wantHi: "मुझे आखिरी महीने में पूरा रिवीजन चाहिए",
       whatHi: "6 मॉक + 800 उत्तराखंड GK + 600 करेंट अफेयर्स प्रश्न + 2 CSAT",
       name: "Revision Test Series",
+      nameHi: "रिवीजन टेस्ट सीरीज़",
       what: "6 mocks + 800 UK GK + 600 CA questions + 2 CSAT",
       price: price("revision-test-series"),
       href: "/revision",
@@ -45,6 +48,7 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
       wantHi: "मुझे सब कुछ चाहिए: वीडियो + सभी टेस्ट",
       whatHi: "क्रैश कोर्स + प्रीमियम टेस्ट सीरीज़ + रिवीजन सीरीज़",
       name: "Complete Prelims Pack",
+      nameHi: "कम्प्लीट प्रीलिम्स पैक",
       what: "Crash Course + Premium Test Series + Revision Series",
       price: price("complete-prelims-pack"),
       href: "/courses/complete-prelims-pack",
@@ -56,10 +60,11 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
   return (
     <section aria-labelledby="which-one" className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-4 sm:p-6">
       <h2 id="which-one" className="text-center font-display text-xl font-bold text-white sm:text-2xl">
-        Which one is for me? <span lang="hi" className="block text-lg text-saffron-300 sm:inline sm:text-xl">मेरे लिए कौन सा सही है?</span>
+        <T en="Which one is for me?" hi="मेरे लिए कौन सा सही है?" />
       </h2>
-      <p className="mt-1 text-center text-sm text-graphite-300">Exam on 29 Nov. Pick the one line that sounds like you.</p>
-      <p lang="hi" className="mt-0.5 text-center text-sm text-graphite-300">परीक्षा 29 नवंबर को है। जो लाइन आप पर सही बैठे, वही चुनें।</p>
+      <p className="mt-1 text-center text-sm text-graphite-300">
+        <T en="Exam on 29 Nov. Pick the one line that sounds like you." hi="परीक्षा 29 नवंबर को है। जो लाइन आप पर सही बैठे, वही चुनें।" />
+      </p>
       <div className="mt-5 grid gap-3 md:grid-cols-3">
         {choices.map((c) => (
           <div
@@ -70,17 +75,15 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
           >
             {c.highlight && (
               <span className="absolute -top-2.5 left-4 rounded-full bg-saffron-400 px-2 py-0.5 text-[10px] font-bold uppercase text-graphite-950">
-                Most popular
+                <T en="Most popular" hi="सबसे ज़्यादा पसंद" />
               </span>
             )}
             <Link href={c.href} className="group flex flex-1 flex-col">
-              <p className="text-sm italic text-graphite-200">&ldquo;{c.want}&rdquo;</p>
-              <p lang="hi" className="mt-0.5 text-sm text-graphite-200">&ldquo;{c.wantHi}&rdquo;</p>
+              <p className="text-sm italic text-graphite-200">&ldquo;<T en={c.want} hi={c.wantHi} />&rdquo;</p>
               <p className="mt-2 flex items-center gap-2 font-display text-lg font-bold text-white">
-                <c.icon className="h-5 w-5 text-saffron-400" /> {c.name}
+                <c.icon className="h-5 w-5 text-saffron-400" /> <T en={c.name} hi={c.nameHi} />
               </p>
-              <p className="mt-1 text-sm text-graphite-300">{c.what}</p>
-              <p lang="hi" className="mt-0.5 flex-1 text-sm text-graphite-300">{c.whatHi}</p>
+              <p className="mt-1 flex-1 text-sm text-graphite-300"><T en={c.what} hi={c.whatHi} /></p>
               <span className="web-only mt-3 font-display text-xl font-bold text-saffron-300">{c.price}</span>
             </Link>
             <div className="mt-3 flex gap-2">
@@ -88,13 +91,13 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
                 href={`/checkout/${c.slug}`}
                 className="web-only flex min-h-[44px] flex-1 items-center justify-center rounded-lg bg-saffron-400 px-3 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
               >
-                Buy Now
+                <T en="Buy Now" hi="अभी खरीदें" />
               </Link>
               <Link
                 href={c.href}
                 className="flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-lg border border-graphite-600 px-3 text-sm font-semibold text-graphite-200 hover:border-saffron-400 hover:text-saffron-300"
               >
-                Know more <ArrowRight className="h-4 w-4" />
+                <T en="Know more" hi="और जानें" /> <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>

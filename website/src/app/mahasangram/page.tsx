@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import T from "@/components/T";
 import { cookies } from "next/headers";
 import { ArrowLeft, ArrowRight, Clock, Download, Star, Trophy } from "lucide-react";
 import BuyBox from "@/components/final-month/BuyBox";
@@ -44,34 +45,36 @@ export default async function MahasangramPage() {
     <div className="bg-graphite-950 px-4 py-12 sm:py-16">
       <div className="mx-auto max-w-4xl space-y-10">
         <Link href="/revision" className="inline-flex items-center gap-1.5 text-sm text-graphite-300 hover:text-saffron-400">
-          <ArrowLeft className="h-4 w-4" /> Final Revision Test Series
+          <ArrowLeft className="h-4 w-4" /> <T en="Final Revision Test Series" hi="फाइनल रिवीजन टेस्ट सीरीज़" />
         </Link>
         <div className="text-center">
           <Trophy className="mx-auto h-10 w-10 text-saffron-400" />
-          <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-saffron-400">Mock Mahasangram</p>
-          <h1 className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">{LIVE_SERIES_NAME}</h1>
-          <p className="mt-2 font-display text-xl font-bold text-saffron-300 sm:text-2xl">Are you the next topper?</p>
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-saffron-400"><T en="Mock Mahasangram" hi="मॉक महासंग्राम" /></p>
+          <h1 className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl"><T en={LIVE_SERIES_NAME} hi="ऑल उत्तराखंड रैंक चैलेंज" /></h1>
+          <p className="mt-2 font-display text-xl font-bold text-saffron-300 sm:text-2xl"><T en="Are you the next topper?" hi="क्या अगले टॉपर आप हैं?" /></p>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-graphite-300 sm:text-base">
-            6 full-length mocks before the 29 Nov exam. Everyone writes the same mock on the same day, and at 8 pm the
-            rank list for the whole of Uttarakhand goes live.{" "}
+            <T
+              en="6 full-length mocks before the 29 Nov exam. Everyone writes the same mock on the same day, and at 8 pm the rank list for the whole of Uttarakhand goes live."
+              hi="29 नवंबर की परीक्षा से पहले 6 फुल मॉक। सब छात्र एक ही दिन एक ही मॉक देते हैं, और रात 8 बजे पूरे उत्तराखंड की रैंक लिस्ट आ जाती है।"
+            />{" "}
             {warmup && warmupOpen ? (
-              <span className="font-semibold text-saffron-300">Try the free Warm-up Mock today.</span>
+              <span className="font-semibold text-saffron-300"><T en="Try the free Warm-up Mock today." hi="आज ही फ्री वार्म-अप मॉक दें।" /></span>
             ) : nextMock ? (
-              <span className="font-semibold text-saffron-300">Next mock: {formatDay(nextMock.date)}. Join now, earlier mocks stay open for practice.</span>
+              <span className="font-semibold text-saffron-300"><T en={<>Next mock: {formatDay(nextMock.date)}. Join now, earlier mocks stay open for practice.</>} hi={<>अगला मॉक: {formatDay(nextMock.date)}। अभी जुड़ें, पिछले मॉक अभ्यास के लिए खुले रहेंगे।</>} /></span>
             ) : null}
           </p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { icon: <Clock className="h-5 w-5" />, title: "12 noon to 6 pm", text: "Start any time in this window on the mock day. 150 questions, 2 hours." },
-            { icon: <Trophy className="h-5 w-5" />, title: "Result at 8 pm", text: "Score, solutions and the live rank list (name and district) come out together." },
-            { icon: <Star className="h-5 w-5" />, title: "Stars for the top 20", text: "Top 3 also win 30% off the crash course or a test series." },
+            { icon: <Clock className="h-5 w-5" />, title: "12 noon to 6 pm", titleHi: "दोपहर 12 से शाम 6 बजे", text: "Start any time in this window on the mock day. 150 questions, 2 hours.", textHi: "मॉक वाले दिन इस समय के बीच कभी भी शुरू करें। 150 प्रश्न, 2 घंटे।" },
+            { icon: <Trophy className="h-5 w-5" />, title: "Result at 8 pm", titleHi: "रिज़ल्ट रात 8 बजे", text: "Score, solutions and the live rank list (name and district) come out together.", textHi: "स्कोर, हल और लाइव रैंक लिस्ट (नाम और ज़िला) एक साथ आते हैं।" },
+            { icon: <Star className="h-5 w-5" />, title: "Stars for the top 20", titleHi: "टॉप 20 को स्टार", text: "Top 3 also win 30% off the crash course or a test series.", textHi: "टॉप 3 को क्रैश कोर्स या टेस्ट सीरीज़ पर 30% छूट भी मिलती है।" },
           ].map((c) => (
             <div key={c.title} className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-4">
               <div className="text-saffron-400">{c.icon}</div>
-              <p className="mt-2 font-semibold text-white">{c.title}</p>
-              <p className="mt-1 text-sm text-graphite-300">{c.text}</p>
+              <p className="mt-2 font-semibold text-white"><T en={c.title} hi={c.titleHi} /></p>
+              <p className="mt-1 text-sm text-graphite-300"><T en={c.text} hi={c.textHi} /></p>
             </div>
           ))}
         </div>
@@ -125,17 +128,17 @@ export default async function MahasangramPage() {
             </div>
           )}
           <div className="rounded-2xl border border-saffron-400/50 bg-graphite-900 p-5 sm:p-6">
-            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400">Join · All 6 live mocks</p>
-            <h2 className="mt-1 font-display text-xl font-bold text-white">All Uttarakhand Rank Challenge</h2>
+            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400"><T en="Join · All 6 live mocks" hi="जुड़ें · सभी 6 लाइव मॉक" /></p>
+            <h2 className="mt-1 font-display text-xl font-bold text-white"><T en="All Uttarakhand Rank Challenge" hi="ऑल उत्तराखंड रैंक चैलेंज" /></h2>
             <p className="mt-1 text-sm text-graphite-300">
-              6 full mocks (150 Q each) with live ranks. Different tests from the Basic Test Series.
+              <T en="6 full mocks (150 Q each) with live ranks. Different tests from the Basic Test Series." hi="लाइव रैंक के साथ 6 फुल मॉक (हर एक में 150 प्रश्न)। ये बेसिक टेस्ट सीरीज़ से अलग टेस्ट हैं।" />
             </p>
             <div className="mt-4">
               <BuyBox
                 state={maha}
-                buyLabel="Join the Rank Challenge"
+                buyLabel={<T en="Join the Rank Challenge" hi="रैंक चैलेंज से जुड़ें" />}
                 loggedIn={!!user}
-                includedNote="Included with your Premium Test Series / Complete Prelims Pack."
+                includedNote={<T en="Included with your Premium Test Series / Complete Prelims Pack." hi="आपकी प्रीमियम टेस्ट सीरीज़ / कम्प्लीट प्रीलिम्स पैक में शामिल है।" />}
               />
             </div>
             <a
@@ -143,14 +146,14 @@ export default async function MahasangramPage() {
               download
               className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-saffron-300 hover:underline"
             >
-              <Download className="h-4 w-4" /> Timetable (PDF)
+              <Download className="h-4 w-4" /> <T en="Timetable (PDF)" hi="टाइमटेबल (PDF)" />
             </a>
           </div>
         </div>
 
         <div>
-          <h2 className="font-display text-2xl font-bold text-white">Mock dates</h2>
-          <p className="mt-1 text-sm text-graphite-300">Each day: start between 12 noon and 6 pm, ranks and solutions at 8 pm.</p>
+          <h2 className="font-display text-2xl font-bold text-white"><T en="Mock dates" hi="मॉक की तारीखें" /></h2>
+          <p className="mt-1 text-sm text-graphite-300"><T en="Each day: start between 12 noon and 6 pm, ranks and solutions at 8 pm." hi="हर दिन: दोपहर 12 से शाम 6 बजे के बीच शुरू करें, रैंक और हल रात 8 बजे।" /></p>
           <div className="mt-4">
             <Timetable items={mockDates} today={today} />
           </div>
@@ -160,7 +163,7 @@ export default async function MahasangramPage() {
                 const published = !!t.result_at && !isResultHidden(t);
                 return published ? (
                   <Link key={t.id} href={`/mahasangram/${t.id}/ranks`} className="rounded-full border border-saffron-400/50 px-3 py-1.5 text-xs font-semibold text-saffron-300 hover:bg-saffron-400/10">
-                    Mock {i + 1} rank list
+                    <T en={<>Mock {i + 1} rank list</>} hi={<>मॉक {i + 1} की रैंक लिस्ट</>} />
                   </Link>
                 ) : null;
               })}
@@ -170,15 +173,22 @@ export default async function MahasangramPage() {
 
         {!revision.owned && (
           <div className="rounded-2xl border border-saffron-400/40 bg-saffron-400/5 p-5 sm:p-6">
-            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400">Step 3 · Full revision</p>
-            <h2 className="mt-1 font-display text-xl font-bold text-white">Add Uttarakhand GK + Current Affairs</h2>
+            <p className="text-xs font-bold uppercase tracking-wider text-saffron-400"><T en="Step 3 · Full revision" hi="अगला कदम · पूरा रिवीजन" /></p>
+            <h2 className="mt-1 font-display text-xl font-bold text-white"><T en="Add Uttarakhand GK + Current Affairs" hi="उत्तराखंड GK + करेंट अफेयर्स भी जोड़ें" /></h2>
             <p className="mt-1 text-sm text-graphite-300">
-              The Revision Test Series has these 6 mocks plus complete Uttarakhand GK (8 tests, 800 Q), complete Current
-              Affairs (6 tests, 600 Q) and 2 CSAT tests.{" "}
+              <T
+                en="The Revision Test Series has these 6 mocks plus complete Uttarakhand GK (8 tests, 800 Q), complete Current Affairs (6 tests, 600 Q) and 2 CSAT tests."
+                hi="रिवीजन टेस्ट सीरीज़ में ये 6 मॉक, पूरा उत्तराखंड GK (8 टेस्ट, 800 प्रश्न), पूरा करेंट अफेयर्स (6 टेस्ट, 600 प्रश्न) और 2 CSAT टेस्ट हैं।"
+              />{" "}
               <span className="web-only">
-                {maha.owned
-                  ? "You have Mahasangram, so you upgrade for ₹500."
-                  : `${revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹999"}, or buy Mahasangram now and upgrade later for ₹500.`}
+                {maha.owned ? (
+                  <T en="You have Mahasangram, so you upgrade for ₹500." hi="आपके पास महासंग्राम है, इसलिए ₹500 में अपग्रेड करें।" />
+                ) : (
+                  <T
+                    en={<>{revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹999"}, or buy Mahasangram now and upgrade later for ₹500.</>}
+                    hi={<>कीमत {revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹999"}, या अभी महासंग्राम लें और बाद में ₹500 में अपग्रेड करें।</>}
+                  />
+                )}
               </span>
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -186,13 +196,13 @@ export default async function MahasangramPage() {
                 href="/checkout/revision-test-series"
                 className="web-only inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-saffron-400 px-5 text-sm font-bold text-graphite-950 hover:bg-saffron-300"
               >
-                {maha.owned ? "Upgrade now" : "Buy Revision Test Series"} <ArrowRight className="h-4 w-4" />
+                {maha.owned ? <T en="Upgrade now" hi="अभी अपग्रेड करें" /> : <T en="Buy Revision Test Series" hi="रिवीजन टेस्ट सीरीज़ खरीदें" />} <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/revision"
                 className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-graphite-600 px-5 text-sm font-semibold text-graphite-200 hover:border-saffron-400 hover:text-saffron-300"
               >
-                Know more
+                <T en="Know more" hi="और जानें" />
               </Link>
             </div>
           </div>

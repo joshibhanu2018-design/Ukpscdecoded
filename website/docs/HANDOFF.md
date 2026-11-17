@@ -11,6 +11,16 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Hindi / English switch (17 Nov):** a हिंदी / EN button in the top bar
+  (`SiteLangToggle.tsx`). Text written as `<T en="…" hi="…" />` (`T.tsx`)
+  is in the page in both languages and CSS shows one (`<html data-lang="hi">`,
+  set before paint by the inline script in `layout.tsx` from localStorage
+  `ukd-site-lang`, or Hindi when the phone's language is Hindi). No cookie,
+  so it works on static pages. Translated so far: menu, home chooser and
+  tiles, `/revision`, `/mahasangram`, BuyBox, timetable labels, Buy Now /
+  Know more buttons, login, checkout. Product names and text that come from
+  the `packages` table are still English only. Checkout also shows a
+  "secure payment by Razorpay / WhatsApp help" line.
 - **Light theme (17 Nov):** the public site and store are now light (white
   cards on a soft off-white page); the student area under `/test-platform`
   (dashboard, tests, results, admin) and the footer stay dark. No page

@@ -9,6 +9,7 @@ import type { Package, Savings } from "@/lib/packages";
 import { formatFoundingLabel, type PriceInfo } from "@/lib/pricing";
 import { loadRazorpayScript } from "@/lib/razorpay-client";
 import AppPurchaseNote from "./AppPurchaseNote";
+import T from "@/components/T";
 
 export default function PackageCard({
   pkg,
@@ -269,7 +270,7 @@ export default function PackageCard({
               className="flex w-full items-center justify-center gap-2 rounded-lg bg-saffron-400 px-4 py-2.5 text-sm font-semibold text-graphite-900 transition-colors hover:bg-saffron-300 disabled:opacity-60"
             >
               {status === "loading" && <Loader2 className="h-4 w-4 animate-spin" />}
-              Buy Now
+              <T en="Buy Now" hi="अभी खरीदें" />
             </button>
             <p className="mt-2 text-center text-[11px] leading-snug text-graphite-300">
               Account sharing leads to suspension without refund.{" "}

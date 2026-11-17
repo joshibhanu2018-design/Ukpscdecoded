@@ -4,6 +4,7 @@ import { formatINR, type Package } from "@/lib/packages";
 import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
 import CourseHeader from "./CourseHeader";
 import AppPurchaseNote from "./AppPurchaseNote";
+import T from "@/components/T";
 
 export default function CourseCard({
   pkg,
@@ -72,13 +73,13 @@ export default function CourseCard({
                   href={checkoutHref}
                   className="web-only flex min-h-[44px] flex-1 items-center justify-center rounded-lg bg-saffron-400 px-4 py-2.5 text-center text-sm font-bold text-graphite-900 transition-colors hover:bg-saffron-300"
                 >
-                  Buy Now
+                  <T en="Buy Now" hi="अभी खरीदें" />
                 </Link>
                 <Link
                   href={detailHref}
                   className="flex min-h-[44px] flex-1 items-center justify-center rounded-lg border border-graphite-600 px-3 py-2.5 text-center text-sm font-semibold text-graphite-200 transition-colors hover:border-saffron-400 hover:text-saffron-300"
                 >
-                  Know more
+                  <T en="Know more" hi="और जानें" />
                 </Link>
               </div>
             )}

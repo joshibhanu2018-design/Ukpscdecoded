@@ -4,23 +4,25 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown, LogIn } from "lucide-react";
 import settings from "@content/settings.json";
+import T from "@/components/T";
+import SiteLangToggle from "@/components/SiteLangToggle";
 
 const primaryLinks = [
-  { href: "/", label: "Home" },
-  { href: "/revision", label: "Revision Series", highlight: true },
-  { href: "/courses", label: "Courses" },
-  { href: "/test-series", label: "Test Series" },
-  { href: "/buy-book", label: "Books" },
-  { href: "/free-content", label: "Free Content" },
+  { href: "/", label: "Home", hi: "होम" },
+  { href: "/revision", label: "Revision Series", hi: "रिवीजन सीरीज़", highlight: true },
+  { href: "/courses", label: "Courses", hi: "कोर्स" },
+  { href: "/test-series", label: "Test Series", hi: "टेस्ट सीरीज़" },
+  { href: "/buy-book", label: "Books", hi: "किताबें" },
+  { href: "/free-content", label: "Free Content", hi: "फ्री कंटेंट" },
 ];
 
 const moreLinks = [
-  { href: "/articles", label: "Articles" },
-  { href: "/current-affairs", label: "Daily Current Affairs & MCQ" },
-  { href: "/pyq-tracker", label: "PYQ Tracker" },
-  { href: "/buy-ebooks", label: "E-Books" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/articles", label: "Articles", hi: "लेख" },
+  { href: "/current-affairs", label: "Daily Current Affairs & MCQ", hi: "डेली करेंट अफेयर्स और MCQ" },
+  { href: "/pyq-tracker", label: "PYQ Tracker", hi: "PYQ ट्रैकर" },
+  { href: "/buy-ebooks", label: "E-Books", hi: "ई-बुक" },
+  { href: "/about", label: "About", hi: "हमारे बारे में" },
+  { href: "/contact", label: "Contact", hi: "संपर्क" },
 ];
 
 function isActive(pathname: string, href: string): boolean {
@@ -52,7 +54,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
   }, [moreOpen]);
 
   const ctaHref = user ? "/test-platform" : "/student/login";
-  const ctaLabel = user ? "My Courses" : "Login / Register";
+  const ctaLabel = user ? <T en="My Courses" hi="मेरे कोर्स" /> : <T en="Login / Register" hi="लॉगिन / रजिस्टर" />;
   const moreActive = moreLinks.some((l) => isActive(pathname, l.href));
 
   const linkClass = (active: boolean) =>
@@ -67,7 +69,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
           <Link href="/" className="group flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-badge-160.webp" alt="" width={36} height={36} className="h-9 w-9 flex-shrink-0" />
-            <span className="whitespace-nowrap font-display text-lg font-bold text-white sm:text-xl">
+            <span className="whitespace-nowrap font-display text-base font-bold text-white sm:text-xl">
               {settings.brandName1} <span className="text-saffron-400">{settings.brandName2}</span>
             </span>
           </Link>
@@ -85,7 +87,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                     : linkClass(isActive(pathname, link.href))
                 }
               >
-                {link.label}
+                <T en={link.label} hi={link.hi} />
                 {"highlight" in link && link.highlight && (
                   <span className="rounded-full bg-saffron-400 px-1.5 text-[10px] font-bold uppercase leading-4 text-graphite-950">New</span>
                 )}
@@ -105,7 +107,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                 aria-haspopup="true"
                 className={`flex items-center gap-1 ${linkClass(moreActive)}`}
               >
-                More <ChevronDown className={`h-3.5 w-3.5 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+                <T en="More" hi="और" /> <ChevronDown className={`h-3.5 w-3.5 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
               </button>
               {moreOpen && (
                 // pt-2 keeps the hover area continuous between the button and the menu.
@@ -120,7 +122,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                           isActive(pathname, link.href) ? "text-saffron-400" : "text-graphite-200"
                         }`}
                       >
-                        {link.label}
+                        <T en={link.label} hi={link.hi} />
                       </Link>
                     ))}
                   </div>
@@ -128,6 +130,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
               )}
             </div>
 
+            <SiteLangToggle className="ml-2" />
             <Link
               href={ctaHref}
               className="ml-3 flex items-center gap-1.5 rounded-lg bg-saffron-400 px-5 py-2.5 text-sm font-bold text-graphite-950 shadow-md transition-colors hover:bg-saffron-300"
@@ -137,12 +140,13 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
           </div>
 
           {/* Mobile: CTA always visible + menu toggle */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1.5 lg:hidden">
+            <SiteLangToggle compact />
             <Link
               href={ctaHref}
               className="flex items-center gap-1 whitespace-nowrap rounded-lg bg-saffron-400 px-3 py-2 text-xs font-bold text-graphite-950 shadow-md"
             >
-              <LogIn className="h-3.5 w-3.5" /> {user ? "My Courses" : "Login"}
+              <LogIn className="h-3.5 w-3.5" /> {user ? <T en="My Courses" hi="मेरे कोर्स" /> : <T en="Login" hi="लॉगिन" />}
             </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -167,13 +171,13 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                   isActive(pathname, link.href) || ("highlight" in link && link.highlight) ? "text-saffron-400" : "text-graphite-200"
                 }`}
               >
-                {link.label}
+                <T en={link.label} hi={link.hi} />
                 {"highlight" in link && link.highlight && (
                   <span className="ml-2 rounded-full bg-saffron-400 px-1.5 text-[10px] font-bold uppercase text-graphite-950">New</span>
                 )}
               </Link>
             ))}
-            <p className="mt-3 px-4 pb-1 text-xs font-semibold uppercase tracking-wider text-graphite-400">More</p>
+            <p className="mt-3 px-4 pb-1 text-xs font-semibold uppercase tracking-wider text-graphite-400"><T en="More" hi="और" /></p>
             {moreLinks.map((link) => (
               <Link
                 key={link.href}
@@ -183,7 +187,7 @@ export default function Navbar({ user }: { user: { fullName: string } | null }) 
                   isActive(pathname, link.href) ? "text-saffron-400" : "text-graphite-200"
                 }`}
               >
-                {link.label}
+                <T en={link.label} hi={link.hi} />
               </Link>
             ))}
           </div>
