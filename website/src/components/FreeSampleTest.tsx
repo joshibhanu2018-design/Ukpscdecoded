@@ -7,10 +7,19 @@ import { FREE_SAMPLE_TEST_ID, getTest } from "@/lib/tests";
  * the loader): open to every logged-in student. Shows "Coming soon" until the
  * test has questions. `compact` is the course-page variant.
  */
-export default async function FreeSampleTest({ compact = false }: { compact?: boolean }) {
-  const test = await getTest(FREE_SAMPLE_TEST_ID).catch(() => null);
+export default async function FreeSampleTest({
+  compact = false,
+  testId = FREE_SAMPLE_TEST_ID,
+  title = "Free Sample Mock",
+}: {
+  compact?: boolean;
+  /** Another free test instead, e.g. the Lower PCS 2025 actual paper on Lower PCS course pages. */
+  testId?: string;
+  title?: string;
+}) {
+  const test = await getTest(testId).catch(() => null);
   const ready = !!test && test.is_free_test && test.question_ids.length > 0;
-  const href = `/test-platform/tests/${FREE_SAMPLE_TEST_ID}`;
+  const href = `/test-platform/tests/${testId}`;
   const meta = ready && (
     <span className="inline-flex items-center gap-3 text-xs text-graphite-300">
       <span>{test.question_ids.length} questions</span>
@@ -28,7 +37,7 @@ export default async function FreeSampleTest({ compact = false }: { compact?: bo
           <div className="flex items-center gap-3">
             <FileText className="h-6 w-6 flex-shrink-0 text-saffron-400" />
             <div>
-              <p className="font-semibold text-white">Free Sample Mock</p>
+              <p className="font-semibold text-white">{title}</p>
               {ready ? meta : <p className="text-xs text-graphite-300">Coming soon</p>}
             </div>
           </div>
