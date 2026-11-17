@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/lower-pcs" },
   title: "Lower PCS & RO/ARO 2026-27",
   description:
-    "UKPSC Lower PCS (27 Dec 2026) and RO/ARO Prelims (April 2027), same syllabus: crash course with PDF notes, 81-test series with 10 full length tests and 12 CSAT sectionals.",
+    "UKPSC Lower PCS (27 Dec 2026) and RO/ARO Prelims (April 2027), same syllabus: crash course with PDF notes, 67-test series with 10 full length tests and 12 CSAT sectionals.",
 };
 
 /** The Lower PCS 2025 paper as a free timed test (placeholder in schema-phase47 until its questions are loaded). */
