@@ -3,8 +3,8 @@ import { examTab, getActivePackages, isListed, type ExamTab, type Package } from
 /** The Lower PCS + RO/ARO bundle: the main product from Nov 2026 (schema-phase47). */
 export const LOWER_COMPLETE_SLUG = "lower-pcs-complete";
 export const THREE_EXAM_SLUG = "three-exam-complete";
-/** The Lower PCS 2025 actual paper as a free timed test (filled by the owner's SQL, see HANDOFF). */
-export const PAPER_2025_TEST_ID = "ee7a47b0-69d0-4e50-b611-9b343f6d5834";
+/** The free Lower PCS mock (150 Q, 2 h), open to every logged-in student (filled by the owner's SQL, see HANDOFF). */
+export const FREE_MOCK_TEST_ID = "ee7a47b0-69d0-4e50-b611-9b343f6d5834";
 
 /** Exam pages: where each exam_tab is sold, and how it is named. */
 export const EXAM_PAGES: Record<ExamTab, { href: string; label: string; hi: string; sub: string }> = {

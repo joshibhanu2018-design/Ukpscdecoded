@@ -24,14 +24,13 @@ product grouped by exam.
 - **Phase 47d** (17 Nov): "2026" kept in Revision Test Series 2026 and All Uttarakhand Rank
   Challenge 2026 (owner's wish: shows they are for the 2026 exam). `separate_total` also
   drives "Save X%" on course pages; `false` = no saving shown (bundles of unsold parts).
-- **Lower PCS 2025 actual paper** (17 Nov): 150 questions loaded by SQL the owner runs
-  (`/mnt/project-files/lower-pcs-remodel/sql/lower-pcs-2025-paper.sql`, kept out of git; question_id
-  PYQ-LPCS25-Q001…150) into test `ee7a47b0-…` (free). Answers = UKPSC provisional key Series A.
-  Figures: a line `[[img:/pyq/lower-pcs-2025/qNNN.png]]` in a question shows `public/pyq/...`
-  (`QuestionText.tsx`, used by TestRunner and AnswerReview).
-  Every question has a short English + Hindi explanation (Q15, Q39 flagged as doubtful key answers).
-  A "Free: Lower PCS 2025 actual paper" card shows on Lower PCS, TRI and Solo Packs course pages
-  (`PAPER_2025_TEST_ID` in `lib/catalog.ts`; other course pages keep the old free sample mock).
+- **Free Lower PCS Mock** (17 Nov): test `ee7a47b0-…` (free, 150 Q, 2 h), filled by SQL the owner runs
+  (`/mnt/project-files/lower-pcs-remodel/sql/lower-pcs-free-mock.sql`, kept out of git). Owner's wish:
+  students should not be able to tell which paper it comes from, so the site, test name, topics,
+  explanations and figure paths never name its source. Figures: a line `[[img:/mock-figures/qNNN.png]]`
+  in a question shows `public/mock-figures/...` (`QuestionText.tsx`, used by TestRunner and AnswerReview).
+  A "Free Lower PCS Mock Test" card shows on Lower PCS, TRI and Solo Packs course pages
+  (`FREE_MOCK_TEST_ID` in `lib/catalog.ts`; other course pages keep the old free sample mock).
 - **Phase 47f** (17 Nov, `supabase/schema-phase47f-free-samples.sql`): free samples. The UK History
   lesson "Prehistory, Ancient Sources & Tribes, Kunindas, Katyuri" (`lessons.is_free`, video + notes) in
   every course that has it, and the first ready topic test of Uttarakhand Intensive and of Current

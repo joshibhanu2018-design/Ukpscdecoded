@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, FileText, Sparkles } from "lucide-react";
 import CourseCard from "@/components/CourseCard";
 import { EXAM_BADGES } from "@/components/ExamCatalog";
-import { LOWER_COMPLETE_SLUG, PAPER_2025_TEST_ID, examProducts } from "@/lib/catalog";
+import { LOWER_COMPLETE_SLUG, FREE_MOCK_TEST_ID, examProducts } from "@/lib/catalog";
 import { getActivePackages } from "@/lib/packages";
 import { getTest } from "@/lib/tests";
 import T from "@/components/T";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 
 export default async function LowerPcsPage() {
-  const [all, paper] = await Promise.all([getActivePackages(), getTest(PAPER_2025_TEST_ID).catch(() => null)]);
+  const [all, paper] = await Promise.all([getActivePackages(), getTest(FREE_MOCK_TEST_ID).catch(() => null)]);
   const products = examProducts(all, "lower");
   const complete = products.find((p) => p.slug === LOWER_COMPLETE_SLUG);
   const others = products.filter((p) => p !== complete);
@@ -67,14 +67,14 @@ export default async function LowerPcsPage() {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <section className="rounded-2xl border border-saffron-400/30 bg-saffron-400/5 p-5">
             <p className="flex items-center gap-2 font-semibold text-white">
-              <FileText className="h-5 w-5 text-saffron-400" /> Lower PCS 2025 actual paper, as a timed test
+              <FileText className="h-5 w-5 text-saffron-400" /> Free Lower PCS Mock Test
             </p>
             <p className="mt-1.5 text-sm text-graphite-300">
-              150 questions, 2 hours, on the real exam pattern. Free for every registered student.
+              150 questions, 2 hours, on the exact Lower PCS pattern, with explanations in English and Hindi. Free for every registered student.
             </p>
             {paperReady ? (
               <Link
-                href={`/test-platform/tests/${PAPER_2025_TEST_ID}`}
+                href={`/test-platform/tests/${FREE_MOCK_TEST_ID}`}
                 className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-saffron-400 px-4 py-2 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
               >
                 Attempt free <ArrowRight className="h-4 w-4" />
