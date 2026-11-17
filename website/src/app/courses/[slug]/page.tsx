@@ -241,7 +241,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <h2 className="flex items-center gap-2 text-lg font-bold text-white">
                 <PlayCircle className="h-5 w-5 text-saffron-400" /> Watch Free Demo
               </h2>
-              <FreeSampleLessons samples={samples} fromUpper={tab !== "upper"} />
+              <FreeSampleLessons samples={samples} />
               {videos.length > 0 && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {videos.map((v) => (

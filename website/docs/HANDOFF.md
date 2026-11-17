@@ -37,7 +37,7 @@ product grouped by exam.
   Affairs Intensive (`tests.is_free_test`; never a Revision test). Course pages show "Free sample ·
   Watch now + PDF notes" (CourseOutline) and "Free · Try now" (test list).
   The free class also gets a big card in the course page's "Watch Free Demo" area
-  (`FreeSampleLessons.tsx`), saying it is from the Upper PCS Crash Course on non-Upper pages.
+  (`FreeSampleLessons.tsx`): "a sample class from our courses".
 - **Phase 47e** (17 Nov, `supabase/schema-phase47e-solo-test-series.sql`): "Subject Packs" renamed
   **Solo Packs** (`/solo-packs`; `/subject-packs` and `/individual` redirect). Three test series sold
   there on their own: Uttarakhand Intensive TS (`uttarakhand-intensive`, 20 tests, ₹599), CSAT TS
