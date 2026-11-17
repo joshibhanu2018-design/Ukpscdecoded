@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       { path: "/lower-pcs", priority: 0.95 },
       { path: "/tri", priority: 0.85 },
       { path: "/upper-pcs", priority: 0.8 },
-      { path: "/individual", priority: 0.7 },
+      { path: "/subject-packs", priority: 0.7 },
     ].map(({ path, priority }) => ({
       url: `${baseUrl}${path}`,
       lastModified: new Date(),

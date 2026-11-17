@@ -49,7 +49,7 @@ export function planLiveSessionDates(variant: PlanVariant | null): Set<string> {
 /**
  * Courses that show some sections of another course's lessons (lessons.section,
  * schema-phase47), so the CSAT and current affairs videos are uploaded once,
- * to the Lower PCS Crash Course, and appear in the Individual products too.
+ * to the Lower PCS Crash Course, and appear in the Subject Packs too.
  * Owning the source course also opens them.
  */
 export const SECTION_SUBSETS: Record<string, { source: string; sections: string[] }> = {
