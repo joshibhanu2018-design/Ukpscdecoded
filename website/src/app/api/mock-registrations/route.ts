@@ -23,8 +23,10 @@ export async function POST(request: NextRequest) {
   if (name.length < 2 || name.length > 100) return NextResponse.json({ error: "Enter your full name" }, { status: 400 });
   const phone = cleanPhone(body?.phone);
   if (!PHONE_RE.test(phone)) return NextResponse.json({ error: PHONE_ERROR }, { status: 400 });
-  const email = normalizeEmail(body?.email);
-  if (!email) return NextResponse.json({ error: "Enter a valid email" }, { status: 400 });
+  // The answer-key page asks for no email (the column is NOT NULL, so it is saved as "").
+  const source = body?.source === "answer-key" ? "answer-key" : "popup";
+  const email = normalizeEmail(body?.email) ?? "";
+  if (!email && source === "popup") return NextResponse.json({ error: "Enter a valid email" }, { status: 400 });
   const district = typeof body?.district === "string" ? body.district.trim() : "";
   if (!UK_DISTRICTS.includes(district)) return NextResponse.json({ error: "Choose your district" }, { status: 400 });
   const page = typeof body?.page === "string" ? body.page.slice(0, 200) : null;
@@ -35,7 +37,7 @@ export async function POST(request: NextRequest) {
 
   const { error } = await supabaseAdmin()
     .from("mock_registrations")
-    .insert({ full_name: name, phone, email, district, source: "popup", page });
+    .insert({ full_name: name, phone, email, district, source, page });
   if (error) {
     console.error("[mock-registrations] insert failed:", error.message);
     return NextResponse.json({ error: "Could not save. Please try again." }, { status: 500 });

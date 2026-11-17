@@ -1,5 +1,6 @@
 import { supabaseAdmin } from "./supabase";
 import { sendReceiptEmail } from "./email";
+import { sendWhatsApp } from "./whatsapp";
 import {
   getActivePackages,
   getOwnedPackageIds,
@@ -101,7 +102,7 @@ export async function completeOrder(
       .select("package_name, package_type, access_valid_till, validity_days")
       .eq("id", order.package_id)
       .maybeSingle(),
-    db.from("users").select("email, full_name").eq("id", order.user_id).maybeSingle(),
+    db.from("users").select("email, full_name, phone").eq("id", order.user_id).maybeSingle(),
   ]);
 
   if (!pkg) {
@@ -152,6 +153,12 @@ export async function completeOrder(
       paymentId: razorpayPaymentId,
     });
   }
+
+  // WhatsApp "payment received" (only when AiSensy is configured; never throws).
+  await sendWhatsApp("payment", { phone: user?.phone, name: user?.full_name }, [
+    user?.full_name?.trim() || "Student",
+    pkg.package_name,
+  ]);
 
   return { ok: true, alreadyProcessed: false };
 }

@@ -11,6 +11,25 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Toppers, answer key, WhatsApp, Clarity (17 Nov):**
+  * Home shows the top 5 of the latest published Rank Challenge mock
+    (`HomeToppers.tsx`, cached 10 min; hidden until a result is out).
+  * `/answer-key`: until the key is published it collects name + mobile +
+    district into `mock_registrations` (source `answer-key`, email saved as
+    ""; Admin → Mock Registrations). On exam evening fill the sets in
+    `content/answerKey.json` (one letter per question, X = ignore), set
+    `"published": true`, merge: the score calculator appears. **Owner to
+    confirm** the 150 questions / 1 mark / 0.25 negative values in that file.
+  * WhatsApp through AiSensy (`src/lib/whatsapp.ts`): "payment received"
+    after `completeOrder`, and a mock-day reminder from the 8 am
+    `telegram-mcq` cron (`src/lib/mockReminders.ts`). Both are OFF until
+    `AISENSY_API_KEY` + `AISENSY_CAMPAIGN_PAYMENT` / `AISENSY_CAMPAIGN_MOCK_DAY`
+    are set in Vercel. Owner steps and template text: `docs/WHATSAPP_AUTOMATION.md`.
+    The AiSensy call has not been tested against a real account yet.
+  * Microsoft Clarity loads only when `NEXT_PUBLIC_CLARITY_ID` is set
+    (`Clarity.tsx`); the Privacy Policy mentions it.
+  * Still to do after 25 Nov: WhatsApp-code login, static public pages
+    (fewer Vercel calls), student area in the light theme.
 - **Hindi / English switch (17 Nov):** a हिंदी / EN button in the top bar
   (`SiteLangToggle.tsx`). Text written as `<T en="…" hi="…" />` (`T.tsx`)
   is in the page in both languages and CSS shows one (`<html data-lang="hi">`,

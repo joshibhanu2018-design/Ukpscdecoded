@@ -17,6 +17,7 @@ const primaryLinks = [
 ];
 
 const moreLinks = [
+  { href: "/answer-key", label: "Prelims Answer Key", hi: "प्रीलिम्स उत्तर कुंजी" },
   { href: "/articles", label: "Articles", hi: "लेख" },
   { href: "/current-affairs", label: "Daily Current Affairs & MCQ", hi: "डेली करेंट अफेयर्स और MCQ" },
   { href: "/pyq-tracker", label: "PYQ Tracker", hi: "PYQ ट्रैकर" },
