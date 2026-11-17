@@ -45,3 +45,19 @@ export function planVideoNumbers(variant: PlanVariant | null): Set<number> {
 export function planLiveSessionDates(variant: PlanVariant | null): Set<string> {
   return new Set((plan.liveSessions as LiveSession[]).filter((s) => sessionInVariant(s, variant)).map((s) => s.date));
 }
+
+/**
+ * Courses that show some sections of another course's lessons (lessons.section,
+ * schema-phase47), so the CSAT and current affairs videos are uploaded once,
+ * to the Lower PCS Crash Course, and appear in the Individual products too.
+ * Owning the source course also opens them.
+ */
+export const SECTION_SUBSETS: Record<string, { source: string; sections: string[] }> = {
+  "lower-pcs-csat-classes": { source: "lower-pcs-crash-course", sections: ["Part E: General Aptitude (CSAT)"] },
+  "ca-2026-videos": { source: "lower-pcs-crash-course", sections: ["Part D: Current Affairs"] },
+};
+
+/** Courses whose lesson list follows the Crash Course release calendar (content/crashCoursePlan.json). */
+export function followsCrashCoursePlan(slug: string | null | undefined): boolean {
+  return slug === "crash-course" || (!!slug && slug in SUBSET_COURSES);
+}

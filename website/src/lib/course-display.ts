@@ -49,10 +49,14 @@ export type TestTabKey = (typeof TEST_TABS)[number]["key"];
 
 const SECTIONAL_SUBJECTS = new Set(["polity", "history", "geography", "science & tech", "economy & environment", "sectional"]);
 
-/** The tab a test belongs to. A "… Sectional" test is sectional whatever its subject (Uttarakhand GK Sectional I/II). */
+/**
+ * The tab a test belongs to. A "… Sectional" test is sectional whatever its
+ * subject (Uttarakhand GK Sectional I/II), except CSAT: "CSAT Sectional 3" is a CSAT test.
+ */
 export function testTabOf(subject: string | null | undefined, testName?: string | null): TestTabKey {
-  if (/\bsectional\b/i.test(testName ?? "")) return "sectional";
   const s = (subject ?? "").trim().toLowerCase();
+  if (s === "csat") return "csat";
+  if (/\bsectional\b/i.test(testName ?? "")) return "sectional";
   if (s === "full mock" || s === "full length") return "full";
   if (s.startsWith("uttarakhand")) return "uttarakhand";
   if (s.startsWith("current affairs")) return "ca";

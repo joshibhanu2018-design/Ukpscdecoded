@@ -9,6 +9,7 @@ import {
   getPackageIncludes,
   getSeatsRemaining,
   getUserActiveEnrollments,
+  isOnSale,
 } from "@/lib/packages";
 import { formatFoundingLabel } from "@/lib/pricing";
 import { getBuyerPriceInfo } from "@/lib/returningPrice";
@@ -40,6 +41,11 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
   const owned = getOwnedPackageIds(enrollments, includes, allPackages).has(pkg.id);
   if (owned) {
     redirect("/test-platform?already=owned");
+  }
+
+  // Sale ended (metadata.sale_ends_at): the course page says so and links to the current courses.
+  if (!isOnSale(pkg)) {
+    redirect(`/courses/${slug}`);
   }
 
   if (process.env.PAYMENTS_ENABLED !== "true") {

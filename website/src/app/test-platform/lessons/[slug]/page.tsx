@@ -12,13 +12,14 @@ import {
   bunnyEmbedUrl,
   getCourseLessons,
   getWatchedLessonIds,
+  groupLessonsBySection,
   isLessonReleased,
   lessonThumbnailUrl,
   lessonVideoNumber,
   recordLessonView,
   type Lesson,
 } from "@/lib/lessons";
-import { planVideoNumbers, SUBSET_COURSES } from "@/lib/course-subsets";
+import { followsCrashCoursePlan, planVideoNumbers, SUBSET_COURSES } from "@/lib/course-subsets";
 
 /** Shown on a subset course's lesson list: numbers follow the full Crash Course, so gaps aren't missing videos. */
 function subsetNote(slug: string): string | null {
@@ -179,8 +180,12 @@ export default async function LessonsPage({
               {subsetNote(slug)}
             </p>
           )}
-          <ul className="mt-4 divide-y divide-graphite-800 overflow-hidden rounded-2xl border border-graphite-800 bg-graphite-900/60">
-            {lessons.map((l, i) => {
+          {groupLessonsBySection(lessons).map((group) => (
+          <section key={group.section ?? "lessons"} className="mt-6">
+          {group.section && <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-saffron-300">{group.section}</h2>}
+          <ul className="divide-y divide-graphite-800 overflow-hidden rounded-2xl border border-graphite-800 bg-graphite-900/60">
+            {group.lessons.map((l) => {
+              const i = lessons.indexOf(l);
               const open = isLessonReleased(l) && canOpen(l);
               const isCurrent = current?.id === l.id;
               // The Crash Course video number ("Video 9 …"), so numbering matches the schedule in every course.
@@ -233,12 +238,16 @@ export default async function LessonsPage({
               );
             })}
           </ul>
+          </section>
+          ))}
           </>
         )}
 
-        <div className="mt-10">
-          <CrashCoursePlan viewer={user} lessonsSlug={slug} />
-        </div>
+        {followsCrashCoursePlan(slug) && (
+          <div className="mt-10">
+            <CrashCoursePlan viewer={user} lessonsSlug={slug} />
+          </div>
+        )}
       </div>
     </div>
   );

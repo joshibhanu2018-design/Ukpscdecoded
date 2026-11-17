@@ -1,30 +1,48 @@
-import { getActivePackages, type Package } from "./packages";
+import { examTab, getActivePackages, isListed, type ExamTab, type Package } from "./packages";
 
-export const BEST_BUY_SLUG = "complete-prelims-pack";
-export const FLAGSHIP_TEST_SERIES_SLUG = "premium-test-series";
-/** Last-month products: shown in "Which one is for me?" and on /revision, not in the lists. */
-export const FINAL_MONTH_SLUGS = ["revision-test-series", "mock-mahasangram"];
+/** The Lower PCS + RO/ARO bundle: the main product from Nov 2026 (schema-phase47). */
+export const LOWER_COMPLETE_SLUG = "lower-pcs-complete";
+export const THREE_EXAM_SLUG = "three-exam-complete";
 
-/**
- * Store packages grouped for the Courses and Test Series pages, in the DB's
- * sort_order. It reads no login cookie, so these pages are cached; what
- * the visitor already owns is filled in by the browser on each card.
- */
-export async function getCatalog() {
+/** Exam pages: where each exam_tab is sold, and how it is named. */
+export const EXAM_PAGES: Record<ExamTab, { href: string; label: string; hi: string; sub: string }> = {
+  lower: {
+    href: "/lower-pcs",
+    label: "Lower PCS & RO/ARO",
+    hi: "लोअर PCS और RO/ARO",
+    sub: "UKPSC Lower PCS (27 Dec 2026) and RO/ARO Prelims (April 2027): same syllabus, one course",
+  },
+  tri: {
+    href: "/tri",
+    label: "TRI",
+    hi: "TRI",
+    sub: "Tax & Revenue Inspector (15 Jan 2027): the extra GS topics on top of the Lower PCS course",
+  },
+  upper: {
+    href: "/upper-pcs",
+    label: "Upper PCS",
+    hi: "अपर PCS",
+    sub: "UKPSC Upper PCS Prelims: test series, revision and full courses",
+  },
+  individual: {
+    href: "/individual",
+    label: "Individual",
+    hi: "अलग-अलग",
+    sub: "One part only: CSAT, Uttarakhand GK or Current Affairs, for any UKPSC exam",
+  },
+};
+
+/** The page a product's links point to: the last-month products have pages of their own. */
+export function productHref(p: Pick<Package, "slug">): string {
+  return p.slug === "revision-test-series" ? "/revision" : p.slug === "mock-mahasangram" ? "/mahasangram" : `/courses/${p.slug}`;
+}
+
+/** Listed products of one exam page, in the store's sort_order. */
+export function examProducts(all: Package[], tab: ExamTab): Package[] {
+  return all.filter((p) => isListed(p) && examTab(p) === tab);
+}
+
+export async function getExamProducts(tab: ExamTab): Promise<{ products: Package[]; allPackages: Package[] }> {
   const allPackages = await getActivePackages();
-
-  const listed = allPackages.filter((p) => p.slug);
-  const byType = (type: string) => listed.filter((p) => p.package_type === type);
-  const bestBuyFirst = (a: Package, b: Package) => Number(b.slug === BEST_BUY_SLUG) - Number(a.slug === BEST_BUY_SLUG);
-  const testSeries: Package[] = byType("test_series").filter((p) => !FINAL_MONTH_SLUGS.includes(p.slug ?? "")).sort(
-    (a, b) => Number(b.slug === FLAGSHIP_TEST_SERIES_SLUG) - Number(a.slug === FLAGSHIP_TEST_SERIES_SLUG),
-  );
-
-  return {
-    mentorship: byType("mentorship"),
-    crashCourses: byType("video_course"),
-    bundles: byType("combo_bundle").sort(bestBuyFirst),
-    testSeries,
-    allPackages,
-  };
+  return { products: examProducts(allPackages, tab), allPackages };
 }

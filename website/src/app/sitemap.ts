@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles } from "@/lib/articles";
-import { getActivePackages } from "@/lib/packages";
+import { getActivePackages, isListed } from "@/lib/packages";
 
 const baseUrl = "https://www.ukpscdecoded.in";
 
@@ -46,6 +46,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    // Exam pages (Lower PCS & RO/ARO is the main one from Nov 2026).
+    ...[
+      { path: "/lower-pcs", priority: 0.95 },
+      { path: "/tri", priority: 0.85 },
+      { path: "/upper-pcs", priority: 0.8 },
+      { path: "/individual", priority: 0.7 },
+    ].map(({ path, priority }) => ({
+      url: `${baseUrl}${path}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority,
+    })),
     {
       url: `${baseUrl}/courses`,
       lastModified: new Date(),
@@ -108,7 +120,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     ...courses
-      .filter((p) => p.slug)
+      .filter((p) => isListed(p))
       .map((p) => ({
         url: `${baseUrl}/courses/${p.slug}`,
         lastModified: new Date(),

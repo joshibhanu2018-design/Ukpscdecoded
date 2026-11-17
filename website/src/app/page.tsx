@@ -10,8 +10,10 @@ import FreeSampleTest from "@/components/FreeSampleTest";
 import WhichOne from "@/components/final-month/WhichOne";
 import HomeToppers from "@/components/HomeToppers";
 import { getActiveBanners } from "@/lib/banners";
-import { getActivePackages } from "@/lib/packages";
-import { BEST_BUY_SLUG } from "@/lib/catalog";
+import { getActivePackages, isListed } from "@/lib/packages";
+import { LOWER_COMPLETE_SLUG } from "@/lib/catalog";
+import { EXAM_BADGES } from "@/components/ExamCatalog";
+import LowerPcsHero from "@/components/LowerPcsHero";
 import quiz from "@content/quiz.json";
 import home from "@content/home.json";
 import T from "@/components/T";
@@ -33,12 +35,14 @@ export default async function Home() {
     return href ? [{ ...b, href }] : [];
   });
 
-  // The final-month products first: they are what most students come for now.
-  const PINNED = ["revision-test-series", "mock-mahasangram", "crash-course"];
+  // Lower PCS + RO/ARO first (the main exam now), then the rest still on sale.
+  const PINNED = ["lower-pcs-complete", "lower-pcs-crash-course", "lower-pcs-test-series", "three-exam-complete"];
+  const listed = allPackages.filter((p) => isListed(p));
   const featuredCourses = [
-    ...PINNED.flatMap((slug) => allPackages.filter((p) => p.slug === slug)),
-    ...allPackages.filter((p) => !PINNED.includes(p.slug ?? "")),
+    ...PINNED.flatMap((slug) => listed.filter((p) => p.slug === slug)),
+    ...listed.filter((p) => !PINNED.includes(p.slug ?? "")),
   ].slice(0, 8);
+  const lowerComplete = listed.find((p) => p.slug === LOWER_COMPLETE_SLUG);
 
   const showChooser = Date.now() <= new Date("2026-11-29T23:59:59+05:30").getTime();
 
@@ -49,10 +53,16 @@ export default async function Home() {
         <HomeCarousel banners={carouselItems} />
       </div>
 
-      {/* Last-month chooser first: three choices instead of every product (hidden after the exam). */}
+      {/* Lower PCS + RO/ARO: the main product (schema-phase47). */}
+      {lowerComplete && <LowerPcsHero pkg={lowerComplete} />}
+
+      {/* Upper PCS last-week chooser: three choices instead of every product (hidden after the exam). */}
       {showChooser && (
         <div className="bg-graphite-950 px-4 pt-6 sm:pt-8">
           <div className="container-custom mx-auto">
+            <p className="mb-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-graphite-300">
+              <T en="Upper PCS Prelims · 29 November" hi="अपर PCS प्रीलिम्स · 29 नवंबर" />
+            </p>
             <WhichOne packages={allPackages} />
           </div>
         </div>
@@ -115,7 +125,7 @@ export default async function Home() {
               <CourseCard
                 key={pkg.id}
                 pkg={pkg}
-                badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy" : undefined}
+                badge={pkg.slug ? EXAM_BADGES[pkg.slug] : undefined}
               />
             ))}
           </div>

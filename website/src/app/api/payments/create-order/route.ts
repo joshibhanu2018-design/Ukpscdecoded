@@ -4,7 +4,7 @@ import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { supabaseAdmin } from "@/lib/supabase";
 import { getPublicKeyId, getRazorpayClient } from "@/lib/razorpay";
 import { isPackageOwned } from "@/lib/orders";
-import { getSeatsRemaining } from "@/lib/packages";
+import { getSeatsRemaining, isOnSale } from "@/lib/packages";
 import { computeOrderTotal } from "@/lib/pricing";
 import { checkCoupon, computePercentDiscount, couponAllowsPackage, reserveCoupon, type CouponLookup } from "@/lib/coupons";
 import { getBuyerPriceInfo } from "@/lib/returningPrice";
@@ -47,6 +47,11 @@ export async function POST(request: NextRequest) {
 
   if (error || !pkg || !pkg.is_active) {
     return NextResponse.json({ error: "Package not found" }, { status: 404 });
+  }
+
+  // metadata.sale_ends_at passed: no longer sold (old buyers keep access).
+  if (!isOnSale(pkg)) {
+    return NextResponse.json({ error: "This course is no longer on sale." }, { status: 410 });
   }
 
   if (await isPackageOwned(user.id, packageId)) {

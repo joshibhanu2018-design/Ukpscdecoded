@@ -1,8 +1,40 @@
-# Handoff — state of UKPSC Decoded (3 Oct 2026)
+# Handoff — state of UKPSC Decoded (17 Nov 2026)
 
 Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
 "Open" as things land.
+
+## Lower PCS + RO/ARO relaunch (17 Nov 2026, branch `lower-pcs-relaunch`)
+The site is now organised by exam: **Lower PCS & RO/ARO** (`/lower-pcs`, main),
+**TRI** (`/tri`), **Upper PCS** (`/upper-pcs`) and **Individual** (`/individual`).
+The top menu has one entry per exam; `/courses` and `/test-series` list every
+product grouped by exam.
+
+- **SQL:** `supabase/schema-phase47-lower-pcs-relaunch.sql` (run BEFORE merging)
+  creates the products, copies the Crash Course lessons into the Lower PCS Crash
+  Course (same video ids + PDFs, "Video N" dropped from titles, `lessons.section`
+  headings) and adds "Coming soon" placeholders (lessons without a video, tests
+  with 0 questions). `supabase/schema-phase47b-upper-2027.sql` runs on **30 Nov**:
+  Crash Course → Upper PCS Video Revision Program ₹2,499, Complete Prelims Pack →
+  Upper PCS 2027 Complete ₹3,599, Premium → Upper PCS 2027 Test Series ₹1,499.
+- **Store listing lives in `packages.metadata`:** `exam_tab` (lower / tri / upper /
+  individual), `listed` (false = hidden from lists, page + access still work),
+  `sale_ends_at` (hidden and not buyable after it), `card_label` (chip on the card),
+  `separate_total` ("bought separately" line). Never set `is_active = false` to hide
+  a product: buyers would lose access.
+- **Bundles inside bundles** now grant access (3-Exam Complete → Lower PCS Complete →
+  CSAT → its classes and tests): `getOwnedPackageIds` expands until nothing new.
+- **Section subsets** (`src/lib/course-subsets.ts` `SECTION_SUBSETS`): CSAT Classes and
+  Current Affairs 2026 videos show Part E / Part D of the Lower PCS Crash Course, so
+  those videos are uploaded once, to the Lower PCS Crash Course.
+- **Filling placeholders:** edit the placeholder lesson in Admin → Lessons and add the
+  YouTube/Bunny id + PDFs. A new lesson takes the section of the lesson above its sort
+  order: for a new current affairs video use sort order 650, 660 … (Part D is 600–640).
+  Tests: load questions into the placeholder test (fixed ids in phase 47).
+- Course pages show the lesson outline (sections, "Coming soon") for the new courses
+  and the release calendar only for the old Crash Course family; test lists show every
+  test by title with "Coming soon" on empty ones. CSAT tests go to the CSAT tab even
+  when named "Sectional".
 
 ## Live now (www.ukpscdecoded.in)
 - **Store:** Courses page (crash course, crash course + test series
