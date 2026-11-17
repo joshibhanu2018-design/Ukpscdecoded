@@ -11,6 +11,15 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Audit quick wins (17 Nov):** the "Which one is for me?" chooser
+  (`src/components/final-month/WhichOne.tsx`, now with Hindi lines) is the
+  first thing under the home carousel till 29 Nov; the free sample test sits
+  above "Our Courses"; home quick-link tiles take an optional Hindi line
+  (`labelHi` in `content/home.json`); `/mahasangram` and `/revision` mention
+  the free Warm-up Mock only while it is open (otherwise the next mock date);
+  small grey text on the store, checkout and final-month pages is one step
+  brighter. Full audit and the December list (light theme, Hindi store
+  pages, WhatsApp login): project file `website-audit/website-audit.md`.
 - **Buy Now everywhere (12 Nov):** every product tile and card has a
   Buy Now button (straight to `/checkout/<slug>`) next to Know more: home
   quick-link tiles (`buy` slug in `content/home.json`), home "Our Courses"

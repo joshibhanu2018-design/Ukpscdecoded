@@ -6,7 +6,7 @@ import type { Package } from "@/lib/packages";
 
 /**
  * "Which one is for me?" — the three choices we recommend in the last month,
- * at the top of Courses and Test Series, so students don't have to compare
+ * at the top of Home, Courses and Test Series, so students don't have to compare
  * every product. Prices come from the database (hidden in the app).
  */
 export default function WhichOne({ packages }: { packages: Package[] }) {
@@ -18,6 +18,8 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
     {
       icon: Trophy,
       want: "I want to test myself with live ranks",
+      wantHi: "मुझे लाइव रैंक के साथ खुद को परखना है",
+      whatHi: "6 फुल मॉक, रात 8 बजे पूरे उत्तराखंड की रैंक",
       name: "All Uttarakhand Rank Challenge",
       what: "Mock Mahasangram: 6 full mocks, all-Uttarakhand rank at 8 pm",
       price: price("mock-mahasangram"),
@@ -28,6 +30,8 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
     {
       icon: Rocket,
       want: "I want full revision in the last month",
+      wantHi: "मुझे आखिरी महीने में पूरा रिवीजन चाहिए",
+      whatHi: "6 मॉक + 800 उत्तराखंड GK + 600 करेंट अफेयर्स प्रश्न + 2 CSAT",
       name: "Revision Test Series",
       what: "6 mocks + 800 UK GK + 600 CA questions + 2 CSAT",
       price: price("revision-test-series"),
@@ -38,6 +42,8 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
     {
       icon: PackageIcon,
       want: "I want everything: videos + all tests",
+      wantHi: "मुझे सब कुछ चाहिए: वीडियो + सभी टेस्ट",
+      whatHi: "क्रैश कोर्स + प्रीमियम टेस्ट सीरीज़ + रिवीजन सीरीज़",
       name: "Complete Prelims Pack",
       what: "Crash Course + Premium Test Series + Revision Series",
       price: price("complete-prelims-pack"),
@@ -50,9 +56,10 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
   return (
     <section aria-labelledby="which-one" className="rounded-2xl border border-graphite-800 bg-graphite-900/60 p-4 sm:p-6">
       <h2 id="which-one" className="text-center font-display text-xl font-bold text-white sm:text-2xl">
-        Which one is for me?
+        Which one is for me? <span lang="hi" className="block text-lg text-saffron-300 sm:inline sm:text-xl">मेरे लिए कौन सा सही है?</span>
       </h2>
       <p className="mt-1 text-center text-sm text-graphite-300">Exam on 29 Nov. Pick the one line that sounds like you.</p>
+      <p lang="hi" className="mt-0.5 text-center text-sm text-graphite-300">परीक्षा 29 नवंबर को है। जो लाइन आप पर सही बैठे, वही चुनें।</p>
       <div className="mt-5 grid gap-3 md:grid-cols-3">
         {choices.map((c) => (
           <div
@@ -67,11 +74,13 @@ export default function WhichOne({ packages }: { packages: Package[] }) {
               </span>
             )}
             <Link href={c.href} className="group flex flex-1 flex-col">
-              <p className="text-sm italic text-graphite-300">&ldquo;{c.want}&rdquo;</p>
+              <p className="text-sm italic text-graphite-200">&ldquo;{c.want}&rdquo;</p>
+              <p lang="hi" className="mt-0.5 text-sm text-graphite-200">&ldquo;{c.wantHi}&rdquo;</p>
               <p className="mt-2 flex items-center gap-2 font-display text-lg font-bold text-white">
                 <c.icon className="h-5 w-5 text-saffron-400" /> {c.name}
               </p>
-              <p className="mt-1 flex-1 text-sm text-graphite-300">{c.what}</p>
+              <p className="mt-1 text-sm text-graphite-300">{c.what}</p>
+              <p lang="hi" className="mt-0.5 flex-1 text-sm text-graphite-300">{c.whatHi}</p>
               <span className="web-only mt-3 font-display text-xl font-bold text-saffron-300">{c.price}</span>
             </Link>
             <div className="mt-3 flex gap-2">

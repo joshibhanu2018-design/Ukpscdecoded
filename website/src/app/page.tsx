@@ -8,6 +8,7 @@ import HomeQuiz from "@/components/HomeQuiz";
 import HomeCarousel from "@/components/HomeCarousel";
 import CourseCard from "@/components/CourseCard";
 import FreeSampleTest from "@/components/FreeSampleTest";
+import WhichOne from "@/components/final-month/WhichOne";
 import { getActiveBanners } from "@/lib/banners";
 import { getActivePackages, getOwnedPackageIds, getPackageIncludes, getUserActiveEnrollments } from "@/lib/packages";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
@@ -46,12 +47,23 @@ export default async function Home() {
     ...allPackages.filter((p) => !PINNED.includes(p.slug ?? "")),
   ].slice(0, 8);
 
+  const showChooser = Date.now() <= new Date("2026-11-29T23:59:59+05:30").getTime();
+
   return (
     <div>
       {/* Course Carousel — DB-driven, editable without a redeploy */}
       <div className="web-only">
         <HomeCarousel banners={carouselItems} />
       </div>
+
+      {/* Last-month chooser first: three choices instead of every product (hidden after the exam). */}
+      {showChooser && (
+        <div className="bg-graphite-950 px-4 pt-6 sm:pt-8">
+          <div className="container-custom mx-auto">
+            <WhichOne packages={allPackages} />
+          </div>
+        </div>
+      )}
 
       {/* Quick links — one per paid product, right under the carousel */}
       <nav aria-label="Products" className="border-b border-graphite-800 bg-graphite-950 px-4 py-6 sm:py-8">
@@ -60,6 +72,7 @@ export default async function Home() {
             const Icon = getIcon(link.icon);
             const featured = "featured" in link && link.featured;
             const buy = "buy" in link ? link.buy : null;
+            const labelHi = "labelHi" in link ? link.labelHi : null;
             return (
               <div
                 key={link.href}
@@ -78,7 +91,8 @@ export default async function Home() {
                     {link.title}
                     <ArrowRight className="h-3.5 w-3.5 text-saffron-400 opacity-0 transition-opacity group-hover:opacity-100" />
                   </span>
-                  <span className="mt-1 text-xs leading-snug text-graphite-400">{link.label}</span>
+                  <span className="mt-1 text-[13px] leading-snug text-graphite-300">{link.label}</span>
+                  {labelHi && <span lang="hi" className="mt-1 text-[13px] leading-snug text-graphite-300">{labelHi}</span>}
                 </Link>
                 {buy && (
                   <Link
@@ -93,6 +107,8 @@ export default async function Home() {
           })}
         </div>
       </nav>
+
+      <FreeSampleTest />
 
       {/* Course Cards */}
       <section className="bg-graphite-950 px-4 py-14 sm:py-16">
@@ -121,7 +137,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <FreeSampleTest />
 
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-br from-graphite-950 via-graphite-900 to-graphite-800 text-white relative overflow-hidden">

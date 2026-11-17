@@ -205,7 +205,7 @@ export default function CheckoutForm({
               value={phone}
               onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
               placeholder="10-digit mobile number"
-              className="w-full rounded-lg border border-graphite-700 bg-graphite-800 px-4 py-2.5 text-sm text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400 focus:ring-2 focus:ring-saffron-400/30"
+              className="w-full rounded-lg border border-graphite-700 bg-graphite-800 px-4 py-2.5 text-sm text-graphite-100 placeholder:text-graphite-400 outline-none focus:border-saffron-400 focus:ring-2 focus:ring-saffron-400/30"
             />
             {phoneError && <p className="mt-1 text-xs text-danger-400">{phoneError}</p>}
           </div>
@@ -226,7 +226,7 @@ export default function CheckoutForm({
               setCodeMessage(null);
             }}
             placeholder="Enter code (optional)"
-            className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2.5 text-sm text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400"
+            className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2.5 text-sm text-graphite-100 placeholder:text-graphite-400 outline-none focus:border-saffron-400"
           />
           <button
             onClick={() => void handleApplyCode()}
@@ -284,10 +284,10 @@ export default function CheckoutForm({
 
       <p className="text-center text-[11px] leading-snug text-graphite-300">
         Account sharing leads to suspension without refund.{" "}
-        <Link href="/terms" className="underline hover:text-graphite-400">
+        <Link href="/terms" className="underline hover:text-graphite-300">
           Terms
         </Link> ·{" "}
-        <Link href="/refund-policy" className="underline hover:text-graphite-400">
+        <Link href="/refund-policy" className="underline hover:text-graphite-300">
           Refund Policy
         </Link>
       </p>

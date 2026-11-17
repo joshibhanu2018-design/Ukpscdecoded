@@ -238,7 +238,7 @@ export default function PackageCard({
                       setCodeMessage(null);
                     }}
                     placeholder="Coupon or referral code"
-                    className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2 text-xs text-graphite-100 placeholder:text-graphite-500 outline-none focus:border-saffron-400"
+                    className="min-w-0 flex-1 rounded-lg border border-graphite-700 bg-graphite-800 px-3 py-2 text-xs text-graphite-100 placeholder:text-graphite-400 outline-none focus:border-saffron-400"
                   />
                   <button
                     onClick={handleApplyCode}
@@ -273,7 +273,7 @@ export default function PackageCard({
             </button>
             <p className="mt-2 text-center text-[11px] leading-snug text-graphite-300">
               Account sharing leads to suspension without refund.{" "}
-              <Link href="/terms" className="underline hover:text-graphite-400">
+              <Link href="/terms" className="underline hover:text-graphite-300">
                 Terms
               </Link>
             </p>
