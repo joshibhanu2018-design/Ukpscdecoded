@@ -243,7 +243,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               ) : (
                 <Link
                   href={checkoutHref}
-                  className="inline-block rounded-lg bg-graphite-900 px-6 py-3 text-sm font-bold text-white hover:bg-graphite-800"
+                  className="inline-block rounded-lg bg-[#1c1917] px-6 py-3 text-sm font-bold text-white hover:bg-black"
                 >
                   {buyLabel}
                 </Link>

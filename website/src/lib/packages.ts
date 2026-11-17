@@ -215,6 +215,17 @@ export function computeSavings(
   includes: PackageInclude[],
   allPackages: Package[]
 ): Savings | null {
+  // metadata.separate_total (schema-phase47): the price of the parts that are really
+  // sold on their own. false/0 = no saving shown (e.g. the TRI Add-on's videos and
+  // mocks are not sold separately, so adding up their prices would be misleading).
+  const separate = pkg.metadata?.separate_total;
+  if (separate !== undefined && separate !== null) {
+    const total = Number(separate);
+    const saving = total - getPriceInfo(pkg).amount;
+    if (!Number.isFinite(total) || total <= 0 || saving <= 0) return null;
+    return { componentTotal: total, saving, savingPercent: Math.round((saving / total) * 100) };
+  }
+
   const includedIds = includes
     .filter((i) => i.combo_package_id === pkg.id)
     .map((i) => i.included_package_id);
