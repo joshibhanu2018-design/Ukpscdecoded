@@ -461,6 +461,10 @@ product grouped by exam.
   Crash Course video number (not the position) plus a note that gaps are the
   other part's videos, so students don't think videos are missing.
 
+- **Telegram promo (17 Nov):** the closing message after the 7 daily polls (`promos()` in
+  `src/lib/telegramMcq.ts`) pushes the Revision Test Series + Lower PCS Test Series till
+  `REVISION_PROMO_ENDS` (25 Nov), then Lower PCS + TRI, then after 27 Dec TRI + RO/ARO. The intro's
+  countdown switches from Upper PCS to Lower PCS after 29 Nov. Preview: `/api/cron/telegram-mcq?preview=1` (admin).
 - **Telegram daily quiz (12 Oct):** `/api/cron/telegram-mcq` runs 08:00 IST
   (vercel.json): 7 Telegram quiz polls (bilingual, with explanation) from the view
   `telegram_unused_questions` (active, in no test, never posted), then a rotating

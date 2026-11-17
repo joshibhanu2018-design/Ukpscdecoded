@@ -95,68 +95,135 @@ export async function pickDailyPolls(count = DAILY_COUNT): Promise<{ polls: Quiz
   return { polls, remaining: Math.max(0, (total ?? rows.length) - polls.length) };
 }
 
+// Exam dates (owner-given). The promo switches on REVISION_PROMO_ENDS.
 const UPPER_PCS_PRELIMS = "2026-11-29";
-const COURSES = "👉 Courses: https://www.ukpscdecoded.in/courses";
-const TESTS = "👉 Test series: https://www.ukpscdecoded.in/test-series";
+const LOWER_PCS_PRELIMS = "2026-12-27";
+const TRI_EXAM = "2027-01-15";
+/** Last day (IST) the promo pushes the Revision Test Series; from the next day it is Lower PCS + TRI. */
+const REVISION_PROMO_ENDS = "2026-11-25";
 
-/** Whole days from today (IST) to the Upper PCS Prelims, never negative. */
-export function daysToPrelims(now = new Date()): number {
-  const istToday = new Date(now.getTime() + 5.5 * 3_600_000).toISOString().slice(0, 10);
-  return Math.max(0, Math.round((Date.parse(UPPER_PCS_PRELIMS) - Date.parse(istToday)) / 86_400_000));
+const SITE = "https://www.ukpscdecoded.in";
+const REVISION = `👉 Revision Test Series: ${SITE}/revision`;
+const LOWER_TS = `👉 Lower PCS Test Series: ${SITE}/courses/lower-pcs-test-series`;
+const LOWER = `👉 Lower PCS courses + free mock: ${SITE}/lower-pcs`;
+const TRI = `👉 TRI courses: ${SITE}/tri`;
+
+/** Today's date in IST, YYYY-MM-DD. */
+function istDay(now: Date): string {
+  return new Date(now.getTime() + 5.5 * 3_600_000).toISOString().slice(0, 10);
+}
+
+/** Whole days from today (IST) to an exam date, never negative. */
+function daysTo(exam: string, now = new Date()): number {
+  return Math.max(0, Math.round((Date.parse(exam) - Date.parse(istDay(now))) / 86_400_000));
+}
+
+const dayWord = (n: number) => (n === 1 ? "1 day" : `${n} days`);
+
+/** The intro line's exam countdown: Upper + Lower PCS until 29 Nov, then Lower PCS + TRI, then TRI. */
+export function countdownLine(now: Date): string {
+  const today = istDay(now);
+  if (today <= UPPER_PCS_PRELIMS) {
+    return `For *Upper PCS Prelims (29 Nov)* & *Lower PCS (27 Dec)* · ${dayWord(daysTo(UPPER_PCS_PRELIMS, now))} to Upper PCS.`;
+  }
+  if (today <= LOWER_PCS_PRELIMS) {
+    return `For *Lower PCS (27 Dec)* & *TRI (15 Jan)* · ${dayWord(daysTo(LOWER_PCS_PRELIMS, now))} to Lower PCS.`;
+  }
+  if (today <= TRI_EXAM) return `For *TRI (15 Jan)* & *RO/ARO* · ${dayWord(daysTo(TRI_EXAM, now))} to TRI.`;
+  return "For every UKPSC exam: Upper PCS, Lower PCS, RO/ARO & TRI.";
 }
 
 /**
- * The closing message after the daily polls: four versions in rotation, each
- * with the real countdown to the exam (no invented scarcity). Telegram legacy
- * Markdown: *bold*.
+ * Closing messages after the daily polls, with real countdowns (no invented scarcity).
+ * Till REVISION_PROMO_ENDS: Revision Test Series (Upper PCS last-week revision) + Lower PCS Test Series.
+ * After it: Lower PCS + TRI. Telegram legacy Markdown: *bold*.
  */
-function promos(days: number): string[] {
-  const left = days === 1 ? "1 day" : `${days} days`;
+function promos(now: Date): string[] {
+  const upper = dayWord(daysTo(UPPER_PCS_PRELIMS, now));
+  const lower = dayWord(daysTo(LOWER_PCS_PRELIMS, now));
+  const tri = dayWord(daysTo(TRI_EXAM, now));
+  if (istDay(now) <= REVISION_PROMO_ENDS) {
+    return [
+      [
+        `⏳ *${upper} left for Upper PCS Prelims (29 Nov).* This is revision time, not new-topic time.`,
+        "🔁 *Revision Test Series*: full mocks + Uttarakhand GK and current affairs revision tests, made for the last weeks.",
+        REVISION,
+        "",
+        `📅 Lower PCS is on *27 Dec* (${lower} away). Start its practice early with the *Lower PCS Test Series*: full mocks on the new pattern (100 GS + 50 aptitude) and CSAT sectionals.`,
+        LOWER_TS,
+      ],
+      [
+        "🤔 *Got some of today's questions wrong?* Better here than in the exam hall.",
+        `With *${upper} left* for Upper PCS, every revision test now is one less surprise on 29 Nov.`,
+        REVISION,
+        "",
+        "📝 Writing Lower PCS too? The *Lower PCS Test Series* has the exact Lower PCS pattern, aptitude included. Try the *free Lower PCS mock* (150 Q, 2 h) first:",
+        LOWER,
+      ],
+      [
+        `🔥 *${upper} to Upper PCS, ${lower} to Lower PCS.*`,
+        "✅ Uttarakhand GK revised? ✅ Current affairs revised? ✅ Full mocks done?",
+        "If any box is empty, the *Revision Test Series* closes the gap:",
+        REVISION,
+        "",
+        "Then keep going for 27 Dec with the *Lower PCS Test Series*:",
+        LOWER_TS,
+      ],
+    ].map((lines) => lines.join("\n"));
+  }
+  if (istDay(now) > LOWER_PCS_PRELIMS) {
+    // After Lower PCS: TRI, and Lower PCS courses stay valid for RO/ARO.
+    return [
+      [
+        `🎯 *TRI exam: 15 Jan (${tri} left).* Courses and tests for TRI:`,
+        TRI,
+        "",
+        "📅 Preparing for *RO/ARO*? Its prelims syllabus is the same as Lower PCS, and our Lower PCS courses stay valid for it:",
+        LOWER,
+      ],
+      [
+        "🤔 *Got some of today's questions wrong?* Practise on the real pattern before the exam, not in it.",
+        `TRI is on *15 Jan* (${tri} left):`,
+        TRI,
+        "",
+        "📚 RO/ARO next? Lower PCS courses + free mock:",
+        LOWER,
+      ],
+    ].map((lines) => lines.join("\n"));
+  }
   return [
     [
-      `⏳ *Only ${left} left for UKPSC Upper PCS Prelims (29 Nov)* — and Lower PCS follows in December.`,
-      "Toppers aren't the ones who studied most — they're the ones who *finished the syllabus and revised it*. Is your plan on track?",
+      `📅 *Lower PCS: 27 Dec (${lower} left). TRI: 15 Jan (${tri} left).*`,
+      "Lower PCS is one paper: 100 GS + 50 aptitude. Uttarakhand GK and aptitude decide the merit.",
       "",
-      "📚 Weak in *Uttarakhand GK* or *National GS*? Pick your crash course — detailed notes + quick revision PDFs.",
-      "🏆 Want it all? *Complete Prelims Pack* = Crash Course + aligned Test Series.",
-      COURSES,
-      "📝 Only tests? *Premium Test Series* includes every test.",
-      TESTS,
+      "📚 Lower PCS Crash Course, Test Series and Complete Pack (valid for RO/ARO too), plus a *free Lower PCS mock*:",
+      LOWER,
+      "🎯 Writing TRI as well? TRI courses and tests:",
+      TRI,
     ],
     [
-      `📅 *${left} to Prelims.* Our Crash Course schedule finishes the full syllabus by *18 November*, leaving 10 days only for revision and mocks.`,
-      "Every day you start late is a topic you'll have to rush. Start today and stay on schedule.",
+      "🤔 *Got some of today's questions wrong?* That's exactly what full mocks fix before the exam.",
+      `With *${lower} left* for Lower PCS, practise on the real pattern: 10 full-length tests + CSAT sectionals.`,
+      LOWER_TS,
       "",
-      "🎯 Crash Course (Uttarakhand / National / Full) with detailed notes:",
-      COURSES,
-      "📝 Mock tests in the real exam pattern, Hindi + English:",
-      TESTS,
+      `🎯 TRI on *15 Jan* (${tri} left):`,
+      TRI,
     ],
     [
-      "🤔 *Got some of today's questions wrong?* That's exactly what happens in the exam hall without enough mock practice.",
-      `With *${left} left* for Upper PCS and Lower PCS in December, the students who practise full mocks now are the ones who don't panic on exam day.`,
+      `🔥 *${lower} to Lower PCS. Where do you stand?*`,
+      "✅ Uttarakhand GK done? ✅ Aptitude (reasoning + maths) practised? ✅ Full mocks taken?",
+      "Start with the *free Lower PCS mock* (150 Q, 2 h) and see your level:",
+      LOWER,
       "",
-      "📝 *Premium Test Series* — full mocks, sectional, Uttarakhand, current affairs, CSAT, with solutions & rank:",
-      TESTS,
-      "🏆 Need classes too? *Complete Prelims Pack*:",
-      COURSES,
-    ],
-    [
-      `🔥 *${left} left. Where do you stand?*`,
-      "✅ Syllabus finished? ✅ Uttarakhand GK revised? ✅ 10+ full mocks done?",
-      "If any box is empty, close the gap now — not in the last week.",
-      "",
-      "📚 Crash Course + notes, or the *Complete Prelims Pack* (course + test series):",
-      COURSES,
-      "📝 Tests only — *Premium Test Series*:",
-      TESTS,
+      `📝 TRI (15 Jan, ${tri} left):`,
+      TRI,
     ],
   ].map((lines) => lines.join("\n"));
 }
 
 /** Today's closing message (rotates daily). */
 export function promoFor(date: Date = new Date()): string {
-  const list = promos(daysToPrelims(date));
+  const list = promos(date);
   const day = Math.floor((date.getTime() + 5.5 * 3_600_000) / 86_400_000);
   return list[day % list.length];
 }
@@ -180,7 +247,7 @@ export async function postDailyQuiz(polls: QuizPoll[], now = new Date()): Promis
   const date = now.toLocaleDateString("en-IN", { day: "numeric", month: "long", timeZone: "Asia/Kolkata" });
   await telegram("sendMessage", {
     chat_id,
-    text: `🧠 *Daily UKPSC MCQ Challenge — ${date}*\nFor *Upper PCS Prelims (29 Nov 2026)* & *Lower PCS (Dec 2026)* · ${daysToPrelims(now)} days to go.\n${polls.length} questions — tap your answer, then see the explanation 👇`,
+    text: `🧠 *Daily UKPSC MCQ Challenge — ${date}*\n${countdownLine(now)}\n${polls.length} questions — tap your answer, then see the explanation 👇`,
     parse_mode: "Markdown",
   });
   const db = supabaseAdmin();
