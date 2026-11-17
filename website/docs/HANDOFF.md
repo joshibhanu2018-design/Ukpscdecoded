@@ -24,6 +24,10 @@ product grouped by exam.
 - **Phase 47d** (17 Nov): "2026" kept in Revision Test Series 2026 and All Uttarakhand Rank
   Challenge 2026 (owner's wish: shows they are for the 2026 exam). `separate_total` also
   drives "Save X%" on course pages; `false` = no saving shown (bundles of unsold parts).
+- **Course-page banner** (`src/components/CourseHero.tsx`, 17 Nov): one data-driven header for
+  every course (chips, Poppins title, facts row, price + offer date, Buy Now + "Ask on
+  WhatsApp" to 8317390586 via `CourseEnquiryButton`). No per-course image carousels needed;
+  set `metadata.card_title` / `card_tagline` / highlights to change what it says.
 - **Store listing lives in `packages.metadata`:** `exam_tab` (lower / tri / upper /
   individual), `listed` (false = hidden from lists, page + access still work),
   `sale_ends_at` (hidden and not buyable after it), `card_label` (chip on the card),

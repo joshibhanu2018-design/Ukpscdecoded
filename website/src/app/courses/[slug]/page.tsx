@@ -19,15 +19,13 @@ import {
 import { EXAM_PAGES } from "@/lib/catalog";
 import { followsCrashCoursePlan } from "@/lib/course-subsets";
 import CourseOutline from "@/components/CourseOutline";
-import CourseEnquiryButton from "@/components/CourseEnquiryButton";
-import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
+import CourseHero from "@/components/CourseHero";
+import { getPriceInfo } from "@/lib/pricing";
 import { getPackageTestList, type TestListItem } from "@/lib/tests";
 import { courseHeader, demoVideos, groupTestsByTab } from "@/lib/course-display";
 import FreeSampleTest from "@/components/FreeSampleTest";
-import { courseTone } from "@/components/CourseHeader";
 import DemoVideo from "@/components/DemoVideo";
 import TestTabs from "@/components/TestTabs";
-import AppPurchaseNote from "@/components/AppPurchaseNote";
 import CrashCoursePlan from "@/components/CrashCoursePlan";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import T from "@/components/T";
@@ -79,7 +77,6 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const owned = getOwnedPackageIds(enrollments, includes, allPackages).has(pkg.id);
 
   const priceInfo = getPriceInfo(pkg);
-  const foundingLabel = formatFoundingLabel(priceInfo);
   const savings = computeSavings(pkg, includes, allPackages);
   const seatsRemaining = pkg.seats_total != null ? await getSeatsRemaining(pkg.id, pkg.seats_total) : null;
   const validityLabel = pkg.access_valid_till
@@ -189,73 +186,21 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         </div>
       </div>
 
-      {/* Header */}
-      <div className="on-color px-4 py-8 sm:py-12" style={{ background: courseTone(pkg) }}>
-        <div
-          className={`container-custom mx-auto ${pkg.image_url ? "grid grid-cols-1 items-center gap-6 lg:grid-cols-2" : ""}`}
-        >
-          {pkg.image_url && (
-            // eslint-disable-next-line @next/next/no-img-element -- admin-supplied URL from any host; next/image would need every host allow-listed
-            <img
-              src={pkg.image_url}
-              alt=""
-              decoding="async"
-              className="aspect-[16/9] w-full rounded-xl object-cover shadow-xl lg:order-2"
-            />
-          )}
-          <div>
-            <h1 className="text-3xl font-extrabold uppercase leading-tight tracking-wide text-white sm:text-4xl">
-              {header.title}
-            </h1>
-            {header.tagline && (
-              <p className="mt-3 max-w-3xl text-lg font-semibold leading-snug text-white sm:text-2xl">
-                {header.tagline}
-              </p>
-            )}
-            {header.title.toLowerCase() !== pkg.package_name.toLowerCase() && (
-              <p className="mt-2 text-sm text-white/90">{pkg.package_name}</p>
-            )}
-            <div className="mt-5 flex flex-wrap items-center gap-4">
-              <span className="web-only text-3xl font-extrabold text-white">{formatINR(priceInfo.amount)}</span>
-              {priceInfo.isFounding && priceInfo.regularPrice && (
-                <span className="web-only text-sm text-white/70 line-through">{formatINR(priceInfo.regularPrice)}</span>
-              )}
-              {savings && (
-                <span className="web-only rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
-                  Save {savings.savingPercent}%
-                </span>
-              )}
-              {seatsRemaining != null && (
-                <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
-                  {seatsRemaining} seats left
-                </span>
-              )}
-            </div>
-            {foundingLabel && <p className="web-only mt-2 text-xs font-medium text-white/90">{foundingLabel}</p>}
-            {!owned && <AppPurchaseNote className="mt-6 max-w-sm" />}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className={`hidden sm:block ${owned ? "" : "web-only"}`}>
-              {owned ? (
-                <Link
-                  href="/test-platform"
-                  className="inline-block rounded-lg border border-white/40 bg-white/10 px-6 py-3 text-sm font-bold text-white"
-                >
-                  Purchased — Go to My Courses
-                </Link>
-              ) : (
-                <Link
-                  href={checkoutHref}
-                  className="inline-block rounded-lg bg-[#1c1917] px-6 py-3 text-sm font-bold text-white hover:bg-black"
-                >
-                  {buyLabel}
-                </Link>
-              )}
-            </div>
-            {!owned && <CourseEnquiryButton courseName={pkg.package_name} slug={pkg.slug} />}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Header banner */}
+      <CourseHero
+        pkg={pkg}
+        title={header.title}
+        tagline={header.tagline}
+        priceInfo={priceInfo}
+        savings={savings}
+        seatsRemaining={seatsRemaining}
+        owned={owned}
+        buyHref={checkoutHref}
+        buyLabel={buyLabel}
+        validityLabel={validityLabel}
+        liveTests={readyTestCount}
+        hasVideos={videoCourses.length > 0}
+      />
 
       <div className="container-custom mx-auto grid grid-cols-1 gap-8 px-4 py-10 lg:grid-cols-3">
         <div className="space-y-10 lg:col-span-2">
