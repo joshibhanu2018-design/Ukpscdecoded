@@ -29,9 +29,9 @@ export default function Timetable({ items, today }: { items: ScheduleItem[]; tod
             }`}
           >
             <div className="w-14 flex-shrink-0 rounded-lg bg-graphite-950/70 py-1.5 text-center">
-              <div className="text-[10px] font-semibold uppercase text-graphite-400">{d.weekday}</div>
+              <div className="text-[10px] font-semibold uppercase text-graphite-300">{d.weekday}</div>
               <div className="font-display text-2xl font-bold leading-none text-white">{d.day}</div>
-              <div className="text-[10px] font-semibold uppercase text-graphite-400">{d.month}</div>
+              <div className="text-[10px] font-semibold uppercase text-graphite-300">{d.month}</div>
             </div>
             <div className="min-w-0">
               <p className="font-semibold leading-snug text-white">{t.name}</p>

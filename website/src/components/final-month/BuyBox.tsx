@@ -61,7 +61,7 @@ export default function BuyBox({
         {buyLabel} <ArrowRight className="h-5 w-5" />
       </Link>
       {!loggedIn && (
-        <p className="web-only mt-2 text-xs text-graphite-400">
+        <p className="web-only mt-2 text-xs text-graphite-300">
           Bought from us before? <Link href={`/student/login?next=${encodeURIComponent("/revision")}`} className="text-saffron-300 underline">Log in</Link> to see your 20% / upgrade price.
         </p>
       )}

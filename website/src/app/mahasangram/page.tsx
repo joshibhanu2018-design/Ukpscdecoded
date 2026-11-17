@@ -31,6 +31,8 @@ export default async function MahasangramPage() {
   const revision = state[REVISION_SLUG];
   const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
   const mockDates = FINAL_SCHEDULE.filter((t) => t.kind === "mock");
+  const nextMock = mockDates.find((t) => t.date >= today);
+  const formatDay = (d: string) => new Date(`${d}T00:00:00+05:30`).toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
 
   let hasDistrict = false;
   if (user) {
@@ -51,7 +53,12 @@ export default async function MahasangramPage() {
           <p className="mt-2 font-display text-xl font-bold text-saffron-300 sm:text-2xl">Are you the next topper?</p>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-graphite-300 sm:text-base">
             6 full-length mocks before the 29 Nov exam. Everyone writes the same mock on the same day, and at 8 pm the
-            rank list for the whole of Uttarakhand goes live. <span className="font-semibold text-saffron-300">Try the free Warm-up Mock today.</span>
+            rank list for the whole of Uttarakhand goes live.{" "}
+            {warmup && warmupOpen ? (
+              <span className="font-semibold text-saffron-300">Try the free Warm-up Mock today.</span>
+            ) : nextMock ? (
+              <span className="font-semibold text-saffron-300">Next mock: {formatDay(nextMock.date)}. Join now, earlier mocks stay open for practice.</span>
+            ) : null}
           </p>
         </div>
 

@@ -5,6 +5,8 @@ import { ArrowRight, BookOpenCheck, CalendarDays, Download, Gift, Mountain, News
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth-utils";
 import { daysToExam, FINAL_SCHEDULE, getFinalMonthState, MAHASANGRAM_SLUG, REVISION_SLUG } from "@/lib/finalMonth";
 import { formatINR } from "@/lib/format";
+import { getWarmupTest } from "@/lib/liveMock";
+import { parseUtcTimestamp } from "@/lib/timestamps";
 import BuyBox from "@/components/final-month/BuyBox";
 import Timetable from "@/components/final-month/Timetable";
 
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
 
 const TIMETABLE_PDF = "/uploads/final-month-timetable.pdf";
 
-const FAQ = [
+const BASE_FAQ = [
   {
     q: "I already bought a course or test series. Do I pay full price?",
     a: "No. Log in: Crash Course, Basic, Uttarakhand, Current Affairs or CSAT buyers get 20% off automatically. Mock Mahasangram students upgrade for ₹500. Premium Test Series and Complete Prelims Pack students already have it free in their dashboard.",
@@ -32,10 +34,6 @@ const FAQ = [
     q: "What if I miss a date?",
     a: "Every test stays open till 15 January 2027, so it also helps for Lower PCS. Only the full mocks have a live rank on their day; you still see the rank you would have had if you take one later.",
   },
-  {
-    q: "Is there a free test?",
-    a: "Yes. The Warm-up Mock (150 questions) is free for everyone till 11 Nov, with a live rank list. The 6 Rank Challenge mocks start 12 Nov.",
-  },
 ];
 
 export default async function RevisionPage() {
@@ -46,6 +44,15 @@ export default async function RevisionPage() {
   const days = daysToExam();
   const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
   const upcoming = FINAL_SCHEDULE.filter((t) => t.date >= today);
+  // The free Warm-up Mock is only mentioned while it is still open.
+  const warmup = await getWarmupTest().catch(() => null);
+  const warmupOpen = !!warmup?.rank_until && Date.now() < parseUtcTimestamp(warmup.rank_until).getTime();
+  const FAQ = [
+    ...BASE_FAQ,
+    warmupOpen
+      ? { q: "Is there a free test?", a: "Yes. The Warm-up Mock (150 questions) is free for everyone right now, with a live rank list." }
+      : { q: "Is there a free test?", a: "Yes. The Free Sample Mock is open to everyone: log in and start it from the Test Series page. The free Warm-up Mock has closed; the Rank Challenge mocks are now running." },
+  ];
 
   return (
     <div className="bg-graphite-950">
@@ -119,7 +126,7 @@ export default async function RevisionPage() {
             </p>
             <p className="mt-1 text-sm text-graphite-300">
               Are you the next topper? Mock Mahasangram: the 6 full mocks with the live rank list
-              <span className="web-only">{maha.pkg ? `, ${formatINR(maha.price ?? maha.pkg.price)}` : ""}</span>. Try the free Warm-up Mock first.
+              <span className="web-only">{maha.pkg ? `, ${formatINR(maha.price ?? maha.pkg.price)}` : ""}</span>.{warmupOpen ? " Try the free Warm-up Mock first." : ""}
               You can upgrade to this full Revision Series later for ₹500.
             </p>
           </div>
@@ -147,7 +154,7 @@ export default async function RevisionPage() {
           <div className="mt-5">
             <Timetable items={upcoming.length > 0 ? upcoming : FINAL_SCHEDULE} today={today} />
           </div>
-          <p className="mt-3 text-xs text-graphite-400">27 and 28 Nov: no new test. Retake your two weakest tests and read your wrong-answer list.</p>
+          <p className="mt-3 text-xs text-graphite-300">27 and 28 Nov: no new test. Retake your two weakest tests and read your wrong-answer list.</p>
         </section>
 
         {/* Other courses */}
