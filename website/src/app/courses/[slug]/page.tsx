@@ -16,7 +16,7 @@ import {
   examTab,
   isOnSale,
 } from "@/lib/packages";
-import { EXAM_PAGES } from "@/lib/catalog";
+import { EXAM_PAGES, PAPER_2025_TEST_ID } from "@/lib/catalog";
 import { followsCrashCoursePlan } from "@/lib/course-subsets";
 import CourseOutline from "@/components/CourseOutline";
 import CourseHero from "@/components/CourseHero";
@@ -224,8 +224,13 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </section>
           )}
 
-          {/* The free mock advertises the test series — not on a video-only course page. */}
-          {pkg.package_type !== "video_course" && <FreeSampleTest compact />}
+          {/* Lower PCS / TRI / Solo Packs: the free 2025 actual paper (every course, it shows the platform).
+              Others: the free mock advertises the test series, so not on a video-only course page. */}
+          {tab === "lower" || tab === "tri" || tab === "individual" ? (
+            <FreeSampleTest compact testId={PAPER_2025_TEST_ID} title="Free: Lower PCS 2025 actual paper (150 Q, 2 h)" />
+          ) : (
+            pkg.package_type !== "video_course" && <FreeSampleTest compact />
+          )}
 
           {/* Free demo videos — packages.metadata.demo_videos (YouTube until Bunny is set up) */}
           {videos.length > 0 ? (
@@ -318,12 +323,20 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                                   className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-graphite-800 bg-graphite-900/60 px-4 py-3 text-sm"
                                 >
                                   <span className="font-medium text-graphite-200">{t.test_name}</span>
-                                  <div className="flex items-center gap-3 text-xs text-graphite-300">
+                                  <div className="flex flex-wrap items-center gap-3 text-xs text-graphite-300">
                                     {!!t.total_questions && <span>{t.total_questions} Q</span>}
                                     {!!t.duration_minutes && (
                                       <span className="flex items-center gap-1">
                                         <Clock className="h-3 w-3" /> {t.duration_minutes} min
                                       </span>
+                                    )}
+                                    {t.is_free_test && t.question_count > 0 && isReleased && (
+                                      <Link
+                                        href={`/test-platform/tests/${t.id}`}
+                                        className="rounded-full bg-success-500/15 px-2 py-0.5 font-semibold text-success-300 hover:bg-success-500/25"
+                                      >
+                                        Free · Try now
+                                      </Link>
                                     )}
                                     {t.question_count === 0 ? (
                                       <span className="rounded-full bg-saffron-400/10 px-2 py-0.5 font-semibold text-saffron-300">Coming soon</span>

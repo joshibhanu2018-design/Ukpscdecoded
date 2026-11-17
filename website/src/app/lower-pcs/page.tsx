@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, FileText, Sparkles } from "lucide-react";
 import CourseCard from "@/components/CourseCard";
 import { EXAM_BADGES } from "@/components/ExamCatalog";
-import { LOWER_COMPLETE_SLUG, examProducts } from "@/lib/catalog";
+import { LOWER_COMPLETE_SLUG, PAPER_2025_TEST_ID, examProducts } from "@/lib/catalog";
 import { getActivePackages } from "@/lib/packages";
 import { getTest } from "@/lib/tests";
 import T from "@/components/T";
@@ -15,8 +15,6 @@ export const metadata: Metadata = {
     "UKPSC Lower PCS (27 Dec 2026) and RO/ARO Prelims (April 2027), same syllabus: crash course with PDF notes, 67-test series with 10 full length tests and 12 CSAT sectionals.",
 };
 
-/** The Lower PCS 2025 paper as a free timed test (placeholder in schema-phase47 until its questions are loaded). */
-const PAPER_2025_TEST_ID = "ee7a47b0-69d0-4e50-b611-9b343f6d5834";
 
 export default async function LowerPcsPage() {
   const [all, paper] = await Promise.all([getActivePackages(), getTest(PAPER_2025_TEST_ID).catch(() => null)]);

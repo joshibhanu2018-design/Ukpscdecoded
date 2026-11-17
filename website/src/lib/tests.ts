@@ -559,6 +559,8 @@ export type TestListItem = {
   release_at: string | null;
   /** Questions actually attached (0 = the test isn't ready yet). */
   question_count: number;
+  /** Free sample: any logged-in student can attempt it. */
+  is_free_test: boolean | null;
 };
 
 /** Full test list for a course detail page — name, subject, question count, duration, release date. */
@@ -574,7 +576,7 @@ export async function getPackageTestList(packageId: string): Promise<TestListIte
 
   const { data: tests, error } = await db
     .from("tests")
-    .select("id, test_name, subject, total_questions, duration_minutes, release_at, question_ids")
+    .select("id, test_name, subject, total_questions, duration_minutes, release_at, question_ids, is_free_test")
     .in(
       "id",
       links.map((l) => l.test_id)
