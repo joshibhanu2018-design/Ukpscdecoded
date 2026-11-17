@@ -50,7 +50,7 @@ export default function CourseHeader({
   const taglineSize = size === "sm" ? "text-sm" : "text-base";
 
   return (
-    <div className={`flex flex-col justify-center px-5 py-5 text-white ${className}`} style={{ background: courseTone(pkg) }}>
+    <div className={`on-color flex flex-col justify-center px-5 py-5 text-white ${className}`} style={{ background: courseTone(pkg) }}>
       <Title className={`${titleSize} font-extrabold uppercase leading-tight tracking-wide`}>{title}</Title>
       {tagline && <p className={`mt-2 ${taglineSize} font-semibold leading-snug text-white`}>{tagline}</p>}
     </div>

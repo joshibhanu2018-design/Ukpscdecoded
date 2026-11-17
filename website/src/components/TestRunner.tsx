@@ -252,7 +252,7 @@ export default function TestRunner({
     if (a && m) return "bg-purple-600 text-white ring-2 ring-success-400";
     if (m) return "bg-purple-600 text-white";
     if (a) return "bg-success-600 text-white";
-    if (visited.has(id)) return "bg-danger-500/80 text-white";
+    if (visited.has(id)) return "on-color bg-danger-500/80 text-white";
     return "bg-graphite-800 text-graphite-300";
   };
 

@@ -25,7 +25,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0f0f0e",
+  themeColor: "#f8f7f3",
 };
 
 export const metadata: Metadata = {
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "UKPSC Decoded", url: siteUrl }],
   // iPhone "Add to Home Screen": open full-screen with the app's own name.
-  appleWebApp: { capable: true, title: "UKPSC Decoded", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "UKPSC Decoded", statusBarStyle: "default" },
   creator: "UKPSC Decoded",
   publisher: "UKPSC Decoded",
   robots: {

@@ -11,6 +11,18 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - **Test platform:** email-code login (sessions last until 31 Dec 2026, 2
   devices max), 57 tests + Free Sample Mock, analysis, XP/streaks,
   mentorship booking, admin tools (`/test-platform/admin`).
+- **Light theme (17 Nov):** the public site and store are now light (white
+  cards on a soft off-white page); the student area under `/test-platform`
+  (dashboard, tests, results, admin) and the footer stay dark. No page
+  classes were rewritten: `src/app/globals.css` remaps the dark-surface
+  utilities (`bg-graphite-600..950`, `border-graphite-500..950`,
+  `text-graphite-50..500`, `text-white`, pale saffron/jade/danger text) to
+  `--ui-*` variables. `.theme-dark` on a wrapper restores the dark values
+  (`src/app/test-platform/layout.tsx`, `Footer.tsx`); `.on-color` keeps white
+  text on a coloured tile, photo or gradient set by inline style. To make
+  the student area light too, remove `theme-dark` from that layout and check
+  the test screen. Local preview without the database: a small mock of the
+  Supabase REST API is enough for the public pages.
 - **Audit quick wins (17 Nov):** the "Which one is for me?" chooser
   (`src/components/final-month/WhichOne.tsx`, now with Hindi lines) is the
   first thing under the home carousel till 29 Nov; the free sample test sits

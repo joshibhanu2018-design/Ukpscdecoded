@@ -4,12 +4,153 @@
 
 @config "../../tailwind.config.ts";
 
+/* ───────────── Light theme (17 Nov 2026) ─────────────
+   The pages were written for a dark theme (bg-graphite-950 with white text).
+   Instead of rewriting every class, the dark-surface utilities read the
+   --ui-* variables below: light values by default, the old dark values
+   inside `.theme-dark` (footer). Text that sits on a solid colour (green,
+   red, photo) keeps its white through `.on-color`.
+   Only utilities meant for dark surfaces are remapped: bg/border graphite
+   600-950, text graphite 50-500, text-white and the pale accent text
+   shades. text-graphite-600..950, bg-white and bg-graphite-50..200 (used by
+   the pages that were always light) are untouched. */
+@theme inline {
+  --background-color-graphite-950: var(--ui-bg-950);
+  --background-color-graphite-900: var(--ui-bg-900);
+  --background-color-graphite-800: var(--ui-bg-800);
+  --background-color-graphite-700: var(--ui-bg-700);
+  --background-color-graphite-600: var(--ui-bg-600);
+
+  --border-color-graphite-950: var(--ui-line-800);
+  --border-color-graphite-800: var(--ui-line-800);
+  --border-color-graphite-700: var(--ui-line-700);
+  --border-color-graphite-600: var(--ui-line-600);
+  --border-color-graphite-500: var(--ui-line-500);
+  --divide-color-graphite-800: var(--ui-line-800);
+  --divide-color-graphite-700: var(--ui-line-700);
+
+  --text-color-white: var(--ui-text-white);
+  --text-color-graphite-50: var(--ui-text-100);
+  --text-color-graphite-100: var(--ui-text-100);
+  --text-color-graphite-200: var(--ui-text-200);
+  --text-color-graphite-300: var(--ui-text-300);
+  --text-color-graphite-400: var(--ui-text-400);
+  --text-color-graphite-500: var(--ui-text-500);
+
+  --text-color-saffron-100: var(--ui-saffron-200);
+  --text-color-saffron-200: var(--ui-saffron-200);
+  --text-color-saffron-300: var(--ui-saffron-300);
+  --text-color-saffron-400: var(--ui-saffron-400);
+  --text-color-jade-100: var(--ui-jade-200);
+  --text-color-jade-300: var(--ui-jade-300);
+  --text-color-jade-400: var(--ui-jade-400);
+  --text-color-success-100: var(--ui-jade-200);
+  --text-color-success-200: var(--ui-jade-200);
+  --text-color-success-300: var(--ui-jade-300);
+  --text-color-success-400: var(--ui-jade-400);
+  --text-color-danger-100: var(--ui-danger-200);
+  --text-color-danger-200: var(--ui-danger-200);
+  --text-color-danger-300: var(--ui-danger-300);
+  --text-color-danger-400: var(--ui-danger-400);
+}
+
+:root {
+  /* surfaces: page, card, raised (inputs, chips), hover */
+  --ui-bg-950: #f8f7f3;
+  --ui-bg-900: #ffffff;
+  --ui-bg-800: #efede8;
+  --ui-bg-700: #e2e0da;
+  --ui-bg-600: #cfccc5;
+  --ui-line-800: #e3e1db;
+  --ui-line-700: #d3d0c9;
+  --ui-line-600: #bcb9b1;
+  --ui-line-500: #a3a09a;
+  --ui-text-white: #141413;
+  --ui-text-100: #1b1a19;
+  --ui-text-200: #2b2a28;
+  --ui-text-300: #43413e;
+  --ui-text-400: #5c5a55;
+  --ui-text-500: #6b6862;
+  --ui-saffron-200: #92390c;
+  --ui-saffron-300: #b45104;
+  --ui-saffron-400: #b45104;
+  --ui-jade-200: #0b5c42;
+  --ui-jade-300: #097452;
+  --ui-jade-400: #097452;
+  --ui-danger-200: #991b1b;
+  --ui-danger-300: #b91c1c;
+  --ui-danger-400: #b91c1c;
+}
+
+/* The original dark values, for parts that stay dark. */
+.theme-dark {
+  --ui-bg-950: #0f0f0e;
+  --ui-bg-900: #1b1a19;
+  --ui-bg-800: #2b2a28;
+  --ui-bg-700: #43413e;
+  --ui-bg-600: #5c5a55;
+  --ui-line-800: #2b2a28;
+  --ui-line-700: #43413e;
+  --ui-line-600: #5c5a55;
+  --ui-line-500: #7a7771;
+  --ui-text-white: #ffffff;
+  --ui-text-100: #f1f1ef;
+  --ui-text-200: #e2e1de;
+  --ui-text-300: #cbc9c5;
+  --ui-text-400: #a3a09a;
+  --ui-text-500: #7a7771;
+  --ui-saffron-200: #ffdc88;
+  --ui-saffron-300: #ffc94a;
+  --ui-saffron-400: #ffb620;
+  --ui-jade-200: #aaf0cf;
+  --ui-jade-300: #73e3b3;
+  --ui-jade-400: #3bce93;
+  --ui-danger-200: #fecaca;
+  --ui-danger-300: #fca5a5;
+  --ui-danger-400: #f87171;
+}
+
+/* Text on a solid colour (green, red, black, a photo or a coloured tile)
+   keeps the pale shades it was written with. */
+.on-color,
+.btn-secondary,
+[class~="bg-jade-500"], [class~="bg-jade-600"], [class~="bg-jade-700"],
+[class~="bg-success-500"], [class~="bg-success-600"], [class~="bg-success-700"],
+[class~="bg-danger-500"], [class~="bg-danger-600"], [class~="bg-danger-700"],
+[class~="bg-black"], [class~="bg-[#25D366]"],
+[class~="from-jade-700"], [class~="from-success-600"], [class~="from-success-700"],
+[class~="from-saffron-500"], [class~="from-saffron-600"] {
+  --ui-text-white: #ffffff;
+  --ui-text-100: #f1f1ef;
+  --ui-text-200: #e2e1de;
+  --ui-text-300: #cbc9c5;
+  --ui-text-400: #a3a09a;
+  --ui-saffron-200: #ffdc88;
+  --ui-saffron-300: #ffc94a;
+  --ui-saffron-400: #ffb620;
+  --ui-jade-200: #aaf0cf;
+  --ui-jade-300: #73e3b3;
+  --ui-jade-400: #3bce93;
+  --ui-danger-200: #fecaca;
+  --ui-danger-300: #fca5a5;
+  --ui-danger-400: #f87171;
+}
+
+/* Gradients that were dark-to-darker. */
+.from-graphite-950 { --tw-gradient-from: var(--ui-bg-950); }
+.from-graphite-900 { --tw-gradient-from: var(--ui-bg-900); }
+.via-graphite-900 { --tw-gradient-via: var(--ui-bg-900); }
+.via-graphite-800 { --tw-gradient-via: var(--ui-bg-800); }
+.to-graphite-950 { --tw-gradient-to: var(--ui-bg-950); }
+.to-graphite-900 { --tw-gradient-to: var(--ui-bg-900); }
+.to-graphite-800 { --tw-gradient-to: var(--ui-bg-800); }
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-ivory-50 text-graphite-900 font-sans antialiased;
+    @apply bg-graphite-950 text-graphite-900 font-sans antialiased;
   }
 }
 

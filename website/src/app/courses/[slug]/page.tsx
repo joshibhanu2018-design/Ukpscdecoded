@@ -170,7 +170,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
       </div>
 
       {/* Header */}
-      <div className="px-4 py-8 sm:py-12" style={{ background: courseTone(pkg) }}>
+      <div className="on-color px-4 py-8 sm:py-12" style={{ background: courseTone(pkg) }}>
         <div
           className={`container-custom mx-auto ${pkg.image_url ? "grid grid-cols-1 items-center gap-6 lg:grid-cols-2" : ""}`}
         >

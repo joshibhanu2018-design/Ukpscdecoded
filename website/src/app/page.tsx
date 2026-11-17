@@ -158,7 +158,7 @@ export default async function Home() {
                   <Link
                     key={idx}
                     href={edition.buttonLink}
-                    className="group relative w-full inline-flex items-center justify-center gap-2 px-6 py-5 text-lg sm:text-xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+                    className="on-color group relative w-full inline-flex items-center justify-center gap-2 px-6 py-5 text-lg sm:text-xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
                     style={{
                       background: edition.languageCode === 'en' 
                         ? "linear-gradient(135deg, #f59307 0%, #e67e22 50%, #d35400 100%)"
@@ -190,7 +190,7 @@ export default async function Home() {
               <div className="w-full max-w-3xl mx-auto mb-16">
                 <Link
                   href={hero.primaryButtonLink}
-                  className="group relative w-full inline-flex items-center justify-center gap-3 px-8 py-6 text-2xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+                  className="on-color group relative w-full inline-flex items-center justify-center gap-3 px-8 py-6 text-2xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
                   style={{
                     background: "linear-gradient(135deg, #f59307 0%, #e67e22 50%, #d35400 100%)",
                     boxShadow: "0 10px 40px rgba(245, 147, 7, 0.4)"
