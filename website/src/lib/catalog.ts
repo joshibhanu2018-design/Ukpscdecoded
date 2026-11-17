@@ -24,12 +24,12 @@ export const EXAM_PAGES: Record<ExamTab, { href: string; label: string; hi: stri
     hi: "अपर PCS",
     sub: "UKPSC Upper PCS Prelims: test series, revision and full courses",
   },
-  // exam_tab "individual" in the database, shown as "Subject Packs".
+  // exam_tab "individual" in the database, shown as "Solo Packs".
   individual: {
-    href: "/subject-packs",
-    label: "Subject Packs",
-    hi: "विषय पैक",
-    sub: "One part only: CSAT, Uttarakhand GK or Current Affairs, for any UKPSC exam",
+    href: "/solo-packs",
+    label: "Solo Packs",
+    hi: "सोलो पैक",
+    sub: "One part only: Uttarakhand GK, CSAT or Current Affairs tests (or videos), for any UKPSC exam",
   },
 };
 

@@ -8,7 +8,7 @@ import { getActivePackages, type ExamTab } from "@/lib/packages";
 import T from "@/components/T";
 
 /**
- * One exam's page (/tri, /upper-pcs, /subject-packs): a short header, optional
+ * One exam's page (/tri, /upper-pcs, /solo-packs): a short header, optional
  * notes, then every product listed for that exam (packages.metadata.exam_tab).
  * Products drop off by themselves after their sale_ends_at.
  */

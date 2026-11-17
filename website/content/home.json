@@ -32,40 +32,50 @@
       "icon": "rocket",
       "href": "/lower-pcs",
       "featured": true,
-      "buy": "lower-pcs-complete"
+      "buy": "lower-pcs-complete",
+      "menu": "lower"
     },
     {
       "title": "TRI",
       "label": "Tax & Revenue Inspector, 15 Jan: TRI Add-on + 3 mocks",
       "labelHi": "टैक्स एवं रेवेन्यू इंस्पेक्टर, 15 जनवरी: TRI ऐड-ऑन + 3 मॉक",
       "icon": "chart",
-      "href": "/tri"
+      "href": "/tri",
+      "menu": "tri"
     },
     {
       "title": "Upper PCS",
       "label": "Test series, revision and full mocks",
       "labelHi": "टेस्ट सीरीज़, रिवीजन और फुल मॉक",
       "icon": "trophy",
-      "href": "/upper-pcs"
+      "href": "/upper-pcs",
+      "menu": "upper"
     },
     {
-      "title": "Subject Packs",
-      "label": "CSAT, Uttarakhand GK or Current Affairs on its own",
-      "labelHi": "CSAT, उत्तराखंड GK या करेंट अफेयर्स अलग से",
+      "title": "Solo Packs",
+      "label": "Uttarakhand, CSAT or Current Affairs test series on its own",
+      "labelHi": "उत्तराखंड, CSAT या करेंट अफेयर्स टेस्ट सीरीज़ अलग से",
       "icon": "video",
-      "href": "/subject-packs"
+      "href": "/solo-packs",
+      "menu": "individual"
     },
     {
       "title": "Book — English",
-      "label": "Uttarakhand Decoded, English edition",
+      "label": "Uttarakhand Decoded · free delivery",
       "icon": "book",
-      "href": "/buy-book?lang=en"
+      "href": "/buy-book?lang=en",
+      "cover": "/covers/uttarakhand-decoded-en.webp",
+      "buyLink": "/buy-book/order?lang=en",
+      "price": "₹499"
     },
     {
       "title": "Book — Hindi",
-      "label": "हिंदी संस्करण · Hindi edition",
+      "label": "उत्तराखंड डिकोडेड · free delivery",
       "icon": "book",
-      "href": "/buy-book?lang=hi"
+      "href": "/buy-book?lang=hi",
+      "cover": "/covers/uttarakhand-decoded-hi.webp",
+      "buyLink": "/buy-book/order?lang=hi",
+      "price": "₹499"
     }
   ],
   "features": {

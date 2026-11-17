@@ -6,7 +6,7 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 
 ## Lower PCS + RO/ARO relaunch (17 Nov 2026, branch `lower-pcs-relaunch`)
 The site is now organised by exam: **Lower PCS & RO/ARO** (`/lower-pcs`, main),
-**TRI** (`/tri`), **Upper PCS** (`/upper-pcs`) and **Subject Packs** (`/subject-packs`, metadata tab key still `individual`).
+**TRI** (`/tri`), **Upper PCS** (`/upper-pcs`) and **Solo Packs** (`/solo-packs`, was Subject Packs; metadata tab key still `individual`).
 The top menu has one entry per exam; `/courses` and `/test-series` list every
 product grouped by exam.
 
@@ -24,6 +24,14 @@ product grouped by exam.
 - **Phase 47d** (17 Nov): "2026" kept in Revision Test Series 2026 and All Uttarakhand Rank
   Challenge 2026 (owner's wish: shows they are for the 2026 exam). `separate_total` also
   drives "Save X%" on course pages; `false` = no saving shown (bundles of unsold parts).
+- **Phase 47e** (17 Nov, `supabase/schema-phase47e-solo-test-series.sql`): "Subject Packs" renamed
+  **Solo Packs** (`/solo-packs`; `/subject-packs` and `/individual` redirect). Three test series sold
+  there on their own: Uttarakhand Intensive TS (`uttarakhand-intensive`, 20 tests, ₹599), CSAT TS
+  (`lower-pcs-csat-tests`, 18 tests, ₹499), Current Affairs TS (`current-affairs-intensive`, 12 tests,
+  ₹399), all valid till 30 Apr 2027.
+- **Homepage quick-link cards** (`content/home.json` → `src/app/page.tsx`): books show their covers
+  (`public/covers/`) and Buy Now · ₹499; exam cards have a "Choose a course" dropdown
+  (`QuickLinkMenu.tsx`, field `menu` = exam tab) listing that page's courses with prices.
 - **Course-page banner** (`src/components/CourseHero.tsx`, 17 Nov): one data-driven header for
   every course (chips, Poppins title, facts row, price + offer date, Buy Now + "Ask on
   WhatsApp" to 8317390586 via `CourseEnquiryButton`). No per-course image carousels needed;
