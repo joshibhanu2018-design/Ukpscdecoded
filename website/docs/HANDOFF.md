@@ -24,6 +24,11 @@ product grouped by exam.
 - **Phase 47d** (17 Nov): "2026" kept in Revision Test Series 2026 and All Uttarakhand Rank
   Challenge 2026 (owner's wish: shows they are for the 2026 exam). `separate_total` also
   drives "Save X%" on course pages; `false` = no saving shown (bundles of unsold parts).
+- **Lower PCS 2025 actual paper** (17 Nov): 150 questions loaded by SQL the owner runs
+  (`/mnt/project-files/lower-pcs-remodel/sql/lower-pcs-2025-paper.sql`, kept out of git; question_id
+  PYQ-LPCS25-Q001…150) into test `ee7a47b0-…` (free). Answers = UKPSC provisional key Series A.
+  Figures: a line `[[img:/pyq/lower-pcs-2025/qNNN.png]]` in a question shows `public/pyq/...`
+  (`QuestionText.tsx`, used by TestRunner and AnswerReview).
 - **Phase 47e** (17 Nov, `supabase/schema-phase47e-solo-test-series.sql`): "Subject Packs" renamed
   **Solo Packs** (`/solo-packs`; `/subject-packs` and `/individual` redirect). Three test series sold
   there on their own: Uttarakhand Intensive TS (`uttarakhand-intensive`, 20 tests, ₹599), CSAT TS
