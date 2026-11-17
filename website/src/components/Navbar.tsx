@@ -9,27 +9,20 @@ import SiteLangToggle from "@/components/SiteLangToggle";
 import { resetClientSession, useLoggedIn } from "@/lib/session-client";
 
 export type MenuItem = { href: string; label: string; hi?: string };
-export type NavMenus = { courses: MenuItem[]; tests: MenuItem[] };
+export type NavMenus = { lower: MenuItem[]; tri: MenuItem[]; upper: MenuItem[]; individual: MenuItem[] };
 
 type NavLink = { href: string; label: string; hi: string; highlight?: boolean; children?: MenuItem[] };
 
-/** Top menu. Courses, Test Series and Books open a list of their products. */
+/** Top menu: one entry per exam (Lower PCS & RO/ARO, TRI, Upper PCS) + Individual, each opening its products. */
 function buildLinks(menus: NavMenus): NavLink[] {
+  const exam = (href: string, label: string, hi: string, all: string, allHi: string, items: MenuItem[]): NavLink =>
+    items.length ? { href, label, hi, children: [{ href, label: all, hi: allHi }, ...items] } : { href, label, hi };
   return [
     { href: "/", label: "Home", hi: "होम" },
-    { href: "/revision", label: "Revision Series", hi: "रिवीजन सीरीज़", highlight: true },
-    {
-      href: "/courses",
-      label: "Courses",
-      hi: "कोर्स",
-      children: [{ href: "/courses", label: "All courses", hi: "सभी कोर्स" }, ...menus.courses],
-    },
-    {
-      href: "/test-series",
-      label: "Test Series",
-      hi: "टेस्ट सीरीज़",
-      children: [{ href: "/test-series", label: "All test series", hi: "सभी टेस्ट सीरीज़" }, ...menus.tests],
-    },
+    exam("/lower-pcs", "Lower PCS & RO/ARO", "लोअर PCS और RO/ARO", "All Lower PCS & RO/ARO courses", "सभी लोअर PCS और RO/ARO कोर्स", menus.lower),
+    exam("/tri", "TRI", "TRI", "All TRI courses", "सभी TRI कोर्स", menus.tri),
+    exam("/upper-pcs", "Upper PCS", "अपर PCS", "All Upper PCS courses", "सभी अपर PCS कोर्स", menus.upper),
+    exam("/individual", "Individual", "अलग-अलग", "All individual courses", "सभी अलग-अलग कोर्स", menus.individual),
     {
       href: "/buy-book",
       label: "Books",
@@ -39,11 +32,12 @@ function buildLinks(menus: NavMenus): NavLink[] {
         { href: "/buy-ebooks", label: "Polity Decoded e-Book", hi: "Polity Decoded ई-बुक" },
       ],
     },
-    { href: "/free-content", label: "Free Content", hi: "फ्री कंटेंट" },
+    { href: "/free-content", label: "Free", hi: "फ्री" },
   ];
 }
 
 const moreLinks = [
+  { href: "/courses", label: "All Courses", hi: "सभी कोर्स" },
   { href: "/answer-key", label: "Prelims Answer Key", hi: "प्रीलिम्स उत्तर कुंजी" },
   { href: "/articles", label: "Articles", hi: "लेख" },
   { href: "/current-affairs", label: "Daily Current Affairs & MCQ", hi: "डेली करेंट अफेयर्स और MCQ" },
@@ -54,8 +48,6 @@ const moreLinks = [
 
 function isActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
-  // "Courses" shouldn't light up on the test series course page, which has its own link.
-  if (href === "/courses") return pathname === "/courses" || pathname.startsWith("/courses/");
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

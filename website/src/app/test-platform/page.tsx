@@ -11,6 +11,7 @@ import {
   getActivePackages,
   getOwnedPackageIds,
   getPackageAccessSource,
+  isListed,
   getPackageIncludes,
   getUserActiveEnrollments,
   type Package,
@@ -91,7 +92,7 @@ export default async function MyCoursesPage({
     }))
   );
 
-  const explore = allPackages.filter((p) => !ownedIds.has(p.id) && p.slug);
+  const explore = allPackages.filter((p) => !ownedIds.has(p.id) && isListed(p));
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in";
   const firstName = user.full_name?.split(" ")[0] || "";
 

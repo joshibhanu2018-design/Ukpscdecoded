@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BookOpen, Check, ClipboardList, Layers, Star, UserRound, type LucideIcon } from "lucide-react";
-import { formatINR, type Package } from "@/lib/packages";
+import { cardLabel, formatINR, type Package } from "@/lib/packages";
 import { getPriceInfo } from "@/lib/pricing";
 import { courseHeader } from "@/lib/course-display";
 import CourseCardActions from "./CourseCardActions";
@@ -48,6 +48,10 @@ export default function CourseCard({
   const was = priceInfo.isFounding && priceInfo.regularPrice && priceInfo.regularPrice > priceInfo.amount ? priceInfo.regularPrice : null;
   const offPercent = was ? Math.round(((was - priceInfo.amount) / was) * 100) : 0;
   const titleSize = size === "lg" ? "text-2xl" : size === "sm" ? "text-lg" : "text-xl";
+  const label = cardLabel(pkg);
+  // metadata.separate_total: what the parts cost bought one by one (bundles).
+  const separateRaw = Number(pkg.metadata?.separate_total);
+  const separate = Number.isFinite(separateRaw) && separateRaw > priceInfo.amount ? separateRaw : null;
 
   return (
     <div
@@ -75,6 +79,11 @@ export default function CourseCard({
           >
             <KindIcon className="h-3.5 w-3.5" /> <T en={kind.en} hi={kind.hi} />
           </span>
+          {label && (
+            <span className="ml-2 inline-flex items-center rounded-full border border-graphite-700 px-2.5 py-1 text-[11px] font-semibold text-graphite-300">
+              {label}
+            </span>
+          )}
           <h3 className={`mt-3 font-display ${titleSize} font-bold leading-snug text-white`}>{title}</h3>
           {tagline && <p className="mt-1.5 text-sm font-medium leading-snug text-graphite-300">{tagline}</p>}
         </Link>
@@ -106,6 +115,14 @@ export default function CourseCard({
               {was && offerTill && (
                 <p className="mt-1 text-xs font-medium leading-snug text-saffron-300">
                   <T en={<>Offer price till {offerTill}</>} hi={<>ऑफ़र कीमत {offerTill} तक</>} />
+                </p>
+              )}
+              {separate && (
+                <p className="mt-1 text-xs leading-snug text-graphite-400">
+                  <T
+                    en={<>Bought separately: <span className="line-through">{formatINR(separate)}</span> · you save {formatINR(separate - priceInfo.amount)}</>}
+                    hi={<>अलग-अलग खरीदने पर: <span className="line-through">{formatINR(separate)}</span> · आपकी बचत {formatINR(separate - priceInfo.amount)}</>}
+                  />
                 </p>
               )}
             </div>

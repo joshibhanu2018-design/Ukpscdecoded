@@ -117,9 +117,21 @@ export async function POST(req: NextRequest) {
     sortOrder = (last?.sort_order ?? 0) + 1;
   }
 
+  // In a sectioned course (lessons.section, schema-phase47) a new lesson joins the
+  // section of the lesson just above it, e.g. a new current affairs video added at the end of Part D.
+  const { data: above } = await db
+    .from("lessons")
+    .select("*")
+    .eq("package_id", body.package_id)
+    .lte("sort_order", sortOrder)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const section = typeof above?.section === "string" && above.section ? { section: above.section as string } : {};
+
   const { data, error } = await db
     .from("lessons")
-    .insert({ ...built.fields, package_id: body.package_id, sort_order: sortOrder })
+    .insert({ ...built.fields, ...section, package_id: body.package_id, sort_order: sortOrder })
     .select("id")
     .single();
   if (error) return NextResponse.json({ error: `Could not add lesson: ${error.message}` }, { status: 500 });

@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { supabaseAdmin } from "./supabase";
 import { getActivePackages, getOwnedPackageIds, getPackageBySlug, getPackageIncludes, getUserActiveEnrollments, type Package } from "./packages";
-import { planVideoNumbers, SUBSET_COURSES } from "./course-subsets";
+import { planVideoNumbers, SECTION_SUBSETS, SUBSET_COURSES } from "./course-subsets";
 import { lessonVideoNumber, sortLessonsByVideoNumber } from "./lesson-order";
 
 export { lessonVideoNumber };
@@ -20,7 +20,21 @@ export type Lesson = {
   is_active: boolean;
   /** Free sample: any logged-in student may watch it and get its notes (schema-phase29). */
   is_free?: boolean | null;
+  /** Heading the lesson sits under in a sectioned course, e.g. "Part A: Uttarakhand" (schema-phase47). */
+  section?: string | null;
 };
+
+/** Lessons in order, grouped under their section heading (consecutive lessons with the same section). */
+export function groupLessonsBySection<T extends { section?: string | null }>(lessons: T[]): { section: string | null; lessons: T[] }[] {
+  const groups: { section: string | null; lessons: T[] }[] = [];
+  for (const l of lessons) {
+    const section = l.section?.trim() || null;
+    const last = groups[groups.length - 1];
+    if (last && last.section === section) last.lessons.push(l);
+    else groups.push({ section, lessons: [l] });
+  }
+  return groups;
+}
 
 // "*" so pages keep working before supabase/schema-phase29-free-sample-lessons.sql adds is_free.
 export const LESSON_COLUMNS = "*";
@@ -175,6 +189,18 @@ export async function getCourseLessons(
 ): Promise<{ pkg: Package | null; lessons: Lesson[]; canWatch: boolean }> {
   const pkg = await getPackageBySlug(slug);
   if (!pkg) return { pkg: null, lessons: [], canWatch: false };
+  const sectionSubset = SECTION_SUBSETS[slug];
+  if (sectionSubset) {
+    const source = await getPackageBySlug(sectionSubset.source);
+    if (!source) return { pkg, lessons: [], canWatch: false };
+    const [all, ownsPkg, ownsSource] = await Promise.all([
+      getPackageLessons(source.id),
+      viewer ? canAccessPackage(viewer, pkg.id) : Promise.resolve(false),
+      viewer ? canAccessPackage(viewer, source.id) : Promise.resolve(false),
+    ]);
+    const lessons = all.filter((l) => !!l.section && sectionSubset.sections.includes(l.section));
+    return { pkg, lessons, canWatch: ownsPkg || ownsSource };
+  }
   const subset = SUBSET_COURSES[slug];
   const source = subset ? await getPackageBySlug(subset.source) : pkg;
   if (!source) return { pkg, lessons: [], canWatch: false };
@@ -193,9 +219,14 @@ export async function getCourseLessons(
   return { pkg, lessons, canWatch: ownsPkg || ownsSource };
 }
 
-/** Whether a viewer may open this lesson: its own course, or a subset course that includes it. */
+/** Whether a viewer may open this lesson: its own course, or a subset / section-subset course that includes it. */
 export async function canAccessLesson(user: { id: string; role: string }, lesson: Lesson): Promise<boolean> {
   if (await canAccessPackage(user, lesson.package_id)) return true;
+  for (const [slug, subset] of Object.entries(SECTION_SUBSETS)) {
+    if (!lesson.section || !subset.sections.includes(lesson.section)) continue;
+    const [pkg, source] = await Promise.all([getPackageBySlug(slug), getPackageBySlug(subset.source)]);
+    if (pkg && source?.id === lesson.package_id && (await canAccessPackage(user, pkg.id))) return true;
+  }
   const n = lessonVideoNumber(lesson.title);
   if (n === null) return false;
   for (const [slug, subset] of Object.entries(SUBSET_COURSES)) {

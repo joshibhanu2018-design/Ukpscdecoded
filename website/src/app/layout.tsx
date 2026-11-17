@@ -15,7 +15,8 @@ import Clarity from "@/components/Clarity";
 import { getActiveOffer } from "@/lib/coupons";
 import OfferBar from "@/components/OfferBar";
 import FinalMonthBar, { type FinalMonthItem } from "@/components/FinalMonthBar";
-import { getActivePackages, formatINR, type Package } from "@/lib/packages";
+import { getActivePackages, formatINR, isListed, type Package } from "@/lib/packages";
+import { examProducts, productHref } from "@/lib/catalog";
 import { getPriceInfo } from "@/lib/pricing";
 
 const siteUrl = "https://www.ukpscdecoded.in";
@@ -168,7 +169,7 @@ function getFinalMonthItems(pkgs: Package[]): FinalMonthItem[] {
   ];
   const items = show.flatMap(([slug, label]) => {
     const p = pkgs.find((x) => x.slug === slug);
-    if (!p) return [];
+    if (!p || !isListed(p)) return [];
     const info = getPriceInfo(p);
     const href = slug === "revision-test-series" ? "/revision" : slug === "mock-mahasangram" ? "/mahasangram" : `/courses/${slug}`;
     return [{ label, price: formatINR(info.amount), was: info.isFounding && info.regularPrice ? formatINR(info.regularPrice) : null, href }];
@@ -177,21 +178,17 @@ function getFinalMonthItems(pkgs: Package[]): FinalMonthItem[] {
   return items.some((i) => i.was) ? items : [];
 }
 
-/** Products listed under Courses and Test Series in the top menu, in the store's own order. */
+/** Products in each exam menu (packages.metadata.exam_tab), in the store's own order; only those still on sale. */
 function getNavMenus(pkgs: Package[]): NavMenus {
   const item = (p: Package) => ({
-    href: p.slug === "revision-test-series" ? "/revision" : p.slug === "mock-mahasangram" ? "/mahasangram" : `/courses/${p.slug}`,
+    href: productHref(p),
     label: p.slug === "mock-mahasangram" ? "All Uttarakhand Rank Challenge" : p.package_name,
   });
-  const listed = pkgs.filter((p) => p.slug);
-  const tests = listed.filter((p) => p.package_type === "test_series");
-  const finalMonth = ["revision-test-series", "mock-mahasangram"];
   return {
-    courses: listed.filter((p) => p.package_type !== "test_series").map(item),
-    tests: [
-      ...finalMonth.flatMap((slug) => tests.filter((p) => p.slug === slug)),
-      ...tests.filter((p) => !finalMonth.includes(p.slug ?? "")),
-    ].map(item),
+    lower: examProducts(pkgs, "lower").map(item),
+    tri: examProducts(pkgs, "tri").map(item),
+    upper: examProducts(pkgs, "upper").map(item),
+    individual: examProducts(pkgs, "individual").map(item),
   };
 }
 

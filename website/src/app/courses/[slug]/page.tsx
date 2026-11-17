@@ -13,7 +13,12 @@ import {
   getPackageIncludes,
   getSeatsRemaining,
   getUserActiveEnrollments,
+  examTab,
+  isOnSale,
 } from "@/lib/packages";
+import { EXAM_PAGES } from "@/lib/catalog";
+import { followsCrashCoursePlan } from "@/lib/course-subsets";
+import CourseOutline from "@/components/CourseOutline";
 import { formatFoundingLabel, getPriceInfo } from "@/lib/pricing";
 import { getPackageTestList, type TestListItem } from "@/lib/tests";
 import { courseHeader, demoVideos, groupTestsByTab } from "@/lib/course-display";
@@ -59,7 +64,15 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const videos = [pkg, ...includedPackages]
     .flatMap(demoVideos)
     .filter((v) => !seenVideos.has(v.youtubeId) && Boolean(seenVideos.add(v.youtubeId)));
-  const hasCrashCourse = [pkg, ...includedPackages].some((p) => p.package_type === "video_course");
+  // Video courses on this page: the Crash Course family shows its release calendar,
+  // the newer sectioned courses (Lower PCS, TRI, CSAT, CA) their lesson outline.
+  const videoCourses = [pkg, ...includedPackages].filter((p) => p.package_type === "video_course" && p.slug);
+  const planCourse = videoCourses.find((p) => followsCrashCoursePlan(p.slug));
+  const outlineCourses = videoCourses.filter((p) => !followsCrashCoursePlan(p.slug));
+  // A bundle that already includes the full Lower PCS Crash Course doesn't repeat its CSAT / CA part.
+  const outlineShown = outlineCourses.filter(
+    (p) => !(outlineCourses.some((o) => o.slug === "lower-pcs-crash-course") && (p.slug === "lower-pcs-csat-classes" || p.slug === "ca-2026-videos")),
+  );
   const header = courseHeader(pkg);
   const enrollments = user ? await getUserActiveEnrollments(user.id) : [];
   const owned = getOwnedPackageIds(enrollments, includes, allPackages).has(pkg.id);
@@ -75,9 +88,14 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
       : null;
 
   const testTabs = groupTestsByTab(testList, (t) => t.question_count);
-  const readyTestCount = testTabs.filter((t) => !t.comingSoon).reduce((n, t) => n + t.count, 0);
+  const readyTestCount = testList.filter((t) => t.question_count > 0).length;
+  const soonTestCount = testList.length - readyTestCount;
 
-  const checkoutHref = `/checkout/${pkg.slug}`;
+  // After metadata.sale_ends_at the page stays (buyers' links) but nothing can be bought.
+  const buyable = isOnSale(pkg);
+  const tab = examTab(pkg);
+  const checkoutHref = buyable ? `/checkout/${pkg.slug}` : tab ? EXAM_PAGES[tab].href : "/";
+  const buyLabel = buyable ? <T en="Buy Now" hi="अभी खरीदें" /> : <T en="Sale closed: see current courses" hi="बिक्री बंद: नए कोर्स देखें" />;
 
   // Structured data so Google / AI search can show the course with its price and FAQs.
   const pageUrl = `https://www.ukpscdecoded.in/courses/${pkg.slug}`;
@@ -137,7 +155,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 href={checkoutHref}
                 className="web-only rounded-lg bg-saffron-400 px-6 py-2 text-sm font-bold text-graphite-900 hover:bg-saffron-300"
               >
-                <T en="Buy Now" hi="अभी खरीदें" />
+                {buyLabel}
               </Link>
             )}
           </div>
@@ -164,7 +182,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               href={checkoutHref}
               className="flex-1 rounded-lg bg-saffron-400 px-4 py-3 text-center text-sm font-bold text-graphite-900"
             >
-              <T en="Buy Now" hi="अभी खरीदें" />
+              {buyLabel}
             </Link>
           )}
         </div>
@@ -227,7 +245,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   href={checkoutHref}
                   className="inline-block rounded-lg bg-graphite-900 px-6 py-3 text-sm font-bold text-white hover:bg-graphite-800"
                 >
-                  <T en="Buy Now" hi="अभी खरीदें" />
+                  {buyLabel}
                 </Link>
               )}
             </div>
@@ -286,13 +304,15 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
 
           {/* Crash course (on its own page and on combos that include it): tentative calendar
               replaces the placeholder "Lecture N" curriculum. */}
-          {hasCrashCourse && (
-            <CrashCoursePlan
+          {planCourse && <CrashCoursePlan viewer={user} freeVideos={videos} lessonsSlug={planCourse.slug!} />}
+          {outlineShown.map((c) => (
+            <CourseOutline
+              key={c.id}
+              slug={c.slug!}
               viewer={user}
-              freeVideos={videos}
-              lessonsSlug={pkg.package_type === "video_course" && pkg.slug ? pkg.slug : "crash-course"}
+              heading={outlineShown.length > 1 || c.id !== pkg.id ? `Lessons: ${c.package_name}` : "Course Outline"}
             />
-          )}
+          ))}
 
           {/* Curriculum */}
           {pkg.curriculum.length > 0 && pkg.package_type !== "video_course" && (
@@ -318,7 +338,11 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           {testList.length > 0 && (
             <section>
               <h2 className="mb-4 text-lg font-bold text-white">
-                Test List <span className="text-graphite-300">({readyTestCount})</span>
+                Test List{" "}
+                <span className="text-graphite-300">
+                  ({readyTestCount}
+                  {soonTestCount > 0 ? ` live · ${soonTestCount} coming soon` : ""})
+                </span>
               </h2>
               <TestTabs
                 tabs={testTabs.map((tab) => ({
@@ -326,12 +350,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   label: tab.label,
                   count: tab.count,
                   comingSoon: tab.comingSoon,
-                  panel: tab.comingSoon ? (
-                    <p className="rounded-2xl border border-dashed border-graphite-700 bg-graphite-900/40 p-6 text-center text-sm text-graphite-300">
-                      <span className="block font-semibold text-white">Coming soon</span>
-                      {tab.label} tests will be added here — they&apos;re included in your plan at no extra cost.
-                    </p>
-                  ) : (
+                  panel: (
                     <div className="space-y-6">
                       {tab.groups.map((g) => (
                         <div key={g.subject}>
@@ -357,7 +376,9 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                                         <Clock className="h-3 w-3" /> {t.duration_minutes} min
                                       </span>
                                     )}
-                                    {releaseLabel && (
+                                    {t.question_count === 0 ? (
+                                      <span className="rounded-full bg-saffron-400/10 px-2 py-0.5 font-semibold text-saffron-300">Coming soon</span>
+                                    ) : releaseLabel && (
                                       <span className={isReleased ? "text-success-400" : "text-saffron-300"}>
                                         {isReleased ? "Live" : `From ${releaseLabel}`}
                                       </span>

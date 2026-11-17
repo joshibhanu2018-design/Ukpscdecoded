@@ -32,6 +32,44 @@ export type Package = {
   faq: { question: string; answer: string }[];
 };
 
+/** Which exam page / menu a product is sold under (packages.metadata.exam_tab, schema-phase47). */
+export type ExamTab = "lower" | "tri" | "upper" | "individual";
+export const EXAM_TABS: ExamTab[] = ["lower", "tri", "upper", "individual"];
+
+export function examTab(pkg: Pick<Package, "metadata">): ExamTab | null {
+  const t = pkg.metadata?.exam_tab;
+  return typeof t === "string" && (EXAM_TABS as string[]).includes(t) ? (t as ExamTab) : null;
+}
+
+/** metadata.sale_ends_at: the moment a product stops being sold (null = no end). */
+export function saleEndsAt(pkg: Pick<Package, "metadata">): Date | null {
+  const v = pkg.metadata?.sale_ends_at;
+  if (typeof v !== "string" || !v.trim()) return null;
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+/** Still for sale now: no sale_ends_at, or it is in the future. Buyers keep access either way. */
+export function isOnSale(pkg: Pick<Package, "metadata">, now = Date.now()): boolean {
+  const end = saleEndsAt(pkg);
+  return !end || end.getTime() > now;
+}
+
+/**
+ * Shown in product lists and menus: has a slug, metadata.listed isn't false,
+ * and it is still on sale. An unlisted product keeps its page and its buyers'
+ * access (it stays is_active); it just isn't offered any more.
+ */
+export function isListed(pkg: Pick<Package, "metadata" | "slug">, now = Date.now()): boolean {
+  return !!pkg.slug && pkg.metadata?.listed !== false && isOnSale(pkg, now);
+}
+
+/** metadata.card_label: a small label on the card, e.g. "Upper PCS · 29 Nov". */
+export function cardLabel(pkg: Pick<Package, "metadata">): string | null {
+  const v = pkg.metadata?.card_label;
+  return typeof v === "string" && v.trim() ? v.trim() : null;
+}
+
 export type PackageInclude = {
   combo_package_id: string;
   included_package_id: string;
@@ -98,7 +136,7 @@ export async function getUserActiveEnrollments(userId: string): Promise<Enrollme
 
 /**
  * Package IDs the user has access to — direct enrollments, plus (for a
- * combo_bundle enrollment) every package it includes. A package_includes
+ * combo_bundle enrollment) every package it includes, and what those include. A package_includes
  * row is only entitlement-granting when its parent is a combo_bundle;
  * for a monolithic package like Premium Bundle, rows in that table are
  * informational only (used for the savings calculation below).
@@ -111,12 +149,17 @@ export function getOwnedPackageIds(
   const owned = new Set<string>();
   const byId = new Map(allPackages.map((p) => [p.id, p]));
 
-  for (const e of enrollments) {
-    owned.add(e.package_id);
-    const pkg = byId.get(e.package_id);
+  // A bundle can include another bundle (3-Exam Complete → Lower PCS Complete →
+  // CSAT for Lower PCS → its classes and tests), so expand until nothing new.
+  const queue = enrollments.map((e) => e.package_id);
+  while (queue.length) {
+    const id = queue.shift()!;
+    if (owned.has(id)) continue;
+    owned.add(id);
+    const pkg = byId.get(id);
     if (pkg && ENTITLEMENT_GRANTING_TYPES.has(pkg.package_type)) {
       for (const inc of includes) {
-        if (inc.combo_package_id === e.package_id) owned.add(inc.included_package_id);
+        if (inc.combo_package_id === id && !owned.has(inc.included_package_id)) queue.push(inc.included_package_id);
       }
     }
   }
@@ -147,10 +190,17 @@ export function getPackageAccessSource(
   const direct = enrollments.find((e) => e.package_id === packageId);
   if (direct) return direct;
 
-  const comboIds = new Set(
-    includes.filter((i) => i.included_package_id === packageId).map((i) => i.combo_package_id)
-  );
-  return enrollments.find((e) => comboIds.has(e.package_id)) ?? null;
+  // Walk up through the bundles that include it (a bundle can sit inside another).
+  const seen = new Set([packageId]);
+  let level = [packageId];
+  while (level.length) {
+    const parents = includes.filter((i) => level.includes(i.included_package_id) && !seen.has(i.combo_package_id)).map((i) => i.combo_package_id);
+    const hit = enrollments.find((e) => parents.includes(e.package_id));
+    if (hit) return hit;
+    parents.forEach((id) => seen.add(id));
+    level = parents;
+  }
+  return null;
 }
 
 export type Savings = { componentTotal: number; saving: number; savingPercent: number };

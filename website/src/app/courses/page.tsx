@@ -1,84 +1,32 @@
 import type { Metadata } from "next";
-import CourseCard from "@/components/CourseCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { BEST_BUY_SLUG, getCatalog } from "@/lib/catalog";
-import WhichOne from "@/components/final-month/WhichOne";
-import SectionTitle from "@/components/SectionTitle";
-import PageHeroBanner from "@/components/PageHeroBanner";
+import { getActivePackages } from "@/lib/packages";
+import ExamCatalog from "@/components/ExamCatalog";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/courses" },
   title: "Courses",
-  description: "UKPSC crash course, crash course + test series bundles and 1-on-1 mentorship with Bhanu Joshi.",
+  description:
+    "UKPSC Lower PCS & RO/ARO, TRI and Upper PCS courses and test series by Bhanu Joshi, plus CSAT, Uttarakhand GK and current affairs packs.",
 };
 
-// Courses tab: the best-buy bundle first, then the crash courses, then
-// mentorship. Test series alone live on /test-series.
+// All courses, grouped by exam (packages.metadata.exam_tab). Each exam also has its own page.
 export default async function CoursesPage() {
-  const { mentorship, crashCourses, bundles, allPackages } = await getCatalog();
-  const pack = bundles.find((p) => p.slug === BEST_BUY_SLUG);
+  const allPackages = await getActivePackages();
 
   return (
     <div className="bg-graphite-950 px-4 py-12 sm:py-16">
-      <div className="container-custom mx-auto space-y-16">
+      <div className="container-custom mx-auto space-y-12">
         <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron-400">UKPSC Decoded</p>
           <h1 className="mt-2 font-display text-3xl font-bold text-white sm:text-4xl">Courses</h1>
           <p className="mx-auto mt-3 max-w-xl text-sm text-graphite-300 sm:text-base">
-            Crash course, bundles and 1-on-1 mentorship for UKPSC PCS, Lower PCS, RO/ARO and UKSSSC
+            Choose your exam: Lower PCS & RO/ARO, TRI or Upper PCS. Or take one part on its own.
           </p>
         </div>
 
-        <WhichOne packages={allPackages} />
-
-        {pack && (
-          <PageHeroBanner
-            pkg={pack}
-            desktop="/banners/complete-pack-desktop.webp"
-            mobile="/banners/complete-pack-mobile.webp"
-            alt="Complete Prelims Pack: Test Series + Crash Course + PDF notes"
-          />
-        )}
-
-        {bundles.length > 0 && (
-          <section>
-            <SectionTitle title="Best Buy: Crash Course + Test Series" sub="Everything for Prelims in one pack — learn and practise together, and save vs buying separately" />
-            <div className="grid grid-cols-1 gap-5">
-              {bundles.map((pkg) => (
-                <CourseCard
-                  key={pkg.id}
-                  pkg={pkg}
-                  size="lg"
-                  wide
-                  badge={pkg.slug === BEST_BUY_SLUG ? "Best Buy — our recommended pack" : undefined}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {crashCourses.length > 0 && (
-          <section>
-            <SectionTitle title="Crash Courses" sub="Video lectures + live sessions + PDF notes. The full Crash Course already includes every Uttarakhand video." />
-            <div className="grid grid-cols-1 gap-5">
-              {crashCourses.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} wide />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {mentorship.length > 0 && (
-          <section>
-            <SectionTitle title="Mentorship Program" sub="Weekly 1-on-1 guidance with Bhanu Joshi — everything included" />
-            <div className="grid grid-cols-1 gap-5">
-              {mentorship.map((pkg) => (
-                <CourseCard key={pkg.id} pkg={pkg} wide />
-              ))}
-            </div>
-          </section>
-        )}
+        <ExamCatalog packages={allPackages} />
 
         <Link
           href="/test-series"
@@ -86,7 +34,7 @@ export default async function CoursesPage() {
         >
           <span>
             <span className="block font-semibold text-white">Looking for test series only?</span>
-            <span className="text-sm text-graphite-300">Premium, Basic, Uttarakhand, Current Affairs and CSAT test series</span>
+            <span className="text-sm text-graphite-300">Every test series, by exam</span>
           </span>
           <ArrowRight className="h-5 w-5 flex-shrink-0 text-saffron-400" />
         </Link>

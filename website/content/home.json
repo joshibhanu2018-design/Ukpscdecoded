@@ -26,38 +26,34 @@
   },
   "quickLinks": [
     {
-      "title": "Revision Test Series",
-      "label": "Final month: 6 full mocks + 800 UK GK + 600 CA questions",
-      "labelHi": "आखिरी महीना: 6 फुल मॉक + 800 उत्तराखंड GK + 600 करेंट अफेयर्स प्रश्न",
+      "title": "Lower PCS & RO/ARO",
+      "label": "One course, two exams: Lower PCS 27 Dec + RO/ARO April",
+      "labelHi": "एक course, दो exams: लोअर PCS 27 दिसंबर + RO/ARO अप्रैल",
       "icon": "rocket",
-      "href": "/revision",
+      "href": "/lower-pcs",
       "featured": true,
-      "buy": "revision-test-series"
+      "buy": "lower-pcs-complete"
     },
     {
-      "title": "All Uttarakhand Rank Challenge",
-      "label": "6 live mocks, all-Uttarakhand rank at 8 pm",
-      "labelHi": "6 लाइव मॉक, रात 8 बजे पूरे उत्तराखंड की रैंक",
-      "icon": "trophy",
-      "href": "/mahasangram",
-      "featured": true,
-      "buy": "mock-mahasangram"
-    },
-    {
-      "title": "Crash Course",
-      "label": "50 video lectures + live sessions + PDF notes",
-      "labelHi": "50 वीडियो लेक्चर + लाइव सेशन + PDF नोट्स",
-      "icon": "video",
-      "href": "/courses/crash-course",
-      "buy": "crash-course"
-    },
-    {
-      "title": "Test Series",
-      "label": "62 tests: mocks, sectional, Uttarakhand, CA, CSAT",
-      "labelHi": "62 टेस्ट: मॉक, सेक्शनल, उत्तराखंड, करेंट अफेयर्स, CSAT",
+      "title": "TRI",
+      "label": "Tax & Revenue Inspector, 15 Jan: TRI Add-on + 3 mocks",
+      "labelHi": "टैक्स एवं रेवेन्यू इंस्पेक्टर, 15 जनवरी: TRI ऐड-ऑन + 3 मॉक",
       "icon": "chart",
-      "href": "/courses/premium-test-series",
-      "buy": "premium-test-series"
+      "href": "/tri"
+    },
+    {
+      "title": "Upper PCS",
+      "label": "Test series, revision and full mocks",
+      "labelHi": "टेस्ट सीरीज़, रिवीजन और फुल मॉक",
+      "icon": "trophy",
+      "href": "/upper-pcs"
+    },
+    {
+      "title": "Individual",
+      "label": "CSAT, Uttarakhand GK or Current Affairs on its own",
+      "labelHi": "CSAT, उत्तराखंड GK या करेंट अफेयर्स अलग से",
+      "icon": "video",
+      "href": "/individual"
     },
     {
       "title": "Book — English",
