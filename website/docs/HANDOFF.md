@@ -1,8 +1,16 @@
-# Handoff — state of UKPSC Decoded (17 Nov 2026)
+# Handoff — state of UKPSC Decoded (18 Nov 2026)
 
 Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
 "Open" as things land.
+
+## Last-days price cut (18 Nov 2026, branch `claude/project-thread-qq0j69`)
+- **SQL:** `supabase/schema-phase47g-revision-price-cut.sql` (run BEFORE merging):
+  Revision Test Series 2026 ₹799 (was ₹999) till 29 Nov; Rank Challenge ₹399 (was ₹499)
+  till 25 Nov; Rank Challenge owners upgrade to Revision for ₹400 (was ₹500); others 20% off.
+- Top bar now says "Prices cut!"; /revision and /mahasangram buy boxes show the old price
+  struck through and a note (`components/final-month/PriceCutNote.tsx`): "Last N days to
+  finish your revision through tests" + "no time? submit and just read the answers".
 
 ## Lower PCS + RO/ARO relaunch (17 Nov 2026, branch `lower-pcs-relaunch`)
 The site is now organised by exam: **Lower PCS & RO/ARO** (`/lower-pcs`, main),

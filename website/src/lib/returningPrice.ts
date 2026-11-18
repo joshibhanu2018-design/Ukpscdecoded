@@ -7,7 +7,7 @@ import { getPriceInfo, type PriceInfo, type PricedPackage } from "./pricing";
  *
  *  - metadata.upgrade_from = { "<slug>": price }: owners of that package pay
  *    that price (e.g. Mock Mahasangram owners upgrade to the Revision Test
- *    Series for ₹500).
+ *    Series for ₹400 since 18 Nov 2026; was ₹500).
  *  - metadata.returning_percent_off (e.g. 20) or metadata.returning_price:
  *    owners of any other paid package, except metadata.returning_excludes
  *    (default Premium / Complete Prelims Pack / Mentorship, which include

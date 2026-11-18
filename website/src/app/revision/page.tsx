@@ -10,6 +10,7 @@ import { getWarmupTest } from "@/lib/liveMock";
 import { parseUtcTimestamp } from "@/lib/timestamps";
 import BuyBox from "@/components/final-month/BuyBox";
 import Timetable from "@/components/final-month/Timetable";
+import PriceCutNote from "@/components/final-month/PriceCutNote";
 
 export const dynamic = "force-dynamic";
 
@@ -26,8 +27,8 @@ const BASE_FAQ = [
   {
     q: "I already bought a course or test series. Do I pay full price?",
     qHi: "मैंने पहले से कोर्स या टेस्ट सीरीज़ ली है। क्या पूरा पैसा देना होगा?",
-    aHi: "नहीं। लॉगिन करें: क्रैश कोर्स, बेसिक, उत्तराखंड, करेंट अफेयर्स या CSAT वाले छात्रों को अपने आप 20% छूट मिलती है। मॉक महासंग्राम वाले छात्र ₹500 में अपग्रेड कर सकते हैं। प्रीमियम टेस्ट सीरीज़ और कम्प्लीट प्रीलिम्स पैक वाले छात्रों के डैशबोर्ड में यह पहले से फ्री है।",
-    a: "No. Log in: Crash Course, Basic, Uttarakhand, Current Affairs or CSAT buyers get 20% off automatically. Mock Mahasangram students upgrade for ₹500. Premium Test Series and Complete Prelims Pack students already have it free in their dashboard.",
+    aHi: "नहीं। लॉगिन करें: क्रैश कोर्स, बेसिक, उत्तराखंड, करेंट अफेयर्स या CSAT वाले छात्रों को अपने आप 20% छूट मिलती है। मॉक महासंग्राम वाले छात्र ₹400 में अपग्रेड कर सकते हैं। प्रीमियम टेस्ट सीरीज़ और कम्प्लीट प्रीलिम्स पैक वाले छात्रों के डैशबोर्ड में यह पहले से फ्री है।",
+    a: "No. Log in: Crash Course, Basic, Uttarakhand, Current Affairs or CSAT buyers get 20% off automatically. Mock Mahasangram students upgrade for ₹400. Premium Test Series and Complete Prelims Pack students already have it free in their dashboard.",
   },
   {
     q: "Are these new questions?",
@@ -95,6 +96,7 @@ export default async function RevisionPage() {
             </ul>
           </div>
           <div className="rounded-2xl border border-saffron-400/40 bg-graphite-900 p-5 shadow-2xl shadow-black/40 sm:p-6">
+            {!revision.owned && <div className="mb-4"><PriceCutNote /></div>}
             <p className="text-sm font-semibold text-graphite-300"><T en="22 tests · 2,500 questions · valid till 15 Jan" hi="22 टेस्ट · 2,500 प्रश्न · 15 जनवरी तक मान्य" /></p>
             <div className="mt-3">
               <BuyBox
@@ -126,7 +128,7 @@ export default async function RevisionPage() {
             </div>
             <div className="rounded-xl border border-saffron-400/40 bg-saffron-400/5 p-4">
               <p className="font-semibold text-white"><T en="Mock Mahasangram students" hi="मॉक महासंग्राम के छात्र" /></p>
-              <p className="mt-1 text-sm text-graphite-300"><T en={<>Upgrade for <span className="font-bold text-saffron-300">₹500</span> and add all CA + Uttarakhand tests.</>} hi={<><span className="font-bold text-saffron-300">₹500</span> में अपग्रेड करें और सभी करेंट अफेयर्स + उत्तराखंड टेस्ट जोड़ें।</>} /></p>
+              <p className="mt-1 text-sm text-graphite-300"><T en={<>Upgrade for <span className="font-bold text-saffron-300">₹400</span> and add all CA + Uttarakhand tests.</>} hi={<><span className="font-bold text-saffron-300">₹400</span> में अपग्रेड करें और सभी करेंट अफेयर्स + उत्तराखंड टेस्ट जोड़ें।</>} /></p>
             </div>
             <div className="rounded-xl border border-graphite-700 bg-graphite-900 p-4">
               <p className="font-semibold text-white"><T en="Crash Course, Basic or any other test series" hi="क्रैश कोर्स, बेसिक या कोई और टेस्ट सीरीज़" /></p>
@@ -145,7 +147,7 @@ export default async function RevisionPage() {
               <T en="Are you the next topper? Mock Mahasangram: the 6 full mocks with the live rank list" hi="क्या अगले टॉपर आप हैं? मॉक महासंग्राम: लाइव रैंक लिस्ट के साथ 6 फुल मॉक" />
               <span className="web-only">{maha.pkg ? `, ${formatINR(maha.price ?? maha.pkg.price)}` : ""}</span>.{" "}
               {warmupOpen && <T en="Try the free Warm-up Mock first. " hi="पहले फ्री वार्म-अप मॉक दें। " />}
-              <T en="You can upgrade to this full Revision Series later for ₹500." hi="बाद में ₹500 देकर इस पूरी रिवीजन सीरीज़ में अपग्रेड कर सकते हैं।" />
+              <T en="You can upgrade to this full Revision Series later for ₹400." hi="बाद में ₹400 देकर इस पूरी रिवीजन सीरीज़ में अपग्रेड कर सकते हैं।" />
             </p>
           </div>
           <Link

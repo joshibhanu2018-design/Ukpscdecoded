@@ -69,7 +69,7 @@ export async function getFinalMonthState(userId: string | null): Promise<Record<
     const owned = ownedIds.has(pkg.id);
     const base = getPriceInfo(pkg);
     if (!userId || owned) {
-      out[slug] = { pkg, owned, price: base.amount, wasPrice: null, kind: null };
+      out[slug] = { pkg, owned, price: base.amount, wasPrice: base.isFounding ? base.regularPrice : null, kind: null };
       continue;
     }
     const buyer = await getBuyerPriceInfo(userId, pkg);
@@ -77,7 +77,7 @@ export async function getFinalMonthState(userId: string | null): Promise<Record<
       pkg,
       owned,
       price: buyer.amount,
-      wasPrice: buyer.returning ? base.amount : null,
+      wasPrice: buyer.returning ? (base.isFounding && base.regularPrice ? base.regularPrice : base.amount) : base.isFounding ? base.regularPrice : null,
       kind: buyer.kind,
     };
   }
