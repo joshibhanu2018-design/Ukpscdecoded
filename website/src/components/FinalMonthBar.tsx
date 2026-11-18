@@ -23,7 +23,7 @@ function Price({ it }: { it: FinalMonthItem }) {
 }
 
 /**
- * Last-month prices bar (till 29 Nov 2026): one slim line. Desktop shows the
+ * Offers bar (Upper PCS cut prices till 29 Nov 2026, Lower PCS early bird): one slim line. Desktop shows the
  * first few offers side by side; phones show one offer at a time, changing
  * every few seconds. Every offer links to its page. Prices come from the
  * database (the layout passes them in); "was" is the price before the cut.
@@ -48,8 +48,7 @@ export default function FinalMonthBar({ items }: { items: FinalMonthItem[] }) {
       <div className="mx-auto flex h-10 max-w-7xl items-center gap-3 px-4">
         <span className="flex flex-shrink-0 items-center gap-1.5 font-semibold text-white">
           <Flame className="h-4 w-4 text-saffron-400" aria-hidden />
-          <span className="hidden sm:inline">Prices cut!</span>
-          <span className="rounded-full bg-saffron-400/15 px-2 py-0.5 text-[11px] font-bold text-saffron-300"><span className="sm:hidden">Prices cut · </span>till 29 Nov</span>
+          <span className="rounded-full bg-saffron-400/15 px-2 py-0.5 text-[11px] font-bold text-saffron-300">Prices cut!</span>
         </span>
 
         {/* Phones: one offer at a time */}

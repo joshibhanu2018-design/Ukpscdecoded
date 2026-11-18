@@ -155,27 +155,34 @@ const poppins = Poppins({
  */
 export const revalidate = 300;
 
-/** Prices for the last-month bar: the cut prices running now, with what each sold for before. */
+/**
+ * Offers for the top bar: the Upper PCS cut prices (till 29 Nov) and the Lower PCS
+ * early-bird prices (till their founding_ends_at, 6 Dec), each with what it sold for before.
+ * Only offers running right now are shown; prices come from the database.
+ */
 function getFinalMonthItems(pkgs: Package[]): FinalMonthItem[] {
-  if (Date.now() > new Date("2026-11-29T23:59:59+05:30").getTime()) return [];
-  const show: [string, string][] = [
-    ["revision-test-series", "Revision Test Series 2026"],
-    ["mock-mahasangram", "Rank Challenge 2026"],
-    ["crash-course", "Crash Course"],
-    ["complete-prelims-pack", "Complete Prelims Pack"],
-    ["premium-test-series", "Premium Test Series"],
-    ["uttarakhand-crash-course", "Uttarakhand Crash Course"],
-    ["national-crash-course", "National Crash Course"],
+  const upperOn = Date.now() <= new Date("2026-11-29T23:59:59+05:30").getTime();
+  const show: [string, string, "upper" | "lower"][] = [
+    ["revision-test-series", "Revision Test Series 2026", "upper"],
+    ["mock-mahasangram", "Rank Challenge 2026", "upper"],
+    ["lower-pcs-complete", "Lower PCS Complete · early bird", "lower"],
+    ["three-exam-complete", "3-Exam Complete · early bird", "lower"],
+    ["crash-course", "Crash Course", "upper"],
+    ["complete-prelims-pack", "Complete Prelims Pack", "upper"],
+    ["premium-test-series", "Premium Test Series", "upper"],
+    ["uttarakhand-crash-course", "Uttarakhand Crash Course", "upper"],
+    ["national-crash-course", "National Crash Course", "upper"],
   ];
-  const items = show.flatMap(([slug, label]) => {
+  return show.flatMap(([slug, label, exam]) => {
+    if (exam === "upper" && !upperOn) return [];
     const p = pkgs.find((x) => x.slug === slug);
     if (!p || !isListed(p)) return [];
     const info = getPriceInfo(p);
+    // Only offers with a cut price running now (phase 38 / 47 / 47g).
+    if (!info.isFounding || !info.regularPrice || info.regularPrice <= info.amount) return [];
     const href = slug === "revision-test-series" ? "/revision" : slug === "mock-mahasangram" ? "/mahasangram" : `/courses/${slug}`;
-    return [{ label, price: formatINR(info.amount), was: info.isFounding && info.regularPrice ? formatINR(info.regularPrice) : null, href }];
+    return [{ label, price: formatINR(info.amount), was: formatINR(info.regularPrice), href }];
   });
-  // Only show the bar once the cut prices are in (phase 38 run).
-  return items.some((i) => i.was) ? items : [];
 }
 
 /** Products in each exam menu (packages.metadata.exam_tab), in the store's own order; only those still on sale. */

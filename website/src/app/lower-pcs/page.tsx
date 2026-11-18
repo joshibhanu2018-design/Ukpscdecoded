@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, FileText, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarDays, FileText, Flame, Sparkles } from "lucide-react";
 import CourseCard from "@/components/CourseCard";
 import { EXAM_BADGES } from "@/components/ExamCatalog";
-import { LOWER_COMPLETE_SLUG, FREE_MOCK_TEST_ID, examProducts } from "@/lib/catalog";
+import { LOWER_COMPLETE_SLUG, THREE_EXAM_SLUG, FREE_MOCK_TEST_ID, examProducts } from "@/lib/catalog";
+import { getPriceInfo } from "@/lib/pricing";
+import { formatINR } from "@/lib/format";
 import { getActivePackages } from "@/lib/packages";
 import { getTest } from "@/lib/tests";
 import T from "@/components/T";
@@ -22,6 +24,18 @@ export default async function LowerPcsPage() {
   const complete = products.find((p) => p.slug === LOWER_COMPLETE_SLUG);
   const others = products.filter((p) => p !== complete);
   const paperReady = !!paper && paper.question_ids.length > 0;
+  // Early-bird offers running now (founding price in the database, phase 47).
+  const earlyBird = [
+    [LOWER_COMPLETE_SLUG, "Lower PCS + RO/ARO Complete"],
+    [THREE_EXAM_SLUG, "3-Exam Complete (+ TRI)"],
+  ].flatMap(([slug, name]) => {
+    const p = all.find((x) => x.slug === slug);
+    if (!p) return [];
+    const info = getPriceInfo(p);
+    if (!info.isFounding || !info.regularPrice || info.regularPrice <= info.amount || !info.foundingEndsAt) return [];
+    const ends = new Date(info.foundingEndsAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
+    return [{ slug, name, price: formatINR(info.amount), was: formatINR(info.regularPrice), ends }];
+  });
 
   return (
     <div className="bg-graphite-950 px-4 py-12 sm:py-16">
@@ -45,6 +59,28 @@ export default async function LowerPcsPage() {
             />
           </p>
         </div>
+
+        {earlyBird.length > 0 && (
+          <section className="web-only rounded-2xl border border-saffron-400/60 bg-gradient-to-r from-saffron-400/15 to-transparent p-4 sm:p-5">
+            <p className="flex items-center gap-2 font-display text-lg font-bold text-white">
+              <Flame className="h-5 w-5 flex-shrink-0 text-saffron-400" aria-hidden />
+              <T en={<>Early bird offer · till {earlyBird[0].ends}</>} hi={<>अर्ली बर्ड ऑफर · {earlyBird[0].ends} तक</>} />
+            </p>
+            <ul className="mt-2 space-y-1 text-sm text-graphite-200">
+              {earlyBird.map((o) => (
+                <li key={o.slug}>
+                  <Link href={`/courses/${o.slug}`} className="hover:underline">
+                    {o.name}: <span className="font-bold text-saffron-300">{o.price}</span>{" "}
+                    <span className="text-graphite-400 line-through">{o.was}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-xs text-graphite-300">
+              <T en="Join early: the price goes up after the offer ends." hi="जल्दी जुड़ें: ऑफर खत्म होने के बाद कीमत बढ़ जाएगी।" />
+            </p>
+          </section>
+        )}
 
         {complete && (
           <CourseCard pkg={complete} size="lg" wide badge={EXAM_BADGES[LOWER_COMPLETE_SLUG]} />

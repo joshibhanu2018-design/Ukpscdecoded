@@ -11,6 +11,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - Top bar now says "Prices cut!"; /revision and /mahasangram buy boxes show the old price
   struck through and a note (`components/final-month/PriceCutNote.tsx`): "Last N days to
   finish your revision through tests" + "no time? submit and just read the answers".
+- Lower PCS early bird (same PR): the top bar also lists Lower PCS Complete ₹3,299 (was ₹3,599)
+  and 3-Exam Complete ₹3,599 (was ₹3,899) while their founding price runs (till 6 Dec, phase 47);
+  /lower-pcs has an "Early bird offer" box. The bar keeps running after 29 Nov with only these.
 
 ## Lower PCS + RO/ARO relaunch (17 Nov 2026, branch `lower-pcs-relaunch`)
 The site is now organised by exam: **Lower PCS & RO/ARO** (`/lower-pcs`, main),
