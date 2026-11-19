@@ -4,6 +4,7 @@ import T from "@/components/T";
 import { cookies } from "next/headers";
 import { ArrowLeft, ArrowRight, Clock, Download, Star, Trophy } from "lucide-react";
 import BuyBox from "@/components/final-month/BuyBox";
+import PriceCutNote from "@/components/final-month/PriceCutNote";
 import Timetable from "@/components/final-month/Timetable";
 import { FINAL_SCHEDULE, getFinalMonthState, MAHASANGRAM_SLUG, REVISION_SLUG } from "@/lib/finalMonth";
 import { formatINR } from "@/lib/format";
@@ -133,6 +134,7 @@ export default async function MahasangramPage() {
             <p className="mt-1 text-sm text-graphite-300">
               <T en="6 full mocks (150 Q each) with live ranks. Different tests from the Basic Test Series." hi="लाइव रैंक के साथ 6 फुल मॉक (हर एक में 150 प्रश्न)। ये बेसिक टेस्ट सीरीज़ से अलग टेस्ट हैं।" />
             </p>
+            {!maha.owned && <div className="mt-4"><PriceCutNote /></div>}
             <div className="mt-4">
               <BuyBox
                 state={maha}
@@ -182,11 +184,11 @@ export default async function MahasangramPage() {
               />{" "}
               <span className="web-only">
                 {maha.owned ? (
-                  <T en="You have Mahasangram, so you upgrade for ₹500." hi="आपके पास महासंग्राम है, इसलिए ₹500 में अपग्रेड करें।" />
+                  <T en="You have Mahasangram, so you upgrade for ₹400." hi="आपके पास महासंग्राम है, इसलिए ₹400 में अपग्रेड करें।" />
                 ) : (
                   <T
-                    en={<>{revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹999"}, or buy Mahasangram now and upgrade later for ₹500.</>}
-                    hi={<>कीमत {revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹999"}, या अभी महासंग्राम लें और बाद में ₹500 में अपग्रेड करें।</>}
+                    en={<>{revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹799"}, or buy Mahasangram now and upgrade later for ₹400.</>}
+                    hi={<>कीमत {revision.pkg ? formatINR(revision.price ?? revision.pkg.price) : "₹799"}, या अभी महासंग्राम लें और बाद में ₹400 में अपग्रेड करें।</>}
                   />
                 )}
               </span>
