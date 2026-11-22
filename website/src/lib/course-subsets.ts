@@ -21,8 +21,8 @@ type LiveSession = { date: string; theme: string };
 /** Videos in both subsets: orientation, CSAT and the combined UK + national current affairs. */
 const SHARED_VIDEOS = new Set([1, 50]);
 const isSharedVideo = (v: PlanVideo) => SHARED_VIDEOS.has(v.number) || v.module === "CSAT";
-/** Uttarakhand current affairs (its module is "Current Affairs", not "UK …"). */
-const UK_CA_VIDEOS = new Set([40]);
+/** Uttarakhand current affairs Part 1 and Part 2 (module "Current Affairs", not "UK …"). */
+const UK_CA_VIDEOS = new Set([40, 41]);
 const isUttarakhandVideo = (v: PlanVideo) => v.module.startsWith("UK ") || UK_CA_VIDEOS.has(v.number);
 const isUttarakhandSession = (s: LiveSession) => /\b(UK|Uttarakhand)\b/.test(s.theme);
 /** The final live session covers the current affairs videos of both parts (incl. 40 and 50). */

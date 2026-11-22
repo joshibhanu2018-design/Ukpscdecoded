@@ -23,6 +23,9 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   Video 41 in Admin → Lessons → Crash Course): hides the old Video 40, renames 40/41, repoints the
   Lower PCS copy of old 40 to the new 40, moves the copy of 41 from Part A to "Part D: Current Affairs"
   (sort 635), and copies video + PDFs from the Crash Course lessons to their copies. No deletes.
+- Uttarakhand Crash Course: shares the Crash Course lessons (no copies), so the renames show there
+  directly. `src/lib/course-subsets.ts` `UK_CA_VIDEOS` = {40, 41} keeps both in the Uttarakhand
+  Crash Course (not the National one), since their module is "Current Affairs", not "UK …".
 - Copies (`lessons.source_lesson_id`) are NOT synced by the admin page: after changing a Crash Course
   lesson's video/PDF, edit the copy too, or re-run a sync like step 4 of that SQL.
 
