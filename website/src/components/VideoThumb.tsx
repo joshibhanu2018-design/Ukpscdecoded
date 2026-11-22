@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { PlayCircle } from "lucide-react";
 
 /**
- * 16:9 lesson thumbnail (Bunny) with a numbered placeholder when there is no
+ * 16:9 lesson thumbnail (Bunny or YouTube) with a numbered placeholder when there is no
  * image yet or it fails to load.
  */
 export default function VideoThumb({
@@ -26,7 +26,7 @@ export default function VideoThumb({
   return (
     <div className={`relative aspect-video flex-shrink-0 overflow-hidden rounded-lg bg-graphite-800 ${className}`}>
       {src && !failed ? (
-        // eslint-disable-next-line @next/next/no-img-element -- Bunny CDN image, already sized
+        // eslint-disable-next-line @next/next/no-img-element -- Bunny / YouTube CDN image, already sized
         <img ref={img} src={src} alt="" loading="lazy" decoding="async" onError={() => setFailed(true)} className="h-full w-full object-cover" />
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center gap-0.5 text-graphite-300">
