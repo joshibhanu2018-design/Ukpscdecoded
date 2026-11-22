@@ -193,7 +193,7 @@ export default async function LessonsPage({
               const body = (
                 <>
                   <span className="w-6 flex-shrink-0 text-xs text-graphite-300">{num}</span>
-                  {l.bunny_video_id && (
+                  {hasVideo(l) && (
                     <VideoThumb src={thumbs.get(l.id) ?? null} label={`Video ${num}`} className="w-20 sm:w-24" />
                   )}
                   <span className="min-w-0 flex-1">

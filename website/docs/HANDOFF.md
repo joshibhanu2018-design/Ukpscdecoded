@@ -31,6 +31,8 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - `supabase/schema-phase47i-merge-duplicate-crash-videos.sql`: Crash Course videos listed twice (an
   old notes-only "video coming soon" row + a row with the video, e.g. 36, 37): moves the PDFs onto the
   video row, hides the notes-only row, repoints Lower PCS copies to the video row and copies the video.
+- Lesson list (`/test-platform/lessons/[slug]`) now shows a thumbnail for YouTube lessons too
+  (`lessonThumbnailUrl` → `i.ytimg.com/vi/<id>/hqdefault.jpg`); before, only Bunny lessons had one.
 - Copies (`lessons.source_lesson_id`) are NOT synced by the admin page: after changing a Crash Course
   lesson's video/PDF, edit the copy too, or re-run a sync like step 4 of that SQL.
 
