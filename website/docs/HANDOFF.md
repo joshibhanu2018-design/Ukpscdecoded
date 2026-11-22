@@ -15,6 +15,17 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
   and 3-Exam Complete ₹3,599 (was ₹3,899) while their founding price runs (till 6 Dec, phase 47);
   /lower-pcs has an "Early bird offer" box. The bar keeps running after 29 Nov with only these.
 
+## Crash Course Video 40/41 = Uttarakhand CA 2026 Part 1/2 (22 Nov 2026)
+- `content/crashCoursePlan.json`: Video 40 "UK CA Part 1 – Appointments, Laws, Budget, Rankings, Schemes",
+  Video 41 "UK CA Part 2 – Projects, Defence, Environment, Awards, Sports" (old 40 "State Schemes…" and
+  41 "State Budget Highlights + Economic Survey" names gone from the release calendar).
+- `supabase/schema-phase47h-ca-part1-part2-videos.sql` (owner runs AFTER putting the Part 2 video on
+  Video 41 in Admin → Lessons → Crash Course): hides the old Video 40, renames 40/41, repoints the
+  Lower PCS copy of old 40 to the new 40, moves the copy of 41 from Part A to "Part D: Current Affairs"
+  (sort 635), and copies video + PDFs from the Crash Course lessons to their copies. No deletes.
+- Copies (`lessons.source_lesson_id`) are NOT synced by the admin page: after changing a Crash Course
+  lesson's video/PDF, edit the copy too, or re-run a sync like step 4 of that SQL.
+
 ## Lower PCS + RO/ARO relaunch (17 Nov 2026, branch `lower-pcs-relaunch`)
 The site is now organised by exam: **Lower PCS & RO/ARO** (`/lower-pcs`, main),
 **TRI** (`/tri`), **Upper PCS** (`/upper-pcs`) and **Solo Packs** (`/solo-packs`, was Subject Packs; metadata tab key still `individual`).
