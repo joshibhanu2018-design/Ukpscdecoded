@@ -13,20 +13,31 @@
 --      names; the copy of Video 41 moves from "Part A" to "Part D: Current Affairs".
 --   4. Copies get the same YouTube/Bunny video and PDFs as their Crash Course lesson.
 
--- 1a. Hide the old Video 40.
+-- 1a. Hide the old Video 40 ("UK CA - State Schemes, Disaster Management, UK Awards").
+--     Matched on "Disaster Management", which only the old title has.
 update lessons l
 set is_active = false, updated_at = now()
 from packages p
 where p.id = l.package_id and p.slug = 'crash-course'
-  and l.title ~* '^\s*video\s*40\M' and l.title ~* 'state schemes'
+  and l.title ~* '^\s*video\s*40\M' and l.title ~* 'disaster management'
   and l.is_active;
+
+-- 1a-fix (22 Nov): the first version also hid the NEW Video 40 when its title
+-- contained "State Schemes". Show the newest Video 40 that is not the old one.
+update lessons l
+set is_active = true, updated_at = now()
+where l.id = (
+  select x.id from lessons x join packages p on p.id = x.package_id
+  where p.slug = 'crash-course' and x.title ~* '^\s*video\s*40\M' and x.title !~* 'disaster management'
+  order by x.created_at desc limit 1
+) and not l.is_active;
 
 -- 1b. Name the new Video 40.
 update lessons l
 set title = 'Video 40: UK CA Part 1 – Appointments, Laws, Budget, Rankings, Schemes', updated_at = now()
 from packages p
 where p.id = l.package_id and p.slug = 'crash-course'
-  and l.title ~* '^\s*video\s*40\M' and l.title !~* 'state schemes'
+  and l.title ~* '^\s*video\s*40\M' and l.title !~* 'disaster management'
   and l.title <> 'Video 40: UK CA Part 1 – Appointments, Laws, Budget, Rankings, Schemes';
 
 -- 2. Rename Video 41.
@@ -40,7 +51,7 @@ where p.id = l.package_id and p.slug = 'crash-course'
 -- 3a. Copies of the old Video 40 now follow the new Video 40.
 with old40 as (
   select l.id from lessons l join packages p on p.id = l.package_id
-  where p.slug = 'crash-course' and l.title ~* '^\s*video\s*40\M' and l.title ~* 'state schemes'
+  where p.slug = 'crash-course' and l.title ~* '^\s*video\s*40\M' and l.title ~* 'disaster management'
 ), new40 as (
   select l.id from lessons l join packages p on p.id = l.package_id
   where p.slug = 'crash-course' and l.title = 'Video 40: UK CA Part 1 – Appointments, Laws, Budget, Rankings, Schemes'
@@ -83,5 +94,5 @@ where s.id = c.source_lesson_id
 -- Check: every Video 40/41 lesson and copy, with its course and whether it is shown.
 select p.package_name, l.title, l.section, l.is_active, l.youtube_id
 from lessons l join packages p on p.id = l.package_id
-where l.title ilike '%UK CA Part 1 –%' or l.title ilike '%UK CA Part 2 –%' or l.title ~* 'state schemes, disaster'
+where l.title ilike '%UK CA Part 1 –%' or l.title ilike '%UK CA Part 2 –%' or l.title ~* 'disaster management'
 order by p.package_name, l.sort_order;

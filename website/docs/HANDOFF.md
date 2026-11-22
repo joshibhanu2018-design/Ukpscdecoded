@@ -26,6 +26,11 @@ the owner's local terminal. Keep this file current: add to "Done" and trim
 - Uttarakhand Crash Course: shares the Crash Course lessons (no copies), so the renames show there
   directly. `src/lib/course-subsets.ts` `UK_CA_VIDEOS` = {40, 41} keeps both in the Uttarakhand
   Crash Course (not the National one), since their module is "Current Affairs", not "UK …".
+- 47h fix: the first version hid the new Video 40 too (its title also had "State Schemes"); the old one
+  is now matched on "Disaster Management" and the newest other Video 40 is shown again. Re-run 47h.
+- `supabase/schema-phase47i-merge-duplicate-crash-videos.sql`: Crash Course videos listed twice (an
+  old notes-only "video coming soon" row + a row with the video, e.g. 36, 37): moves the PDFs onto the
+  video row, hides the notes-only row, repoints Lower PCS copies to the video row and copies the video.
 - Copies (`lessons.source_lesson_id`) are NOT synced by the admin page: after changing a Crash Course
   lesson's video/PDF, edit the copy too, or re-run a sync like step 4 of that SQL.
 
