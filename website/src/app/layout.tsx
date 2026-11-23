@@ -18,6 +18,7 @@ import FinalMonthBar, { type FinalMonthItem } from "@/components/FinalMonthBar";
 import { getActivePackages, formatINR, isListed, type Package } from "@/lib/packages";
 import { examProducts, productHref } from "@/lib/catalog";
 import { getPriceInfo } from "@/lib/pricing";
+import { PERSON_ID, socialProfiles } from "@/lib/seo";
 
 const siteUrl = "https://www.ukpscdecoded.in";
 
@@ -31,13 +32,17 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "UKPSC Decoded — Complete Uttarakhand Exam Preparation",
+    default: "UKPSC Decoded: Lower PCS, RO/ARO & Upper PCS Preparation by UKPSC Rank 9",
     template: "%s | UKPSC Decoded",
   },
   description:
-    "India's most comprehensive preparation platform for UKPSC PCS, Lower PCS, RO/ARO, UKSSSC & all Uttarakhand state examinations. Free videos, daily MCQs, PYQ tracker, and the complete guidebook.",
+    "UKPSC Lower PCS 2026, RO/ARO and Upper PCS preparation in Hindi and English by Bhanu Joshi (UKPSC Rank 9): courses, test series, free Lower PCS mock, Uttarakhand GK quiz, PYQ tracker and the Uttarakhand Decoded book.",
   keywords: [
     "UKPSC",
+    "UKPSC Lower PCS 2026",
+    "UKPSC RO ARO",
+    "Lower PCS course",
+    "Lower PCS test series",
     "UKPSC preparation",
     "Uttarakhand GK",
     "Uttarakhand exam",
@@ -107,14 +112,11 @@ const jsonLd = {
   name: "UKPSC Decoded",
   url: siteUrl,
   logo: `${siteUrl}/icons/icon-512.png`,
-  founder: { "@type": "Person", name: "Bhanu Joshi" },
+  founder: { "@type": "Person", "@id": PERSON_ID, name: "Bhanu Joshi", url: `${siteUrl}/bhanu-joshi` },
   description:
     "India's most comprehensive preparation platform for all Uttarakhand state examinations.",
-  sameAs: [
-    "https://www.youtube.com/@Ukpscdecoded",
-    "https://t.me/ukpscdecoded",
-    "https://instagram.com/ukpscdecoded",
-  ],
+  // YouTube, Instagram, Facebook, Telegram and the Amazon book (content/settings.json → social).
+  sameAs: socialProfiles(),
   address: {
     "@type": "PostalAddress",
     addressRegion: "Uttarakhand",
@@ -130,7 +132,7 @@ const jsonLd = {
       "@id": `${siteUrl}/#website`,
       name: "UKPSC Decoded",
       url: siteUrl,
-      inLanguage: "en-IN",
+      inLanguage: ["en-IN", "hi-IN"],
       publisher: { "@id": `${siteUrl}/#organization` },
     },
   ],
