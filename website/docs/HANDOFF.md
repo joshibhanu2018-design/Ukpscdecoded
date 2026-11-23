@@ -4,6 +4,25 @@ Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
 "Open" as things land.
 
+## SEO for Lower PCS and RO/ARO searches (23 Nov 2026, branch `claude/project-thread-ss971v`)
+- **New free guide pages** (static, Hindi + English both visible, no database
+  calls; layout in `src/components/ExamGuide.tsx`): `/ukpsc-lower-pcs-2026`
+  (54 posts, dates, fee, age, pattern, syllabus), `/ukpsc-ro-aro`,
+  `/ukpsc-previous-year-papers`, `/uttarakhand-gk-quiz` (free practice hub),
+  `/bhanu-joshi` (author page, Person data, "UKPSC Rank 9"). Each ends with a
+  link to `/lower-pcs` and links to the others.
+- **Structured data** (`src/lib/seo.ts`): WebPage + Breadcrumb + FAQ on every
+  guide; `/lower-pcs` got FAQ + course list (prices from the database) and a
+  keyword title; organisation `sameAs` now comes from `content/settings.json`
+  → `social` (fill `facebook` and `amazonBook` there; empty ones are skipped).
+- Sitemap, footer ("Exam Guides" column) and `public/llms.txt` list the pages.
+- **Facts** checked 23 Nov from reports of UKPSC's advertisement of 6 Nov 2026
+  and the 2026-27 exam calendar (the official PDF could not be opened from the
+  cloud). Update `/ukpsc-lower-pcs-2026` when the admit card, answer key or
+  result comes out, and `/ukpsc-ro-aro` when the RO/ARO advertisement is out.
+- Off-site checklist (Search Console, YouTube links, Google Business Profile,
+  backlinks, pitch text): project file `seo/seo-offsite-checklist.md`.
+
 ## Last-days price cut (18 Nov 2026, branch `claude/project-thread-qq0j69`)
 - **SQL:** `supabase/schema-phase47g-revision-price-cut.sql` (run BEFORE merging):
   Revision Test Series 2026 ₹799 (was ₹999) till 29 Nov; Rank Challenge ₹399 (was ₹499)

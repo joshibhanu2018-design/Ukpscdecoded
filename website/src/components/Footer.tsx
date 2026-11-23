@@ -5,6 +5,17 @@ import settings from "@content/settings.json";
 // Every public page is reachable from here or the navbar.
 const columns = [
   {
+    heading: "Exam Guides",
+    links: [
+      { href: "/lower-pcs", label: "Lower PCS & RO/ARO Course" },
+      { href: "/ukpsc-lower-pcs-2026", label: "UKPSC Lower PCS 2026" },
+      { href: "/ukpsc-ro-aro", label: "UKPSC RO/ARO" },
+      { href: "/ukpsc-previous-year-papers", label: "Previous Year Papers" },
+      { href: "/uttarakhand-gk-quiz", label: "Free Uttarakhand GK Quiz" },
+      { href: "/bhanu-joshi", label: "Bhanu Joshi, UKPSC Rank 9" },
+    ],
+  },
+  {
     heading: "Courses & Books",
     links: [
       { href: "/courses", label: "All Courses" },
@@ -50,7 +61,7 @@ export default function Footer() {
   return (
     <footer className="theme-dark border-t border-graphite-800 bg-graphite-950 text-graphite-300">
       <div className="container-custom mx-auto section-padding pb-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand + connect */}
           <div>
             <div className="mb-4 flex items-center gap-2">

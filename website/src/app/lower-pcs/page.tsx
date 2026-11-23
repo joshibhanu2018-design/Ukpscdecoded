@@ -9,13 +9,41 @@ import { formatINR } from "@/lib/format";
 import { getActivePackages } from "@/lib/packages";
 import { getTest } from "@/lib/tests";
 import T from "@/components/T";
+import { ORG_ID, SITE_URL, breadcrumbJsonLd, faqJsonLd, ldJson } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/lower-pcs" },
-  title: "Lower PCS & RO/ARO 2026-27",
+  title: "UKPSC Lower PCS & RO/ARO 2026-27 Course, Test Series and Free Mock",
   description:
-    "UKPSC Lower PCS (27 Dec 2026) and RO/ARO Prelims (April 2027), same syllabus: crash course with PDF notes, 67-test series with 10 full length tests and 12 CSAT sectionals.",
+    "UKPSC Lower PCS (27 Dec 2026) and RO/ARO prelims, same syllabus: 65+ video lessons with PDF notes, 67 tests with 10 full-length mocks, CSAT classes and 12 CSAT sectionals, and a free 150-question mock. By Bhanu Joshi, UKPSC Rank 9.",
+  keywords: [
+    "UKPSC Lower PCS course",
+    "Lower PCS test series",
+    "UKPSC RO ARO course",
+    "Lower PCS mock test",
+    "Uttarakhand Lower PCS online coaching",
+    "लोअर पीसीएस टेस्ट सीरीज़",
+  ],
 };
+
+const FAQS = [
+  {
+    q: "Is one course enough for both Lower PCS and RO/ARO?",
+    a: "Yes. The RO/ARO prelims has the same pattern and syllabus as Lower PCS: 150 questions in 2 hours, 100 General Studies and 50 General Aptitude. Everything here stays valid till 30 April 2027.",
+  },
+  {
+    q: "What is in the Lower PCS + RO/ARO Complete course?",
+    a: "65+ video lessons with PDF notes, 67 tests including 10 full-length mocks, CSAT classes and 12 CSAT sectional tests, valid till 30 April 2027.",
+  },
+  {
+    q: "Is there a free Lower PCS mock test?",
+    a: "Yes. A 150-question, 2-hour mock on the exact Lower PCS pattern, with explanations in English and Hindi, is free for every registered student.",
+  },
+  {
+    q: "Who teaches the course?",
+    a: "Bhanu Joshi, UKPSC Rank 9, who cleared 7 UKPSC Mains and 5 interviews and wrote the book Uttarakhand Decoded.",
+  },
+];
 
 
 export default async function LowerPcsPage() {
@@ -37,12 +65,37 @@ export default async function LowerPcsPage() {
     return [{ slug, name, price: formatINR(info.amount), was: formatINR(info.regularPrice), ends }];
   });
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      breadcrumbJsonLd([{ name: "Lower PCS & RO/ARO", path: "/lower-pcs" }]),
+      faqJsonLd(FAQS),
+      {
+        "@type": "ItemList",
+        name: "UKPSC Lower PCS & RO/ARO courses",
+        itemListElement: products.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: {
+            "@type": "Course",
+            name: p.package_name,
+            description: p.description ?? p.package_name,
+            url: `${SITE_URL}/courses/${p.slug}`,
+            provider: { "@id": ORG_ID },
+            offers: { "@type": "Offer", price: getPriceInfo(p).amount, priceCurrency: "INR", category: "Paid" },
+          },
+        })),
+      },
+    ],
+  };
+
   return (
     <div className="bg-graphite-950 px-4 py-12 sm:py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }} />
       <div className="container-custom mx-auto space-y-10">
         <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron-400">UKPSC Lower PCS 2026 · RO/ARO 2027</p>
-          <h1 className="mt-2 font-display text-3xl font-bold text-white sm:text-4xl">Lower PCS &amp; RO/ARO</h1>
+          <h1 className="mt-2 font-display text-3xl font-bold text-white sm:text-4xl">UKPSC Lower PCS &amp; RO/ARO</h1>
           <p className="mt-2 font-display text-xl font-semibold text-saffron-300 sm:text-2xl">एक course, दो exams</p>
           <div className="mx-auto mt-4 flex max-w-2xl flex-col items-center gap-2 text-sm text-graphite-200 sm:flex-row sm:justify-center sm:gap-5">
             <span className="inline-flex items-center gap-1.5">
@@ -144,6 +197,31 @@ export default async function LowerPcsPage() {
             </ul>
           </section>
         </div>
+
+        <section aria-label="Free exam guides" className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {[
+            { href: "/ukpsc-lower-pcs-2026", en: "Lower PCS 2026: posts, syllabus, pattern", hi: "लोअर पीसीएस 2026 गाइड" },
+            { href: "/ukpsc-ro-aro", en: "RO/ARO: pattern and syllabus", hi: "RO/ARO गाइड" },
+            { href: "/ukpsc-previous-year-papers", en: "Previous year papers", hi: "पिछले वर्ष के प्रश्नपत्र" },
+          ].map((g) => (
+            <Link key={g.href} href={g.href} className="rounded-2xl border border-graphite-800 p-4 hover:border-saffron-400/50">
+              <span className="block text-sm font-semibold text-white">{g.en}</span>
+              <span lang="hi" className="block text-xs text-graphite-300">
+                {g.hi}
+              </span>
+            </Link>
+          ))}
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-white">Questions students ask</h2>
+          {FAQS.map((f) => (
+            <details key={f.q} className="rounded-xl border border-graphite-800 bg-graphite-900/60 p-4">
+              <summary className="cursor-pointer font-semibold text-white">{f.q}</summary>
+              <p className="mt-2 text-sm text-graphite-300">{f.a}</p>
+            </details>
+          ))}
+        </section>
 
         <Link
           href="/tri"

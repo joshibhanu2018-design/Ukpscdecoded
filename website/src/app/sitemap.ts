@@ -49,6 +49,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Exam pages (Lower PCS & RO/ARO is the main one from Nov 2026).
     ...[
       { path: "/lower-pcs", priority: 0.95 },
+      // Free exam guides (static, Hindi + English) that bring search visitors to /lower-pcs.
+      { path: "/ukpsc-lower-pcs-2026", priority: 0.95 },
+      { path: "/ukpsc-ro-aro", priority: 0.9 },
+      { path: "/ukpsc-previous-year-papers", priority: 0.85 },
+      { path: "/uttarakhand-gk-quiz", priority: 0.85 },
+      { path: "/bhanu-joshi", priority: 0.6 },
       { path: "/tri", priority: 0.85 },
       { path: "/upper-pcs", priority: 0.8 },
       { path: "/solo-packs", priority: 0.7 },

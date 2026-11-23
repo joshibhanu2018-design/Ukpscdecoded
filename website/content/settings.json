@@ -29,7 +29,9 @@
   "social": {
     "youtube": "https://www.youtube.com/@Ukpscdecoded",
     "telegram": "https://t.me/ukpscdecoded",
-    "instagram": "https://instagram.com/ukpscdecoded"
+    "instagram": "https://instagram.com/ukpscdecoded",
+    "facebook": "",
+    "amazonBook": ""
   },
   "leadEndpoint": "https://script.google.com/macros/s/AKfycbyTIOwMIO6iNvJ9gCS8pRO15g5SvnwwW8gt7DdiXSZn939IzJV6WTniu1lETIk-7ufq/exec",
   "legal": {
