@@ -41,7 +41,7 @@ const facts: Fact[] = [
     value: "Not released yet (as of 23 Nov 2026)",
     valueHi: "अभी जारी नहीं (23 नवंबर 2026 तक)",
   },
-  { label: "Prelims", labelHi: "प्रारंभिक परीक्षा", value: "Expected in 2027; UKPSC will confirm the date", valueHi: "2027 में संभावित; तिथि UKPSC घोषित करेगा" },
+  { label: "Prelims", labelHi: "प्रारंभिक परीक्षा", value: "Expected in late April 2027; UKPSC will confirm the date", valueHi: "अप्रैल 2027 के अंत में संभावित; तिथि UKPSC घोषित करेगा" },
   { label: "Prelims paper", labelHi: "प्रारंभिक प्रश्नपत्र", value: "150 questions in 2 hours: 100 General Studies + 50 General Aptitude", valueHi: "2 घंटे में 150 प्रश्न: 100 सामान्य अध्ययन + 50 सामान्य बुद्धि" },
   { label: "Same as", labelHi: "किसके समान", value: <Link href="/ukpsc-lower-pcs-2026" className="text-saffron-300 underline">Lower PCS prelims syllabus</Link>, valueHi: "लोअर पीसीएस प्रारंभिक पाठ्यक्रम" },
 ];
@@ -106,7 +106,7 @@ const sections: GuideSection[] = [
     en: (
       <>
         <p>
-          Lower PCS prelims comes first (proposed for 27 December 2026). Because the syllabus is the same, everything you prepare for it
+          Lower PCS prelims comes first (proposed for 27 December 2026), and the RO/ARO prelims is expected in late April 2027. Because the syllabus is the same, everything you prepare for it
           carries straight into RO/ARO. After Lower PCS, spend the extra months on full mocks, General Aptitude speed and Uttarakhand
           current affairs.
         </p>
@@ -118,7 +118,7 @@ const sections: GuideSection[] = [
     ),
     hi: (
       <p>
-        पहले लोअर पीसीएस प्रारंभिक (27 दिसंबर 2026 प्रस्तावित) है। पाठ्यक्रम एक होने से उसकी पूरी तैयारी RO/ARO में काम आती है। लोअर पीसीएस के बाद
+        पहले लोअर पीसीएस प्रारंभिक (27 दिसंबर 2026 प्रस्तावित) है, और RO/ARO प्रारंभिक अप्रैल 2027 के अंत में संभावित है। पाठ्यक्रम एक होने से उसकी पूरी तैयारी RO/ARO में काम आती है। लोअर पीसीएस के बाद
         के महीनों में फुल मॉक, सामान्य बुद्धि की गति और उत्तराखंड समसामयिकी पर ध्यान दें।
       </p>
     ),
