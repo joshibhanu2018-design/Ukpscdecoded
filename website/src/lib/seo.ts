@@ -5,7 +5,7 @@ export const SITE_URL = "https://www.ukpscdecoded.in";
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const PERSON_ID = `${SITE_URL}/bhanu-joshi#person`;
 
-type Social = { youtube?: string; telegram?: string; instagram?: string; facebook?: string; amazonBook?: string };
+type Social = { youtube?: string; telegram?: string; instagram?: string; facebook?: string; amazonBook?: string; amazonBookHi?: string };
 
 /**
  * Every public profile of UKPSC Decoded. Google uses this list ("sameAs") to
@@ -14,7 +14,7 @@ type Social = { youtube?: string; telegram?: string; instagram?: string; faceboo
  */
 export function socialProfiles(): string[] {
   const s = settings.social as Social;
-  return [s.youtube, s.instagram, s.facebook, s.telegram, s.amazonBook].filter((u): u is string => !!u && u.startsWith("http"));
+  return [s.youtube, s.instagram, s.facebook, s.telegram, s.amazonBook, s.amazonBookHi].filter((u): u is string => !!u && u.startsWith("http"));
 }
 
 export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
