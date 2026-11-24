@@ -25,6 +25,7 @@ import {
 import { getFreeTests, isTestReleased } from "@/lib/tests";
 import { getLiveTests } from "@/lib/liveMock";
 import { getPriceInfo } from "@/lib/pricing";
+import { getBuyerPriceInfo } from "@/lib/returningPrice";
 import { xpForLevel } from "@/lib/gamification";
 import { supabaseAdmin } from "@/lib/supabase";
 import LogoutButton from "@/components/LogoutButton";
@@ -47,6 +48,30 @@ function StatTile({ icon, label, value, sub }: { icon: React.ReactNode; label: s
     </div>
   );
 }
+
+type UpgradeOffer = { slug: string; title: string; detail: string; was: string; parts?: string[] };
+
+const UPGRADE_OFFERS: UpgradeOffer[] = [
+  {
+    slug: "lower-pcs-test-series",
+    title: "Lower PCS & RO/ARO Test Series",
+    detail: "Lower PCS full-length tests 1-10 + the 2025 paper",
+    was: "₹1,299",
+  },
+  {
+    slug: "lower-pcs-csat",
+    title: "CSAT for Lower PCS / RO-ARO",
+    detail: "14 CSAT classes + CSAT Test Series",
+    was: "₹799",
+  },
+  {
+    slug: "lower-pcs-tests-csat-upgrade",
+    title: "Combo: Lower PCS Tests + CSAT",
+    detail: "Both of the above together",
+    was: "₹998",
+    parts: ["lower-pcs-test-series", "lower-pcs-csat"],
+  },
+];
 
 const TYPE_LABEL: Record<string, string> = {
   test_series: "Test Series",
@@ -92,6 +117,27 @@ export default async function MyCoursesPage({
     }))
   );
 
+  // Lower PCS upgrades for Upper PCS buyers (schema-phase48): shown only when the
+  // student gets the upgrade price (metadata.upgrade_from) and doesn't own it yet.
+  const upgradeOffers = (
+    await Promise.all(
+      UPGRADE_OFFERS.map(async (offer) => {
+        const pkg = allPackages.find((p) => p.slug === offer.slug);
+        if (!pkg || ownedIds.has(pkg.id)) return null;
+        const partOwned = (offer.parts ?? []).some((slug) => {
+          const part = allPackages.find((p) => p.slug === slug);
+          return part ? ownedIds.has(part.id) : false;
+        });
+        if (partOwned) return null;
+        const buyer = await getBuyerPriceInfo(user.id, pkg);
+        if (buyer.kind !== "upgrade") return null;
+        return { ...offer, price: buyer.amount };
+      })
+    )
+  ).filter((o) => o !== null);
+  // The combo only makes sense when both single offers are open too.
+  const offers = upgradeOffers.length === UPGRADE_OFFERS.length ? upgradeOffers : upgradeOffers.filter((o) => !o.parts);
+
   const explore = allPackages.filter((p) => !ownedIds.has(p.id) && isListed(p));
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.ukpscdecoded.in";
   const firstName = user.full_name?.split(" ")[0] || "";
@@ -131,6 +177,43 @@ export default async function MyCoursesPage({
           <div className="mb-6 rounded-lg border border-saffron-400/30 bg-saffron-400/10 px-4 py-2.5 text-sm text-saffron-100">
             You already own this course.
           </div>
+        )}
+
+        {offers.length > 0 && (
+          <section className="web-only mb-8 rounded-2xl border border-saffron-400/40 bg-saffron-400/5 p-4 sm:p-5">
+            <h2 className="font-bold text-white">Lower PCS / RO-ARO: special price for you</h2>
+            <p className="mb-3 text-sm text-graphite-300">
+              You already have the GS videos and tests. Add only what Lower PCS needs extra.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {offers.map((o) => (
+                <Link
+                  key={o.slug}
+                  href={`/checkout/${o.slug}`}
+                  className={`group flex flex-col rounded-xl border bg-graphite-900/60 p-4 hover:border-saffron-400 ${
+                    o.parts ? "border-saffron-400/60" : "border-graphite-700"
+                  }`}
+                >
+                  {o.parts && (
+                    <span className="mb-1 self-start rounded bg-saffron-400 px-1.5 py-0.5 text-[10px] font-bold uppercase text-graphite-900">
+                      Best value
+                    </span>
+                  )}
+                  <h3 className="text-sm font-semibold text-white group-hover:text-saffron-400">{o.title}</h3>
+                  <p className="mb-2 text-xs text-graphite-300">{o.detail}</p>
+                  <div className="mt-auto flex items-center justify-between gap-2">
+                    <span>
+                      <span className="text-lg font-bold text-white">{formatINR(o.price)}</span>{" "}
+                      <span className="text-xs text-graphite-400 line-through">{o.was}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-bold text-saffron-400">
+                      Buy <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
 
         {myCourses.length === 0 ? (

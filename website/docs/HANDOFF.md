@@ -4,6 +4,17 @@ Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
 "Open" as things land.
 
+## Lower PCS upgrades for Upper PCS buyers (24 Nov 2026, branch `claude/project-thread-om9o8r`)
+- **SQL:** `supabase/schema-phase48-upper-buyer-lower-pcs-upgrades.sql` (run BEFORE merging).
+  Premium / Complete Prelims Pack / Mentorship owners pay ₹499 for the Lower PCS & RO/ARO
+  Test Series, ₹499 for CSAT for Lower PCS, or ₹749 for the new unlisted combo
+  `lower-pcs-tests-csat-upgrade` (both; others ₹2,098). All via `metadata.upgrade_from`.
+- **My Courses** (`src/app/test-platform/page.tsx`) shows these offers at the top, only to
+  students who get the upgrade price and don't own the product (combo hidden if a part is owned).
+  Upper Crash Course owners see only the CSAT ₹499 offer (unchanged from phase 47).
+- Lead lists for WhatsApp: `/mnt/project-files/test-series-bundle/export-potential-buyers.sql`
+  (read-only query) and the merged lists in the project folder `test-series-bundle/leads-24nov/`.
+
 ## SEO for Lower PCS and RO/ARO searches (23 Nov 2026, branch `claude/project-thread-ss971v`)
 - **New free guide pages** (static, Hindi + English both visible, no database
   calls; layout in `src/components/ExamGuide.tsx`): `/ukpsc-lower-pcs-2026`
