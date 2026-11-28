@@ -18,7 +18,7 @@ const KIND_LABEL: Record<string, string> = {
 /**
  * The banner at the top of a course page: product colour with soft light,
  * exam chips, the name in Poppins, what you get, the price with the offer,
- * Buy Now + Ask on WhatsApp, and (desktop) a "What you get" panel. Everything
+ * one big Buy Now (a small "Question? Ask on WhatsApp" link beside it), and (desktop) a "What you get" panel. Everything
  * comes from the package, so it never needs redesigning when a price changes.
  */
 export default function CourseHero({
@@ -130,12 +130,12 @@ export default function CourseHero({
             ) : (
               <Link
                 href={buyHref}
-                className="web-only hidden items-center rounded-xl bg-[#F59307] px-7 py-3 text-sm font-bold text-[#1c1917] shadow-lg shadow-black/20 transition hover:bg-[#ffa726] sm:inline-flex"
+                className="web-only inline-flex w-full items-center justify-center rounded-xl bg-[#F59307] px-8 py-3.5 text-base font-bold text-[#1c1917] shadow-lg shadow-black/20 transition hover:bg-[#ffa726] sm:w-auto"
               >
                 {buyLabel}
               </Link>
             )}
-            {!owned && <CourseEnquiryButton courseName={pkg.package_name} slug={pkg.slug} className="rounded-xl shadow-lg shadow-black/20" />}
+            {!owned && <CourseEnquiryButton courseName={pkg.package_name} slug={pkg.slug} variant="link" />}
           </div>
         </div>
 
