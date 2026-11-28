@@ -9,12 +9,23 @@ export default function CourseEnquiryButton({
   courseName,
   slug,
   className = "",
+  variant = "button",
 }: {
   courseName: string;
   slug: string | null;
   className?: string;
+  /** "link": a small text link, so it never competes with Buy Now. */
+  variant?: "button" | "link";
 }) {
   const text = `Hi UKPSC Decoded, I want to know more about "${courseName}".${slug ? ` https://www.ukpscdecoded.in/courses/${slug}` : ""}`;
+  const href = `https://wa.me/${COURSE_ENQUIRY_WHATSAPP}?text=${encodeURIComponent(text)}`;
+  if (variant === "link") {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={`text-sm text-white/80 ${className}`}>
+        Question? <span className="font-semibold underline underline-offset-2">Ask on WhatsApp</span>
+      </a>
+    );
+  }
   return (
     <a
       href={`https://wa.me/${COURSE_ENQUIRY_WHATSAPP}?text=${encodeURIComponent(text)}`}

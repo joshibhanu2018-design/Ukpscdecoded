@@ -4,6 +4,17 @@ Written at the end of the cloud Claude Code sessions, so work can continue in
 the owner's local terminal. Keep this file current: add to "Done" and trim
 "Open" as things land.
 
+## Lower PCS page redesigned for sales (28 Nov 2026, branch `claude/project-thread-l0w9e0`)
+- `/lower-pcs` now leads with one promise ("The only course you need to crack Lower PCS & RO/ARO"),
+  the Complete course price from the database and one big Buy Now (`src/components/LowerPcsBuy.tsx`,
+  shows "Purchased" to owners), then "Everything in one course" (notes card + tests card; test counts
+  come live from the Lower PCS Test Series), Buy Now again, free mock, "Need only one part?" cards,
+  guides, FAQ, a final Buy Now and a small "Ask on WhatsApp" text link. Phones get a sticky Buy Now bar.
+- Course pages (`CourseHero`): Buy Now now shows on phones too (it was hidden below 640 px, so phone
+  visitors only saw the big green WhatsApp button); WhatsApp is a small "Question? Ask on WhatsApp" link.
+- The floating WhatsApp button is hidden below 1024 px on `/lower-pcs` and `/courses/*` (the Buy bar is there).
+- No SQL.
+
 ## Lower PCS upgrades for Upper PCS buyers (24 Nov 2026, branch `claude/project-thread-om9o8r`)
 - **SQL:** `supabase/schema-phase48-upper-buyer-lower-pcs-upgrades.sql` (run BEFORE merging).
   Premium / Complete Prelims Pack / Mentorship owners pay ₹499 for the Lower PCS & RO/ARO
